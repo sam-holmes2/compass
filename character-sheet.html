@@ -293,7 +293,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ally-name { font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:0.09em; color:#5ab870; margin-bottom:1px; }
 .ally-desc { font-size:13px; color:var(--text-mid); line-height:1.4; }
 .ally-why  { font-size:12px; color:#60a838; font-style:italic; line-height:1.4; margin-top:3px; opacity:0.85; }
-.ally-why::before { content:"why: "; font-weight:700; font-style:normal; opacity:0.75; }
+.ally-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
 .ally-delete { position:absolute; top:8px; right:10px; font-size:13px; color:var(--text-dim); cursor:pointer; opacity:0; transition:opacity 0.15s; background:none; border:none; padding:0; line-height:1; }
 .ally-delete:hover { color:#c84040; }
 .editable { outline:none; cursor:text; border-radius:2px; user-select:text; }
@@ -498,7 +498,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .sqcard-body.open { display:block; }
 .sqcard-next { font-size:14px; color:var(--text-mid); margin-bottom:6px; line-height:1.5; }
 .sqcard-why { font-size:13px; color:var(--gold); font-style:italic; opacity:0.8; margin-bottom:2px; }
-.sqcard-why::before { content:"why: "; font-weight:700; font-style:normal; opacity:0.75; }
+.sqcard-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
 .sqcard-done { font-size:12.5px; color:var(--text-dim); font-style:italic; min-width:60px; }
 .sqcard-evidence { font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-top:6px; }
 .cqcard { border:1px solid var(--border); border-radius:5px; overflow:hidden; margin-bottom:5px; }
@@ -739,7 +739,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-name { font-family:'Cinzel',serif; font-size:15px; color:var(--activity); letter-spacing:0.06em; margin-bottom:4px; }
 .practice-desc { font-size:13.5px; color:var(--text-mid); line-height:1.6; }
 .practice-why { font-size:13px; color:#60a838; font-style:italic; margin-top:6px; line-height:1.5; }
-.practice-why::before { content:"why: "; font-weight:700; font-style:normal; opacity:0.75; }
+.practice-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
 .practice-widget { padding:18px 20px 14px; border-left:1px solid rgba(42,122,72,0.12); min-width:220px; display:flex; flex-direction:column; align-items:center; gap:10px; }
 .practice-stats { display:flex; gap:20px; padding:8px 18px 12px; border-top:1px solid rgba(42,122,72,0.1); font-family:var(--mono); font-size:10px; color:var(--text-dim); }
 .practice-stat { display:flex; flex-direction:column; gap:2px; }
@@ -953,7 +953,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .skill-card-body.open { display:block; }
 .skill-card-desc { font-size:14px; color:var(--text-mid); line-height:1.55; margin-bottom:6px; }
 .skill-card-why { font-size:13px; color:#9060c0; font-style:italic; opacity:0.85; margin-bottom:6px; }
-.skill-card-why::before { content:"why: "; font-weight:700; font-style:normal; opacity:0.75; }
+.skill-card-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
 .skill-card-evidence { font-family:var(--mono); font-size:11px; color:var(--text-dim); }
 
 /* Claude's read */
@@ -1486,21 +1486,21 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <div id="tab-achievements" class="tab-panel">
   <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#d07830;border-color:rgba(208,120,48,0.3);">Active Classes</div>
+    <div class="qt-section-hdr no-prefix" style="color:#d07830;border-color:rgba(208,120,48,0.3);">★ Active Classes</div>
     <p style="font-size:13px;color:var(--text-dim);font-style:italic;margin-bottom:14px;">Select up to 3 classes to display in your header. Click a class card to toggle it.</p>
     <div id="cls-featured-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;min-height:24px;"></div>
   </div>
   <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#d07830;border-color:rgba(208,120,48,0.3);">All Classes</div>
+    <div class="qt-section-hdr no-prefix" style="color:#d07830;border-color:rgba(208,120,48,0.3);">✦ All Classes</div>
     <div id="cls-list"></div>
   </div>
   <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">◈ Featured Titles</div>
+    <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">★ Featured Titles</div>
     <p style="font-size:13px;color:var(--text-dim);font-style:italic;margin-bottom:14px;">Select up to 3 titles to display in your header. Click a title card to toggle it.</p>
     <div id="ach-featured-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;min-height:24px;"></div>
   </div>
   <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">All Titles</div>
+    <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">◈ All Titles</div>
     <div id="ach-list"></div>
   </div>
 </div>
@@ -3540,7 +3540,7 @@ function getFeaturedAch(){
 }
 function setFeaturedAch(ids){ localStorage.setItem(FEATURED_ACH_KEY,JSON.stringify(ids)); }
 
-const ACH_ICONS={ quest:'⚔', boss:'☠', skill:'✦', milestone:'◈', default:'★' };
+const ACH_ICONS={ quest:'⚔', boss:'☠', skill:'✦', milestone:'◈', breakthrough:'⚡', streak:'🔥', default:'★' };
 
 function renderAchievementsTab(s){
   const achievements=s.achievements||DEFAULT.achievements||[];
