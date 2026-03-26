@@ -127,13 +127,8 @@ If you prefer Chrome, you could run character-sheet from a local server instead 
 
 ## [ALTERNATIVE] Offline use
 
-<<<<<<< HEAD
-You could also just use the `character-sheet.html` file as a plain RPG-style life tracker without Claude entirely. No accounts, no internet, no data shared with anyone.
-=======
-`character-sheet.html` works without Claude entirely. Populate it manually via `↑` to use it as a plain RPG-style life tracker - no accounts, no internet, no data shared with anyone.
->>>>>>> eaf9f50 (Practices revamp, Journal tab rename, polish pass)
+You could also just download and manually use the `character-sheet.html` file as a plain RPG-style life tracker without Claude or any AI entirely. No accounts, no internet, no data shared with anyone.
 
----
 
 ## Why I built this
 
