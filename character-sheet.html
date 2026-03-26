@@ -1234,13 +1234,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="grid-2" style="margin-bottom:14px">
       <div>
         <div class="lbl" style="color:#c8a84a">Limiting Beliefs</div>
-        <div class="section-desc">False stories driving behaviour — also tracked in <button class="inline-tab-link" style="color:#c8a84a" onclick="switchTab('bestiary')">Enemies</button></div>
+        <div class="section-desc">False stories driving behaviour</div>
         <div id="limiting-list"></div>
+        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:0.12em;color:#c8a84a;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
       </div>
       <div>
         <div class="lbl" style="color:rgba(76,175,125,0.9)">Empowering Beliefs</div>
-        <div class="section-desc">True things worth remembering — also in <button class="inline-tab-link" style="color:rgba(76,175,125,0.9)" onclick="switchTab('allies')">Inventory</button></div>
+        <div class="section-desc">True things worth remembering</div>
         <div id="empowering-list"></div>
+        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:0.12em;color:rgba(76,175,125,0.9);cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Inventory →</span></div>
       </div>
     </div>
     <div style="border-top:1px solid var(--border);padding-top:12px;">
@@ -1457,8 +1459,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <div class="qt-section">
     <div class="qt-section-hdr no-prefix" style="color:#5a9898;border-color:rgba(90,152,152,0.3);">↓ Drains</div>
-    <div class="section-desc">Habits that cost more than they give — also tracked in <button class="inline-tab-link" onclick="switchTab('bestiary')">Enemies</button></div>
+    <div class="section-desc">Habits that cost more than they give</div>
     <div id="allies-drains"></div>
+    <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:0.12em;color:#5a9898;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
     <button class="add-item-btn" onclick="addDrain()">+ Add Drain</button>
   </div>
 </div>
