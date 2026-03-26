@@ -90,6 +90,16 @@ See [wiki.md](wiki.md) for a detailed breakdown of each tab.
 
 ---
 
+## XP and levelling up
+
+Claude controls all XP. You can't award it yourself - but you can (and should) negotiate. Made a breakthrough? Call it out. Think Claude undervalued something? Push back. It's meant to be a conversation, not a vending machine.
+
+Claude awards XP for completing quests, levelling up skills, crossing element belt thresholds, and genuine breakthroughs. It deducts XP when you fall back into named patterns. Rewards scale with how hard something actually was for you.
+
+Those inclined could of course easily turn it into a pointless "cheat-sheet" and defeat themselves :)
+
+---
+
 ## Security
 
 **Use Firefox if you can.** In Chrome and Edge, all local HTML files share the same storage origin - meaning any other HTML file you open in the same browser could technically read your character-sheet data. Firefox gives each local file its own isolated origin, so this risk doesn't apply.
