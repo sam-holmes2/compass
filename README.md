@@ -24,7 +24,7 @@ Everything stays on your machine. Nothing is sent anywhere unless you paste it i
 
 You'll need: a free [Claude account](https://claude.ai) and the two files below.
 
-1. **Download `character-sheet.html` and `schema.md`** - click each file above, then the download icon (top right of the file view).
+1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`schema.md`](https://github.com/sam-holmes2/character-sheet/blob/master/schema.md)** - click each link, then the download icon (top right of the file view).
 2. **Create a Claude Project** - go to [claude.ai](https://claude.ai), click New Project in the left sidebar.
 3. **Upload `schema.md` to the project** - click Add content. It stays attached permanently so Claude always knows the format.
 4. **Paste the Quickstart prompt below** into the project and answer Claude's questions. Share only what you're comfortable with.
