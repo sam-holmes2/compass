@@ -64,7 +64,7 @@ When you have enough, generate the full JSON using schema.md and a starter conte
 
 ## Each session after that
 
-1. **Journal** - brain dump freely in your Claude project. What happened, what's on your mind, what you're stuck on.
+1. **Journal** - brain dump freely in your Claude project. What happened recently, what's on your mind, what you're stuck on.
 2. **End the session** - ask Claude: *"Update my JSON and context.md based on this chat."
 3. **Update your context** - replace your saved `context.md` with the new version Claude provides.
 4. **Sync your dashboard** - open `character-sheet.html`, click `◈`, paste the JSON, Import.
@@ -102,9 +102,9 @@ Those inclined could of course easily turn it into a pointless "cheat-sheet" and
 
 ## Security
 
-**Use Firefox if you can.** In Chrome and Edge, all local HTML files share the same storage origin - meaning any other HTML file you open in the same browser could technically read your character-sheet data. Firefox gives each local file its own isolated origin, so this risk doesn't apply.
+**Ideally, use [Firefox](https://www.firefox.com/) for character-sheet** In Chrome and Edge, all local HTML files share the same storage origin - meaning any other HTML file you open in the same browser could technically read your character-sheet data. Firefox gives each local file its own isolated origin, so this risk doesn't apply.
 
-If you prefer Chrome, run character-sheet from a local server instead (`python3 -m http.server` in the same folder, then open `localhost:8000/character-sheet.html`).
+If you prefer Chrome, you could run character-sheet from a local server instead (`python3 -m http.server` in the same folder, then open `localhost:8000/character-sheet.html`). OR try out firefox and you might benefit from the separation of a dedicated browser just for character-sheet. 
 
 **Cloud storage:** keeping `character-sheet.html` in Dropbox, Google Drive, or iCloud is fine - the file itself has no personal data. Your data lives in your browser's localStorage and in `context.md`. If you sync `context.md` to the cloud, it's no longer fully local.
 
@@ -112,9 +112,9 @@ If you prefer Chrome, run character-sheet from a local server instead (`python3 
 
 ---
 
-## Offline use
+## [ALTERNATIVE] Offline use
 
-`character-sheet.html` works without Claude entirely. Populate it manually via `◈` to use it as a plain RPG-style life tracker - no accounts, no internet, no data shared with anyone.
+You could also just use the `character-sheet.html` file as a plain RPG-style life tracker without Claude entirely. No accounts, no internet, no data shared with anyone.
 
 ---
 
