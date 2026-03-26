@@ -292,6 +292,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .pie-legend-item:hover .ally-delete { opacity:1; }
 .ally-name { font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:0.09em; color:#5ab870; margin-bottom:1px; }
 .ally-desc { font-size:13px; color:var(--text-mid); line-height:1.4; }
+.ally-why  { font-size:12px; color:#60a838; font-style:italic; line-height:1.4; margin-top:3px; opacity:0.85; }
 .ally-delete { position:absolute; top:8px; right:10px; font-size:13px; color:var(--text-dim); cursor:pointer; opacity:0; transition:opacity 0.15s; background:none; border:none; padding:0; line-height:1; }
 .ally-delete:hover { color:#c84040; }
 .editable { outline:none; cursor:text; border-radius:2px; user-select:text; }
@@ -1189,7 +1190,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="el-head-slider" id="fire-slider-col"></div>
   </div>
   <div class="el-body open">
-    <div id="fire-quests" style="margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:12px;display:flex;flex-direction:column;gap:8px;"></div>
+    <div id="fire-quests" style="margin-bottom:6px;display:flex;flex-direction:column;gap:8px;"></div>
+    <div style="margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px;text-align:right;">
+      <span class="bestiary-link" onclick="switchTab('quests')" style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:0.12em;color:var(--gold);cursor:pointer;opacity:0.6;text-transform:uppercase;">View all in Quests →</span>
+    </div>
     <div class="grid-2">
       <div>
         <div class="lbl" style="color:#c84040">Underlevelled</div>
@@ -1577,11 +1581,13 @@ const DEFAULT = {
   "allies": [
     {
       "name": "Jordan",
-      "desc": "Best friend since university. Calls me out gently and shows up consistently."
+      "desc": "Best friend since university. Calls me out gently and shows up consistently.",
+      "why": "One of the few people around whom I don't feel the need to edit myself. That's rare."
     },
     {
       "name": "Mum",
-      "desc": "Unconditional support. Not always advice I follow, but always in my corner."
+      "desc": "Unconditional support. Not always advice I follow, but always in my corner.",
+      "why": "Being known that completely, with no conditions attached, is something I don't take for granted."
     }
   ],
   "mainQuest": {
@@ -3681,6 +3687,14 @@ function makeEditableItem(item, listKey, idx){
   descEl.setAttribute('data-placeholder','Description');
   descEl.textContent=item.desc||'';
   descEl.addEventListener('blur',()=>saveField(listKey,idx,'desc',descEl.textContent.trim()));
+  descEl.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); whyEl.focus(); }});
+
+  const whyEl=document.createElement('div');
+  whyEl.className='ally-why editable';
+  whyEl.contentEditable='true';
+  whyEl.setAttribute('data-placeholder','Why this matters to you...');
+  whyEl.textContent=item.why||'';
+  whyEl.addEventListener('blur',()=>saveField(listKey,idx,'why',whyEl.textContent.trim()));
 
   const delBtn=document.createElement('button');
   delBtn.className='ally-delete';
@@ -3689,6 +3703,7 @@ function makeEditableItem(item, listKey, idx){
 
   d.appendChild(nameEl);
   d.appendChild(descEl);
+  d.appendChild(whyEl);
   d.appendChild(delBtn);
   return d;
 }
@@ -3790,19 +3805,24 @@ function render(s){
   // Air — allies (editable, syncs to Inventory tab)
   const alEl=document.getElementById('air-allies'); if(alEl){ alEl.innerHTML='';
     (s.allies||DEFAULT.allies||[]).slice(0,3).forEach((item,i)=>{
-      const a=typeof item==='string'?{name:item,desc:''}:item;
+      const a=typeof item==='string'?{name:item,desc:'',why:''}:item;
       const d=document.createElement('div'); d.className='ally-item';
       const nameEl=makeEditable(a.name,'Ally name',v=>{
         if(!appState.allies) appState.allies=[];
-        if(!appState.allies[i]) appState.allies[i]={name:'',desc:''};
+        if(!appState.allies[i]) appState.allies[i]={name:'',desc:'',why:''};
         appState.allies[i].name=v; saveState(appState); markDirty(); renderAlliesTab(appState);
       },'ally-name');
       const descEl=makeEditable(a.desc,'Description',v=>{
         if(!appState.allies) appState.allies=[];
-        if(!appState.allies[i]) appState.allies[i]={name:'',desc:''};
+        if(!appState.allies[i]) appState.allies[i]={name:'',desc:'',why:''};
         appState.allies[i].desc=v; saveState(appState); markDirty(); renderAlliesTab(appState);
       },'ally-desc');
-      d.appendChild(nameEl); d.appendChild(descEl); alEl.appendChild(d);
+      const whyEl=makeEditable(a.why||'','Why this matters to you...',v=>{
+        if(!appState.allies) appState.allies=[];
+        if(!appState.allies[i]) appState.allies[i]={name:'',desc:'',why:''};
+        appState.allies[i].why=v; saveState(appState); markDirty(); renderAlliesTab(appState);
+      },'ally-why');
+      d.appendChild(nameEl); d.appendChild(descEl); d.appendChild(whyEl); alEl.appendChild(d);
     });
   }
 
@@ -3827,8 +3847,9 @@ function render(s){
     const mqPs=document.createElement('div'); mqPs.className='mqcard-trigger-pct'; mqPs.textContent=mqPct+'%';
     mqTrigger.appendChild(mqTitle); mqTrigger.appendChild(mqTr); mqTrigger.appendChild(mqPs);
     const mqBody=document.createElement('div'); mqBody.className='mqcard-collapsible open';
-    const mqWhy=document.createElement('div'); mqWhy.style.cssText='font-size:13px;color:var(--gold);font-style:italic;opacity:0.8;'; mqWhy.textContent=mq.whyItMatters||'';
-    mqBody.appendChild(mqWhy);
+    if(mq.whyItMatters){ const mqWhy=document.createElement('div'); mqWhy.style.cssText='font-size:13px;color:var(--gold);font-style:italic;opacity:0.8;margin-bottom:6px;'; mqWhy.textContent=mq.whyItMatters; mqBody.appendChild(mqWhy); }
+    if(mq.doneWhen){ const mqDW=document.createElement('div'); mqDW.style.cssText='font-size:12.5px;color:var(--text-dim);font-style:italic;'; mqDW.innerHTML='<span style="color:#60a838;font-style:normal;">✓</span> '+esc(mq.doneWhen); mqBody.appendChild(mqDW); }
+    if(mq.nextSteps&&mq.nextSteps.length){ const ns=mq.nextSteps[0]; const mqNS=document.createElement('div'); mqNS.style.cssText='margin-top:7px;font-size:13px;color:var(--text-mid);border-left:2px solid var(--gold);padding-left:8px;'; mqNS.textContent='Next: '+(ns.text||''); mqBody.appendChild(mqNS); }
     mqWrap.appendChild(mqTrigger); mqWrap.appendChild(mqBody); fqEl.appendChild(mqWrap);
 
     // Top 2 side quests by priority (lowest priority number = highest priority)
@@ -3844,8 +3865,13 @@ function render(s){
       const ps=document.createElement('div'); ps.className='sqcard-pct'; ps.textContent=pct+'%';
       head.appendChild(mark); head.appendChild(titleEl); head.appendChild(tr); head.appendChild(ps);
       const body=document.createElement('div'); body.className='sqcard-body open';
-      const why=document.createElement('div'); why.className='sqcard-why'; why.textContent=q.whyItMatters||'';
-      body.appendChild(why);
+      if(q.whyItMatters){ const why=document.createElement('div'); why.className='sqcard-why'; why.textContent=q.whyItMatters; body.appendChild(why); }
+      if(q.nextStep){ const ns=document.createElement('div'); ns.className='sqcard-next'; ns.style.cssText='border-left:2px solid rgba(200,168,74,0.4);padding-left:8px;'; ns.textContent='Next: '+q.nextStep; body.appendChild(ns); }
+      if(q.doneWhen){ const dw=document.createElement('div'); dw.className='sqcard-done'; dw.style.marginTop='4px'; dw.innerHTML='<span style="color:#60a838;">✓</span> '+esc(q.doneWhen); body.appendChild(dw); }
+      const foot=document.createElement('div'); foot.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-top:8px;';
+      if(q.xpReward){ const xpPill=document.createElement('span'); xpPill.className='xp-pill xp-pill-quest'; xpPill.textContent='+'+q.xpReward+' XP'; foot.appendChild(xpPill); }
+      const qLink=document.createElement('span'); qLink.style.cssText='font-family:"Cinzel",serif;font-size:8px;letter-spacing:0.12em;color:var(--gold);cursor:pointer;opacity:0.6;text-transform:uppercase;'; qLink.textContent='View in Quests →'; qLink.onclick=()=>switchTab('quests'); foot.appendChild(qLink);
+      body.appendChild(foot);
       d.appendChild(head); d.appendChild(body); fqEl.appendChild(d);
     });
   }

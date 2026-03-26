@@ -205,7 +205,7 @@ Ordered by priority. `threat`: `"red"` (living against) Â· `"amber"` (tension) Â
 Core psychological needs. Same structure and threat levels as values. Update each session.
 
 ### allies
-People and places that provide genuine support or safety.
+People and places that provide genuine support or safety. Each entry has `name`, `desc`, and optionally `why` (why this person or place matters - what the user appreciates about them).
 
 ### drains
 Habitual behaviours that cost more than they give.

@@ -9,11 +9,13 @@
   "allies": [
     {
       "name": "Jordan",
-      "desc": "Best friend since university. Calls me out gently and shows up consistently."
+      "desc": "Best friend since university. Calls me out gently and shows up consistently.",
+      "why": "Knows the full version of me - the messy bits included. Rare."
     },
     {
       "name": "Mum",
-      "desc": "Unconditional support. Not always advice I follow, but always in my corner."
+      "desc": "Unconditional support. Not always advice I follow, but always in my corner.",
+      "why": "No performance required. Just presence."
     }
   ],
   "mainQuest": {
@@ -240,7 +242,7 @@
       "xpReward": 80,
       "lastEvidence": "1 week ago",
       "description": "Say no to requests that drain energy or conflict with priorities without over-explaining or apologising.",
-      "whyItMatters": "Without boundaries, the career I want stays theoretical — time and energy get consumed by everyone else's agenda."
+      "whyItMatters": "Without boundaries, the career I want stays theoretical \u2014 time and energy get consumed by everyone else's agenda."
     },
     {
       "name": "Ask For Help",
@@ -249,7 +251,7 @@
       "xpReward": 80,
       "lastEvidence": "2 weeks ago",
       "description": "Reach out before stuck, not after. Let people contribute rather than white-knuckling through alone.",
-      "whyItMatters": "The Imposter says asking reveals weakness. The opposite is true — it's how fast progress actually happens."
+      "whyItMatters": "The Imposter says asking reveals weakness. The opposite is true \u2014 it's how fast progress actually happens."
     },
     {
       "name": "Stay Consistent",
@@ -377,7 +379,7 @@
     },
     {
       "name": "Music",
-      "desc": "Playing guitar alone — no audience, no performance. One of the few fully unproductive activities that still feels worthwhile."
+      "desc": "Playing guitar alone \u2014 no audience, no performance. One of the few fully unproductive activities that still feels worthwhile."
     },
     {
       "name": "Time with family",
@@ -393,7 +395,7 @@
       "name": "Connection",
       "threat": "amber",
       "alignment": 45,
-      "description": "Genuine closeness with people who know the real version, not the managed one. Patchy — good with a few people, absent with most."
+      "description": "Genuine closeness with people who know the real version, not the managed one. Patchy \u2014 good with a few people, absent with most."
     },
     {
       "name": "Rest",
@@ -405,7 +407,7 @@
       "name": "Autonomy",
       "threat": "none",
       "alignment": 60,
-      "description": "Control over how time and energy are spent. Better than it was — working from home has helped."
+      "description": "Control over how time and energy are spent. Better than it was \u2014 working from home has helped."
     },
     {
       "name": "Recognition",
@@ -443,7 +445,7 @@
       "name": "Financial Security",
       "threat": "amber",
       "alignment": 50,
-      "description": "Enough stability to make genuine choices — not wealth for its own sake, but freedom from scarcity anxiety."
+      "description": "Enough stability to make genuine choices \u2014 not wealth for its own sake, but freedom from scarcity anxiety."
     }
   ],
   "insights": [
@@ -655,7 +657,7 @@
     "boss": {
       "name": "THE INNER CRITIC",
       "desc": "The central voice that frames every setback as evidence of fundamental inadequacy. Feels like a fair assessment. It isn't.",
-      "whyBoss": "Every other enemy is this one in disguise — Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.",
+      "whyBoss": "Every other enemy is this one in disguise \u2014 Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.",
       "bounty": 1000
     },
     "currentEnemies": [
@@ -814,7 +816,7 @@
     {
       "id": "creator",
       "title": "Creator",
-      "icon": "✦",
+      "icon": "\u2726",
       "description": "Drawn to making things - music, cooking, projects. Finds meaning in the act of creation itself, not just the result. The side project is not a distraction; it might be the point.",
       "dateUnlocked": "Feb 2026",
       "featured": true
@@ -822,7 +824,7 @@
     {
       "id": "achiever",
       "title": "Achiever",
-      "icon": "◈",
+      "icon": "\u25c8",
       "description": "Goal-oriented and persistent when the goal actually matters. The risk is chasing achievement as validation rather than genuine progress. Learning to tell the difference.",
       "dateUnlocked": "Jan 2026",
       "featured": false
