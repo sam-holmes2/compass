@@ -28,8 +28,8 @@ The four elements, each representing a domain of your inner life. Think of them 
 |---------|--------|-----|------|
 | **Air** | Awareness / mindset | Reactive, unexamined | Noticing patterns in real time |
 | **Fire** | Drive / direction | Drifting, obligated | Acting from genuine will |
-| **Water** | Aliveness / desire | Numb, compulsive | Following real appetite |
 | **Earth** | Beliefs / groundedness | Running on false stories | Honest and grounded |
+| **Water** | Aliveness / desire | Numb, compulsive | Following real passions |
 
 Each element has:
 - A score (0-100) and belt milestone (White / Blue / Purple / Brown / Black)
