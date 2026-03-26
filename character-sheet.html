@@ -219,13 +219,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .stat-bar-val { font-family:var(--mono); font-size:11px; color:var(--text-mid); min-width:28px; text-align:right; }
 .stat-range { flex:1; -webkit-appearance:none; appearance:none; height:5px; border-radius:3px; outline:none; cursor:pointer; pointer-events:auto !important; }
 .stat-range::-webkit-slider-runnable-track { height:5px; border-radius:3px; }
-.stat-range-focus   { background:linear-gradient(to right,#c0cad4 100%,#1e1e28 100%); }
+.stat-range-focus   { background:#1e1e28; }
 .stat-range-focus::-webkit-slider-thumb   { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#c0cad4; border:2px solid var(--bg); cursor:pointer; }
-.stat-range-energy  { background:linear-gradient(to right,#d07830 100%,#1e1e28 100%); }
+.stat-range-energy  { background:#1e1e28; }
 .stat-range-energy::-webkit-slider-thumb  { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#d07830; border:2px solid var(--bg); cursor:pointer; }
-.stat-range-purpose { background:linear-gradient(to right,#60a838 100%,#1e1e28 100%); }
+.stat-range-purpose { background:#1e1e28; }
 .stat-range-purpose::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#60a838; border:2px solid var(--bg); cursor:pointer; }
-.stat-range-interest{ background:linear-gradient(to right,#3a80c8 100%,#1e1e28 100%); }
+.stat-range-interest{ background:#1e1e28; }
 .stat-range-interest::-webkit-slider-thumb{ -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#3a80c8; border:2px solid var(--bg); cursor:pointer; }
 .combat-status-panel { margin-bottom:22px; border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; }
 .combat-status-hdr { font-family:'Cinzel',serif; font-size:14px; font-weight:700; letter-spacing:0.18em; color:var(--text-b); text-transform:uppercase; padding:14px 18px 0; }
@@ -5026,6 +5026,44 @@ function cycleHdrIcon(){
   localStorage.setItem(HDR_ICON_KEY,idx);
   const el=document.getElementById('hdr-icon');
   if(el) el.textContent=pool[idx];
+}
+
+
+// ══ STATUS SLIDERS ════════════════════════════════════════════
+const STATUS_COLORS = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
+const STATUS_LS_KEY = 'liferpg-status-v7';
+
+function setStatusGradient(el, col, pct) {
+  el.style.background = `linear-gradient(to right,${col} ${pct}%,#232332 ${pct}%)`;
+}
+
+function updateStatus(name, value) {
+  const pct = parseInt(value);
+  const col = STATUS_COLORS[name];
+  const el = document.getElementById('status-' + name);
+  const valEl = document.getElementById('status-' + name + '-val');
+  if (el) setStatusGradient(el, col, pct);
+  if (valEl) valEl.textContent = pct;
+  // Persist
+  try {
+    const saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}');
+    saved[name] = pct;
+    localStorage.setItem(STATUS_LS_KEY, JSON.stringify(saved));
+  } catch(e) {}
+}
+
+function loadStatusSliders() {
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}'); } catch(e) {}
+  Object.entries(STATUS_COLORS).forEach(([name, col]) => {
+    const el = document.getElementById('status-' + name);
+    const valEl = document.getElementById('status-' + name + '-val');
+    if (!el) return;
+    const pct = saved[name] !== undefined ? saved[name] : parseInt(el.value);
+    el.value = pct;
+    if (valEl) valEl.textContent = pct;
+    setStatusGradient(el, col, pct);
+  });
 }
 
 function initStatBars(){
