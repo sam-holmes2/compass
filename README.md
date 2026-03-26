@@ -4,7 +4,7 @@
 
 *The real value of character-sheet is the character you build away from it.*
 
-**[Check out Steve's character-sheet](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - live demo opens in your browser, no download needed. 
+**[Check out Example Steve's character-sheet](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - live demo opens in your browser, no download needed. 
 
 > Early work in progress. ALL feedback is very welcome - open an issue or contact Sam directly 
 
@@ -28,8 +28,8 @@ You'll need: a free [Claude account](https://claude.ai) and the two files below.
 2. **Create a Claude Project** - go to [claude.ai](https://claude.ai), click New Project in the left sidebar.
 3. **Upload `schema.md` to the project** - click Add content. It stays attached permanently so Claude always knows the format.
 4. **Paste the Quickstart prompt below** into the project and answer Claude's questions. Share only what you're comfortable with.
-5. **At the end, ask Claude:** to `"Generate my JSON and a starter context.md using schema.md."`*
-6. **Import your data** - open `character-sheet.html`, click `◈` (bottom right), paste the JSON, hit Import. Save `context.md` somewhere private.
+5. **At the end, ask Claude:** to `"Generate my JSON and a starter context.md using schema.md."`
+6. **Import your data** - open `character-sheet.html`, click `↑` (bottom right), paste the JSON, hit Import. Save `context.md` somewhere private.
 
 Optionally upload `journalling-prompts.md` to your project too - it gives Claude better prompts when you want to go deeper.
 
@@ -65,11 +65,11 @@ When you have enough, generate the full JSON using schema.md and a starter conte
 ## Each session after that
 
 1. **Journal** - brain dump freely in your Claude project. What happened recently, what's on your mind, what you're stuck on.
-2. **End the session** - ask Claude: *"Update my JSON and context.md based on this chat."
+2. **End the session** - ask Claude: *"Update my JSON and context.md based on this chat."*
 3. **Update your context** - replace your saved `context.md` with the new version Claude provides.
-4. **Sync your dashboard** - open `character-sheet.html`, click `◈`, paste the JSON, Import.
+4. **Sync your dashboard** - open `character-sheet.html`, click `↑`, paste the JSON, Import.
 
-You can also edit fields directly in the app and use Export to send changes back to Claude.
+You can also edit fields directly in the app and use `↓` Export to send changes back to Claude.
 
 ---
 
@@ -77,16 +77,16 @@ You can also edit fields directly in the app and use Export to send changes back
 
 | Tab | What it shows |
 |-----|---------------|
-| **Combat** | Practice trackers, activity graph, daily progression breakdown, Claude's read on where you're at. |
+| **Combat** | Up to 3 practice trackers (timer, checkbox, or number), daily distribution pie chart, XP log, and Claude's read on where you're at. |
 | **Balance** | The four elements - Air / Fire / Water / Earth - each scored and detailed. |
 | **Quests** | Main quest, side quests with progress, completed quests. |
 | **Skills** | Skills by mastery level. Underlevelled vs signature strengths. |
 | **Enemies** | Active patterns, limiting beliefs, and drains all in one place. |
 | **Inventory** | Allies, flow sources, and energy drains. |
 | **Achievements** | Unlocked milestones and character classes. |
-| **Lore** | Chronological journal with summarised chapters - individual sessions logged with insights, tensions, and tags. |
+| **Journal** | Chronological journal with summarised chapters - individual sessions logged with insights, tensions, and tags. |
 
-See [wiki.md](wiki.md) for a detailed breakdown of each tab.
+See [wiki.md](wiki.md) for a detailed breakdown of each tab and feature.
 
 ---
 
@@ -94,9 +94,22 @@ See [wiki.md](wiki.md) for a detailed breakdown of each tab.
 
 Claude controls all XP. You can't award it yourself - but you can (and should) negotiate. Made a breakthrough? Call it out. Think Claude undervalued something? Push back. It's meant to be a conversation, not a vending machine.
 
-Claude awards XP for completing quests, levelling up skills, crossing element belt thresholds, and genuine breakthroughs. It deducts XP when you fall back into named patterns. Rewards scale with how hard something actually was for you.
+Claude awards XP for completing quests, levelling up skills, crossing element mastery thresholds, and genuine breakthroughs. It deducts XP when you fall back into named patterns. Rewards scale with how hard something actually was for you.
 
 Those inclined could of course easily turn it into a pointless "cheat-sheet" and defeat themselves :)
+
+---
+
+## Files in this repo
+
+| File | What it is |
+|------|------------|
+| **[character-sheet.html](character-sheet.html)** | The app itself. Open this in your browser. All logic, styles, and default demo data are self-contained in one file. |
+| **[schema.md](schema.md)** | Upload this to your Claude project. It tells Claude the JSON format and how to behave as a journalling companion. |
+| **[journalling-prompts.md](journalling-prompts.md)** | Optional. Upload to your Claude project for deeper session prompts. |
+| **[wiki.md](wiki.md)** | Full documentation for each tab and feature. |
+| **[steve-example-data.json](steve-example-data.json)** | The demo data loaded by default when you first open the app. Not needed after you import your own data. |
+| **[README.md](README.md)** | This file. |
 
 ---
 
@@ -114,11 +127,18 @@ If you prefer Chrome, you could run character-sheet from a local server instead 
 
 ## [ALTERNATIVE] Offline use
 
+<<<<<<< HEAD
 You could also just use the `character-sheet.html` file as a plain RPG-style life tracker without Claude entirely. No accounts, no internet, no data shared with anyone.
+=======
+`character-sheet.html` works without Claude entirely. Populate it manually via `↑` to use it as a plain RPG-style life tracker - no accounts, no internet, no data shared with anyone.
+>>>>>>> eaf9f50 (Practices revamp, Journal tab rename, polish pass)
 
 ---
 
-## Why I built this 
+## Why I built this
+
+> *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."*
+> — Northlane
 
 - AI made journalling and self-reflection genuinely useful for me, but every conversation started mostly from scratch. The real insights lived in chat logs I'd never reread. 
 - The line between journalling, therapy, and using AI as a mirror was already blurring. I wanted somewhere to see that reflection clearly, own it, and build on it over time.

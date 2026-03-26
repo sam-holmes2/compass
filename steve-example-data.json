@@ -1,11 +1,11 @@
 {
-  "name": "Steve",
-  "subtitle": "Finding work that matters",
+  "name": "Example Steve",
+  "subtitle": "Demo character - not real data",
   "level": 4,
   "xp": 500,
   "xpToNext": 1000,
   "keyQuestion": "What would I do if I knew I couldn't fail?",
-  "claudeRead": "Steve is in a genuinely transitional moment - the career search is real now, not theoretical, and the side project session from last week is the clearest evidence yet that the right direction produces a qualitatively different kind of engagement. The main risk is that financial pressure shortens the search before the right thing is found. THE INNER CRITIC is active but being noticed more quickly. The body is coming online - three months smoke-free and running consistently. Rest is the most significant unmet need and the one most likely to quietly undermine everything else if it stays unaddressed.",
+  "claudeRead": "Example Steve is in a genuinely transitional moment - the career search is real now, not theoretical, and the side project session from last week is the clearest evidence yet that the right direction produces a qualitatively different kind of engagement. The main risk is that financial pressure shortens the search before the right thing is found. THE INNER CRITIC is active but being noticed more quickly. The body is coming online - three months smoke-free and running consistently. Rest is the most significant unmet need and the one most likely to quietly undermine everything else if it stays unaddressed.",
   "allies": [
     {
       "name": "Jordan",
@@ -704,15 +704,47 @@
   },
   "completedMainQuests": [],
   "lastUpdated": "2026-03-25",
-  "activity": {
-    "name": "Deep Work",
-    "description": "Focused time on the career transition — research, applications, side project, skill-building. No multitasking, phone away.",
-    "whyItMatters": "The career I want won't build itself in the margins. It needs protected focused time.",
-    "startDate": "2026-01-01",
-    "dailyTargetMinutes": 0,
-    "xpPerHour": 20
-  },
-  "activityChapters": [],
+  "activities": [
+    {
+      "id": "deep-work",
+      "name": "Deep Work",
+      "description": "Focused time on the career transition - research, applications, side project, skill-building. No multitasking, phone away.",
+      "whyItMatters": "The career I want won't build itself in the margins. It needs protected focused time.",
+      "startDate": "2026-01-01",
+      "priority": 1,
+      "type": "timer",
+      "resetPeriod": "day",
+      "target": 90,
+      "unit": "minutes",
+      "xpPerUnit": 0.5
+    },
+    {
+      "id": "morning-run",
+      "name": "Morning Run",
+      "description": "Out before 8am, at least 20 minutes.",
+      "whyItMatters": "Movement sets the tone for the whole day. Miss it and everything feels harder.",
+      "startDate": "2026-02-01",
+      "priority": 2,
+      "type": "checkbox",
+      "resetPeriod": "day",
+      "target": 1,
+      "unit": "runs",
+      "xpPerUnit": 20
+    },
+    {
+      "id": "gym-sessions",
+      "name": "Gym Sessions",
+      "description": "Strength training. Three or four times a week is the target.",
+      "whyItMatters": "Weekly consistency matters more than individual sessions.",
+      "startDate": "2026-02-01",
+      "priority": 3,
+      "type": "number",
+      "resetPeriod": "week",
+      "target": 4,
+      "unit": "sessions",
+      "xpPerUnit": 15
+    }
+  ],
   "dailyDistribution": {
     "Sleep": 7.5,
     "Deep Work": 1.5,

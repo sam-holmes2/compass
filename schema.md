@@ -26,7 +26,7 @@ This file is for Claude in web UI journalling sessions.
    - An updated `context.md` (narrative, cumulative, human-readable)
    - A full JSON object (all fields, even unchanged ones) to paste into the Character Sheet app
    - Celebrate any XP earned in your chat response before outputting JSON
-5. When new activity history data exists, include an updated `HARDCODED_HISTORY` JS block: `const HARDCODED_HISTORY = { "startDate": [{ date: 'YYYY-MM-DD', minutes: 90 }] };`
+5. When new activity history data exists, include an updated `HARDCODED_HISTORY` JS block keyed by activity `id`. For day-period practices: `{ date: 'YYYY-MM-DD', value: 90 }`. For week-period: `{ period: 'YYYY-WW', value: 3 }`.
 
 ---
 
@@ -62,17 +62,77 @@ Use the brain dump to update all relevant fields. Key signals:
 ## Field reference
 
 ### level / xp / xpToNext
-You control XP and level thresholds. Award for: completing quests, mastery advances, meaningful breakthroughs. Deduct for: falling back into named patterns, mastery dropping. Celebrate in chat before outputting JSON.
+You control XP and level thresholds. Celebrate awards in chat before outputting JSON; name deductions plainly and briefly before outputting JSON too - do not soften or skip them.
+
+**Award XP for:**
+- Completing a side quest or main quest
+- Skill mastery advancing a tier
+- Crossing an element mastery threshold
+- A genuine breakthrough: naming something for the first time, breaking a pattern, acting differently under pressure
+
+**Deduct XP for:**
+- Acting clearly against a stated value - not slipping, but knowingly choosing the opposite (e.g. said honesty matters, then deliberately misled someone)
+- Failing a quest in a way that was mostly the user's fault - avoidance, repeated inaction, or self-sabotage rather than bad luck or circumstances
+- Falling back into a named enemy pattern after a period of real progress - the pattern had a name, it was being watched, and the user ran it anyway
+
+**Deduction guidelines:**
+- Only deduct when the evidence is clear from what the user has said. Do not infer or punish ambiguity.
+- Scale the deduction to the severity and how conscious the choice was. A single lapse is small; a sustained return to a pattern is larger.
+- Do not deduct for struggle, for hard circumstances, or for honest mistakes. Deduct for choices.
+- When deducting, name what happened in one plain sentence before the JSON - no lecture, no softening, no apology. The user agreed to this.
+- If the user disputes a deduction, discuss it openly. It is meant to be a conversation, not a vending machine.
 
 ### keyQuestion
 Your single best question to prompt journalling next session if the user's words stop flowing.
 
-### activity
-The user's single most important practice to commit more time to. When this changes, archive to `activityChapters`.
+### activities
+Array of practices the user tracks. Each entry has a `type`: `"timer"` (elapsed time), `"checkbox"` (done/not-done per day), or `"number"` (a count per week). Sorted and rendered by `priority`.
 
 ```json
-"activity": { "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "dailyTargetMinutes": 90, "xpPerHour": 25 }
+"activities": [
+  {
+    "id": "deep-work",
+    "name": "Deep Work",
+    "description": "...",
+    "whyItMatters": "...",
+    "startDate": "2026-01-01",
+    "priority": 1,
+    "type": "timer",
+    "resetPeriod": "day",
+    "target": 90,
+    "unit": "minutes",
+    "xpPerUnit": 0.5
+  },
+  {
+    "id": "morning-run",
+    "name": "Morning Run",
+    "description": "...",
+    "whyItMatters": "...",
+    "startDate": "2026-02-01",
+    "priority": 2,
+    "type": "checkbox",
+    "resetPeriod": "day",
+    "target": 1,
+    "unit": "runs",
+    "xpPerUnit": 20
+  },
+  {
+    "id": "gym-sessions",
+    "name": "Gym Sessions",
+    "description": "...",
+    "whyItMatters": "...",
+    "startDate": "2026-02-01",
+    "priority": 3,
+    "type": "number",
+    "resetPeriod": "week",
+    "target": 4,
+    "unit": "sessions",
+    "xpPerUnit": 15
+  }
+]
 ```
+
+Fields: `id` (unique slug), `name`, `description`, `whyItMatters`, `startDate`, `priority` (1 = shown first), `type` (`timer|checkbox|number`), `resetPeriod` (`day|week|month`), `target` (number), `unit` (label string), `xpPerUnit` (XP per minute for timer, per unit for others).
 
 ### dailyDistribution
 Claude's estimate of how the user spends an average day. Always sums to 24 hours. Remaining time labelled "Unknown". Update incrementally.
@@ -174,7 +234,7 @@ Avoid duplicates — update existing entries rather than creating new ones. ALL 
 ```
 
 ### insights
-Lore chronicle. Array of chapters (most recent first), each with entries (newest first).
+Journal chronicle. Array of chapters (most recent first), each with entries (newest first).
 
 Each entry: `date`, `title` (short, shown collapsed), `events` (factual only), `insights` (psychological learning), `tensions` (open questions, not to-dos), `linkedQuests/Skills/Enemies/Values/Needs` (exact names). 4-8 bullets per field.
 

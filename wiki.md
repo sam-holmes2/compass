@@ -8,9 +8,15 @@ A detailed breakdown of each tab. For quick reference see the table in [README.m
 
 The operational hub. Less about fighting, more about showing up.
 
-**Practice timer** - tracks your most important daily practice (set by Claude based on your main quest, e.g. Deep Work, Running, Writing). The card changes colour: red when not started, green while running, yellow if paused, dark green once you've hit your target. XP is awarded per minute.
+**Practices** - up to 3 practice trackers, set by Claude based on your goals and what you've talked about. Each practice has a type:
 
-**Activity graph** - full history of your practice sessions as a bar chart, so you can see streaks, gaps, and momentum at a glance.
+- **Timer** - counts up in real time. The ring changes colour: red when not started, green while running, yellow if paused, dark green once you've hit your target. XP is awarded per minute while the timer runs.
+- **Checkbox** - tap to mark each unit done (e.g. one run, one meditation). Each tap awards XP. Resets at the start of the next period.
+- **Number** - type in a count and save (e.g. gym sessions this week). XP is awarded on save based on the increase. Resets at the start of the next period.
+
+Each practice shows its personal best, a 7-period rolling average, and a mini bar chart of recent history. Reset periods (daily, weekly, etc) are set with Claude.
+
+**Status** - four sliders (Focus, Energy, Purpose, Interest) that you set yourself at the start or end of a session. Not synced to Claude, just a quick self-check.
 
 **Daily distribution** - Claude's estimate of how you actually spend a typical day, broken into categories. Updated as Claude learns more about your routine.
 
@@ -32,13 +38,13 @@ The four elements, each representing a domain of your inner life. Think of them 
 | **Water** | Aliveness / desire | Numb, compulsive | Following real passions |
 
 Each element has:
-- A score (0-100) and belt milestone (White / Blue / Purple / Brown / Black)
+- A score (0-100) and mastery milestone (White / Blue / Purple / Brown / Black)
 - A one-line status label from Claude
 - An expandable section with relevant data (enemies for Air, skills for Fire, beliefs and values for Earth, sources and needs for Water)
 
 **Progression** (Air section) - Claude's read on how this chapter is going overall. Same text as the Combat tab.
 
-XP is awarded when you cross a belt threshold. Higher difficulty elements reward more XP.
+XP is awarded when you cross a mastery threshold. Higher difficulty elements reward more XP.
 
 ---
 
@@ -111,7 +117,7 @@ Neither can be self-awarded. Claude awards them in session, sometimes without be
 
 ---
 
-## Lore
+## Journal
 
 The chronological record of your sessions.
 
@@ -123,7 +129,7 @@ Each entry has:
 - **Unresolved Tensions** - open questions or unresolved dynamics (not to-dos)
 - **Tags** - linked quests, skills, enemies, values, and needs. Clickable to navigate to the relevant item.
 
-The Lore tab is where the value of long-term use really compounds. After a few months, patterns become visible across chapters that aren't obvious session to session.
+The Journal tab is where the value of long-term use really compounds. After a few months, patterns become visible across chapters that aren't obvious session to session.
 
 ---
 
