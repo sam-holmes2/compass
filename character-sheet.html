@@ -2554,6 +2554,30 @@ function savePracticeHistory(charName, id, data) {
   try { localStorage.setItem(getPracticeHistoryKey(charName,id), JSON.stringify(data)); } catch {}
 }
 
+const HARDCODED_XP_LOG = [
+  // Most recent first — consistent with Steve's journal & timeline
+  { date:'25 Mar 2026', amount:+30,  reason:'Session update',             totalAfter:500, levelup:false },
+  { date:'22 Mar 2026', amount:+25,  reason:'Session update',             totalAfter:470, levelup:false },
+  { date:'19 Mar 2026', amount:null, reason:'Level 4 reached',            totalAfter:445, levelup:true  },
+  { date:'19 Mar 2026', amount:+45,  reason:'Session update',             totalAfter:445, levelup:false },
+  { date:'15 Mar 2026', amount:+40,  reason:'Coffee with Priya - genuine ask for help', totalAfter:400, levelup:false },
+  { date:'12 Mar 2026', amount:+35,  reason:'Session update',             totalAfter:360, levelup:false },
+  { date:'8 Mar 2026',  amount:+25,  reason:'Session update',             totalAfter:325, levelup:false },
+  { date:'5 Mar 2026',  amount:+20,  reason:'Session update',             totalAfter:300, levelup:false },
+  { date:'26 Feb 2026', amount:null, reason:'Level 3 reached',            totalAfter:280, levelup:true  },
+  { date:'26 Feb 2026', amount:+30,  reason:'Session update',             totalAfter:280, levelup:false },
+  { date:'19 Feb 2026', amount:+25,  reason:'Session update',             totalAfter:250, levelup:false },
+  { date:'14 Feb 2026', amount:+50,  reason:'Three months smoke-free - Smoke Free achievement', totalAfter:225, levelup:false },
+  { date:'12 Feb 2026', amount:-15,  reason:'Skipped gym three times - named pattern, not bad luck', totalAfter:175, levelup:false },
+  { date:'5 Feb 2026',  amount:+20,  reason:'Session update',             totalAfter:190, levelup:false },
+  { date:'28 Jan 2026', amount:+25,  reason:'Session update',             totalAfter:170, levelup:false },
+  { date:'20 Jan 2026', amount:+40,  reason:'Declutter complete - environment changed', totalAfter:145, levelup:false },
+  { date:'20 Jan 2026', amount:null, reason:'Level 2 reached',            totalAfter:105, levelup:true  },
+  { date:'12 Jan 2026', amount:+30,  reason:'Session update',             totalAfter:105, levelup:false },
+  { date:'5 Jan 2026',  amount:+25,  reason:'Session update',             totalAfter:75,  levelup:false },
+  { date:'1 Jan 2026',  amount:+50,  reason:'Quit Smoking quest complete',totalAfter:50,  levelup:false },
+];
+
 // Period helpers
 function getPeriodKey(date, resetPeriod) {
   const d = date || new Date();
@@ -4258,7 +4282,8 @@ function applyUpdate(){
     if(!p.name&&!p.mainQuest&&!p.skills)throw new Error('Looks empty');
     if(p._featuredAch) setFeaturedAch(p._featuredAch);
     if(p._featuredCls) setFeaturedCls(p._featuredCls);
-    delete p._featuredAch; delete p._featuredCls;
+    if(p._xpLog&&Array.isArray(p._xpLog)){ saveXPLog(p._xpLog); }
+    delete p._featuredAch; delete p._featuredCls; delete p._xpLog;
     if(p.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(p.dailyDistribution));
     logXPChange(appState, p);
     updateSmoothed(p);
@@ -4274,7 +4299,18 @@ function setModalStatus(msg,type){const el=document.getElementById('modal-status
 
 // ══ XP LOG ═══════════════════════════════════════════════════
 const XP_LOG_KEY='liferpg-xplog-v7';
-function loadXPLog(){ try{ return JSON.parse(localStorage.getItem(XP_LOG_KEY)||'[]'); }catch{ return []; } }
+function loadXPLog(){
+  try{
+    const raw=localStorage.getItem(XP_LOG_KEY);
+    if(raw) return JSON.parse(raw);
+    // Seed demo data for first-time visitors
+    if(typeof HARDCODED_XP_LOG!=='undefined'&&HARDCODED_XP_LOG.length){
+      saveXPLog(HARDCODED_XP_LOG);
+      return HARDCODED_XP_LOG.slice();
+    }
+    return [];
+  }catch{ return []; }
+}
 function saveXPLog(log){ try{ localStorage.setItem(XP_LOG_KEY,JSON.stringify(log.slice(-50))); }catch{} }
 
 function logXPChange(prevState, nextState){
@@ -4321,6 +4357,7 @@ function exportState(){
   const state=raw?JSON.parse(raw):DEFAULT;
   state._featuredAch=getFeaturedAch();
   state._featuredCls=getFeaturedCls();
+  state._xpLog=loadXPLog();
   document.getElementById('export-textarea').value=JSON.stringify(state,null,2);
   document.getElementById('export-modal').classList.add('open');
   document.getElementById('export-btn')?.classList.remove('dirty');
