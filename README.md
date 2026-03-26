@@ -6,7 +6,7 @@
 
 **[Check out Steve's character-sheet](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - live demo opens in your browser, no download needed. 
 
-> Early work in progress. ALL feedback is very welcome - open an issue or contact directly 
+> Early work in progress. ALL feedback is very welcome - open an issue or contact Sam directly 
 
 ---
 
