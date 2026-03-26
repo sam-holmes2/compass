@@ -4,9 +4,9 @@
 
 *The real value of character-sheet is the character you build away from it.*
 
-**[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - opens in your browser, no download needed.
+**[Check out Steve's character-sheet](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - live demo opens in your browser, no download needed. 
 
-> Early work in progress. Feedback welcome - open an issue or email directly.
+> Early work in progress. ALL feedback is very welcome - open an issue or contact directly 
 
 ---
 
@@ -14,7 +14,7 @@
 
 Everything stays on your machine. Nothing is sent anywhere unless you paste it into Claude. A few things worth knowing:
 
-- What you share with Claude is processed by Anthropic per their data retention policy. Only share what you're comfortable with.
+- What you share with Claude is processed by Anthropic - [read their data retention policy](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data). Since this is personal journalling, we recommend turning off **"Help improve Claude"** in your Claude settings (Profile > Privacy) to stop your conversations being used for model training.
 - Don't use this on a shared computer.
 - Firefox is the safest browser to use - see [Security](#security) for why.
 
@@ -28,7 +28,7 @@ You'll need: a free [Claude account](https://claude.ai) and the two files below.
 2. **Create a Claude Project** - go to [claude.ai](https://claude.ai), click New Project in the left sidebar.
 3. **Upload `schema.md` to the project** - click Add content. It stays attached permanently so Claude always knows the format.
 4. **Paste the Quickstart prompt below** into the project and answer Claude's questions. Share only what you're comfortable with.
-5. **At the end, ask Claude:** *"Generate my JSON and a starter context.md using schema.md."*
+5. **At the end, ask Claude:** to `"Generate my JSON and a starter context.md using schema.md."`*
 6. **Import your data** - open `character-sheet.html`, click `◈` (bottom right), paste the JSON, hit Import. Save `context.md` somewhere private.
 
 Optionally upload `journalling-prompts.md` to your project too - it gives Claude better prompts when you want to go deeper.
