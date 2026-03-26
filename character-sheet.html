@@ -293,6 +293,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ally-name { font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:0.09em; color:#5ab870; margin-bottom:1px; }
 .ally-desc { font-size:13px; color:var(--text-mid); line-height:1.4; }
 .ally-why  { font-size:12px; color:#60a838; font-style:italic; line-height:1.4; margin-top:3px; opacity:0.85; }
+.ally-why::before { content:"why: "; opacity:0.55; }
 .ally-delete { position:absolute; top:8px; right:10px; font-size:13px; color:var(--text-dim); cursor:pointer; opacity:0; transition:opacity 0.15s; background:none; border:none; padding:0; line-height:1; }
 .ally-delete:hover { color:#c84040; }
 .editable { outline:none; cursor:text; border-radius:2px; user-select:text; }
@@ -497,6 +498,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .sqcard-body.open { display:block; }
 .sqcard-next { font-size:14px; color:var(--text-mid); margin-bottom:6px; line-height:1.5; }
 .sqcard-why { font-size:13px; color:var(--gold); font-style:italic; opacity:0.8; margin-bottom:2px; }
+.sqcard-why::before { content:"why: "; opacity:0.55; }
 .sqcard-done { font-size:12.5px; color:var(--text-dim); font-style:italic; min-width:60px; }
 .sqcard-evidence { font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-top:6px; }
 .cqcard { border:1px solid var(--border); border-radius:5px; overflow:hidden; margin-bottom:5px; }
@@ -737,6 +739,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-name { font-family:'Cinzel',serif; font-size:15px; color:var(--activity); letter-spacing:0.06em; margin-bottom:4px; }
 .practice-desc { font-size:13.5px; color:var(--text-mid); line-height:1.6; }
 .practice-why { font-size:13px; color:#60a838; font-style:italic; margin-top:6px; line-height:1.5; }
+.practice-why::before { content:"why: "; opacity:0.55; }
 .practice-widget { padding:18px 20px 14px; border-left:1px solid rgba(42,122,72,0.12); min-width:220px; display:flex; flex-direction:column; align-items:center; gap:10px; }
 .practice-stats { display:flex; gap:20px; padding:8px 18px 12px; border-top:1px solid rgba(42,122,72,0.1); font-family:var(--mono); font-size:10px; color:var(--text-dim); }
 .practice-stat { display:flex; flex-direction:column; gap:2px; }
@@ -950,6 +953,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .skill-card-body.open { display:block; }
 .skill-card-desc { font-size:14px; color:var(--text-mid); line-height:1.55; margin-bottom:6px; }
 .skill-card-why { font-size:13px; color:#9060c0; font-style:italic; opacity:0.85; margin-bottom:6px; }
+.skill-card-why::before { content:"why: "; opacity:0.55; }
 .skill-card-evidence { font-family:var(--mono); font-size:11px; color:var(--text-dim); }
 
 /* Claude's read */
@@ -963,7 +967,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .balance-el-card-hdr { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.24em; color:var(--text-dim); text-transform:uppercase; padding:10px 16px 0; }
 .balance-el-card-body {
   display:grid;
-  grid-template-columns: minmax(200px,260px) auto minmax(0,1fr);
+  grid-template-columns: minmax(220px,310px) auto minmax(0,1fr);
   align-items:stretch;
   gap:0;
   padding:10px 16px 14px;
@@ -987,7 +991,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .bht-cell { display:flex; flex-direction:column; }
 .bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:14px; }
 .bht-now { font-size:20px; color:#c8d0d8; }
-.bht-proj { color:rgba(200,168,74,0.65); }
 /* Chart column — fills remaining space */
 .harmony-chart-col { display:flex; flex-direction:column; justify-content:center; border-left:1px solid var(--border); padding-left:16px; min-width:0; }
 .harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.18em; color:var(--text-dim); text-transform:uppercase; margin-bottom:2px; }
@@ -1109,10 +1112,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="bht-num bht-now" id="balance-harmony-now">—</div>
           <div class="balance-harmony-lbl">Now</div>
         </div>
-        <div class="bht-cell">
-          <div class="bht-num bht-proj" id="balance-harmony-proj">—</div>
-          <div class="balance-harmony-lbl">Projected</div>
-        </div>
+
       </div>
     </div>
     <!-- Col 3: line chart -->
@@ -2795,7 +2795,7 @@ function updateRadarWithGhosts(state){
   if(gw) gw.setAttribute('points', week  ? radarPts(week, R)  : '');
   if(gm) gm.setAttribute('points', month ? radarPts(month, R) : '');
 
-  // Harmony trio: initial / now / projected
+  // Harmony: initial / now
   const nowScore=calcHarmony(sv);
   const harmNow=document.getElementById('balance-harmony-now');
   if(harmNow) harmNow.textContent=nowScore+'%';
@@ -2804,26 +2804,7 @@ function updateRadarWithGhosts(state){
   const harmInit=document.getElementById('balance-harmony-initial');
   if(harmInit) harmInit.textContent=sorted.length ? sorted[0].harmony+'%' : '—';
 
-  const harmProj=document.getElementById('balance-harmony-proj');
-  if(harmProj){
-    if(sorted.length>=2){
-      const first=sorted[0], last=sorted[sorted.length-1];
-      const d1=new Date(first.date), d2=new Date(last.date);
-      const spanDays=Math.max(1,(d2-d1)/(1000*60*60*24));
-      const dailyRate=(last.harmony-first.harmony)/spanDays;
-      // Apply daily rate forward but with diminishing returns:
-      // each day's gain = dailyRate * (headroom/100), so improvement
-      // slows as harmony approaches the ceiling.
-      let h=last.harmony;
-      for(let i=0;i<spanDays;i++){
-        const headroom=Math.max(0,85-h); // soft ceiling at 85
-        h+=dailyRate*(headroom/85);
-      }
-      harmProj.textContent=Math.round(Math.min(85,Math.max(0,h)))+'%';
-    } else {
-      harmProj.textContent='—';
-    }
-  }
+
 }
 
 // ══ HARMONY LINE CHART ══════════════════════════════════════
@@ -3288,8 +3269,7 @@ function renderQuestsTab(s){
 
     const body=document.createElement('div'); body.className='mqcard-collapsible open'; body.id='mq-body';
     body.appendChild(makeEditable(mq.description,'Describe your main quest…',v=>saveMQField('description',v),'mqcard-desc'));
-    const whyEl=makeEditable(mq.whyItMatters,'Why does this matter?',v=>saveMQField('whyItMatters',v));
-    whyEl.style.cssText='font-size:13px;color:var(--gold);font-style:italic;opacity:0.8;margin-bottom:10px;';
+    const whyEl=makeEditable(mq.whyItMatters,'Why does this matter?',v=>saveMQField('whyItMatters',v),'sqcard-why');
     body.appendChild(whyEl);
     if(mq.doneWhen){ const dw=document.createElement('div'); dw.className='quest-done-when'; dw.innerHTML=`<span class="quest-tick">✓</span> Completed when ${esc(s.name||'you')}: ${esc(mq.doneWhen)}`; body.appendChild(dw); }
 
@@ -3750,6 +3730,30 @@ function addPursuit(){
   if(cards.length) cards[cards.length-1].focus();
 }
 
+// ══ PROGRESSION CARD ════════════════════════════════════════
+function renderProgressionCard(el, s) {
+  if (!el) return;
+  el.innerHTML = '';
+  const txt = document.createElement('div');
+  txt.textContent = s.claudeRead || 'No read yet.';
+  el.appendChild(txt);
+  // Link to most recent journal chapter
+  const chapters = s.insights || [];
+  if (chapters.length) {
+    const ch = chapters[0]; // most recent first
+    if (ch.name) {
+      const link = document.createElement('div');
+      link.style.cssText = 'margin-top:10px;text-align:right;';
+      const btn = document.createElement('button');
+      btn.className = 'inline-tab-link';
+      btn.textContent = 'Full chapter: ' + ch.name + ' →';
+      btn.onclick = () => { switchTab('lore'); };
+      link.appendChild(btn);
+      el.appendChild(link);
+    }
+  }
+}
+
 // ══ RENDER ══════════════════════════════════════════════════
 function render(s){
   document.getElementById('hdr-name').textContent = s.name||'Lentil';
@@ -3847,7 +3851,7 @@ function render(s){
     const mqPs=document.createElement('div'); mqPs.className='mqcard-trigger-pct'; mqPs.textContent=mqPct+'%';
     mqTrigger.appendChild(mqTitle); mqTrigger.appendChild(mqTr); mqTrigger.appendChild(mqPs);
     const mqBody=document.createElement('div'); mqBody.className='mqcard-collapsible open';
-    if(mq.whyItMatters){ const mqWhy=document.createElement('div'); mqWhy.style.cssText='font-size:13px;color:var(--gold);font-style:italic;opacity:0.8;margin-bottom:6px;'; mqWhy.textContent=mq.whyItMatters; mqBody.appendChild(mqWhy); }
+    if(mq.whyItMatters){ const mqWhy=document.createElement('div'); mqWhy.className='sqcard-why'; mqWhy.textContent=mq.whyItMatters; mqBody.appendChild(mqWhy); }
     if(mq.doneWhen){ const mqDW=document.createElement('div'); mqDW.style.cssText='font-size:12.5px;color:var(--text-dim);font-style:italic;'; mqDW.innerHTML='<span style="color:#60a838;font-style:normal;">✓</span> '+esc(mq.doneWhen); mqBody.appendChild(mqDW); }
     if(mq.nextSteps&&mq.nextSteps.length){ const ns=mq.nextSteps[0]; const mqNS=document.createElement('div'); mqNS.style.cssText='margin-top:7px;font-size:13px;color:var(--text-mid);border-left:2px solid var(--gold);padding-left:8px;'; mqNS.textContent='Next: '+(ns.text||''); mqBody.appendChild(mqNS); }
     mqWrap.appendChild(mqTrigger); mqWrap.appendChild(mqBody); fqEl.appendChild(mqWrap);
@@ -4116,8 +4120,8 @@ function render(s){
 
   // Combat tab - practices
   renderPractices(s);
-  const crEl=document.getElementById('combat-claude-read'); if(crEl) crEl.textContent=s.claudeRead||'No read yet.';
-  const airCrEl=document.getElementById('air-claude-read'); if(airCrEl) airCrEl.textContent=s.claudeRead||'No read yet.';
+  renderProgressionCard(document.getElementById('combat-claude-read'), s);
+  renderProgressionCard(document.getElementById('air-claude-read'), s);
   renderPieChart(s);
   renderCombatSkills(s);
   renderXPLog();
