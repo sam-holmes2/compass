@@ -147,5 +147,5 @@ You could also just use the `character-sheet.html` file as a plain RPG-style lif
 - The younger generation is growing up with AI whether they want to or not. character-sheet is my one small attempt to harness the positive potential this brings.
 
 
-Ultimately, I built this because I wanted it to exist. If you've found your way here, maybe you did too. LFM
+Ultimately, I built this because I wanted it to exist. If you've found your way here, maybe you did too. [LFM](CONTRIBUTING.md)
 
