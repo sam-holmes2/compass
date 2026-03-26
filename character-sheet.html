@@ -2429,6 +2429,9 @@ const HARDCODED_HISTORY = {
     { date:'2026-03-24', minutes:75 },
   ]
 };
+// ══ SECURITY ═══════════════════════════════════════════════
+function esc(str){ const d=document.createElement('div'); d.textContent=str??''; return d.innerHTML; }
+
 // ══ PERSISTENCE ════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
 const FEATURED_ACH_KEY = 'liferpg-featured-ach-v7';
@@ -2984,10 +2987,10 @@ function renderSkillsList(id, skills){
     d.innerHTML=`
       <div class="skill-row">
         <div class="belt-dot" style="background:${col};width:9px;height:9px;border-radius:50%;flex-shrink:0"></div>
-        <div class="skill-name">${sk.name}</div>
+        <div class="skill-name">${esc(sk.name)}</div>
         <div class="belt-lbl" style="color:${col};font-family:var(--mono);font-size:10px;padding:1px 7px;border:1px solid ${col}40;border-radius:10px;">${toRoman(m)}</div>
       </div>
-      ${sk.description?`<div class="skill-desc">${sk.description}</div>`:''}
+      ${sk.description?`<div class="skill-desc">${esc(sk.description)}</div>`:''}
     `;
     d.onclick=()=>openSkill(sk.name);
     el.appendChild(d);
@@ -3059,7 +3062,7 @@ function completeQuest(i){
 function showXpToast(questTitle,xp,onUndo){
   const existing=document.getElementById('xp-toast'); if(existing) existing.remove();
   const t=document.createElement('div'); t.id='xp-toast'; t.className='xp-toast';
-  t.innerHTML=`<span class="xp-toast-tick">✓</span><span class="xp-toast-quest">${questTitle}</span><span class="xp-toast-xp">+${xp} XP</span><button class="xp-toast-undo">Undo</button>`;
+  t.innerHTML=`<span class="xp-toast-tick">✓</span><span class="xp-toast-quest">${esc(questTitle)}</span><span class="xp-toast-xp">+${xp} XP</span><button class="xp-toast-undo">Undo</button>`;
   t.querySelector('.xp-toast-undo').addEventListener('click',()=>{ t.classList.remove('visible'); setTimeout(()=>t.remove(),400); if(onUndo) onUndo(); });
   document.body.appendChild(t);
   requestAnimationFrame(()=>{ t.classList.add('visible'); });
@@ -3116,13 +3119,13 @@ function renderQuestsTab(s){
     const whyEl=makeEditable(mq.whyItMatters,'Why does this matter?',v=>saveMQField('whyItMatters',v));
     whyEl.style.cssText='font-size:13px;color:var(--gold);font-style:italic;opacity:0.8;margin-bottom:10px;';
     body.appendChild(whyEl);
-    if(mq.doneWhen){ const dw=document.createElement('div'); dw.className='quest-done-when'; dw.innerHTML=`<span class="quest-tick">✓</span> Completed when ${s.name||'you'}: ${mq.doneWhen}`; body.appendChild(dw); }
+    if(mq.doneWhen){ const dw=document.createElement('div'); dw.className='quest-done-when'; dw.innerHTML=`<span class="quest-tick">✓</span> Completed when ${esc(s.name||'you')}: ${esc(mq.doneWhen)}`; body.appendChild(dw); }
 
     const steps=(mq.nextSteps||[]).slice(0,3);
     if(steps.length){
       const sd=document.createElement('div'); sd.className='mqcard-steps';
       steps.forEach((st,i)=>{ const r=document.createElement('div'); r.className='mqstep';
-        r.innerHTML=`<div class="mqstep-num">${i+1}</div><div><div class="mqstep-text">${st.text||st}</div>${st.doneWhen?`<div class="quest-done-when" style="margin-top:4px"><span class="quest-tick">✓</span> Completed when ${s.name||'you'}: ${st.doneWhen}</div>`:''}</div>`; sd.appendChild(r); });
+        r.innerHTML=`<div class="mqstep-num">${i+1}</div><div><div class="mqstep-text">${esc(st.text||st)}</div>${st.doneWhen?`<div class="quest-done-when" style="margin-top:4px"><span class="quest-tick">✓</span> Completed when ${esc(s.name||'you')}: ${esc(st.doneWhen)}</div>`:''}</div>`; sd.appendChild(r); });
       body.appendChild(sd);
     }
     wrap.appendChild(trigger); wrap.appendChild(body); mqEl.appendChild(wrap);
@@ -3163,7 +3166,7 @@ function renderQuestsTab(s){
       body.appendChild(makeEditable(q.whyItMatters,'Why does this matter?',v=>saveNestedField(['sideQuests',i,'whyItMatters'],v),'sqcard-why'));
       const dwEl=makeEditable(q.doneWhen||'','Completed when…',v=>saveNestedField(['sideQuests',i,'doneWhen'],v),'sqcard-done');
       const dwWrap=document.createElement('div'); dwWrap.className='quest-done-when';
-      dwWrap.innerHTML=`<span class="quest-tick">✓</span> Completed when ${s.name||'you'}: `;
+      dwWrap.innerHTML=`<span class="quest-tick">✓</span> Completed when ${esc(s.name||'you')}: `;
       dwWrap.appendChild(dwEl);
       body.appendChild(dwWrap);
       d.appendChild(head); d.appendChild(body); sqEl.appendChild(d);
@@ -3397,7 +3400,7 @@ function renderAchievementsTab(s){
   if(previewEl){
     const featuredAchs=achievements.filter(a=>featured.includes(a.id));
     previewEl.innerHTML=featuredAchs.length
-      ? featuredAchs.map(a=>`<span class="ach-featured-tag">${ACH_ICONS[a.type]||ACH_ICONS.default} ${a.title}</span>`).join('')
+      ? featuredAchs.map(a=>`<span class="ach-featured-tag">${ACH_ICONS[a.type]||ACH_ICONS.default} ${esc(a.title)}</span>`).join('')
       : '<span style="font-size:12px;color:var(--text-dim);font-style:italic;">None selected</span>';
   }
 
@@ -3416,11 +3419,11 @@ function renderAchievementsTab(s){
     card.innerHTML=`
       <div class="ach-card-row">
         <div class="ach-card-icon">${ACH_ICONS[a.type]||ACH_ICONS.default}</div>
-        <div class="ach-card-title">${a.title}</div>
-        <div class="ach-card-type">${a.type||'milestone'}</div>
-        <div class="ach-card-date">${a.dateUnlocked||''}</div>
+        <div class="ach-card-title">${esc(a.title)}</div>
+        <div class="ach-card-type">${esc(a.type||'milestone')}</div>
+        <div class="ach-card-date">${esc(a.dateUnlocked||'')}</div>
       </div>
-      <div class="ach-card-desc">${a.description||''}</div>
+      <div class="ach-card-desc">${esc(a.description||'')}</div>
     `;
     card.onclick=()=>{
       const f=getFeaturedAch();
@@ -3447,7 +3450,7 @@ function renderHdrTitles(s){
     const sub=document.getElementById('hdr-sub');
     if(sub) sub.parentNode.insertBefore(titlesEl,sub.nextSibling);
   }
-  titlesEl.innerHTML=featuredAchs.map(a=>`<span class="hdr-title-tag">${ACH_ICONS[a.type]||ACH_ICONS.default} ${a.title}</span>`).join('');
+  titlesEl.innerHTML=featuredAchs.map(a=>`<span class="hdr-title-tag">${ACH_ICONS[a.type]||ACH_ICONS.default} ${esc(a.title)}</span>`).join('');
 }
 
 // ══ ALLIES ══════════════════════════════════════════════════
@@ -3561,7 +3564,7 @@ function render(s){
   document.getElementById('hdr-mq-desc').textContent  = s.mainQuest?.description||'';
   const hdrFill=document.getElementById('hdr-mq-fill');
   if(hdrFill) hdrFill.style.width=(s.mainQuest?.progress||0)+'%';
-  const kq=document.getElementById('lore-key-q'); if(kq){ const txt=s.keyQuestion||''; kq.innerHTML=txt?`<div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--gold);opacity:0.7;margin-bottom:7px;">KEY QUESTION</div><div style="font-size:16px;font-style:italic;color:var(--text-b);line-height:1.55;">${txt}</div>`:''; kq.style.display=txt?'block':'none'; }
+  const kq=document.getElementById('lore-key-q'); if(kq){ const txt=s.keyQuestion||''; kq.innerHTML=txt?`<div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--gold);opacity:0.7;margin-bottom:7px;">KEY QUESTION</div><div style="font-size:16px;font-style:italic;color:var(--text-b);line-height:1.55;">${esc(txt)}</div>`:''; kq.style.display=txt?'block':'none'; }
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
 
   // Sliders
@@ -4495,7 +4498,7 @@ function renderClassesTab(s){
   if(previewEl){
     const featuredCls=classes.filter(c=>featured.includes(c.id));
     previewEl.innerHTML=featuredCls.length
-      ?featuredCls.map(c=>`<span class="cls-featured-tag">${c.icon||'◈'} ${c.title}</span>`).join('')
+      ?featuredCls.map(c=>`<span class="cls-featured-tag">${esc(c.icon||'◈')} ${esc(c.title)}</span>`).join('')
       :'<span style="font-size:12px;color:var(--text-dim);font-style:italic;">None selected</span>';
   }
   const listEl=document.getElementById('cls-list');
@@ -4508,11 +4511,11 @@ function renderClassesTab(s){
     card.className='cls-card'+(isFeatured?' featured':'');
     card.innerHTML=`
       <div class="cls-card-row">
-        <div class="cls-card-icon">${c.icon||'◈'}</div>
-        <div class="cls-card-title">${c.title}</div>
-        <div class="cls-card-date">${c.dateUnlocked||''}</div>
+        <div class="cls-card-icon">${esc(c.icon||'◈')}</div>
+        <div class="cls-card-title">${esc(c.title)}</div>
+        <div class="cls-card-date">${esc(c.dateUnlocked||'')}</div>
       </div>
-      <div class="cls-card-desc">${c.description||''}</div>
+      <div class="cls-card-desc">${esc(c.description||'')}</div>
     `;
     card.onclick=()=>{
       const f=getFeaturedCls();
@@ -4541,7 +4544,7 @@ function renderHdrClasses(s){
     const sub=document.getElementById('hdr-sub');
     if(sub) sub.parentNode.insertBefore(clsEl,sub.nextSibling);
   }
-  clsEl.innerHTML=featuredCls.map(c=>`<span class="hdr-class-tag">${c.icon||'◈'} ${c.title}</span>`).join('');
+  clsEl.innerHTML=featuredCls.map(c=>`<span class="hdr-class-tag">${esc(c.icon||'◈')} ${esc(c.title)}</span>`).join('');
 }
 
 // ══ STAT BARS ════════════════════════════════════════════════
