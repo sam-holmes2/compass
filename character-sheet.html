@@ -1438,10 +1438,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <button class="add-item-btn" onclick="addAlly()">+ Add Ally</button>
   </div>
   <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:#2a7a80;border-color:rgba(42,120,128,0.3);">✦ Pursuits</div>
+    <div class="qt-section-hdr no-prefix" style="color:#2a7a80;border-color:rgba(42,120,128,0.3);">✦ Sources</div>
     <div class="section-desc">Activies that recharge you or provide genuine aliveness</div>
     <div id="allies-flow"></div>
-    <button class="add-item-btn" onclick="addPursuit()">+ Add Pursuit</button>
+    <button class="add-item-btn" onclick="addPursuit()">+ Add Source</button>
   </div>
 </div>
 
@@ -3617,7 +3617,7 @@ function renderAlliesTab(s){
     document.getElementById('allies-flow'),
     (s.flowSources||DEFAULT.flowSources||[]).map(src=>typeof src==='string'?{name:src,desc:''}:src),
     'flowSources',
-    'No pursuits recorded yet.'
+    'No sources recorded yet.'
   );
 }
 
@@ -3848,7 +3848,7 @@ function render(s){
     (s.flowSources||[]).slice(0,3).forEach((src,i)=>{
       const item=typeof src==='string'?{name:src,desc:''}:src;
       const d=document.createElement('div'); d.className='ally-item';
-      const nameEl=makeEditable(item.name,'Pursuit name',v=>{
+      const nameEl=makeEditable(item.name,'Source name',v=>{
         if(!appState.flowSources) appState.flowSources=[];
         const cur=typeof appState.flowSources[i]==='string'?{name:appState.flowSources[i],desc:''}:(appState.flowSources[i]||{name:'',desc:''});
         appState.flowSources[i]={...cur,name:v}; saveState(appState); markDirty(); renderAlliesTab(appState);
