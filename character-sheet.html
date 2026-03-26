@@ -4789,6 +4789,46 @@ function renderPractices(s) {
     graphWrap.appendChild(canvas);
     card.appendChild(graphWrap);
 
+    // Backfill toggle
+    const bfToggle = document.createElement('button');
+    bfToggle.style.cssText = 'background:none;border:none;font-family:"Cinzel",serif;font-size:8px;letter-spacing:0.12em;color:var(--text-dim);cursor:pointer;padding:6px 0 2px;text-transform:uppercase;opacity:0.5;width:100%;text-align:center;';
+    bfToggle.textContent = '+ Edit history';
+    bfToggle.title = 'Backfill a past period';
+    card.appendChild(bfToggle);
+
+    // Backfill panel (hidden by default)
+    const bfPanel = document.createElement('div');
+    bfPanel.style.display = 'none';
+    const periodIsWeek = act.resetPeriod === 'week';
+    const valueLabel = act.type === 'timer' ? 'Minutes' : (act.unit ? act.unit.charAt(0).toUpperCase() + act.unit.slice(1) : 'Value');
+    const dateInputType = periodIsWeek ? 'week' : 'date';
+    // Default date = yesterday (or last week)
+    const defaultDate = (() => {
+      const d = new Date(); d.setDate(d.getDate() - (periodIsWeek ? 7 : 1));
+      if (periodIsWeek) {
+        // YYYY-Www format for week input
+        const wp = getPeriodKey(d, 'week');
+        return d.getFullYear() + '-W' + wp.split('-')[1];
+      }
+      return d.toISOString().slice(0,10);
+    })();
+    bfPanel.innerHTML = `
+      <div class="backfill-row">
+        <label class="backfill-lbl">${periodIsWeek ? 'Week' : 'Date'}</label>
+        <input class="backfill-input" type="${dateInputType}" id="bf-date-${act.id}" value="${defaultDate}">
+        <label class="backfill-lbl">${esc(valueLabel)}</label>
+        <input class="backfill-input backfill-mins" type="number" id="bf-val-${act.id}" min="0" max="9999" placeholder="0">
+        <button class="backfill-btn" onclick="handleBackfill('${act.id}')">Save</button>
+      </div>`;
+    card.appendChild(bfPanel);
+
+    bfToggle.addEventListener('click', () => {
+      const open = bfPanel.style.display !== 'none';
+      bfPanel.style.display = open ? 'none' : 'block';
+      bfToggle.style.opacity = open ? '0.5' : '0.85';
+      bfToggle.textContent = open ? '+ Edit history' : '− Edit history';
+    });
+
     container.appendChild(card);
 
     // Render the ring/chart after DOM insertion
@@ -4797,6 +4837,61 @@ function renderPractices(s) {
       renderPracticeMiniChart(canvas, act, charName);
     });
   });
+}
+
+
+// ══ BACKFILL ══════════════════════════════════════════════════
+function handleBackfill(id) {
+  const s = window._lastState || appState;
+  const act = (s.activities || DEFAULT.activities || []).find(a => a.id === id);
+  if (!act) return;
+  const charName = s.name || 'default';
+
+  const dateEl = document.getElementById('bf-date-' + id);
+  const valEl  = document.getElementById('bf-val-'  + id);
+  if (!dateEl || !valEl) return;
+
+  const rawDate = dateEl.value.trim();
+  const rawVal  = parseInt(valEl.value, 10);
+  if (!rawDate || isNaN(rawVal) || rawVal < 0) return;
+
+  // Normalise period key
+  let period;
+  if (act.resetPeriod === 'week') {
+    // Browser week input gives YYYY-Www — convert to YYYY-WW
+    const m = rawDate.match(/^(\d{4})-W(\d{2})$/);
+    if (!m) return;
+    period = m[1] + '-' + m[2];
+  } else {
+    // day/month/year — use date string directly
+    period = rawDate.slice(0, 10);
+  }
+
+  // Don't allow backfilling the current period (use the live widget for that)
+  if (period === currentPeriod(act.resetPeriod)) return;
+
+  const hist = loadPracticeHistory(charName, id);
+  const existing = hist.findIndex(h => h.period === period);
+  if (existing >= 0) {
+    hist[existing].value = rawVal;
+  } else {
+    hist.push({ period, value: rawVal, target: act.target || 0 });
+  }
+  savePracticeHistory(charName, id, hist);
+
+  // Re-render chart and stats
+  const canvas = document.getElementById('practice-chart-' + id);
+  if (canvas) renderPracticeMiniChart(canvas, act, charName);
+  const newStats = getPracticeStats(act, charName);
+  const formatV = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
+  const bestEl = document.getElementById('stat-best-' + id);
+  const avgEl  = document.getElementById('stat-avg-'  + id);
+  if (bestEl) bestEl.textContent = formatV(newStats.best);
+  if (avgEl)  avgEl.textContent  = formatV(newStats.avg7);
+
+  // Flash feedback on the save button
+  const btn = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
+  if (btn) { btn.textContent = 'Saved ✓'; setTimeout(() => btn.textContent = 'Save', 1500); }
 }
 
 function handleCheckboxDot(id, dotIndex, btn) {
