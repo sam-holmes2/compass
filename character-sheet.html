@@ -4791,8 +4791,8 @@ function renderPractices(s) {
 
     // Backfill toggle
     const bfToggle = document.createElement('button');
-    bfToggle.style.cssText = 'background:none;border:none;font-family:"Cinzel",serif;font-size:8px;letter-spacing:0.12em;color:var(--text-dim);cursor:pointer;padding:6px 0 2px;text-transform:uppercase;opacity:0.5;width:100%;text-align:center;';
-    bfToggle.textContent = '+ Edit history';
+    bfToggle.style.cssText = 'background:rgba(42,122,72,0.08);border:1px solid rgba(42,122,72,0.3);border-radius:4px;font-family:"Cinzel",serif;font-size:9px;letter-spacing:0.12em;color:var(--activity);cursor:pointer;padding:7px 0;text-transform:uppercase;width:100%;text-align:center;margin-top:4px;';
+    bfToggle.textContent = '+ Edit History';
     bfToggle.title = 'Backfill a past period';
     card.appendChild(bfToggle);
 
@@ -4825,8 +4825,8 @@ function renderPractices(s) {
     bfToggle.addEventListener('click', () => {
       const open = bfPanel.style.display !== 'none';
       bfPanel.style.display = open ? 'none' : 'block';
-      bfToggle.style.opacity = open ? '0.5' : '0.85';
-      bfToggle.textContent = open ? '+ Edit history' : '− Edit history';
+      bfToggle.style.background = open ? 'rgba(42,122,72,0.08)' : 'rgba(42,122,72,0.18)';
+      bfToggle.textContent = open ? '+ Edit History' : '− Edit History';
     });
 
     container.appendChild(card);
