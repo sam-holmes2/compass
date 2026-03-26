@@ -4,66 +4,40 @@
 
 *The real value of a character sheet is the character you build without it.*
 
-Reflect with Claude, then see everything you've shared - quests, skills, values, patterns, progress - in a single offline HTML file. The more you use it, the more useful it gets.
+**[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - opens in your browser, no download needed.
 
-**[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - no download needed, Steve's example data pre-loaded.
-
-> Early work in progress. Things will change. Feedback welcome - open an issue or email directly.
+> Early work in progress. Feedback welcome - open an issue or email directly.
 
 ---
 
-## What's in the box
+## Privacy (quick note)
 
-| File | Purpose |
-|------|---------|
-| `character-sheet.html` | Your dashboard. Open in any browser, no install needed. |
-| `schema.md` | Instructions for Claude. Attach to your Claude project permanently. |
-| `steve-example-data.json` | Demo data. Import to explore the app before adding your own. |
+Everything stays on your machine. Nothing is sent anywhere unless you paste it into Claude. A few things worth knowing:
 
----
-
-## Quick note on privacy
-
-character-sheet stores everything locally on your machine. Nothing is sent anywhere unless you paste it into Claude yourself. That said, a few things worth knowing before you start:
-
-- **Claude sees what you share.** When you paste your data into a Claude session, Anthropic can see it per their data retention policy. Only share what you're comfortable with.
-- **Don't use this on a shared computer.** Anyone with access to your browser could read your data from localStorage.
-- **Browser matters.** See the [Security](#security) section below for a recommendation on which browser to use.
+- What you share with Claude is processed by Anthropic per their data retention policy. Only share what you're comfortable with.
+- Don't use this on a shared computer.
+- Firefox is the safest browser to use - see [Security](#security) for why.
 
 ---
 
 ## Setup
 
-**Step 1 - Download the files**
+You'll need: a free [Claude account](https://claude.ai) and the two files below.
 
-Click `character-sheet.html` above, then click the three-dot menu (or the download icon) in the top right. Do the same for `schema.md`. Save both somewhere easy to find.
+1. **Download `character-sheet.html` and `schema.md`** - click each file above, then the download icon (top right of the file view).
+2. **Create a Claude Project** - go to [claude.ai](https://claude.ai), click New Project in the left sidebar.
+3. **Upload `schema.md` to the project** - click Add content. It stays attached permanently so Claude always knows the format.
+4. **Paste the Quickstart prompt below** into the project and answer Claude's questions. Share only what you're comfortable with.
+5. **At the end, ask Claude:** *"Generate my JSON and a starter context.md using schema.md."*
+6. **Import your data** - open `character-sheet.html`, click `◈` (bottom right), paste the JSON, hit Import. Save `context.md` somewhere private.
 
-**Step 2 - Explore the demo**
-
-Open `character-sheet.html` in any browser (Chrome, Safari, Firefox). Steve's demo data is pre-loaded so you can see what a populated dashboard looks like before adding your own.
-
-**Step 3 - Set up your Claude project**
-
-1. Go to [claude.ai](https://claude.ai) and create a new **Project** (left sidebar).
-2. In the project, click **Add content** and upload `schema.md`. This stays attached permanently.
-3. Optionally upload `journalling-prompts.md` too - this gives Claude better instincts for what to ask you.
-
-**Step 4 - Run your first session**
-
-Paste the **Quickstart prompt** below into your Claude project and follow where it leads. Answer only what you're comfortable with - you can always go deeper later.
-
-**Step 5 - Import your data**
-
-At the end of the session, ask Claude:
-> *"Generate my JSON and a starter context.md using schema.md."*
-
-Claude will output a block of JSON. In `character-sheet.html`, click the `◈` button (bottom right), paste it in, hit Import. Save the `context.md` file somewhere private on your machine.
+Optionally upload `journalling-prompts.md` to your project too - it gives Claude better prompts when you want to go deeper.
 
 ---
 
 ## Quickstart prompt
 
-A ready-to-paste prompt for your first session. character-sheet will interview you to get enough to make the dashboard feel alive, without pushing you to share more than you want to.
+Paste this into your Claude project to get started. Claude will ask questions one at a time and never push you to share more than you want.
 
 ```
 I'm setting up character-sheet, a personal life dashboard. I've attached schema.md which explains the data format.
@@ -86,18 +60,16 @@ Interview me to fill in my character sheet. Keep it conversational, ask one thin
 When you have enough, generate the full JSON using schema.md and a starter context.md.
 ```
 
-**Want a more guided experience?** `journalling-prompts.md` is an optional file with deeper prompts for each section. Upload it to your Claude project alongside `schema.md` and Claude will use it to ask better questions when you're ready to go deeper.
-
 ---
 
 ## Each session after that
 
-1. **Journal** - brain dump freely in your Claude project. What happened, what's on your mind, what you're stuck on. Claude will do the rest.
+1. **Journal** - brain dump freely in your Claude project. What happened, what's on your mind, what you're stuck on.
 2. **End the session** - ask Claude: *"Update my JSON and context.md based on this chat."*
 3. **Update your context** - replace your saved `context.md` with the new version Claude provides.
 4. **Sync your dashboard** - open `character-sheet.html`, click `◈`, paste the JSON, Import.
 
-You can also edit text fields directly in the app. Use Export to send changes back to Claude.
+You can also edit fields directly in the app and use Export to send changes back to Claude.
 
 ---
 
@@ -122,11 +94,11 @@ See [wiki.md](wiki.md) for a detailed breakdown of each tab.
 
 **Use Firefox if you can.** In Chrome and Edge, all local HTML files share the same storage origin - meaning any other HTML file you open in the same browser could technically read your character-sheet data. Firefox gives each local file its own isolated origin, so this risk doesn't apply.
 
-If you prefer Chrome, you can run character-sheet from a local server instead (`python3 -m http.server` in the same folder, then open `localhost:8000/character-sheet.html`). This gives it a proper isolated origin.
+If you prefer Chrome, run character-sheet from a local server instead (`python3 -m http.server` in the same folder, then open `localhost:8000/character-sheet.html`).
 
-**On cloud storage:** Keeping `character-sheet.html` in Dropbox, Google Drive, or iCloud is fine - the file itself contains no personal data, only demo data. Your personal data lives in your browser's localStorage and in `context.md` on your machine. Just be aware that if you sync `context.md` to the cloud, it's no longer fully local.
+**Cloud storage:** keeping `character-sheet.html` in Dropbox, Google Drive, or iCloud is fine - the file itself has no personal data. Your data lives in your browser's localStorage and in `context.md`. If you sync `context.md` to the cloud, it's no longer fully local.
 
-**On Claude:** anything you paste into a Claude session is processed by Anthropic. character-sheet is designed so you control exactly what gets shared - nothing leaves your machine automatically. The privacy tradeoff is real, but it's one you're making deliberately rather than one that happens in the background.
+**Claude:** anything you paste into Claude is processed by Anthropic. character-sheet is designed so you control exactly what gets shared - nothing leaves your machine automatically.
 
 ---
 
@@ -146,4 +118,3 @@ If you prefer Chrome, you can run character-sheet from a local server instead (`
 - The whole thing was vibe-coded with Claude. The journalling sessions that populate it use Claude. The JSON that runs it is generated by Claude. It felt right to build something that uses AI well, rather than just talking about it.
 
 The younger generation is growing up with AI whether they want to or not. I'd rather they use it to understand themselves better and actually level up, than have it used on them.
-
