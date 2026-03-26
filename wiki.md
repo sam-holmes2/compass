@@ -1,4 +1,4 @@
-# Compass — Tab Guide
+# Character Sheet — Tab Guide
 
 A detailed breakdown of each tab. For quick reference see the table in [README.md](README.md).
 

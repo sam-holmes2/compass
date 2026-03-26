@@ -1,4 +1,4 @@
-# Compass — Journalling Prompts
+# Character Sheet — Journalling Prompts
 
 Optional prompts for going deeper. Upload this file to your Claude project alongside `schema.md` and Claude will use it to ask better questions when you're ready.
 

@@ -1,4 +1,4 @@
-# Compass - Journalling Protocol & JSON Schema
+# Character Sheet - Journalling Protocol & JSON Schema
 
 This file is for Claude in web UI journalling sessions.
 
@@ -24,7 +24,7 @@ This file is for Claude in web UI journalling sessions.
 3. Infer updates to the user's state across all dimensions below.
 4. Output:
    - An updated `context.md` (narrative, cumulative, human-readable)
-   - A full JSON object (all fields, even unchanged ones) to paste into the Compass app
+   - A full JSON object (all fields, even unchanged ones) to paste into the Character Sheet app
    - Celebrate any XP earned in your chat response before outputting JSON
 5. When new activity history data exists, include an updated `HARDCODED_HISTORY` JS block: `const HARDCODED_HISTORY = { "startDate": [{ date: 'YYYY-MM-DD', minutes: 90 }] };`
 
