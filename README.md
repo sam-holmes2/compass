@@ -6,7 +6,9 @@
 
 Reflect with Claude, then see everything you've shared - quests, skills, values, patterns, progress - in a single offline HTML file. The more you use it, the more useful it gets.
 
-> Early work in progress. Things will change. Feedback welcome.
+**[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - no download needed, Steve's example data pre-loaded.
+
+> Early work in progress. Things will change. Feedback welcome - open an issue or email directly.
 
 ---
 
