@@ -284,10 +284,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .enemy-name { font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:0.09em; color:#c06060; margin-bottom:5px; }
 .enemy-desc { font-size:14px; color:var(--text-mid); line-height:1.55; }
 .ally-item {
-  padding:4px 10px; background:var(--surface);
+  padding:4px 10px 4px 28px; background:var(--surface);
   border:1px solid var(--border-hi); border-left:3px solid #2a9050;
   border-radius:4px; margin-bottom:3px; position:relative;
 }
+.ally-item .drag-handle { position:absolute; left:6px; top:50%; transform:translateY(-50%); width:16px; }
 .ally-item:hover .ally-delete { opacity:1; }
 .pie-legend-item:hover .ally-delete { opacity:1; }
 .ally-name { font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:0.09em; color:#5ab870; margin-bottom:1px; }
@@ -352,14 +353,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .limiting {
   background:rgba(200,168,74,0.05); border:1px solid rgba(200,168,74,0.2);
   border-left:3px solid #c8a84a; border-radius:5px;
-  padding:12px 15px; font-size:14px; color:var(--text-mid); line-height:1.65;
-  margin-bottom:8px;
+  padding:12px 15px 12px 32px; font-size:14px; color:var(--text-mid); line-height:1.65;
+  margin-bottom:8px; position:relative;
 }
+.limiting .drag-handle, .empowering .drag-handle { position:absolute; left:8px; top:50%; transform:translateY(-50%); width:16px; }
 .empowering {
   background:rgba(76,175,125,0.05); border:1px solid rgba(76,175,125,0.2);
   border-left:3px solid rgba(76,175,125,0.6); border-radius:5px;
-  padding:12px 15px; font-size:14px; color:var(--text-mid); line-height:1.65;
-  margin-bottom:8px;
+  padding:12px 15px 12px 32px; font-size:14px; color:var(--text-mid); line-height:1.65;
+  margin-bottom:8px; position:relative;
 }
 .ant-lbl {
   font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:0.16em;
@@ -1013,6 +1015,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .cstat-bar-wrap { width:100%; height:3px; background:var(--border-hi); border-radius:2px; overflow:hidden; }
 .cstat-bar-fill { height:100%; border-radius:2px; transition:width .4s; }
 .cstat-score { font-family:var(--mono); font-size:11px; color:var(--text-mid); white-space:nowrap; }
+
+/* ══ DRAG-TO-REORDER ════════════════════════════════════════ */
+.drag-handle { display:flex; align-items:center; justify-content:center; width:18px; flex-shrink:0; cursor:grab; color:var(--text-dim); opacity:0.35; font-size:13px; user-select:none; padding:0 2px; transition:opacity 0.15s; }
+.drag-handle:hover { opacity:0.7; }
+.drag-handle:active { cursor:grabbing; }
+[draggable=true].dragging { opacity:0.35; }
+[draggable=true].drag-over { outline:1px solid rgba(200,168,74,0.5); border-radius:4px; }
 </style>
 </head>
 <body>
@@ -3327,6 +3336,11 @@ function renderQuestsTab(s){
       d.appendChild(head); d.appendChild(body); sqEl.appendChild(d);
     });
     const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Quest'; addBtn.onclick=addSideQuest; sqEl.appendChild(addBtn);
+    makeSortable(sqEl, (from, to) => {
+      reorderArray(appState.sideQuests, from, to);
+      appState.sideQuests.forEach((q, i) => { q.priority = i + 1; });
+      saveState(appState); markDirty(); renderQuestsTab(appState);
+    });
   }
 
   // Completed quests
@@ -3526,6 +3540,11 @@ function renderBestiaryTab(s){
       });
     }
     const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add to Graveyard'; addBtn.onclick=addGraveyard; graveyardEl.appendChild(addBtn);
+    makeSortable(graveyardEl, (from, to) => {
+      if (!appState.bestiary) return;
+      reorderArray(appState.bestiary.graveyard, from, to);
+      saveState(appState); markDirty(); renderBestiaryTab(appState);
+    });
   }
 
   // Update nav count
@@ -3591,6 +3610,10 @@ function renderAchievementsTab(s){
       renderHdrTitles(s);
     };
     listEl.appendChild(card);
+  });
+  makeSortable(listEl, (from, to) => {
+    reorderArray(appState.achievements, from, to);
+    saveState(appState); markDirty(); renderAchievementsTab(appState);
   });
 }
 
@@ -3702,6 +3725,12 @@ function renderEditableList(container, items, listKey, emptyMsg){
     return;
   }
   items.forEach((item,idx)=>container.appendChild(makeEditableItem(item,listKey,idx)));
+  makeSortable(container, (from, to) => {
+    const arr = appState[listKey];
+    if (!arr) return;
+    reorderArray(arr, from, to);
+    saveState(appState); markDirty(); renderAlliesTab(appState);
+  });
 }
 
 function addDrain(){
@@ -3755,6 +3784,75 @@ function renderProgressionCard(el, s) {
       el.appendChild(link);
     }
   }
+}
+
+// ══ SORTABLE LISTS ══════════════════════════════════════════
+// makeSortable(container, onReorder)
+// Attaches HTML5 drag-and-drop to direct children of container.
+// onReorder(fromIdx, toIdx) is called when a drop completes.
+// Prepends a ⠿ drag handle to each child.
+function makeSortable(container, onReorder) {
+  if (!container) return;
+  let dragSrc = null;
+
+  function refresh() {
+    Array.from(container.children).forEach((el, i) => {
+      // Skip non-card elements (add buttons, empty messages)
+      if (el.tagName === 'BUTTON' || el.tagName === 'P') return;
+
+      // Add handle if not already present
+      if (!el.querySelector('.drag-handle')) {
+        const handle = document.createElement('div');
+        handle.className = 'drag-handle';
+        handle.textContent = '⠿';
+        handle.title = 'Drag to reorder';
+        // Insert as first child
+        el.insertBefore(handle, el.firstChild);
+      }
+
+      el.draggable = true;
+      el.addEventListener('dragstart', e => {
+        dragSrc = el;
+        el.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', ''); // required for Firefox
+      }, { once: false });
+      el.addEventListener('dragend', () => {
+        el.classList.remove('dragging');
+        container.querySelectorAll('.drag-over').forEach(x => x.classList.remove('drag-over'));
+      });
+      el.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        if (el !== dragSrc) {
+          container.querySelectorAll('.drag-over').forEach(x => x.classList.remove('drag-over'));
+          el.classList.add('drag-over');
+        }
+      });
+      el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+      el.addEventListener('drop', e => {
+        e.preventDefault();
+        el.classList.remove('drag-over');
+        if (!dragSrc || dragSrc === el) return;
+        const kids = Array.from(container.children).filter(c => c.tagName !== 'BUTTON' && c.tagName !== 'P');
+        const from = kids.indexOf(dragSrc);
+        const to   = kids.indexOf(el);
+        if (from < 0 || to < 0 || from === to) return;
+        onReorder(from, to);
+      });
+    });
+  }
+
+  // Observe for new children (re-renders)
+  const obs = new MutationObserver(refresh);
+  obs.observe(container, { childList: true });
+  refresh();
+}
+
+// Reorder helper: moves array[from] to array[to] in place
+function reorderArray(arr, from, to) {
+  const item = arr.splice(from, 1)[0];
+  arr.splice(to, 0, item);
 }
 
 // ══ RENDER ══════════════════════════════════════════════════
@@ -3957,6 +4055,10 @@ function render(s){
     inner.appendChild(makeEditable(n.name,'Need name',v=>saveNestedField(['needs',realIdx,'name'],capitalise(v)),'ranked-name'));
     inner.appendChild(makeEditable(n.description,'Description',v=>saveNestedField(['needs',realIdx,'description'],capitalise(v)),'ranked-desc'));
     d.appendChild(num); d.appendChild(dot); d.appendChild(inner); nEl.appendChild(d);
+  });
+  makeSortable(nEl, (from, to) => {
+    reorderArray(appState.needs, from, to);
+    saveState(appState); markDirty(); render(appState);
   }); }
 
   // Limiting beliefs — editable title + belief text + desc
@@ -3971,6 +4073,10 @@ function render(s){
     const txtEl=makeEditable(text,'What is the limiting belief?',v=>saveNestedField(['limitingBeliefs',i,'belief'],v));
     const descEl=makeEditable(desc,'Brief definition — what does this belief actually do?',v=>saveNestedField(['limitingBeliefs',i,'desc'],capitalise(v)),'limiting-desc');
     d.appendChild(lblEl); d.appendChild(txtEl); d.appendChild(descEl); antEl.appendChild(d);
+  });
+  makeSortable(antEl, (from, to) => {
+    reorderArray(appState.limitingBeliefs, from, to);
+    saveState(appState); markDirty(); render(appState);
   }); }
 
   // Empowering beliefs
@@ -3985,6 +4091,10 @@ function render(s){
     const txtEl=makeEditable(text,'What is the empowering belief?',v=>saveNestedField(['empoweringBeliefs',i,'belief'],v));
     const descEl=makeEditable(desc,'What does holding this belief make possible?',v=>saveNestedField(['empoweringBeliefs',i,'desc'],capitalise(v)),'limiting-desc');
     d.appendChild(lblEl); d.appendChild(txtEl); d.appendChild(descEl); empEl.appendChild(d);
+  });
+  makeSortable(empEl, (from, to) => {
+    reorderArray(appState.empoweringBeliefs, from, to);
+    saveState(appState); markDirty(); render(appState);
   }); }
 
   // Values — editable name + description
@@ -4003,6 +4113,10 @@ function render(s){
     inner.appendChild(nameEl);
     inner.appendChild(makeEditable(v.description,'Description',v2=>saveNestedField(['values',realIdx,'description'],capitalise(v2)),'ranked-desc'));
     d.appendChild(num); d.appendChild(dot); d.appendChild(inner); vlEl.appendChild(d);
+  });
+  makeSortable(vlEl, (from, to) => {
+    reorderArray(appState.values, from, to);
+    saveState(appState); markDirty(); render(appState);
   }); }
 
   // ── Journal chronicle — chapters with collapsible entries ──────
@@ -4816,6 +4930,14 @@ function renderCombatSkills(s){
     card.appendChild(head); card.appendChild(body); el.appendChild(card);
   });
   const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Skill'; addBtn.onclick=addSkill; el.appendChild(addBtn);
+  makeSortable(el, (from, to) => {
+    // skills are sorted by priority before render; map back to allSkills order
+    const allSkills = appState.skills || [];
+    const sorted = allSkills.slice().sort((a, b) => (a.priority||99) - (b.priority||99));
+    reorderArray(sorted, from, to);
+    sorted.forEach((sk, i) => { sk.priority = i + 1; });
+    saveState(appState); markDirty(); renderCombatSkills(appState);
+  });
 }
 
 // ══ CLASSES ═════════════════════════════════════════════════
@@ -4861,6 +4983,10 @@ function renderClassesTab(s){
       renderHdrClasses(s);
     };
     listEl.appendChild(card);
+  });
+  makeSortable(listEl, (from, to) => {
+    reorderArray(appState.classes, from, to);
+    saveState(appState); markDirty(); renderClassesTab(appState);
   });
 }
 
