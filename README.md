@@ -6,7 +6,9 @@
 
 **[Check out Example Steve's character-sheet](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - live demo opens in your browser, no download needed. 
 
-> Early work in progress. ALL feedback is very welcome - open an issue or contact Sam directly 
+> Early work in progress. ALL feedback is very welcome - open an issue or contact Sam directly
+
+> **Designed for desktop use.** character-sheet is built for a desktop browser (1024px+ wide). It will open on mobile but the layout is not optimised for small screens — some sections will be cramped or require horizontal scrolling. Mobile support is on the roadmap.
 
 ---
 
@@ -62,6 +64,17 @@ When you have enough, generate the full JSON using schema.md and a starter conte
 
 ---
 
+## Keeping up to date
+
+character-sheet is updated regularly. To get the latest version:
+
+1. **Re-download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html)** — replace your local copy. Your data lives in your browser's localStorage, not in the file, so it won't be lost.
+2. **Re-download [`schema.md`](https://github.com/sam-holmes2/character-sheet/blob/master/schema.md)** — remove the old version from your Claude project and upload the new one. This keeps Claude's understanding of the format in sync.
+
+No version numbers to track — just pull the latest files when you want to pick up fixes and new features.
+
+---
+
 ## Each session after that
 
 1. **Journal** - brain dump freely in your Claude project. What happened recently, what's on your mind, what you're stuck on.
@@ -81,8 +94,8 @@ You can also edit fields directly in the app and use `↓` Export to send change
 | **Balance** | The four elements - Air / Fire / Water / Earth - each scored and detailed. |
 | **Quests** | Main quest, side quests with progress, completed quests. |
 | **Skills** | Skills by mastery level. Underlevelled vs signature strengths. |
-| **Enemies** | Active patterns, limiting beliefs, and drains all in one place. |
-| **Inventory** | Allies, flow sources, and energy drains. |
+| **Enemies** | Active patterns, limiting beliefs, and drains — everything working against you. |
+| **Inventory** | Allies and flow sources. |
 | **Achievements** | Unlocked milestones and character classes. |
 | **Journal** | Chronological journal with summarised chapters - individual sessions logged with insights, tensions, and tags. |
 
@@ -129,6 +142,19 @@ If you prefer Chrome, you could run character-sheet from a local server instead 
 
 You could also just download and manually use the `character-sheet.html` file as a plain RPG-style life tracker without Claude or any AI entirely. No accounts, no internet, no data shared with anyone.
 
+
+## Roadmap
+
+Coming up (no fixed timeline — this is a side project):
+
+- **Mobile support** — the app currently assumes a desktop viewport; proper mobile layout is planned
+- **Recurring quests** — quests that reset on a schedule (daily habits, weekly reviews)
+- **Health and mana bars** — resource tracking directly on the main dashboard
+- **Bug fixes and general polish** across all tabs
+
+Have a feature request or found a bug? Open an issue.
+
+---
 
 ## Why I built this
 
