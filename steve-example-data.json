@@ -5,12 +5,12 @@
   "xp": 500,
   "xpToNext": 1000,
   "keyQuestion": "What would I do if I knew I couldn't fail?",
-  "claudeRead": "Example Steve is in a genuinely transitional moment - the career search is real now, not theoretical, and the side project session from last week is the clearest evidence yet that the right direction produces a qualitatively different kind of engagement. The main risk is that financial pressure shortens the search before the right thing is found. THE INNER CRITIC is active but being noticed more quickly. The body is coming online - three months smoke-free and running consistently. Rest is the most significant unmet need and the one most likely to quietly undermine everything else if it stays unaddressed.",
+  "claudeRead": "In a real transitional moment - career search is live now, not theoretical. Side project session showed the right direction produces a different kind of engagement. Main risk: financial pressure shortens the search before the right thing lands. THE INNER CRITIC is active but being noticed faster. Rest is the most significant unmet need.",
   "allies": [
     {
       "name": "Jordan",
       "desc": "Best friend since university. Calls me out gently and shows up consistently.",
-      "why": "Knows the full version of me - the messy bits included. Rare."
+      "why": "Knows the full version - the messy bits included."
     },
     {
       "name": "Dog",
@@ -20,12 +20,12 @@
   ],
   "mainQuest": {
     "title": "Build a Career I Actually Care About",
-    "description": "Move from doing work that pays the bills to work that uses my real strengths and feels worth getting up for.",
-    "whyItMatters": "I spend more waking hours at work than anywhere else. If it's hollow, everything else feels thin too.",
-    "doneWhen": "Earning a sustainable income doing work I would choose even if I didn't need the money.",
+    "description": "Move from work that pays the bills to work that uses real strengths and feels worth getting up for.",
+    "whyItMatters": "More waking hours at work than anywhere else. If it's hollow, everything else feels thin too.",
+    "doneWhen": "Earning a sustainable income doing work I'd choose even if I didn't need the money.",
     "nextSteps": [
       {
-        "text": "Identify three roles that match my strengths and write down why each one excites me",
+        "text": "Identify three roles that match strengths and write down why each one excites me",
         "doneWhen": "Written, not just thought about"
       },
       {
@@ -40,413 +40,92 @@
     "xpReward": 500,
     "progress": 15
   },
-  "sliderValues": {
-    "air": 55,
-    "fire": 40,
-    "water": 48,
-    "earth": 52
-  },
-  "balanceSmoothed": {
-    "air": 52,
-    "fire": 41,
-    "water": 47,
-    "earth": 51
-  },
+  "sliderValues": { "air": 55, "fire": 40, "water": 48, "earth": 52 },
+  "balanceSmoothed": { "air": 52, "fire": 41, "water": 47, "earth": 51 },
   "harmonyHistory": [
-    {
-      "date": "2026-01-05",
-      "air": 28,
-      "fire": 18,
-      "water": 35,
-      "earth": 40,
-      "harmony": 48
-    },
-    {
-      "date": "2026-01-12",
-      "air": 30,
-      "fire": 20,
-      "water": 36,
-      "earth": 42,
-      "harmony": 52
-    },
-    {
-      "date": "2026-01-20",
-      "air": 33,
-      "fire": 22,
-      "water": 38,
-      "earth": 44,
-      "harmony": 55
-    },
-    {
-      "date": "2026-01-28",
-      "air": 36,
-      "fire": 24,
-      "water": 40,
-      "earth": 46,
-      "harmony": 58
-    },
-    {
-      "date": "2026-02-05",
-      "air": 32,
-      "fire": 19,
-      "water": 37,
-      "earth": 43,
-      "harmony": 51
-    },
-    {
-      "date": "2026-02-12",
-      "air": 30,
-      "fire": 16,
-      "water": 34,
-      "earth": 41,
-      "harmony": 46
-    },
-    {
-      "date": "2026-02-19",
-      "air": 34,
-      "fire": 22,
-      "water": 39,
-      "earth": 45,
-      "harmony": 54
-    },
-    {
-      "date": "2026-02-26",
-      "air": 38,
-      "fire": 26,
-      "water": 41,
-      "earth": 47,
-      "harmony": 59
-    },
-    {
-      "date": "2026-03-05",
-      "air": 42,
-      "fire": 30,
-      "water": 44,
-      "earth": 49,
-      "harmony": 63
-    },
-    {
-      "date": "2026-03-12",
-      "air": 46,
-      "fire": 34,
-      "water": 45,
-      "earth": 50,
-      "harmony": 66
-    },
-    {
-      "date": "2026-03-19",
-      "air": 50,
-      "fire": 37,
-      "water": 46,
-      "earth": 51,
-      "harmony": 68
-    },
-    {
-      "date": "2026-03-25",
-      "air": 55,
-      "fire": 40,
-      "water": 48,
-      "earth": 52,
-      "harmony": 70
-    }
+    { "date": "2026-01-05",  "air": 28, "fire": 18, "water": 35, "earth": 40, "harmony": 48 },
+    { "date": "2026-01-12",  "air": 30, "fire": 20, "water": 36, "earth": 42, "harmony": 52 },
+    { "date": "2026-01-20",  "air": 33, "fire": 22, "water": 38, "earth": 44, "harmony": 55 },
+    { "date": "2026-01-28",  "air": 36, "fire": 24, "water": 40, "earth": 46, "harmony": 58 },
+    { "date": "2026-02-05",  "air": 32, "fire": 19, "water": 37, "earth": 43, "harmony": 51 },
+    { "date": "2026-02-12",  "air": 30, "fire": 16, "water": 34, "earth": 41, "harmony": 46 },
+    { "date": "2026-02-19",  "air": 34, "fire": 22, "water": 39, "earth": 45, "harmony": 54 },
+    { "date": "2026-02-26",  "air": 38, "fire": 26, "water": 41, "earth": 47, "harmony": 59 },
+    { "date": "2026-03-05",  "air": 42, "fire": 30, "water": 44, "earth": 49, "harmony": 63 },
+    { "date": "2026-03-12",  "air": 46, "fire": 34, "water": 45, "earth": 50, "harmony": 66 },
+    { "date": "2026-03-19",  "air": 50, "fire": 37, "water": 46, "earth": 51, "harmony": 68 },
+    { "date": "2026-03-25",  "air": 55, "fire": 40, "water": 48, "earth": 52, "harmony": 70 }
   ],
   "sliderXpRewards": {
-    "air": [
-      null,
-      100,
-      200,
-      350,
-      500
-    ],
-    "fire": [
-      null,
-      150,
-      300,
-      500,
-      750
-    ],
-    "water": [
-      null,
-      100,
-      220,
-      380,
-      550
-    ],
-    "earth": [
-      null,
-      120,
-      260,
-      440,
-      650
-    ]
+    "air":   [null, 100, 200, 350, 500],
+    "fire":  [null, 150, 300, 500, 750],
+    "water": [null, 100, 220, 380, 550],
+    "earth": [null, 120, 260, 440, 650]
   },
   "sliderLabels": {
-    "air": "More aware than acting - noticing the patterns without changing them yet",
-    "fire": "Motivation patchy - flickers of purpose but mostly running on obligation",
-    "water": "Some aliveness - running and cooking are reliable, rest of week flat",
+    "air":   "More aware than acting - noticing patterns without changing them yet",
+    "fire":  "Motivation patchy - flickers of purpose but mostly running on obligation",
+    "water": "Some aliveness - running and cooking reliable, rest of week flat",
     "earth": "Reasonably grounded - self-criticism present but not dominating"
   },
   "enemies": [
-    {
-      "name": "PROCRASTINATION",
-      "desc": "Kicks in whenever a task feels ambiguous or high-stakes. The gap between starting and not starting is enormous."
-    },
-    {
-      "name": "SELF-DOUBT",
-      "desc": "Quiet voice that says others are better qualified, more talented, more deserving. Loudest just before any real attempt."
-    },
-    {
-      "name": "COMPARISON TRAP",
-      "desc": "Scrolling through others' curated success and measuring my messy middle against their highlight reel."
-    }
+    { "name": "PROCRASTINATION", "desc": "Kicks in whenever a task feels ambiguous or high-stakes. The gap between starting and not starting is enormous." },
+    { "name": "SELF-DOUBT",      "desc": "Quiet voice that says others are better qualified. Loudest just before any real attempt." },
+    { "name": "COMPARISON TRAP", "desc": "Measuring a messy middle against others' curated highlight reel. Always loses." }
   ],
   "limitingBeliefs": [
-    {
-      "title": "THE IMPOSTER",
-      "belief": "\"I'm not smart or talented enough to do the work I actually want to do.\"",
-      "desc": "Shows up most strongly when applying for jobs or sharing creative work publicly. Reframes ordinary learning curves as proof of incompetence."
-    },
-    {
-      "title": "THE PERFECTIONIST",
-      "belief": "\"If I can't do it perfectly, there's no point starting.\"",
-      "desc": "The main engine of procrastination. Creates an impossible standard that ensures nothing ships and nothing gets better."
-    },
-    {
-      "title": "THE PESSIMIST",
-      "belief": "\"Things rarely work out for me the way they do for other people.\"",
-      "desc": "Selective memory that catalogues failures and dismisses wins. Makes risk feel uniquely dangerous rather than ordinary."
-    }
+    { "title": "THE IMPOSTER",    "belief": "\"I'm not smart or talented enough to do the work I actually want to do.\"", "desc": "Shows up when applying for jobs or sharing creative work. Reframes learning curves as proof of incompetence." },
+    { "title": "THE PERFECTIONIST","belief": "\"If I can't do it perfectly, there's no point starting.\"",               "desc": "Main engine of procrastination. Creates an impossible standard that ensures nothing ships." },
+    { "title": "THE PESSIMIST",   "belief": "\"Things rarely work out for me the way they do for other people.\"",         "desc": "Selective memory that catalogues failures and dismisses wins." }
   ],
   "empoweringBeliefs": [
-    {
-      "title": "THE PROBLEM SOLVER",
-      "belief": "\"I can figure out hard things if I stay in the room long enough.\"",
-      "desc": "Track record of working through ambiguous problems is real. The evidence is there when I look for it."
-    },
-    {
-      "title": "THE LONG GAME",
-      "belief": "\"Slow progress in the right direction beats fast progress in the wrong one.\"",
-      "desc": "Useful counter to urgency and comparison. The career search isn't behind schedule - it's just thorough."
-    },
-    {
-      "title": "THE BODY KNOWS",
-      "belief": "\"The aliveness I feel when working on the right thing is data, not coincidence.\"",
-      "desc": "The qualitative difference between the side project and the day job is the clearest signal available. Trust it."
-    }
+    { "title": "THE PROBLEM SOLVER","belief": "\"I can figure out hard things if I stay in the room long enough.\"",    "desc": "Track record of working through ambiguous problems is real." },
+    { "title": "THE LONG GAME",   "belief": "\"Slow progress in the right direction beats fast progress in the wrong one.\"", "desc": "Useful counter to urgency and comparison." },
+    { "title": "THE BODY KNOWS",  "belief": "\"The aliveness I feel when working on the right thing is data, not coincidence.\"", "desc": "The qualitative difference between the side project and the day job is the clearest signal available." }
   ],
   "skills": [
-    {
-      "name": "Set Boundaries",
-      "mastery": 1,
-      "priority": 1,
-      "xpReward": 80,
-      "lastEvidence": "1 week ago",
-      "description": "Say no to requests that drain energy or conflict with priorities without over-explaining or apologising.",
-      "whyItMatters": "Without boundaries, the career I want stays theoretical \u2014 time and energy get consumed by everyone else's agenda."
-    },
-    {
-      "name": "Ask For Help",
-      "mastery": 1,
-      "priority": 2,
-      "xpReward": 80,
-      "lastEvidence": "2 weeks ago",
-      "description": "Reach out before stuck, not after. Let people contribute rather than white-knuckling through alone.",
-      "whyItMatters": "The Imposter says asking reveals weakness. The opposite is true \u2014 it's how fast progress actually happens."
-    },
-    {
-      "name": "Stay Consistent",
-      "mastery": 2,
-      "priority": 3,
-      "xpReward": 80,
-      "lastEvidence": "3 days ago",
-      "description": "Show up to the important habits even when motivation is absent. The feeling follows the action, not the other way around.",
-      "whyItMatters": "Running, reading, and the side project all depend on this. Consistency is the compound interest of behaviour."
-    },
-    {
-      "name": "Say No",
-      "mastery": 1,
-      "priority": 4,
-      "xpReward": 80,
-      "lastEvidence": "5 days ago",
-      "description": "Decline social or work obligations that conflict with recovery, focus time, or actual priorities.",
-      "whyItMatters": "Every yes to the wrong thing is a no to something that actually matters. This is a prerequisite for the main quest."
-    },
-    {
-      "name": "Problem Solving",
-      "mastery": 4,
-      "priority": 1,
-      "xpReward": 200,
-      "lastEvidence": "2 days ago",
-      "description": "Break complex or ambiguous problems into clear components and find a workable path through them.",
-      "whyItMatters": "Almost every role I want requires this. It is the capability that earns trust fastest."
-    },
-    {
-      "name": "Written Communication",
-      "mastery": 3,
-      "priority": 2,
-      "xpReward": 150,
-      "lastEvidence": "4 days ago",
-      "description": "Express ideas clearly and compellingly in writing - proposals, emails, explanations - without over-engineering.",
-      "whyItMatters": "Writing is thinking made visible. In remote or async work it is the primary signal of competence."
-    },
-    {
-      "name": "Empathy",
-      "mastery": 4,
-      "priority": 3,
-      "xpReward": 150,
-      "lastEvidence": "1 week ago",
-      "description": "Read what someone actually needs underneath what they say, and respond to that rather than the surface.",
-      "whyItMatters": "The foundation of every good collaboration, and the thing that turns skill into genuine influence."
-    }
+    { "name": "Set Boundaries",        "mastery": 1, "priority": 1, "xpReward": 80,  "lastEvidence": "1 week ago",  "description": "Say no without over-explaining.",                              "whyItMatters": "Without this, time and energy get consumed by everyone else's agenda." },
+    { "name": "Ask For Help",          "mastery": 1, "priority": 2, "xpReward": 80,  "lastEvidence": "2 weeks ago", "description": "Reach out before stuck, not after.",                          "whyItMatters": "How fast progress actually happens." },
+    { "name": "Stay Consistent",       "mastery": 2, "priority": 3, "xpReward": 80,  "lastEvidence": "3 days ago",  "description": "Show up even when motivation is absent.",                     "whyItMatters": "Running, reading, side project all depend on this." },
+    { "name": "Say No",                "mastery": 1, "priority": 4, "xpReward": 80,  "lastEvidence": "5 days ago",  "description": "Decline obligations that conflict with priorities.",           "whyItMatters": "Every yes to the wrong thing is a no to something that matters." },
+    { "name": "Problem Solving",       "mastery": 4, "priority": 1, "xpReward": 200, "lastEvidence": "2 days ago",  "description": "Break ambiguous problems into workable paths.",               "whyItMatters": "The capability that earns trust fastest." },
+    { "name": "Written Communication", "mastery": 3, "priority": 2, "xpReward": 150, "lastEvidence": "4 days ago",  "description": "Express ideas clearly without over-engineering.",             "whyItMatters": "In async work, writing is the primary signal of competence." },
+    { "name": "Empathy",               "mastery": 4, "priority": 3, "xpReward": 150, "lastEvidence": "1 week ago",  "description": "Read what someone needs beneath what they say.",             "whyItMatters": "Foundation of good collaboration." }
   ],
   "sideQuests": [
-    {
-      "title": "Start Running",
-      "priority": 1,
-      "progress": 40,
-      "nextStep": "Run three times this week, no distance requirement - just show up",
-      "whyItMatters": "Physical health is the foundation everything else is built on. When I run consistently, everything else is easier.",
-      "lastEvidence": "2026-03-23",
-      "xpReward": 150
-    },
-    {
-      "title": "Build the Portfolio",
-      "priority": 2,
-      "progress": 25,
-      "nextStep": "Publish two case studies by end of March",
-      "whyItMatters": "The career shift needs proof of work, not just intent. This is the thing that makes it real to anyone else.",
-      "lastEvidence": "2026-03-22",
-      "xpReward": 200
-    },
-    {
-      "title": "Read 12 Books This Year",
-      "priority": 3,
-      "progress": 33,
-      "nextStep": "Finish the current book before starting anything else",
-      "whyItMatters": "Deep reading slows me down in a useful way and gives me ideas I could not generate alone.",
-      "lastEvidence": "2026-03-22",
-      "xpReward": 150
-    },
-    {
-      "title": "Declutter Home",
-      "priority": 4,
-      "progress": 75,
-      "nextStep": "Clear the spare room - it is the last section and it has been sitting for a month",
-      "whyItMatters": "Environment shapes thinking. A clean space is a clear head.",
-      "lastEvidence": "2026-03-18",
-      "xpReward": 100
-    },
-    {
-      "title": "Learn Spanish",
-      "priority": 5,
-      "progress": 20,
-      "nextStep": "Complete one Duolingo lesson every day for two weeks straight",
-      "whyItMatters": "Opens up travel, connects with family heritage, and is one thing that is genuinely just for me.",
-      "lastEvidence": "2026-03-20",
-      "xpReward": 200
-    }
+    { "title": "Start Running",          "priority": 1, "progress": 40, "nextStep": "Run three times this week - no distance requirement, just show up", "whyItMatters": "Physical health is the foundation everything else is built on.",           "lastEvidence": "2026-03-23", "xpReward": 150 },
+    { "title": "Build the Portfolio",    "priority": 2, "progress": 25, "nextStep": "Publish two case studies by end of March",                          "whyItMatters": "The career shift needs proof of work, not just intent.",                  "lastEvidence": "2026-03-22", "xpReward": 200 },
+    { "title": "Read 12 Books This Year","priority": 3, "progress": 33, "nextStep": "Finish the current book before starting anything else",             "whyItMatters": "Deep reading slows me down usefully and generates ideas I couldn't alone.", "lastEvidence": "2026-03-22", "xpReward": 150 },
+    { "title": "Declutter Home",         "priority": 4, "progress": 75, "nextStep": "Clear the spare room - last section, been sitting for a month",     "whyItMatters": "Environment shapes thinking.",                                           "lastEvidence": "2026-03-18", "xpReward": 100 },
+    { "title": "Learn Spanish",          "priority": 5, "progress": 20, "nextStep": "Complete one Duolingo lesson every day for two weeks straight",      "whyItMatters": "Opens travel, connects with family heritage, and is genuinely just for me.", "lastEvidence": "2026-03-20", "xpReward": 200 }
   ],
   "completedQuests": [
-    {
-      "title": "Quit Smoking",
-      "completedDate": "Jan 2026",
-      "xpEarned": 300,
-      "howResolved": "Cold turkey after a chest infection made the cost undeniable. Three months clean."
-    }
+    { "title": "Quit Smoking", "completedDate": "Jan 2026", "xpEarned": 300, "howResolved": "Cold turkey after a chest infection made the cost undeniable. Three months clean." }
   ],
   "drains": [
-    {
-      "name": "Late-night scrolling",
-      "desc": "Reliably ends with feeling worse. Eats into sleep and replaces rest with passive consumption."
-    },
-    {
-      "name": "Saying yes to avoid discomfort",
-      "desc": "Fills the calendar with obligations that don't align with priorities. Makes the main quest feel further away."
-    },
-    {
-      "name": "Skipping the gym when stressed",
-      "desc": "The moment it would help most is exactly when it gets cut. Reinforces the pattern of deprioritising health under pressure."
-    }
+    { "name": "Late-night scrolling",          "desc": "Reliably ends with feeling worse. Eats into sleep." },
+    { "name": "Saying yes to avoid discomfort","desc": "Fills the calendar with obligations that don't align with priorities." },
+    { "name": "Skipping the gym when stressed","desc": "The moment it would help most is exactly when it gets cut." }
   ],
   "flowSources": [
-    {
-      "name": "Running",
-      "desc": "First 10 minutes are hard, then the thinking quiets down. Best problem-solving happens here."
-    },
-    {
-      "name": "Cooking",
-      "desc": "Hands busy, mind relaxed. The one hour a day that feels genuinely restorative."
-    },
-    {
-      "name": "Music",
-      "desc": "Playing guitar alone \u2014 no audience, no performance. One of the few fully unproductive activities that still feels worthwhile."
-    },
-    {
-      "name": "Time with family",
-      "desc": "Sunday dinners where nothing is at stake. Laughter that doesn't require effort."
-    },
-    {
-      "name": "Reading",
-      "desc": "Long-form nonfiction, late at night. The world shrinks to the page."
-    }
+    { "name": "Running",          "desc": "First 10 minutes are hard, then the thinking quiets down." },
+    { "name": "Cooking",          "desc": "Hands busy, mind relaxed. Reliably restorative." },
+    { "name": "Music",            "desc": "Playing guitar alone - no audience, no performance." },
+    { "name": "Time with family", "desc": "Sunday dinners where nothing is at stake." },
+    { "name": "Reading",          "desc": "Long-form nonfiction, late at night." }
   ],
   "needs": [
-    {
-      "name": "Connection",
-      "threat": "amber",
-      "alignment": 45,
-      "description": "Genuine closeness with people who know the real version, not the managed one. Patchy \u2014 good with a few people, absent with most."
-    },
-    {
-      "name": "Rest",
-      "threat": "red",
-      "alignment": 30,
-      "description": "Recovery time that isn't immediately colonised by guilt or a to-do list. Currently a significant deficit."
-    },
-    {
-      "name": "Autonomy",
-      "threat": "none",
-      "alignment": 60,
-      "description": "Control over how time and energy are spent. Better than it was \u2014 working from home has helped."
-    },
-    {
-      "name": "Recognition",
-      "threat": "amber",
-      "alignment": 40,
-      "description": "Feeling that effort and contribution are seen and valued. Work environment is neutral at best on this."
-    }
+    { "name": "Connection", "threat": "amber", "alignment": 45, "description": "Genuine closeness with people who know the real version. Good with a few, absent with most." },
+    { "name": "Rest",       "threat": "red",   "alignment": 30, "description": "Recovery time not immediately colonised by guilt or a to-do list. Significant deficit." },
+    { "name": "Autonomy",   "threat": "none",  "alignment": 60, "description": "Control over how time and energy are spent. Better than it was." },
+    { "name": "Recognition","threat": "amber", "alignment": 40, "description": "Feeling that effort and contribution are seen. Work environment is neutral at best." }
   ],
   "values": [
-    {
-      "name": "Authenticity",
-      "threat": "amber",
-      "alignment": 45,
-      "description": "Living in line with what I actually think and feel, not what looks right from the outside."
-    },
-    {
-      "name": "Family",
-      "threat": "none",
-      "alignment": 70,
-      "description": "Being present and reliable for the people who matter most. The anchor when everything else is uncertain."
-    },
-    {
-      "name": "Health",
-      "threat": "amber",
-      "alignment": 55,
-      "description": "Physical and mental wellbeing as a non-negotiable foundation, not a reward for good behaviour."
-    },
-    {
-      "name": "Growth",
-      "threat": "none",
-      "alignment": 65,
-      "description": "Getting better at things that matter, especially interpersonal and professional skills."
-    },
-    {
-      "name": "Financial Security",
-      "threat": "amber",
-      "alignment": 50,
-      "description": "Enough stability to make genuine choices \u2014 not wealth for its own sake, but freedom from scarcity anxiety."
-    }
+    { "name": "Authenticity",       "threat": "amber", "alignment": 45, "description": "Living in line with what I actually think and feel, not what looks right from the outside." },
+    { "name": "Family",             "threat": "none",  "alignment": 70, "description": "Being present and reliable for the people who matter most." },
+    { "name": "Health",             "threat": "amber", "alignment": 55, "description": "Physical and mental wellbeing as a non-negotiable foundation." },
+    { "name": "Growth",             "threat": "none",  "alignment": 65, "description": "Getting better at things that matter." },
+    { "name": "Financial Security", "threat": "amber", "alignment": 50, "description": "Enough stability to make genuine choices - freedom from scarcity anxiety." }
   ],
   "insights": [
     {
@@ -457,115 +136,73 @@
           "title": "Two Hours That Felt Like Mine",
           "events": [
             "Blocked out Saturday morning for the side project - phone in another room",
-            "Worked for two uninterrupted hours on the portfolio site for the first time",
-            "Jordan called in the evening, told him what I had been working on",
-            "Said no to a colleague asking for help with their presentation on Friday"
+            "Two uninterrupted hours on the portfolio site for the first time",
+            "Told Jordan about it in the evening",
+            "Said no to a colleague asking for help with their presentation"
           ],
           "insights": [
-            "The two hours felt different to normal work - less like performance, more like contact with something real",
-            "Telling Jordan about the project made it feel more real, not more exposed",
-            "Saying no to the colleague was uncomfortable for about thirty seconds and then fine",
-            "PROCRASTINATION didn't fire once during the session - having a specific small task was the difference"
+            "The two hours felt different - less like performance, more like contact with something real",
+            "Telling Jordan made it feel more real, not more exposed",
+            "Saying no was uncomfortable for about thirty seconds and then fine",
+            "PROCRASTINATION didn't fire once - a specific small task made the difference"
           ],
           "tensions": [
             "Whether the side project is the actual direction or just a way of feeling busy without risking the real thing",
-            "The session was good but one session is not a pattern - Stay Consistent is still unproven here"
+            "One session is not a pattern - Stay Consistent is still unproven here"
           ],
-          "linkedSkills": [
-            "Stay Consistent",
-            "Say No"
-          ],
-          "linkedQuests": [
-            "Build a Career I Actually Care About"
-          ],
-          "linkedEnemies": [
-            "PROCRASTINATION"
-          ],
-          "linkedValues": [
-            "Authenticity",
-            "Growth"
-          ],
-          "linkedNeeds": [
-            "Autonomy"
-          ]
+          "linkedSkills": ["Stay Consistent", "Say No"],
+          "linkedQuests": ["Build a Career I Actually Care About"],
+          "linkedEnemies": ["PROCRASTINATION"],
+          "linkedValues": ["Authenticity", "Growth"],
+          "linkedNeeds": ["Autonomy"]
         },
         {
           "date": "15 March 2026",
           "title": "The Coffee That Changed the Frame",
           "events": [
-            "Met Priya for coffee - she made the career switch two years ago and is doing work I find genuinely interesting",
+            "Met Priya for coffee - she made the career switch two years ago",
             "She asked what I was actually good at, not what I wanted to do - different question",
-            "Spent the afternoon writing the first honest version of the strengths list",
+            "Spent the afternoon writing the first honest strengths list",
             "Skipped the gym to finish the list, slept badly"
           ],
           "insights": [
             "SELF-DOUBT reframed Priya's question as a test I was about to fail - I noticed it this time",
             "The honest strengths list was harder to write than the aspirational one, and more useful",
-            "Skipping the gym to finish something is a pattern worth watching - Health as a value is inconsistent here",
-            "Priya said the transition took longer than expected but she never questioned whether it was right - that landed"
+            "Skipping the gym to finish something is a pattern worth watching",
+            "Priya said the transition took longer than expected but she never questioned whether it was right"
           ],
           "tensions": [
-            "Whether I am choosing roles that actually fit or roles that look like the right answer from the outside",
+            "Whether I'm choosing roles that actually fit or roles that look like the right answer",
             "Financial pressure is shortening the timeline in ways that might distort the search"
           ],
-          "linkedSkills": [
-            "Ask For Help"
-          ],
-          "linkedQuests": [
-            "Build a Career I Actually Care About"
-          ],
-          "linkedEnemies": [
-            "SELF-DOUBT",
-            "COMPARISON TRAP"
-          ],
-          "linkedValues": [
-            "Authenticity",
-            "Health",
-            "Financial Security"
-          ],
-          "linkedNeeds": [
-            "Recognition",
-            "Connection"
-          ]
+          "linkedSkills": ["Ask For Help"],
+          "linkedQuests": ["Build a Career I Actually Care About"],
+          "linkedEnemies": ["SELF-DOUBT", "COMPARISON TRAP"],
+          "linkedValues": ["Authenticity", "Health", "Financial Security"],
+          "linkedNeeds": ["Recognition", "Connection"]
         },
         {
           "date": "8 March 2026",
           "title": "The List That Actually Felt Honest",
           "events": [
-            "Wrote down three roles that genuinely excite me - first time doing it without immediately dismissing each one",
+            "Wrote down three roles that genuinely excite me without immediately dismissing them",
             "Read for 45 minutes before bed, finished the current book",
-            "Mum called, told her about the career thinking - she listened more than advised this time",
-            "Sat with the Comparison Trap for a while after seeing a former colleague announce a promotion"
+            "Sat with the Comparison Trap after seeing a former colleague announce a promotion"
           ],
           "insights": [
-            "Writing the list without dismissing each entry required noticing THE INNER CRITIC in real time and continuing anyway",
-            "The promotion announcement triggered COMPARISON TRAP immediately and reliably - the pattern is faster than thought",
-            "Mum was more useful when I asked her to listen rather than advise - that is a version of Ask For Help that actually worked",
-            "Finishing the book felt like a small win that cost nothing - the Read 12 Books side quest is moving without effort"
+            "Writing the list required noticing THE INNER CRITIC in real time and continuing anyway",
+            "The promotion announcement triggered COMPARISON TRAP immediately - the pattern is faster than thought",
+            "Finishing the book felt like a small win - the Read 12 Books quest is moving without effort"
           ],
           "tensions": [
-            "The three roles on the list are exciting but all feel slightly out of reach - is that realistic assessment or THE INNER CRITIC curating ambition downward",
-            "Comparison Trap was strong today - worth watching whether it intensifies as the career search becomes more real and visible"
+            "The three roles feel slightly out of reach - realistic assessment or THE INNER CRITIC curating ambition downward?",
+            "Comparison Trap was strong today - worth watching as the search becomes more visible"
           ],
-          "linkedSkills": [
-            "Ask For Help",
-            "Stay Consistent"
-          ],
-          "linkedQuests": [
-            "Build a Career I Actually Care About",
-            "Read 12 Books This Year"
-          ],
-          "linkedEnemies": [
-            "COMPARISON TRAP",
-            "THE INNER CRITIC"
-          ],
-          "linkedValues": [
-            "Authenticity",
-            "Growth"
-          ],
-          "linkedNeeds": [
-            "Recognition"
-          ]
+          "linkedSkills": ["Ask For Help", "Stay Consistent"],
+          "linkedQuests": ["Build a Career I Actually Care About", "Read 12 Books This Year"],
+          "linkedEnemies": ["COMPARISON TRAP", "THE INNER CRITIC"],
+          "linkedValues": ["Authenticity", "Growth"],
+          "linkedNeeds": ["Recognition"]
         }
       ]
     },
@@ -578,38 +215,22 @@
           "events": [
             "Three months without a cigarette - marked it quietly, told Jordan",
             "Ran twice this week, both times over 20 minutes",
-            "Cleared the living room and bedroom sections of the flat",
-            "Spent the evening reading rather than watching anything"
+            "Cleared the living room and bedroom sections of the flat"
           ],
           "insights": [
-            "The chest infection was the forcing function, but staying stopped has required something else - a quiet decision to stop negotiating with the habit",
-            "Quitting smoking and starting to run arrived at the same time - the body responding to being taken seriously",
-            "THE INNER CRITIC tried to minimise the three months: said it does not count because the trigger was external. That is exactly what it does.",
-            "Telling Jordan felt important - externalising the milestone made it more real and harder to quietly erase"
+            "Staying stopped required a quiet decision to stop negotiating with the habit",
+            "Quitting and starting to run arrived together - the body responding to being taken seriously",
+            "THE INNER CRITIC said the three months don't count because the trigger was external. That's exactly what it does."
           ],
           "tensions": [
-            "Whether the motivation to run holds once it stops feeling like a reaction to quitting smoking",
-            "Rest is still a deficit - evenings feel productive but not genuinely restorative"
+            "Whether the motivation to run holds once it stops feeling like a reaction to quitting",
+            "Rest is still a deficit - evenings feel productive but not restorative"
           ],
-          "linkedSkills": [
-            "Stay Consistent"
-          ],
-          "linkedQuests": [
-            "Start Running",
-            "Quit Smoking"
-          ],
-          "linkedEnemies": [
-            "THE INNER CRITIC",
-            "SELF-DOUBT"
-          ],
-          "linkedValues": [
-            "Health",
-            "Family"
-          ],
-          "linkedNeeds": [
-            "Rest",
-            "Connection"
-          ]
+          "linkedSkills": ["Stay Consistent"],
+          "linkedQuests": ["Start Running", "Quit Smoking"],
+          "linkedEnemies": ["THE INNER CRITIC", "SELF-DOUBT"],
+          "linkedValues": ["Health", "Family"],
+          "linkedNeeds": ["Rest", "Connection"]
         },
         {
           "date": "20 January 2026",
@@ -617,38 +238,22 @@
           "events": [
             "Cleared the kitchen, hallway, and most of the bedroom over a long weekend",
             "Threw out three bin bags of things kept for reasons that no longer made sense",
-            "Set up a proper workspace in the corner of the living room",
-            "Cooked a real meal for the first time in about two weeks"
+            "Set up a proper workspace in the corner of the living room"
           ],
           "insights": [
-            "Clearing the physical space had an immediate effect on the mental noise - not metaphorical, genuinely quieter",
-            "Most of what I threw away had been kept out of vague obligation, not actual use or attachment",
-            "The workspace setup felt like a statement of intent - this is where the career work will happen",
-            "Cooking rather than ordering felt like the same signal as the declutter: taking my own context seriously"
+            "Clearing the physical space had an immediate effect on mental noise - not metaphorical, genuinely quieter",
+            "Most of what I threw away had been kept out of vague obligation, not use",
+            "The workspace setup felt like a statement of intent"
           ],
           "tensions": [
-            "The spare room is still untouched - it has become the thing I keep not doing, which probably means something",
-            "The workspace is set up but Deep Work sessions are still short and interrupted - the environment is ready but the habit is not"
+            "The spare room is still untouched - probably means something",
+            "The workspace is ready but Deep Work sessions are still short and interrupted"
           ],
-          "linkedSkills": [
-            "Stay Consistent"
-          ],
-          "linkedQuests": [
-            "Declutter Home",
-            "Build a Career I Actually Care About"
-          ],
-          "linkedEnemies": [
-            "PROCRASTINATION"
-          ],
-          "linkedValues": [
-            "Health",
-            "Growth",
-            "Authenticity"
-          ],
-          "linkedNeeds": [
-            "Autonomy",
-            "Rest"
-          ]
+          "linkedSkills": ["Stay Consistent"],
+          "linkedQuests": ["Declutter Home", "Build a Career I Actually Care About"],
+          "linkedEnemies": ["PROCRASTINATION"],
+          "linkedValues": ["Health", "Growth", "Authenticity"],
+          "linkedNeeds": ["Autonomy", "Rest"]
         }
       ]
     }
@@ -657,177 +262,139 @@
     "boss": {
       "name": "THE INNER CRITIC",
       "desc": "The central voice that frames every setback as evidence of fundamental inadequacy. Feels like a fair assessment. It isn't.",
-      "whyBoss": "Every other enemy is this one in disguise \u2014 Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.",
+      "whyBoss": "Every other enemy is this one in disguise - Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.",
       "bounty": 1000
     },
     "currentEnemies": [
       {
         "name": "PROCRASTINATION",
-        "desc": "Kicks in whenever a task feels ambiguous or high-stakes. The gap between starting and not starting is enormous. Masquerades as preparation.",
+        "desc": "Kicks in whenever a task feels ambiguous or high-stakes. Masquerades as preparation.",
         "trigger": "Ambiguous or important tasks with no clear first step",
-        "shortTermBenefit": "Protects against the pain of trying and failing. Feels like caution, not avoidance.",
-        "origin": "Likely formed around high-stakes school performance where effort without success felt worse than not trying at all.",
+        "shortTermBenefit": "Protects against the pain of trying and failing. Feels like caution.",
+        "origin": "Likely formed around high-stakes performance where effort without success felt worse than not trying.",
         "bounty": 200
       },
       {
         "name": "SELF-DOUBT",
-        "desc": "Quiet voice that says others are better qualified, more talented, more deserving. Loudest just before any real attempt. Speaks in first person so it sounds like truth.",
+        "desc": "Quiet voice that says others are better qualified. Speaks in first person so it sounds like truth.",
         "trigger": "Attempting something new or visible",
         "shortTermBenefit": "Keeps expectations low so disappointment hurts less. Feels like realism.",
-        "origin": "Unknown - may relate to early environments where confidence was penalised or not modelled. Worth exploring.",
+        "origin": "Unknown - may relate to environments where confidence was penalised or not modelled.",
         "bounty": 200
       },
       {
         "name": "COMPARISON TRAP",
-        "desc": "Scrolling through others' curated success and measuring a messy middle against their highlight reel. Always loses because the comparison is structurally unfair.",
+        "desc": "Measuring a messy middle against others' curated highlight reel. Always loses.",
         "trigger": "Social media, professional updates, seeing peers succeed",
-        "shortTermBenefit": "Creates a temporary sense of direction - if others have succeeded this way, the path must be real.",
-        "origin": "Unknown - the specific conditions that made external benchmarks feel necessary are not yet clear.",
+        "shortTermBenefit": "Creates temporary direction - if others succeeded this way, the path must be real.",
+        "origin": "Unknown - the conditions that made external benchmarks feel necessary are not yet clear.",
         "bounty": 150
       }
     ],
     "graveyard": [
-      {
-        "name": "SUNDAY DREAD",
-        "defeatedDate": "Jan 2026",
-        "howDefeated": "Lost its footing when the job ended. Without the thing it was anticipating, it had nothing to attach to."
-      },
-      {
-        "name": "THE AVOIDER",
-        "defeatedDate": "Dec 2025",
-        "howDefeated": "Named it properly for the first time in therapy. Avoidance disguised as being busy. Once it had a name it stopped working as cover."
-      },
-      {
-        "name": "INSTAGRAM SPIRAL",
-        "defeatedDate": "Nov 2025",
-        "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every time. Not willpower - just removing the trigger."
-      }
+      { "name": "SUNDAY DREAD",    "defeatedDate": "Jan 2026", "howDefeated": "Lost its footing when the job ended. Without the thing it was anticipating, it had nothing to attach to." },
+      { "name": "THE AVOIDER",     "defeatedDate": "Dec 2025", "howDefeated": "Named it properly for the first time. Avoidance disguised as being busy. Once it had a name it stopped working as cover." },
+      { "name": "INSTAGRAM SPIRAL","defeatedDate": "Nov 2025", "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every time." }
     ]
   },
   "completedMainQuests": [],
   "lastUpdated": "2026-03-25",
   "activities": [
-    {
-      "id": "deep-work",
-      "name": "Deep Work",
-      "description": "Focused time on the career transition - research, applications, side project, skill-building. No multitasking, phone away.",
-      "whyItMatters": "The career I want won't build itself in the margins. It needs protected focused time.",
-      "startDate": "2026-01-01",
-      "priority": 1,
-      "type": "timer",
-      "resetPeriod": "day",
-      "target": 90,
-      "unit": "minutes",
-      "xpPerUnit": 0.5
-    },
-    {
-      "id": "morning-run",
-      "name": "Morning Run",
-      "description": "Out before 8am, at least 20 minutes.",
-      "whyItMatters": "Movement sets the tone for the whole day. Miss it and everything feels harder.",
-      "startDate": "2026-02-01",
-      "priority": 2,
-      "type": "checkbox",
-      "resetPeriod": "day",
-      "target": 1,
-      "unit": "runs",
-      "xpPerUnit": 20
-    },
-    {
-      "id": "gym-sessions",
-      "name": "Gym Sessions",
-      "description": "Strength training. Three or four times a week is the target.",
-      "whyItMatters": "Weekly consistency matters more than individual sessions.",
-      "startDate": "2026-02-01",
-      "priority": 3,
-      "type": "number",
-      "resetPeriod": "week",
-      "target": 4,
-      "unit": "sessions",
-      "xpPerUnit": 15
-    }
+    { "id": "deep-work",    "name": "Deep Work",     "description": "Focused time on the career transition - research, applications, side project. No multitasking.", "whyItMatters": "The career I want won't build itself in the margins.",     "startDate": "2026-01-01", "priority": 1, "type": "timer",    "resetPeriod": "day",  "target": 90, "unit": "minutes",  "xpPerUnit": 0.5 },
+    { "id": "morning-run",  "name": "Morning Run",   "description": "Out before 8am, at least 20 minutes.",                                                            "whyItMatters": "Movement sets the tone for the whole day.",               "startDate": "2026-02-01", "priority": 2, "type": "checkbox", "resetPeriod": "day",  "target": 1,  "unit": "runs",     "xpPerUnit": 20  },
+    { "id": "gym-sessions", "name": "Gym Sessions",  "description": "Strength training, three or four times a week.",                                                   "whyItMatters": "Weekly consistency matters more than individual sessions.", "startDate": "2026-02-01", "priority": 3, "type": "number",   "resetPeriod": "week", "target": 4,  "unit": "sessions", "xpPerUnit": 15  }
   ],
   "dailyDistribution": {
-    "Sleep": 7.5,
-    "Deep Work": 1.5,
-    "Exercise": 0.75,
-    "Social": 1,
-    "Admin / Commute": 2,
-    "Rest / Leisure": 3.5,
-    "Unknown": 7.75
+    "Sleep": 7.5, "Deep Work": 1.5, "Exercise": 0.75, "Social": 1,
+    "Admin / Commute": 2, "Rest / Leisure": 3.5, "Unknown": 7.75
   },
   "wheelOfLife": {
-    "sleep": {
-      "score": 50,
-      "trend": "flat"
-    },
-    "rest": {
-      "score": 35,
-      "trend": "down-slight"
-    },
-    "movement": {
-      "score": 65,
-      "trend": "up-slight"
-    },
-    "nutrition": {
-      "score": 60,
-      "trend": "flat"
-    },
-    "connection": {
-      "score": 45,
-      "trend": "down-slight"
-    },
-    "career": {
-      "score": 30,
-      "trend": "up-slight"
-    },
-    "finances": {
-      "score": 45,
-      "trend": "flat"
-    }
+    "sleep":      { "score": 50, "trend": "flat"       },
+    "rest":       { "score": 35, "trend": "down-slight" },
+    "movement":   { "score": 65, "trend": "up-slight"  },
+    "nutrition":  { "score": 60, "trend": "flat"       },
+    "connection": { "score": 45, "trend": "down-slight" },
+    "career":     { "score": 30, "trend": "up-slight"  },
+    "finances":   { "score": 45, "trend": "flat"       }
   },
   "achievements": [
-    {
-      "id": "smoke-free",
-      "title": "Smoke Free",
-      "description": "Three months without a cigarette after a decade of trying. The chest infection was the push - staying stopped is the achievement.",
-      "type": "milestone",
-      "dateUnlocked": "Apr 2026",
-      "featured": true
-    },
-    {
-      "id": "the-declutterer",
-      "title": "The Declutterer",
-      "description": "Cleared 75% of the home in a single sustained push. Turns out the clutter was also mental.",
-      "type": "quest",
-      "dateUnlocked": "Mar 2026",
-      "featured": false
-    },
-    {
-      "id": "signal-over-noise",
-      "title": "Signal Over Noise",
-      "description": "Deleted Instagram after noticing the pattern: open it feeling okay, close it feeling worse, every time.",
-      "type": "breakthrough",
-      "dateUnlocked": "Nov 2025",
-      "featured": false
-    }
+    { "id": "smoke-free",        "title": "Smoke Free",       "description": "Three months without a cigarette after a decade of trying.",                                  "type": "milestone",    "dateUnlocked": "Apr 2026", "featured": true  },
+    { "id": "the-declutterer",   "title": "The Declutterer",  "description": "Cleared 75% of the home in a single sustained push.",                                          "type": "quest",        "dateUnlocked": "Mar 2026", "featured": false },
+    { "id": "signal-over-noise", "title": "Signal Over Noise","description": "Deleted Instagram after noticing the pattern: open it feeling okay, close it feeling worse.", "type": "breakthrough", "dateUnlocked": "Nov 2025", "featured": false }
   ],
   "classes": [
-    {
-      "id": "creator",
-      "title": "Creator",
-      "icon": "\u2726",
-      "description": "Drawn to making things - music, cooking, projects. Finds meaning in the act of creation itself, not just the result. The side project is not a distraction; it might be the point.",
-      "dateUnlocked": "Feb 2026",
-      "featured": true
-    },
-    {
-      "id": "achiever",
-      "title": "Achiever",
-      "icon": "\u25c8",
-      "description": "Goal-oriented and persistent when the goal actually matters. The risk is chasing achievement as validation rather than genuine progress. Learning to tell the difference.",
-      "dateUnlocked": "Jan 2026",
-      "featured": false
-    }
-  ]
+    { "id": "creator",  "title": "Creator",  "icon": "✦", "description": "Drawn to making things. Finds meaning in the act of creation itself, not just the result.", "dateUnlocked": "Feb 2026", "featured": true  },
+    { "id": "achiever", "title": "Achiever", "icon": "◈", "description": "Goal-oriented and persistent when the goal actually matters. Learning to tell the difference between achievement and validation.", "dateUnlocked": "Jan 2026", "featured": false }
+  ],
+  "_xpLog": [
+    { "date": "25 Mar 2026", "amount":  30,  "reason": "Session update",                                           "totalAfter": 500, "levelup": false },
+    { "date": "22 Mar 2026", "amount":  25,  "reason": "Session update",                                           "totalAfter": 470, "levelup": false },
+    { "date": "19 Mar 2026", "amount": null, "reason": "Level 4 reached",                                          "totalAfter": 445, "levelup": true  },
+    { "date": "19 Mar 2026", "amount":  45,  "reason": "Session update",                                           "totalAfter": 445, "levelup": false },
+    { "date": "15 Mar 2026", "amount":  40,  "reason": "Coffee with Priya - genuine ask for help",                 "totalAfter": 400, "levelup": false },
+    { "date": "12 Mar 2026", "amount":  35,  "reason": "Session update",                                           "totalAfter": 360, "levelup": false },
+    { "date": "8 Mar 2026",  "amount":  25,  "reason": "Session update",                                           "totalAfter": 325, "levelup": false },
+    { "date": "5 Mar 2026",  "amount":  20,  "reason": "Session update",                                           "totalAfter": 300, "levelup": false },
+    { "date": "26 Feb 2026", "amount": null, "reason": "Level 3 reached",                                          "totalAfter": 280, "levelup": true  },
+    { "date": "26 Feb 2026", "amount":  30,  "reason": "Session update",                                           "totalAfter": 280, "levelup": false },
+    { "date": "19 Feb 2026", "amount":  25,  "reason": "Session update",                                           "totalAfter": 250, "levelup": false },
+    { "date": "14 Feb 2026", "amount":  50,  "reason": "Three months smoke-free - Smoke Free achievement",         "totalAfter": 225, "levelup": false },
+    { "date": "12 Feb 2026", "amount": -15,  "reason": "Skipped gym three times - named pattern, not bad luck",    "totalAfter": 175, "levelup": false },
+    { "date": "5 Feb 2026",  "amount":  20,  "reason": "Session update",                                           "totalAfter": 190, "levelup": false },
+    { "date": "28 Jan 2026", "amount":  25,  "reason": "Session update",                                           "totalAfter": 170, "levelup": false },
+    { "date": "20 Jan 2026", "amount":  40,  "reason": "Declutter complete - environment changed",                 "totalAfter": 145, "levelup": false },
+    { "date": "20 Jan 2026", "amount": null, "reason": "Level 2 reached",                                          "totalAfter": 105, "levelup": true  },
+    { "date": "12 Jan 2026", "amount":  30,  "reason": "Session update",                                           "totalAfter": 105, "levelup": false },
+    { "date": "5 Jan 2026",  "amount":  25,  "reason": "Session update",                                           "totalAfter":  75, "levelup": false },
+    { "date": "1 Jan 2026",  "amount":  50,  "reason": "Quit Smoking quest complete",                              "totalAfter":  50, "levelup": false }
+  ],
+  "_hardcodedHistory": {
+    "deep-work": [
+      { "date": "2026-01-01", "value": 25 }, { "date": "2026-01-02", "value": 40 }, { "date": "2026-01-04", "value": 15 },
+      { "date": "2026-01-05", "value": 55 }, { "date": "2026-01-06", "value": 70 }, { "date": "2026-01-07", "value": 45 },
+      { "date": "2026-01-08", "value": 60 }, { "date": "2026-01-09", "value": 30 }, { "date": "2026-01-12", "value": 65 },
+      { "date": "2026-01-13", "value": 80 }, { "date": "2026-01-14", "value": 55 }, { "date": "2026-01-15", "value": 45 },
+      { "date": "2026-01-16", "value": 60 }, { "date": "2026-01-17", "value": 20 }, { "date": "2026-01-19", "value": 70 },
+      { "date": "2026-01-20", "value": 90 }, { "date": "2026-01-21", "value": 60 }, { "date": "2026-01-22", "value": 35 },
+      { "date": "2026-01-23", "value": 50 }, { "date": "2026-01-25", "value": 30 }, { "date": "2026-01-26", "value": 75 },
+      { "date": "2026-01-27", "value": 80 }, { "date": "2026-01-28", "value": 65 }, { "date": "2026-01-29", "value": 60 },
+      { "date": "2026-01-30", "value": 40 }, { "date": "2026-02-01", "value": 25 }, { "date": "2026-02-02", "value": 70 },
+      { "date": "2026-02-03", "value": 85 }, { "date": "2026-02-04", "value": 60 }, { "date": "2026-02-05", "value": 65 },
+      { "date": "2026-02-06", "value": 55 }, { "date": "2026-02-07", "value": 30 }, { "date": "2026-02-09", "value": 75 },
+      { "date": "2026-02-10", "value": 90 }, { "date": "2026-02-11", "value": 70 }, { "date": "2026-02-12", "value": 60 },
+      { "date": "2026-02-13", "value": 45 }, { "date": "2026-02-14", "value": 20 }, { "date": "2026-02-15", "value": 35 },
+      { "date": "2026-02-16", "value": 80 }, { "date": "2026-02-17", "value": 75 }, { "date": "2026-02-18", "value": 60 },
+      { "date": "2026-02-19", "value": 90 }, { "date": "2026-02-20", "value": 55 }, { "date": "2026-02-21", "value": 40 },
+      { "date": "2026-02-23", "value": 85 }, { "date": "2026-02-24", "value": 90 }, { "date": "2026-02-25", "value": 75 },
+      { "date": "2026-02-26", "value": 65 }, { "date": "2026-02-27", "value": 60 }, { "date": "2026-02-28", "value": 30 },
+      { "date": "2026-03-01", "value": 40 }, { "date": "2026-03-02", "value": 80 }, { "date": "2026-03-03", "value": 90 },
+      { "date": "2026-03-04", "value": 70 }, { "date": "2026-03-05", "value": 85 }, { "date": "2026-03-06", "value": 60 },
+      { "date": "2026-03-07", "value": 45 }, { "date": "2026-03-08", "value": 30 }, { "date": "2026-03-09", "value": 75 },
+      { "date": "2026-03-10", "value": 90 }, { "date": "2026-03-11", "value": 80 }, { "date": "2026-03-13", "value": 55 },
+      { "date": "2026-03-14", "value": 60 }, { "date": "2026-03-15", "value": 45 }, { "date": "2026-03-16", "value": 85 },
+      { "date": "2026-03-17", "value": 90 }, { "date": "2026-03-18", "value": 75 }, { "date": "2026-03-19", "value": 90 },
+      { "date": "2026-03-20", "value": 70 }, { "date": "2026-03-21", "value": 60 }, { "date": "2026-03-22", "value": 120 },
+      { "date": "2026-03-23", "value": 65 }, { "date": "2026-03-24", "value": 75 }
+    ],
+    "morning-run": [
+      { "date": "2026-02-02", "value": 1 }, { "date": "2026-02-03", "value": 1 }, { "date": "2026-02-04", "value": 0 },
+      { "date": "2026-02-05", "value": 1 }, { "date": "2026-02-06", "value": 1 }, { "date": "2026-02-07", "value": 0 },
+      { "date": "2026-02-09", "value": 1 }, { "date": "2026-02-10", "value": 1 }, { "date": "2026-02-11", "value": 1 },
+      { "date": "2026-02-12", "value": 0 }, { "date": "2026-02-13", "value": 1 }, { "date": "2026-02-16", "value": 1 },
+      { "date": "2026-02-17", "value": 1 }, { "date": "2026-02-18", "value": 1 }, { "date": "2026-02-19", "value": 0 },
+      { "date": "2026-02-20", "value": 1 }, { "date": "2026-02-23", "value": 1 }, { "date": "2026-02-24", "value": 1 },
+      { "date": "2026-02-25", "value": 1 }, { "date": "2026-02-26", "value": 0 }, { "date": "2026-02-27", "value": 1 },
+      { "date": "2026-03-02", "value": 1 }, { "date": "2026-03-03", "value": 1 }, { "date": "2026-03-04", "value": 0 },
+      { "date": "2026-03-05", "value": 1 }, { "date": "2026-03-06", "value": 1 }, { "date": "2026-03-09", "value": 1 },
+      { "date": "2026-03-10", "value": 1 }, { "date": "2026-03-11", "value": 1 }, { "date": "2026-03-12", "value": 0 },
+      { "date": "2026-03-13", "value": 1 }, { "date": "2026-03-16", "value": 1 }, { "date": "2026-03-17", "value": 1 },
+      { "date": "2026-03-18", "value": 1 }, { "date": "2026-03-19", "value": 1 }, { "date": "2026-03-20", "value": 0 },
+      { "date": "2026-03-23", "value": 1 }, { "date": "2026-03-24", "value": 1 }
+    ],
+    "gym-sessions": [
+      { "period": "2026-06", "value": 3 }, { "period": "2026-07", "value": 4 }, { "period": "2026-08", "value": 2 },
+      { "period": "2026-09", "value": 4 }, { "period": "2026-10", "value": 3 }, { "period": "2026-11", "value": 4 },
+      { "period": "2026-12", "value": 4 }, { "period": "2026-13", "value": 3 }
+    ]
+  }
 }
