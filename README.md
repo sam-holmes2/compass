@@ -72,14 +72,28 @@ No version numbers to track — just pull the latest files when you want fixes a
 
 ## Each session after that
 
-1. **Journal** - brain dump freely in your Claude project. What happened recently, what's on your mind, what you're stuck on.
-2. **End the session** - ask Claude: *"Update my JSON and context.md based on this chat."*
-3. **Update your context** - replace your saved `context.md` with the new version Claude provides.
-4. **Sync your dashboard** - open `character-sheet.html`, click `↑`, paste the JSON, Import.
+1. **Start a new chat** in your Claude project (don't continue the previous one — see [Keeping token usage low](#keeping-token-usage-low)).
+2. **Journal** - brain dump freely. What happened recently, what's on your mind, what you're stuck on.
+3. **End the session** - ask Claude: *"Update my JSON and context.md based on this chat."*
+4. **Update your context** - replace your saved `context.md` with the new version Claude provides.
+5. **Sync your dashboard** - open `character-sheet.html`, click `↑`, paste the JSON, Import.
 
 You can also edit fields directly in the app and use `↓` Export to send changes back to Claude.
 
 > **Keep your latest JSON in Claude.** Paste it into your project chat at the start of each session (or keep it pinned somewhere easy to find). Your data lives in your browser's localStorage — if you clear your browser data, switch browsers, or update the app, you'll need it to restore everything.
+
+---
+
+## Keeping token usage low
+
+Claude charges by the token — roughly by how much text it reads and writes each message. A long conversation accumulates context and gets expensive fast. A few habits keep this manageable:
+
+- **Start a new chat for each session.** This is the most important one. Each message in a conversation re-sends the entire history. After a long session the cost per message compounds quickly. Starting fresh keeps each session cheap.
+- **Keep `context.md` concise.** It's loaded at the start of every session. The shorter it is, the cheaper each session starts. Claude will naturally expand it over time — push back if it gets verbose.
+- **Don't paste your JSON unnecessarily.** Only paste it in when Claude needs to update it. For a pure journalling session where you're not changing any data, you don't need to include it.
+- **Use project knowledge for stable files.** `schema.md` (and optionally `journalling-prompts.md`) live in project knowledge and don't count toward your chat context in the same way as pasted text.
+- **One topic per session.** Unfocused sessions that wander across many areas generate longer JSON updates. A tight session — one theme, one quest, one pattern — is cheaper and often more useful.
+- **Free tier users:** Claude's free tier has usage limits. If you hit them, the simplest fix is to wait for the limit to reset, or upgrade to Claude Pro for higher limits.
 
 ---
 
