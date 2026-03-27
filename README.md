@@ -28,39 +28,28 @@ You'll need: a free [Claude account](https://claude.ai) and the two files below.
 
 1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`schema.md`](https://github.com/sam-holmes2/character-sheet/blob/master/schema.md)** - click each link, then the download icon (top right of the file view).
 2. **Create a Claude Project** - go to [claude.ai](https://claude.ai), click New Project in the left sidebar.
-3. **Upload `schema.md` to the project** - click Add content. It stays attached permanently so Claude always knows the format.
-4. **Paste the Quickstart prompt below** into the project and answer Claude's questions. Share only what you're comfortable with.
-5. **At the end, ask Claude:** to `"Generate my JSON and a starter context.md using schema.md."`
+3. **Add `schema.md` to your project's knowledge** - in the project sidebar, click **Add content → Add files** and select `schema.md`. This is the persistent project knowledge panel — *not* a regular chat upload. It stays attached permanently so Claude always knows the format without you re-uploading it each session.
+4. **Paste the quickstart prompt below** into the project and just start talking.
+5. **At the end, ask Claude:** `"Generate my JSON and a starter context.md using schema.md."`
 6. **Import your data** - open `character-sheet.html`, click `↑` (bottom right), paste the JSON, hit Import. Save `context.md` somewhere private.
 
-Optionally upload `journalling-prompts.md` to your project too - it gives Claude better prompts when you want to go deeper.
+Optionally add `journalling-prompts.md` to your project knowledge too — it gives Claude better prompts when you want to go deeper in a session.
 
 ---
 
 ## Quickstart prompt
 
-Paste this into your Claude project to get started. Claude will ask questions one at a time and never push you to share more than you want.
+Paste this into your Claude project to get started. Just talk — Claude will follow your lead and ask one thing at a time.
 
 ```
 I'm setting up character-sheet, a personal life dashboard. I've attached schema.md which explains the data format.
 
-Interview me to fill in my character sheet. Keep it conversational, ask one thing at a time, and never push me to share anything I'm not comfortable with. Start with the most important things and work down. Cover as much of this as you can:
+Start by asking me what's going on in my life right now — what I'm working on, what's on my mind, what I'm trying to change. Keep it conversational, ask one thing at a time, and follow the thread rather than a checklist. Never push me to share more than I want to.
 
-- What to call me, and one honest sentence about where I am in life right now
-- My main quest - the single most important thing I'm working toward
-- 2-4 side quests - active goals with a rough sense of progress
-- The four elements - Air (self-awareness), Fire (motivation and direction), Water (what makes me feel alive), Earth (beliefs and groundedness). An initial score out of 100 and a one-line status for each.
-- Skills I'm actively building, and any I'd consider signature strengths
-- Top values and core needs - and which I feel most or least aligned with right now
-- People or places that feel genuinely supportive (allies)
-- Activities that reliably restore energy or produce aliveness (sources)
-- Habits that cost more than they give (drains)
-- Patterns or inner critics I keep running into (enemies)
-- Any limiting beliefs or empowering beliefs worth tracking
-- Recent wins or meaningful moments worth logging
-
-When you have enough, generate the full JSON using schema.md and a starter context.md.
+Once you have a reasonable picture — even if it's incomplete — generate the JSON using schema.md and a starter context.md. We can fill in the gaps over time through regular journalling sessions.
 ```
+
+Want to populate more of your character sheet in one go? Try the **[Deep Dive](deep-dive.md)** — a structured interview that covers all the main fields.
 
 ---
 
@@ -119,6 +108,7 @@ Those inclined could of course easily turn it into a pointless "cheat-sheet" and
 |------|------------|
 | **[character-sheet.html](character-sheet.html)** | The app itself. Open this in your browser. All logic, styles, and default demo data are self-contained in one file. |
 | **[schema.md](schema.md)** | Upload this to your Claude project. It tells Claude the JSON format and how to behave as a journalling companion. |
+| **[deep-dive.md](deep-dive.md)** | Alternative starting prompt — a structured interview that populates more of your character sheet in one session. |
 | **[journalling-prompts.md](journalling-prompts.md)** | Optional. Upload to your Claude project for deeper session prompts. |
 | **[wiki.md](wiki.md)** | Full documentation for each tab and feature. |
 | **[steve-example-data.json](steve-example-data.json)** | The demo data loaded by default when you first open the app. Not needed after you import your own data. |
