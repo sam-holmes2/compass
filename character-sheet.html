@@ -1521,6 +1521,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <button class="float-btn" id="export-btn" style="bottom:82px" onclick="exportState()" title="Export — copy to Claude">↓</button>
 <button class="float-btn" onclick="openModal()" title="Import — paste from Claude">↑</button>
+<script>if(location.hostname.endsWith('github.io')){document.getElementById('export-btn').style.display='none';document.currentScript.previousElementSibling.style.display='none';}</script>
 
 <div class="modal-overlay" id="modal">
   <div class="modal" style="border-top:3px solid #4a9060;">
@@ -2535,8 +2536,9 @@ function esc(str){ const d=document.createElement('div'); d.textContent=str??'';
 const todayStr=()=>new Date().toISOString().slice(0,10);
 const FEATURED_ACH_KEY = 'liferpg-featured-ach-v7';
 const HDR_ICON_KEY = 'liferpg-hdr-icon-v7';
-function loadState(){try{const r=localStorage.getItem('liferpg-v7');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
-function saveState(s){try{localStorage.setItem('liferpg-v7',JSON.stringify(s));}catch{}}
+const IS_DEMO = location.hostname.endsWith('github.io');
+function loadState(){if(IS_DEMO)return DEFAULT;try{const r=localStorage.getItem('liferpg-v7');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
+function saveState(s){if(IS_DEMO)return;try{localStorage.setItem('liferpg-v7',JSON.stringify(s));}catch{}}
 // Practice localStorage helpers
 // cs-current-{charName}-{id}: { value, periodStart, timerRunning }
 // cs-history-{charName}-{id}: [{ period, value, target }]
