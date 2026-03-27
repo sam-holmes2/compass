@@ -57,10 +57,16 @@ Want to populate more of your character sheet in one go? Try the **[Deep Dive](d
 
 character-sheet is updated regularly. To get the latest version:
 
-1. **Re-download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html)** — replace your local copy. Your data lives in your browser's localStorage, not in the file, so it won't be lost.
-2. **Re-download [`schema.md`](https://github.com/sam-holmes2/character-sheet/blob/master/schema.md)** — remove the old version from your Claude project and upload the new one. This keeps Claude's understanding of the format in sync.
+1. **Export your data first** — open the app, click `↓` (bottom right) and copy the JSON. Keep it somewhere safe, or paste it into your Claude project chat.
+2. **Re-download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html)** — replace your local copy.
+3. **Clear the old localStorage** — your browser may be holding onto state from the previous version. Clear it before opening the new file:
+   - **Firefox:** go to `about:preferences#privacy` → Manage Data → search for the file name → Remove
+   - **Chrome:** open the old file, open DevTools (F12) → Application → Storage → Local Storage → right-click and Clear
+   - **Simpler alternative:** in the app, open the browser console (F12 → Console) and run `localStorage.clear()`, then refresh
+4. **Re-import your data** — open the new file, click `↑`, paste your JSON back in.
+5. **Re-download [`schema.md`](https://github.com/sam-holmes2/character-sheet/blob/master/schema.md)** — remove the old version from your Claude project knowledge and upload the new one. This keeps Claude's understanding of the format in sync.
 
-No version numbers to track — just pull the latest files when you want to pick up fixes and new features.
+No version numbers to track — just pull the latest files when you want fixes and new features.
 
 ---
 
@@ -72,6 +78,25 @@ No version numbers to track — just pull the latest files when you want to pick
 4. **Sync your dashboard** - open `character-sheet.html`, click `↑`, paste the JSON, Import.
 
 You can also edit fields directly in the app and use `↓` Export to send changes back to Claude.
+
+> **Keep your latest JSON in Claude.** Paste it into your project chat at the start of each session (or keep it pinned somewhere easy to find). Your data lives in your browser's localStorage — if you clear your browser data, switch browsers, or update the app, you'll need it to restore everything.
+
+---
+
+## What does and doesn't persist
+
+Your data lives in two places: **localStorage** (the app) and **Claude** (your project chat). They only stay in sync when you explicitly import/export.
+
+| What | Where it's saved | Survives browser clear? | Claude knows about it? |
+|------|-----------------|------------------------|------------------------|
+| Everything imported via `↑` | localStorage | No | Yes (it came from Claude) |
+| Edits made directly in the app | localStorage | No | **Not unless you export `↓`** |
+| Practice timer / checkbox state | localStorage | No | No |
+| Status sliders (Focus, Energy, etc.) | localStorage | No | No |
+| XP history | localStorage | No | Only if included in export |
+| `context.md` | Your files | Until you delete it | Yes (you save it there) |
+
+**The safe habit:** end every session with an export (`↓`), paste it into Claude, and ask it to update your JSON and context.md. That way Claude and the app always match, and you have a recovery copy.
 
 ---
 
