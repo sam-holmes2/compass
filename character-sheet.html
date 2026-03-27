@@ -4295,6 +4295,7 @@ function applyUpdate(){
     if(p._featuredAch) setFeaturedAch(p._featuredAch);
     if(p._featuredCls) setFeaturedCls(p._featuredCls);
     if(p._xpLog&&Array.isArray(p._xpLog)){ saveXPLog(p._xpLog); }
+    else { saveXPLog([]); }
     delete p._featuredAch; delete p._featuredCls; delete p._xpLog;
     if(p.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(p.dailyDistribution));
     logXPChange(appState, p);
@@ -4315,8 +4316,9 @@ function loadXPLog(){
   try{
     const raw=localStorage.getItem(XP_LOG_KEY);
     if(raw) return JSON.parse(raw);
-    // Seed demo data for first-time visitors
-    if(typeof HARDCODED_XP_LOG!=='undefined'&&HARDCODED_XP_LOG.length){
+    // Seed demo data only when showing the default demo (no real user data imported)
+    const hasUserData=!!localStorage.getItem('liferpg-v7');
+    if(!hasUserData&&typeof HARDCODED_XP_LOG!=='undefined'&&HARDCODED_XP_LOG.length){
       saveXPLog(HARDCODED_XP_LOG);
       return HARDCODED_XP_LOG.slice();
     }
