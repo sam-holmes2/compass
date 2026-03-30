@@ -54,6 +54,18 @@ Want to populate more of your character sheet in one go? Try the **[Deep Dive](d
 
 ---
 
+## Each session after that
+
+1. **Start a new chat** in your Claude project (don't continue the previous one - see [Keeping token usage low](#keeping-token-usage-low)). Claude already has your full context from `instructions.md` and `data.json` in project knowledge - no need to paste anything.
+2. **Journal** - brain dump freely. What happened recently, what's on your mind, what you're stuck on.
+3. **End the session** - ask Claude: *"Update my data.json based on this chat."*
+4. **Replace `data.json` in project knowledge** - remove the old version and upload the new one. This is how Claude stays up to date between sessions.
+5. **Sync your dashboard** - open `character-sheet.html`, click `↑`, paste the JSON, Import.
+
+You can also edit fields directly in the app and use `↓` Export to get an updated JSON to paste back to Claude.
+
+---
+
 ## Keeping up to date
 
 character-sheet is updated regularly. To get the latest version:
@@ -71,17 +83,6 @@ No version numbers to track - just pull the latest files when you want fixes and
 
 ---
 
-## Each session after that
-
-1. **Start a new chat** in your Claude project (don't continue the previous one - see [Keeping token usage low](#keeping-token-usage-low)). Claude already has your full context from `instructions.md` and `data.json` in project knowledge - no need to paste anything.
-2. **Journal** - brain dump freely. What happened recently, what's on your mind, what you're stuck on.
-3. **End the session** - ask Claude: *"Update my data.json based on this chat."*
-4. **Replace `data.json` in project knowledge** - remove the old version and upload the new one. This is how Claude stays up to date between sessions.
-5. **Sync your dashboard** - open `character-sheet.html`, click `↑`, paste the JSON, Import.
-
-You can also edit fields directly in the app and use `↓` Export to get an updated JSON to paste back to Claude.
-
----
 
 ## Keeping token usage low
 
