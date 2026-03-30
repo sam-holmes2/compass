@@ -173,9 +173,18 @@ Avoid duplicates - update existing entries rather than creating new ones. ALL CA
 **`shortTermBenefit`** - What this pattern gives the user. Frame as a benefit, not a flaw.
 **`origin`** - Where this likely came from. Infer cautiously. If unclear: "Unknown - [what would help clarify]." Never leave blank.
 
+**Boss `vulnerabilities`** - Exactly 3 entries. Each is a specific, actionable crack in the boss pattern - the conditions under which it loses power. Not abstract virtues ("be more present") but concrete, recognisable moments where the pattern can be interrupted. Update these as new evidence emerges across sessions.
+
 ```json
 "bestiary": {
-  "boss": { "name": "THE APPROVAL ENGINE", "desc": "...", "whyBoss": "Every other enemy is a sub-routine of this one." },
+  "boss": {
+    "name": "THE APPROVAL ENGINE", "desc": "...", "whyBoss": "Every other enemy is a sub-routine of this one.",
+    "vulnerabilities": [
+      { "title": "Named in real time", "desc": "The pattern loses grip the moment it is spotted mid-action, not just analysed after. Each live catch weakens the automaticity." },
+      { "title": "Clean fuel present", "desc": "When working from genuine desire rather than fear of falling short, the Engine has nothing to attach to. Evidence: the best sessions of vibe coding." },
+      { "title": "Resentment allowed to land", "desc": "The Absolution Reflex is the Engine's immune system. Holding the feeling for one minute before dissolving it starves the Engine of its self-maintenance routine." }
+    ]
+  },
   "currentEnemies": [{ "name": "THE APPROVAL LOOP", "desc": "...", "type": "distortion", "trigger": "Sharing work", "shortTermBenefit": "Prevents rejection. Feels like prudence.", "origin": "Likely formed where others' reactions were unpredictable." }],
   "graveyard": [{ "name": "SUNDAY DREAD", "defeatedDate": "Jan 2026", "howDefeated": "Left the job. Pattern had nowhere left to live." }]
 }

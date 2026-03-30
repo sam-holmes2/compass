@@ -591,7 +591,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .boss-card { background:rgba(140,30,30,0.06); border:1px solid rgba(200,64,64,0.25); border-left:3px solid #c84040; border-radius:6px; padding:18px 20px; }
 .boss-name { font-family:'Cinzel',serif; font-size:18px; color:#c06060; letter-spacing:0.08em; margin-bottom:6px; }
 .boss-desc { font-size:18px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
-.boss-why { font-size:17px; color:rgba(200,64,64,0.7); font-style:italic; }
+.boss-why { font-size:17px; color:rgba(200,64,64,0.7); font-style:italic; margin-bottom:14px; }
+.boss-vuln-hdr { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:rgba(200,64,64,0.5); text-transform:uppercase; margin-bottom:8px; padding-top:14px; border-top:1px solid rgba(200,64,64,0.15); }
+.boss-vuln { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(200,64,64,0.1); }
+.boss-vuln:last-child { border-bottom:none; }
+.boss-vuln-num { font-family:var(--mono); font-size:15px; color:rgba(200,96,96,0.7); flex-shrink:0; padding-top:2px; width:18px; }
+.boss-vuln-title { font-size:17px; color:var(--text-b); font-weight:600; line-height:1.4; }
+.boss-vuln-desc { font-size:16px; color:var(--text-mid); line-height:1.5; margin-top:3px; }
 .enemy-card { border:1px solid rgba(200,64,64,0.18); border-radius:6px; overflow:hidden; margin-bottom:8px; }
 .enemy-card-head { display:flex; align-items:center; gap:12px; padding:10px 14px; background:rgba(140,30,30,0.04); cursor:pointer; user-select:none; }
 .enemy-card-head:hover { background:rgba(140,30,30,0.08); }
@@ -2508,13 +2514,27 @@ function renderBestiaryTab(s){
     bossEl.innerHTML='';
     const boss=bestiary.boss||{name:'',desc:''};
     const card=document.createElement('div'); card.className='boss-card';
-    const nameRow=document.createElement('div'); nameRow.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:4px;';
+    const nameRow=document.createElement('div'); nameRow.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:6px;';
     const nameEl=makeEditable(boss.name,'Boss name',v=>saveNestedField(['bestiary','boss','name'],v),'boss-name');
     nameEl.style.flex='1';
     if(boss.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+boss.bounty+' XP bounty'; nameRow.appendChild(nameEl); nameRow.appendChild(pill); }
     else { nameRow.appendChild(nameEl); }
     card.appendChild(nameRow);
     card.appendChild(makeEditable(boss.desc,'Describe your boss…',v=>saveNestedField(['bestiary','boss','desc'],v),'boss-desc'));
+    if(boss.whyBoss){ const wy=document.createElement('div'); wy.className='boss-why'; wy.textContent=boss.whyBoss; card.appendChild(wy); }
+    const vulns=(boss.vulnerabilities||[]).slice(0,3);
+    if(vulns.length){
+      const hdr=document.createElement('div'); hdr.className='boss-vuln-hdr'; hdr.textContent='Key Vulnerabilities'; card.appendChild(hdr);
+      vulns.forEach((v,i)=>{
+        const row=document.createElement('div'); row.className='boss-vuln';
+        const num=document.createElement('div'); num.className='boss-vuln-num'; num.textContent=i+1;
+        const body=document.createElement('div'); body.style.flex='1';
+        const title=document.createElement('div'); title.className='boss-vuln-title'; title.textContent=v.title||'';
+        const desc=document.createElement('div'); desc.className='boss-vuln-desc'; desc.textContent=v.desc||'';
+        body.appendChild(title); if(v.desc) body.appendChild(desc);
+        row.appendChild(num); row.appendChild(body); card.appendChild(row);
+      });
+    }
     bossEl.appendChild(card);
   }
 
