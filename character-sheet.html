@@ -351,15 +351,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* ══ limiting / empowering ══════════════════════════════ */
 .limiting {
-  background:rgba(200,168,74,0.05); border:1px solid rgba(200,168,74,0.2);
-  border-left:3px solid #c8a84a; border-radius:5px;
+  background:rgba(139,94,60,0.05); border:1px solid rgba(139,94,60,0.2);
+  border-left:3px solid #8b5e3c; border-radius:5px;
   padding:12px 15px 12px 32px; font-size:17px; color:var(--text-mid); line-height:1.65;
   margin-bottom:8px; position:relative;
 }
 .limiting .drag-handle, .empowering .drag-handle { position:absolute; left:8px; top:50%; transform:translateY(-50%); width:16px; }
 .empowering {
-  background:rgba(76,175,125,0.05); border:1px solid rgba(76,175,125,0.2);
-  border-left:3px solid rgba(76,175,125,0.6); border-radius:5px;
+  background:rgba(45,110,64,0.05); border:1px solid rgba(45,110,64,0.2);
+  border-left:3px solid #2d6e40; border-radius:5px;
   padding:12px 15px 12px 32px; font-size:17px; color:var(--text-mid); line-height:1.65;
   margin-bottom:8px; position:relative;
 }
@@ -588,10 +588,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .wheel-milestone.current .wheel-milestone-num { color:var(--text); font-weight:700; }
 
 /* ══ BESTIARY ════════════════════════════════════════════ */
-.boss-card { background:rgba(140,30,30,0.06); border:1px solid rgba(200,64,64,0.25); border-left:3px solid #c84040; border-radius:6px; padding:18px 20px; }
-.boss-name { font-family:'Cinzel',serif; font-size:18px; color:#c06060; letter-spacing:0.08em; margin-bottom:6px; }
-.boss-desc { font-size:18px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
-.boss-why { font-size:17px; color:rgba(200,64,64,0.7); font-style:italic; margin-bottom:14px; }
 .boss-vuln-hdr { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:rgba(200,64,64,0.5); text-transform:uppercase; margin-bottom:8px; padding-top:14px; border-top:1px solid rgba(200,64,64,0.15); }
 .boss-vuln { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(200,64,64,0.1); }
 .boss-vuln:last-child { border-bottom:none; }
@@ -609,16 +605,25 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* HP bars */
 .hp-bar-wrap { width:72px; height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; flex-shrink:0; }
 .hp-bar-fill { height:100%; border-radius:3px; transition:width 0.4s, background 0.4s; }
-.boss-hp-wrap { height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; margin:10px 0 14px; }
-.boss-hp-fill { height:100%; border-radius:4px; transition:width 0.6s, background 0.6s; }
 .hp-lbl { font-family:var(--mono); font-size:13px; flex-shrink:0; opacity:0.7; }
 .enemy-type-tag {
   font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
   padding:2px 7px; border-radius:10px; border:1px solid; flex-shrink:0; opacity:0.85;
 }
-.ett-enemy  { color:#c84040; border-color:rgba(200,64,64,0.35); background:rgba(200,64,64,0.07); }
-.ett-belief { color:#c8a84a; border-color:rgba(200,168,74,0.35); background:rgba(200,168,74,0.07); }
-.ett-drain  { color:#5a9898; border-color:rgba(90,152,152,0.35); background:rgba(90,152,152,0.07); }
+.ett-enemy      { color:#c84040; border-color:rgba(200,64,64,0.35);    background:rgba(200,64,64,0.07); }
+.ett-belief     { color:#8b5e3c; border-color:rgba(139,94,60,0.35);    background:rgba(139,94,60,0.07); }
+.ett-drain      { color:#6040a0; border-color:rgba(96,64,160,0.35);    background:rgba(96,64,160,0.07); }
+.ett-compulsion { color:#c83030; border-color:rgba(200,48,48,0.35);    background:rgba(200,48,48,0.07); }
+.ett-distortion { color:#c83060; border-color:rgba(200,48,96,0.35);   background:rgba(200,48,96,0.07); }
+/* Ally type tags */
+.att-loot        { color:#4aaa72; border-color:rgba(74,170,114,0.35);  background:rgba(74,170,114,0.07); }
+.att-spell       { color:#c87828; border-color:rgba(200,120,40,0.35);   background:rgba(200,120,40,0.07); }
+.att-liberation  { color:#2d6e40; border-color:rgba(45,110,64,0.35);    background:rgba(45,110,64,0.07); }
+.att-source      { color:#2a9090; border-color:rgba(42,144,144,0.35);   background:rgba(42,144,144,0.07); }
+.enemy-priority-badge {
+  font-family:var(--mono); font-size:14px; font-weight:700; color:var(--text-dim); flex-shrink:0;
+  min-width:24px; text-align:center; opacity:0.5; letter-spacing:0.02em;
+}
 .grave-card { border:1px solid var(--border); border-radius:5px; overflow:hidden; margin-bottom:5px; }
 .grave-card-head { display:flex; align-items:center; gap:12px; padding:9px 14px; cursor:pointer; user-select:none; }
 .grave-card-head:hover { background:var(--surface); }
@@ -705,7 +710,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* Status strip */
 .combat-status-strip {
-  margin-bottom:20px; border:1px solid var(--border-hi); border-radius:8px;
+  margin-bottom:12px; border:1px solid var(--border-hi); border-radius:8px;
   background:rgba(255,255,255,0.015); overflow:hidden;
 }
 .combat-status-strip .combat-status-hdr {
@@ -715,18 +720,23 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .combat-status-strip .combat-status-body {
   display:flex; align-items:center; gap:0;
 }
-.combat-status-strip .combat-status-radar-wrap { padding:14px 12px; flex-shrink:0; }
+.combat-status-strip .combat-status-radar-wrap { padding:10px 18px; flex-shrink:0; }
 .combat-status-strip .combat-status-sliders {
   flex:1; display:flex; flex-direction:column; justify-content:center; gap:6px;
-  padding:14px 10px; min-width:0;
+  padding:14px 16px; min-width:0;
 }
-.combat-status-strip .stat-bar-lbl { min-width:52px; }
-.combat-status-strip .stat-bar-val { min-width:22px; }
+.combat-status-strip .stat-bar-lbl { min-width:58px; }
+.combat-status-strip .stat-bar-val { min-width:26px; }
+/* Status history charts */
+.status-charts-wrap {
+  border-top:1px solid rgba(255,255,255,0.06); padding:6px 18px 12px;
+}
+.status-history-canvas { width:100%; height:90px; display:block; }
 
 /* Practice card (new multi-practice system) */
 .practice-card {
   border:1px solid rgba(42,122,72,0.25); border-left:3px solid var(--activity);
-  border-radius:6px; background:var(--activity-bg); margin-bottom:12px; overflow:hidden;
+  border-radius:6px; background:var(--activity-bg); margin-bottom:8px; overflow:hidden;
 }
 .practice-card.priority-1 {
   border-color:rgba(42,122,72,0.45); border-left-color:var(--activity);
@@ -751,12 +761,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-card-body {
   display:grid; grid-template-columns:1fr auto; gap:0; align-items:start;
 }
-.practice-info { padding:16px 18px; }
+.practice-info { padding:12px 18px; }
 .practice-name { font-family:'Cinzel',serif; font-size:17px; color:var(--activity); letter-spacing:0.06em; margin-bottom:4px; }
 .practice-desc { font-size:17px; color:var(--text-mid); line-height:1.6; }
 .practice-why { font-size:17px; color:#60a838; font-style:italic; margin-top:6px; line-height:1.5; }
 .practice-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
-.practice-widget { padding:18px 20px 14px; border-left:1px solid rgba(42,122,72,0.12); min-width:220px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.practice-widget { padding:14px 20px 12px; border-left:1px solid rgba(42,122,72,0.12); min-width:220px; display:flex; flex-direction:column; align-items:center; gap:10px; }
 .practice-stats { display:flex; gap:20px; padding:8px 18px 12px; border-top:1px solid rgba(42,122,72,0.1); font-family:var(--mono); font-size:15px; color:var(--text-dim); }
 .practice-stat { display:flex; flex-direction:column; gap:2px; }
 .practice-stat-label { font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); }
@@ -765,29 +775,31 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-graph-canvas { width:100%; height:80px; }
 
 /* Checkbox practice widget */
-.checkbox-dots { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+.checkbox-dots { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
 .checkbox-dot {
-  width:28px; height:28px; border-radius:50%; border:2px solid rgba(42,122,72,0.4);
-  background:none; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:50%; border:2px solid rgba(42,122,72,0.4);
+  background:none; cursor:pointer; transition:all 0.18s; display:flex; align-items:center; justify-content:center;
+  font-size:18px;
 }
-.checkbox-dot.filled { background:var(--activity); border-color:var(--activity); }
-.checkbox-dot:hover:not(.filled) { border-color:var(--activity); background:rgba(42,122,72,0.15); }
-.practice-count-lbl { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
+.checkbox-dot.filled { background:var(--activity); border-color:var(--activity); box-shadow:0 0 8px rgba(42,122,72,0.45); }
+.checkbox-dot.filled::after { content:'✓'; color:#fff; font-size:18px; font-weight:700; }
+.checkbox-dot:hover:not(.filled) { border-color:var(--activity); background:rgba(42,122,72,0.18); transform:scale(1.08); }
+.practice-count-lbl { font-family:var(--mono); font-size:16px; color:var(--text-dim); }
 
 /* Number practice widget */
-.number-entry { display:flex; gap:8px; align-items:center; }
+.number-entry { display:flex; gap:10px; align-items:center; flex-direction:column; }
 .number-input {
-  background:var(--bg); border:1px solid var(--border-hi); border-radius:3px;
-  color:var(--text-b); font-family:var(--mono); font-size:18px; font-weight:700;
-  padding:6px 10px; width:70px; text-align:center;
+  background:var(--bg); border:2px solid var(--border-hi); border-radius:6px;
+  color:var(--text-b); font-family:var(--mono); font-size:32px; font-weight:700;
+  padding:10px 16px; width:100px; text-align:center;
 }
-.number-input:focus { outline:none; border-color:var(--activity); }
+.number-input:focus { outline:none; border-color:var(--activity); box-shadow:0 0 0 2px rgba(42,122,72,0.2); }
 .number-save-btn {
-  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.12em; text-transform:uppercase;
-  border:1px solid rgba(42,122,72,0.4); border-radius:3px; background:none;
-  color:var(--activity); cursor:pointer; padding:6px 12px; transition:all 0.2s;
+  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase;
+  border:1px solid rgba(42,122,72,0.5); border-radius:4px; background:rgba(42,122,72,0.08);
+  color:var(--activity); cursor:pointer; padding:8px 18px; transition:all 0.2s; width:100%;
 }
-.number-save-btn:hover { background:rgba(42,122,72,0.1); }
+.number-save-btn:hover { background:rgba(42,122,72,0.2); border-color:var(--activity); }
 .practice-period-lbl { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
 .practice-xp-earned { font-family:var(--mono); font-size:15px; color:#b080e8; min-height:14px; text-align:center; }
 
@@ -983,17 +995,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .balance-el-card-hdr { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em; color:var(--text-dim); text-transform:uppercase; padding:10px 16px 0; }
 .balance-el-card-body {
   display:grid;
-  grid-template-columns: minmax(220px,310px) auto minmax(0,1fr);
+  grid-template-columns: minmax(0,1.2fr) min-content minmax(0,2fr);
   align-items:stretch;
   gap:0;
   padding:10px 16px 14px;
 }
 /* Radar column — square via aspect-ratio, fills its column */
 .balance-el-radar-svg { display:block; width:100%; aspect-ratio:1; overflow:visible; }
-/* Sidebar — legend above, trio below, fixed width */
+/* Sidebar — legend above, trio below, sized to content */
 .balance-el-sidebar {
   display:flex; flex-direction:column; justify-content:center; gap:16px;
-  padding:0 18px; border-left:1px solid var(--border); width:120px; flex-shrink:0;
+  padding:0 18px; border-left:1px solid var(--border); white-space:nowrap;
 }
 .balance-radar-legend { display:flex; flex-direction:column; gap:6px; }
 .balance-radar-legend-item { display:flex; align-items:center; gap:7px; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase; }
@@ -1012,23 +1024,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--text-dim); text-transform:uppercase; margin-bottom:2px; }
 .harmony-chart-desc { font-size:15px; color:var(--text-dim); font-style:italic; margin-bottom:8px; }
 /* Narrow window: stack chart below radar+sidebar */
-@media (max-width: 700px) {
-  .balance-el-card-body { grid-template-columns: auto auto; grid-template-rows: auto auto; }
+@media (max-width: 820px) {
+  .balance-el-card-body { grid-template-columns: min-content auto; grid-template-rows: auto auto; }
   .harmony-chart-col { grid-column: 1 / -1; border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; margin-top:4px; }
 }
 /* ══ STATS panel (skills tab) ══════════════════════════ */
 .stats-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:18px; }
 .stats-card-hdr { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em; color:var(--text-dim); text-transform:uppercase; padding:10px 16px 0; }
-.balance-stats-body { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; padding:8px 16px 14px; }
-.balance-radar-panel { flex-shrink:0; }
-.balance-stats-left { display:grid; grid-template-rows:1fr 1fr; gap:10px; }
-.balance-stats-right { display:grid; grid-template-rows:1fr 1fr; gap:10px; }
-.cstat-row { display:flex; flex-direction:column; gap:4px; }
-.cstat-row.right { align-items:flex-end; }
-.cstat-name { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; color:var(--text-dim); text-transform:uppercase; }
-.cstat-bar-wrap { width:100%; height:3px; background:var(--border-hi); border-radius:2px; overflow:hidden; }
-.cstat-bar-fill { height:100%; border-radius:2px; transition:width .4s; }
-.cstat-score { font-family:var(--mono); font-size:15px; color:var(--text-mid); white-space:nowrap; }
 
 /* ══ DRAG-TO-REORDER ════════════════════════════════════════ */
 .drag-handle { display:flex; align-items:center; justify-content:center; width:18px; flex-shrink:0; cursor:grab; color:var(--text-dim); opacity:0.35; font-size:17px; user-select:none; padding:0 2px; transition:opacity 0.15s; }
@@ -1086,7 +1088,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
   <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills</button>
   <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('bestiary')"><span class="tab-nav-count" id="nav-bestiary" style="color:#c84040">0</span>Enemies</button>
-  <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Inventory</button>
+  <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
   <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')"><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
   <button class="tab-btn" data-tab-colour="#706a5a" onclick="switchTab('lore')"><span class="tab-nav-count" id="nav-lore" style="color:#706a5a">1</span>Journal</button>
 </nav>
@@ -1114,10 +1116,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <circle id="r-fire"  cx="0" cy="0" r="4.5" fill="#d07830"/>
       <circle id="r-water" cx="0" cy="0" r="4.5" fill="#3a80c8"/>
       <circle id="r-earth" cx="0" cy="0" r="4.5" fill="#60a838"/>
-      <text x="0"   y="-73" text-anchor="middle" font-family="'Cinzel',serif" font-size="8" fill="#8090a8" letter-spacing="0.14em">AIR</text>
-      <text x="74"  y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="8" fill="#d07830" letter-spacing="0.14em">FIRE</text>
-      <text x="0"   y="84"  text-anchor="middle" font-family="'Cinzel',serif" font-size="8" fill="#3a80c8" letter-spacing="0.14em">WATER</text>
-      <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="8" fill="#60a838" letter-spacing="0.14em">EARTH</text>
+      <text x="0"   y="-73" text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#8090a8" letter-spacing="0.12em">AIR</text>
+      <text x="74"  y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="10" fill="#d07830" letter-spacing="0.12em">FIRE</text>
+      <text x="0"   y="85"  text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#3a80c8" letter-spacing="0.12em">WATER</text>
+      <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
     </svg>
     <!-- Col 2: legend + scores -->
     <div class="balance-el-sidebar">
@@ -1141,7 +1143,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <!-- Col 3: line chart -->
     <div class="harmony-chart-col">
       <div class="harmony-chart-col-hdr">Over Time</div>
-      <div class="harmony-chart-desc">Signal of variance between elements. Higher = more balanced</div>
+      <div class="harmony-chart-desc">Signal of balance between element scores, inferred from each session.</div>
       <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:100px"></canvas>
     </div>
   </div>
@@ -1172,22 +1174,26 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="lbl">Progression</div>
       <div class="section-desc">Summary of how this chapter is going</div>
       <div class="claude-read-card" id="air-claude-read">No read yet.</div>
+      <div id="air-progression" style="display:none;margin-top:12px;">
+        <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:var(--text-dim);opacity:0.7;text-transform:uppercase;margin-bottom:7px;">Progression Timeline</div>
+        <div id="air-progression-text" style="font-size:17px;color:var(--text-mid);line-height:1.65;"></div>
+      </div>
     </div>
     <div class="grid-2">
       <div>
-        <div class="lbl" style="color:#c84040">Enemies</div>
-        <div class="section-desc">Perceived problems that signal opportunity</div>
+        <div class="lbl" style="color:#c83060">◈ Distortions</div>
+        <div class="section-desc">How situations or evidence are being filtered right now</div>
         <div id="air-enemies"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c06060;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
+          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c83060;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
         </div>
       </div>
       <div>
-        <div class="lbl">Allies</div>
-        <div class="section-desc">People and places that don't require performance</div>
-        <div class="flow-wrap" id="air-allies"></div>
+        <div class="lbl" style="color:#4aaa72">☁ Loot</div>
+        <div class="section-desc">Resources, tools, and advantages working for you</div>
+        <div id="air-allies"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2a9050;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Inventory →</span>
+          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#4aaa72;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
         </div>
       </div>
     </div>
@@ -1219,18 +1225,21 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     </div>
     <div class="grid-2">
       <div>
-        <div class="lbl" style="color:#c84040">Underlevelled</div>
-        <div class="section-desc">Where you have the most room to grow</div>
-        <div id="fire-skills-left"></div>
+        <div class="lbl" style="color:#c83030">⚡ Compulsions</div>
+        <div class="section-desc">Action-level patterns driven by urgency or avoidance</div>
+        <div id="fire-compulsions"></div>
+        <div style="margin-top:10px;text-align:right">
+          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c83030;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
+        </div>
       </div>
       <div>
-        <div class="lbl">Signature Strengths</div>
-        <div class="section-desc">Where you already have real power</div>
-        <div id="fire-skills-right"></div>
+        <div class="lbl" style="color:#c87828">✦ Spells</div>
+        <div class="section-desc">Reliable actions that shift your state or create momentum</div>
+        <div id="fire-spells"></div>
+        <div style="margin-top:10px;text-align:right">
+          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c87828;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
+        </div>
       </div>
-    </div>
-    <div style="margin-top:10px;text-align:right">
-      <span class="bestiary-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#9060c0;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
     </div>
   </div>
 </div>
@@ -1256,16 +1265,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="el-body open">
     <div class="grid-2" style="margin-bottom:14px">
       <div>
-        <div class="lbl" style="color:#c8a84a">Limiting Beliefs</div>
+        <div class="lbl" style="color:#8b5e3c">⬡ Limiting Beliefs</div>
         <div class="section-desc">False stories driving behaviour</div>
         <div id="limiting-list"></div>
-        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c8a84a;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
+        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#8b5e3c;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
       </div>
       <div>
-        <div class="lbl" style="color:rgba(76,175,125,0.9)">Empowering Beliefs</div>
+        <div class="lbl" style="color:#2d6e40">⬡ Empowering Beliefs</div>
         <div class="section-desc">True things worth remembering</div>
         <div id="empowering-list"></div>
-        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:rgba(76,175,125,0.9);cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Inventory →</span></div>
+        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2d6e40;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span></div>
       </div>
     </div>
     <div style="border-top:1px solid var(--border);padding-top:12px;">
@@ -1297,16 +1306,19 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <!-- Sources + Drains side by side -->
     <div class="grid-2" style="margin-bottom:14px">
       <div>
-        <div class="lbl" style="color:#c84040">Drains</div>
+        <div class="lbl" style="color:#6040a0">↓ Drains</div>
         <div class="section-desc">Habits that cost more than they give</div>
-        <div class="flow-wrap" id="water-drains"></div>
+        <div id="water-drains"></div>
+        <div style="margin-top:10px;text-align:right">
+          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#6040a0;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
+        </div>
       </div>
       <div>
-        <div class="lbl" style="color:#2a7a80">Sources</div>
+        <div class="lbl" style="color:#2a9090">↑ Sources</div>
         <div class="section-desc">Activities that reliably produce aliveness</div>
-        <div class="flow-wrap" id="flow-sources"></div>
+        <div id="flow-sources"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2a7a80;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Inventory →</span>
+          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2a9090;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
         </div>
       </div>
     </div>
@@ -1363,29 +1375,53 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <!-- Stats card -->
   <div class="stats-card">
     <div class="stats-card-hdr">Stats</div>
-    <div class="balance-stats-body">
-      <div class="balance-stats-left" id="balance-stats-left"></div>
-      <div class="balance-radar-panel">
-        <svg id="stats-radar-svg" width="160" height="148" viewBox="-70 -63 140 126" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:block">
-          <polygon points="0,-44 44,0 0,44 -44,0" fill="none" stroke="#232332" stroke-width="1"/>
-          <polygon points="0,-33 33,0 0,33 -33,0" fill="none" stroke="#1c1c26" stroke-width="0.8"/>
-          <polygon points="0,-22 22,0 0,22 -22,0" fill="none" stroke="#18181f" stroke-width="0.6"/>
-          <polygon points="0,-11 11,0 0,11 -11,0" fill="none" stroke="#18181f" stroke-width="0.4"/>
-          <line x1="0" y1="-52" x2="0" y2="52" stroke="#18181f" stroke-width="0.5"/>
-          <line x1="-52" y1="0" x2="52" y2="0" stroke="#18181f" stroke-width="0.5"/>
+    <div class="combat-status-body" style="padding:10px 16px 4px;">
+      <div class="combat-status-sliders">
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
+          <input type="range" class="stat-range" id="stat-rest" min="0" max="100" value="50" oninput="updateStat('rest',this.value)">
+          <span class="stat-bar-val" id="stat-rest-val">50</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
+          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)">
+          <span class="stat-bar-val" id="stat-connection-val">50</span>
+        </div>
+      </div>
+      <div class="combat-status-radar-wrap">
+        <svg id="stats-radar-svg" width="220" height="220" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
+          <polygon points="0,-38 38,0 0,38 -38,0" fill="none" stroke="#232332" stroke-width="0.8"/>
+          <polygon points="0,-28.5 28.5,0 0,28.5 -28.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
+          <polygon points="0,-19 19,0 0,19 -19,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
+          <line x1="0" y1="-44" x2="0" y2="44" stroke="#1e1e28" stroke-width="0.5"/>
+          <line x1="-44" y1="0" x2="44" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
           <polygon id="stats-radar-fill"   fill="rgba(58,128,200,0.06)" stroke="none"/>
-          <polygon id="stats-radar-stroke" fill="none" stroke="#3a80c8" stroke-width="1.4" opacity="0.4"/>
-          <circle id="s-rest"       cx="0" cy="0" r="5" fill="#8090a8"/>
-          <circle id="s-movement"   cx="0" cy="0" r="5" fill="#d07830"/>
-          <circle id="s-connection" cx="0" cy="0" r="5" fill="#3a80c8"/>
-          <circle id="s-nutrition"  cx="0" cy="0" r="5" fill="#60a838"/>
-          <text x="0"   y="-52" text-anchor="middle" font-family="'Cinzel',serif" font-size="9" fill="#8090a8" letter-spacing="0.1em">REST</text>
-          <text x="56"  y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="7" fill="#d07830" letter-spacing="0.08em">MOVE</text>
-          <text x="0"   y="62"  text-anchor="middle" font-family="'Cinzel',serif" font-size="7" fill="#60a838" letter-spacing="0.08em">NUTRI</text>
-          <text x="-56" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="7" fill="#3a80c8" letter-spacing="0.08em">CONNECT</text>
+          <polygon id="stats-radar-stroke" fill="none" stroke="rgba(58,128,200,0.4)" stroke-width="1.4"/>
+          <circle id="s-rest"       cx="0" cy="-38" r="3.5" fill="#8090a8"/>
+          <circle id="s-movement"   cx="38" cy="0"  r="3.5" fill="#d07830"/>
+          <circle id="s-nutrition"  cx="0"  cy="38" r="3.5" fill="#60a838"/>
+          <circle id="s-connection" cx="-38" cy="0" r="3.5" fill="#3a80c8"/>
+          <text x="0"    y="-47" text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#8090a8" letter-spacing="0.1em">REST</text>
+          <text x="48"   y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="6.5" fill="#d07830" letter-spacing="0.1em">MOVE</text>
+          <text x="0"    y="54"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#60a838" letter-spacing="0.1em">NUTRI</text>
+          <text x="-48"  y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="6.5" fill="#3a80c8" letter-spacing="0.1em">CONNECT</text>
         </svg>
       </div>
-      <div class="balance-stats-right" id="balance-stats-right"></div>
+      <div class="combat-status-sliders">
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
+          <input type="range" class="stat-range" id="stat-movement" min="0" max="100" value="50" oninput="updateStat('movement',this.value)">
+          <span class="stat-bar-val" id="stat-movement-val">50</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#60a838">Nutrition</span>
+          <input type="range" class="stat-range" id="stat-nutrition" min="0" max="100" value="50" oninput="updateStat('nutrition',this.value)">
+          <span class="stat-bar-val" id="stat-nutrition-val">50</span>
+        </div>
+      </div>
+    </div>
+    <div class="status-charts-wrap">
+      <canvas id="stats-history-canvas" class="status-history-canvas"></canvas>
     </div>
   </div>
   <div class="combat-section" id="combat-skills-section">
@@ -1404,22 +1440,22 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- ── Status strip ── -->
   <div class="combat-status-strip">
-    <div class="combat-status-hdr">Status</div>
+    <div class="combat-status-hdr">Status check-in</div>
     <div class="combat-status-body">
       <div class="combat-status-sliders">
-        <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
-          <input type="range" class="stat-range stat-range-purpose" id="status-purpose" min="0" max="100" value="55" oninput="updateStatus('purpose',this.value)">
-          <span class="stat-bar-val" id="status-purpose-val">55</span>
-        </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#c0cad4">Focus</span>
           <input type="range" class="stat-range stat-range-focus" id="status-focus" min="0" max="100" value="70" oninput="updateStatus('focus',this.value)">
           <span class="stat-bar-val" id="status-focus-val">70</span>
         </div>
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
+          <input type="range" class="stat-range stat-range-purpose" id="status-purpose" min="0" max="100" value="55" oninput="updateStatus('purpose',this.value)">
+          <span class="stat-bar-val" id="status-purpose-val">55</span>
+        </div>
       </div>
       <div class="combat-status-radar-wrap">
-        <svg id="status-radar-svg" width="150" height="150" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
+        <svg id="status-radar-svg" width="220" height="220" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
           <polygon points="0,-38 38,0 0,38 -38,0" fill="none" stroke="#232332" stroke-width="0.8"/>
           <polygon points="0,-28.5 28.5,0 0,28.5 -28.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
           <polygon points="0,-19 19,0 0,19 -19,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
@@ -1450,6 +1486,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
       </div>
     </div>
+    <!-- ── Status history bar charts ── -->
+    <div class="status-charts-wrap">
+      <canvas id="status-history-canvas" class="status-history-canvas"></canvas>
+    </div>
   </div>
 
   <!-- ── Practices ── -->
@@ -1467,34 +1507,26 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="tab-lore" class="tab-panel">
+  <div id="lore-progression" style="display:none;margin-bottom:24px;padding:18px 22px;background:rgba(96,64,160,0.05);border:1px solid rgba(96,64,160,0.18);border-left:3px solid #7050b0;border-radius:6px;">
+    <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:#9070c8;opacity:0.8;text-transform:uppercase;margin-bottom:9px;">Progression Timeline</div>
+    <div id="lore-progression-text" style="font-size:17px;color:var(--text-b);line-height:1.65;"></div>
+  </div>
   <div id="lore-key-q" style="display:none;margin-bottom:22px;padding:16px 20px;background:rgba(180,150,80,0.07);border:1px solid rgba(180,150,80,0.2);border-left:3px solid var(--gold);border-radius:5px;"></div>
   <div id="insights-timeline"></div>
 </div>
 
 <div id="tab-allies" class="tab-panel">
   <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:#2a9050;border-color:rgba(42,144,80,0.3);">🤝 Allies</div>
-    <div class="section-desc">People and places that don't require performance</div>
-    <div id="allies-gratitudes"></div>
-    <button class="add-item-btn" onclick="addAlly()">+ Add Ally</button>
-  </div>
-  <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:#2a7a80;border-color:rgba(42,120,128,0.3);">✦ Sources</div>
-    <div class="section-desc">Activities that recharge you or produce genuine aliveness</div>
-    <div id="allies-flow"></div>
-    <button class="add-item-btn" onclick="addPursuit()">+ Add Source</button>
+    <div class="qt-section-hdr no-prefix" style="color:#2a9050;border-color:rgba(42,144,80,0.3);">✦ Allies</div>
+    <div class="section-desc">Loot, spells, liberating beliefs, and sources of aliveness — everything working for you</div>
+    <div id="al-allies"></div>
   </div>
 </div>
 
 <div id="tab-bestiary" class="tab-panel">
   <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.3);">☠  Boss</div>
-    <div class="section-desc">Your number one problem — defeat it and the others weaken</div>
-    <div id="bt-boss"></div>
-  </div>
-  <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.3);">Active Patterns</div>
-    <div class="section-desc">Enemies, limiting beliefs, and drains — everything working against you</div>
+    <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.3);">Live Enemies</div>
+    <div class="section-desc">Negative patterns, ranked by priority. Your main boss is number one.</div>
     <div id="bt-enemies"></div>
   </div>
   <div class="qt-section">
@@ -1778,35 +1810,39 @@ function buildSliderCol(elName, labelId, sliderId, rangeClass, value, labelText,
   const belt  = getCurrentBelt(v);
   const currentIdx = BELT_TIERS.findIndex(t => t.key === belt.key);
 
-  const ticksHtml = BELT_TIERS.map((t, ti) => {
+  // Build two separate rows: XP pills above bar, milestone labels below bar
+  let xpRowHtml = '', ticksHtml = '';
+  BELT_TIERS.forEach((t, ti) => {
     const isCurrent = ti === currentIdx;
     const isPast    = ti < currentIdx;
     const isNext    = ti === currentIdx + 1;
     const lblStyle  = isCurrent ? `color:${colC};` : '';
     const xpVal     = xpRewards ? xpRewards[ti] : t.xp;
     const isLevelUp = ti === 4;
-    const xpLabel   = isLevelUp ? `▲ +${xpVal} XP` : `+${xpVal} XP`;
+    const offset    = ti === 4 ? 'translateX(-85%)' : ti === 0 ? 'translateX(-15%)' : 'translateX(-50%)';
 
-    let xpTag = '';
-    if (isPast) {
-      xpTag = xpVal
-        ? `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;margin-top:2px;opacity:0.45;text-decoration:line-through;">✓ +${xpVal} XP</span>`
-        : `<span style="font-size:13px;color:var(--text-dim);opacity:0.45;margin-top:2px;line-height:1;">✓</span>`;
-    } else if (isNext && xpVal) {
-      xpTag = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;margin-top:2px;">${xpLabel}</span>`;
-    } else if (!isCurrent && xpVal) {
-      xpTag = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;margin-top:2px;opacity:0.2;">${xpLabel}</span>`;
+    // XP pill row (above bar) — skip tier I (null) and tier V
+    if (!isLevelUp && xpVal) {
+      let pill = '';
+      if (isPast) {
+        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;opacity:0.45;text-decoration:line-through;">✓ +${xpVal} XP</span>`;
+      } else if (isNext) {
+        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;">+${xpVal} XP</span>`;
+      } else {
+        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;opacity:0.2;">+${xpVal} XP</span>`;
+      }
+      xpRowHtml += `<div style="position:absolute;left:${t.pct}%;transform:${offset};display:flex;align-items:center;">${pill}</div>`;
     }
 
-    const offset = ti === 4 ? 'translateX(-85%)' : ti === 0 ? 'translateX(-15%)' : 'translateX(-50%)';
-    return `<div class="belt-tick${isCurrent?' current':''}" style="left:${t.pct}%;transform:${offset}">
+    // Milestone tick row (below bar) — lines + roman numerals only
+    ticksHtml += `<div class="belt-tick${isCurrent?' current':''}" style="left:${t.pct}%;transform:${offset}">
       <div class="belt-tick-line ${t.tc}"></div>
       <div class="belt-tick-lbl" style="${lblStyle}">${t.label}</div>
-      ${xpTag}
     </div>`;
-  }).join('');
+  });
 
   col.innerHTML = `
+    <div style="position:relative;height:22px;margin-bottom:2px;">${xpRowHtml}</div>
     <div class="slider-labels"><span>${lbCfg.how.lo}</span><span></span><span>${lbCfg.how.hi}</span></div>
     <div class="slider-wrap">
       <input type="range" class="${rangeClass} rank-${belt.key}" id="${sliderId}"
@@ -1825,6 +1861,14 @@ function buildSliderCol(elName, labelId, sliderId, rangeClass, value, labelText,
 const pad=n=>n.toString().padStart(2,'0');
 
 // ══ HARMONY SCORE ═══════════════════════════════════════════
+// Resolve element scores from either {sliderValues:{air:74}} or {air:{score:74}} format
+function resolveElementScores(state){
+  if(state.sliderValues) return state.sliderValues;
+  const sv={};
+  ['air','fire','water','earth'].forEach(e=>{ sv[e]=typeof state[e]==='object'?state[e].score||0:state[e]||0; });
+  return sv;
+}
+
 // harmony = 100 - normalised std dev of the four element values (0-100 scale)
 function calcHarmony(sv){
   const vals=[sv.air||0,sv.fire||0,sv.water||0,sv.earth||0];
@@ -1833,18 +1877,9 @@ function calcHarmony(sv){
   return Math.round(Math.max(0,100-(std/50)*100)); // std of 50 = 0 harmony
 }
 
-// Update smoothed values with exponential moving average (α=0.3)
-function updateSmoothed(state){
-  const sv=state.sliderValues||{air:0,fire:0,water:0,earth:0};
-  const sm=state.balanceSmoothed||{...sv};
-  const α=0.3;
-  ['air','fire','water','earth'].forEach(e=>{ sm[e]=Math.round(α*(sv[e]||0)+(1-α)*(sm[e]||0)); });
-  state.balanceSmoothed=sm;
-}
-
 // Append a snapshot to harmonyHistory on import (called from applyUpdate)
 function snapshotHarmony(state){
-  const sv=state.sliderValues||{air:0,fire:0,water:0,earth:0};
+  const sv=resolveElementScores(state);
   const entry={date:todayStr(),air:sv.air||0,fire:sv.fire||0,water:sv.water||0,earth:sv.earth||0,harmony:calcHarmony(sv)};
   if(!state.harmonyHistory) state.harmonyHistory=[];
   // Don't duplicate same-day entry — replace instead
@@ -1863,7 +1898,7 @@ function radarPts(sv, R){
 
 function updateRadarWithGhosts(state){
   const R=60;
-  const sv=state.sliderValues||{air:0,fire:0,water:0,earth:0};
+  const sv=resolveElementScores(state);
   // Current
   const pts=radarPts(sv,R);
   const fill=document.getElementById('radar-fill'); if(fill) fill.setAttribute('points',pts);
@@ -1966,7 +2001,7 @@ function renderHarmonyChart(state){
     const align=li===0?'left':li===labelCount-1?'right':'center';
     ctx.textAlign=align;
     const dx=li===0?padL:li===labelCount-1?W-padR:x;
-    if(hist[i]) ctx.fillText(hist[i].date.slice(5),dx,H-4);
+    if(hist[i]){ const p=hist[i].date.split('-'); ctx.fillText(p[2]+'/'+p[1],dx,H-4); }
   }
 
   // Current harmony label on right
@@ -1989,43 +2024,118 @@ function updateRadar(vals){
   document.getElementById('r-earth').setAttribute('cx',ex);
 }
 
-function updateStatsRadar(wol){
-  const R=44, sc=v=>Math.min(R,(v/100)*R);
-  const rv=wol.rest||{score:0}, mv=wol.movement||{score:0}, cv=wol.connection||{score:0}, nv=wol.nutrition||{score:0};
-  // Top=Rest, Right=Movement, Bottom=Nutrition, Left=Connection
-  const ay=-sc(rv.score||0), fx=sc(mv.score||0), wy=sc(nv.score||0), ex=-sc(cv.score||0);
+const STAT_COLORS = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
+const STATS_HIST_KEY = 'liferpg-stats-hist-v7';
+
+function updateStatsRadar(){
+  const R=38;
+  const val=name=>{ const el=document.getElementById('stat-'+name); return el?parseInt(el.value)/100:0; };
+  const ay=-R*val('rest'), fx=R*val('movement'), wy=R*val('nutrition'), ex=-R*val('connection');
   const pts=`0,${ay} ${fx},0 0,${wy} ${ex},0`;
   const fill=document.getElementById('stats-radar-fill'); if(fill) fill.setAttribute('points',pts);
   const stroke=document.getElementById('stats-radar-stroke'); if(stroke) stroke.setAttribute('points',pts);
-  const sr=document.getElementById('s-rest');       if(sr)  sr.setAttribute('cy',ay);
-  const sm=document.getElementById('s-movement');   if(sm)  sm.setAttribute('cx',fx);
-  const sn=document.getElementById('s-nutrition');  if(sn)  sn.setAttribute('cy',wy);
-  const sc2=document.getElementById('s-connection');if(sc2) sc2.setAttribute('cx',ex);
+  const sr=document.getElementById('s-rest');       if(sr)  { sr.setAttribute('cx','0'); sr.setAttribute('cy',ay); }
+  const sm=document.getElementById('s-movement');   if(sm)  { sm.setAttribute('cx',fx); sm.setAttribute('cy','0'); }
+  const sn=document.getElementById('s-nutrition');  if(sn)  { sn.setAttribute('cx','0'); sn.setAttribute('cy',wy); }
+  const sc=document.getElementById('s-connection'); if(sc)  { sc.setAttribute('cx',ex); sc.setAttribute('cy','0'); }
 }
 
-function renderCompactStats(s){
-  const elL=document.getElementById('balance-stats-left');
-  const elR=document.getElementById('balance-stats-right');
-  if(!elL||!elR) return;
-  const wol=s.wheelOfLife||{};
-  const trendIcon={'up-strong':'↑','up-slight':'↗','flat':'→','down-slight':'↘','down-strong':'↓'};
-  function tile(key,label,color,alignRight){
-    const v=wol[key]||{score:0,trend:'flat'};
-    const score=Math.min(100,Math.max(0,v.score||0));
-    const ti=trendIcon[v.trend||'flat']||'→';
-    const tc=v.trend?.startsWith('up')?'#3a8050':v.trend?.startsWith('down')?'#903030':'var(--text-dim)';
-    const cls=alignRight?'cstat-row right':'cstat-row';
-    return `<div class="${cls}">
-      <div class="cstat-name" style="color:${color}">${label}</div>
-      <div class="cstat-bar-wrap"><div class="cstat-bar-fill" style="width:${score}%;background:${color}"></div></div>
-      <div class="cstat-score" style="color:${tc}">${ti} ${score}</div>
-    </div>`;
+function renderStatsHistoryChart(){
+  const canvas=document.getElementById('stats-history-canvas');
+  if(!canvas) return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||canvas.parentElement.offsetWidth||600;
+  const H=90;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  let hist=[];
+  try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
+  if(!hist.length){
+    ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.font='12px monospace'; ctx.textAlign='center';
+    ctx.fillText('No history yet — adjusting sliders records a snapshot',W/2,H/2);
+    return;
   }
-  // Left col: movement (top), rest (bottom)
-  elL.innerHTML=tile('movement','Movement','#d07830',false)+tile('rest','Rest','#8090a8',false);
-  // Right col: connection (top), nutrition (bottom)
-  elR.innerHTML=tile('connection','Connection','#3a80c8',true)+tile('nutrition','Nutrition','#60a838',true);
+  const keys=['rest','movement','nutrition','connection'];
+  const cols=STAT_COLORS;
+  const last7=hist.slice(-7);
+  const avg7={}, avgAll={};
+  keys.forEach(k=>{
+    avg7[k]=last7.length?Math.round(last7.reduce((s,e)=>s+(e[k]||0),0)/last7.length):0;
+    avgAll[k]=Math.round(hist.reduce((s,e)=>s+(e[k]||0),0)/hist.length);
+  });
+  const padL=10,padR=10,padT=18,padB=22;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const groupGap=24, barGap=3, numBars=keys.length;
+  const barW=(plotW/2-groupGap/2-barGap*(numBars-1))/numBars;
+  ctx.font='10px monospace'; ctx.textAlign='center'; ctx.fillStyle='rgba(255,255,255,0.35)';
+  const g1X=padL+(plotW/2-groupGap/2)/2;
+  const g2X=padL+(plotW/2+groupGap/2)+(plotW/2-groupGap/2)/2;
+  ctx.fillText('7-day avg',g1X,padT-4);
+  ctx.fillText('all-time avg',g2X,padT-4);
+  function drawGroup(avgs,startX){
+    keys.forEach((k,i)=>{
+      const x=startX+i*(barW+barGap);
+      const barH=(avgs[k]/100)*plotH, y=padT+plotH-barH;
+      ctx.fillStyle='rgba(255,255,255,0.05)'; ctx.fillRect(x,padT,barW,plotH);
+      ctx.fillStyle=cols[k]; ctx.globalAlpha=0.75; ctx.fillRect(x,y,barW,barH); ctx.globalAlpha=1;
+      ctx.fillStyle=cols[k]; ctx.font='bold 10px monospace'; ctx.textAlign='center';
+      ctx.fillText(avgs[k],x+barW/2,padT+plotH+12);
+      ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.font='9px monospace';
+      ctx.fillText(k.slice(0,3).toUpperCase(),x+barW/2,padT+plotH+22);
+    });
+  }
+  drawGroup(avg7,padL);
+  drawGroup(avgAll,padL+(plotW/2+groupGap/2));
 }
+
+function saveStatsSnapshot(){
+  try{
+    const today=new Date().toISOString().slice(0,10);
+    const hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]');
+    const entry={date:today};
+    Object.keys(STAT_COLORS).forEach(k=>{ const el=document.getElementById('stat-'+k); entry[k]=el?parseInt(el.value):0; });
+    const existing=hist.findIndex(e=>e.date===today);
+    if(existing>=0){ hist[existing]=entry; } else { hist.push(entry); }
+    hist.sort((a,b)=>a.date<b.date?-1:1);
+    if(hist.length>90) hist.splice(0,hist.length-90);
+    localStorage.setItem(STATS_HIST_KEY,JSON.stringify(hist));
+  }catch(e){}
+  renderStatsHistoryChart();
+}
+
+function updateStat(name, value){
+  const pct=parseInt(value);
+  const col=STAT_COLORS[name];
+  const el=document.getElementById('stat-'+name);
+  const valEl=document.getElementById('stat-'+name+'-val');
+  if(el) setStatusGradient(el,col,pct);
+  if(valEl) valEl.textContent=pct;
+  updateStatsRadar();
+  // Write back to appState so export reflects manual adjustments
+  if(!appState.wheelOfLife) appState.wheelOfLife={};
+  if(!appState.wheelOfLife[name]) appState.wheelOfLife[name]={};
+  appState.wheelOfLife[name].score=pct;
+  saveState(appState); markDirty();
+  saveStatsSnapshot();
+}
+
+function loadStatSliders(s){
+  const wol=(s||appState).wheelOfLife||{};
+  Object.entries(STAT_COLORS).forEach(([name,col])=>{
+    const el=document.getElementById('stat-'+name);
+    const valEl=document.getElementById('stat-'+name+'-val');
+    if(!el) return;
+    const pct=Math.min(100,Math.max(0,(wol[name]||{}).score||0));
+    el.value=pct;
+    if(valEl) valEl.textContent=pct;
+    setStatusGradient(el,col,pct);
+  });
+  updateStatsRadar();
+  setTimeout(renderStatsHistoryChart,50);
+}
+
+function renderCompactStats(s){ loadStatSliders(s); }
 
 function buildBalanceIcon(sv){
   const els=['air','fire','water','earth'];
@@ -2046,7 +2156,7 @@ function buildBalanceIcon(sv){
 
 // ══ NAV COUNTS ══════════════════════════════════════════════
 function updateNavCounts(s){
-  const sv=s.sliderValues||{air:38,fire:30,water:22,earth:28};
+  const sv=resolveElementScores(s);
   const biEl=document.getElementById('nav-balance-icon'); if(biEl) biEl.innerHTML=buildBalanceIcon(sv);
   const qEl=document.getElementById('nav-quests'); if(qEl) qEl.textContent=(s.sideQuests||DEFAULT.sideQuests).length;
   const cEl=document.getElementById('nav-lore'); if(cEl){ const chs=s.insights||DEFAULT.insights||[]; cEl.textContent=chs.reduce((n,c)=>n+(c.entries||[]).length,0); }
@@ -2153,9 +2263,9 @@ function openSkill(skillName){
 function openEnemy(name){
   switchTab('bestiary');
   setTimeout(()=>{
-    document.querySelectorAll('.enemy-name-edit,.boss-name').forEach(el=>{
-      if(el.textContent.trim().toLowerCase()===name.trim().toLowerCase()){
-        const card=el.closest('.enemy-card,.boss-card');
+    document.querySelectorAll('.enemy-card').forEach(card=>{
+      const nameEl=card.querySelector('[style*="Cinzel"]');
+      if(nameEl&&nameEl.textContent.trim().toLowerCase()===name.trim().toLowerCase()){
         if(card) card.scrollIntoView({behavior:'smooth',block:'center'});
       }
     });
@@ -2288,7 +2398,7 @@ function completeQuest(i){
   const q=appState.sideQuests[i];
   if(!q) return;
   const xp=q.xpReward||0;
-  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const _td=new Date(); const today=String(_td.getDate()).padStart(2,'0')+'/'+String(_td.getMonth()+1).padStart(2,'0')+'/'+_td.getFullYear();
   // Snapshot for undo
   const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuests:JSON.parse(JSON.stringify(appState.completedQuests||[])), xp:appState.xp };
   if(!appState.completedQuests) appState.completedQuests=[];
@@ -2389,7 +2499,7 @@ function renderQuestsTab(s){
       const bodyId=`sq-body-${i}`,arrowId=`sq-arrow-${i}`;
       const d=document.createElement('div'); d.className='sqcard';
       const head=document.createElement('div'); head.className='sqcard-head';
-      const mark=document.createElement('span'); mark.className='quest-mark'; mark.textContent='!';
+      const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=i+1;
       const titleEl=makeEditable(q.title,'Quest name',v=>saveNestedField(['sideQuests',i,'title'],capitalise(v)),'sq-title-edit');
       titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
@@ -2504,10 +2614,9 @@ function renderLifeWheel(s){
 function addEnemy(){
   if(!appState.bestiary) appState.bestiary={};
   if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
-  appState.bestiary.currentEnemies.push({name:'',desc:'',trigger:''});
+  const maxP=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
+  appState.bestiary.currentEnemies.push({name:'',desc:'',trigger:'',type:'distortion',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
   saveState(appState); markDirty(); renderBestiaryTab(appState);
-  const cards=document.querySelectorAll('#bt-enemies .enemy-name-edit');
-  if(cards.length) cards[cards.length-1].focus();
 }
 function addGraveyard(){
   if(!appState.bestiary) appState.bestiary={};
@@ -2521,110 +2630,116 @@ function addGraveyard(){
 function renderBestiaryTab(s){
   const bestiary=s.bestiary||{};
 
-  // Boss
-  const bossEl=document.getElementById('bt-boss');
-  if(bossEl){
-    bossEl.innerHTML='';
-    const boss=bestiary.boss||{name:'',desc:''};
-    const card=document.createElement('div'); card.className='boss-card';
-    const nameRow=document.createElement('div'); nameRow.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:6px;';
-    const nameEl=makeEditable(boss.name,'Boss name',v=>saveNestedField(['bestiary','boss','name'],v),'boss-name');
-    nameEl.style.flex='1';
-    if(boss.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+boss.bounty+' XP bounty'; nameRow.appendChild(nameEl); nameRow.appendChild(pill); }
-    else { nameRow.appendChild(nameEl); }
-    card.appendChild(nameRow);
-    const bossHp=typeof boss.hp==='number'?boss.hp:100;
-    const bossHpWrap=document.createElement('div'); bossHpWrap.className='boss-hp-wrap';
-    const bossHpFill=document.createElement('div'); bossHpFill.className='boss-hp-fill';
-    bossHpFill.style.cssText=`width:${bossHp}%;background:${hpColor(bossHp)};`;
-    bossHpWrap.appendChild(bossHpFill); card.appendChild(bossHpWrap);
-    card.appendChild(makeEditable(boss.desc,'Describe your boss…',v=>saveNestedField(['bestiary','boss','desc'],v),'boss-desc'));
-    if(boss.whyBoss){ const wy=document.createElement('div'); wy.className='boss-why'; wy.textContent=boss.whyBoss; card.appendChild(wy); }
-    const vulns=(boss.vulnerabilities||[]).slice(0,3);
-    if(vulns.length){
-      const hdr=document.createElement('div'); hdr.className='boss-vuln-hdr'; hdr.textContent='Key Vulnerabilities'; card.appendChild(hdr);
-      vulns.forEach((v,i)=>{
-        const row=document.createElement('div'); row.className='boss-vuln';
-        const num=document.createElement('div'); num.className='boss-vuln-num'; num.textContent=i+1;
-        const body=document.createElement('div'); body.style.flex='1';
-        const title=document.createElement('div'); title.className='boss-vuln-title'; title.textContent=v.title||'';
-        const desc=document.createElement('div'); desc.className='boss-vuln-desc'; desc.textContent=v.desc||'';
-        body.appendChild(title); if(v.desc) body.appendChild(desc);
-        row.appendChild(num); row.appendChild(body); card.appendChild(row);
-      });
-    }
-    bossEl.appendChild(card);
-  }
-
-  // Current enemies
+  // All patterns: boss (always #1) + currentEnemies + limitingBeliefs, sorted by priority
   const enemiesEl=document.getElementById('bt-enemies');
   if(enemiesEl){
     enemiesEl.innerHTML='';
-    // Type configs
     const TYPES={
-      enemy:  {icon:'☠',  label:'Enemy',   cls:'ett-enemy',  nameColor:'#c84040'},
-      belief: {icon:'⬡',  label:'Belief',  cls:'ett-belief', nameColor:'#c8a84a'},
-      drain:  {icon:'↓',  label:'Drain',   cls:'ett-drain',  nameColor:'#5a9898'},
+      distortion: {icon:'◈', label:'Distortion',     cls:'ett-distortion', nameColor:'#c83060'},
+      compulsion: {icon:'⚡', label:'Compulsion',     cls:'ett-compulsion', nameColor:'#c83030'},
+      belief:     {icon:'⬡', label:'Limiting Belief', cls:'ett-belief',    nameColor:'#8b5e3c'},
+      drain:      {icon:'↓', label:'Drain',           cls:'ett-drain',     nameColor:'#6040a0'},
     };
-    // Merge all three sources in order: enemies, beliefs, drains
-    const enemies=(bestiary.currentEnemies||[]).map((e,i)=>({...e, _type:'enemy', _idx:i}));
-    const beliefs=(s.limitingBeliefs||[]).map((b,i)=>({name:b.title,desc:b.belief+'\n'+(b.desc||''), shortTermBenefit:b.shortTermBenefit||'', origin:b.origin||'', _type:'belief', _idx:i}));
-    const drains=(s.drains||[]).map((d,i)=>({name:d.name, desc:d.desc, _type:'drain', _idx:i}));
-    const all=[...enemies,...beliefs,...drains];
+    const DEFAULT_TC={icon:'☠', label:'Enemy', cls:'ett-enemy', nameColor:'#c84040'};
+    // Boss injected at priority 0 so it sorts first
+    const boss=bestiary.boss;
+    const fromBoss=boss&&boss.name ? [{...boss, priority:0, _srcType:'boss'}] : [];
+    const fromBestiary=(bestiary.currentEnemies||[]).map((e,i)=>({...e, _srcType:'bestiary', _idx:i}));
+    const fromBeliefs=(s.limitingBeliefs||[]).map((b,i)=>({
+      name:b.title, desc:(b.belief?b.belief+'\n':'')+(b.desc||''),
+      shortTermBenefit:b.shortTermBenefit||'', origin:b.origin||'', hp:b.hp,
+      priority:b.priority, type:'belief', _srcType:'belief', _idx:i
+    }));
+    const all=[...fromBoss,...fromBestiary,...fromBeliefs];
+    all.sort((a,b)=>{
+      const pa=typeof a.priority==='number'?a.priority:9999;
+      const pb=typeof b.priority==='number'?b.priority:9999;
+      return pa-pb;
+    });
     if(!all.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No patterns recorded yet.'; enemiesEl.appendChild(p); }
     else {
       all.forEach((e,ci)=>{
-        const tc=TYPES[e._type]; const i=e._idx;
+        const tc=TYPES[e.type]||DEFAULT_TC;
         const bodyId=`be-body-${ci}`,arrowId=`be-arrow-${ci}`;
         const d=document.createElement('div'); d.className='enemy-card';
+        d.dataset.srcType=e._srcType||''; d.dataset.srcIdx=String(e._idx??'');
         const head=document.createElement('div'); head.className='enemy-card-head';
-        // Type tag
-        const tag=document.createElement('span'); tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
-        // Name
+        const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
+        rankBadge.textContent=ci+1;
+        head.appendChild(rankBadge);
         const nameEl=document.createElement('div');
         nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';';
         nameEl.textContent=e.name||'—';
+        const tag=document.createElement('span'); tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
         const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
         const hp=typeof e.hp==='number'?e.hp:100;
         const hpWrap=document.createElement('div'); hpWrap.className='hp-bar-wrap';
         const hpFill=document.createElement('div'); hpFill.className='hp-bar-fill';
         hpFill.style.cssText=`width:${hp}%;background:${hpColor(hp)};`;
         hpWrap.appendChild(hpFill);
-        head.appendChild(tag); head.appendChild(nameEl); head.appendChild(hpWrap);
-        if(e._type==='enemy'&&e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
+        head.appendChild(nameEl); head.appendChild(tag); head.appendChild(hpWrap);
+        if(e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
         head.appendChild(arrowEl);
         head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
-        // Description
         const descEl=document.createElement('div'); descEl.className='enemy-card-desc';
         descEl.style.whiteSpace='pre-wrap'; descEl.textContent=e.desc||'';
         body.appendChild(descEl);
-        // Trigger (enemies only)
-        if(e._type==='enemy'&&e.trigger){
+        if(e.whyBoss){
+          const wy=document.createElement('div');
+          wy.style.cssText='margin-top:8px;font-size:16px;color:rgba(200,64,64,0.7);font-style:italic;';
+          wy.textContent=e.whyBoss; body.appendChild(wy);
+        }
+        if(e._srcType!=='belief'&&e.trigger){
           const trigEl=document.createElement('div');
           trigEl.style.cssText='margin-top:8px;font-size:16px;color:var(--text-dim);font-style:italic;';
           trigEl.textContent='Triggered by: '+e.trigger; body.appendChild(trigEl);
         }
-        // Short-term benefit + origin (enemies and beliefs)
-        if(e._type!=='drain'){
+        if(e.shortTermBenefit||e.origin){
           const posHdr=document.createElement('div'); posHdr.style.cssText='margin-top:12px;padding-top:10px;border-top:1px solid rgba(76,175,125,0.15);';
-          const bLbl=document.createElement('div'); bLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(76,175,125,0.6);text-transform:uppercase;margin-bottom:5px;'; bLbl.textContent='Short-term benefit';
-          const bEl=document.createElement('div'); bEl.className='enemy-card-desc'; bEl.style.color='rgba(76,175,125,0.8)'; bEl.textContent=e.shortTermBenefit||'—';
-          posHdr.appendChild(bLbl); posHdr.appendChild(bEl);
+          if(e.shortTermBenefit){
+            const bLbl=document.createElement('div'); bLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(76,175,125,0.6);text-transform:uppercase;margin-bottom:5px;'; bLbl.textContent='Short-term benefit';
+            const bEl=document.createElement('div'); bEl.className='enemy-card-desc'; bEl.style.color='rgba(76,175,125,0.8)'; bEl.textContent=e.shortTermBenefit;
+            posHdr.appendChild(bLbl); posHdr.appendChild(bEl);
+          }
           if(e.origin){
             const oLbl=document.createElement('div'); oLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-top:10px;margin-bottom:5px;'; oLbl.textContent='Origin';
-            const oEl=document.createElement('div'); oEl.className='enemy-card-desc'; oEl.style.color='var(--text-dim)'; oEl.textContent=e.origin||'—';
+            const oEl=document.createElement('div'); oEl.className='enemy-card-desc'; oEl.style.color='var(--text-dim)'; oEl.textContent=e.origin;
             posHdr.appendChild(oLbl); posHdr.appendChild(oEl);
           }
           body.appendChild(posHdr);
         }
+        if((e.vulnerabilities||[]).length){
+          const vulnHdr=document.createElement('div'); vulnHdr.className='boss-vuln-hdr'; vulnHdr.textContent='Key Vulnerabilities'; body.appendChild(vulnHdr);
+          e.vulnerabilities.slice(0,3).forEach((v,i)=>{
+            const row=document.createElement('div'); row.className='boss-vuln';
+            const num=document.createElement('div'); num.className='boss-vuln-num'; num.textContent=i+1;
+            const vBody=document.createElement('div'); vBody.style.flex='1';
+            const title=document.createElement('div'); title.className='boss-vuln-title'; title.textContent=v.title||'';
+            const desc=document.createElement('div'); desc.className='boss-vuln-desc'; desc.textContent=v.desc||'';
+            vBody.appendChild(title); if(v.desc) vBody.appendChild(desc);
+            row.appendChild(num); row.appendChild(vBody); body.appendChild(row);
+          });
+        }
         d.appendChild(head); d.appendChild(body); enemiesEl.appendChild(d);
       });
     }
-    const addRow=document.createElement('div'); addRow.style.cssText='display:flex;gap:8px;';
-    const addEnemyBtn=document.createElement('button'); addEnemyBtn.className='add-item-btn'; addEnemyBtn.textContent='+ Add Enemy'; addEnemyBtn.onclick=addEnemy;
-    const addDrainBtn=document.createElement('button'); addDrainBtn.className='add-item-btn'; addDrainBtn.style.cssText='color:#5a9898;border-color:rgba(90,152,152,0.3);'; addDrainBtn.textContent='+ Add Drain'; addDrainBtn.onclick=()=>{ addDrainToBestiary(); };
-    addRow.appendChild(addEnemyBtn); addRow.appendChild(addDrainBtn); enemiesEl.appendChild(addRow);
+    const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Enemy'; addBtn.onclick=addEnemy;
+    enemiesEl.appendChild(addBtn);
+    // Capture sorted order for drag callbacks
+    const sortedAll=all.slice();
+    makeSortable(enemiesEl, (from, to) => {
+      reorderArray(sortedAll, from, to);
+      // Write sequential priorities back to source objects
+      const bossObj=appState.bestiary&&appState.bestiary.boss&&appState.bestiary.boss.name ? appState.bestiary.boss : null;
+      sortedAll.forEach((item, idx)=>{
+        const newPri=idx;
+        if(item._srcType==='boss'&&bossObj){ bossObj.priority=newPri; }
+        else if(item._srcType==='bestiary'){ const en=(appState.bestiary.currentEnemies||[])[item._idx]; if(en) en.priority=newPri; }
+        else if(item._srcType==='belief'){ const bl=(appState.limitingBeliefs||[])[item._idx]; if(bl) bl.priority=newPri; }
+      });
+      saveState(appState); markDirty(); renderBestiaryTab(appState);
+    });
   }
 
   // Graveyard
@@ -2661,7 +2776,7 @@ function renderBestiaryTab(s){
 
   // Update nav count
   const navEl=document.getElementById('nav-bestiary');
-  if(navEl) navEl.textContent=(bestiary.currentEnemies||[]).length+(s.limitingBeliefs||[]).length+(s.drains||[]).length;
+  if(navEl) navEl.textContent=(bestiary.currentEnemies||[]).length+(s.limitingBeliefs||[]).length;
 }
 
 // ══ ACHIEVEMENTS ════════════════════════════════════════════
@@ -2745,24 +2860,89 @@ function renderHdrTitles(s){
 
 // ══ ALLIES ══════════════════════════════════════════════════
 function renderAlliesTab(s){
-  renderEditableList(
-    document.getElementById('allies-gratitudes'),
-    s.allies||DEFAULT.allies||[],
-    'allies',
-    'No allies recorded yet.'
-  );
-  renderEditableList(
-    document.getElementById('allies-flow'),
-    (s.flowSources||DEFAULT.flowSources||[]).map(src=>typeof src==='string'?{name:src,desc:''}:src),
-    'flowSources',
-    'No sources recorded yet.'
-  );
-  renderEditableList(
-    document.getElementById('allies-drains'),
-    (s.drains||DEFAULT.drains||[]).map(d=>typeof d==='string'?{name:d,desc:''}:d),
-    'drains',
-    'No drains recorded yet.'
-  );
+  const alliesEl=document.getElementById('al-allies');
+  if(!alliesEl) return;
+  alliesEl.innerHTML='';
+
+  const ALLY_TYPES={
+    loot:        {icon:'☁', label:'Loot',              cls:'att-loot',        nameColor:'#4aaa72'},
+    spell:       {icon:'✦', label:'Spell',             cls:'att-spell',       nameColor:'#c87828'},
+    liberation:  {icon:'⬡', label:'Liberating Belief', cls:'att-liberation',  nameColor:'#2d6e40'},
+    source:      {icon:'↑', label:'Source',            cls:'att-source',      nameColor:'#2a9090'},
+  };
+  const DEFAULT_ATC={icon:'✦', label:'Ally', cls:'att-loot', nameColor:'#4aaa72'};
+
+  // Build unified list: allies array + empoweringBeliefs (as liberation type)
+  const fromAllies=(s.allies||[]).map((a,i)=>({...a, _srcType:'allies', _idx:i}));
+  const fromBeliefs=(s.empoweringBeliefs||[]).map((b,i)=>({
+    name: typeof b==='object'?(b.title||b.belief||''):b,
+    desc: typeof b==='object'?((b.belief&&b.title?(b.belief+'\n'):'')+(b.desc||'')):b,
+    priority: b.priority,
+    type: 'liberation',
+    _srcType: 'empoweringBeliefs',
+    _idx: i
+  }));
+  const all=[...fromAllies,...fromBeliefs];
+
+  // Sort by priority (lower = higher; undefined goes last)
+  all.sort((a,b)=>{
+    const pa=typeof a.priority==='number'?a.priority:9999;
+    const pb=typeof b.priority==='number'?b.priority:9999;
+    return pa-pb;
+  });
+
+  if(!all.length){
+    const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No allies recorded yet.'; alliesEl.appendChild(p);
+  } else {
+    all.forEach((a,ci)=>{
+      const tc=ALLY_TYPES[a.type]||DEFAULT_ATC;
+      const bodyId=`al-body-${ci}`,arrowId=`al-arrow-${ci}`;
+      const d=document.createElement('div'); d.className='enemy-card';
+      d.dataset.srcType=a._srcType||''; d.dataset.srcIdx=String(a._idx??'');
+      const head=document.createElement('div'); head.className='enemy-card-head';
+      const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
+      rankBadge.textContent=ci+1;
+      head.appendChild(rankBadge);
+      const nameEl=document.createElement('div');
+      nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';';
+      nameEl.textContent=a.name||'—';
+      const tag=document.createElement('span'); tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
+      const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
+      head.appendChild(nameEl); head.appendChild(tag); head.appendChild(arrowEl);
+      head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
+      const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
+      const descEl=document.createElement('div'); descEl.className='enemy-card-desc';
+      descEl.style.whiteSpace='pre-wrap'; descEl.textContent=a.desc||'';
+      body.appendChild(descEl);
+      if(a.why){ const w=document.createElement('div'); w.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:6px;'; w.textContent='+ '+a.why; body.appendChild(w); }
+      d.appendChild(head); d.appendChild(body); alliesEl.appendChild(d);
+    });
+  }
+
+  // Capture sorted order for drag callbacks
+  const sortedAllAllies=all.slice();
+
+  // Add buttons for each type
+  const btnRow=document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;';
+  [['loot','☁ Add Loot'],['spell','✦ Add Spell'],['liberation','⬡ Add Liberation'],['source','↑ Add Source']].forEach(([type,label])=>{
+    const btn=document.createElement('button'); btn.className='add-item-btn'; btn.textContent=label;
+    btn.onclick=()=>addAllyOfType(type);
+    btnRow.appendChild(btn);
+  });
+  alliesEl.appendChild(btnRow);
+
+  makeSortable(alliesEl, (from, to) => {
+    reorderArray(sortedAllAllies, from, to);
+    sortedAllAllies.forEach((item, idx)=>{
+      if(item._srcType==='allies'){ const a=(appState.allies||[])[item._idx]; if(a) a.priority=idx; }
+      else if(item._srcType==='empoweringBeliefs'){ const b=(appState.empoweringBeliefs||[])[item._idx]; if(b) b.priority=idx; }
+    });
+    saveState(appState); markDirty(); renderAlliesTab(appState);
+  });
+
+  // Update nav count
+  const navEl=document.getElementById('nav-allies');
+  if(navEl) navEl.textContent=all.length;
 }
 
 // ══ INLINE EDITING ══════════════════════════════════════════
@@ -2779,104 +2959,18 @@ function saveField(listKey, idx, field, value){
   markDirty();
 }
 
-function deleteItem(listKey, idx){
-  if(!appState[listKey]) return;
-  appState[listKey].splice(idx,1);
-  saveState(appState);
-  markDirty();
-  renderAlliesTab(appState);
-}
-
-function makeEditableItem(item, listKey, idx){
-  const d=document.createElement('div');
-  d.className='ally-item';
-
-  const nameEl=document.createElement('div');
-  nameEl.className='ally-name editable';
-  nameEl.contentEditable='true';
-  nameEl.setAttribute('data-placeholder','Name');
-  nameEl.textContent=item.name||'';
-  nameEl.addEventListener('blur',()=>saveField(listKey,idx,'name',nameEl.textContent.trim()));
-  nameEl.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); descEl.focus(); }});
-
-  const descEl=document.createElement('div');
-  descEl.className='ally-desc editable';
-  descEl.contentEditable='true';
-  descEl.setAttribute('data-placeholder','Description');
-  descEl.textContent=item.desc||'';
-  descEl.addEventListener('blur',()=>saveField(listKey,idx,'desc',descEl.textContent.trim()));
-  descEl.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); whyEl.focus(); }});
-
-  const whyEl=document.createElement('div');
-  whyEl.className='ally-why editable';
-  whyEl.contentEditable='true';
-  whyEl.setAttribute('data-placeholder','Why this matters to you...');
-  whyEl.textContent=item.why||'';
-  whyEl.addEventListener('blur',()=>saveField(listKey,idx,'why',whyEl.textContent.trim()));
-
-  const delBtn=document.createElement('button');
-  delBtn.className='ally-delete';
-  delBtn.textContent='×';
-  delBtn.addEventListener('click',()=>deleteItem(listKey,idx));
-
-  d.appendChild(nameEl);
-  d.appendChild(descEl);
-  d.appendChild(whyEl);
-  d.appendChild(delBtn);
-  return d;
-}
-
-function renderEditableList(container, items, listKey, emptyMsg){
-  if(!container) return;
-  container.innerHTML='';
-  if(!items.length){
-    const p=document.createElement('p');
-    p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;';
-    p.textContent=emptyMsg;
-    container.appendChild(p);
-    return;
-  }
-  items.forEach((item,idx)=>container.appendChild(makeEditableItem(item,listKey,idx)));
-  makeSortable(container, (from, to) => {
-    const arr = appState[listKey];
-    if (!arr) return;
-    reorderArray(arr, from, to);
-    saveState(appState); markDirty(); renderAlliesTab(appState);
-  });
-}
-
-function addDrain(){
-  if(!appState.drains) appState.drains=[];
-  appState.drains.push({name:'',desc:''});
-  saveState(appState); markDirty(); renderAlliesTab(appState);
-  const items=document.querySelectorAll('#allies-drains .ally-name');
-  if(items.length) items[items.length-1].focus();
-}
 function addDrainToBestiary(){
-  if(!appState.drains) appState.drains=[];
-  appState.drains.push({name:'',desc:''});
+  if(!appState.bestiary) appState.bestiary={};
+  if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
+  const maxP=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
+  appState.bestiary.currentEnemies.push({name:'',desc:'',type:'drain',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
   saveState(appState); markDirty(); renderBestiaryTab(appState);
 }
 
-function addAlly(){
+function addAllyOfType(type){
   if(!appState.allies) appState.allies=[];
-  appState.allies.push({name:'',desc:''});
-  saveState(appState);
-  markDirty();
-  renderAlliesTab(appState);
-  // focus the new card's name field
-  const cards=document.querySelectorAll('#allies-gratitudes .ally-name');
-  if(cards.length) cards[cards.length-1].focus();
-}
-
-function addPursuit(){
-  if(!appState.flowSources) appState.flowSources=[];
-  appState.flowSources.push({name:'',desc:''});
-  saveState(appState);
-  markDirty();
-  renderAlliesTab(appState);
-  const cards=document.querySelectorAll('#allies-flow .ally-name');
-  if(cards.length) cards[cards.length-1].focus();
+  appState.allies.push({name:'',desc:'',type:type});
+  saveState(appState); markDirty(); renderAlliesTab(appState);
 }
 
 // ══ PROGRESSION CARD ════════════════════════════════════════
@@ -2901,6 +2995,13 @@ function renderProgressionCard(el, s) {
       el.appendChild(link);
     }
   }
+  // Journal tab + Air tab: whole-journey arc
+  [['lore-progression','lore-progression-text'],['air-progression','air-progression-text']].forEach(([wrapId,txtId])=>{
+    const wrap=document.getElementById(wrapId), txt=document.getElementById(txtId);
+    if(!wrap||!txt) return;
+    if(s.progression){ txt.textContent=s.progression; wrap.style.display='block'; }
+    else { wrap.style.display='none'; }
+  });
 }
 
 // ══ SORTABLE LISTS ══════════════════════════════════════════
@@ -2985,10 +3086,12 @@ function render(s){
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
 
   // Sliders
-  const sv = s.sliderValues||{air:38,fire:30,water:22,earth:28};
+  const sv = resolveElementScores(s);
   const sl = s.sliderLabels||DEFAULT.sliderLabels;
   ['air','fire','water','earth'].forEach(el=>{
-    buildSliderCol(el, el+'-label', el+'-slider', el+'-range', sv[el], sl[el]||'', (s.sliderXpRewards||{})[el]||null);
+    // Also support {air:{sliderLabel:...}} format from lentil-style data
+    const label = sl[el] || (typeof s[el]==='object' ? s[el].sliderLabel||'' : '') || '';
+    buildSliderCol(el, el+'-label', el+'-slider', el+'-range', sv[el], label, (s.sliderXpRewards||{})[el]||null);
     // make status label editable
     const statusEl=document.getElementById(el+'-label');
     if(statusEl&&!statusEl.dataset.editInit){
@@ -3006,54 +3109,64 @@ function render(s){
   updateRadarWithGhosts(s);
   renderHarmonyChart(s);
 
-  // Air — enemies (editable, syncs to Enemies tab)
+  // Air — distortions only (syncs to Enemies tab)
   const curEnemies=(s.bestiary||{}).currentEnemies||[];
+  const airDistortions=curEnemies.filter(e=>!e.type||e.type==='distortion');
   const eEl=document.getElementById('air-enemies'); if(eEl){ eEl.innerHTML='';
-    if(!curEnemies.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No enemies yet.'; eEl.appendChild(p); }
-    curEnemies.slice(0,3).forEach((e,i)=>{
-      const d=document.createElement('div'); d.className='enemy-item';
-      const tag=document.createElement('span'); tag.className='enemy-type-tag ett-enemy'; tag.style.cssText='display:inline-block;margin-bottom:5px;font-size:12px;'; tag.textContent='☠ Enemy';
-      const nameEl=makeEditable(e.name,'Enemy name',v=>{ saveNestedField(['bestiary','currentEnemies',i,'name'],v); renderBestiaryTab(appState); },'enemy-name');
-      const descEl=makeEditable(e.desc,'Description',v=>{ saveNestedField(['bestiary','currentEnemies',i,'desc'],v); renderBestiaryTab(appState); },'enemy-desc');
-      d.appendChild(tag); d.appendChild(nameEl); d.appendChild(descEl);
-      if(e.shortTermBenefit){
-        const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit;
-        d.appendChild(b);
-      }
+    if(!airDistortions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No distortions recorded yet.'; eEl.appendChild(p); }
+    airDistortions.slice(0,3).forEach(e=>{
+      const d=document.createElement('div');
+      d.style.cssText='background:rgba(200,48,96,0.05);border:1px solid rgba(200,48,96,0.2);border-left:3px solid #c83060;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#c83060;margin-bottom:4px;'; nameEl.textContent=e.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=e.desc||'';
+      d.appendChild(nameEl); d.appendChild(descEl);
+      if(e.shortTermBenefit){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit; d.appendChild(b); }
       eEl.appendChild(d);
     });
   }
 
-  // Air — allies (editable, syncs to Inventory tab)
+  // Air — loot only (syncs to Allies tab)
+  const airLoot=(s.allies||[]).filter(a=>!a.type||a.type==='loot');
   const alEl=document.getElementById('air-allies'); if(alEl){ alEl.innerHTML='';
-    (s.allies||DEFAULT.allies||[]).slice(0,3).forEach((item,i)=>{
-      const a=typeof item==='string'?{name:item,desc:'',why:''}:item;
-      const d=document.createElement('div'); d.className='ally-item';
-      const nameEl=makeEditable(a.name,'Ally name',v=>{
-        if(!appState.allies) appState.allies=[];
-        if(!appState.allies[i]) appState.allies[i]={name:'',desc:'',why:''};
-        appState.allies[i].name=v; saveState(appState); markDirty(); renderAlliesTab(appState);
-      },'ally-name');
-      const descEl=makeEditable(a.desc,'Description',v=>{
-        if(!appState.allies) appState.allies=[];
-        if(!appState.allies[i]) appState.allies[i]={name:'',desc:'',why:''};
-        appState.allies[i].desc=v; saveState(appState); markDirty(); renderAlliesTab(appState);
-      },'ally-desc');
-      const whyEl=makeEditable(a.why||'','Why this matters to you...',v=>{
-        if(!appState.allies) appState.allies=[];
-        if(!appState.allies[i]) appState.allies[i]={name:'',desc:'',why:''};
-        appState.allies[i].why=v; saveState(appState); markDirty(); renderAlliesTab(appState);
-      },'ally-why');
-      d.appendChild(nameEl); d.appendChild(descEl); d.appendChild(whyEl); alEl.appendChild(d);
+    if(!airLoot.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No loot recorded yet.'; alEl.appendChild(p); }
+    airLoot.slice(0,3).forEach(item=>{
+      const d=document.createElement('div');
+      d.style.cssText='background:rgba(74,170,114,0.05);border:1px solid rgba(74,170,114,0.2);border-left:3px solid #4aaa72;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#4aaa72;margin-bottom:4px;'; nameEl.textContent=item.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=item.desc||'';
+      d.appendChild(nameEl); d.appendChild(descEl);
+      if(item.why){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+item.why; d.appendChild(b); }
+      alEl.appendChild(d);
     });
   }
 
-  // Fire — skills split by mastery (editable name, syncs to Skills tab)
-  const allSkills=(s.skills||DEFAULT.skills).filter(sk=>sk.mastery&&sk.priority);
-  const developing=allSkills.filter(sk=>(sk.mastery||1)<=2).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,3);
-  const strengths =allSkills.filter(sk=>(sk.mastery||1)>=3).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,3);
-  renderEditableSkillsList('fire-skills-left',  developing, s);
-  renderEditableSkillsList('fire-skills-right', strengths, s);
+  // Fire — compulsions (left) and spells (right)
+  const fireCompEl=document.getElementById('fire-compulsions'); if(fireCompEl){ fireCompEl.innerHTML='';
+    const compulsions=((s.bestiary||{}).currentEnemies||[]).filter(e=>e.type==='compulsion');
+    if(!compulsions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No compulsions recorded yet.'; fireCompEl.appendChild(p); }
+    compulsions.slice(0,3).forEach(e=>{
+      const d=document.createElement('div');
+      d.style.cssText='background:rgba(200,48,48,0.05);border:1px solid rgba(200,48,48,0.2);border-left:3px solid #c83030;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#c83030;margin-bottom:4px;'; nameEl.textContent=e.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=e.desc||'';
+      d.appendChild(nameEl); d.appendChild(descEl);
+      if(e.shortTermBenefit){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit; d.appendChild(b); }
+      fireCompEl.appendChild(d);
+    });
+  }
+  const fireSpellEl=document.getElementById('fire-spells'); if(fireSpellEl){ fireSpellEl.innerHTML='';
+    const spells=(s.allies||[]).filter(a=>a.type==='spell');
+    if(!spells.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No spells recorded yet.'; fireSpellEl.appendChild(p); }
+    spells.slice(0,3).forEach(item=>{
+      const d=document.createElement('div');
+      d.style.cssText='background:rgba(200,120,40,0.05);border:1px solid rgba(200,120,40,0.2);border-left:3px solid #c87828;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#c87828;margin-bottom:4px;'; nameEl.textContent=item.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=item.desc||'';
+      d.appendChild(nameEl); d.appendChild(descEl);
+      if(item.why){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+item.why; d.appendChild(b); }
+      fireSpellEl.appendChild(d);
+    });
+  }
 
   // Fire — quest summaries (main quest + top 2 side quests by priority)
   const fqEl=document.getElementById('fire-quests');
@@ -3104,7 +3217,6 @@ function render(s){
 
   // Stats
   renderLifeWheel(s);
-  updateStatsRadar(s.wheelOfLife||{});
   renderCompactStats(s);
 
   // Bestiary tab
@@ -3119,42 +3231,33 @@ function render(s){
   // Allies tab
   renderAlliesTab(s);
 
-  // Water — flow sources (editable, syncs to Inventory tab)
-  const flEl=document.getElementById('flow-sources'); if(flEl){ flEl.innerHTML='';
-    (s.flowSources||[]).slice(0,3).forEach((src,i)=>{
-      const item=typeof src==='string'?{name:src,desc:''}:src;
-      const d=document.createElement('div'); d.className='ally-item';
-      const nameEl=makeEditable(item.name,'Source name',v=>{
-        if(!appState.flowSources) appState.flowSources=[];
-        const cur=typeof appState.flowSources[i]==='string'?{name:appState.flowSources[i],desc:''}:(appState.flowSources[i]||{name:'',desc:''});
-        appState.flowSources[i]={...cur,name:v}; saveState(appState); markDirty(); renderAlliesTab(appState);
-      },'ally-name');
-      const descEl=makeEditable(item.desc,'Description',v=>{
-        if(!appState.flowSources) appState.flowSources=[];
-        const cur=typeof appState.flowSources[i]==='string'?{name:appState.flowSources[i],desc:''}:(appState.flowSources[i]||{name:'',desc:''});
-        appState.flowSources[i]={...cur,desc:v}; saveState(appState); markDirty(); renderAlliesTab(appState);
-      },'ally-desc');
-      d.appendChild(nameEl); d.appendChild(descEl); flEl.appendChild(d);
+  // Water — drains (teal drain styling)
+  const drEl=document.getElementById('water-drains'); if(drEl){ drEl.innerHTML='';
+    const waterDrains=((s.bestiary||{}).currentEnemies||[]).filter(e=>e.type==='drain');
+    if(!waterDrains.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No drains recorded yet.'; drEl.appendChild(p); }
+    waterDrains.slice(0,3).forEach(e=>{
+      const d=document.createElement('div');
+      d.style.cssText='background:rgba(96,64,160,0.05);border:1px solid rgba(96,64,160,0.2);border-left:3px solid #6040a0;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#6040a0;margin-bottom:4px;'; nameEl.textContent=e.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=e.desc||'';
+      d.appendChild(nameEl); d.appendChild(descEl);
+      if(e.shortTermBenefit){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit; d.appendChild(b); }
+      drEl.appendChild(d);
     });
   }
 
-  // Water — drains (bad habits not serving values)
-  const drEl=document.getElementById('water-drains'); if(drEl){ drEl.innerHTML='';
-    (s.drains||[]).slice(0,3).forEach((src,i)=>{
-      const item=typeof src==='string'?{name:src,desc:''}:src;
-      const d=document.createElement('div'); d.className='ally-item';
-      d.style.cssText='border-left:2px solid rgba(200,60,60,0.3);padding-left:8px;';
-      const nameEl=makeEditable(item.name,'Drain name',v=>{
-        if(!appState.drains) appState.drains=[];
-        const cur=appState.drains[i]||{name:'',desc:''};
-        appState.drains[i]={...cur,name:v}; saveState(appState); markDirty();
-      },'ally-name');
-      const descEl=makeEditable(item.desc,'What does this cost you?',v=>{
-        if(!appState.drains) appState.drains=[];
-        const cur=appState.drains[i]||{name:'',desc:''};
-        appState.drains[i]={...cur,desc:v}; saveState(appState); markDirty();
-      },'ally-desc');
-      d.appendChild(nameEl); d.appendChild(descEl); drEl.appendChild(d);
+  // Water — sources (source teal styling)
+  const flEl=document.getElementById('flow-sources'); if(flEl){ flEl.innerHTML='';
+    const waterSources=(s.allies||[]).filter(a=>a.type==='source');
+    if(!waterSources.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No sources recorded yet.'; flEl.appendChild(p); }
+    waterSources.slice(0,3).forEach(item=>{
+      const d=document.createElement('div');
+      d.style.cssText='background:rgba(42,144,144,0.05);border:1px solid rgba(42,144,144,0.2);border-left:3px solid #2a9090;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#2a9090;margin-bottom:4px;'; nameEl.textContent=item.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=item.desc||'';
+      d.appendChild(nameEl); d.appendChild(descEl);
+      if(item.why){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+item.why; d.appendChild(b); }
+      flEl.appendChild(d);
     });
   }
 
@@ -3186,7 +3289,7 @@ function render(s){
     const text=typeof b==='object'?b.belief:b;
     const desc=typeof b==='object'?b.desc||'':'';
     const lblEl=makeEditable(title,'Belief label',v=>saveNestedField(['limitingBeliefs',i,'title'],v),'ant-lbl');
-    lblEl.style.color='#c8a84a';
+    lblEl.style.color='#8b5e3c';
     const txtEl=makeEditable(text,'What is the limiting belief?',v=>saveNestedField(['limitingBeliefs',i,'belief'],v));
     const descEl=makeEditable(desc,'Brief definition — what does this belief actually do?',v=>saveNestedField(['limitingBeliefs',i,'desc'],capitalise(v)),'limiting-desc');
     d.appendChild(lblEl); d.appendChild(txtEl); d.appendChild(descEl); antEl.appendChild(d);
@@ -3204,7 +3307,7 @@ function render(s){
     const text=typeof b==='object'?b.belief:b;
     const desc=typeof b==='object'?b.desc||'':'';
     const lblEl=makeEditable(title,'Belief label',v=>saveNestedField(['empoweringBeliefs',i,'title'],v),'ant-lbl');
-    lblEl.style.color='rgba(76,175,125,0.85)';
+    lblEl.style.color='#2d6e40';
     const txtEl=makeEditable(text,'What is the empowering belief?',v=>saveNestedField(['empoweringBeliefs',i,'belief'],v));
     const descEl=makeEditable(desc,'What does holding this belief make possible?',v=>saveNestedField(['empoweringBeliefs',i,'desc'],capitalise(v)),'limiting-desc');
     d.appendChild(lblEl); d.appendChild(txtEl); d.appendChild(descEl); empEl.appendChild(d);
@@ -3240,13 +3343,6 @@ function render(s){
   const tlEl=document.getElementById('insights-timeline');
   if(tlEl){
     tlEl.innerHTML='';
-    const tagDefs=[
-      {key:'linkedQuests',  cls:'insight-tag-quest',  prefix:'! ', fn:openQuest },
-      {key:'linkedSkills',  cls:'insight-tag-skill',  prefix:'◈ ', fn:openSkill },
-      {key:'linkedEnemies', cls:'insight-tag-enemy',  prefix:'☠ ', fn:openEnemy },
-      {key:'linkedValues',  cls:'insight-tag-value',  prefix:'⬡ ', fn:openValue },
-      {key:'linkedNeeds',   cls:'insight-tag-need',   prefix:'◉ ', fn:openNeed  },
-    ];
     const chapters=s.insights||DEFAULT.insights||[];
 
     function getNestedArr(path){ return path.reduce((o,k)=>o[k],appState); }
@@ -3313,18 +3409,6 @@ function render(s){
           row.appendChild(makeBulletList(entry[field], ['insights',ci,'entries',ei,field]));
           ebody.appendChild(row);
         });
-        // Tags
-        const hasAnyTag=tagDefs.some(td=>(entry[td.key]||[]).length>0);
-        if(hasAnyTag){
-          const tags=document.createElement('div'); tags.className='insight-tags'; tags.style.marginTop='12px';
-          tagDefs.forEach(td=>{
-            (entry[td.key]||[]).forEach(name=>{
-              const sp=document.createElement('span'); sp.className='insight-tag '+td.cls;
-              sp.textContent=td.prefix+name; sp.onclick=()=>td.fn(name); tags.appendChild(sp);
-            });
-          });
-          ebody.appendChild(tags);
-        }
         item.appendChild(ehead); item.appendChild(ebody); gbody.appendChild(item);
       });
 
@@ -3334,7 +3418,7 @@ function render(s){
       addEntry.textContent='+ Add Entry';
       addEntry.onclick=()=>{
         if(!appState.insights[ci].entries) appState.insights[ci].entries=[];
-        appState.insights[ci].entries.push({date:'',title:'',events:[],insights:[],tensions:[],linkedQuests:[],linkedSkills:[],linkedEnemies:[],linkedValues:[],linkedNeeds:[]});
+        appState.insights[ci].entries.push({date:'',title:'',events:[],insights:[],tensions:[]});
         saveState(appState); markDirty(); render(appState);
       };
       gbody.appendChild(addEntry);
@@ -3374,14 +3458,15 @@ function applyUpdate(){
     const p=JSON.parse(raw);
     if(!p.name&&!p.mainQuest&&!p.skills)throw new Error('Looks empty');
     if(p._featuredAch) setFeaturedAch(p._featuredAch);
+    else if(p.achievements) setFeaturedAch((p.achievements).filter(a=>a.featured&&a.id).map(a=>a.id));
     if(p._featuredCls) setFeaturedCls(p._featuredCls);
+    else if(p.classes) setFeaturedCls((p.classes).filter(c=>c.featured&&c.id).map(c=>c.id));
     if(p._xpLog&&Array.isArray(p._xpLog)){ saveXPLog(p._xpLog); }
     else { saveXPLog([]); }
     if(p._hardcodedHistory&&typeof p._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, p._hardcodedHistory); }
     delete p._featuredAch; delete p._featuredCls; delete p._xpLog; delete p._hardcodedHistory;
     if(p.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(p.dailyDistribution));
     logXPChange(appState, p);
-    updateSmoothed(p);
     snapshotHarmony(p);
     saveState(p);appState=p;render(p);
     setModalStatus('✓ Sheet updated','ok');
@@ -3415,7 +3500,7 @@ function logXPChange(prevState, nextState){
   const diff=nextXP-prevXP;
   if(diff===0&&nextLevel===prevLevel) return;
   const log=loadXPLog();
-  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  const _d=new Date(); const date=String(_d.getDate()).padStart(2,'0')+'/'+String(_d.getMonth()+1).padStart(2,'0')+'/'+_d.getFullYear();
   if(nextLevel>prevLevel){
     log.unshift({date,amount:null,reason:'Level '+nextLevel+' reached',totalAfter:nextXP,levelup:true});
   }
@@ -4159,7 +4244,6 @@ function renderCombatSkills(s){
     const body=document.createElement('div'); body.className='skill-card-body open'; body.id=bodyId;
     body.appendChild(makeEditable(sk.description,'Describe this skill…',v=>saveNestedField(['skills',realIdx,'description'],v),'skill-card-desc'));
     body.appendChild(makeEditable(sk.whyItMatters,'Why does this matter?',v=>saveNestedField(['skills',realIdx,'whyItMatters'],v),'skill-card-why'));
-    if(sk.lastEvidence){ const ev=document.createElement('div'); ev.className='skill-card-evidence'; ev.textContent='Last evidence: '+sk.lastEvidence; body.appendChild(ev); }
     card.appendChild(head); card.appendChild(body); el.appendChild(card);
   });
   const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Skill'; addBtn.onclick=addSkill; el.appendChild(addBtn);
@@ -4186,7 +4270,7 @@ function renderClassesTab(s){
   if(previewEl){
     const featuredCls=classes.filter(c=>featured.includes(c.id));
     previewEl.innerHTML=featuredCls.length
-      ?featuredCls.map(c=>`<span class="cls-featured-tag">${esc(c.icon||'◈')} ${esc(c.title)}</span>`).join('')
+      ?featuredCls.map(c=>`<span class="cls-featured-tag">${esc(c.icon||'◈')} ${esc(c.title||c.name||'')}</span>`).join('')
       :'<span style="font-size:16px;color:var(--text-dim);font-style:italic;">None selected</span>';
   }
   const listEl=document.getElementById('cls-list');
@@ -4200,7 +4284,7 @@ function renderClassesTab(s){
     card.innerHTML=`
       <div class="cls-card-row">
         <div class="cls-card-icon">${esc(c.icon||'◈')}</div>
-        <div class="cls-card-title">${esc(c.title)}</div>
+        <div class="cls-card-title">${esc(c.title||c.name||'')}</div>
         <div class="cls-card-date">${esc(c.dateUnlocked||'')}</div>
       </div>
       <div class="cls-card-desc">${esc(c.description||'')}</div>
@@ -4236,7 +4320,7 @@ function renderHdrClasses(s){
     const sub=document.getElementById('hdr-sub');
     if(sub) sub.parentNode.insertBefore(clsEl,sub.nextSibling);
   }
-  clsEl.innerHTML=featuredCls.map(c=>`<span class="hdr-class-tag">${esc(c.icon||'◈')} ${esc(c.title)}</span>`).join('');
+  clsEl.innerHTML=featuredCls.map(c=>`<span class="hdr-class-tag">${esc(c.icon||'◈')} ${esc(c.title||c.name||'')}</span>`).join('');
 }
 
 // ══ STAT BARS ════════════════════════════════════════════════
@@ -4293,6 +4377,109 @@ function updateStatusRadar() {
   });
 }
 
+const STATUS_HIST_KEY = 'liferpg-status-hist-v7';
+
+function saveStatusSnapshot() {
+  // Call once when user has finished adjusting sliders (on first change of a session day)
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]');
+    const saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}');
+    // Only record one snapshot per day (overwrite if same day)
+    const existing = hist.findIndex(e => e.date === today);
+    const entry = { date: today, focus: saved.focus||0, energy: saved.energy||0, purpose: saved.purpose||0, interest: saved.interest||0 };
+    if (existing >= 0) { hist[existing] = entry; } else { hist.push(entry); }
+    // Keep last 90 days
+    hist.sort((a,b) => a.date < b.date ? -1 : 1);
+    if (hist.length > 90) hist.splice(0, hist.length - 90);
+    localStorage.setItem(STATUS_HIST_KEY, JSON.stringify(hist));
+  } catch(e) {}
+  renderStatusHistoryChart();
+}
+
+function renderStatusHistoryChart() {
+  const canvas = document.getElementById('status-history-canvas');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || canvas.parentElement.offsetWidth || 600;
+  const H = 90;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
+  if (!hist.length) {
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.font = '12px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('No history yet — adjusting sliders records a snapshot', W/2, H/2);
+    return;
+  }
+
+  const keys = ['focus','energy','purpose','interest'];
+  const cols = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
+
+  // Compute averages
+  const last7 = hist.slice(-7);
+  const avg7 = {};
+  const avgAll = {};
+  keys.forEach(k => {
+    avg7[k] = last7.length ? Math.round(last7.reduce((s,e) => s + (e[k]||0), 0) / last7.length) : 0;
+    avgAll[k] = Math.round(hist.reduce((s,e) => s + (e[k]||0), 0) / hist.length);
+  });
+
+  // Layout: two groups of 4 bars side by side
+  const padL = 10, padR = 10, padT = 18, padB = 22;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const groupGap = 24;
+  const barGap = 3;
+  const numBars = keys.length; // 4 per group
+  const barW = (plotW / 2 - groupGap / 2 - barGap * (numBars - 1)) / numBars;
+
+  // Draw group labels
+  ctx.font = '10px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  const g1CentreX = padL + (plotW / 2 - groupGap / 2) / 2;
+  const g2CentreX = padL + (plotW / 2 + groupGap / 2) + (plotW / 2 - groupGap / 2) / 2;
+  ctx.fillText('7-day avg', g1CentreX, padT - 4);
+  ctx.fillText('all-time avg', g2CentreX, padT - 4);
+
+  // Helper: draw one group
+  function drawGroup(avgs, startX) {
+    keys.forEach((k, i) => {
+      const x = startX + i * (barW + barGap);
+      const barH = (avgs[k] / 100) * plotH;
+      const y = padT + plotH - barH;
+      // bar background
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fillRect(x, padT, barW, plotH);
+      // bar fill
+      ctx.fillStyle = cols[k];
+      ctx.globalAlpha = 0.75;
+      ctx.fillRect(x, y, barW, barH);
+      ctx.globalAlpha = 1;
+      // value label
+      ctx.fillStyle = cols[k];
+      ctx.font = 'bold 10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(avgs[k], x + barW / 2, padT + plotH + 12);
+      // key label below value
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.font = '9px monospace';
+      ctx.fillText(k.slice(0,3).toUpperCase(), x + barW / 2, padT + plotH + 22);
+    });
+  }
+
+  // Group 1: 7-day
+  drawGroup(avg7, padL);
+  // Group 2: all-time
+  drawGroup(avgAll, padL + (plotW / 2 + groupGap / 2));
+}
+
 function updateStatus(name, value) {
   const pct = parseInt(value);
   const col = STATUS_COLORS[name];
@@ -4307,6 +4494,7 @@ function updateStatus(name, value) {
     saved[name] = pct;
     localStorage.setItem(STATUS_LS_KEY, JSON.stringify(saved));
   } catch(e) {}
+  saveStatusSnapshot();
 }
 
 function loadStatusSliders() {
@@ -4322,6 +4510,7 @@ function loadStatusSliders() {
     setStatusGradient(el, col, pct);
   });
   updateStatusRadar();
+  setTimeout(renderStatusHistoryChart, 50);
 }
 
 function initStatBars(){
@@ -4346,10 +4535,12 @@ function _init(){
   initTabColours();
   initStatBars();
   loadStatusSliders();
+  loadStatSliders(appState);
   (appState.activities || DEFAULT.activities || []).forEach(act => {
     initPracticeState(act, appState.name);
   });
   updateCombatNavArc();
+  window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
 }
 
 // Load demo data from JSON file, then init.

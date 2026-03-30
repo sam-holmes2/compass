@@ -44,7 +44,7 @@ Each element has:
 - A one-line status label from Claude
 - An expandable section with relevant data (enemies for Air, skills for Fire, beliefs and values for Earth, sources and needs for Water)
 
-**Progression** (Air section) - Claude's read on how this chapter is going overall. Same text as the Combat tab.
+**Progression** (Air section / Combat tab) - Claude's read on the current session: the single most important tension or gap right now.
 
 XP is awarded when you cross a mastery threshold. Higher difficulty elements reward more XP.
 
@@ -56,7 +56,7 @@ Your goals, structured.
 
 **Main quest** - the single overarching thing you're working toward. Has a description, a "done when" definition, and top next steps each with their own completion criteria. Claude updates progress and next steps each session.
 
-**Side quests** - active sub-goals with progress bars, a current next step, why it matters, last evidence date, and XP reward on completion. Sorted by priority (Claude-assigned).
+**Side quests** - active sub-goals with progress bars, a current next step, why it matters, and XP reward on completion. Sorted by priority (Claude-assigned).
 
 **Completed** - finished quests with completion date, XP earned, and a sentence on how it resolved.
 
@@ -79,19 +79,22 @@ The **skills chart** in Combat plots all skills on a 2D grid: priority on the Y 
 
 ## Enemies
 
-Three types of pattern, all in one place:
+All patterns sorted by Claude-assigned priority — the most pressing ones appear first regardless of type:
 
-| Tag | Type | Source |
-|-----|------|--------|
-| ☠ Enemy | Active psychological patterns being watched | `bestiary.currentEnemies` |
-| ⬡ Belief | Core false beliefs driving behaviour | `limitingBeliefs` |
-| ↓ Drain | Habitual behaviours that cost more than they give | `drains` |
+| Tag | Type | Element | What it captures |
+|-----|------|---------|-----------------|
+| ◈ Distortion | Air | How situations or evidence are being filtered in real time |
+| ⚡ Compulsion | Fire | Action-level patterns driven by urgency or avoidance |
+| ⬡ Belief | Earth | False or unhelpful stories about self or world driving behaviour |
+| ↓ Drain | Water | Habitual behaviours that cost more energy than they give |
 
-**The Boss** sits at the top - the central pattern that all others tend to serve. Usually something like perfectionism, approval-seeking, or avoidance at its root.
+Both `bestiary.currentEnemies` (all four types above) and `limitingBeliefs` feed into this list and share a unified priority ranking.
+
+**The Boss** (★) always appears first in the list. It shows the same fields as any other enemy — description, short-term benefit, origin — plus its unique `whyBoss` explanation and up to 3 key vulnerabilities.
 
 **The Graveyard** - patterns that have been named, understood, and no longer have power. Recorded with how they were defeated.
 
-Enemies are named in ALL CAPS. Each has a description of when it arises and what it feels like, not a clinical definition but something you'd actually recognise in the moment.
+Enemies are named in ALL CAPS. Each shows its HP bar (red = still strong, amber = weakening, green = losing grip), a short-term benefit, and an inferred origin.
 
 ---
 
@@ -123,13 +126,14 @@ Neither can be self-awarded. Claude awards them in session, sometimes without be
 
 The chronological record of your sessions.
 
+**Your Arc** - shown at the top of the Journal tab. Claude's whole-journey summary: how you have changed, what has shifted, what threads run through all the sessions combined. Updated every few sessions as the arc develops.
+
 Organised into **chapters** (named narrative arcs, e.g. "The Career Turn", "Clearing the Ground") containing **entries** (individual sessions). Most recent first.
 
 Each entry has:
 - **Key Events** - factual log of what happened
 - **Key Insights** - emotional or psychological learning from the session
 - **Unresolved Tensions** - open questions or unresolved dynamics (not to-dos)
-- **Tags** - linked quests, skills, enemies, values, and needs. Clickable to navigate to the relevant item.
 
 The Journal tab is where the value of long-term use really compounds. After a few months, patterns become visible across chapters that aren't obvious session to session.
 
@@ -140,4 +144,14 @@ The Journal tab is where the value of long-term use really compounds. After a fe
 Practice data (timer, checkbox, number entry) resets when the period rolls over (daily at midnight, weekly at the start of the week, etc). When the app detects a new period has started, it automatically archives the previous period's value into localStorage history before resetting the counter - so nothing is lost, it just moves from "today" to the graph.
 
 This archiving happens when you open the app after a period boundary has passed. If you leave the app open continuously across midnight, the rollover is detected the next time you interact with a practice widget.
+
+## What lives where
+
+**In the JSON** (safe as long as you export): everything Claude writes - quests, enemies, beliefs, skills, elements, journal entries, XP, achievements. Export after every session.
+
+**In localStorage only** (lost if you clear browser storage): practice tracker values and history, the XP log, status sliders, and pinned achievements/classes. These are display conveniences - losing them won't affect your core data.
+
+## Chapter archiving
+
+When a chapter's narrative arc feels complete, Claude will flag it and ask you to save your current JSON export as a permanent archive of that chapter. The exported file is the archive. Claude then removes the closed chapter from the working JSON to keep it lean. Keep old exports somewhere safe.
 

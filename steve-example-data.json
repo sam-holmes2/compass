@@ -41,7 +41,6 @@
     "progress": 15
   },
   "sliderValues": { "air": 55, "fire": 40, "water": 48, "earth": 52 },
-  "balanceSmoothed": { "air": 52, "fire": 41, "water": 47, "earth": 51 },
   "harmonyHistory": [
     { "date": "2026-01-05",  "air": 28, "fire": 18, "water": 35, "earth": 40, "harmony": 48 },
     { "date": "2026-01-12",  "air": 30, "fire": 20, "water": 36, "earth": 42, "harmony": 52 },
@@ -74,9 +73,33 @@
     { "name": "COMPARISON TRAP", "desc": "Measuring a messy middle against others' curated highlight reel. Always loses." }
   ],
   "limitingBeliefs": [
-    { "title": "THE IMPOSTER",    "belief": "\"I'm not smart or talented enough to do the work I actually want to do.\"", "desc": "Shows up when applying for jobs or sharing creative work. Reframes learning curves as proof of incompetence." },
-    { "title": "THE PERFECTIONIST","belief": "\"If I can't do it perfectly, there's no point starting.\"",               "desc": "Main engine of procrastination. Creates an impossible standard that ensures nothing ships." },
-    { "title": "THE PESSIMIST",   "belief": "\"Things rarely work out for me the way they do for other people.\"",         "desc": "Selective memory that catalogues failures and dismisses wins." }
+    {
+      "title": "THE IMPOSTER",
+      "belief": "\"I'm not smart or talented enough to do the work I actually want to do.\"",
+      "desc": "Shows up when applying for jobs or sharing creative work. Reframes learning curves as proof of incompetence.",
+      "shortTermBenefit": "Keeps ambition modest and therefore safe from the humiliation of public failure.",
+      "origin": "Environments where being found out felt like the primary risk - performance over presence.",
+      "hp": 75,
+      "priority": 7
+    },
+    {
+      "title": "THE PERFECTIONIST",
+      "belief": "\"If I can't do it perfectly, there's no point starting.\"",
+      "desc": "Main engine of procrastination. Creates an impossible standard that ensures nothing ships.",
+      "shortTermBenefit": "The unstarted thing can always be imagined as good. Completion would make the gap visible.",
+      "origin": "Likely formed where only exceptional output was noticed - average effort was invisible.",
+      "hp": 70,
+      "priority": 8
+    },
+    {
+      "title": "THE PESSIMIST",
+      "belief": "\"Things rarely work out for me the way they do for other people.\"",
+      "desc": "Selective memory that catalogues failures and dismisses wins as luck or exception.",
+      "shortTermBenefit": "Low expectations mean surprises are pleasant rather than painful. Feels like protection.",
+      "origin": "Unknown - possibly reinforced by a period where several things went wrong in close succession.",
+      "hp": 60,
+      "priority": 9
+    }
   ],
   "empoweringBeliefs": [
     { "title": "THE PROBLEM SOLVER","belief": "\"I can figure out hard things if I stay in the room long enough.\"",    "desc": "Track record of working through ambiguous problems is real." },
@@ -84,20 +107,20 @@
     { "title": "THE BODY KNOWS",  "belief": "\"The aliveness I feel when working on the right thing is data, not coincidence.\"", "desc": "The qualitative difference between the side project and the day job is the clearest signal available." }
   ],
   "skills": [
-    { "name": "Set Boundaries",        "mastery": 1, "priority": 1, "xpReward": 80,  "lastEvidence": "1 week ago",  "description": "Say no without over-explaining.",                              "whyItMatters": "Without this, time and energy get consumed by everyone else's agenda." },
-    { "name": "Ask For Help",          "mastery": 1, "priority": 2, "xpReward": 80,  "lastEvidence": "2 weeks ago", "description": "Reach out before stuck, not after.",                          "whyItMatters": "How fast progress actually happens." },
-    { "name": "Stay Consistent",       "mastery": 2, "priority": 3, "xpReward": 80,  "lastEvidence": "3 days ago",  "description": "Show up even when motivation is absent.",                     "whyItMatters": "Running, reading, side project all depend on this." },
-    { "name": "Say No",                "mastery": 1, "priority": 4, "xpReward": 80,  "lastEvidence": "5 days ago",  "description": "Decline obligations that conflict with priorities.",           "whyItMatters": "Every yes to the wrong thing is a no to something that matters." },
-    { "name": "Problem Solving",       "mastery": 4, "priority": 1, "xpReward": 200, "lastEvidence": "2 days ago",  "description": "Break ambiguous problems into workable paths.",               "whyItMatters": "The capability that earns trust fastest." },
-    { "name": "Written Communication", "mastery": 3, "priority": 2, "xpReward": 150, "lastEvidence": "4 days ago",  "description": "Express ideas clearly without over-engineering.",             "whyItMatters": "In async work, writing is the primary signal of competence." },
-    { "name": "Empathy",               "mastery": 4, "priority": 3, "xpReward": 150, "lastEvidence": "1 week ago",  "description": "Read what someone needs beneath what they say.",             "whyItMatters": "Foundation of good collaboration." }
+    { "name": "Set Boundaries",        "mastery": 1, "priority": 1, "xpReward": 80,  "description": "Say no without over-explaining.",                              "whyItMatters": "Without this, time and energy get consumed by everyone else's agenda." },
+    { "name": "Ask For Help",          "mastery": 1, "priority": 2, "xpReward": 80,  "description": "Reach out before stuck, not after.",                          "whyItMatters": "How fast progress actually happens." },
+    { "name": "Stay Consistent",       "mastery": 2, "priority": 3, "xpReward": 80,  "description": "Show up even when motivation is absent.",                     "whyItMatters": "Running, reading, side project all depend on this." },
+    { "name": "Say No",                "mastery": 1, "priority": 4, "xpReward": 80,  "description": "Decline obligations that conflict with priorities.",           "whyItMatters": "Every yes to the wrong thing is a no to something that matters." },
+    { "name": "Problem Solving",       "mastery": 4, "priority": 1, "xpReward": 200, "description": "Break ambiguous problems into workable paths.",               "whyItMatters": "The capability that earns trust fastest." },
+    { "name": "Written Communication", "mastery": 3, "priority": 2, "xpReward": 150, "description": "Express ideas clearly without over-engineering.",             "whyItMatters": "In async work, writing is the primary signal of competence." },
+    { "name": "Empathy",               "mastery": 4, "priority": 3, "xpReward": 150, "description": "Read what someone needs beneath what they say.",             "whyItMatters": "Foundation of good collaboration." }
   ],
   "sideQuests": [
-    { "title": "Start Running",          "priority": 1, "progress": 40, "nextStep": "Run three times this week - no distance requirement, just show up", "whyItMatters": "Physical health is the foundation everything else is built on.",           "lastEvidence": "2026-03-23", "xpReward": 150 },
-    { "title": "Build the Portfolio",    "priority": 2, "progress": 25, "nextStep": "Publish two case studies by end of March",                          "whyItMatters": "The career shift needs proof of work, not just intent.",                  "lastEvidence": "2026-03-22", "xpReward": 200 },
-    { "title": "Read 12 Books This Year","priority": 3, "progress": 33, "nextStep": "Finish the current book before starting anything else",             "whyItMatters": "Deep reading slows me down usefully and generates ideas I couldn't alone.", "lastEvidence": "2026-03-22", "xpReward": 150 },
-    { "title": "Declutter Home",         "priority": 4, "progress": 75, "nextStep": "Clear the spare room - last section, been sitting for a month",     "whyItMatters": "Environment shapes thinking.",                                           "lastEvidence": "2026-03-18", "xpReward": 100 },
-    { "title": "Learn Spanish",          "priority": 5, "progress": 20, "nextStep": "Complete one Duolingo lesson every day for two weeks straight",      "whyItMatters": "Opens travel, connects with family heritage, and is genuinely just for me.", "lastEvidence": "2026-03-20", "xpReward": 200 }
+    { "title": "Start Running",          "priority": 1, "progress": 40, "nextStep": "Run three times this week - no distance requirement, just show up", "whyItMatters": "Physical health is the foundation everything else is built on.",           "xpReward": 150 },
+    { "title": "Build the Portfolio",    "priority": 2, "progress": 25, "nextStep": "Publish two case studies by end of March",                          "whyItMatters": "The career shift needs proof of work, not just intent.",                  "xpReward": 200 },
+    { "title": "Read 12 Books This Year","priority": 3, "progress": 33, "nextStep": "Finish the current book before starting anything else",             "whyItMatters": "Deep reading slows me down usefully and generates ideas I couldn't alone.", "xpReward": 150 },
+    { "title": "Declutter Home",         "priority": 4, "progress": 75, "nextStep": "Clear the spare room - last section, been sitting for a month",     "whyItMatters": "Environment shapes thinking.",                                           "xpReward": 100 },
+    { "title": "Learn Spanish",          "priority": 5, "progress": 20, "nextStep": "Complete one Duolingo lesson every day for two weeks straight",      "whyItMatters": "Opens travel, connects with family heritage, and is genuinely just for me.", "xpReward": 200 }
   ],
   "completedQuests": [
     { "title": "Quit Smoking", "completedDate": "Jan 2026", "xpEarned": 300, "howResolved": "Cold turkey after a chest infection made the cost undeniable. Three months clean." }
@@ -149,12 +172,7 @@
           "tensions": [
             "Whether the side project is the actual direction or just a way of feeling busy without risking the real thing",
             "One session is not a pattern - Stay Consistent is still unproven here"
-          ],
-          "linkedSkills": ["Stay Consistent", "Say No"],
-          "linkedQuests": ["Build a Career I Actually Care About"],
-          "linkedEnemies": ["PROCRASTINATION"],
-          "linkedValues": ["Authenticity", "Growth"],
-          "linkedNeeds": ["Autonomy"]
+          ]
         },
         {
           "date": "15 March 2026",
@@ -174,12 +192,7 @@
           "tensions": [
             "Whether I'm choosing roles that actually fit or roles that look like the right answer",
             "Financial pressure is shortening the timeline in ways that might distort the search"
-          ],
-          "linkedSkills": ["Ask For Help"],
-          "linkedQuests": ["Build a Career I Actually Care About"],
-          "linkedEnemies": ["SELF-DOUBT", "COMPARISON TRAP"],
-          "linkedValues": ["Authenticity", "Health", "Financial Security"],
-          "linkedNeeds": ["Recognition", "Connection"]
+          ]
         },
         {
           "date": "8 March 2026",
@@ -197,12 +210,7 @@
           "tensions": [
             "The three roles feel slightly out of reach - realistic assessment or THE INNER CRITIC curating ambition downward?",
             "Comparison Trap was strong today - worth watching as the search becomes more visible"
-          ],
-          "linkedSkills": ["Ask For Help", "Stay Consistent"],
-          "linkedQuests": ["Build a Career I Actually Care About", "Read 12 Books This Year"],
-          "linkedEnemies": ["COMPARISON TRAP", "THE INNER CRITIC"],
-          "linkedValues": ["Authenticity", "Growth"],
-          "linkedNeeds": ["Recognition"]
+          ]
         }
       ]
     },
@@ -225,12 +233,7 @@
           "tensions": [
             "Whether the motivation to run holds once it stops feeling like a reaction to quitting",
             "Rest is still a deficit - evenings feel productive but not restorative"
-          ],
-          "linkedSkills": ["Stay Consistent"],
-          "linkedQuests": ["Start Running", "Quit Smoking"],
-          "linkedEnemies": ["THE INNER CRITIC", "SELF-DOUBT"],
-          "linkedValues": ["Health", "Family"],
-          "linkedNeeds": ["Rest", "Connection"]
+          ]
         },
         {
           "date": "20 January 2026",
@@ -248,12 +251,7 @@
           "tensions": [
             "The spare room is still untouched - probably means something",
             "The workspace is ready but Deep Work sessions are still short and interrupted"
-          ],
-          "linkedSkills": ["Stay Consistent"],
-          "linkedQuests": ["Declutter Home", "Build a Career I Actually Care About"],
-          "linkedEnemies": ["PROCRASTINATION"],
-          "linkedValues": ["Health", "Growth", "Authenticity"],
-          "linkedNeeds": ["Autonomy", "Rest"]
+          ]
         }
       ]
     }
@@ -263,32 +261,76 @@
       "name": "THE INNER CRITIC",
       "desc": "The central voice that frames every setback as evidence of fundamental inadequacy. Feels like a fair assessment. It isn't.",
       "whyBoss": "Every other enemy is this one in disguise - Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.",
-      "bounty": 1000
+      "bounty": 1000,
+      "hp": 80,
+      "vulnerabilities": [
+        { "title": "Named in real time", "desc": "The Critic loses power the moment it is caught mid-action. Each live catch weakens its automaticity - labelling it out loud is enough to create distance." },
+        { "title": "Evidence on the table", "desc": "The Critic thrives on selective memory. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data." },
+        { "title": "Starting before ready", "desc": "The Critic's main lever is the gap before beginning. Starting small - one sentence, one minute - collapses the gap before the Critic can fill it." }
+      ]
     },
     "currentEnemies": [
       {
         "name": "PROCRASTINATION",
-        "desc": "Kicks in whenever a task feels ambiguous or high-stakes. Masquerades as preparation.",
+        "desc": "Kicks in whenever a task feels ambiguous or high-stakes. Masquerades as preparation - rearranging the desk instead of opening the document.",
+        "type": "compulsion",
         "trigger": "Ambiguous or important tasks with no clear first step",
         "shortTermBenefit": "Protects against the pain of trying and failing. Feels like caution.",
         "origin": "Likely formed around high-stakes performance where effort without success felt worse than not trying.",
+        "hp": 75,
+        "priority": 1,
         "bounty": 200
       },
       {
         "name": "SELF-DOUBT",
-        "desc": "Quiet voice that says others are better qualified. Speaks in first person so it sounds like truth.",
+        "desc": "Quiet voice that says others are better qualified. Speaks in first person so it sounds like truth, not like a pattern.",
+        "type": "distortion",
         "trigger": "Attempting something new or visible",
         "shortTermBenefit": "Keeps expectations low so disappointment hurts less. Feels like realism.",
         "origin": "Unknown - may relate to environments where confidence was penalised or not modelled.",
+        "hp": 70,
+        "priority": 2,
         "bounty": 200
       },
       {
         "name": "COMPARISON TRAP",
-        "desc": "Measuring a messy middle against others' curated highlight reel. Always loses.",
+        "desc": "Measuring a messy middle against others' curated highlight reel. Activates fast and feels like useful calibration.",
+        "type": "distortion",
         "trigger": "Social media, professional updates, seeing peers succeed",
         "shortTermBenefit": "Creates temporary direction - if others succeeded this way, the path must be real.",
         "origin": "Unknown - the conditions that made external benchmarks feel necessary are not yet clear.",
+        "hp": 65,
+        "priority": 3,
         "bounty": 150
+      },
+      {
+        "name": "LATE-NIGHT SCROLLING",
+        "desc": "Reliably ends with feeling worse than when it started. Eats into sleep and leaves the next morning already in deficit.",
+        "type": "drain",
+        "shortTermBenefit": "Decompression that asks nothing. Feels like rest without the vulnerability of actually stopping.",
+        "origin": "Avoidance of the quiet - where unprocessed thoughts from the day tend to surface.",
+        "hp": 85,
+        "priority": 4
+      },
+      {
+        "name": "OBLIGATION YES",
+        "desc": "Agreeing to things to avoid the discomfort of declining. Fills the calendar with work that doesn't align with priorities.",
+        "type": "compulsion",
+        "trigger": "Any request that feels like it expects a yes",
+        "shortTermBenefit": "Avoids conflict and the guilt of disappointing someone. Feels like being a good person.",
+        "origin": "Unknown - likely formed where keeping others comfortable felt safer than asserting preference.",
+        "hp": 90,
+        "priority": 5
+      },
+      {
+        "name": "GYM SKIP WHEN STRESSED",
+        "desc": "Cutting the one thing that would most help in the moments of highest stress. Always justified in the moment.",
+        "type": "drain",
+        "trigger": "High workload, low energy, feeling behind",
+        "shortTermBenefit": "Creates the illusion of more time. Feels like a sensible trade-off.",
+        "origin": "The Inner Critic framing movement as optional when performance is on the line.",
+        "hp": 80,
+        "priority": 6
       }
     ],
     "graveyard": [
