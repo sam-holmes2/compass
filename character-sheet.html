@@ -606,6 +606,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .enemy-card-body { display:none; padding:12px 14px; background:var(--card); border-top:1px solid var(--border); }
 .enemy-card-body.open { display:block; }
 .enemy-card-desc { font-size:17px; color:var(--text-mid); line-height:1.55; }
+/* HP bars */
+.hp-bar-wrap { width:72px; height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; flex-shrink:0; }
+.hp-bar-fill { height:100%; border-radius:3px; transition:width 0.4s, background 0.4s; }
+.boss-hp-wrap { height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; margin:10px 0 14px; }
+.boss-hp-fill { height:100%; border-radius:4px; transition:width 0.6s, background 0.6s; }
+.hp-lbl { font-family:var(--mono); font-size:13px; flex-shrink:0; opacity:0.7; }
 .enemy-type-tag {
   font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
   padding:2px 7px; border-radius:10px; border:1px solid; flex-shrink:0; opacity:0.85;
@@ -1596,6 +1602,13 @@ let HARDCODED_XP_LOG = [];
 // ══ SECURITY ════════════════════════════════════════════════
 function esc(str){ const d=document.createElement('div'); d.textContent=str??''; return d.innerHTML; }
 
+function hpColor(hp){
+  // high hp = still strong (red); low hp = weakening (amber→green)
+  if(hp>=75) return '#c84040';
+  if(hp>=40) return '#c87828';
+  return '#4a9840';
+}
+
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
 const FEATURED_ACH_KEY='liferpg-featured-ach-v7';
@@ -2520,6 +2533,11 @@ function renderBestiaryTab(s){
     if(boss.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+boss.bounty+' XP bounty'; nameRow.appendChild(nameEl); nameRow.appendChild(pill); }
     else { nameRow.appendChild(nameEl); }
     card.appendChild(nameRow);
+    const bossHp=typeof boss.hp==='number'?boss.hp:100;
+    const bossHpWrap=document.createElement('div'); bossHpWrap.className='boss-hp-wrap';
+    const bossHpFill=document.createElement('div'); bossHpFill.className='boss-hp-fill';
+    bossHpFill.style.cssText=`width:${bossHp}%;background:${hpColor(bossHp)};`;
+    bossHpWrap.appendChild(bossHpFill); card.appendChild(bossHpWrap);
     card.appendChild(makeEditable(boss.desc,'Describe your boss…',v=>saveNestedField(['bestiary','boss','desc'],v),'boss-desc'));
     if(boss.whyBoss){ const wy=document.createElement('div'); wy.className='boss-why'; wy.textContent=boss.whyBoss; card.appendChild(wy); }
     const vulns=(boss.vulnerabilities||[]).slice(0,3);
@@ -2567,7 +2585,12 @@ function renderBestiaryTab(s){
         nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';';
         nameEl.textContent=e.name||'—';
         const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
-        head.appendChild(tag); head.appendChild(nameEl);
+        const hp=typeof e.hp==='number'?e.hp:100;
+        const hpWrap=document.createElement('div'); hpWrap.className='hp-bar-wrap';
+        const hpFill=document.createElement('div'); hpFill.className='hp-bar-fill';
+        hpFill.style.cssText=`width:${hp}%;background:${hpColor(hp)};`;
+        hpWrap.appendChild(hpFill);
+        head.appendChild(tag); head.appendChild(nameEl); head.appendChild(hpWrap);
         if(e._type==='enemy'&&e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
         head.appendChild(arrowEl);
         head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
