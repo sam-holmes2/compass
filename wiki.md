@@ -2,9 +2,7 @@
 
 A detailed breakdown of each tab. For quick reference see the table in [README.md](README.md).
 
-> *"Everybody wants to change the world. No one ever wants to change themselves"*
- - Nothing More
-
+> *"Everybody wants to change the world. No one ever wants to change themselves"*  - Nothing More
 
 ---
 
