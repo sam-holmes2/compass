@@ -6,7 +6,7 @@
 
 **[Check out Example Steve's character-sheet](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - live demo opens in your browser, no download needed.
 
-> Early work in progress. ALL feedback is very welcome - open an issue or contact Sam directly
+> ⚠️ Early work in progress ⚠️ ALL feedback is very welcome - open an issue or contact Sam directly
 
 > **Designed for desktop use.** character-sheet is built for a desktop browser (1024px+ wide). It will open on mobile but the layout is not optimised for small screens - some sections will be cramped or require horizontal scrolling. Mobile support is on the roadmap.
 
