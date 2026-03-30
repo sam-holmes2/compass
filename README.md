@@ -194,8 +194,7 @@ Have a feature request or found a bug? Open an issue.
 
 ## Why I built this
 
-> *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."*
-> - Northlane
+> *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."* - Northlane
 
 - AI made journalling and self-reflection genuinely useful for me, but every conversation started mostly from scratch. The real insights lived in chat logs I'd never reread.
 - The line between journalling, therapy, and using AI as a mirror was already blurring. I wanted somewhere to see that reflection clearly, own it, and build on it over time.
