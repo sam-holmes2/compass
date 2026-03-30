@@ -25,7 +25,6 @@ This file lives permanently in your Claude project knowledge. It tells Claude ho
 4. Output:
    - A full updated `data.json` (all fields, even unchanged ones) to paste into the app and replace the old version in project knowledge
    - Celebrate any XP earned in your chat response before outputting JSON
-5. When new activity history data exists, include an updated `HARDCODED_HISTORY` JS block: `const HARDCODED_HISTORY = { "startDate": [{ date: 'YYYY-MM-DD', minutes: 90 }] };`
 
 ---
 
@@ -67,11 +66,21 @@ You control XP and level thresholds. Award for: completing quests, mastery advan
 ### keyQuestion
 Your single best question to prompt journalling next session if the user's words stop flowing.
 
-### activity
-The user's single most important practice to commit more time to. When this changes, archive to `activityChapters`.
+### activities
+Up to 5 tracked practices shown in the Combat tab. Each has a type, a reset period, and a target. Set these based on what the user is actively working on - don't add practices they haven't mentioned.
+
+**`type`**: `"timer"` (counts up in seconds, target in minutes) · `"checkbox"` (tap to mark units done) · `"number"` (type a count and save)
+**`resetPeriod`**: `"day"` · `"week"` · `"month"`
+**`target`**: for timer = minutes per period; for checkbox/number = count per period
+**`xpPerUnit`**: XP per minute (timer) or per unit (checkbox/number). Scale to reflect difficulty.
+**`priority`**: 1 = shown first. Max 5 activities.
 
 ```json
-"activity": { "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "dailyTargetMinutes": 90, "xpPerHour": 25 }
+"activities": [
+  { "id": "deep-work", "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 1, "type": "timer", "resetPeriod": "day", "target": 90, "unit": "minutes", "xpPerUnit": 0.5 },
+  { "id": "meditation", "name": "Meditation", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 2, "type": "timer", "resetPeriod": "day", "target": 20, "unit": "minutes", "xpPerUnit": 1.5 },
+  { "id": "bjj", "name": "BJJ", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 3, "type": "number", "resetPeriod": "week", "target": 3, "unit": "sessions", "xpPerUnit": 25 }
+]
 ```
 
 ### dailyDistribution
