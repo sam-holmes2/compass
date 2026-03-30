@@ -1625,6 +1625,12 @@ function isPeriodExpired(periodStart, resetPeriod) {
   return periodStart !== currentPeriod(resetPeriod);
 }
 
+// Practice localStorage helpers
+function loadPracticeCurrent(charName, id){try{const r=localStorage.getItem('liferpg-prac-cur-'+charName+'-'+id);return r?JSON.parse(r):null;}catch{return null;}}
+function savePracticeCurrent(charName, id, data){try{localStorage.setItem('liferpg-prac-cur-'+charName+'-'+id,JSON.stringify(data));}catch{}}
+function loadPracticeHistory(charName, id){try{const r=localStorage.getItem('liferpg-prac-hist-'+charName+'-'+id);return r?JSON.parse(r):[];}catch{return [];}}
+function savePracticeHistory(charName, id, hist){try{localStorage.setItem('liferpg-prac-hist-'+charName+'-'+id,JSON.stringify(hist));}catch{}}
+
 // In-memory state for active practices
 const practiceState = {}; // id -> { seconds, running, interval, milestonesHit, milestoneXP, toastTimeout }
 
