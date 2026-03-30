@@ -17,7 +17,7 @@ Thanks for taking an interest. This is a solo side project and contributions are
 - The whole app is a single HTML file with no build step. Keep it that way.
 - Test in at least Chrome and Firefox, including Firefox's local-file isolation behaviour.
 - No new dependencies. No npm. No bundlers.
-- Keep `schema.md` in sync with any data model changes - Claude depends on it being accurate.
+- Keep `instructions.md` in sync with any data model changes - Claude depends on it being accurate.
 
 
 ## For new features

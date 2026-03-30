@@ -7,7 +7,7 @@ Paste this into your Claude project instead of the quickstart prompt.
 ---
 
 ```
-I'm setting up character-sheet, a personal life dashboard. I've attached schema.md which explains the data format.
+I'm setting up character-sheet, a personal life dashboard. I've attached instructions.md which explains the data format.
 
 Interview me to fill in my character sheet. Keep it conversational, ask one thing at a time, and never push me to share anything I'm not comfortable with. Start with the most important things and work down. Cover as much of this as you can:
 
@@ -24,5 +24,5 @@ Interview me to fill in my character sheet. Keep it conversational, ask one thin
 - Any limiting beliefs or empowering beliefs worth tracking
 - Recent wins or meaningful moments worth logging
 
-When you have enough, generate the full JSON using schema.md and a starter context.md.
+When you have enough, generate the full JSON using instructions.md.
 ```

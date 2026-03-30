@@ -100,16 +100,23 @@ Claude charges by the token - roughly by how much text it reads and writes each 
 
 Your data lives in two places: **localStorage** (the app) and **Claude** (your project knowledge). They only stay in sync when you explicitly import/export.
 
-| What | Where it's saved | Survives browser clear? | Claude knows about it? |
-|------|-----------------|------------------------|------------------------|
-| Everything imported via `↑` | localStorage | No | Yes (it came from Claude) |
-| Edits made directly in the app | localStorage | No | **Not unless you export `↓`** |
-| Practice timer / checkbox state | localStorage | No | No |
-| Status sliders (Focus, Energy, etc.) | localStorage | No | No |
-| XP history | localStorage | No | Only if included in export |
-| `data.json` | Project knowledge | Yes (until you remove it) | Yes |
+| What | Where it's saved | Survives browser restart? | Survives clearing browser data? | Claude knows about it? |
+|------|-----------------|--------------------------|--------------------------------|------------------------|
+| Everything imported via `↑` | localStorage | ✅ Yes | ❌ No | Yes (it came from Claude) |
+| Edits made directly in the app | localStorage | ✅ Yes | ❌ No | **Not unless you export `↓`** |
+| Practice timer / checkbox / number values | localStorage | ✅ Yes | ❌ No | No |
+| Practice history (graph bars) | localStorage | ✅ Yes | ❌ No | No |
+| Status sliders (Focus, Energy, etc.) | localStorage | ✅ Yes | ❌ No | No |
+| XP log | localStorage | ✅ Yes | ❌ No | Only if included in export |
+| `data.json` | Project knowledge | ✅ Yes | ✅ Yes | Yes |
 
-**The safe habit:** end every session by asking Claude to update your data.json, replace the file in project knowledge, and import the new version into the app. That way Claude and the app always match, and your data is safe even if you clear your browser.
+**localStorage survives closing and reopening your browser** - it is not session storage. You won't lose practice data just by closing the tab. The risks are: clearing browser data, switching to a different browser, opening the file from a different path on disk, or using a new device.
+
+**Practice history is preserved across resets.** When the app detects that a tracked period has ended (e.g. a new day has started), it automatically archives the previous period's value into history before resetting the counter. This means your graph bars are written to localStorage at the point the new period begins - as long as you open the app at least once per period, nothing is lost.
+
+**The only data that is not recoverable from localStorage** is anything lost by clearing browser storage. To guard against this, export `↓` your data periodically and keep a copy somewhere safe (or just paste it back to Claude to update your project knowledge).
+
+**The safe habit:** end every session by asking Claude to update your data.json, replace the file in project knowledge, and import the new version into the app. That way Claude and the app always match, and your data survives even if you clear your browser or switch devices.
 
 ---
 

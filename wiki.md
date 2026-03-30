@@ -135,5 +135,7 @@ The Journal tab is where the value of long-term use really compounds. After a fe
 
 ## A note on data resets
 
-Practice data (timer, checkbox, number entry) resets at midnight based on the reset period you've set with Claude (daily, weekly, etc). The previous period's value is saved to your browser history before resetting, so nothing is lost - it just moves from "today" to the graph.
+Practice data (timer, checkbox, number entry) resets when the period rolls over (daily at midnight, weekly at the start of the week, etc). When the app detects a new period has started, it automatically archives the previous period's value into localStorage history before resetting the counter - so nothing is lost, it just moves from "today" to the graph.
+
+This archiving happens when you open the app after a period boundary has passed. If you leave the app open continuously across midnight, the rollover is detected the next time you interact with a practice widget.
 
