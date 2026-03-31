@@ -107,7 +107,8 @@ Your data lives in two places: **localStorage** (the app) and **Claude** (your p
 | Practice timer / checkbox / number values | localStorage | ✅ Yes | ❌ No | No |
 | Practice history (graph bars) | localStorage | ✅ Yes | ❌ No | No |
 | Status sliders (Focus, Energy, etc.) | localStorage | ✅ Yes | ❌ No | No |
-| XP log | localStorage | ✅ Yes | ❌ No | Only if included in export |
+| Daily distribution (pie chart) | localStorage | ✅ Yes | ❌ No | No |
+| XP log | localStorage | ✅ Yes | ❌ No | No |
 | `data.json` | Project knowledge | ✅ Yes | ✅ Yes | Yes |
 
 **localStorage survives closing and reopening your browser** - it is not session storage. You won't lose practice data just by closing the tab. The risks are: clearing browser data, switching to a different browser, opening the file from a different path on disk, or using a new device.

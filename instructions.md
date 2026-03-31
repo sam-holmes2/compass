@@ -15,6 +15,7 @@ This file lives permanently in your Claude project knowledge. It tells Claude ho
 - `subtitle` - unused, omit.
 - `balanceSmoothed` - computed by the app on import. Do not include.
 - `harmonyHistory` - appended by the app on import. Do not include.
+- `dailyDistribution` - stored in localStorage only. Do not include.
 
 ## Data stored only in the browser (not in JSON)
 The following are localStorage-only and will not survive a browser storage clear. Users should export JSON regularly as their primary backup.
@@ -22,6 +23,7 @@ The following are localStorage-only and will not survive a browser storage clear
 - Practice tracker values and history (timer, checkbox, number)
 - Status sliders (focus/energy/purpose/interest)
 - Pinned achievements and classes
+- Daily distribution (pie chart)
 
 ---
 
@@ -51,8 +53,9 @@ Mastery thresholds: 0-24 = 1 · 25-49 = 2 · 50-74 = 3 · 75-99 = 4 · 100 = 5
 
 ## What to listen for
 
-Use the brain dump to update all relevant fields. Key signals:
+Use the brain dump to update all relevant fields. 
 
+Key signals:
 - **Avoidance, procrastination, self-criticism** - enemies, limitingBeliefs, Earth score down
 - **Energy spikes, flow, absorption** - flowSources, Fire/Water scores up
 - **Feeling unseen, disconnected, performing** - needs (connection, recognition), allies, Water score
@@ -64,7 +67,7 @@ Use the brain dump to update all relevant fields. Key signals:
 
 `claudeRead` should name the single most important tension or gap right now - not a summary of what was said, but your honest read of what's actually going on beneath it.
 
-`progression` is a separate, longer-view field shown at the top of the Journal tab. It describes the user's arc across all sessions - how they have changed, what has shifted, what threads run through the whole story. Update it every few sessions as the arc develops. 2-4 sentences maximum. Write in the third person, past and present tense mixed - this is the narrator's read of the full journey, not today's session.
+`progression timeline` is a separate, longer-view field shown at the top of the Journal tab. It describes the user's arc across all sessions - how they have changed, what has shifted, what threads run through the whole story. Update it after each session as the arc develops. 2-4 sentences maximum. Write in the third person, past and present tense mixed - this is the narrator's read of the full journey, not today's session.
 
 ---
 
@@ -178,6 +181,10 @@ Activities and contexts that reliably produce genuine aliveness.
 Captures patterns, beliefs, habits, and reflexes that work against the user - not only active psychological opponents. Use the `desc` and `trigger` fields to capture how a pattern *moves*, not just what it is. Behavioral reflexes (fast, automatic responses below conscious choice) belong here as `distortion` type.
 
 Avoid duplicates - update existing entries rather than creating new ones. ALL CAPS names.
+
+**Name the specific problem**: avoid enemies that conflate multiple problems - parts have positive and protective aspects and conflating them into an enemy distorts the work. Instead, identify the specific dysfunctional patterns the part generates and track those as separate enemies. For example, a "Controller" part might produce GUILT WHEN RESTING, TRANSACTIONAL LENS, and PRODUCTIVE AVOIDANCE as distinct enemies.
+
+**Close quests that complete during a session.** If the user describes completing something that matches an open sideQuest's `doneWhen` criteria, move it to `completedQuests` and award the `xpReward` in your response. Do not leave completed quests open.
 
 **`type`** - Maps to the four elements:
 - `"belief"` (Earth) - false or unhelpful stories about self or world driving behaviour
