@@ -1270,36 +1270,36 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ WELCOME BANNER ════════════════════════════════════ -->
 <div id="welcome-banner" style="display:none">
   <button class="welcome-dismiss" onclick="dismissWelcome()" title="Dismiss">×</button>
-  <div class="welcome-title">Welcome to LifeRPG</div>
-  <div class="welcome-desc">Get started by setting up your own sheet, or import existing data.</div>
+  <div class="welcome-title">Welcome to character-sheet</div>
+  <div class="welcome-desc">A personal life dashboard. You are looking at Example Steve's data. Set up your own sheet below, or import existing data if you already have it.</div>
   <div class="welcome-options">
     <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
-    <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">Import my data ↑</button>
+    <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data - import it</button>
   </div>
   <div id="welcome-setup-steps">
     <div class="welcome-step">
       <div class="welcome-step-num">1</div>
-      <div class="welcome-step-text"><strong>Download this file</strong> — you already have it if you're reading this.</div>
+      <div class="welcome-step-text"><strong>Download instructions.md.</strong> Claude needs this file to understand the data format. <button class="btn-ghost" style="padding:3px 10px;font-size:14px;margin-left:6px;" onclick="downloadInstructions()">Download</button></div>
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">2</div>
-      <div class="welcome-step-text"><strong>Download instructions.md</strong> — Claude needs this to know your data format. <button class="btn-ghost" style="padding:3px 10px;font-size:14px;margin-left:6px;" onclick="downloadInstructions()">↓ Download</button></div>
+      <div class="welcome-step-text"><strong>Create a Claude Project.</strong> Go to <a href="https://claude.ai" target="_blank" style="color:var(--gold)">claude.ai</a>, click "Projects" in the left sidebar, then "New project".</div>
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">3</div>
-      <div class="welcome-step-text"><strong>Create a Claude Project</strong> at claude.ai → add <code style="font-family:var(--mono);font-size:15px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">instructions.md</code> to the project knowledge.</div>
+      <div class="welcome-step-text"><strong>Add instructions.md to the project.</strong> Inside your new project, click "Add content" then "Add files" and upload the file you just downloaded. It stays attached to every chat automatically.</div>
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">4</div>
-      <div class="welcome-step-text"><strong>Start a chat</strong> — copy a starter from the Journal tab, or just open Claude and start talking.</div>
+      <div class="welcome-step-text"><strong>Start a chat</strong> and just start talking. Use the starters in the Journal tab if you want a prompt to begin with.</div>
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">5</div>
-      <div class="welcome-step-text">At the end of a session, ask Claude: <em>"Generate my data.json"</em> — then add it to project knowledge.</div>
+      <div class="welcome-step-text"><strong>At the end of your session,</strong> ask Claude: <em>"Generate my data.json"</em> and copy what it gives you.</div>
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">6</div>
-      <div class="welcome-step-text">Come back here and click <strong>Import my data ↑</strong> above.</div>
+      <div class="welcome-step-text"><strong>Import your data.</strong> Click the <strong>&#8593; button at the bottom-right of this page</strong>, paste the JSON, and click Import.</div>
     </div>
   </div>
 </div>
@@ -1770,7 +1770,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <button class="starter-copy-btn" onclick="copyStarter(this,'I\'ve been struggling with [pattern/situation] and can\'t seem to shift it')">Copy</button>
       </div>
       <div class="starter-row">
-        <span class="starter-text">"Check in — here's where things stand across my main areas..."</span>
+        <span class="starter-text">"Quick check in. Here's where things stand across my main areas of focus..."</span>
         <button class="starter-copy-btn" onclick="copyStarter(this,'Check in — here\'s where things stand across my main areas...')">Copy</button>
       </div>
       <div class="starter-row">
@@ -1778,7 +1778,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <button class="starter-copy-btn" onclick="copyStarter(this,'I want to go deeper on one thing today:')">Copy</button>
       </div>
       <div class="starter-row">
-        <span class="starter-text">"[Guided] Interview me — I want to update my whole sheet"</span>
+        <span class="starter-text">"[Guided] Interview me. I want to update my whole sheet"</span>
         <button class="starter-copy-btn" id="deep-dive-btn" onclick="copyDeepDive(this)">Copy</button>
       </div>
       <p class="starters-note">Optional — or just open Claude and start talking. These are starting points.</p>
@@ -1856,7 +1856,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <button class="float-btn" id="export-btn" style="bottom:82px" onclick="exportState()" title="Export — copy to Claude">↓</button>
-<button class="float-btn" onclick="openModal()" title="Import — paste from Claude">↑</button>
+<button class="float-btn" id="import-btn" onclick="openModal()" title="Import — paste from Claude" style="border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;">↑ Import</button>
 <script>if(location.hostname.endsWith('github.io')){document.getElementById('export-btn').style.display='none';document.currentScript.previousElementSibling.style.display='none';}</script>
 
 <!-- ══ SYNC EXPLAINED MODAL ══════════════════════════════ -->
