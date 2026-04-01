@@ -65,7 +65,6 @@ body {
 }
 .tab-btn:hover { color:var(--text); }
 .tab-btn.active { border-bottom-color:currentColor; }
-.tab-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 .tab-nav-count { font-family:var(--mono); font-size:17px; font-weight:700; min-width:18px; text-align:center; flex-shrink:0; }
 .tab-panel { display:none; }
 .tab-panel.active { display:block; }
@@ -227,11 +226,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .stat-range-purpose::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#60a838; border:2px solid var(--bg); cursor:pointer; }
 .stat-range-interest{ background:#1e1e28; }
 .stat-range-interest::-webkit-slider-thumb{ -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#3a80c8; border:2px solid var(--bg); cursor:pointer; }
-.combat-status-panel { margin-bottom:22px; border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; }
-.combat-status-hdr { font-family:'Cinzel',serif; font-size:17px; font-weight:700; letter-spacing:0.18em; color:var(--text-b); text-transform:uppercase; padding:14px 18px 0; }
-.combat-status-body { display:flex; align-items:center; gap:0; }
-.combat-status-radar-wrap { padding:14px 8px 14px 16px; flex-shrink:0; }
-.combat-status-sliders { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; padding:14px 18px 14px 8px; }
 .stat-hp { color:#c84040; }
 .stat-mp { color:#3a80c8; }
 
@@ -555,6 +549,93 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .el-head { padding:12px 14px 8px; }
 }
 
+/* ══ WELCOME BANNER ══════════════════════════════════════ */
+#welcome-banner {
+  border:1px solid rgba(200,168,74,0.3); border-radius:8px;
+  background:rgba(200,168,74,0.04); padding:20px 24px;
+  margin-bottom:20px; position:relative;
+}
+.welcome-title { font-family:'Cinzel',serif; font-size:17px; letter-spacing:0.14em; color:var(--gold); margin-bottom:6px; }
+.welcome-desc  { font-size:17px; color:var(--text-mid); margin-bottom:14px; line-height:1.55; }
+.welcome-options { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+.welcome-opt-btn {
+  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.12em; padding:8px 16px;
+  border-radius:4px; cursor:pointer; transition:all 0.15s; white-space:nowrap;
+}
+.welcome-opt-primary { background:var(--gold); border:none; color:#080808; }
+.welcome-opt-primary:hover { opacity:0.85; }
+.welcome-opt-ghost { background:none; border:1px solid var(--border-hi); color:var(--text-dim); }
+.welcome-opt-ghost:hover { border-color:var(--text-dim); color:var(--text); }
+.welcome-opt-ghost.active { border-color:var(--gold); color:var(--gold); }
+.welcome-dismiss { position:absolute; top:12px; right:14px; background:none; border:none; color:var(--text-dim); font-size:18px; cursor:pointer; line-height:1; }
+.welcome-dismiss:hover { color:var(--text); }
+#welcome-setup-steps { display:none; margin-top:18px; padding-top:18px; border-top:1px solid var(--border-hi); }
+.welcome-step { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+.welcome-step:last-child { border-bottom:none; }
+.welcome-step-num { font-family:var(--mono); font-size:15px; color:var(--gold); flex-shrink:0; width:22px; padding-top:2px; }
+.welcome-step-text { font-size:17px; color:var(--text-mid); line-height:1.55; flex:1; }
+.welcome-step-text strong { color:var(--text-b); font-weight:600; }
+
+/* ══ DIRTY BANNER ═════════════════════════════════════════ */
+#dirty-banner {
+  display:none; align-items:center; gap:12px;
+  padding:9px 16px; background:rgba(200,120,30,0.08);
+  border:1px solid rgba(200,120,30,0.25); border-radius:6px;
+  margin-bottom:14px; font-size:16px; color:#d09040;
+}
+#dirty-banner .dirty-banner-text { flex:1; }
+#dirty-banner .dirty-banner-dismiss { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
+#dirty-banner .dirty-banner-dismiss:hover { color:var(--text); }
+#dirty-banner .dirty-banner-never { background:none; border:none; color:var(--text-dim); font-size:15px; cursor:pointer; text-decoration:underline; text-underline-offset:2px; flex-shrink:0; font-family:inherit; }
+#dirty-banner .dirty-banner-never:hover { color:var(--text-mid); }
+
+/* ══ IMPORT DIFF TOAST ════════════════════════════════════ */
+#import-toast {
+  position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(16px);
+  z-index:600; max-width:500px; width:calc(100vw - 48px);
+  background:rgba(14,14,22,0.97); border:1px solid rgba(96,168,56,0.35);
+  border-left:3px solid #60a838; border-radius:8px;
+  padding:12px 16px; box-shadow:0 4px 28px rgba(0,0,0,0.6);
+  font-size:16px; color:var(--text-mid); line-height:1.5;
+  opacity:0; transition:opacity 0.3s, transform 0.3s;
+  pointer-events:none;
+  display:flex; align-items:flex-start; gap:10px;
+}
+#import-toast.visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+#import-toast-text { flex:1; }
+#import-toast-close { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; margin-top:1px; }
+#import-toast-close:hover { color:var(--text); }
+
+/* ══ SYNC EXPLAINED MODAL ════════════════════════════════ */
+#sync-modal { z-index:300; }
+#sync-modal .modal { border-top:3px solid rgba(200,168,74,0.5); }
+
+/* ══ SESSION STARTERS ════════════════════════════════════ */
+.starters-section { margin-top:18px; }
+.starters-toggle {
+  display:flex; align-items:center; gap:8px; cursor:pointer;
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.2em;
+  color:var(--text-dim); text-transform:uppercase; padding:6px 0;
+  background:none; border:none; width:100%;
+}
+.starters-toggle:hover { color:var(--text-mid); }
+.starters-toggle-arrow { font-size:12px; transition:transform 0.2s; }
+.starters-toggle-arrow.open { transform:rotate(90deg); }
+.starters-body { display:none; padding-top:10px; }
+.starters-body.open { display:block; }
+.starter-row { display:flex; align-items:flex-start; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); }
+.starter-row:last-of-type { border-bottom:none; }
+.starter-text { font-size:17px; color:var(--text-mid); flex:1; line-height:1.5; font-style:italic; }
+.starter-copy-btn {
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em;
+  padding:3px 10px; background:none; border:1px solid var(--border-hi);
+  border-radius:4px; color:var(--text-dim); cursor:pointer; flex-shrink:0;
+  transition:all 0.15s; white-space:nowrap;
+}
+.starter-copy-btn:hover { border-color:var(--gold); color:var(--gold); }
+.starter-copy-btn.copied { border-color:#60a838; color:#60a838; }
+.starters-note { font-size:15px; color:var(--text-dim); font-style:italic; margin-top:10px; }
+
 /* ══ HEADER PROGRESS BAR ═════════════════════════════════ */
 .hdr-mq-bar { height:2px; background:var(--border-hi); border-radius:1px; margin-top:5px; max-width:260px; }
 .hdr-mq-fill { height:100%; background:var(--gold); border-radius:1px; transition:width .4s; }
@@ -594,9 +675,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .boss-vuln-num { font-family:var(--mono); font-size:15px; color:rgba(200,96,96,0.7); flex-shrink:0; padding-top:2px; width:18px; }
 .boss-vuln-title { font-size:17px; color:var(--text-b); font-weight:600; line-height:1.4; }
 .boss-vuln-desc { font-size:16px; color:var(--text-mid); line-height:1.5; margin-top:3px; }
-.enemy-card { border:1px solid rgba(200,64,64,0.18); border-radius:6px; overflow:hidden; margin-bottom:8px; }
-.enemy-card-head { display:flex; align-items:center; gap:12px; padding:10px 14px; background:rgba(140,30,30,0.04); cursor:pointer; user-select:none; }
-.enemy-card-head:hover { background:rgba(140,30,30,0.08); }
+.enemy-card { border:1px solid rgba(128,128,128,0.18); border-radius:6px; overflow:hidden; margin-bottom:8px; }
+.enemy-card-head { display:flex; align-items:center; gap:12px; padding:10px 14px; background:rgba(128,128,128,0.04); cursor:pointer; user-select:none; }
+.enemy-card-head:hover { background:rgba(128,128,128,0.08); }
 .enemy-card-name { font-family:'Cinzel',serif; font-size:16px; color:#c06060; flex:1; letter-spacing:0.05em; }
 .enemy-card-arrow { font-size:14px; color:var(--text-dim); flex-shrink:0; }
 .enemy-card-body { display:none; padding:12px 14px; background:var(--card); border-top:1px solid var(--border); }
@@ -675,19 +756,25 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 .qt-dailies-col { border:1px solid rgba(200,168,74,0.2); border-radius:8px; padding:16px 18px; background:rgba(200,168,74,0.03); }
 
+/* ══ ENEMIES / ALLIES TOP ROW ════════════════════════════════ */
+.bt-top-row { display:grid; grid-template-columns:2fr 1fr; gap:24px; margin-bottom:0; align-items:start; }
+.bt-pie-col { border:1px solid rgba(200,64,64,0.2); border-radius:8px; padding:16px 18px; background:rgba(200,64,64,0.03); }
+.al-top-row { display:grid; grid-template-columns:2fr 1fr; gap:24px; margin-bottom:0; align-items:start; }
+.al-pie-col { border:1px solid rgba(42,144,80,0.2); border-radius:8px; padding:16px 18px; background:rgba(42,144,80,0.03); }
+
 /* ══ COMBAT TAB ══════════════════════════════════════════════ */
 .combat-section { margin-bottom:0; }
 .combat-section-hdr {
-  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em;
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.26em;
   color:var(--text-dim); text-transform:uppercase;
-  border-bottom:1px solid rgba(42,122,72,0.15); padding-bottom:8px; margin-bottom:16px;
+  border-bottom:1px solid rgba(42,122,72,0.12); padding-bottom:6px; margin-bottom:10px;
 }
 
 /* XP Log */
-.xp-log-feed { display:flex; flex-direction:column; gap:6px; }
+.xp-log-feed { display:flex; flex-direction:column; gap:4px; }
 .xp-log-entry {
   display:flex; align-items:baseline; gap:10px;
-  padding:7px 10px; border-radius:5px;
+  padding:5px 10px; border-radius:4px;
   background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04);
   animation:xp-entry-in 0.3s ease;
 }
@@ -695,113 +782,215 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   background:rgba(176,128,232,0.08); border-color:rgba(176,128,232,0.25);
 }
 .xp-log-amount {
-  font-family:var(--mono); font-size:17px; font-weight:700;
-  color:#b080e8; flex-shrink:0; min-width:52px;
+  font-family:var(--mono); font-size:15px; font-weight:700;
+  color:#b080e8; flex-shrink:0; min-width:48px;
 }
-.xp-log-entry.levelup .xp-log-amount { color:#d4a0ff; font-size:17px; }
-.xp-log-reason { font-size:17px; color:var(--text-mid); flex:1; }
-.xp-log-entry.levelup .xp-log-reason { color:#d4a0ff; font-weight:600; font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.1em; }
-.xp-log-date { font-family:var(--mono); font-size:15px; color:var(--text-dim); flex-shrink:0; }
-.xp-log-empty { font-size:17px; color:var(--text-dim); font-style:italic; }
+.xp-log-entry.levelup .xp-log-amount { color:#d4a0ff; font-size:15px; }
+.xp-log-reason { font-size:15px; color:var(--text-mid); flex:1; }
+.xp-log-entry.levelup .xp-log-reason { color:#d4a0ff; font-weight:600; font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; }
+.xp-log-date { font-family:var(--mono); font-size:13px; color:var(--text-dim); flex-shrink:0; }
+.xp-log-empty { font-size:15px; color:var(--text-dim); font-style:italic; }
 @keyframes xp-entry-in {
   from { opacity:0; transform:translateY(-4px); }
   to   { opacity:1; transform:translateY(0); }
 }
 
-/* Status strip */
-.combat-status-strip {
-  margin-bottom:12px; border:1px solid var(--border-hi); border-radius:8px;
-  background:rgba(255,255,255,0.015); overflow:hidden;
+/* ══ RADAR PANEL — shared by Status check-in, Stats, Harmony ══ */
+.radar-panel {
+  border:1px solid var(--border-hi); border-radius:8px;
+  background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:10px;
 }
-.combat-status-strip .combat-status-hdr {
-  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em;
-  color:var(--text-dim); text-transform:uppercase; padding:14px 18px 0;
+.radar-panel-body {
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  align-items:stretch; gap:0;
 }
-.combat-status-strip .combat-status-body {
-  display:flex; align-items:center; gap:0;
+.radar-panel-sliders {
+  display:flex; flex-direction:column; gap:5px;
+  padding:12px 10px 12px 18px; min-width:0;
+  border-right:1px solid rgba(255,255,255,0.05);
 }
-.combat-status-strip .combat-status-radar-wrap { padding:10px 18px; flex-shrink:0; }
-.combat-status-strip .combat-status-sliders {
-  flex:1; display:flex; flex-direction:column; justify-content:center; gap:6px;
-  padding:14px 16px; min-width:0;
+.radar-panel-head {
+  margin-bottom:10px;
 }
-.combat-status-strip .stat-bar-lbl { min-width:58px; }
-.combat-status-strip .stat-bar-val { min-width:26px; }
-/* Status history charts */
-.status-charts-wrap {
-  border-top:1px solid rgba(255,255,255,0.06); padding:6px 18px 12px;
+.radar-panel-title {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.26em;
+  color:var(--text-dim); text-transform:uppercase; margin-bottom:3px;
 }
-.status-history-canvas { width:100%; height:90px; display:block; }
+.radar-panel-desc {
+  font-size:13px; color:var(--text-dim); font-style:italic; line-height:1.4;
+}
+.radar-panel-sliders .stat-bar-row { margin-bottom:0; gap:6px; }
+.radar-panel-sliders .stat-bar-lbl { min-width:58px; font-size:12px; }
+.radar-panel-sliders .stat-bar-val { min-width:24px; font-size:12px; }
+.radar-panel-radar {
+  padding:8px; display:flex; align-items:stretch; justify-content:center;
+  border-right:1px solid rgba(255,255,255,0.05);
+}
+.radar-panel-radar svg { width:100%; height:100%; display:block; }
+.radar-panel-charts {
+  display:flex; flex-direction:column; gap:0;
+  padding:8px 14px 8px 12px; min-width:0; justify-content:center;
+}
+.radar-chart-group {
+  display:flex; flex-direction:column; padding:4px 0;
+}
+.radar-chart-group + .radar-chart-group {
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.radar-chart-lbl {
+  font-family:var(--mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase;
+  color:rgba(255,255,255,0.25); margin-bottom:3px;
+}
+.radar-chart-canvas { width:100%; display:block; height:36px; }
+/* Legacy compat */
+.status-charts-wrap { display:none; }
+.status-history-canvas { display:none; }
 
 /* Practice card (new multi-practice system) */
 .practice-card {
-  border:1px solid rgba(42,122,72,0.25); border-left:3px solid var(--activity);
+  border:1px solid rgba(42,122,72,0.22); border-left:3px solid var(--activity);
   border-radius:6px; background:var(--activity-bg); margin-bottom:8px; overflow:hidden;
 }
 .practice-card.priority-1 {
-  border-color:rgba(42,122,72,0.45); border-left-color:var(--activity);
-  background:rgba(42,122,72,0.07);
+  border-color:rgba(42,122,72,0.4); border-left-color:var(--activity);
+  background:rgba(42,122,72,0.065);
 }
 .practice-card-hdr {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 18px; border-bottom:1px solid rgba(42,122,72,0.15);
-  font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.18em; color:var(--activity);
+  display:flex; align-items:center; gap:8px;
+  padding:8px 14px; border-bottom:1px solid rgba(42,122,72,0.12);
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--activity);
   text-transform:uppercase;
 }
 .practice-type-badge {
-  font-family:var(--mono); font-size:14px; letter-spacing:0.1em;
-  padding:2px 7px; border-radius:2px; border:1px solid rgba(42,122,72,0.35);
+  font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
+  padding:2px 6px; border-radius:2px; border:1px solid rgba(42,122,72,0.3);
   color:var(--activity); text-transform:uppercase; flex-shrink:0;
 }
 .practice-period-badge {
-  font-family:var(--mono); font-size:14px; letter-spacing:0.1em;
-  padding:2px 7px; border-radius:2px; border:1px solid rgba(128,144,168,0.3);
+  font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
+  padding:2px 6px; border-radius:2px; border:1px solid rgba(128,144,168,0.25);
   color:var(--text-dim); text-transform:uppercase; flex-shrink:0;
 }
 .practice-card-body {
-  display:grid; grid-template-columns:1fr auto; gap:0; align-items:start;
+  display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1.6fr); gap:0; align-items:stretch;
 }
-.practice-info { padding:12px 18px; }
-.practice-name { font-family:'Cinzel',serif; font-size:17px; color:var(--activity); letter-spacing:0.06em; margin-bottom:4px; }
-.practice-desc { font-size:17px; color:var(--text-mid); line-height:1.6; }
-.practice-why { font-size:17px; color:#60a838; font-style:italic; margin-top:6px; line-height:1.5; }
-.practice-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
-.practice-widget { padding:14px 20px 12px; border-left:1px solid rgba(42,122,72,0.12); min-width:220px; display:flex; flex-direction:column; align-items:center; gap:10px; }
-.practice-stats { display:flex; gap:20px; padding:8px 18px 12px; border-top:1px solid rgba(42,122,72,0.1); font-family:var(--mono); font-size:15px; color:var(--text-dim); }
-.practice-stat { display:flex; flex-direction:column; gap:2px; }
-.practice-stat-label { font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); }
-.practice-stat-value { font-size:16px; color:var(--text-mid); }
-.practice-graph-wrap { padding:0 18px 12px; }
-.practice-graph-canvas { width:100%; height:80px; }
+.practice-info { padding:10px 14px; display:flex; flex-direction:column; justify-content:space-between; }
+.practice-info-text { flex:1; }
+.practice-name { font-family:'Cinzel',serif; font-size:16px; color:var(--activity); letter-spacing:0.06em; margin-bottom:3px; }
+.practice-desc { font-size:15px; color:var(--text-mid); line-height:1.55; }
+.practice-why { font-size:14px; color:#60a838; font-style:italic; margin-top:5px; line-height:1.45; opacity:0.9; }
+.practice-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.7; }
+.practice-stats { display:flex; gap:14px; font-family:var(--mono); font-size:13px; color:var(--text-dim); margin-top:10px; padding-top:8px; border-top:1px solid rgba(42,122,72,0.08); flex-wrap:wrap; }
+.practice-stat { display:flex; align-items:baseline; gap:5px; }
+.practice-stat-label { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); }
+.practice-stat-value { font-size:14px; color:var(--text-mid); }
+.practice-widget { padding:10px 14px; border-left:1px solid rgba(42,122,72,0.1); min-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+.practice-graph-col { border-left:1px solid rgba(42,122,72,0.08); padding:10px 12px; display:flex; align-items:center; min-width:0; }
+.practice-graph-wrap { flex:1; min-width:0; position:relative; width:100%; }
+.practice-graph-canvas { width:100%; height:56px; display:block; }
+
+/* Interactive bar chart */
+.prac-bar-chart {
+  display:flex; flex-direction:column;
+  width:100%; box-sizing:border-box;
+}
+.prac-bar-plot {
+  display:flex; align-items:flex-end; gap:2px;
+  height:64px; width:100%; position:relative; flex-shrink:0;
+}
+.prac-bar-y-axis {
+  position:absolute; left:0; top:0; bottom:0; width:28px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  pointer-events:none;
+}
+.prac-bar-y-label {
+  font-family:var(--mono); font-size:9px; color:rgba(128,120,100,0.55);
+  line-height:1; text-align:right; padding-right:4px;
+}
+.prac-bar-cols {
+  display:flex; align-items:flex-end; gap:2px;
+  flex:1; height:100%; padding-left:30px; box-sizing:border-box; position:relative;
+}
+.prac-bar-target-line {
+  position:absolute; left:0; right:0; border-top:1px dashed rgba(200,168,74,0.35);
+  pointer-events:none;
+}
+.prac-bar-col {
+  flex:1; display:flex; flex-direction:column; align-items:center;
+  justify-content:flex-end; height:100%; cursor:pointer; position:relative;
+  min-width:0;
+}
+.prac-bar-col.is-hardcoded { cursor:default; }
+.prac-bar-inner {
+  width:100%; border-radius:1px 1px 0 0; transition:opacity 0.15s;
+  min-height:2px;
+}
+.prac-bar-col:not(.is-hardcoded):hover .prac-bar-inner {
+  opacity:0.7; outline:1px solid rgba(200,168,74,0.6);
+}
+.prac-bar-col.is-hardcoded:hover .prac-bar-inner { outline:none; }
+.prac-bar-x-axis {
+  display:flex; align-items:flex-start; padding-left:30px; box-sizing:border-box;
+  height:14px; position:relative;
+}
+.prac-bar-x-label {
+  font-family:var(--mono); font-size:9px; color:rgba(128,120,100,0.55);
+  position:absolute; transform:translateX(-50%); white-space:nowrap; top:2px;
+}
+/* Edit popover */
+.prac-bar-edit {
+  position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%);
+  background:#1a1a24; border:1px solid rgba(42,122,72,0.5); border-radius:5px;
+  padding:6px 8px; z-index:20; white-space:nowrap; display:flex; flex-direction:column; gap:4px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5);
+}
+.prac-bar-edit-lbl {
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.1em; color:var(--text-dim);
+  text-transform:uppercase; text-align:center;
+}
+.prac-bar-edit-row { display:flex; gap:4px; align-items:center; }
+.prac-bar-edit-input {
+  background:var(--bg); border:1px solid rgba(42,122,72,0.5); border-radius:3px;
+  color:var(--text-b); font-family:var(--mono); font-size:14px; font-weight:700;
+  padding:3px 6px; width:64px; text-align:center;
+}
+.prac-bar-edit-input:focus { outline:none; border-color:var(--activity); }
+.prac-bar-edit-unit { font-family:var(--mono); font-size:12px; color:var(--text-dim); }
+.prac-bar-edit-save {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+  border:1px solid rgba(42,122,72,0.5); border-radius:3px; background:rgba(42,122,72,0.12);
+  color:var(--activity); cursor:pointer; padding:3px 8px; transition:background 0.15s;
+}
+.prac-bar-edit-save:hover { background:rgba(42,122,72,0.25); }
 
 /* Checkbox practice widget */
-.checkbox-dots { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.checkbox-dots { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
 .checkbox-dot {
-  width:40px; height:40px; border-radius:50%; border:2px solid rgba(42,122,72,0.4);
+  width:34px; height:34px; border-radius:50%; border:2px solid rgba(42,122,72,0.4);
   background:none; cursor:pointer; transition:all 0.18s; display:flex; align-items:center; justify-content:center;
-  font-size:18px;
+  font-size:16px;
 }
-.checkbox-dot.filled { background:var(--activity); border-color:var(--activity); box-shadow:0 0 8px rgba(42,122,72,0.45); }
-.checkbox-dot.filled::after { content:'✓'; color:#fff; font-size:18px; font-weight:700; }
+.checkbox-dot.filled { background:var(--activity); border-color:var(--activity); box-shadow:0 0 7px rgba(42,122,72,0.4); }
+.checkbox-dot.filled::after { content:'✓'; color:#fff; font-size:15px; font-weight:700; }
 .checkbox-dot:hover:not(.filled) { border-color:var(--activity); background:rgba(42,122,72,0.18); transform:scale(1.08); }
-.practice-count-lbl { font-family:var(--mono); font-size:16px; color:var(--text-dim); }
+.practice-count-lbl { font-family:var(--mono); font-size:14px; color:var(--text-dim); }
 
 /* Number practice widget */
-.number-entry { display:flex; gap:10px; align-items:center; flex-direction:column; }
+.number-entry { display:flex; gap:8px; align-items:center; flex-direction:column; }
 .number-input {
-  background:var(--bg); border:2px solid var(--border-hi); border-radius:6px;
-  color:var(--text-b); font-family:var(--mono); font-size:32px; font-weight:700;
-  padding:10px 16px; width:100px; text-align:center;
+  background:var(--bg); border:2px solid var(--border-hi); border-radius:5px;
+  color:var(--text-b); font-family:var(--mono); font-size:26px; font-weight:700;
+  padding:8px 14px; width:88px; text-align:center;
 }
 .number-input:focus { outline:none; border-color:var(--activity); box-shadow:0 0 0 2px rgba(42,122,72,0.2); }
 .number-save-btn {
-  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase;
-  border:1px solid rgba(42,122,72,0.5); border-radius:4px; background:rgba(42,122,72,0.08);
-  color:var(--activity); cursor:pointer; padding:8px 18px; transition:all 0.2s; width:100%;
+  font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+  border:1px solid rgba(42,122,72,0.45); border-radius:3px; background:rgba(42,122,72,0.07);
+  color:var(--activity); cursor:pointer; padding:6px 14px; transition:all 0.2s; width:100%;
 }
-.number-save-btn:hover { background:rgba(42,122,72,0.2); border-color:var(--activity); }
-.practice-period-lbl { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
-.practice-xp-earned { font-family:var(--mono); font-size:15px; color:#b080e8; min-height:14px; text-align:center; }
+.number-save-btn:hover { background:rgba(42,122,72,0.18); border-color:var(--activity); }
+.practice-period-lbl { font-family:var(--mono); font-size:13px; color:var(--text-dim); }
+.practice-xp-earned { font-family:var(--mono); font-size:13px; color:#b080e8; min-height:12px; text-align:center; }
 
 /* Practice hero (legacy, kept for backward compat) */
 .practice-hero {
@@ -823,11 +1012,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* History + Progression record block */
 .practice-record {
-  margin-top:0; border:1px solid rgba(42,122,72,0.2);
-  border-top:none; border-radius:0 0 6px 6px;
-  background:rgba(42,122,72,0.025); overflow:hidden;
+  margin-top:0; border:1px solid rgba(42,122,72,0.18);
+  border-radius:6px;
+  background:rgba(42,122,72,0.02); overflow:hidden;
 }
-.practice-record-section { padding:20px 24px; }
+.practice-record-section { padding:14px 18px; }
 
 /* Activity header */
 .activity-card {
@@ -850,14 +1039,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* ══ TIMER RING ══════════════════════════════════════════════ */
 .timer-card {
   --tc:#c84040; --tc-glow:rgba(200,64,64,0.25); --tc-border:rgba(200,64,64,0.35); --tc-top:#c84040;
-  display:flex; flex-direction:column; align-items:center; gap:14px;
-  background:var(--activity-bg); border:1px solid var(--tc-border); border-top:3px solid var(--tc-top); border-radius:6px;
-  padding:20px 20px 16px; min-width:190px; transition:border-color 0.4s, border-top-color 0.4s;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  background:transparent; border:none;
+  padding:10px 16px 8px; min-width:180px; transition:border-color 0.4s, border-top-color 0.4s;
 }
 .timer-card[data-tstate="running"]  { --tc:#4ab870; --tc-glow:rgba(74,184,112,0.25); --tc-border:rgba(74,184,112,0.35); --tc-top:#4ab870; }
 .timer-card[data-tstate="paused"]   { --tc:#c8a84a; --tc-glow:rgba(200,168,74,0.25);  --tc-border:rgba(200,168,74,0.35);  --tc-top:#c8a84a; }
 .timer-card[data-tstate="overflow"] { --tc:#2a9050; --tc-glow:rgba(42,144,80,0.3);    --tc-border:rgba(42,144,80,0.4);    --tc-top:#2a9050; }
-.timer-ring-wrap { position:relative; width:220px; height:220px; flex-shrink:0; }
+.timer-ring-wrap { position:relative; width:160px; height:160px; flex-shrink:0; }
 .timer-svg { position:absolute; top:0; left:0; overflow:visible; }
 .timer-track { fill:none; stroke:rgba(255,255,255,0.06); stroke-width:11; }
 .timer-arc {
@@ -872,15 +1061,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   align-items:center; justify-content:center; gap:3px; pointer-events:none;
 }
 .timer-display {
-  font-family:var(--mono); font-size:30px; font-weight:700; color:var(--tc);
+  font-family:var(--mono); font-size:24px; font-weight:700; color:var(--tc);
   letter-spacing:0.04em; line-height:1; transition:color 0.4s;
 }
 .timer-loop-ind {
-  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.14em; color:var(--gold);
+  font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.14em; color:var(--gold);
   text-transform:uppercase; opacity:0; transition:opacity 0.4s; margin-top:1px;
 }
 .timer-loop-ind.visible { opacity:1; }
-.timer-pct-lbl { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
+.timer-pct-lbl { font-family:var(--mono); font-size:13px; color:var(--text-dim); }
 .timer-toast-wrap {
   position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
   pointer-events:none; white-space:nowrap;
@@ -890,19 +1079,19 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   opacity:0; transition:opacity 0.25s; display:inline-block;
 }
 .timer-toast.show { opacity:1; }
-.timer-btns { display:flex; gap:8px; }
+.timer-btns { display:flex; gap:6px; }
 .timer-btn {
-  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.12em; text-transform:uppercase;
+  font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
   border:1px solid var(--border-hi); border-radius:3px; background:none;
-  color:var(--text-dim); cursor:pointer; padding:5px 10px; transition:all 0.2s;
+  color:var(--text-dim); cursor:pointer; padding:4px 9px; transition:all 0.2s;
 }
 .timer-btn:hover { border-color:var(--gold); color:var(--gold); }
 .timer-btn.start-btn { border-color:rgba(74,184,112,0.5); color:#4ab870; }
 .timer-btn.start-btn:hover { background:rgba(74,184,112,0.1); }
 .timer-btn.stop-btn { border-color:rgba(200,64,64,0.5); color:#c84040; }
 .timer-btn.stop-btn:hover { background:rgba(200,64,64,0.1); }
-.timer-today { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
-.timer-xp-earned { font-family:var(--mono); font-size:15px; color:#b080e8; min-height:14px; text-align:center; }
+.timer-today { font-family:var(--mono); font-size:13px; color:var(--text-dim); }
+.timer-xp-earned { font-family:var(--mono); font-size:13px; color:#b080e8; min-height:12px; text-align:center; }
 
 @keyframes ring-glow-pulse {
   0%,100% { filter:drop-shadow(0 0 4px #4ab870); }
@@ -992,20 +1181,23 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* ══ HARMONY CARD ════════════════════════════════════════ */
 .balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; }
-.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em; color:var(--text-dim); text-transform:uppercase; padding:10px 16px 0; }
+.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.26em; color:var(--text-dim); text-transform:uppercase; padding:12px 18px 0; }
+.balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; }
 .balance-el-card-body {
   display:grid;
-  grid-template-columns: minmax(0,1.2fr) min-content minmax(0,2fr);
+  grid-template-columns: minmax(0,300px) minmax(0,1fr);
   align-items:stretch;
   gap:0;
   padding:10px 16px 14px;
 }
-/* Radar column — square via aspect-ratio, fills its column */
-.balance-el-radar-svg { display:block; width:100%; aspect-ratio:1; overflow:visible; }
-/* Sidebar — legend above, trio below, sized to content */
-.balance-el-sidebar {
-  display:flex; flex-direction:column; justify-content:center; gap:16px;
-  padding:0 18px; border-left:1px solid var(--border); white-space:nowrap;
+/* Radar column wrapper */
+.balance-el-radar-col { display:flex; flex-direction:column; align-items:center; gap:10px; }
+/* Radar SVG — square via aspect-ratio, capped so it doesn't fill the whole column */
+.balance-el-radar-svg { display:block; width:80%; max-width:200px; aspect-ratio:1; overflow:visible; }
+/* Legend + scores below radar */
+.balance-el-radar-meta {
+  display:flex; flex-direction:row; justify-content:center; align-items:flex-start;
+  gap:20px; width:100%; padding:0 4px;
 }
 .balance-radar-legend { display:flex; flex-direction:column; gap:6px; }
 .balance-radar-legend-item { display:flex; align-items:center; gap:7px; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase; }
@@ -1021,16 +1213,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .bht-now { font-size:20px; color:#c8d0d8; }
 /* Chart column — fills remaining space */
 .harmony-chart-col { display:flex; flex-direction:column; justify-content:center; border-left:1px solid var(--border); padding-left:16px; min-width:0; }
-.harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--text-dim); text-transform:uppercase; margin-bottom:2px; }
-.harmony-chart-desc { font-size:15px; color:var(--text-dim); font-style:italic; margin-bottom:8px; }
-/* Narrow window: stack chart below radar+sidebar */
-@media (max-width: 820px) {
-  .balance-el-card-body { grid-template-columns: min-content auto; grid-template-rows: auto auto; }
-  .harmony-chart-col { grid-column: 1 / -1; border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; margin-top:4px; }
+.harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
+/* Narrow window: stack chart below radar */
+@media (max-width: 600px) {
+  .balance-el-card-body { grid-template-columns: 1fr; }
+  .harmony-chart-col { border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; margin-top:4px; }
 }
-/* ══ STATS panel (skills tab) ══════════════════════════ */
-.stats-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:18px; }
-.stats-card-hdr { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em; color:var(--text-dim); text-transform:uppercase; padding:10px 16px 0; }
+/* ══ STATS panel — uses radar-panel; keep for margin override ══ */
+.stats-card { margin-bottom:18px; }
 
 /* ══ DRAG-TO-REORDER ════════════════════════════════════════ */
 .drag-handle { display:flex; align-items:center; justify-content:center; width:18px; flex-shrink:0; cursor:grab; color:var(--text-dim); opacity:0.35; font-size:17px; user-select:none; padding:0 2px; transition:opacity 0.15s; }
@@ -1077,6 +1267,51 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
+<!-- ══ WELCOME BANNER ════════════════════════════════════ -->
+<div id="welcome-banner" style="display:none">
+  <button class="welcome-dismiss" onclick="dismissWelcome()" title="Dismiss">×</button>
+  <div class="welcome-title">Welcome to LifeRPG</div>
+  <div class="welcome-desc">You're looking at demo data for Steve. What would you like to do?</div>
+  <div class="welcome-options">
+    <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome()">Explore the demo</button>
+    <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
+    <button class="welcome-opt-btn welcome-opt-primary" onclick="dismissWelcome();openModal()">Import my data ↑</button>
+  </div>
+  <div id="welcome-setup-steps">
+    <div class="welcome-step">
+      <div class="welcome-step-num">1</div>
+      <div class="welcome-step-text"><strong>Download this file</strong> — you already have it if you're reading this.</div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num">2</div>
+      <div class="welcome-step-text"><strong>Download instructions.md</strong> — Claude needs this to know your data format. <button class="btn-ghost" style="padding:3px 10px;font-size:14px;margin-left:6px;" onclick="downloadInstructions()">↓ Download</button></div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num">3</div>
+      <div class="welcome-step-text"><strong>Create a Claude Project</strong> at claude.ai → add <code style="font-family:var(--mono);font-size:15px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">instructions.md</code> to the project knowledge.</div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num">4</div>
+      <div class="welcome-step-text"><strong>Start a chat</strong> — copy a starter from the Combat tab, or just open Claude and start talking.</div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num">5</div>
+      <div class="welcome-step-text">At the end of a session, ask Claude: <em>"Generate my data.json"</em> — then add it to project knowledge.</div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num">6</div>
+      <div class="welcome-step-text">Come back here and click <strong>Import my data ↑</strong> above.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DIRTY BANNER ═══════════════════════════════════════ -->
+<div id="dirty-banner">
+  <span class="dirty-banner-text">You have unsaved local edits. Export ↓ and replace your data.json in Claude to keep them.</span>
+  <button class="dirty-banner-never" onclick="neverShowDirtyBanner()">Never show</button>
+  <button class="dirty-banner-dismiss" onclick="dismissDirtyBanner()" title="Dismiss">×</button>
+</div>
+
 <!-- ══ SLIDER TEMPLATE (reused via JS) ══════════════════════
      Mastery milestones: white=0%, blue=25%, purple=50%, brown=75%, black=100%
      Rendered by buildSliderCol() helper in JS
@@ -1099,51 +1334,51 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ HARMONY CARD ══ -->
 <div class="balance-el-card" style="margin-bottom:14px">
   <div class="balance-el-card-hdr">Harmony</div>
+  <div class="balance-el-card-desc">Balance between the four elements, inferred from each session</div>
   <div class="balance-el-card-body">
-    <!-- Col 1: radar -->
-    <svg id="radar-svg" viewBox="-90 -94 180 196" xmlns="http://www.w3.org/2000/svg" class="balance-el-radar-svg">
-      <polygon points="0,-60 60,0 0,60 -60,0" fill="none" stroke="#232332" stroke-width="0.8"/>
-      <polygon points="0,-45 45,0 0,45 -45,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
-      <polygon points="0,-30 30,0 0,30 -30,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
-      <polygon points="0,-15 15,0 0,15 -15,0" fill="none" stroke="#18181f" stroke-width="0.4"/>
-      <line x1="0" y1="-72" x2="0" y2="72" stroke="#1e1e28" stroke-width="0.5"/>
-      <line x1="-72" y1="0" x2="72" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
-      <polygon id="radar-ghost-month" fill="none" stroke="rgba(200,168,74,0.12)" stroke-width="1.2" stroke-dasharray="3,3"/>
-      <polygon id="radar-ghost-week"  fill="none" stroke="rgba(200,168,74,0.30)" stroke-width="1.2" stroke-dasharray="3,3"/>
-      <polygon id="radar-fill"   fill="rgba(200,168,74,0.07)" stroke="none"/>
-      <polygon id="radar-stroke" fill="none" stroke="var(--gold)" stroke-width="1.6" opacity="0.8"/>
-      <circle id="r-air"   cx="0" cy="0" r="4.5" fill="#8090a8"/>
-      <circle id="r-fire"  cx="0" cy="0" r="4.5" fill="#d07830"/>
-      <circle id="r-water" cx="0" cy="0" r="4.5" fill="#3a80c8"/>
-      <circle id="r-earth" cx="0" cy="0" r="4.5" fill="#60a838"/>
-      <text x="0"   y="-73" text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#8090a8" letter-spacing="0.12em">AIR</text>
-      <text x="74"  y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="10" fill="#d07830" letter-spacing="0.12em">FIRE</text>
-      <text x="0"   y="85"  text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#3a80c8" letter-spacing="0.12em">WATER</text>
-      <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
-    </svg>
-    <!-- Col 2: legend + scores -->
-    <div class="balance-el-sidebar">
-      <div class="balance-radar-legend">
-        <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Now</div>
-        <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>Last week</div>
-        <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>Last month</div>
-      </div>
-      <div class="balance-harmony-trio">
-        <div class="bht-cell">
-          <div class="bht-num" id="balance-harmony-initial">—</div>
-          <div class="balance-harmony-lbl">Initial</div>
+    <!-- Col 1: radar + legend below -->
+    <div class="balance-el-radar-col">
+      <svg id="radar-svg" viewBox="-90 -94 180 196" xmlns="http://www.w3.org/2000/svg" class="balance-el-radar-svg">
+        <polygon points="0,-60 60,0 0,60 -60,0" fill="none" stroke="#232332" stroke-width="0.8"/>
+        <polygon points="0,-45 45,0 0,45 -45,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
+        <polygon points="0,-30 30,0 0,30 -30,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
+        <polygon points="0,-15 15,0 0,15 -15,0" fill="none" stroke="#18181f" stroke-width="0.4"/>
+        <line x1="0" y1="-72" x2="0" y2="72" stroke="#1e1e28" stroke-width="0.5"/>
+        <line x1="-72" y1="0" x2="72" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
+        <polygon id="radar-ghost-month" fill="none" stroke="rgba(200,168,74,0.12)" stroke-width="1.2" stroke-dasharray="3,3"/>
+        <polygon id="radar-ghost-week"  fill="none" stroke="rgba(200,168,74,0.30)" stroke-width="1.2" stroke-dasharray="3,3"/>
+        <polygon id="radar-fill"   fill="rgba(200,168,74,0.07)" stroke="none"/>
+        <polygon id="radar-stroke" fill="none" stroke="var(--gold)" stroke-width="1.6" opacity="0.8"/>
+        <circle id="r-air"   cx="0" cy="0" r="4.5" fill="#8090a8"/>
+        <circle id="r-fire"  cx="0" cy="0" r="4.5" fill="#d07830"/>
+        <circle id="r-water" cx="0" cy="0" r="4.5" fill="#3a80c8"/>
+        <circle id="r-earth" cx="0" cy="0" r="4.5" fill="#60a838"/>
+        <text x="0"   y="-73" text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#8090a8" letter-spacing="0.12em">AIR</text>
+        <text x="74"  y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="10" fill="#d07830" letter-spacing="0.12em">FIRE</text>
+        <text x="0"   y="85"  text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#3a80c8" letter-spacing="0.12em">WATER</text>
+        <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
+      </svg>
+      <div class="balance-el-radar-meta">
+        <div class="balance-radar-legend">
+          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Now</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>Last week</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>Last month</div>
         </div>
-        <div class="bht-cell">
-          <div class="bht-num bht-now" id="balance-harmony-now">—</div>
-          <div class="balance-harmony-lbl">Now</div>
+        <div class="balance-harmony-trio">
+          <div class="bht-cell">
+            <div class="bht-num" id="balance-harmony-initial">—</div>
+            <div class="balance-harmony-lbl">Initial</div>
+          </div>
+          <div class="bht-cell">
+            <div class="bht-num bht-now" id="balance-harmony-now">—</div>
+            <div class="balance-harmony-lbl">Now</div>
+          </div>
         </div>
-
       </div>
     </div>
-    <!-- Col 3: line chart -->
+    <!-- Col 2: line chart -->
     <div class="harmony-chart-col">
       <div class="harmony-chart-col-hdr">Over Time</div>
-      <div class="harmony-chart-desc">Signal of balance between element scores, inferred from each session.</div>
       <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:100px"></canvas>
     </div>
   </div>
@@ -1354,7 +1589,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
         <button onclick="addDailySlice()" style="background:none;border:none;color:var(--text-dim);font-size:15px;font-family:'Cinzel',serif;cursor:pointer;opacity:0.6;letter-spacing:0.06em;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">+ Add</button>
-        <button onclick="appState.dailyDistribution=JSON.parse(JSON.stringify(window._lastImportedDist||DEFAULT.dailyDistribution));saveState(appState);renderPieChart(appState);" style="background:none;border:none;color:var(--text-dim);font-size:15px;font-family:'Cinzel',serif;cursor:pointer;opacity:0.5;letter-spacing:0.06em;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5" title="Reset to last imported state">↺ Reset</button>
       </div>
     </div>
   </div>
@@ -1373,41 +1607,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <div id="tab-skills" class="tab-panel">
   <!-- Stats card -->
-  <div class="stats-card">
-    <div class="stats-card-hdr">Stats</div>
-    <div class="combat-status-body" style="padding:10px 16px 4px;">
-      <div class="combat-status-sliders">
+  <div class="stats-card radar-panel">
+    <div class="radar-panel-body">
+      <div class="radar-panel-sliders">
+        <div class="radar-panel-head">
+          <div class="radar-panel-title">Stats</div>
+          <div class="radar-panel-desc">Physical and mental wellbeing indicators</div>
+        </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
           <input type="range" class="stat-range" id="stat-rest" min="0" max="100" value="50" oninput="updateStat('rest',this.value)">
           <span class="stat-bar-val" id="stat-rest-val">50</span>
         </div>
-        <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
-          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)">
-          <span class="stat-bar-val" id="stat-connection-val">50</span>
-        </div>
-      </div>
-      <div class="combat-status-radar-wrap">
-        <svg id="stats-radar-svg" width="220" height="220" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
-          <polygon points="0,-38 38,0 0,38 -38,0" fill="none" stroke="#232332" stroke-width="0.8"/>
-          <polygon points="0,-28.5 28.5,0 0,28.5 -28.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
-          <polygon points="0,-19 19,0 0,19 -19,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
-          <line x1="0" y1="-44" x2="0" y2="44" stroke="#1e1e28" stroke-width="0.5"/>
-          <line x1="-44" y1="0" x2="44" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
-          <polygon id="stats-radar-fill"   fill="rgba(58,128,200,0.06)" stroke="none"/>
-          <polygon id="stats-radar-stroke" fill="none" stroke="rgba(58,128,200,0.4)" stroke-width="1.4"/>
-          <circle id="s-rest"       cx="0" cy="-38" r="3.5" fill="#8090a8"/>
-          <circle id="s-movement"   cx="38" cy="0"  r="3.5" fill="#d07830"/>
-          <circle id="s-nutrition"  cx="0"  cy="38" r="3.5" fill="#60a838"/>
-          <circle id="s-connection" cx="-38" cy="0" r="3.5" fill="#3a80c8"/>
-          <text x="0"    y="-47" text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#8090a8" letter-spacing="0.1em">REST</text>
-          <text x="48"   y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="6.5" fill="#d07830" letter-spacing="0.1em">MOVE</text>
-          <text x="0"    y="54"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#60a838" letter-spacing="0.1em">NUTRI</text>
-          <text x="-48"  y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="6.5" fill="#3a80c8" letter-spacing="0.1em">CONNECT</text>
-        </svg>
-      </div>
-      <div class="combat-status-sliders">
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
           <input type="range" class="stat-range" id="stat-movement" min="0" max="100" value="50" oninput="updateStat('movement',this.value)">
@@ -1418,10 +1629,41 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <input type="range" class="stat-range" id="stat-nutrition" min="0" max="100" value="50" oninput="updateStat('nutrition',this.value)">
           <span class="stat-bar-val" id="stat-nutrition-val">50</span>
         </div>
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
+          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)">
+          <span class="stat-bar-val" id="stat-connection-val">50</span>
+        </div>
       </div>
-    </div>
-    <div class="status-charts-wrap">
-      <canvas id="stats-history-canvas" class="status-history-canvas"></canvas>
+      <div class="radar-panel-radar">
+        <svg id="stats-radar-svg" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:100%;height:100%;max-width:180px;max-height:180px">
+          <polygon points="0,-38 38,0 0,38 -38,0" fill="none" stroke="#232332" stroke-width="0.8"/>
+          <polygon points="0,-28.5 28.5,0 0,28.5 -28.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
+          <polygon points="0,-19 19,0 0,19 -19,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
+          <line x1="0" y1="-44" x2="0" y2="44" stroke="#1e1e28" stroke-width="0.5"/>
+          <line x1="-44" y1="0" x2="44" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
+          <polygon id="stats-radar-fill"   fill="rgba(58,128,200,0.06)" stroke="none"/>
+          <polygon id="stats-radar-stroke" fill="none" stroke="rgba(58,128,200,0.4)" stroke-width="1.4"/>
+          <circle id="s-rest"       cx="0"   cy="-38" r="3.5" fill="#8090a8"/>
+          <circle id="s-movement"   cx="38"  cy="0"   r="3.5" fill="#d07830"/>
+          <circle id="s-connection" cx="0"   cy="38"  r="3.5" fill="#3a80c8"/>
+          <circle id="s-nutrition"  cx="-38" cy="0"   r="3.5" fill="#60a838"/>
+          <text x="0"    y="-47" text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#8090a8" letter-spacing="0.1em">REST</text>
+          <text x="48"   y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="6.5" fill="#d07830" letter-spacing="0.1em">MOVE</text>
+          <text x="0"    y="54"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#3a80c8" letter-spacing="0.1em">CONNECT</text>
+          <text x="-48"  y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="6.5" fill="#60a838" letter-spacing="0.1em">NUTRI</text>
+        </svg>
+      </div>
+      <div class="radar-panel-charts">
+        <div class="radar-chart-group">
+          <div class="radar-chart-lbl">7-day avg</div>
+          <canvas id="stats-chart-7d" class="radar-chart-canvas"></canvas>
+        </div>
+        <div class="radar-chart-group">
+          <div class="radar-chart-lbl">All-time avg</div>
+          <canvas id="stats-chart-all" class="radar-chart-canvas"></canvas>
+        </div>
+      </div>
     </div>
   </div>
   <div class="combat-section" id="combat-skills-section">
@@ -1438,15 +1680,28 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <div id="tab-combat" class="tab-panel active">
 
-  <!-- ── Status strip ── -->
-  <div class="combat-status-strip">
-    <div class="combat-status-hdr">Status check-in</div>
-    <div class="combat-status-body">
-      <div class="combat-status-sliders">
+  <!-- ── Status check-in ── -->
+  <div class="radar-panel">
+    <div class="radar-panel-body">
+      <div class="radar-panel-sliders">
+        <div class="radar-panel-head">
+          <div class="radar-panel-title">Status check-in</div>
+          <div class="radar-panel-desc">Log how you feel in relation to whatever you <em>should</em> be doing</div>
+        </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#c0cad4">Focus</span>
           <input type="range" class="stat-range stat-range-focus" id="status-focus" min="0" max="100" value="70" oninput="updateStatus('focus',this.value)">
           <span class="stat-bar-val" id="status-focus-val">70</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#d07830">Energy</span>
+          <input type="range" class="stat-range stat-range-energy" id="status-energy" min="0" max="100" value="60" oninput="updateStatus('energy',this.value)">
+          <span class="stat-bar-val" id="status-energy-val">60</span>
+        </div>
+        <div class="stat-bar-row">
+          <span class="stat-bar-lbl" style="color:#3a80c8">Interest</span>
+          <input type="range" class="stat-range stat-range-interest" id="status-interest" min="0" max="100" value="65" oninput="updateStatus('interest',this.value)">
+          <span class="stat-bar-val" id="status-interest-val">65</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
@@ -1454,8 +1709,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <span class="stat-bar-val" id="status-purpose-val">55</span>
         </div>
       </div>
-      <div class="combat-status-radar-wrap">
-        <svg id="status-radar-svg" width="220" height="220" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
+      <div class="radar-panel-radar">
+        <svg id="status-radar-svg" viewBox="-55 -55 110 110" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:100%;height:100%;max-width:180px;max-height:180px">
           <polygon points="0,-38 38,0 0,38 -38,0" fill="none" stroke="#232332" stroke-width="0.8"/>
           <polygon points="0,-28.5 28.5,0 0,28.5 -28.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
           <polygon points="0,-19 19,0 0,19 -19,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
@@ -1473,34 +1728,58 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <text x="-48"  y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="6.5" fill="#60a838" letter-spacing="0.1em">PURPOSE</text>
         </svg>
       </div>
-      <div class="combat-status-sliders">
-        <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#d07830">Energy</span>
-          <input type="range" class="stat-range stat-range-energy" id="status-energy" min="0" max="100" value="60" oninput="updateStatus('energy',this.value)">
-          <span class="stat-bar-val" id="status-energy-val">60</span>
+      <div class="radar-panel-charts">
+        <div class="radar-chart-group">
+          <div class="radar-chart-lbl">7-day avg</div>
+          <canvas id="status-chart-7d" class="radar-chart-canvas"></canvas>
         </div>
-        <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#3a80c8">Interest</span>
-          <input type="range" class="stat-range stat-range-interest" id="status-interest" min="0" max="100" value="65" oninput="updateStatus('interest',this.value)">
-          <span class="stat-bar-val" id="status-interest-val">65</span>
+        <div class="radar-chart-group">
+          <div class="radar-chart-lbl">All-time avg</div>
+          <canvas id="status-chart-all" class="radar-chart-canvas"></canvas>
         </div>
       </div>
-    </div>
-    <!-- ── Status history bar charts ── -->
-    <div class="status-charts-wrap">
-      <canvas id="status-history-canvas" class="status-history-canvas"></canvas>
     </div>
   </div>
 
   <!-- ── Practices ── -->
   <div id="practices-container"></div>
 
-  <!-- ── Progression ── -->
-  <div class="practice-record">
-    <div class="practice-record-section">
-      <div class="combat-section-hdr">Progression</div>
-      <div class="section-desc">Summary of how this chapter is going</div>
-      <div class="claude-read-card" id="combat-claude-read">No read yet.</div>
+  <!-- ── Session starters ── -->
+  <div class="starters-section" id="starters-section">
+    <button class="starters-toggle" id="starters-toggle" onclick="toggleStarters()">
+      <span class="starters-toggle-arrow" id="starters-arrow">▶</span>
+      Start a session
+    </button>
+    <div class="starters-body" id="starters-body">
+      <div class="starter-row">
+        <span class="starter-text">"Here's what's been going on lately —"</span>
+        <button class="starter-copy-btn" onclick="copyStarter(this,'Here\'s what\'s been going on lately —')">Copy</button>
+      </div>
+      <div class="starter-row">
+        <span class="starter-text">"I want to [goal/change/achieve something]... let's talk through it"</span>
+        <button class="starter-copy-btn" onclick="copyStarter(this,'I want to [goal/change/achieve something]... let\'s talk through it')">Copy</button>
+      </div>
+      <div class="starter-row">
+        <span class="starter-text">"I completed [something] recently — wanted to log it and figure out what's next"</span>
+        <button class="starter-copy-btn" onclick="copyStarter(this,'I completed [something] recently — wanted to log it and figure out what\'s next')">Copy</button>
+      </div>
+      <div class="starter-row">
+        <span class="starter-text">"I've been struggling with [pattern/situation] and can't seem to shift it"</span>
+        <button class="starter-copy-btn" onclick="copyStarter(this,'I\'ve been struggling with [pattern/situation] and can\'t seem to shift it')">Copy</button>
+      </div>
+      <div class="starter-row">
+        <span class="starter-text">"Check in — here's where things stand across my main areas..."</span>
+        <button class="starter-copy-btn" onclick="copyStarter(this,'Check in — here\'s where things stand across my main areas...')">Copy</button>
+      </div>
+      <div class="starter-row">
+        <span class="starter-text">"I want to go deeper on one thing today:"</span>
+        <button class="starter-copy-btn" onclick="copyStarter(this,'I want to go deeper on one thing today:')">Copy</button>
+      </div>
+      <div class="starter-row">
+        <span class="starter-text">"[Guided] Interview me — I want to update my whole sheet"</span>
+        <button class="starter-copy-btn" id="deep-dive-btn" onclick="copyDeepDive(this)">Copy</button>
+      </div>
+      <p class="starters-note">Optional — or just open Claude and start talking. These are starting points.</p>
     </div>
   </div>
 
@@ -1516,18 +1795,38 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="tab-allies" class="tab-panel">
-  <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:#2a9050;border-color:rgba(42,144,80,0.3);">✦ Allies</div>
-    <div class="section-desc">Loot, spells, liberating beliefs, and sources of aliveness — everything working for you</div>
-    <div id="al-allies"></div>
+  <div class="al-top-row">
+    <div class="qt-section" style="margin-bottom:0">
+      <div class="qt-section-hdr no-prefix" style="color:#2a9050;border-color:rgba(42,144,80,0.3);">✦ Allies</div>
+      <div class="section-desc">Loot, spells, liberating beliefs, and sources of aliveness — everything working for you</div>
+      <div id="al-allies"></div>
+    </div>
+    <div class="al-pie-col">
+      <div class="qt-section-hdr no-prefix" style="color:#2a9050;border-color:rgba(42,144,80,0.25);">By Type</div>
+      <div class="section-desc">Ally breakdown</div>
+      <div class="pie-wrap" style="flex-direction:column;align-items:center;gap:14px;margin-top:12px;">
+        <div class="pie-svg-wrap"><svg id="al-pie-chart" width="130" height="130" viewBox="0 0 140 140"></svg></div>
+        <div class="pie-legend" id="al-pie-legend"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div id="tab-bestiary" class="tab-panel">
-  <div class="qt-section">
-    <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.3);">Live Enemies</div>
-    <div class="section-desc">Negative patterns, ranked by priority. Your main boss is number one.</div>
-    <div id="bt-enemies"></div>
+  <div class="bt-top-row">
+    <div class="qt-section" style="margin-bottom:0">
+      <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.3);">Live Enemies</div>
+      <div class="section-desc">Negative patterns, ranked by priority. Your main boss is number one.</div>
+      <div id="bt-enemies"></div>
+    </div>
+    <div class="bt-pie-col">
+      <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.25);">By Type</div>
+      <div class="section-desc">Enemy breakdown</div>
+      <div class="pie-wrap" style="flex-direction:column;align-items:center;gap:14px;margin-top:12px;">
+        <div class="pie-svg-wrap"><svg id="bt-pie-chart" width="130" height="130" viewBox="0 0 140 140"></svg></div>
+        <div class="pie-legend" id="bt-pie-legend"></div>
+      </div>
+    </div>
   </div>
   <div class="qt-section">
     <div class="qt-section-hdr" style="color:var(--text-dim);border-color:var(--border-hi);">Graveyard</div>
@@ -1561,6 +1860,24 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <button class="float-btn" onclick="openModal()" title="Import — paste from Claude">↑</button>
 <script>if(location.hostname.endsWith('github.io')){document.getElementById('export-btn').style.display='none';document.currentScript.previousElementSibling.style.display='none';}</script>
 
+<!-- ══ SYNC EXPLAINED MODAL ══════════════════════════════ -->
+<div class="modal-overlay" id="sync-modal">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);">
+    <div class="modal-title" style="color:var(--gold);">HOW SYNC WORKS</div>
+    <p>Changes you make here are saved locally in your browser. To keep them, use the Export button (↓) and paste the JSON into your Claude project to replace your old data.json. This keeps Claude and the app in sync.</p>
+    <div class="modal-row">
+      <button class="btn-primary" onclick="closeSyncModal()">Got it</button>
+      <button class="btn-ghost" onclick="closeSyncModal(true)">Never show again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ IMPORT TOAST ════════════════════════════════════════ -->
+<div id="import-toast">
+  <div id="import-toast-text"></div>
+  <button id="import-toast-close" onclick="hideImportToast()">×</button>
+</div>
+
 <div class="modal-overlay" id="modal">
   <div class="modal" style="border-top:3px solid #4a9060;">
     <div class="modal-title" style="color:#4a9060;">↑ &nbsp;IMPORT &nbsp;— PASTE FROM CLAUDE</div>
@@ -1579,10 +1896,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal" style="border-top:3px solid #c8a84a;">
     <div class="modal-title" style="color:#c8a84a;">↓ &nbsp;EXPORT &nbsp;— COPY TO CLAUDE</div>
     <p>Copy this JSON and paste it into Claude at the start of your next session so it knows your current state.</p>
+    <div id="instructions-version-notice" style="display:none;margin-bottom:10px;padding:8px 12px;background:rgba(200,168,74,0.08);border:1px solid rgba(200,168,74,0.3);border-radius:4px;font-size:16px;color:var(--gold);">Instructions update available — <button class="btn-ghost" style="padding:3px 10px;font-size:14px;" onclick="downloadInstructions()">Download instructions.md</button> and replace it in your Claude project knowledge.</div>
     <textarea id="export-textarea" readonly style="min-height:200px;font-size:15px"></textarea>
-    <div class="modal-row">
+    <div class="modal-row" style="flex-wrap:wrap;gap:8px;">
       <button class="btn-primary" id="copy-export-btn" onclick="copyExport()">Copy</button>
       <button class="btn-ghost" onclick="document.getElementById('export-modal').classList.remove('open')">Close</button>
+      <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="downloadInstructions()">↓ instructions.md</button>
     </div>
   </div>
 </div>
@@ -1609,25 +1928,10 @@ function getAlignment(item){
 
 // ══ BELT CONFIG ════════════════════════════════════════════
 
-// ══ STATIC ENEMIES ═════════════════════════════════════════
-const ENEMIES = [
-  {
-    name:"THE CONTROLLER'S GRIP",
-    desc:"Perfectionism and tryharding as the default operating system. Every experience gets judged, every win gets immediately replaced by the next inadequacy. Relaxation narrated as moral failure. The most persistent pattern: active the majority of waking hours and capable of colonising every escape route including therapy, meditation, and building this app."
-  },
-  {
-    name:"THE DOPAMINE RATCHET",
-    desc:"Boredom becomes intolerable within minutes. The middle ground (not peak stimulation, not sleep) gets colonised automatically before any conscious decision has formed. The inability to let boredom exist long enough to find out what's underneath it. Six-plus years, unchanged by effort or insight. Not a willpower problem - a structural one."
-  },
-  {
-    name:"THE PERFORMANCE LOOP",
-    desc:"Worth is earned through output, competence, and others' approval - never simply assumed. Runs even when alone with the door shut. Causes over-explaining to control perception while simultaneously leaving the most important things unsaid. The exile's question (will anyone ever actually know me) stays unanswerable because the performance prevents the test."
-  }
-];
 
 // ══ DEFAULT STATE ═══════════════════════════════════════════
 // Loaded async from steve-example-data.json; falls back to minimal stub on file:// origins.
-let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], enemies:[], limitingBeliefs:[], empoweringBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{} };
+let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], empoweringBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{} };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
 
@@ -1641,10 +1945,16 @@ function hpColor(hp){
   return '#4a9840';
 }
 
+// ══ INSTRUCTIONS VERSIONING ════════════════════════════════
+const INSTRUCTIONS_VERSION = '0.7.0';
+
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
 const FEATURED_ACH_KEY='liferpg-featured-ach-v7';
 const HDR_ICON_KEY='liferpg-hdr-icon-v7';
+const WELCOMED_KEY='liferpg-welcomed-v7';
+const SYNC_EXPLAINED_KEY='liferpg-sync-explained-v7';
+const HIDE_DIRTY_BANNER_KEY='liferpg-hide-dirty-banner-v7';
 const IS_DEMO=location.hostname.endsWith('github.io');
 function loadState(){if(IS_DEMO)return DEFAULT;try{const r=localStorage.getItem('liferpg-v7');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
 function saveState(s){if(IS_DEMO)return;try{localStorage.setItem('liferpg-v7',JSON.stringify(s));}catch{}}
@@ -2030,63 +2340,54 @@ const STATS_HIST_KEY = 'liferpg-stats-hist-v7';
 function updateStatsRadar(){
   const R=38;
   const val=name=>{ const el=document.getElementById('stat-'+name); return el?parseInt(el.value)/100:0; };
-  const ay=-R*val('rest'), fx=R*val('movement'), wy=R*val('nutrition'), ex=-R*val('connection');
-  const pts=`0,${ay} ${fx},0 0,${wy} ${ex},0`;
+  // REST=top, MOVE=right, CONNECTION=bottom, NUTRI=left
+  const ay=-R*val('rest'), fx=R*val('movement'), cy=R*val('connection'), nx=-R*val('nutrition');
+  const pts=`0,${ay} ${fx},0 0,${cy} ${nx},0`;
   const fill=document.getElementById('stats-radar-fill'); if(fill) fill.setAttribute('points',pts);
   const stroke=document.getElementById('stats-radar-stroke'); if(stroke) stroke.setAttribute('points',pts);
-  const sr=document.getElementById('s-rest');       if(sr)  { sr.setAttribute('cx','0'); sr.setAttribute('cy',ay); }
-  const sm=document.getElementById('s-movement');   if(sm)  { sm.setAttribute('cx',fx); sm.setAttribute('cy','0'); }
-  const sn=document.getElementById('s-nutrition');  if(sn)  { sn.setAttribute('cx','0'); sn.setAttribute('cy',wy); }
-  const sc=document.getElementById('s-connection'); if(sc)  { sc.setAttribute('cx',ex); sc.setAttribute('cy','0'); }
+  const sr=document.getElementById('s-rest');       if(sr)  { sr.setAttribute('cx','0');  sr.setAttribute('cy',ay); }
+  const sm=document.getElementById('s-movement');   if(sm)  { sm.setAttribute('cx',fx);   sm.setAttribute('cy','0'); }
+  const sc=document.getElementById('s-connection'); if(sc)  { sc.setAttribute('cx','0');  sc.setAttribute('cy',cy); }
+  const sn=document.getElementById('s-nutrition');  if(sn)  { sn.setAttribute('cx',nx);   sn.setAttribute('cy','0'); }
 }
 
-function renderStatsHistoryChart(){
-  const canvas=document.getElementById('stats-history-canvas');
+function _drawAvgBarsInCanvas(canvasId, avgs, keys, cols){
+  const canvas=document.getElementById(canvasId);
   if(!canvas) return;
   const dpr=window.devicePixelRatio||1;
-  const W=canvas.offsetWidth||canvas.parentElement.offsetWidth||600;
-  const H=90;
+  const W=canvas.offsetWidth||canvas.parentElement?.offsetWidth||200;
+  const H=canvas.offsetHeight||36;
   canvas.width=W*dpr; canvas.height=H*dpr;
   const ctx=canvas.getContext('2d');
   ctx.scale(dpr,dpr);
+  const padL=4,padR=4,padT=4,padB=14;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const barGap=3, numBars=keys.length;
+  const barW=(plotW-barGap*(numBars-1))/numBars;
+  keys.forEach((k,i)=>{
+    const x=padL+i*(barW+barGap);
+    const barH=Math.max(1,(avgs[k]/100)*plotH);
+    const y=padT+plotH-barH;
+    ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.fillRect(x,padT,barW,plotH);
+    ctx.fillStyle=cols[k]; ctx.globalAlpha=0.8; ctx.fillRect(x,y,barW,barH); ctx.globalAlpha=1;
+    ctx.fillStyle=cols[k]; ctx.font='bold 9px monospace'; ctx.textAlign='center';
+    ctx.fillText(avgs[k],x+barW/2,padT+plotH+10);
+  });
+}
+
+function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
-  if(!hist.length){
-    ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.font='12px monospace'; ctx.textAlign='center';
-    ctx.fillText('No history yet — adjusting sliders records a snapshot',W/2,H/2);
-    return;
-  }
   const keys=['rest','movement','nutrition','connection'];
   const cols=STAT_COLORS;
   const last7=hist.slice(-7);
   const avg7={}, avgAll={};
   keys.forEach(k=>{
-    avg7[k]=last7.length?Math.round(last7.reduce((s,e)=>s+(e[k]||0),0)/last7.length):0;
-    avgAll[k]=Math.round(hist.reduce((s,e)=>s+(e[k]||0),0)/hist.length);
+    avg7[k]=hist.length?Math.round(last7.reduce((s,e)=>s+(e[k]||0),0)/(last7.length||1)):0;
+    avgAll[k]=hist.length?Math.round(hist.reduce((s,e)=>s+(e[k]||0),0)/hist.length):0;
   });
-  const padL=10,padR=10,padT=18,padB=22;
-  const plotW=W-padL-padR, plotH=H-padT-padB;
-  const groupGap=24, barGap=3, numBars=keys.length;
-  const barW=(plotW/2-groupGap/2-barGap*(numBars-1))/numBars;
-  ctx.font='10px monospace'; ctx.textAlign='center'; ctx.fillStyle='rgba(255,255,255,0.35)';
-  const g1X=padL+(plotW/2-groupGap/2)/2;
-  const g2X=padL+(plotW/2+groupGap/2)+(plotW/2-groupGap/2)/2;
-  ctx.fillText('7-day avg',g1X,padT-4);
-  ctx.fillText('all-time avg',g2X,padT-4);
-  function drawGroup(avgs,startX){
-    keys.forEach((k,i)=>{
-      const x=startX+i*(barW+barGap);
-      const barH=(avgs[k]/100)*plotH, y=padT+plotH-barH;
-      ctx.fillStyle='rgba(255,255,255,0.05)'; ctx.fillRect(x,padT,barW,plotH);
-      ctx.fillStyle=cols[k]; ctx.globalAlpha=0.75; ctx.fillRect(x,y,barW,barH); ctx.globalAlpha=1;
-      ctx.fillStyle=cols[k]; ctx.font='bold 10px monospace'; ctx.textAlign='center';
-      ctx.fillText(avgs[k],x+barW/2,padT+plotH+12);
-      ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.font='9px monospace';
-      ctx.fillText(k.slice(0,3).toUpperCase(),x+barW/2,padT+plotH+22);
-    });
-  }
-  drawGroup(avg7,padL);
-  drawGroup(avgAll,padL+(plotW/2+groupGap/2));
+  _drawAvgBarsInCanvas('stats-chart-7d', avg7, keys, cols);
+  _drawAvgBarsInCanvas('stats-chart-all', avgAll, keys, cols);
 }
 
 function saveStatsSnapshot(){
@@ -2635,12 +2936,12 @@ function renderBestiaryTab(s){
   if(enemiesEl){
     enemiesEl.innerHTML='';
     const TYPES={
-      distortion: {icon:'◈', label:'Distortion',     cls:'ett-distortion', nameColor:'#c83060'},
-      compulsion: {icon:'⚡', label:'Compulsion',     cls:'ett-compulsion', nameColor:'#c83030'},
-      belief:     {icon:'⬡', label:'Limiting Belief', cls:'ett-belief',    nameColor:'#8b5e3c'},
-      drain:      {icon:'↓', label:'Drain',           cls:'ett-drain',     nameColor:'#6040a0'},
+      distortion: {icon:'◈', label:'Distortion',     cls:'ett-distortion', nameColor:'#c83060', rgb:'200,48,96'},
+      compulsion: {icon:'⚡', label:'Compulsion',     cls:'ett-compulsion', nameColor:'#c83030', rgb:'200,48,48'},
+      belief:     {icon:'⬡', label:'Limiting Belief', cls:'ett-belief',    nameColor:'#8b5e3c', rgb:'139,94,60'},
+      drain:      {icon:'↓', label:'Drain',           cls:'ett-drain',     nameColor:'#6040a0', rgb:'96,64,160'},
     };
-    const DEFAULT_TC={icon:'☠', label:'Enemy', cls:'ett-enemy', nameColor:'#c84040'};
+    const DEFAULT_TC={icon:'☠', label:'Enemy', cls:'ett-enemy', nameColor:'#c84040', rgb:'200,64,64'};
     // Boss injected at priority 0 so it sorts first
     const boss=bestiary.boss;
     const fromBoss=boss&&boss.name ? [{...boss, priority:0, _srcType:'boss'}] : [];
@@ -2661,9 +2962,21 @@ function renderBestiaryTab(s){
       all.forEach((e,ci)=>{
         const tc=TYPES[e.type]||DEFAULT_TC;
         const bodyId=`be-body-${ci}`,arrowId=`be-arrow-${ci}`;
+        if(e._srcType==='boss'){
+          const bossHdr=document.createElement('div'); bossHdr.className='qt-section-hdr no-prefix'; bossHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:10px;'; bossHdr.textContent='☠ Main Boss';
+          const bossDesc=document.createElement('div'); bossDesc.className='section-desc'; bossDesc.style.marginBottom='10px'; bossDesc.textContent='Your primary antagonist';
+          enemiesEl.appendChild(bossHdr); enemiesEl.appendChild(bossDesc);
+        } else if(ci>0 && all[ci-1]._srcType==='boss'){
+          const restHdr=document.createElement('div'); restHdr.className='qt-section-hdr no-prefix'; restHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-top:24px;margin-bottom:10px;'; restHdr.textContent='◈ Other Enemies';
+          enemiesEl.appendChild(restHdr);
+        }
         const d=document.createElement('div'); d.className='enemy-card';
+        d.style.borderColor=`rgba(${tc.rgb},0.22)`;
         d.dataset.srcType=e._srcType||''; d.dataset.srcIdx=String(e._idx??'');
         const head=document.createElement('div'); head.className='enemy-card-head';
+        head.style.background=`rgba(${tc.rgb},0.04)`;
+        head.addEventListener('mouseenter',()=>{ head.style.background=`rgba(${tc.rgb},0.08)`; });
+        head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${tc.rgb},0.04)`; });
         const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
         rankBadge.textContent=ci+1;
         head.appendChild(rankBadge);
@@ -2774,6 +3087,28 @@ function renderBestiaryTab(s){
     });
   }
 
+  // Type pie chart for enemies
+  {
+    const TYPES_BT={
+      distortion: {label:'Distortion',     colour:'#c83060'},
+      compulsion:  {label:'Compulsion',     colour:'#c83030'},
+      belief:      {label:'Limiting Belief',colour:'#8b5e3c'},
+      drain:       {label:'Drain',          colour:'#6040a0'},
+    };
+    const counts={};
+    const bossEntry=bestiary.boss&&bestiary.boss.name?[bestiary.boss]:[];
+    [...bossEntry,...(bestiary.currentEnemies||[]),...(s.limitingBeliefs||[]).map(b=>({...b,type:'belief'}))].forEach(e=>{
+      const t=e.type||'other';
+      counts[t]=(counts[t]||0)+1;
+    });
+    const entries=Object.entries(counts).map(([t,count],i)=>({
+      label: (TYPES_BT[t]||{label:t}).label,
+      count,
+      colour: (TYPES_BT[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour
+    }));
+    renderTypePie('bt-pie-chart','bt-pie-legend',entries);
+  }
+
   // Update nav count
   const navEl=document.getElementById('nav-bestiary');
   if(navEl) navEl.textContent=(bestiary.currentEnemies||[]).length+(s.limitingBeliefs||[]).length;
@@ -2865,12 +3200,12 @@ function renderAlliesTab(s){
   alliesEl.innerHTML='';
 
   const ALLY_TYPES={
-    loot:        {icon:'☁', label:'Loot',              cls:'att-loot',        nameColor:'#4aaa72'},
-    spell:       {icon:'✦', label:'Spell',             cls:'att-spell',       nameColor:'#c87828'},
-    liberation:  {icon:'⬡', label:'Liberating Belief', cls:'att-liberation',  nameColor:'#2d6e40'},
-    source:      {icon:'↑', label:'Source',            cls:'att-source',      nameColor:'#2a9090'},
+    loot:        {icon:'☁', label:'Loot',              cls:'att-loot',        nameColor:'#4aaa72', rgb:'74,170,114'},
+    spell:       {icon:'✦', label:'Spell',             cls:'att-spell',       nameColor:'#c87828', rgb:'200,120,40'},
+    liberation:  {icon:'⬡', label:'Liberating Belief', cls:'att-liberation',  nameColor:'#2d6e40', rgb:'45,110,64'},
+    source:      {icon:'↑', label:'Source',            cls:'att-source',      nameColor:'#2a9090', rgb:'42,144,144'},
   };
-  const DEFAULT_ATC={icon:'✦', label:'Ally', cls:'att-loot', nameColor:'#4aaa72'};
+  const DEFAULT_ATC={icon:'✦', label:'Ally', cls:'att-loot', nameColor:'#4aaa72', rgb:'74,170,114'};
 
   // Build unified list: allies array + empoweringBeliefs (as liberation type)
   const fromAllies=(s.allies||[]).map((a,i)=>({...a, _srcType:'allies', _idx:i}));
@@ -2898,8 +3233,12 @@ function renderAlliesTab(s){
       const tc=ALLY_TYPES[a.type]||DEFAULT_ATC;
       const bodyId=`al-body-${ci}`,arrowId=`al-arrow-${ci}`;
       const d=document.createElement('div'); d.className='enemy-card';
+      d.style.borderColor=`rgba(${tc.rgb},0.22)`;
       d.dataset.srcType=a._srcType||''; d.dataset.srcIdx=String(a._idx??'');
       const head=document.createElement('div'); head.className='enemy-card-head';
+      head.style.background=`rgba(${tc.rgb},0.04)`;
+      head.addEventListener('mouseenter',()=>{ head.style.background=`rgba(${tc.rgb},0.08)`; });
+      head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${tc.rgb},0.04)`; });
       const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
       rankBadge.textContent=ci+1;
       head.appendChild(rankBadge);
@@ -2940,6 +3279,27 @@ function renderAlliesTab(s){
     saveState(appState); markDirty(); renderAlliesTab(appState);
   });
 
+  // Type pie chart for allies
+  {
+    const TYPES_AL={
+      loot:       {label:'Loot',               colour:'#4aaa72'},
+      spell:      {label:'Spell',              colour:'#c87828'},
+      liberation: {label:'Liberating Belief',  colour:'#2d6e40'},
+      source:     {label:'Source',             colour:'#2a9090'},
+    };
+    const counts={};
+    all.forEach(a=>{
+      const t=a.type||'other';
+      counts[t]=(counts[t]||0)+1;
+    });
+    const entries=Object.entries(counts).map(([t,count],i)=>({
+      label: (TYPES_AL[t]||{label:t}).label,
+      count,
+      colour: (TYPES_AL[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour
+    }));
+    renderTypePie('al-pie-chart','al-pie-legend',entries);
+  }
+
   // Update nav count
   const navEl=document.getElementById('nav-allies');
   if(navEl) navEl.textContent=all.length;
@@ -2949,6 +3309,7 @@ function renderAlliesTab(s){
 
 function markDirty(){
   document.getElementById('export-btn')?.classList.add('dirty');
+  markDirtyExtended();
 }
 
 function saveField(listKey, idx, field, value){
@@ -3456,22 +3817,57 @@ function applyUpdate(){
   const raw=document.getElementById('json-input').value.trim();
   try{
     const p=JSON.parse(raw);
-    if(!p.name&&!p.mainQuest&&!p.skills)throw new Error('Looks empty');
-    if(p._featuredAch) setFeaturedAch(p._featuredAch);
-    else if(p.achievements) setFeaturedAch((p.achievements).filter(a=>a.featured&&a.id).map(a=>a.id));
-    if(p._featuredCls) setFeaturedCls(p._featuredCls);
-    else if(p.classes) setFeaturedCls((p.classes).filter(c=>c.featured&&c.id).map(c=>c.id));
-    if(p._xpLog&&Array.isArray(p._xpLog)){ saveXPLog(p._xpLog); }
-    else { saveXPLog([]); }
-    if(p._hardcodedHistory&&typeof p._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, p._hardcodedHistory); }
-    delete p._featuredAch; delete p._featuredCls; delete p._xpLog; delete p._hardcodedHistory;
-    if(p.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(p.dailyDistribution));
-    logXPChange(appState, p);
-    snapshotHarmony(p);
-    saveState(p);appState=p;render(p);
+    const isPartial = p._partial === true || (!p.name && !p.level);
+    if(!isPartial && !p.name && !p.mainQuest && !p.skills) throw new Error('Looks empty');
+    delete p._partial;
+    // Take snapshot before any changes for diff toast
+    const prevSnapshot = JSON.parse(JSON.stringify(appState));
+    let merged;
+    if(isPartial){
+      // Merge only provided top-level keys into existing state
+      merged = Object.assign({}, appState, p);
+    } else {
+      merged = p;
+    }
+    if(merged._featuredAch) setFeaturedAch(merged._featuredAch);
+    else if(merged.achievements) setFeaturedAch((merged.achievements).filter(a=>a.featured&&a.id).map(a=>a.id));
+    if(merged._featuredCls) setFeaturedCls(merged._featuredCls);
+    else if(merged.classes) setFeaturedCls((merged.classes).filter(c=>c.featured&&c.id).map(c=>c.id));
+    if(merged._xpLog&&Array.isArray(merged._xpLog)){ saveXPLog(merged._xpLog); }
+    else if(!isPartial){ saveXPLog([]); }
+    if(merged._hardcodedHistory&&typeof merged._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, merged._hardcodedHistory); }
+    delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._hardcodedHistory;
+    if(merged.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(merged.dailyDistribution));
+    // Auto-level-up: resolve XP overflow so the ring never shows >100%
+    if(merged.xp!=null && merged.xpToNext!=null){
+      while(merged.xp>=merged.xpToNext){
+        merged.xp-=merged.xpToNext;
+        merged.level=(merged.level||1)+1;
+        merged.xpToNext=Math.round(merged.xpToNext*1.2);
+      }
+    }
+    logXPChange(appState, merged);
+    snapshotHarmony(merged);
+    saveState(merged);appState=merged;render(merged);
     setModalStatus('✓ Sheet updated','ok');
     document.getElementById('json-input').value='';
     setTimeout(closeModal,1200);
+    // Show diff toast after a short delay (modal close animation)
+    const diffMsg = buildImportDiff(prevSnapshot, merged, isPartial);
+    if(diffMsg) setTimeout(()=>showImportToast(diffMsg), 600);
+    // Mark welcomed if real data imported
+    if(merged.name && merged.name !== DEMO_NAME && !IS_DEMO){
+      localStorage.setItem(WELCOMED_KEY,'1');
+      document.getElementById('welcome-banner')?.style && (document.getElementById('welcome-banner').style.display='none');
+      // Expand starters on first real import
+      const startersBody = document.getElementById('starters-body');
+      const startersSection = document.getElementById('starters-section');
+      if(startersBody && !localStorage.getItem('liferpg-starters-seen-v7')){
+        startersBody.classList.add('open');
+        startersSection?.classList.add('expanded');
+        localStorage.setItem('liferpg-starters-seen-v7','1');
+      }
+    }
   }
   catch(e){setModalStatus('✗ '+(e.message||'Invalid JSON'),'err');}
 }
@@ -3542,12 +3938,293 @@ function exportState(){
   document.getElementById('export-textarea').value=JSON.stringify(state,null,2);
   document.getElementById('export-modal').classList.add('open');
   document.getElementById('export-btn')?.classList.remove('dirty');
+  hideDirtyBanner();
+  // Show version notice if imported data has an older minor version
+  const notice=document.getElementById('instructions-version-notice');
+  if(notice){
+    const iv=state._instructionsVersion||'';
+    const [,im=0]=(iv.match(/^0\.(\d+)/)||[]);
+    const [,cm=0]=(INSTRUCTIONS_VERSION.match(/^0\.(\d+)/)||[]);
+    notice.style.display=(iv&&parseInt(im)<parseInt(cm))?'block':'none';
+  }
 }
 function copyExport(){
   const ta=document.getElementById('export-textarea');
   ta.select(); document.execCommand('copy');
   const btn=document.getElementById('copy-export-btn');
   btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy',2000);
+}
+
+function downloadInstructions(){
+  const content = `# character-sheet — Instructions for Claude
+
+version: 0.7.0
+
+This file lives permanently in your Claude project knowledge. It defines the data format and tells Claude how to behave as a journalling companion.
+
+---
+
+## Writing rules (apply to all JSON string content)
+- No markdown inside JSON strings.
+- Use a hyphen-space ( - ) or colon instead of em dashes.
+- **Field length limits** (enforce strictly to control token cost):
+  - \`sliderLabels\` values: max 80 chars
+  - \`claudeRead\`: max 120 words
+  - \`progressionTimeline\`: max 80 words
+  - \`keyQuestion\`: max 25 words
+  - \`mainQuest.description\` / \`mainQuest.whyItMatters\`: max 40 words each
+  - \`mainQuest.doneWhen\`: max 20 words
+  - \`mainQuest.nextSteps[].text\` / \`doneWhen\`: max 20 words each
+  - \`sideQuest.description\` / \`whyItMatters\`: max 30 words each
+  - \`sideQuest.nextStep\`: max 20 words
+  - \`activity.description\` / \`whyItMatters\`: max 25 words each
+  - \`skill.description\` / \`whyItMatters\`: max 25 words each
+  - \`ally.desc\` / \`why\`: max 20 words each
+  - \`flowSource.desc\`: max 20 words
+  - \`drain.desc\`: max 20 words
+  - \`value.desc\`: max 20 words
+  - \`need.desc\`: max 20 words
+  - Enemy / belief \`desc\`: max 30 words
+  - Enemy / belief \`shortTermBenefit\`: max 20 words
+  - Enemy / belief \`origin\`: max 20 words
+  - Enemy / belief \`trigger\`: max 15 words
+  - Boss \`vulnerabilities[].desc\`: max 30 words each
+  - \`achievement.description\`: max 25 words
+  - \`class.description\`: max 25 words
+  - Journal entry \`title\`: max 8 words
+  - Journal entry bullets (\`events\`, \`insights\`, \`tensions\`): max 15 words each
+
+## Required output fields
+- Always include \`"_instructionsVersion": "0.7.0"\` at the root of every JSON output (full or partial).
+
+## Partial updates
+At the end of a session, you can output either a full \`data.json\` or a **partial update** containing only the top-level keys that changed. Partial updates are smaller and cheaper. To output a partial update, include only the changed keys plus \`"_partial": true\` at the root. Always include \`_instructionsVersion\`. Example:
+\`\`\`json
+{ "_partial": true, "_instructionsVersion": "0.7.0", "xp": 450, "insights": [...], "bestiary": {...} }
+\`\`\`
+
+## Fields NOT to output
+- \`_featuredAch\` / \`_featuredCls\` — injected automatically.
+- \`balanceSmoothed\` — computed on import.
+- \`harmonyHistory\` — appended on import.
+- \`dailyDistribution\` — localStorage only.
+
+## Data stored only in the browser (not in JSON)
+- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution
+
+---
+
+## Your role in a session
+
+1. Read \`data.json\` from project knowledge — this is the source of truth.
+2. Listen to the brain dump. Infer what is really important beneath the words.
+3. Before adding enemies, limitingBeliefs, or insights — compare against existing entries. **Update rather than duplicate.** Avoid semantic drift.
+4. Output:
+   - A full updated \`data.json\` (all fields, even unchanged ones)
+   - Celebrate any XP earned in your chat response before the JSON
+
+---
+
+## The four elements
+
+Score each 0-100. Write a one-line \`sliderLabel\` (max 80 chars) summarising current state.
+
+- **Air** - Mindset and self-awareness. High = noticing patterns in real time. Low = reactive, unexamined.
+- **Fire** - Drive and direction. High = acting from genuine will. Low = drifting, obligated, or burned out.
+- **Water** - Aliveness and desire. High = following genuine appetite. Low = numbing, compulsive exits, flatness.
+- **Earth** - Groundedness and belief. High = beliefs are honest and useful. Low = running on false or limiting narratives.
+
+Mastery thresholds: 0-24 = 1 · 25-49 = 2 · 50-74 = 3 · 75-99 = 4 · 100 = 5
+
+---
+
+## What to listen for
+
+- **Avoidance, self-criticism** → enemies, limitingBeliefs, Earth score down
+- **Energy spikes, flow** → flowSources, Fire/Water scores up
+- **Feeling unseen, disconnected** → needs (connection, recognition), Water score
+- **Acting against stated values** → values alignment down, threat up
+- **Completing something, breaking a pattern** → XP, achievement candidate
+- **Recurring friction** → potential enemy or drain
+- **Something said for the first time** → insights entry, possible belief update
+- **Behavioral reflexes** (fast, automatic, below conscious choice) → bestiary as \`distortion\` type
+
+\`claudeRead\` names the single most important tension or gap right now — your honest read of what's beneath the surface, not a summary of what was said. Max 120 words.
+
+\`progressionTimeline\` is shown at the top of the Journal tab. Claude's whole-journey view: how the user has changed, what threads run through the full story. Third person, past/present tense mixed. Update every few sessions. Max 80 words.
+
+---
+
+## Field reference
+
+### level / xp / xpToNext
+Award for: completing quests, mastery advances, meaningful breakthroughs. Deduct for: falling back into named patterns, mastery dropping. Celebrate in chat before outputting JSON.
+
+**Level-up rule:** if \`xp >= xpToNext\`, level up: subtract \`xpToNext\` from \`xp\`, increment \`level\` by 1, set \`xpToNext = round(old_xpToNext * 1.2)\`. Repeat if still overflowing. Never write JSON where \`xp >= xpToNext\`.
+
+### keyQuestion
+Your single best question to prompt journalling next session. Max 25 words.
+
+### activities
+Up to 5 tracked practices. Set based on what the user is actively working on.
+
+**\`type\`**: \`"timer"\` · \`"checkbox"\` · \`"number"\`
+**\`resetPeriod\`**: \`"day"\` · \`"week"\` · \`"month"\`
+**\`target\`**: minutes (timer) or count (checkbox/number)
+**\`xpPerUnit\`**: XP per minute (timer) or per unit (checkbox/number)
+**\`priority\`**: 1 = shown first
+
+\`\`\`json
+"activities": [
+  { "id": "deep-work", "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 1, "type": "timer", "resetPeriod": "day", "target": 90, "unit": "minutes", "xpPerUnit": 0.5 },
+  { "id": "bjj", "name": "BJJ", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 2, "type": "number", "resetPeriod": "week", "target": 3, "unit": "sessions", "xpPerUnit": 25 }
+]
+\`\`\`
+
+### mainQuest
+Single overarching goal or theme.
+
+\`\`\`json
+"mainQuest": {
+  "title": "Find Work That Fits",
+  "description": "...", "whyItMatters": "...",
+  "doneWhen": "Employed in a role where the work itself is the reward.",
+  "nextSteps": [{ "text": "Identify three roles that genuinely excite you", "doneWhen": "List exists and feels honest" }],
+  "xpReward": 500, "progress": 20
+}
+\`\`\`
+
+### sliderXpRewards
+\`[null, tier-II, tier-III, tier-IV, tier-V]\` — index 0 always null.
+
+\`\`\`json
+"sliderXpRewards": { "air": [null, 100, 200, 350, 500], "fire": [null, 150, 300, 500, 750], "water": [null, 100, 220, 380, 550], "earth": [null, 120, 260, 440, 650] }
+\`\`\`
+
+### sideQuests
+Active sub-goals. Progress 0-100. \`priority\` Claude-assigned (lower = higher priority). \`nextStep\` is a single string — not an array.
+
+### completedQuests / completedMainQuests
+
+\`\`\`json
+"completedQuests": [{ "title": "Leave the Job I Hated", "completedDate": "Jan 2026", "xpEarned": 200, "howResolved": "Handed in notice after naming the pattern clearly." }]
+\`\`\`
+
+### values
+Ordered by priority. \`threat\`: \`"red"\` (living against) · \`"amber"\` (tension) · \`"none"\` (aligned). \`alignment\` 0-100.
+
+### needs
+Core psychological needs. Same structure and threat levels as values.
+
+### allies
+People and places that provide genuine support or safety.
+
+### drains
+Habitual behaviours that cost more than they give.
+
+### flowSources
+Activities and contexts that reliably produce genuine aliveness.
+
+### skills
+\`mastery\`: 1-5. \`priority\`: Claude-assigned value of mastering this now (lower = higher priority). Use null if unknown.
+
+\`\`\`json
+"skills": [{ "name": "Ask For What I Need", "mastery": 1, "priority": 1, "xpReward": 80, "description": "...", "whyItMatters": "..." }]
+\`\`\`
+
+### classes
+Character archetypes unlocked. \`featured: true\` pins to header (max ~3). \`icon\` is a single emoji.
+
+### achievements
+\`featured: true\` pins to header. \`type\`: \`"milestone" | "breakthrough" | "streak" | "quest" | "default"\`.
+
+\`\`\`json
+"achievements": [{ "id": "signal-over-noise", "title": "Signal Over Noise", "description": "Deleted Instagram. Chose attention over approval.", "type": "milestone", "dateUnlocked": "Feb 2026", "featured": false }]
+\`\`\`
+
+### limitingBeliefs / empoweringBeliefs
+Limiting: false or unhelpful beliefs driving behaviour (Earth element). Typically 2-4 entries.
+Empowering: true beliefs worth remembering. Same structure (no hp/priority needed).
+
+Limiting beliefs share the \`priority\` ranking space with \`bestiary.currentEnemies\` — assign unique integers so all patterns sort together.
+
+\`\`\`json
+"limitingBeliefs": [{ "title": "THE IMPOSTOR CEILING", "belief": "\\"I'll be found out eventually.\\"", "desc": "Keeps ambition just below where real risk would be required.", "shortTermBenefit": "Protects against aiming high and failing.", "origin": "Unknown.", "hp": 80, "priority": 3 }]
+\`\`\`
+
+### Enemies (bestiary)
+Patterns, beliefs, habits, and reflexes that work against the user. Use \`desc\` and \`trigger\` to capture how a pattern *moves*, not just what it is. ALL CAPS names. Avoid duplicates — update rather than create.
+
+**Name the specific problem.** Avoid conflating multiple problems into one enemy. A "Controller" part might produce GUILT WHEN RESTING, TRANSACTIONAL LENS, and PRODUCTIVE AVOIDANCE as distinct entries.
+
+**Close quests that complete during a session.** If the user describes completing something matching a sideQuest's \`doneWhen\`, move it to \`completedQuests\` and award XP.
+
+**\`type\`**:
+- \`"belief"\` (Earth) - false/unhelpful stories driving behaviour
+- \`"drain"\` (Water) - habitual behaviours costing more than they give
+- \`"compulsion"\` (Fire) - action-level patterns driven by urgency or avoidance
+- \`"distortion"\` (Air) - perception-level misreads, how evidence is filtered
+
+**\`priority\`** — unique integer across ALL enemies and limitingBeliefs combined (1 = most pressing). No two entries share the same number.
+
+**\`hp\`** (0-100) — how much power this pattern holds. Start new entries at 100. Move to graveyard at 0.
+
+hp reduces only when:
+- Pattern caught and interrupted in real time
+- Behaviour changed where this pattern previously ran unchecked
+- User acted against the pattern under conditions where it would normally win
+- Pattern feels less automatic than before
+
+hp does NOT reduce for: naming, understanding, or intending to change.
+
+**Boss \`vulnerabilities\`** — exactly 3 entries. Specific, actionable cracks — concrete recognisable moments the pattern can be interrupted. Not abstract virtues.
+
+\`\`\`json
+"bestiary": {
+  "boss": {
+    "name": "THE APPROVAL ENGINE", "desc": "...", "whyBoss": "Every other enemy is a sub-routine of this one.", "hp": 85,
+    "vulnerabilities": [
+      { "title": "Named in real time", "desc": "Loses grip the moment it is spotted mid-action, not just analysed after." },
+      { "title": "Clean fuel present", "desc": "When working from genuine desire rather than fear, the Engine has nothing to attach to." },
+      { "title": "Resentment allowed to land", "desc": "Holding the feeling for one minute before dissolving it starves the Engine." }
+    ]
+  },
+  "currentEnemies": [{ "name": "THE APPROVAL LOOP", "desc": "...", "type": "distortion", "trigger": "Sharing work", "shortTermBenefit": "Prevents rejection.", "origin": "Reactions were unpredictable early on.", "hp": 70, "priority": 1 }],
+  "graveyard": [{ "name": "SUNDAY DREAD", "defeatedDate": "Jan 2026", "howDefeated": "Left the job. Pattern had nowhere left to live." }]
+}
+\`\`\`
+
+### insights
+Lore chronicle. Array of chapters (most recent first), each with entries (newest first).
+
+Each entry: \`date\`, \`title\` (max 8 words), \`events\`, \`insights\`, \`tensions\`.
+
+Bullet limits by age — apply retroactively when rewriting older entries:
+- **Current session**: up to 3 bullets per field, max 15 words each
+- **1-4 weeks old**: max 2 bullets per field — condense to the most load-bearing
+- **Older than 1 month**: max 1 bullet per field — distil to the single most important point
+
+\`\`\`json
+"insights": [{
+  "name": "The Career Turn",
+  "entries": [{
+    "date": "20 March 2026", "title": "Naming the Pattern",
+    "events": ["Handed in notice", "First session with new therapist"],
+    "insights": ["The approval loop was loudest in the room I most wanted to leave"],
+    "tensions": ["Whether the next role will be chosen freely or just be the next trap"]
+  }]
+}]
+\`\`\`
+
+### Chapter archiving
+When a chapter feels complete, tell the user and ask them to save their current JSON export as a permanent archive. Then remove the closed chapter from the working JSON — only keep active chapter(s). The exported file is the archive.
+`;
+  const blob = new Blob([content], {type:'text/markdown'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'instructions.md';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 // ══ MULTI-PRACTICE TIMER SYSTEM ════════════════════════════
@@ -3777,80 +4454,228 @@ function updateCombatNavArc(){
 
 // ══ PRACTICE MINI BAR CHART ══════════════════════════════════
 function renderPracticeMiniChart(canvas, act, charName) {
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = canvas.offsetWidth || 400, H = 80;
-  canvas.width = W; canvas.height = H;
-  ctx.clearRect(0,0,W,H);
+  // legacy no-op — new chart uses renderPracticeBarChart on a div
+}
 
-  const hardHist = HARDCODED_HISTORY[act.id] || [];
-  const lsHist   = loadPracticeHistory(charName, act.id);
-  const now = new Date();
-  const today = now.toISOString().slice(0,10);
-  const numBars = act.resetPeriod === 'week' ? 12 : 28;
+function renderPracticeBarChart(wrap, act, charName) {
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  wrap.className = 'practice-graph-wrap prac-bar-chart';
+
+  const hardHist  = HARDCODED_HISTORY[act.id] || [];
+  const lsHist    = loadPracticeHistory(charName, act.id);
+  const now       = new Date();
+  const numBars   = act.resetPeriod === 'week' ? 13 : 28;
+  const curPeriod = currentPeriod(act.resetPeriod);
   const dataPoints = [];
 
   if (act.resetPeriod === 'day') {
     for (let i = numBars - 1; i >= 0; i--) {
-      const d = new Date(now); d.setDate(d.getDate() - i);
+      const d  = new Date(now); d.setDate(d.getDate() - i);
       const ds = d.toISOString().slice(0,10);
       const hard = hardHist.find(h => h.date === ds);
-      if (hard != null) { dataPoints.push({ label: ds.slice(5), value: hard.value, isToday: ds === today }); continue; }
-      const le = lsHist.find(h => h.period === ds);
-      if (le != null) { dataPoints.push({ label: ds.slice(5), value: le.value, isToday: ds === today }); continue; }
-      if (ds === today && act.type === 'timer') {
+      const le   = lsHist.find(h => h.period === ds);
+      let value = 0, isHard = false;
+      if (hard != null)      { value = hard.value; isHard = true; }
+      else if (le != null)   { value = le.value; }
+      else if (ds === curPeriod && act.type === 'timer') {
         const ps = practiceState[act.id];
-        dataPoints.push({ label: ds.slice(5), value: ps ? Math.floor(ps.seconds/60) : 0, isToday: true });
-      } else {
-        dataPoints.push({ label: ds.slice(5), value: 0, isToday: ds === today });
+        value = ps ? Math.floor(ps.seconds / 60) : 0;
       }
+      // label: "Mar-24" style
+      const lbl = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
+      dataPoints.push({ period: ds, label: lbl, value, isCurrent: ds === curPeriod, isHard });
     }
   } else if (act.resetPeriod === 'week') {
     for (let i = numBars - 1; i >= 0; i--) {
-      const d = new Date(now); d.setDate(d.getDate() - i * 7);
+      const d  = new Date(now); d.setDate(d.getDate() - i * 7);
       const wp = getPeriodKey(d, 'week');
       const hard = hardHist.find(h => h.period === wp);
-      const isCurr = wp === currentPeriod('week');
-      if (hard != null) { dataPoints.push({ label: 'W'+wp.slice(5), value: hard.value, isToday: isCurr }); continue; }
-      const le = lsHist.find(h => h.period === wp);
-      if (le != null) { dataPoints.push({ label: 'W'+wp.slice(5), value: le.value, isToday: isCurr }); continue; }
-      dataPoints.push({ label: 'W'+wp.slice(5), value: 0, isToday: isCurr });
+      const le   = lsHist.find(h => h.period === wp);
+      let value = 0, isHard = false;
+      if (hard != null)    { value = hard.value; isHard = true; }
+      else if (le != null) { value = le.value; }
+      const lbl = 'W' + wp.slice(5);
+      dataPoints.push({ period: wp, label: lbl, value, isCurrent: wp === curPeriod, isHard });
     }
   }
 
-  const hasData = dataPoints.some(d => d.value > 0);
-  if (!hasData) {
-    ctx.fillStyle = 'rgba(128,120,100,0.3)';
-    ctx.font = '10px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-    ctx.fillText('No history yet', W/2, H/2);
-    return;
+  const maxV = Math.max(...dataPoints.map(d => d.value), act.target || 1, 1);
+  const unit = act.type === 'timer' ? 'min' : (act.unit || '');
+
+  // ── Y-axis labels (top, mid, 0) ──────────────────────────────
+  const plot = document.createElement('div'); plot.className = 'prac-bar-plot';
+
+  const yAxis = document.createElement('div'); yAxis.className = 'prac-bar-y-axis';
+  const yTop = document.createElement('div'); yTop.className = 'prac-bar-y-label';
+  yTop.textContent = maxV >= 1000 ? (maxV/1000).toFixed(1)+'k' : maxV;
+  const yMid = document.createElement('div'); yMid.className = 'prac-bar-y-label';
+  yMid.textContent = Math.round(maxV / 2);
+  const yBot = document.createElement('div'); yBot.className = 'prac-bar-y-label';
+  yBot.textContent = '0';
+  yAxis.appendChild(yTop); yAxis.appendChild(yMid); yAxis.appendChild(yBot);
+  plot.appendChild(yAxis);
+
+  // ── Bars container ────────────────────────────────────────────
+  const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
+
+  // Target line (inside colsWrap so left:0 = after Y-axis)
+  if (act.target) {
+    const pct = Math.min(100, (act.target / maxV) * 100);
+    const line = document.createElement('div');
+    line.className = 'prac-bar-target-line';
+    line.style.cssText = `bottom:${pct}%;left:0;right:0;`;
+    colsWrap.appendChild(line);
   }
 
-  const maxV = Math.max(...dataPoints.map(d => d.value), act.target || 1, 1);
-  const padL=2, padR=2, padT=8, padB=14;
-  const plotW = W - padL - padR, plotH = H - padT - padB;
-  const barW = Math.max(1, plotW / dataPoints.length - 1);
+  // Close any open popovers
+  const closePopovers = () => {
+    wrap.querySelectorAll('.prac-bar-edit').forEach(p => p.remove());
+    wrap.querySelectorAll('.prac-bar-col.active').forEach(c => c.classList.remove('active'));
+  };
 
-  dataPoints.forEach((dp, i) => {
-    const x = padL + i * (plotW / dataPoints.length);
-    const bh = Math.max(1, (dp.value / maxV) * plotH);
-    ctx.fillStyle = dp.isToday ? 'rgba(200,168,74,0.7)' : 'rgba(200,168,74,0.22)';
-    ctx.fillRect(x, padT + plotH - bh, barW, bh);
+  const attachPopover = (col, dp) => {
+    col.addEventListener('click', e => {
+      e.stopPropagation();
+      if (col.classList.contains('active')) { closePopovers(); return; }
+      closePopovers();
+      col.classList.add('active');
+
+      const popover = document.createElement('div');
+      popover.className = 'prac-bar-edit';
+
+      const lbl = document.createElement('div');
+      lbl.className = 'prac-bar-edit-lbl';
+      lbl.textContent = dp.label + (dp.isCurrent ? ' (today)' : '');
+      popover.appendChild(lbl);
+
+      const row = document.createElement('div');
+      row.className = 'prac-bar-edit-row';
+
+      const inp = document.createElement('input');
+      inp.className = 'prac-bar-edit-input';
+      inp.type = 'number'; inp.min = '0'; inp.max = '9999';
+      inp.value = dp.value || '';
+      inp.placeholder = '0';
+      row.appendChild(inp);
+
+      if (unit) {
+        const u = document.createElement('span');
+        u.className = 'prac-bar-edit-unit';
+        u.textContent = unit;
+        row.appendChild(u);
+      }
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'prac-bar-edit-save';
+      saveBtn.textContent = 'Set';
+      row.appendChild(saveBtn);
+      popover.appendChild(row);
+
+      const doSave = () => {
+        const rawVal = parseInt(inp.value, 10);
+        if (isNaN(rawVal) || rawVal < 0) { closePopovers(); return; }
+
+        if (dp.isCurrent) {
+          // Write into live practice state (current period)
+          const ps = practiceState[act.id];
+          if (ps) {
+            if (act.type === 'timer') {
+              ps.seconds = rawVal * 60;
+              renderTimerRing(act.id, act);
+              const todayEl = document.getElementById('timer-today-' + act.id);
+              if (todayEl) todayEl.textContent = `Today: ${rawVal} / ${act.target||90} min`;
+            } else if (act.type === 'checkbox') {
+              ps.value = Math.min(rawVal, act.target || 1);
+              // Update dots directly
+              const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
+              if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
+              const lblEl = document.getElementById('checkbox-lbl-' + act.id);
+              if (lblEl) lblEl.textContent = `${ps.value} / ${act.target||1} ${act.unit||''}`;
+            } else if (act.type === 'number') {
+              ps.value = rawVal;
+              const inpEl = document.getElementById('number-input-' + act.id);
+              if (inpEl) inpEl.value = rawVal;
+              const lblEl = document.getElementById('number-lbl-' + act.id);
+              if (lblEl) lblEl.textContent = `This ${act.resetPeriod}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
+            }
+            savePracticeCurrent(charName, act.id, { value: ps.value ?? rawVal, seconds: ps.seconds, periodStart: curPeriod });
+          }
+        } else {
+          const hist = loadPracticeHistory(charName, act.id);
+          const idx  = hist.findIndex(h => h.period === dp.period);
+          if (idx >= 0) hist[idx].value = rawVal;
+          else hist.push({ period: dp.period, value: rawVal, target: act.target || 0 });
+          savePracticeHistory(charName, act.id, hist);
+        }
+
+        dp.value = rawVal;
+        closePopovers();
+        renderPracticeBarChart(wrap, act, charName);
+        const newStats = getPracticeStats(act, charName);
+        const fv = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
+        const be = document.getElementById('stat-best-' + act.id);
+        const ae = document.getElementById('stat-avg-'  + act.id);
+        if (be) be.textContent = fv(newStats.best);
+        if (ae) ae.textContent = fv(newStats.avg7);
+      };
+
+      saveBtn.addEventListener('click', e => { e.stopPropagation(); doSave(); });
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') doSave(); if (e.key === 'Escape') closePopovers(); });
+
+      col.appendChild(popover);
+      requestAnimationFrame(() => inp.focus());
+    });
+  };
+
+  dataPoints.forEach(dp => {
+    const col = document.createElement('div');
+    col.className = 'prac-bar-col' +
+      (dp.isCurrent ? ' is-current' : '') +
+      (dp.isHard    ? ' is-hardcoded' : '');
+    col.title = dp.label + (dp.value ? ': ' + dp.value + (unit ? ' ' + unit : '') : '') + (dp.isCurrent ? ' (today)' : '');
+
+    const bar = document.createElement('div');
+    bar.className = 'prac-bar-inner';
+    const heightPct = dp.value > 0 ? Math.max(4, (dp.value / maxV) * 100) : 2;
+    bar.style.cssText = `height:${heightPct}%;background:${
+      dp.isCurrent ? 'rgba(200,168,74,0.8)' :
+      dp.value > 0 ? 'rgba(200,168,74,0.32)' :
+                     'rgba(255,255,255,0.04)'
+    };`;
+    col.appendChild(bar);
+
+    if (!dp.isHard) attachPopover(col, dp);
+
+    colsWrap.appendChild(col);
   });
 
-  // Target dashed line
-  if (act.target) {
-    const ty = padT + plotH - (act.target / maxV) * plotH;
-    ctx.strokeStyle = 'rgba(200,168,74,0.4)';
-    ctx.setLineDash([3,3]); ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(padL, ty); ctx.lineTo(W - padR, ty); ctx.stroke();
-    ctx.setLineDash([]);
-  }
+  plot.appendChild(colsWrap);
+  wrap.appendChild(plot);
 
-  // Label first and last
-  ctx.fillStyle = '#504c44'; ctx.font = '8px JetBrains Mono,monospace'; ctx.textAlign = 'center';
-  if (dataPoints[0]) ctx.fillText(dataPoints[0].label, padL + barW/2, H - 2);
-  if (dataPoints[dataPoints.length-1]) ctx.fillText(dataPoints[dataPoints.length-1].label, W - padR - barW/2, H - 2);
+  // ── X-axis labels (show ~5 evenly spaced) ─────────────────────
+  const xAxis = document.createElement('div'); xAxis.className = 'prac-bar-x-axis';
+  // Bar column width as fraction of colsWrap width — computed after layout
+  // Use indices: first, ~25%, ~50%, ~75%, last
+  const labelIndices = new Set();
+  const n = dataPoints.length;
+  [0, Math.round(n*0.25), Math.round(n*0.5), Math.round(n*0.75), n-1].forEach(i => labelIndices.add(Math.min(i, n-1)));
+  labelIndices.forEach(i => {
+    const dp = dataPoints[i];
+    const xPct = ((i + 0.5) / n) * 100; // centre of bar column as % of colsWrap width
+    const xlbl = document.createElement('span');
+    xlbl.className = 'prac-bar-x-label';
+    xlbl.textContent = dp.label;
+    xlbl.style.left = `calc(${xPct}%)`;
+    xAxis.appendChild(xlbl);
+  });
+  wrap.appendChild(xAxis);
+
+  // Outside click handler
+  const outsideHandler = e => { if (!wrap.contains(e.target)) closePopovers(); };
+  if (wrap._outsideHandler) document.removeEventListener('click', wrap._outsideHandler, true);
+  wrap._outsideHandler = outsideHandler;
+  document.addEventListener('click', outsideHandler, true);
 }
 
 // ══ RENDER PRACTICES ═════════════════════════════════════════
@@ -3879,9 +4704,21 @@ function renderPractices(s) {
     // Body: info + widget
     const body = document.createElement('div'); body.className = 'practice-card-body';
 
-    // Info section
+    // Info section (left col): description + why + stats
     const info = document.createElement('div'); info.className = 'practice-info';
-    info.innerHTML = `<div class="practice-desc">${esc(act.description || '')}</div><div class="practice-why">${esc(act.whyItMatters || '')}</div>`;
+    const infoText = document.createElement('div'); infoText.className = 'practice-info-text';
+    infoText.innerHTML = `<div class="practice-desc">${esc(act.description || '')}</div><div class="practice-why">${esc(act.whyItMatters || '')}</div>`;
+    info.appendChild(infoText);
+    const formatVal = v => {
+      if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
+      return v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—';
+    };
+    const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
+    statsRow.innerHTML = `
+      <div class="practice-stat"><span class="practice-stat-label">Best</span><span class="practice-stat-value" id="stat-best-${act.id}">${formatVal(stats.best)}</span></div>
+      <div class="practice-stat"><span class="practice-stat-label">7-${act.resetPeriod} avg</span><span class="practice-stat-value" id="stat-avg-${act.id}">${formatVal(stats.avg7)}</span></div>
+    `;
+    info.appendChild(statsRow);
     body.appendChild(info);
 
     // Widget section
@@ -3893,7 +4730,7 @@ function renderPractices(s) {
       const target = getPracticeTarget(act);
       widget.innerHTML = `
         <div class="timer-ring-wrap">
-          <svg class="timer-svg" id="timer-svg-${act.id}" width="220" height="220" viewBox="0 0 220 220">
+          <svg class="timer-svg" id="timer-svg-${act.id}" width="160" height="160" viewBox="0 0 220 220">
             <defs><filter id="ring-blur-${act.id}"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
             <circle class="timer-track" cx="110" cy="110" r="88"/>
             <line id="tick-25-${act.id}" class="timer-milestone-tick" x1="198" y1="110" x2="212" y2="110"/>
@@ -3922,7 +4759,7 @@ function renderPractices(s) {
       const timerCard = document.createElement('div');
       timerCard.id = 'timer-card-' + act.id;
       timerCard.className = 'timer-card practice-hero-timer';
-      timerCard.style.cssText = 'border:none;border-top:none;border-radius:0;background:transparent;padding:24px 24px 20px;';
+      timerCard.style.cssText = 'border:none;border-top:none;border-radius:0;background:transparent;padding:10px 16px 8px;';
       timerCard.innerHTML = widget.innerHTML;
       widget.innerHTML = '';
       widget.appendChild(timerCard);
@@ -3954,73 +4791,22 @@ function renderPractices(s) {
     }
 
     body.appendChild(widget);
+
+    // Graph column (right)
+    const graphCol = document.createElement('div'); graphCol.className = 'practice-graph-col';
+    const graphWrap = document.createElement('div');
+    graphWrap.className = 'practice-graph-wrap';
+    graphWrap.id = 'practice-chart-' + act.id;
+    graphCol.appendChild(graphWrap);
+    body.appendChild(graphCol);
+
     card.appendChild(body);
-
-    // Stats row
-    const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
-    const formatVal = v => {
-      if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
-      return v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—';
-    };
-    statsRow.innerHTML = `
-      <div class="practice-stat"><div class="practice-stat-label">Best</div><div class="practice-stat-value" id="stat-best-${act.id}">${formatVal(stats.best)}</div></div>
-      <div class="practice-stat"><div class="practice-stat-label">7-${act.resetPeriod} avg</div><div class="practice-stat-value" id="stat-avg-${act.id}">${formatVal(stats.avg7)}</div></div>
-    `;
-    card.appendChild(statsRow);
-
-    // Mini bar chart
-    const graphWrap = document.createElement('div'); graphWrap.className = 'practice-graph-wrap';
-    const canvas = document.createElement('canvas'); canvas.className = 'practice-graph-canvas';
-    canvas.id = 'practice-chart-' + act.id;
-    graphWrap.appendChild(canvas);
-    card.appendChild(graphWrap);
-
-    // Backfill toggle
-    const bfToggle = document.createElement('button');
-    bfToggle.style.cssText = 'background:rgba(42,122,72,0.08);border:1px solid rgba(42,122,72,0.3);border-radius:4px;font-family:"Cinzel",serif;font-size:14px;letter-spacing:0.12em;color:var(--activity);cursor:pointer;padding:7px 0;text-transform:uppercase;width:100%;text-align:center;margin-top:4px;';
-    bfToggle.textContent = '+ Edit History';
-    bfToggle.title = 'Backfill a past period';
-    card.appendChild(bfToggle);
-
-    // Backfill panel (hidden by default)
-    const bfPanel = document.createElement('div');
-    bfPanel.style.display = 'none';
-    const periodIsWeek = act.resetPeriod === 'week';
-    const valueLabel = act.type === 'timer' ? 'Minutes' : (act.unit ? act.unit.charAt(0).toUpperCase() + act.unit.slice(1) : 'Value');
-    const dateInputType = periodIsWeek ? 'week' : 'date';
-    // Default date = yesterday (or last week)
-    const defaultDate = (() => {
-      const d = new Date(); d.setDate(d.getDate() - (periodIsWeek ? 7 : 1));
-      if (periodIsWeek) {
-        // YYYY-Www format for week input
-        const wp = getPeriodKey(d, 'week');
-        return d.getFullYear() + '-W' + wp.split('-')[1];
-      }
-      return d.toISOString().slice(0,10);
-    })();
-    bfPanel.innerHTML = `
-      <div class="backfill-row">
-        <label class="backfill-lbl">${periodIsWeek ? 'Week' : 'Date'}</label>
-        <input class="backfill-input" type="${dateInputType}" id="bf-date-${act.id}" value="${defaultDate}">
-        <label class="backfill-lbl">${esc(valueLabel)}</label>
-        <input class="backfill-input backfill-mins" type="number" id="bf-val-${act.id}" min="0" max="9999" placeholder="0">
-        <button class="backfill-btn" onclick="handleBackfill('${act.id}')">Save</button>
-      </div>`;
-    card.appendChild(bfPanel);
-
-    bfToggle.addEventListener('click', () => {
-      const open = bfPanel.style.display !== 'none';
-      bfPanel.style.display = open ? 'none' : 'block';
-      bfToggle.style.background = open ? 'rgba(42,122,72,0.08)' : 'rgba(42,122,72,0.18)';
-      bfToggle.textContent = open ? '+ Edit History' : '− Edit History';
-    });
-
     container.appendChild(card);
 
-    // Render the ring/chart after DOM insertion
+    // Render ring + bar chart after DOM insertion
     requestAnimationFrame(() => {
       if (act.type === 'timer') renderTimerRing(act.id, act);
-      renderPracticeMiniChart(canvas, act, charName);
+      renderPracticeBarChart(graphWrap, act, charName);
     });
   });
 }
@@ -4066,8 +4852,8 @@ function handleBackfill(id) {
   savePracticeHistory(charName, id, hist);
 
   // Re-render chart and stats
-  const canvas = document.getElementById('practice-chart-' + id);
-  if (canvas) renderPracticeMiniChart(canvas, act, charName);
+  const chartWrap = document.getElementById('practice-chart-' + id);
+  if (chartWrap) renderPracticeBarChart(chartWrap, act, charName);
   const newStats = getPracticeStats(act, charName);
   const formatV = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
   const bestEl = document.getElementById('stat-best-' + id);
@@ -4144,13 +4930,45 @@ function handleNumberSave(id) {
 // ══ PIE CHART ════════════════════════════════════════════════
 const PIE_COLOURS=['#d07830','#8090a8','#60a838','#3a80c8','#9060c0','#c8a84a','#c84040','#504c44','#2a9050','#706a5a'];
 
+// Generic type-count pie chart: draws into svgId/legendId using entries [{label, count, colour}]
+function renderTypePie(svgId, legendId, entries){
+  const svg=document.getElementById(svgId);
+  const legend=document.getElementById(legendId);
+  if(!svg||!legend) return;
+  svg.innerHTML=''; legend.innerHTML='';
+  const total=entries.reduce((s,e)=>s+e.count,0);
+  if(!total){ const note=document.createElement('div'); note.style.cssText='color:var(--text-dim);font-size:15px;font-style:italic;text-align:center;padding:8px 0;'; note.textContent='None'; legend.appendChild(note); return; }
+  const cx=70,cy=70,r=62;
+  let angle=-Math.PI/2;
+  entries.forEach((e,i)=>{
+    const slice=(e.count/total)*Math.PI*2;
+    const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+    const x2=cx+r*Math.cos(angle+slice), y2=cy+r*Math.sin(angle+slice);
+    const large=slice>Math.PI?1:0;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',`M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z`);
+    path.setAttribute('fill',e.colour); path.setAttribute('opacity','0.85');
+    svg.appendChild(path);
+    angle+=slice;
+    const li=document.createElement('div'); li.className='pie-legend-item';
+    const dot=document.createElement('div'); dot.className='pie-legend-dot'; dot.style.background=e.colour;
+    const lbl=document.createElement('span'); lbl.className='pie-legend-label'; lbl.textContent=e.label;
+    const cnt=document.createElement('span'); cnt.className='pie-legend-hours'; cnt.textContent=e.count;
+    li.appendChild(dot); li.appendChild(lbl); li.appendChild(cnt);
+    legend.appendChild(li);
+  });
+}
+
 function renderPieChart(s){
   const svg=document.getElementById('pie-chart');
   const legend=document.getElementById('pie-legend');
   if(!svg||!legend) return;
-  const dist=s.dailyDistribution||DEFAULT.dailyDistribution||{'Unknown':24};
-  const entries=Object.entries(dist).filter(([,v])=>v>0);
-  const total=entries.reduce((a,[,v])=>a+v,0)||24;
+  const dist=s.dailyDistribution||DEFAULT.dailyDistribution||{};
+  const userEntries=Object.entries(dist).filter(([,v])=>v>0);
+  const used=userEntries.reduce((a,[,v])=>a+v,0);
+  const remaining=Math.max(0,24-used);
+  const entries=remaining>0?[...userEntries,['Unknown',remaining]]:userEntries;
+  const total=24;
   const cx=70,cy=70,r=62;
   let angle=-Math.PI/2;
   svg.innerHTML='';
@@ -4159,21 +4977,35 @@ function renderPieChart(s){
   const _p1Act = (s.activities||DEFAULT.activities||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99))[0];
   const actName=(_p1Act||s.activity||DEFAULT.activity||{}).name||'';
   const ACT_COLOR='#2a7a48';
+  const pieColours=s.pieColours||{};
   entries.forEach(([label,hours],i)=>{
     const slice=(hours/total)*Math.PI*2;
     const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
     const x2=cx+r*Math.cos(angle+slice), y2=cy+r*Math.sin(angle+slice);
     const large=slice>Math.PI?1:0;
     const isActSlice=actName.split(/[+\/,]/).map(p=>p.trim().toLowerCase()).some(p=>p&&label.toLowerCase().includes(p));
-    const col=label==='Unknown'?'#2a2a35':isActSlice?ACT_COLOR:PIE_COLOURS[i%PIE_COLOURS.length];
+    const defaultCol=label==='Unknown'?'#2a2a35':isActSlice?ACT_COLOR:PIE_COLOURS[i%PIE_COLOURS.length];
+    const col=pieColours[label]||defaultCol;
+    const opacity=label==='Unknown'?'0.4':'0.85';
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d',`M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large},1 ${x2},${y2} Z`);
-    path.setAttribute('fill',col); path.setAttribute('opacity',label==='Unknown'?'0.4':'0.85');
+    path.setAttribute('fill',col); path.setAttribute('opacity',opacity);
     svg.appendChild(path);
     angle+=slice;
     const li=document.createElement('div'); li.className='pie-legend-item';
+    // Colour picker: hidden input triggered by clicking the dot
+    const colInput=document.createElement('input'); colInput.type='color'; colInput.value=col;
+    colInput.style.cssText='position:absolute;width:0;height:0;opacity:0;pointer-events:none';
+    colInput.addEventListener('input',()=>{
+      if(!appState.pieColours) appState.pieColours={};
+      appState.pieColours[label]=colInput.value;
+      saveState(appState); markDirty(); renderPieChart(appState);
+    });
     const dot=document.createElement('div'); dot.className='pie-legend-dot';
-    dot.style.cssText=`background:${col};opacity:${label==='Unknown'?'0.4':'0.85'};flex-shrink:0`;
+    dot.style.cssText=`background:${col};opacity:${opacity};flex-shrink:0;cursor:pointer;position:relative`;
+    dot.title='Click to change colour';
+    dot.appendChild(colInput);
+    dot.addEventListener('click',()=>colInput.click());
     const lbl=document.createElement('span'); lbl.className='pie-legend-label editable'; lbl.textContent=label;
     lbl.setAttribute('contenteditable','true');
     lbl.addEventListener('blur',()=>{
@@ -4181,6 +5013,8 @@ function renderPieChart(s){
       if(!appState.dailyDistribution) appState.dailyDistribution={};
       appState.dailyDistribution[newLabel]=appState.dailyDistribution[label];
       delete appState.dailyDistribution[label];
+      // Carry colour over to new label
+      if(appState.pieColours&&appState.pieColours[label]){ appState.pieColours[newLabel]=appState.pieColours[label]; delete appState.pieColours[label]; }
       saveState(appState); markDirty(); renderPieChart(appState);
     });
     const hrs=document.createElement('span'); hrs.className='pie-legend-hours editable'; hrs.textContent=hours+'h';
@@ -4193,7 +5027,8 @@ function renderPieChart(s){
       saveState(appState); markDirty(); renderPieChart(appState);
     });
     const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete'; del.style.cssText='margin-left:4px;flex-shrink:0';
-    del.onclick=()=>{ delete appState.dailyDistribution[label]; saveState(appState); markDirty(); renderPieChart(appState); };
+    if(label==='Unknown'){ del.style.visibility='hidden'; lbl.setAttribute('contenteditable','false'); hrs.setAttribute('contenteditable','false'); }
+    del.onclick=()=>{ delete appState.dailyDistribution[label]; if(appState.pieColours) delete appState.pieColours[label]; saveState(appState); markDirty(); renderPieChart(appState); };
     li.appendChild(dot); li.appendChild(lbl); li.appendChild(hrs); li.appendChild(del);
     legend.appendChild(li);
   });
@@ -4398,86 +5233,18 @@ function saveStatusSnapshot() {
 }
 
 function renderStatusHistoryChart() {
-  const canvas = document.getElementById('status-history-canvas');
-  if (!canvas) return;
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.offsetWidth || canvas.parentElement.offsetWidth || 600;
-  const H = 90;
-  canvas.width = W * dpr;
-  canvas.height = H * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
-  if (!hist.length) {
-    ctx.fillStyle = 'rgba(255,255,255,0.15)';
-    ctx.font = '12px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('No history yet — adjusting sliders records a snapshot', W/2, H/2);
-    return;
-  }
-
   const keys = ['focus','energy','purpose','interest'];
-  const cols = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
-
-  // Compute averages
+  const cols = STATUS_COLORS;
   const last7 = hist.slice(-7);
-  const avg7 = {};
-  const avgAll = {};
+  const avg7 = {}, avgAll = {};
   keys.forEach(k => {
-    avg7[k] = last7.length ? Math.round(last7.reduce((s,e) => s + (e[k]||0), 0) / last7.length) : 0;
-    avgAll[k] = Math.round(hist.reduce((s,e) => s + (e[k]||0), 0) / hist.length);
+    avg7[k] = hist.length ? Math.round(last7.reduce((s,e) => s + (e[k]||0), 0) / (last7.length||1)) : 0;
+    avgAll[k] = hist.length ? Math.round(hist.reduce((s,e) => s + (e[k]||0), 0) / hist.length) : 0;
   });
-
-  // Layout: two groups of 4 bars side by side
-  const padL = 10, padR = 10, padT = 18, padB = 22;
-  const plotW = W - padL - padR;
-  const plotH = H - padT - padB;
-  const groupGap = 24;
-  const barGap = 3;
-  const numBars = keys.length; // 4 per group
-  const barW = (plotW / 2 - groupGap / 2 - barGap * (numBars - 1)) / numBars;
-
-  // Draw group labels
-  ctx.font = '10px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  const g1CentreX = padL + (plotW / 2 - groupGap / 2) / 2;
-  const g2CentreX = padL + (plotW / 2 + groupGap / 2) + (plotW / 2 - groupGap / 2) / 2;
-  ctx.fillText('7-day avg', g1CentreX, padT - 4);
-  ctx.fillText('all-time avg', g2CentreX, padT - 4);
-
-  // Helper: draw one group
-  function drawGroup(avgs, startX) {
-    keys.forEach((k, i) => {
-      const x = startX + i * (barW + barGap);
-      const barH = (avgs[k] / 100) * plotH;
-      const y = padT + plotH - barH;
-      // bar background
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
-      ctx.fillRect(x, padT, barW, plotH);
-      // bar fill
-      ctx.fillStyle = cols[k];
-      ctx.globalAlpha = 0.75;
-      ctx.fillRect(x, y, barW, barH);
-      ctx.globalAlpha = 1;
-      // value label
-      ctx.fillStyle = cols[k];
-      ctx.font = 'bold 10px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(avgs[k], x + barW / 2, padT + plotH + 12);
-      // key label below value
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
-      ctx.font = '9px monospace';
-      ctx.fillText(k.slice(0,3).toUpperCase(), x + barW / 2, padT + plotH + 22);
-    });
-  }
-
-  // Group 1: 7-day
-  drawGroup(avg7, padL);
-  // Group 2: all-time
-  drawGroup(avgAll, padL + (plotW / 2 + groupGap / 2));
+  _drawAvgBarsInCanvas('status-chart-7d', avg7, keys, cols);
+  _drawAvgBarsInCanvas('status-chart-all', avgAll, keys, cols);
 }
 
 function updateStatus(name, value) {
@@ -4529,6 +5296,177 @@ function initStatBars(){
   });
 }
 
+// ══ WELCOME BANNER ══════════════════════════════════════════
+const DEMO_NAME = 'Steve';
+
+function isUsingDemoData(){
+  return !localStorage.getItem('liferpg-v7') || (appState && appState.name === DEMO_NAME && !IS_DEMO);
+}
+
+function maybeShowWelcome(){
+  if(IS_DEMO) return;
+  if(localStorage.getItem(WELCOMED_KEY)) return;
+  if(isUsingDemoData()){
+    const el = document.getElementById('welcome-banner');
+    if(el) el.style.display = 'block';
+  }
+}
+
+function dismissWelcome(){
+  const el = document.getElementById('welcome-banner');
+  if(el) el.style.display = 'none';
+  localStorage.setItem(WELCOMED_KEY, '1');
+}
+
+function toggleWelcomeSetup(){
+  const steps = document.getElementById('welcome-setup-steps');
+  const btn   = document.getElementById('welcome-setup-btn');
+  if(!steps) return;
+  const open = steps.style.display === 'block';
+  steps.style.display = open ? 'none' : 'block';
+  if(btn) btn.classList.toggle('active', !open);
+}
+
+// ══ SESSION STARTERS ════════════════════════════════════════
+const DEEP_DIVE_PROMPT = `I'm setting up character-sheet, a personal life dashboard. I've attached instructions.md which explains the data format.
+
+Interview me to fill in my character sheet. Keep it conversational, ask one thing at a time, and never push me to share anything I'm not comfortable with. Start with the most important things and work down. Cover as much of this as you can:
+
+- What to call me, and one honest sentence about where I am in life right now
+- My main quest — the single most important thing I'm working toward
+- 2-4 side quests — active goals with a rough sense of progress
+- The four elements — Air (self-awareness), Fire (drive/direction), Water (what makes me feel alive), Earth (beliefs/groundedness) — a score out of 100 and a one-line status for each
+- Skills I'm actively building, and any I'd consider signature strengths
+- Top values and core needs — which I feel most and least aligned with right now
+- People or places that feel genuinely supportive (allies)
+- Activities that reliably restore energy or produce aliveness (sources)
+- Habits that cost more than they give (drains)
+- Patterns or inner critics I keep running into (enemies)
+- Any limiting or empowering beliefs worth tracking
+- Recent wins or meaningful moments worth logging
+
+When you have enough, generate the full JSON using instructions.md.`;
+
+function copyStarter(btn, text){
+  navigator.clipboard.writeText(text).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(()=>{ btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+}
+
+function copyDeepDive(btn){ copyStarter(btn, DEEP_DIVE_PROMPT); }
+
+function toggleStarters(){
+  const body  = document.getElementById('starters-body');
+  const arrow = document.getElementById('starters-arrow');
+  if(!body) return;
+  const open = body.classList.toggle('open');
+  if(arrow) arrow.classList.toggle('open', open);
+}
+
+// ══ IMPORT DIFF TOAST ═══════════════════════════════════════
+function buildImportDiff(prev, next, isPartial){
+  const parts = [];
+  if(isPartial) parts.push('Partial update');
+  // XP
+  const xpDiff = (next.xp||0) - (prev.xp||0);
+  if(next.level > (prev.level||1)) parts.push('Level up! → Level '+next.level);
+  else if(xpDiff > 0) parts.push('+'+xpDiff+' XP');
+  else if(xpDiff < 0) parts.push(xpDiff+' XP');
+  // Main quest progress
+  const mq = next.mainQuest, pmq = prev.mainQuest;
+  if(mq && pmq && mq.progress !== pmq.progress) parts.push('Main quest '+pmq.progress+'% → '+mq.progress+'%');
+  // New insight entries
+  let newEntries = 0;
+  (next.insights||[]).forEach(ch=>{
+    const prevCh = (prev.insights||[]).find(p=>p.name===ch.name);
+    const prevLen = prevCh ? (prevCh.entries||[]).length : 0;
+    newEntries += Math.max(0,(ch.entries||[]).length - prevLen);
+  });
+  if(newEntries > 0) parts.push(newEntries+' new insight'+(newEntries>1?'s':''));
+  // Enemy HP changes
+  const allNextEnemies = [...(next.bestiary?.currentEnemies||[]), ...(next.limitingBeliefs||[])];
+  const allPrevEnemies = [...(prev.bestiary?.currentEnemies||[]), ...(prev.limitingBeliefs||[])];
+  allNextEnemies.forEach(ne=>{
+    const pe = allPrevEnemies.find(p=>p.name===ne.name);
+    if(pe && pe.hp != null && ne.hp != null && ne.hp < pe.hp){
+      parts.push((ne.name||'enemy').toLowerCase().replace(/^the\s/,'')+' weakened');
+    }
+  });
+  // New side quests or completed
+  const newSQ = (next.sideQuests||[]).filter(sq=>!(prev.sideQuests||[]).find(p=>p.title===sq.title));
+  if(newSQ.length) parts.push(newSQ.length+' new quest'+(newSQ.length>1?'s':''));
+  const newCQ = (next.completedQuests||[]).length - (prev.completedQuests||[]).length;
+  if(newCQ > 0) parts.push(newCQ+' quest'+(newCQ>1?'s':'')+' completed');
+  // New achievements / classes
+  const newAch = (next.achievements||[]).length - (prev.achievements||[]).length;
+  if(newAch > 0) parts.push(newAch+' new title'+(newAch>1?'s':''));
+  const newCls = (next.classes||[]).length - (prev.classes||[]).length;
+  if(newCls > 0) parts.push(newCls+' new class'+(newCls>1?'es':''));
+  return parts.length ? 'Updated: '+parts.join(' · ') : 'Sheet updated';
+}
+
+let _importToastTimer = null;
+function showImportToast(msg){
+  const el  = document.getElementById('import-toast');
+  const txt = document.getElementById('import-toast-text');
+  if(!el||!txt) return;
+  txt.textContent = msg;
+  el.classList.add('visible');
+  clearTimeout(_importToastTimer);
+  _importToastTimer = setTimeout(hideImportToast, 6000);
+}
+function hideImportToast(){
+  const el = document.getElementById('import-toast');
+  if(el) el.classList.remove('visible');
+  clearTimeout(_importToastTimer);
+}
+
+// ══ SYNC STATUS UX ══════════════════════════════════════════
+let _hasDoneFirstEdit = false;
+
+function markDirtyExtended(){
+  if(IS_DEMO) return;
+  // First-edit sync modal
+  if(!_hasDoneFirstEdit && localStorage.getItem('liferpg-v7') && !localStorage.getItem(SYNC_EXPLAINED_KEY)){
+    _hasDoneFirstEdit = true;
+    const m = document.getElementById('sync-modal');
+    if(m) m.classList.add('open');
+  }
+  _hasDoneFirstEdit = true;
+  // Dirty banner
+  if(!localStorage.getItem(HIDE_DIRTY_BANNER_KEY)){
+    const b = document.getElementById('dirty-banner');
+    if(b) b.style.display = 'flex';
+  }
+}
+
+function hideDirtyBanner(){
+  const b = document.getElementById('dirty-banner');
+  if(b) b.style.display = 'none';
+}
+
+function dismissDirtyBanner(){
+  hideDirtyBanner();
+  // just session-dismiss, not permanent
+}
+
+function neverShowDirtyBanner(){
+  hideDirtyBanner();
+  localStorage.setItem(HIDE_DIRTY_BANNER_KEY, '1');
+}
+
+function closeSyncModal(never){
+  const m = document.getElementById('sync-modal');
+  if(m) m.classList.remove('open');
+  localStorage.setItem(SYNC_EXPLAINED_KEY, '1');
+}
+
 // ══ INIT ════════════════════════════════════════════════════
 function _init(){
   render(appState);
@@ -4541,6 +5479,7 @@ function _init(){
   });
   updateCombatNavArc();
   window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
+  maybeShowWelcome();
 }
 
 // Load demo data from JSON file, then init.
