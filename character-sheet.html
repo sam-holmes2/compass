@@ -3839,6 +3839,10 @@ function applyUpdate(){
     if(merged._hardcodedHistory&&typeof merged._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, merged._hardcodedHistory); }
     delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._hardcodedHistory;
     if(merged.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(merged.dailyDistribution));
+    // Migrate old insights format: {chapterKey: entries[]} → [{name, entries}]
+    if(merged.insights && !Array.isArray(merged.insights)){
+      merged.insights = Object.entries(merged.insights).map(([k,v])=>({name:k,entries:Array.isArray(v)?v:[]}));
+    }
     // Auto-level-up: resolve XP overflow so the ring never shows >100%
     if(merged.xp!=null && merged.xpToNext!=null){
       while(merged.xp>=merged.xpToNext){
