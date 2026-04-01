@@ -1246,7 +1246,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="hdr-centre">
     <div class="hdr-name-row">
       <span class="hdr-icon" id="hdr-icon" onclick="cycleHdrIcon()" title="Click to cycle icon">★</span>
-      <div class="hdr-name" id="hdr-name">Lentil</div>
+      <div class="hdr-name" id="hdr-name">Hero</div>
     </div>
     <div class="hdr-sub" id="hdr-sub"></div>
   </div>
@@ -1271,11 +1271,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div id="welcome-banner" style="display:none">
   <button class="welcome-dismiss" onclick="dismissWelcome()" title="Dismiss">×</button>
   <div class="welcome-title">Welcome to LifeRPG</div>
-  <div class="welcome-desc">You're looking at demo data for Steve. What would you like to do?</div>
+  <div class="welcome-desc">Get started by setting up your own sheet, or import existing data.</div>
   <div class="welcome-options">
-    <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome()">Explore the demo</button>
-    <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
-    <button class="welcome-opt-btn welcome-opt-primary" onclick="dismissWelcome();openModal()">Import my data ↑</button>
+    <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
+    <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">Import my data ↑</button>
   </div>
   <div id="welcome-setup-steps">
     <div class="welcome-step">
@@ -1292,7 +1291,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">4</div>
-      <div class="welcome-step-text"><strong>Start a chat</strong> — copy a starter from the Combat tab, or just open Claude and start talking.</div>
+      <div class="welcome-step-text"><strong>Start a chat</strong> — copy a starter from the Journal tab, or just open Claude and start talking.</div>
     </div>
     <div class="welcome-step">
       <div class="welcome-step-num">5</div>
@@ -3438,7 +3437,7 @@ function reorderArray(arr, from, to) {
 
 // ══ RENDER ══════════════════════════════════════════════════
 function render(s){
-  document.getElementById('hdr-name').textContent = s.name||'Lentil';
+  document.getElementById('hdr-name').textContent = s.name||'Hero';
   updateHdrIcon(s);
   document.getElementById('hdr-sub').textContent  = s.subtitle||'';
   document.getElementById('hdr-mq-title').textContent = s.mainQuest?.title||'Sovereignty';
@@ -3452,7 +3451,7 @@ function render(s){
   const sv = resolveElementScores(s);
   const sl = s.sliderLabels||DEFAULT.sliderLabels;
   ['air','fire','water','earth'].forEach(el=>{
-    // Also support {air:{sliderLabel:...}} format from lentil-style data
+    // Also support {air:{sliderLabel:...}} format from legacy data
     const label = sl[el] || (typeof s[el]==='object' ? s[el].sliderLabel||'' : '') || '';
     buildSliderCol(el, el+'-label', el+'-slider', el+'-range', sv[el], label, (s.sliderXpRewards||{})[el]||null);
     // make status label editable
