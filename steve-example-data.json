@@ -1,61 +1,73 @@
 {
   "_instructionsVersion": "0.7.0",
   "name": "Example Steve",
-  "subtitle": "Demo character - not real data",
+  "subtitle": "Survivor of the Overworld - not real data",
   "level": 4,
   "xp": 500,
   "xpToNext": 1000,
-  "keyQuestion": "What would I do if I knew I couldn't fail?",
-  "claudeRead": "In a real transitional moment - career search is live now, not theoretical. Side project session showed the right direction produces a different kind of engagement. Main risk: financial pressure shortens the search before the right thing lands. THE INNER CRITIC is active but being noticed faster. Rest is the most significant unmet need.",
-  "progressionTimeline": "Started the year stuck in a job that paid the bills but cost something harder to name. Quit smoking cold turkey in January. Began clearing the flat - and something else too. By March the career search is live and the side project has had its first real session. The Inner Critic is louder than ever, which means it's being threatened.",
+  "keyQuestion": "What would I build if I knew the Ender Dragon couldn't touch me?",
+  "claudeRead": "Steve is in a real transitional moment - the End portal is open, not theoretical. First solo mining session showed the deep caves produce a different kind of engagement than surface farming. Main risk: diamond scarcity shortens the search before the right gear lands. THE ENDER DRAGON is active but being noticed faster. Rest is the most significant unmet need. Beds explode in The End, so sleep stays unresolved.",
+  "progressionTimeline": "Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. The Ender Dragon is louder than ever, which means it's being threatened.",
   "allies": [
     {
-      "name": "Jordan",
-      "desc": "Best friend since university. Calls me out gently and shows up consistently.",
-      "why": "Knows the full version - the messy bits included."
+      "name": "Alex",
+      "desc": "Co-op partner since the tutorial world. Calls out creepers gently and shows up consistently.",
+      "why": "Knows the full inventory - the embarrassing wooden tools included."
     },
     {
-      "name": "Dog",
-      "desc": "Unconditional support. Not always the most talkative, but always in my corner.",
-      "why": "No performance required. Just presence."
+      "name": "Wolf",
+      "desc": "Tamed with bones. Unconditional support. Not always the most talkative, but always in my corner.",
+      "why": "No performance required. Just sit. Good boy."
+    },
+    {
+      "name": "Enchanting Session",
+      "type": "spell",
+      "desc": "30 minutes at the enchanting table with lapis and a specific goal. Reliable focus ritual — the bookshelves help.",
+      "why": "Lowers the Ender Dragon's HP by at least a few points every time. Costs only time and lapis."
+    },
+    {
+      "name": "Solo Cave Run",
+      "type": "spell",
+      "desc": "One hour underground, no build agenda, just explore. Phone on silent. Exits with more energy than it takes.",
+      "why": "Consistently resets the mental inventory. Works even when motivation is absent at spawn."
     }
   ],
   "mainQuest": {
-    "title": "Build a Career I Actually Care About",
-    "description": "Move from work that pays the bills to work that uses real strengths and feels worth getting up for.",
-    "whyItMatters": "More waking hours at work than anywhere else. If it's hollow, everything else feels thin too.",
-    "doneWhen": "Earning a sustainable income doing work I'd choose even if I didn't need the money.",
+    "title": "Defeat the Ender Dragon",
+    "description": "Reach The End, destroy the crystals, and bring down the boss once and for all.",
+    "whyItMatters": "More hours spent grinding than anywhere else. If the dragon keeps circling, everything else feels unfinished too.",
+    "doneWhen": "Standing in The End with dragon egg in inventory and the credits actually rolling.",
     "nextSteps": [
       {
-        "text": "Identify three roles that match strengths and write down why each one excites me",
-        "doneWhen": "Written, not just thought about"
+        "text": "Locate a stronghold and find the End portal room",
+        "doneWhen": "Eyes of Ender thrown, portal located - not just planned"
       },
       {
-        "text": "Have one honest conversation with someone already doing work I admire",
-        "doneWhen": "Coffee or call booked"
+        "text": "Gear up: full diamond armour, enchanted bow, enough arrows",
+        "doneWhen": "Inventory checked, protection enchantments confirmed"
       },
       {
-        "text": "Spend two hours this week on a side project that feels genuinely mine",
-        "doneWhen": "Two uninterrupted hours, no half-measures"
+        "text": "Spend two sessions this week mining the deep caves - no diamond requirement, just explore",
+        "doneWhen": "Two uninterrupted sessions, no half-measures"
       }
     ],
     "xpReward": 500,
     "progress": 15
   },
-  "sliderValues": { "air": 55, "fire": 40, "water": 48, "earth": 52 },
+  "sliderValues": { "air": 72, "fire": 22, "water": 58, "earth": 64 },
   "harmonyHistory": [
-    { "date": "2026-01-05",  "air": 28, "fire": 18, "water": 35, "earth": 40, "harmony": 48 },
-    { "date": "2026-01-12",  "air": 30, "fire": 20, "water": 36, "earth": 42, "harmony": 52 },
-    { "date": "2026-01-20",  "air": 33, "fire": 22, "water": 38, "earth": 44, "harmony": 55 },
-    { "date": "2026-01-28",  "air": 36, "fire": 24, "water": 40, "earth": 46, "harmony": 58 },
-    { "date": "2026-02-05",  "air": 32, "fire": 19, "water": 37, "earth": 43, "harmony": 51 },
-    { "date": "2026-02-12",  "air": 30, "fire": 16, "water": 34, "earth": 41, "harmony": 46 },
-    { "date": "2026-02-19",  "air": 34, "fire": 22, "water": 39, "earth": 45, "harmony": 54 },
-    { "date": "2026-02-26",  "air": 38, "fire": 26, "water": 41, "earth": 47, "harmony": 59 },
-    { "date": "2026-03-05",  "air": 42, "fire": 30, "water": 44, "earth": 49, "harmony": 63 },
-    { "date": "2026-03-12",  "air": 46, "fire": 34, "water": 45, "earth": 50, "harmony": 66 },
-    { "date": "2026-03-19",  "air": 50, "fire": 37, "water": 46, "earth": 51, "harmony": 68 },
-    { "date": "2026-03-25",  "air": 55, "fire": 40, "water": 48, "earth": 52, "harmony": 70 }
+    { "date": "2026-01-05",  "air": 42, "fire": 12, "water": 30, "earth": 45, "harmony": 40 },
+    { "date": "2026-01-12",  "air": 45, "fire": 14, "water": 32, "earth": 47, "harmony": 43 },
+    { "date": "2026-01-20",  "air": 48, "fire": 13, "water": 34, "earth": 50, "harmony": 44 },
+    { "date": "2026-01-28",  "air": 50, "fire": 15, "water": 36, "earth": 52, "harmony": 47 },
+    { "date": "2026-02-05",  "air": 46, "fire": 11, "water": 33, "earth": 49, "harmony": 41 },
+    { "date": "2026-02-12",  "air": 44, "fire": 10, "water": 30, "earth": 47, "harmony": 38 },
+    { "date": "2026-02-19",  "air": 52, "fire": 14, "water": 38, "earth": 53, "harmony": 46 },
+    { "date": "2026-02-26",  "air": 58, "fire": 17, "water": 42, "earth": 57, "harmony": 51 },
+    { "date": "2026-03-05",  "air": 62, "fire": 18, "water": 46, "earth": 60, "harmony": 55 },
+    { "date": "2026-03-12",  "air": 66, "fire": 20, "water": 50, "earth": 62, "harmony": 59 },
+    { "date": "2026-03-19",  "air": 70, "fire": 21, "water": 55, "earth": 63, "harmony": 62 },
+    { "date": "2026-03-25",  "air": 72, "fire": 22, "water": 58, "earth": 64, "harmony": 64 }
   ],
   "sliderXpRewards": {
     "air":   [null, 100, 200, 350, 500],
@@ -64,231 +76,210 @@
     "earth": [null, 120, 260, 440, 650]
   },
   "sliderLabels": {
-    "air":   "More aware than acting - noticing patterns without changing them yet",
-    "fire":  "Motivation patchy - flickers of purpose but mostly running on obligation",
-    "water": "Some aliveness - running and cooking reliable, rest of week flat",
-    "earth": "Reasonably grounded - self-criticism present but not dominating"
+    "air":   "More aware than acting - noticing mob spawns without changing sleep habits yet",
+    "fire":  "Motivation patchy - flickers of purpose but mostly running on torchlight",
+    "water": "Some aliveness - mining and cooking reliable, rest of biome still dark",
+    "earth": "Reasonably grounded - Creeper anxiety present but not dominating"
   },
   "limitingBeliefs": [
     {
       "title": "THE IMPOSTER",
-      "belief": "\"I'm not smart or talented enough to do the work I actually want to do.\"",
-      "desc": "Shows up when applying for jobs or sharing creative work. Reframes learning curves as proof of incompetence.",
-      "shortTermBenefit": "Keeps ambition modest and therefore safe from the humiliation of public failure.",
-      "origin": "Environments where being found out felt like the primary risk - performance over presence.",
+      "belief": "\"I'm not skilled or geared enough to fight the bosses I actually want to fight.\"",
+      "desc": "Shows up when enchanting gear or entering new biomes. Reframes the learning curve as proof of being a noob forever.",
+      "shortTermBenefit": "Keeps ambition in the overworld and therefore safe from the humiliation of dying to a baby zombie.",
+      "origin": "Spawned in environments where being out-geared felt like the primary risk - performance over presence.",
       "hp": 75,
       "priority": 7
     },
     {
       "title": "THE PERFECTIONIST",
-      "belief": "\"If I can't do it perfectly, there's no point starting.\"",
-      "desc": "Main engine of procrastination. Creates an impossible standard that ensures nothing ships.",
-      "shortTermBenefit": "The unstarted thing can always be imagined as good. Completion would make the gap visible.",
-      "origin": "Likely formed where only exceptional output was noticed - average effort was invisible.",
+      "belief": "\"If I can't build the perfect base first, there's no point starting the main quest.\"",
+      "desc": "Main engine of procrastination. Creates an impossible aesthetic standard that ensures nothing is ever finished before the dragon is due.",
+      "shortTermBenefit": "The unbuilt mega-base can always be imagined as flawless. Completion would reveal the gaps.",
+      "origin": "Likely formed in creative mode where only exceptional builds were noticed - survival effort was invisible.",
       "hp": 70,
       "priority": 8
     },
     {
       "title": "THE PESSIMIST",
-      "belief": "\"Things rarely work out for me the way they do for other people.\"",
-      "desc": "Selective memory that catalogues failures and dismisses wins as luck or exception.",
-      "shortTermBenefit": "Low expectations mean surprises are pleasant rather than painful. Feels like protection.",
-      "origin": "Unknown - possibly reinforced by a period where several things went wrong in close succession.",
+      "belief": "\"I always die before I reach the good loot.\"",
+      "desc": "Selective memory that catalogues every death screen and dismisses successful runs as luck or a seed exploit.",
+      "shortTermBenefit": "Low expectations mean a full chest feels like a win. Feels like protection against hype.",
+      "origin": "Unknown - possibly reinforced by a period where several hardcore worlds ended in close succession.",
       "hp": 60,
       "priority": 9
     }
   ],
   "empoweringBeliefs": [
-    { "title": "THE PROBLEM SOLVER", "belief": "\"I can figure out hard things if I stay in the room long enough.\"",     "desc": "Track record of working through ambiguous problems is real." },
-    { "title": "THE LONG GAME",      "belief": "\"Slow progress in the right direction beats fast progress in the wrong one.\"", "desc": "Useful counter to urgency and comparison." },
-    { "title": "THE BODY KNOWS",     "belief": "\"The aliveness I feel when working on the right thing is data, not coincidence.\"", "desc": "The qualitative difference between the side project and the day job is the clearest signal available." }
+    { "title": "THE PROBLEM SOLVER", "belief": "\"I can figure out any redstone circuit if I stay in the room long enough.\"",     "desc": "Track record of working through ambiguous contraptions is real." },
+    { "title": "THE LONG GAME",      "belief": "\"Slow progress toward diamonds beats fast progress toward gravel.\"", "desc": "Useful counter to urgency and biome-comparison." },
+    { "title": "THE BODY KNOWS",     "belief": "\"The aliveness I feel when mining the right cave is data, not coincidence.\"", "desc": "The qualitative difference between strip-mining and a deep-cave find is the clearest signal available." }
   ],
   "skills": [
-    { "name": "Set Boundaries",        "mastery": 1, "priority": 1, "xpReward": 80,  "description": "Say no without over-explaining.",                              "whyItMatters": "Without this, time and energy get consumed by everyone else's agenda." },
-    { "name": "Ask For Help",          "mastery": 1, "priority": 2, "xpReward": 80,  "description": "Reach out before stuck, not after.",                          "whyItMatters": "How fast progress actually happens." },
-    { "name": "Stay Consistent",       "mastery": 2, "priority": 3, "xpReward": 80,  "description": "Show up even when motivation is absent.",                      "whyItMatters": "Running, reading, side project all depend on this." },
-    { "name": "Say No",                "mastery": 1, "priority": 4, "xpReward": 80,  "description": "Decline obligations that conflict with priorities.",            "whyItMatters": "Every yes to the wrong thing is a no to something that matters." },
-    { "name": "Problem Solving",       "mastery": 4, "priority": 1, "xpReward": 200, "description": "Break ambiguous problems into workable paths.",                "whyItMatters": "The capability that earns trust fastest." },
-    { "name": "Written Communication", "mastery": 3, "priority": 2, "xpReward": 150, "description": "Express ideas clearly without over-engineering.",              "whyItMatters": "In async work, writing is the primary signal of competence." },
-    { "name": "Empathy",               "mastery": 4, "priority": 3, "xpReward": 150, "description": "Read what someone needs beneath what they say.",              "whyItMatters": "Foundation of good collaboration." }
+    { "name": "Set Boundaries",   "mastery": 1, "priority": 1, "xpReward": 80,  "description": "Say no to side quests without over-explaining.",          "whyItMatters": "Without this, time and diamonds get consumed by everyone else's projects." },
+    { "name": "Ask For Help",     "mastery": 1, "priority": 2, "xpReward": 80,  "description": "Reach out to the server before getting lost in a cave.",  "whyItMatters": "How fast the main quest actually progresses." },
+    { "name": "Stay Consistent",  "mastery": 2, "priority": 3, "xpReward": 80,  "description": "Log in even when motivation is absent.",                  "whyItMatters": "Mining, farming, enchanting all depend on this." },
+    { "name": "Say No",           "mastery": 1, "priority": 4, "xpReward": 80,  "description": "Decline build requests that conflict with the main quest.", "whyItMatters": "Every yes to another player's mansion is a no to the End portal." },
+    { "name": "Mining",           "mastery": 4, "priority": 1, "xpReward": 200, "description": "Navigate deep caves, read ore patterns, come back alive.", "whyItMatters": "The capability that earns diamonds fastest." },
+    { "name": "Crafting",         "mastery": 3, "priority": 2, "xpReward": 150, "description": "Build the right tools without wasting materials.",         "whyItMatters": "In resource-scarce play, crafting is the primary signal of competence." },
+    { "name": "Exploring",        "mastery": 4, "priority": 3, "xpReward": 150, "description": "Read the terrain, find the structures, come back with a map.", "whyItMatters": "Foundation of good world knowledge." }
   ],
   "sideQuests": [
-    { "title": "Start Running",           "priority": 1, "progress": 40, "description": "Build a running habit from scratch.", "whyItMatters": "Physical health is the foundation everything else is built on.", "nextStep": "Run three times this week - no distance requirement, just show up", "xpReward": 150 },
-    { "title": "Build the Portfolio",     "priority": 2, "progress": 25, "description": "Create proof of work for the career shift.", "whyItMatters": "The career shift needs proof of work, not just intent.", "nextStep": "Publish two case studies by end of March", "xpReward": 200 },
-    { "title": "Read 12 Books This Year", "priority": 3, "progress": 33, "description": "One book per month, any genre.", "whyItMatters": "Deep reading slows me down usefully and generates ideas I couldn't alone.", "nextStep": "Finish the current book before starting anything else", "xpReward": 150 },
-    { "title": "Declutter Home",          "priority": 4, "progress": 75, "description": "Clear the whole flat, room by room.", "whyItMatters": "Environment shapes thinking.", "nextStep": "Clear the spare room - last section, been sitting for a month", "xpReward": 100 },
-    { "title": "Learn Spanish",           "priority": 5, "progress": 20, "description": "Conversational Spanish over 12 months.", "whyItMatters": "Opens travel, connects with family heritage, and is genuinely just for me.", "nextStep": "Complete one Duolingo lesson every day for two weeks straight", "xpReward": 200 }
+    { "title": "Build a Proper Base",           "priority": 1, "progress": 40, "description": "Upgrade from dirt hut to a real base with storage and beds.",      "whyItMatters": "A respawn point is the foundation everything else is built on.",    "nextStep": "Lay the foundation three sessions this week - no aesthetic requirement, just place blocks", "xpReward": 150 },
+    { "title": "Set Up an Enchanting Table",    "priority": 2, "progress": 25, "description": "Build a full enchanting setup with bookshelves.",                    "whyItMatters": "The End fight needs enchanted gear, not just intent.",              "nextStep": "Gather 15 bookshelves by end of March",                                                     "xpReward": 200 },
+    { "title": "Explore 12 Biomes This Year",   "priority": 3, "progress": 33, "description": "One new biome per month, any type.",                                 "whyItMatters": "Deep exploration slows me down usefully and generates loot I couldn't find alone.", "nextStep": "Find a mushroom island before starting the next biome", "xpReward": 150 },
+    { "title": "Organise the Chest Room",       "priority": 4, "progress": 75, "description": "Label and sort the entire storage system.",                          "whyItMatters": "Inventory chaos shapes decision quality.",                          "nextStep": "Sort the overflow chests - the last pile has been sitting for a month",                     "xpReward": 100 },
+    { "title": "Learn Redstone",                "priority": 5, "progress": 20, "description": "Build working automated farms over 12 months.",                      "whyItMatters": "Automation opens up AFK time and is genuinely just for me.",     "nextStep": "Complete one redstone tutorial every day for two weeks straight",                           "xpReward": 200 }
   ],
   "completedQuests": [
-    { "title": "Quit Smoking", "completedDate": "Jan 2026", "xpEarned": 300, "howResolved": "Cold turkey after a chest infection made the cost undeniable. Three months clean." }
+    { "title": "Survive First Night", "completedDate": "Jan 2026", "xpEarned": 300, "howResolved": "Punched trees until I had a crafting table. Sealed in a dirt box and listened to mobs outside. Three months no-death run started there." }
   ],
   "drains": [
-    { "name": "Late-night scrolling",           "desc": "Reliably ends with feeling worse. Eats into sleep." },
-    { "name": "Saying yes to avoid discomfort", "desc": "Fills the calendar with obligations that don't align with priorities." },
-    { "name": "Skipping the gym when stressed", "desc": "The moment it would help most is exactly when it gets cut." }
+    { "name": "Late-night inventory hoarding",       "desc": "Reliably ends with a full inventory and no idea what to do with it. Eats into sleep." },
+    { "name": "Saying yes to co-op builds",          "desc": "Fills the session with other people's projects that don't align with the main quest." },
+    { "name": "Skipping mining when the base hurts", "desc": "The moment exploration would help most is exactly when it gets replaced by base tinkering." }
   ],
   "flowSources": [
-    { "name": "Running",          "desc": "First 10 minutes are hard, then the thinking quiets down." },
-    { "name": "Cooking",          "desc": "Hands busy, mind relaxed. Reliably restorative." },
-    { "name": "Music",            "desc": "Playing guitar alone - no audience, no performance." },
-    { "name": "Time with family", "desc": "Sunday dinners where nothing is at stake." },
-    { "name": "Reading",          "desc": "Long-form nonfiction, late at night." }
+    { "name": "Mining",          "desc": "First 10 minutes are tense, then the cave opens up and the thinking quiets down." },
+    { "name": "Cooking",         "desc": "Smelting and sorting - hands busy, mind relaxed. Reliably restorative." },
+    { "name": "Music Discs",     "desc": "Stal playing in the jukebox alone - no audience, no performance." },
+    { "name": "Village trading", "desc": "Peaceful haggling where nothing critical is at stake." },
+    { "name": "Building",        "desc": "Long creative sessions, late at night, no mobs on peaceful." }
   ],
   "needs": [
-    { "name": "Connection", "threat": "amber", "alignment": 45, "desc": "Genuine closeness with people who know the real version. Good with a few, absent with most." },
-    { "name": "Rest",       "threat": "red",   "alignment": 30, "desc": "Recovery time not immediately colonised by guilt or a to-do list. Significant deficit." },
-    { "name": "Autonomy",   "threat": "none",  "alignment": 60, "desc": "Control over how time and energy are spent. Better than it was." },
-    { "name": "Recognition","threat": "amber", "alignment": 40, "desc": "Feeling that effort and contribution are seen. Work environment is neutral at best." }
+    { "name": "Connection", "threat": "amber", "alignment": 45, "desc": "A server with people who know the real build style. Good with a few, absent with most." },
+    { "name": "Rest",       "threat": "red",   "alignment": 30, "desc": "Recovery time not immediately colonised by mob sounds or a to-do list. Significant deficit." },
+    { "name": "Autonomy",   "threat": "none",  "alignment": 60, "desc": "Control over which biome to explore and when. Better than it was." },
+    { "name": "Recognition","threat": "amber", "alignment": 40, "desc": "Feeling that the builds and runs are seen. The server is neutral at best." }
   ],
   "values": [
-    { "name": "Authenticity",       "threat": "amber", "alignment": 45, "desc": "Living in line with what I actually think and feel, not what looks right from the outside." },
-    { "name": "Family",             "threat": "none",  "alignment": 70, "desc": "Being present and reliable for the people who matter most." },
-    { "name": "Health",             "threat": "amber", "alignment": 55, "desc": "Physical and mental wellbeing as a non-negotiable foundation." },
-    { "name": "Growth",             "threat": "none",  "alignment": 65, "desc": "Getting better at things that matter." },
-    { "name": "Financial Security", "threat": "amber", "alignment": 50, "desc": "Enough stability to make genuine choices - freedom from scarcity anxiety." }
+    { "name": "Authenticity",       "threat": "amber", "alignment": 45, "desc": "Playing in the style that actually feels right, not the meta loadout everyone else is running." },
+    { "name": "Family",             "threat": "none",  "alignment": 70, "desc": "Being present and reliable for the wolves and villagers who matter most." },
+    { "name": "Health",             "threat": "amber", "alignment": 55, "desc": "Full hearts and hunger bar as a non-negotiable foundation." },
+    { "name": "Growth",             "threat": "none",  "alignment": 65, "desc": "Getting better at builds and biomes that matter." },
+    { "name": "Financial Security", "threat": "amber", "alignment": 50, "desc": "Enough emeralds to make genuine choices - freedom from villager price anxiety." }
   ],
   "insights": [
     {
-      "name": "The Career Turn",
+      "name": "The End Portal",
       "entries": [
         {
           "date": "22 March 2026",
-          "title": "Two Hours That Felt Like Mine",
+          "title": "Two Hours That Felt Like a Cave Find",
           "events": [
-            "Blocked out Saturday morning for the side project - phone in another room",
-            "Two uninterrupted hours on the portfolio site for the first time"
+            "Blocked out Saturday morning for deep cave exploration - phone in another room",
+            "Two uninterrupted hours in a massive cave system for the first time"
           ],
           "insights": [
-            "The two hours felt different - less like performance, more like contact with something real",
-            "PROCRASTINATION didn't fire once - a specific small task made the difference"
+            "The two hours felt different - less like surface farming, more like contact with something real underground",
+            "PROCRASTINATION didn't fire once - a specific small task (find one diamond vein) made the difference"
           ],
           "tensions": [
-            "Whether the side project is the actual direction or just a way of feeling busy without risking the real thing"
+            "Whether the cave exploration is the actual direction or just a way of feeling productive without risking the End portal"
           ]
         },
         {
           "date": "15 March 2026",
-          "title": "The Coffee That Changed the Frame",
+          "title": "The Trade That Changed the Frame",
           "events": [
-            "Met Priya for coffee - she made the career switch two years ago"
+            "Traded with a librarian villager for an Efficiency V book - she'd enchanted the same route two years ago"
           ],
           "insights": [
-            "SELF-DOUBT reframed Priya's question as a test I was about to fail - I noticed it this time"
+            "SELF-DOUBT reframed the librarian's price as a test I was about to fail - I noticed it this time"
           ],
           "tensions": [
-            "Financial pressure is shortening the timeline in ways that might distort the search"
+            "Diamond scarcity is shortening the timeline in ways that might distort the gear decisions"
           ]
         }
       ]
     },
     {
-      "name": "Clearing the Ground",
+      "name": "Clearing the Inventory",
       "entries": [
         {
           "date": "14 February 2026",
-          "title": "Three Months Clean",
+          "title": "Three Months No-Death Run",
           "events": [
-            "Three months without a cigarette - marked it quietly, told Jordan"
+            "Three months without dying on this world - marked it quietly, told Alex"
           ],
           "insights": [
-            "Staying stopped required a quiet decision to stop negotiating with the habit"
+            "Staying alive required a quiet decision to stop fighting mobs I didn't need to fight"
           ],
           "tensions": [
-            "Rest is still a deficit - evenings feel productive but not restorative"
+            "Rest is still a deficit - sessions feel productive but not restorative. Beds still explode in The End."
           ]
         }
       ]
     }
   ],
   "bestiary": {
-    "boss": {
-      "name": "THE INNER CRITIC",
-      "desc": "The central voice that frames every setback as evidence of fundamental inadequacy. Feels like a fair assessment. It isn't.",
-      "whyBoss": "Every other enemy is this one in disguise - Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.",
-      "hp": 80,
-      "vulnerabilities": [
-        { "title": "Named in real time", "desc": "The Critic loses power the moment it is caught mid-action. Each live catch weakens its automaticity - labelling it out loud is enough to create distance." },
-        { "title": "Evidence on the table", "desc": "The Critic thrives on selective memory. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data." },
-        { "title": "Starting before ready", "desc": "The Critic's main lever is the gap before beginning. Starting small - one sentence, one minute - collapses the gap before the Critic can fill it." }
-      ]
-    },
+    "bosses": [
+      {
+        "name": "THE ENDER DRAGON",
+        "desc": "The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.",
+        "whyBoss": "Every other enemy is this one in disguise - Procrastination is the Dragon saying you'll die, Self-Doubt is the Dragon questioning your enchants, the Comparison Trap is the Dragon finding external evidence you're a noob.",
+        "hp": 80,
+        "shortTermBenefit": "Keeps standards high. Feels like appropriate caution before a high-stakes fight.",
+        "origin": "Formed in environments where being under-geared was the primary risk - performance over presence.",
+        "vulnerabilities": [
+          { "title": "Named in real time", "desc": "The Dragon loses power the moment it is caught mid-circle. Each live catch weakens its automaticity - calling it out loud is enough to create distance." },
+          { "title": "Evidence on the table", "desc": "The Dragon thrives on selective death screens. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data." },
+          { "title": "Starting before ready", "desc": "The Dragon's main lever is the gap before entering the portal. Starting small - one Eye of Ender thrown, one block placed - collapses the gap before the Dragon can fill it." }
+        ],
+        "subEnemies": [
+          { "name": "PROCRASTINATION", "type": "compulsion", "hp": 75, "desc": "Masquerades as preparation. Rearranges the hotbar instead of entering the cave." },
+          { "name": "SELF-DOUBT", "type": "blindspot", "hp": 70, "desc": "Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth." },
+          { "name": "COMPARISON TRAP", "type": "blindspot", "hp": 65, "desc": "Measures a messy mid-game against other players' fully-automated mega-bases." }
+        ]
+      }
+    ],
     "currentEnemies": [
       {
-        "name": "PROCRASTINATION",
-        "desc": "Kicks in whenever a task feels ambiguous or high-stakes. Masquerades as preparation - rearranging the desk instead of opening the document.",
-        "type": "compulsion",
-        "trigger": "Ambiguous or important tasks with no clear first step",
-        "shortTermBenefit": "Protects against the pain of trying and failing. Feels like caution.",
-        "origin": "Likely formed around high-stakes performance where effort without success felt worse than not trying.",
-        "hp": 75,
+        "name": "LATE-NIGHT INVENTORY HOARDING",
+        "desc": "Reliably ends with feeling worse than when it started. Fills the chest room and leaves the next session already in overflow.",
+        "type": "drain",
+        "trigger": "Evening wind-down session, especially after a difficult biome",
+        "shortTermBenefit": "Decompression that asks nothing. Feels like progress without the vulnerability of actually using the materials.",
+        "origin": "Avoidance of the quiet - where unprocessed loot from the day tends to surface.",
+        "hp": 85,
         "priority": 1
       },
       {
-        "name": "SELF-DOUBT",
-        "desc": "Quiet voice that says others are better qualified. Speaks in first person so it sounds like truth, not like a pattern.",
-        "type": "distortion",
-        "trigger": "Attempting something new or visible",
-        "shortTermBenefit": "Keeps expectations low so disappointment hurts less. Feels like realism.",
-        "origin": "Unknown - may relate to environments where confidence was penalised or not modelled.",
-        "hp": 70,
+        "name": "OBLIGATION YES",
+        "desc": "Joining co-op builds to avoid the discomfort of declining. Fills the session with work that doesn't align with the main quest.",
+        "type": "compulsion",
+        "trigger": "Any server request that feels like it expects a yes",
+        "shortTermBenefit": "Avoids conflict and the guilt of leaving someone underground alone. Feels like being a good teammate.",
+        "origin": "Unknown - likely formed where keeping allies comfortable felt safer than asserting the main quest.",
+        "hp": 90,
         "priority": 2
       },
       {
-        "name": "COMPARISON TRAP",
-        "desc": "Measuring a messy middle against others' curated highlight reel. Activates fast and feels like useful calibration.",
-        "type": "distortion",
-        "trigger": "Social media, professional updates, seeing peers succeed",
-        "shortTermBenefit": "Creates temporary direction - if others succeeded this way, the path must be real.",
-        "origin": "Unknown - the conditions that made external benchmarks feel necessary are not yet clear.",
-        "hp": 65,
-        "priority": 3
-      },
-      {
-        "name": "LATE-NIGHT SCROLLING",
-        "desc": "Reliably ends with feeling worse than when it started. Eats into sleep and leaves the next morning already in deficit.",
+        "name": "SKIP MINING WHEN STRESSED",
+        "desc": "Cutting the one session that would most help in the moments of highest Creeper anxiety. Always justified in the moment.",
         "type": "drain",
-        "trigger": "Evening wind-down, especially after a difficult day",
-        "shortTermBenefit": "Decompression that asks nothing. Feels like rest without the vulnerability of actually stopping.",
-        "origin": "Avoidance of the quiet - where unprocessed thoughts from the day tend to surface.",
-        "hp": 85,
-        "priority": 4
-      },
-      {
-        "name": "OBLIGATION YES",
-        "desc": "Agreeing to things to avoid the discomfort of declining. Fills the calendar with work that doesn't align with priorities.",
-        "type": "compulsion",
-        "trigger": "Any request that feels like it expects a yes",
-        "shortTermBenefit": "Avoids conflict and the guilt of disappointing someone. Feels like being a good person.",
-        "origin": "Unknown - likely formed where keeping others comfortable felt safer than asserting preference.",
-        "hp": 90,
-        "priority": 5
-      },
-      {
-        "name": "GYM SKIP WHEN STRESSED",
-        "desc": "Cutting the one thing that would most help in the moments of highest stress. Always justified in the moment.",
-        "type": "drain",
-        "trigger": "High workload, low energy, feeling behind",
-        "shortTermBenefit": "Creates the illusion of more time. Feels like a sensible trade-off.",
-        "origin": "The Inner Critic framing movement as optional when performance is on the line.",
+        "trigger": "High mob pressure, low torches, feeling behind on gear",
+        "shortTermBenefit": "Creates the illusion of more base time. Feels like a sensible trade-off.",
+        "origin": "The Ender Dragon framing exploration as optional when diamond counts are low.",
         "hp": 80,
-        "priority": 6
+        "priority": 3
       }
     ],
     "graveyard": [
-      { "name": "SUNDAY DREAD",    "defeatedDate": "Jan 2026", "howDefeated": "Lost its footing when the job ended. Without the thing it was anticipating, it had nothing to attach to." },
-      { "name": "THE AVOIDER",     "defeatedDate": "Dec 2025", "howDefeated": "Named it properly for the first time. Avoidance disguised as being busy. Once it had a name it stopped working as cover." },
-      { "name": "INSTAGRAM SPIRAL","defeatedDate": "Nov 2025", "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every time." }
+      { "name": "SUNDAY DREAD",       "defeatedDate": "Jan 2026", "howDefeated": "Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to." },
+      { "name": "THE HOARDER",        "defeatedDate": "Dec 2025", "howDefeated": "Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover." },
+      { "name": "TWITTER SPIRAL",     "defeatedDate": "Nov 2025", "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session." }
     ]
   },
   "completedMainQuests": [],
   "lastUpdated": "2026-03-25",
   "activities": [
-    { "id": "deep-work",    "name": "Deep Work",    "description": "Focused time on the career transition - research, applications, side project.", "whyItMatters": "The career I want won't build itself in the margins.",     "startDate": "2026-01-01", "priority": 1, "type": "timer",    "resetPeriod": "day",  "target": 90, "unit": "minutes",  "xpPerUnit": 0.5 },
-    { "id": "morning-run",  "name": "Morning Run",  "description": "Out before 8am, at least 20 minutes.",                                        "whyItMatters": "Movement sets the tone for the whole day.",               "startDate": "2026-02-01", "priority": 2, "type": "checkbox", "resetPeriod": "day",  "target": 1,  "unit": "runs",     "xpPerUnit": 20  },
-    { "id": "gym-sessions", "name": "Gym Sessions", "description": "Strength training, three or four times a week.",                              "whyItMatters": "Weekly consistency matters more than individual sessions.", "startDate": "2026-02-01", "priority": 3, "type": "number",   "resetPeriod": "week", "target": 4,  "unit": "sessions", "xpPerUnit": 15  }
+    { "id": "deep-work",    "name": "Cave Diving",     "description": "Focused time underground - mining, mob clearing, chest looting.", "whyItMatters": "The diamonds I want won't mine themselves on the surface.", "startDate": "2026-01-01", "priority": 1, "type": "timer",    "resetPeriod": "day",  "target": 90, "unit": "minutes",  "xpPerUnit": 0.5 },
+    { "id": "morning-run",  "name": "Morning Patrol",  "description": "Perimeter check before 8am, clear all overnight spawns.",        "whyItMatters": "A clear base sets the tone for the whole session.",        "startDate": "2026-02-01", "priority": 2, "type": "checkbox", "resetPeriod": "day",  "target": 1,  "unit": "patrols",  "xpPerUnit": 20  },
+    { "id": "gym-sessions", "name": "Nether Runs",     "description": "Nether resource runs, three or four times a week.",              "whyItMatters": "Weekly consistency matters more than individual hauls.",    "startDate": "2026-02-01", "priority": 3, "type": "number",   "resetPeriod": "week", "target": 4,  "unit": "runs",     "xpPerUnit": 15  }
   ],
   "dailyDistribution": {
-    "Sleep": 7.5, "Deep Work": 1.5, "Exercise": 0.75, "Social": 1,
+    "Sleep": 7.5, "Cave Diving": 1.5, "Exercise": 0.75, "Social": 1,
     "Admin / Commute": 2, "Rest / Leisure": 3.5, "Unknown": 7.75
   },
   "wheelOfLife": {
@@ -301,35 +292,35 @@
     "finances":   { "score": 45, "trend": "flat"        }
   },
   "achievements": [
-    { "id": "smoke-free",        "title": "Smoke Free",        "description": "Three months without a cigarette after a decade of trying.",                                   "type": "milestone",    "dateUnlocked": "Apr 2026", "featured": true  },
-    { "id": "the-declutterer",   "title": "The Declutterer",   "description": "Cleared 75% of the home in a single sustained push.",                                           "type": "quest",        "dateUnlocked": "Mar 2026", "featured": false },
-    { "id": "signal-over-noise", "title": "Signal Over Noise", "description": "Deleted Instagram after noticing the pattern: open it feeling okay, close it feeling worse.", "type": "breakthrough", "dateUnlocked": "Nov 2025", "featured": false }
+    { "id": "no-death-run",     "title": "No Death Run",      "description": "Three months without a death screen on hardcore - the first time in many worlds.",                              "type": "milestone",    "dateUnlocked": "Apr 2026", "featured": true  },
+    { "id": "the-declutterer",  "title": "The Organiser",     "description": "Sorted 75% of the chest room in a single sustained session. Labels and everything.",                           "type": "quest",        "dateUnlocked": "Mar 2026", "featured": false },
+    { "id": "signal-over-noise","title": "Signal Over Noise", "description": "Deleted the Reddit app after noticing the pattern: open it feeling okay, close it feeling like a noob.", "type": "breakthrough", "dateUnlocked": "Nov 2025", "featured": false }
   ],
   "classes": [
-    { "id": "creator",  "title": "Creator",  "icon": "✦", "description": "Drawn to making things. Finds meaning in the act of creation itself, not just the result.", "dateUnlocked": "Feb 2026", "featured": true  },
-    { "id": "achiever", "title": "Achiever", "icon": "◈", "description": "Goal-oriented and persistent when the goal actually matters. Learning to tell the difference between achievement and validation.", "dateUnlocked": "Jan 2026", "featured": false }
+    { "id": "builder",  "title": "Builder",  "icon": "✦", "description": "Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.", "dateUnlocked": "Feb 2026", "featured": true  },
+    { "id": "explorer", "title": "Explorer", "icon": "◈", "description": "Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.", "dateUnlocked": "Jan 2026", "featured": false }
   ],
   "_xpLog": [
-    { "date": "25 Mar 2026", "amount":  30,  "reason": "Session update",                                        "totalAfter": 500, "levelup": false },
-    { "date": "22 Mar 2026", "amount":  25,  "reason": "Session update",                                        "totalAfter": 470, "levelup": false },
-    { "date": "19 Mar 2026", "amount": null, "reason": "Level 4 reached",                                       "totalAfter": 445, "levelup": true  },
-    { "date": "19 Mar 2026", "amount":  45,  "reason": "Session update",                                        "totalAfter": 445, "levelup": false },
-    { "date": "15 Mar 2026", "amount":  40,  "reason": "Coffee with Priya - genuine ask for help",              "totalAfter": 400, "levelup": false },
-    { "date": "12 Mar 2026", "amount":  35,  "reason": "Session update",                                        "totalAfter": 360, "levelup": false },
-    { "date": "8 Mar 2026",  "amount":  25,  "reason": "Session update",                                        "totalAfter": 325, "levelup": false },
-    { "date": "5 Mar 2026",  "amount":  20,  "reason": "Session update",                                        "totalAfter": 300, "levelup": false },
-    { "date": "26 Feb 2026", "amount": null, "reason": "Level 3 reached",                                       "totalAfter": 280, "levelup": true  },
-    { "date": "26 Feb 2026", "amount":  30,  "reason": "Session update",                                        "totalAfter": 280, "levelup": false },
-    { "date": "19 Feb 2026", "amount":  25,  "reason": "Session update",                                        "totalAfter": 250, "levelup": false },
-    { "date": "14 Feb 2026", "amount":  50,  "reason": "Three months smoke-free - Smoke Free achievement",      "totalAfter": 225, "levelup": false },
-    { "date": "12 Feb 2026", "amount": -15,  "reason": "Skipped gym three times - named pattern, not bad luck", "totalAfter": 175, "levelup": false },
-    { "date": "5 Feb 2026",  "amount":  20,  "reason": "Session update",                                        "totalAfter": 190, "levelup": false },
-    { "date": "28 Jan 2026", "amount":  25,  "reason": "Session update",                                        "totalAfter": 170, "levelup": false },
-    { "date": "20 Jan 2026", "amount":  40,  "reason": "Declutter complete - environment changed",              "totalAfter": 145, "levelup": false },
-    { "date": "20 Jan 2026", "amount": null, "reason": "Level 2 reached",                                       "totalAfter": 105, "levelup": true  },
-    { "date": "12 Jan 2026", "amount":  30,  "reason": "Session update",                                        "totalAfter": 105, "levelup": false },
-    { "date": "5 Jan 2026",  "amount":  25,  "reason": "Session update",                                        "totalAfter":  75, "levelup": false },
-    { "date": "1 Jan 2026",  "amount":  50,  "reason": "Quit Smoking quest complete",                           "totalAfter":  50, "levelup": false }
+    { "date": "25 Mar 2026", "amount":  30,  "reason": "Session update",                                                      "totalAfter": 500, "levelup": false },
+    { "date": "22 Mar 2026", "amount":  25,  "reason": "Session update",                                                      "totalAfter": 470, "levelup": false },
+    { "date": "19 Mar 2026", "amount": null, "reason": "Level 4 reached",                                                     "totalAfter": 445, "levelup": true  },
+    { "date": "19 Mar 2026", "amount":  45,  "reason": "Session update",                                                      "totalAfter": 445, "levelup": false },
+    { "date": "15 Mar 2026", "amount":  40,  "reason": "Trade with librarian - genuine ask for help",                         "totalAfter": 400, "levelup": false },
+    { "date": "12 Mar 2026", "amount":  35,  "reason": "Session update",                                                      "totalAfter": 360, "levelup": false },
+    { "date": "8 Mar 2026",  "amount":  25,  "reason": "Session update",                                                      "totalAfter": 325, "levelup": false },
+    { "date": "5 Mar 2026",  "amount":  20,  "reason": "Session update",                                                      "totalAfter": 300, "levelup": false },
+    { "date": "26 Feb 2026", "amount": null, "reason": "Level 3 reached",                                                     "totalAfter": 280, "levelup": true  },
+    { "date": "26 Feb 2026", "amount":  30,  "reason": "Session update",                                                      "totalAfter": 280, "levelup": false },
+    { "date": "19 Feb 2026", "amount":  25,  "reason": "Session update",                                                      "totalAfter": 250, "levelup": false },
+    { "date": "14 Feb 2026", "amount":  50,  "reason": "Three months no-death run - No Death Run achievement",                "totalAfter": 225, "levelup": false },
+    { "date": "12 Feb 2026", "amount": -15,  "reason": "Skipped mining three times - named pattern, not bad luck",           "totalAfter": 175, "levelup": false },
+    { "date": "5 Feb 2026",  "amount":  20,  "reason": "Session update",                                                      "totalAfter": 190, "levelup": false },
+    { "date": "28 Jan 2026", "amount":  25,  "reason": "Session update",                                                      "totalAfter": 170, "levelup": false },
+    { "date": "20 Jan 2026", "amount":  40,  "reason": "Chest room organised - environment changed",                         "totalAfter": 145, "levelup": false },
+    { "date": "20 Jan 2026", "amount": null, "reason": "Level 2 reached",                                                     "totalAfter": 105, "levelup": true  },
+    { "date": "12 Jan 2026", "amount":  30,  "reason": "Session update",                                                      "totalAfter": 105, "levelup": false },
+    { "date": "5 Jan 2026",  "amount":  25,  "reason": "Session update",                                                      "totalAfter":  75, "levelup": false },
+    { "date": "1 Jan 2026",  "amount":  50,  "reason": "Survive First Night quest complete",                                  "totalAfter":  50, "levelup": false }
   ],
   "_hardcodedHistory": {
     "deep-work": [

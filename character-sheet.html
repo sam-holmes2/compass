@@ -689,13 +689,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hp-lbl { font-family:var(--mono); font-size:13px; flex-shrink:0; opacity:0.7; }
 .enemy-type-tag {
   font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.14em; text-transform:uppercase;
-  padding:2px 7px; border-radius:10px; border:1px solid; flex-shrink:0; opacity:0.85;
+  padding:2px 7px; border-radius:10px; border:1px solid; flex-shrink:0; opacity:0.85; cursor:help;
 }
 .ett-enemy      { color:#c84040; border-color:rgba(200,64,64,0.35);    background:rgba(200,64,64,0.07); }
 .ett-belief     { color:#8b5e3c; border-color:rgba(139,94,60,0.35);    background:rgba(139,94,60,0.07); }
+.ett-temptation { color:#6040a0; border-color:rgba(96,64,160,0.35);    background:rgba(96,64,160,0.07); }
 .ett-drain      { color:#6040a0; border-color:rgba(96,64,160,0.35);    background:rgba(96,64,160,0.07); }
 .ett-compulsion { color:#c83030; border-color:rgba(200,48,48,0.35);    background:rgba(200,48,48,0.07); }
-.ett-distortion { color:#c83060; border-color:rgba(200,48,96,0.35);   background:rgba(200,48,96,0.07); }
+.ett-blindspot  { color:#c83060; border-color:rgba(200,48,96,0.35);    background:rgba(200,48,96,0.07); }
+.ett-distortion { color:#c83060; border-color:rgba(200,48,96,0.35);    background:rgba(200,48,96,0.07); }
 /* Ally type tags */
 .att-loot        { color:#4aaa72; border-color:rgba(74,170,114,0.35);  background:rgba(74,170,114,0.07); }
 .att-spell       { color:#c87828; border-color:rgba(200,120,40,0.35);   background:rgba(200,120,40,0.07); }
@@ -1271,7 +1273,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div id="welcome-banner" style="display:none">
   <button class="welcome-dismiss" onclick="dismissWelcome()" title="Dismiss">×</button>
   <div class="welcome-title">Welcome to character-sheet</div>
-  <div class="welcome-desc">A personal life dashboard. You are looking at Example Steve's data. Set up your own sheet below, or import existing data if you already have it.</div>
+  <div class="welcome-desc">A personal life dashboard. You are looking at Example Steve's data (yes, that Steve). Set up your own sheet below, or import existing data if you already have it.</div>
   <div class="welcome-options">
     <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
     <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data - import it</button>
@@ -1415,7 +1417,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     </div>
     <div class="grid-2">
       <div>
-        <div class="lbl" style="color:#c83060">◈ Distortions</div>
+        <div class="lbl" style="color:#c83060">◈ Blindspots</div>
         <div class="section-desc">How situations or evidence are being filtered right now</div>
         <div id="air-enemies"></div>
         <div style="margin-top:10px;text-align:right">
@@ -1540,8 +1542,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <!-- Sources + Drains side by side -->
     <div class="grid-2" style="margin-bottom:14px">
       <div>
-        <div class="lbl" style="color:#6040a0">↓ Drains</div>
-        <div class="section-desc">Habits that cost more than they give</div>
+        <div class="lbl" style="color:#6040a0">↓ Temptations</div>
+        <div class="section-desc">Desire-driven patterns that cost more than they give</div>
         <div id="water-drains"></div>
         <div style="margin-top:10px;text-align:right">
           <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#6040a0;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
@@ -1814,7 +1816,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div id="tab-bestiary" class="tab-panel">
   <div class="bt-top-row">
     <div class="qt-section" style="margin-bottom:0">
-      <div class="qt-section-hdr" style="color:#c84040;border-color:rgba(200,64,64,0.3);">Live Enemies</div>
       <div class="section-desc">Negative patterns, ranked by priority. Your main boss is number one.</div>
       <div id="bt-enemies"></div>
     </div>
@@ -1855,9 +1856,29 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
+<button class="float-btn" id="help-btn" onclick="openHelpModal()" title="Help — show welcome &amp; instructions" style="bottom:136px;border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;color:var(--text-dim);">? Help</button>
 <button class="float-btn" id="export-btn" style="bottom:82px;border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;" onclick="exportState()" title="Export — copy to Claude">↓ Export</button>
 <button class="float-btn" id="import-btn" onclick="openModal()" title="Import — paste from Claude" style="border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;">↑ Import</button>
-<script>if(location.hostname.endsWith('github.io')){document.getElementById('export-btn').style.display='none';document.currentScript.previousElementSibling.style.display='none';}</script>
+<script>if(location.hostname.endsWith('github.io')){document.getElementById('export-btn').style.display='none';document.getElementById('import-btn').style.display='none';}</script>
+
+<!-- ══ HELP MODAL ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);max-width:560px;">
+    <div class="modal-title" style="color:var(--gold);">? &nbsp;HELP — CHARACTER SHEET</div>
+    <p>A personal life dashboard styled as an RPG character sheet. Journal with Claude AI, which updates your data — then import it here.</p>
+    <div id="help-setup-steps" style="margin-bottom:14px;">
+      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md.</strong> Claude needs this to understand the data format. <button class="btn-ghost" style="padding:3px 10px;font-size:13px;margin-left:6px;" onclick="downloadInstructions()">Download</button></div></div>
+      <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a Claude Project.</strong> Go to <a href="https://claude.ai" target="_blank" style="color:var(--gold)">claude.ai</a>, click "Projects" in the left sidebar, then "New project".</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Add instructions.md to the project.</strong> Inside your new project, click "Add content" → "Add files" and upload the file.</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>Start a chat</strong> and just start talking. Use the starters in the Journal tab if you want a prompt.</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>At the end of your session,</strong> ask Claude: <em>"Generate my data.json"</em> and copy the output.</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">6</div><div class="welcome-step-text"><strong>Import your data.</strong> Click the <strong>↑ Import button</strong> at the bottom-right, paste the JSON, and click Apply.</div></div>
+    </div>
+    <div class="modal-row">
+      <button class="btn-ghost" onclick="document.getElementById('help-modal').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ SYNC EXPLAINED MODAL ══════════════════════════════ -->
 <div class="modal-overlay" id="sync-modal">
@@ -1933,6 +1954,34 @@ function getAlignment(item){
 let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], empoweringBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{} };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
+let HARDCODED_STATUS_HIST = [
+  {date:"2026-01-05",focus:55,energy:20,purpose:18,interest:68},{date:"2026-01-08",focus:58,energy:18,purpose:15,interest:70},
+  {date:"2026-01-12",focus:60,energy:22,purpose:17,interest:72},{date:"2026-01-15",focus:57,energy:19,purpose:16,interest:69},
+  {date:"2026-01-19",focus:62,energy:24,purpose:19,interest:74},{date:"2026-01-22",focus:65,energy:21,purpose:18,interest:76},
+  {date:"2026-01-26",focus:63,energy:26,purpose:20,interest:73},{date:"2026-01-29",focus:68,energy:23,purpose:22,interest:78},
+  {date:"2026-02-02",focus:66,energy:20,purpose:19,interest:75},{date:"2026-02-05",focus:70,energy:18,purpose:17,interest:80},
+  {date:"2026-02-09",focus:67,energy:25,purpose:21,interest:77},{date:"2026-02-12",focus:72,energy:22,purpose:20,interest:79},
+  {date:"2026-02-16",focus:74,energy:28,purpose:24,interest:81},{date:"2026-02-19",focus:71,energy:24,purpose:23,interest:78},
+  {date:"2026-02-23",focus:75,energy:30,purpose:27,interest:83},{date:"2026-02-26",focus:73,energy:26,purpose:25,interest:80},
+  {date:"2026-03-02",focus:76,energy:32,purpose:28,interest:84},{date:"2026-03-05",focus:78,energy:28,purpose:30,interest:85},
+  {date:"2026-03-09",focus:74,energy:25,purpose:27,interest:82},{date:"2026-03-12",focus:79,energy:33,purpose:31,interest:86},
+  {date:"2026-03-16",focus:80,energy:35,purpose:33,interest:87},{date:"2026-03-19",focus:77,energy:30,purpose:32,interest:84},
+  {date:"2026-03-22",focus:82,energy:38,purpose:35,interest:88},{date:"2026-03-25",focus:80,energy:34,purpose:34,interest:86}
+];
+let HARDCODED_STATS_HIST = [
+  {date:"2026-01-05",rest:20,movement:65,nutrition:55,connection:28},{date:"2026-01-08",rest:18,movement:68,nutrition:52,connection:25},
+  {date:"2026-01-12",rest:22,movement:70,nutrition:57,connection:30},{date:"2026-01-15",rest:19,movement:67,nutrition:54,connection:27},
+  {date:"2026-01-19",rest:24,movement:72,nutrition:59,connection:32},{date:"2026-01-22",rest:21,movement:75,nutrition:61,connection:29},
+  {date:"2026-01-26",rest:25,movement:73,nutrition:63,connection:33},{date:"2026-01-29",rest:22,movement:76,nutrition:65,connection:30},
+  {date:"2026-02-02",rest:20,movement:74,nutrition:62,connection:28},{date:"2026-02-05",rest:18,movement:78,nutrition:64,connection:25},
+  {date:"2026-02-09",rest:23,movement:75,nutrition:66,connection:31},{date:"2026-02-12",rest:21,movement:79,nutrition:68,connection:29},
+  {date:"2026-02-16",rest:26,movement:80,nutrition:70,connection:35},{date:"2026-02-19",rest:24,movement:77,nutrition:67,connection:33},
+  {date:"2026-02-23",rest:28,movement:82,nutrition:71,connection:37},{date:"2026-02-26",rest:25,movement:80,nutrition:69,connection:34},
+  {date:"2026-03-02",rest:30,movement:83,nutrition:72,connection:38},{date:"2026-03-05",rest:27,movement:81,nutrition:70,connection:36},
+  {date:"2026-03-09",rest:25,movement:79,nutrition:68,connection:34},{date:"2026-03-12",rest:32,movement:84,nutrition:73,connection:40},
+  {date:"2026-03-16",rest:35,movement:85,nutrition:75,connection:42},{date:"2026-03-19",rest:30,movement:82,nutrition:72,connection:38},
+  {date:"2026-03-22",rest:38,movement:86,nutrition:76,connection:44},{date:"2026-03-25",rest:34,movement:83,nutrition:74,connection:41}
+];
 
 // ══ SECURITY ════════════════════════════════════════════════
 function esc(str){ const d=document.createElement('div'); d.textContent=str??''; return d.innerHTML; }
@@ -1945,7 +1994,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '0.7.0';
+const INSTRUCTIONS_VERSION = '0.8.0';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -2377,6 +2426,7 @@ function _drawAvgBarsInCanvas(canvasId, avgs, keys, cols){
 function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
+  if(!hist.length && HARDCODED_STATS_HIST.length && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
   const keys=['rest','movement','nutrition','connection'];
   const cols=STAT_COLORS;
   const last7=hist.slice(-7);
@@ -2917,7 +2967,7 @@ function addEnemy(){
   if(!appState.bestiary) appState.bestiary={};
   if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
   const maxP=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.bestiary.currentEnemies.push({name:'',desc:'',trigger:'',type:'distortion',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
+  appState.bestiary.currentEnemies.push({name:'',desc:'',trigger:'',type:'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
   saveState(appState); markDirty(); renderBestiaryTab(appState);
 }
 function addGraveyard(){
@@ -2937,63 +2987,70 @@ function renderBestiaryTab(s){
   if(enemiesEl){
     enemiesEl.innerHTML='';
     const TYPES={
-      distortion: {icon:'◈', label:'Distortion',     cls:'ett-distortion', nameColor:'#c83060', rgb:'200,48,96'},
+      blindspot:  {icon:'◈', label:'Blindspot',      cls:'ett-blindspot',  nameColor:'#c83060', rgb:'200,48,96'},
       compulsion: {icon:'⚡', label:'Compulsion',     cls:'ett-compulsion', nameColor:'#c83030', rgb:'200,48,48'},
-      belief:     {icon:'⬡', label:'Limiting Belief', cls:'ett-belief',    nameColor:'#8b5e3c', rgb:'139,94,60'},
-      drain:      {icon:'↓', label:'Drain',           cls:'ett-drain',     nameColor:'#6040a0', rgb:'96,64,160'},
+      belief:     {icon:'⬡', label:'Limiting belief',   cls:'ett-belief',    nameColor:'#8b5e3c', rgb:'139,94,60'},
+      temptation: {icon:'↓', label:'Temptation',      cls:'ett-temptation',nameColor:'#6040a0', rgb:'96,64,160'},
+      // legacy aliases
+      distortion: {icon:'◈', label:'Blindspot',      cls:'ett-blindspot',  nameColor:'#c83060', rgb:'200,48,96'},
+      drain:      {icon:'↓', label:'Temptation',      cls:'ett-temptation',nameColor:'#6040a0', rgb:'96,64,160'},
     };
     const DEFAULT_TC={icon:'☠', label:'Enemy', cls:'ett-enemy', nameColor:'#c84040', rgb:'200,64,64'};
-    // Boss injected at priority 0 so it sorts first
-    const boss=bestiary.boss;
-    const fromBoss=boss&&boss.name ? [{...boss, priority:0, _srcType:'boss'}] : [];
-    const fromBestiary=(bestiary.currentEnemies||[]).map((e,i)=>({...e, _srcType:'bestiary', _idx:i}));
-    const fromBeliefs=(s.limitingBeliefs||[]).map((b,i)=>({
-      name:b.title, desc:(b.belief?b.belief+'\n':'')+(b.desc||''),
-      shortTermBenefit:b.shortTermBenefit||'', origin:b.origin||'', hp:b.hp,
-      priority:b.priority, type:'belief', _srcType:'belief', _idx:i
-    }));
-    const all=[...fromBoss,...fromBestiary,...fromBeliefs];
-    all.sort((a,b)=>{
-      const pa=typeof a.priority==='number'?a.priority:9999;
-      const pb=typeof b.priority==='number'?b.priority:9999;
-      return pa-pb;
-    });
-    if(!all.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No patterns recorded yet.'; enemiesEl.appendChild(p); }
-    else {
-      all.forEach((e,ci)=>{
-        const tc=TYPES[e.type]||DEFAULT_TC;
-        const bodyId=`be-body-${ci}`,arrowId=`be-arrow-${ci}`;
-        if(e._srcType==='boss'){
-          const bossHdr=document.createElement('div'); bossHdr.className='qt-section-hdr no-prefix'; bossHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:10px;'; bossHdr.textContent='☠ Main Boss';
-          const bossDesc=document.createElement('div'); bossDesc.className='section-desc'; bossDesc.style.marginBottom='10px'; bossDesc.textContent='Your primary antagonist';
-          enemiesEl.appendChild(bossHdr); enemiesEl.appendChild(bossDesc);
-        } else if(ci>0 && all[ci-1]._srcType==='boss'){
-          const restHdr=document.createElement('div'); restHdr.className='qt-section-hdr no-prefix'; restHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-top:24px;margin-bottom:10px;'; restHdr.textContent='◈ Other Enemies';
-          enemiesEl.appendChild(restHdr);
-        }
-        const d=document.createElement('div'); d.className='enemy-card';
-        d.style.borderColor=`rgba(${tc.rgb},0.22)`;
-        d.dataset.srcType=e._srcType||''; d.dataset.srcIdx=String(e._idx??'');
-        const head=document.createElement('div'); head.className='enemy-card-head';
-        head.style.background=`rgba(${tc.rgb},0.04)`;
-        head.addEventListener('mouseenter',()=>{ head.style.background=`rgba(${tc.rgb},0.08)`; });
-        head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${tc.rgb},0.04)`; });
+    const TYPE_TOOLTIPS={
+      blindspot: 'Blindspot (Air) - a perception-level misread; how evidence is filtered before a conscious choice is made',
+      compulsion: 'Compulsion (Fire) - an action-level pattern driven by urgency or avoidance; pulled toward doing something',
+      temptation: 'Temptation (Water) - a desire-level pull toward something that costs more than it gives; want-driven rather than fear-driven',
+      belief: 'Belief (Earth) - a false or limiting story treated as true, driving behaviour from below',
+    };
+
+    // Helper: render a single enemy card
+    function renderEnemyCard(e, ci, isBossSubEnemy){
+      const isBoss=e._srcType==='boss';
+      const tc=TYPES[e.type]||DEFAULT_TC;
+      const bodyId=`be-body-${ci}`,arrowId=`be-arrow-${ci}`;
+      const d=document.createElement('div'); d.className='enemy-card';
+      const borderRgb=isBoss?'200,64,64':tc.rgb;
+      d.style.borderColor=`rgba(${borderRgb},0.22)`;
+      if(isBossSubEnemy) d.style.cssText+=';margin-left:18px;border-left-width:2px;opacity:0.88;';
+      d.dataset.srcType=e._srcType||''; d.dataset.srcIdx=String(e._idx??'');
+      const head=document.createElement('div'); head.className='enemy-card-head';
+      head.style.background=`rgba(${borderRgb},0.04)`;
+      head.addEventListener('mouseenter',()=>{ head.style.background=`rgba(${borderRgb},0.08)`; });
+      head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${borderRgb},0.04)`; });
+      if(!isBossSubEnemy && !isBoss){
         const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
         rankBadge.textContent=ci+1;
         head.appendChild(rankBadge);
-        const nameEl=document.createElement('div');
-        nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';';
-        nameEl.textContent=e.name||'—';
-        const tag=document.createElement('span'); tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
-        const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
-        const hp=typeof e.hp==='number'?e.hp:100;
-        const hpWrap=document.createElement('div'); hpWrap.className='hp-bar-wrap';
-        const hpFill=document.createElement('div'); hpFill.className='hp-bar-fill';
-        hpFill.style.cssText=`width:${hp}%;background:${hpColor(hp)};`;
-        hpWrap.appendChild(hpFill);
-        head.appendChild(nameEl); head.appendChild(tag); head.appendChild(hpWrap);
-        if(e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
-        head.appendChild(arrowEl);
+      }
+      const nameEl=document.createElement('div');
+      const nameColor=isBoss?'#c84040':tc.nameColor;
+      nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:'+(isBossSubEnemy?'14':'16')+'px;font-weight:600;color:'+nameColor+';';
+      nameEl.textContent=e.name||'—';
+      // Boss gets a "Boss" tag; others get element type tag
+      const tag=document.createElement('span');
+      if(isBoss){
+        tag.className='enemy-type-tag'; tag.style.cssText='background:rgba(200,64,64,0.12);color:#c84040;border-color:rgba(200,64,64,0.3);'; tag.textContent='☠ Boss';
+      } else {
+        tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
+        const tooltip=TYPE_TOOLTIPS[e.type]||TYPE_TOOLTIPS[e.type==='distortion'?'blindspot':e.type==='drain'?'temptation':e.type];
+        if(tooltip) tag.title=tooltip;
+      }
+      const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
+      const hp=typeof e.hp==='number'?e.hp:100;
+      const hpWrap=document.createElement('div'); hpWrap.className='hp-bar-wrap';
+      const hpFill=document.createElement('div'); hpFill.className='hp-bar-fill';
+      hpFill.style.cssText=`width:${hp}%;background:${hpColor(hp)};`;
+      hpWrap.appendChild(hpFill);
+      head.appendChild(nameEl); head.appendChild(tag); head.appendChild(hpWrap);
+      if(e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
+      head.appendChild(arrowEl);
+      if(isBossSubEnemy){
+        // Minions: uncollapsed by default, show desc
+        head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
+        const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
+        if(e.desc){ const descEl=document.createElement('div'); descEl.className='enemy-card-desc'; descEl.textContent=e.desc; body.appendChild(descEl); }
+        d.appendChild(head); d.appendChild(body);
+      } else {
         head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
         const descEl=document.createElement('div'); descEl.className='enemy-card-desc';
@@ -3035,21 +3092,63 @@ function renderBestiaryTab(s){
             row.appendChild(num); row.appendChild(vBody); body.appendChild(row);
           });
         }
-        d.appendChild(head); d.appendChild(body); enemiesEl.appendChild(d);
+        d.appendChild(head); d.appendChild(body);
+      }
+      return d;
+    }
+
+    // Render bosses section
+    const bosses=(bestiary.bosses||[]).filter(b=>b&&b.name);
+    // Legacy: support single bestiary.boss
+    if(!bosses.length && bestiary.boss && bestiary.boss.name) bosses.push(bestiary.boss);
+    if(bosses.length){
+      const bossSecHdr=document.createElement('div'); bossSecHdr.className='qt-section-hdr no-prefix'; bossSecHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:10px;'; bossSecHdr.textContent='☠ Bosses';
+      enemiesEl.appendChild(bossSecHdr);
+      bosses.forEach((boss,bi)=>{
+        const bossCard=renderEnemyCard({...boss, _srcType:'boss', _idx:bi}, bi, false);
+        enemiesEl.appendChild(bossCard);
+        // Sub-enemies
+        const subs=(boss.subEnemies||[]);
+        if(subs.length){
+          const subHdr=document.createElement('div'); subHdr.style.cssText='font-family:"Cinzel",serif;font-size:12px;letter-spacing:0.18em;color:rgba(200,64,64,0.45);text-transform:uppercase;margin:10px 0 6px 20px;'; subHdr.textContent='Minions';
+          enemiesEl.appendChild(subHdr);
+          subs.forEach((sub,si)=>{
+            const subCard=renderEnemyCard({...sub, _srcType:'boss-sub', _bossIdx:bi, _idx:si}, bi*100+si+1000, true);
+            enemiesEl.appendChild(subCard);
+          });
+        }
+      });
+    }
+
+    // Other enemies
+    const fromBestiary=(bestiary.currentEnemies||[]).map((e,i)=>({...e, _srcType:'bestiary', _idx:i}));
+    const fromBeliefs=(s.limitingBeliefs||[]).map((b,i)=>({
+      name:b.title, desc:(b.belief?b.belief+'\n':'')+(b.desc||''),
+      shortTermBenefit:b.shortTermBenefit||'', origin:b.origin||'', hp:b.hp,
+      priority:b.priority, type:'belief', _srcType:'belief', _idx:i
+    }));
+    const all=[...fromBestiary,...fromBeliefs];
+    all.sort((a,b)=>{
+      const pa=typeof a.priority==='number'?a.priority:9999;
+      const pb=typeof b.priority==='number'?b.priority:9999;
+      return pa-pb;
+    });
+    if(!all.length && !bosses.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No patterns recorded yet.'; enemiesEl.appendChild(p); }
+    else if(all.length) {
+      const restHdr=document.createElement('div'); restHdr.className='qt-section-hdr no-prefix'; restHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-top:24px;margin-bottom:10px;'; restHdr.textContent='◈ Enemies';
+      enemiesEl.appendChild(restHdr);
+      all.forEach((e,ci)=>{
+        enemiesEl.appendChild(renderEnemyCard(e, ci, false));
       });
     }
     const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Enemy'; addBtn.onclick=addEnemy;
     enemiesEl.appendChild(addBtn);
-    // Capture sorted order for drag callbacks
-    const sortedAll=all.slice();
+    // Drag to reorder other enemies only (bosses stay fixed)
     makeSortable(enemiesEl, (from, to) => {
-      reorderArray(sortedAll, from, to);
-      // Write sequential priorities back to source objects
-      const bossObj=appState.bestiary&&appState.bestiary.boss&&appState.bestiary.boss.name ? appState.bestiary.boss : null;
-      sortedAll.forEach((item, idx)=>{
-        const newPri=idx;
-        if(item._srcType==='boss'&&bossObj){ bossObj.priority=newPri; }
-        else if(item._srcType==='bestiary'){ const en=(appState.bestiary.currentEnemies||[])[item._idx]; if(en) en.priority=newPri; }
+      reorderArray(all, from, to);
+      all.forEach((item, idx)=>{
+        const newPri=idx+1;
+        if(item._srcType==='bestiary'){ const en=(appState.bestiary.currentEnemies||[])[item._idx]; if(en) en.priority=newPri; }
         else if(item._srcType==='belief'){ const bl=(appState.limitingBeliefs||[])[item._idx]; if(bl) bl.priority=newPri; }
       });
       saveState(appState); markDirty(); renderBestiaryTab(appState);
@@ -3091,22 +3190,29 @@ function renderBestiaryTab(s){
   // Type pie chart for enemies
   {
     const TYPES_BT={
-      distortion: {label:'Distortion',     colour:'#c83060'},
+      blindspot:   {label:'Blindspot',      colour:'#c83060'},
       compulsion:  {label:'Compulsion',     colour:'#c83030'},
-      belief:      {label:'Limiting Belief',colour:'#8b5e3c'},
-      drain:       {label:'Drain',          colour:'#6040a0'},
+      belief:      {label:'Limiting belief', colour:'#8b5e3c'},
+      temptation:  {label:'Temptation',     colour:'#6040a0'},
+      // legacy aliases
+      distortion:  {label:'Blindspot',      colour:'#c83060'},
+      drain:       {label:'Temptation',     colour:'#6040a0'},
     };
     const counts={};
-    const bossEntry=bestiary.boss&&bestiary.boss.name?[bestiary.boss]:[];
-    [...bossEntry,...(bestiary.currentEnemies||[]),...(s.limitingBeliefs||[]).map(b=>({...b,type:'belief'}))].forEach(e=>{
-      const t=e.type||'other';
+    const bossEntries=(bestiary.bosses||[]).filter(b=>b&&b.name);
+    if(!bossEntries.length && bestiary.boss && bestiary.boss.name) bossEntries.push(bestiary.boss);
+    bossEntries.forEach(()=>{ counts['boss']=(counts['boss']||0)+1; });
+    [...(bestiary.currentEnemies||[]),...(s.limitingBeliefs||[]).map(b=>({...b,type:'belief'}))].forEach(e=>{
+      const t=e.type||'blindspot';
       counts[t]=(counts[t]||0)+1;
     });
+    const TYPES_BT_BOSS={boss:{label:'Boss',colour:'#c84040'}};
+    const allTypeDefs={...TYPES_BT_BOSS,...TYPES_BT};
     const entries=Object.entries(counts).map(([t,count],i)=>({
-      label: (TYPES_BT[t]||{label:t}).label,
+      label: (allTypeDefs[t]||{label:t}).label,
       count,
-      colour: (TYPES_BT[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour
-    }));
+      colour: (allTypeDefs[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour
+    })).sort((a,b)=>b.count-a.count);
     renderTypePie('bt-pie-chart','bt-pie-legend',entries);
   }
 
@@ -3325,7 +3431,7 @@ function addDrainToBestiary(){
   if(!appState.bestiary) appState.bestiary={};
   if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
   const maxP=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.bestiary.currentEnemies.push({name:'',desc:'',type:'drain',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
+  appState.bestiary.currentEnemies.push({name:'',desc:'',type:'temptation',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
   saveState(appState); markDirty(); renderBestiaryTab(appState);
 }
 
@@ -3473,9 +3579,9 @@ function render(s){
 
   // Air — distortions only (syncs to Enemies tab)
   const curEnemies=(s.bestiary||{}).currentEnemies||[];
-  const airDistortions=curEnemies.filter(e=>!e.type||e.type==='distortion');
+  const airDistortions=curEnemies.filter(e=>!e.type||e.type==='blindspot'||e.type==='distortion');
   const eEl=document.getElementById('air-enemies'); if(eEl){ eEl.innerHTML='';
-    if(!airDistortions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No distortions recorded yet.'; eEl.appendChild(p); }
+    if(!airDistortions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No blindspots recorded yet.'; eEl.appendChild(p); }
     airDistortions.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(200,48,96,0.05);border:1px solid rgba(200,48,96,0.2);border-left:3px solid #c83060;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
@@ -3595,8 +3701,8 @@ function render(s){
 
   // Water — drains (teal drain styling)
   const drEl=document.getElementById('water-drains'); if(drEl){ drEl.innerHTML='';
-    const waterDrains=((s.bestiary||{}).currentEnemies||[]).filter(e=>e.type==='drain');
-    if(!waterDrains.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No drains recorded yet.'; drEl.appendChild(p); }
+    const waterDrains=((s.bestiary||{}).currentEnemies||[]).filter(e=>e.type==='temptation'||e.type==='drain');
+    if(!waterDrains.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No temptations recorded yet.'; drEl.appendChild(p); }
     waterDrains.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(96,64,160,0.05);border:1px solid rgba(96,64,160,0.2);border-left:3px solid #6040a0;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
@@ -3963,7 +4069,7 @@ function copyExport(){
 function downloadInstructions(){
   const content = `# character-sheet — Instructions for Claude
 
-version: 0.7.0
+version: 0.8.0
 
 This file lives permanently in your Claude project knowledge. It defines the data format and tells Claude how to behave as a journalling companion.
 
@@ -4000,12 +4106,12 @@ This file lives permanently in your Claude project knowledge. It defines the dat
   - Journal entry bullets (\`events\`, \`insights\`, \`tensions\`): max 15 words each
 
 ## Required output fields
-- Always include \`"_instructionsVersion": "0.7.0"\` at the root of every JSON output (full or partial).
+- Always include \`"_instructionsVersion": "0.8.0"\` at the root of every JSON output (full or partial).
 
 ## Partial updates
 At the end of a session, you can output either a full \`data.json\` or a **partial update** containing only the top-level keys that changed. Partial updates are smaller and cheaper. To output a partial update, include only the changed keys plus \`"_partial": true\` at the root. Always include \`_instructionsVersion\`. Example:
 \`\`\`json
-{ "_partial": true, "_instructionsVersion": "0.7.0", "xp": 450, "insights": [...], "bestiary": {...} }
+{ "_partial": true, "_instructionsVersion": "0.8.0", "xp": 450, "insights": [...], "bestiary": {...} }
 \`\`\`
 
 ## Fields NOT to output
@@ -4166,9 +4272,9 @@ Patterns, beliefs, habits, and reflexes that work against the user. Use \`desc\`
 
 **\`type\`**:
 - \`"belief"\` (Earth) - false/unhelpful stories driving behaviour
-- \`"drain"\` (Water) - habitual behaviours costing more than they give
+- \`"temptation"\` or \`"drain"\` (Water) - desire-driven pull or habitual behaviour costing more than it gives; both render identically
 - \`"compulsion"\` (Fire) - action-level patterns driven by urgency or avoidance
-- \`"distortion"\` (Air) - perception-level misreads, how evidence is filtered
+- \`"blindspot"\` (Air) - perception-level misreads, how evidence is filtered
 
 **\`priority\`** — unique integer across ALL enemies and limitingBeliefs combined (1 = most pressing). No two entries share the same number.
 
@@ -4182,19 +4288,28 @@ hp reduces only when:
 
 hp does NOT reduce for: naming, understanding, or intending to change.
 
+**Boss structure:** \`bosses\` is an array (multiple bosses supported). Bosses do not have a \`type\` field. Each boss has \`shortTermBenefit\` and \`origin\`, plus \`subEnemies\` — entries with \`name\`, \`type\`, \`hp\`, and optional \`desc\`. Sub-enemies are fast-moving patterns that derive from the boss. When defeated, move to graveyard.
+
+**\`currentEnemies\`** — true cross-cutting patterns that do not belong under any single boss. Keep lean; most patterns should live as boss subEnemies.
+
 **Boss \`vulnerabilities\`** — exactly 3 entries. Specific, actionable cracks — concrete recognisable moments the pattern can be interrupted. Not abstract virtues.
 
 \`\`\`json
 "bestiary": {
-  "boss": {
+  "bosses": [{
     "name": "THE APPROVAL ENGINE", "desc": "...", "whyBoss": "Every other enemy is a sub-routine of this one.", "hp": 85,
+    "shortTermBenefit": "Rejection is rare. Social surfaces stay smooth.",
+    "origin": "Reactions were unpredictable early on.",
     "vulnerabilities": [
       { "title": "Named in real time", "desc": "Loses grip the moment it is spotted mid-action, not just analysed after." },
       { "title": "Clean fuel present", "desc": "When working from genuine desire rather than fear, the Engine has nothing to attach to." },
       { "title": "Resentment allowed to land", "desc": "Holding the feeling for one minute before dissolving it starves the Engine." }
+    ],
+    "subEnemies": [
+      { "name": "BEST CASE PROJECTION", "type": "compulsion", "hp": 75, "desc": "Presents the optimistic version to manage how others perceive you." }
     ]
-  },
-  "currentEnemies": [{ "name": "THE APPROVAL LOOP", "desc": "...", "type": "distortion", "trigger": "Sharing work", "shortTermBenefit": "Prevents rejection.", "origin": "Reactions were unpredictable early on.", "hp": 70, "priority": 1 }],
+  }],
+  "currentEnemies": [{ "name": "PRODUCTIVE AVOIDANCE", "desc": "...", "type": "compulsion", "trigger": "Emotional discomfort", "shortTermBenefit": "Avoidance feels like progress.", "origin": "Unknown.", "hp": 70, "priority": 1 }],
   "graveyard": [{ "name": "SUNDAY DREAD", "defeatedDate": "Jan 2026", "howDefeated": "Left the job. Pattern had nowhere left to live." }]
 }
 \`\`\`
@@ -4700,8 +4815,8 @@ function renderPractices(s) {
     card.className = 'practice-card' + (act.priority === 1 ? ' priority-1' : '');
 
     // Header
-    const typeLabel = { timer:'TIMER', checkbox:'CHECK', number:'NUMBER' }[act.type] || act.type.toUpperCase();
-    const periodLabel = act.resetPeriod.toUpperCase();
+    const typeLabel = { timer:'TIMER', checkbox:'CHECK', number:'NUMBER' }[act.type] || (act.type ? act.type.toUpperCase() : '');
+    const periodLabel = act.resetPeriod ? act.resetPeriod.toUpperCase() : '';
     const hdr = document.createElement('div'); hdr.className = 'practice-card-hdr';
     hdr.innerHTML = `<span>${esc(act.name)}</span><span class="practice-type-badge">${typeLabel}</span><span class="practice-period-badge">${periodLabel}</span>`;
     card.appendChild(hdr);
@@ -5240,6 +5355,7 @@ function saveStatusSnapshot() {
 function renderStatusHistoryChart() {
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
+  if (!hist.length && HARDCODED_STATUS_HIST.length && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
   const keys = ['focus','energy','purpose','interest'];
   const cols = STATUS_COLORS;
   const last7 = hist.slice(-7);
@@ -5321,6 +5437,15 @@ function dismissWelcome(){
   const el = document.getElementById('welcome-banner');
   if(el) el.style.display = 'none';
   localStorage.setItem(WELCOMED_KEY, '1');
+}
+
+function openHelpModal(){
+  document.getElementById('help-modal').classList.add('open');
+}
+
+function showWelcome(){
+  const el = document.getElementById('welcome-banner');
+  if(el){ el.style.display = 'block'; el.scrollIntoView({behavior:'smooth',block:'start'}); }
 }
 
 function toggleWelcomeSetup(){
@@ -5489,7 +5614,7 @@ function _init(){
 
 // Steve demo data is inlined — works on file:// and github.io alike.
 (function(){
-  const data = {"_instructionsVersion":"0.7.0","name":"Example Steve","subtitle":"Demo character - not real data","level":4,"xp":500,"xpToNext":1000,"keyQuestion":"What would I do if I knew I couldn't fail?","claudeRead":"In a real transitional moment - career search is live now, not theoretical. Side project session showed the right direction produces a different kind of engagement. Main risk: financial pressure shortens the search before the right thing lands. THE INNER CRITIC is active but being noticed faster. Rest is the most significant unmet need.","progressionTimeline":"Started the year stuck in a job that paid the bills but cost something harder to name. Quit smoking cold turkey in January. Began clearing the flat - and something else too. By March the career search is live and the side project has had its first real session. The Inner Critic is louder than ever, which means it's being threatened.","allies":[{"name":"Jordan","desc":"Best friend since university. Calls me out gently and shows up consistently.","why":"Knows the full version - the messy bits included."},{"name":"Dog","desc":"Unconditional support. Not always the most talkative, but always in my corner.","why":"No performance required. Just presence."}],"mainQuest":{"title":"Build a Career I Actually Care About","description":"Move from work that pays the bills to work that uses real strengths and feels worth getting up for.","whyItMatters":"More waking hours at work than anywhere else. If it's hollow, everything else feels thin too.","doneWhen":"Earning a sustainable income doing work I'd choose even if I didn't need the money.","nextSteps":[{"text":"Identify three roles that match strengths and write down why each one excites me","doneWhen":"Written, not just thought about"},{"text":"Have one honest conversation with someone already doing work I admire","doneWhen":"Coffee or call booked"},{"text":"Spend two hours this week on a side project that feels genuinely mine","doneWhen":"Two uninterrupted hours, no half-measures"}],"xpReward":500,"progress":15},"sliderValues":{"air":55,"fire":40,"water":48,"earth":52},"harmonyHistory":[{"date":"2026-01-05","air":28,"fire":18,"water":35,"earth":40,"harmony":48},{"date":"2026-01-12","air":30,"fire":20,"water":36,"earth":42,"harmony":52},{"date":"2026-01-20","air":33,"fire":22,"water":38,"earth":44,"harmony":55},{"date":"2026-01-28","air":36,"fire":24,"water":40,"earth":46,"harmony":58},{"date":"2026-02-05","air":32,"fire":19,"water":37,"earth":43,"harmony":51},{"date":"2026-02-12","air":30,"fire":16,"water":34,"earth":41,"harmony":46},{"date":"2026-02-19","air":34,"fire":22,"water":39,"earth":45,"harmony":54},{"date":"2026-02-26","air":38,"fire":26,"water":41,"earth":47,"harmony":59},{"date":"2026-03-05","air":42,"fire":30,"water":44,"earth":49,"harmony":63},{"date":"2026-03-12","air":46,"fire":34,"water":45,"earth":50,"harmony":66},{"date":"2026-03-19","air":50,"fire":37,"water":46,"earth":51,"harmony":68},{"date":"2026-03-25","air":55,"fire":40,"water":48,"earth":52,"harmony":70}],"sliderXpRewards":{"air":[null,100,200,350,500],"fire":[null,150,300,500,750],"water":[null,100,220,380,550],"earth":[null,120,260,440,650]},"sliderLabels":{"air":"More aware than acting - noticing patterns without changing them yet","fire":"Motivation patchy - flickers of purpose but mostly running on obligation","water":"Some aliveness - running and cooking reliable, rest of week flat","earth":"Reasonably grounded - self-criticism present but not dominating"},"limitingBeliefs":[{"title":"THE IMPOSTER","belief":"\"I'm not smart or talented enough to do the work I actually want to do.\"","desc":"Shows up when applying for jobs or sharing creative work. Reframes learning curves as proof of incompetence.","shortTermBenefit":"Keeps ambition modest and therefore safe from the humiliation of public failure.","origin":"Environments where being found out felt like the primary risk - performance over presence.","hp":75,"priority":7},{"title":"THE PERFECTIONIST","belief":"\"If I can't do it perfectly, there's no point starting.\"","desc":"Main engine of procrastination. Creates an impossible standard that ensures nothing ships.","shortTermBenefit":"The unstarted thing can always be imagined as good. Completion would make the gap visible.","origin":"Likely formed where only exceptional output was noticed - average effort was invisible.","hp":70,"priority":8},{"title":"THE PESSIMIST","belief":"\"Things rarely work out for me the way they do for other people.\"","desc":"Selective memory that catalogues failures and dismisses wins as luck or exception.","shortTermBenefit":"Low expectations mean surprises are pleasant rather than painful. Feels like protection.","origin":"Unknown - possibly reinforced by a period where several things went wrong in close succession.","hp":60,"priority":9}],"empoweringBeliefs":[{"title":"THE PROBLEM SOLVER","belief":"\"I can figure out hard things if I stay in the room long enough.\"","desc":"Track record of working through ambiguous problems is real."},{"title":"THE LONG GAME","belief":"\"Slow progress in the right direction beats fast progress in the wrong one.\"","desc":"Useful counter to urgency and comparison."},{"title":"THE BODY KNOWS","belief":"\"The aliveness I feel when working on the right thing is data, not coincidence.\"","desc":"The qualitative difference between the side project and the day job is the clearest signal available."}],"skills":[{"name":"Set Boundaries","mastery":1,"priority":1,"xpReward":80,"description":"Say no without over-explaining.","whyItMatters":"Without this, time and energy get consumed by everyone else's agenda."},{"name":"Ask For Help","mastery":1,"priority":2,"xpReward":80,"description":"Reach out before stuck, not after.","whyItMatters":"How fast progress actually happens."},{"name":"Stay Consistent","mastery":2,"priority":3,"xpReward":80,"description":"Show up even when motivation is absent.","whyItMatters":"Running, reading, side project all depend on this."},{"name":"Say No","mastery":1,"priority":4,"xpReward":80,"description":"Decline obligations that conflict with priorities.","whyItMatters":"Every yes to the wrong thing is a no to something that matters."},{"name":"Problem Solving","mastery":4,"priority":1,"xpReward":200,"description":"Break ambiguous problems into workable paths.","whyItMatters":"The capability that earns trust fastest."},{"name":"Written Communication","mastery":3,"priority":2,"xpReward":150,"description":"Express ideas clearly without over-engineering.","whyItMatters":"In async work, writing is the primary signal of competence."},{"name":"Empathy","mastery":4,"priority":3,"xpReward":150,"description":"Read what someone needs beneath what they say.","whyItMatters":"Foundation of good collaboration."}],"sideQuests":[{"title":"Start Running","priority":1,"progress":40,"description":"Build a running habit from scratch.","whyItMatters":"Physical health is the foundation everything else is built on.","nextStep":"Run three times this week - no distance requirement, just show up","xpReward":150},{"title":"Build the Portfolio","priority":2,"progress":25,"description":"Create proof of work for the career shift.","whyItMatters":"The career shift needs proof of work, not just intent.","nextStep":"Publish two case studies by end of March","xpReward":200},{"title":"Read 12 Books This Year","priority":3,"progress":33,"description":"One book per month, any genre.","whyItMatters":"Deep reading slows me down usefully and generates ideas I couldn't alone.","nextStep":"Finish the current book before starting anything else","xpReward":150},{"title":"Declutter Home","priority":4,"progress":75,"description":"Clear the whole flat, room by room.","whyItMatters":"Environment shapes thinking.","nextStep":"Clear the spare room - last section, been sitting for a month","xpReward":100},{"title":"Learn Spanish","priority":5,"progress":20,"description":"Conversational Spanish over 12 months.","whyItMatters":"Opens travel, connects with family heritage, and is genuinely just for me.","nextStep":"Complete one Duolingo lesson every day for two weeks straight","xpReward":200}],"completedQuests":[{"title":"Quit Smoking","completedDate":"Jan 2026","xpEarned":300,"howResolved":"Cold turkey after a chest infection made the cost undeniable. Three months clean."}],"drains":[{"name":"Late-night scrolling","desc":"Reliably ends with feeling worse. Eats into sleep."},{"name":"Saying yes to avoid discomfort","desc":"Fills the calendar with obligations that don't align with priorities."},{"name":"Skipping the gym when stressed","desc":"The moment it would help most is exactly when it gets cut."}],"flowSources":[{"name":"Running","desc":"First 10 minutes are hard, then the thinking quiets down."},{"name":"Cooking","desc":"Hands busy, mind relaxed. Reliably restorative."},{"name":"Music","desc":"Playing guitar alone - no audience, no performance."},{"name":"Time with family","desc":"Sunday dinners where nothing is at stake."},{"name":"Reading","desc":"Long-form nonfiction, late at night."}],"needs":[{"name":"Connection","threat":"amber","alignment":45,"desc":"Genuine closeness with people who know the real version. Good with a few, absent with most."},{"name":"Rest","threat":"red","alignment":30,"desc":"Recovery time not immediately colonised by guilt or a to-do list. Significant deficit."},{"name":"Autonomy","threat":"none","alignment":60,"desc":"Control over how time and energy are spent. Better than it was."},{"name":"Recognition","threat":"amber","alignment":40,"desc":"Feeling that effort and contribution are seen. Work environment is neutral at best."}],"values":[{"name":"Authenticity","threat":"amber","alignment":45,"desc":"Living in line with what I actually think and feel, not what looks right from the outside."},{"name":"Family","threat":"none","alignment":70,"desc":"Being present and reliable for the people who matter most."},{"name":"Health","threat":"amber","alignment":55,"desc":"Physical and mental wellbeing as a non-negotiable foundation."},{"name":"Growth","threat":"none","alignment":65,"desc":"Getting better at things that matter."},{"name":"Financial Security","threat":"amber","alignment":50,"desc":"Enough stability to make genuine choices - freedom from scarcity anxiety."}],"insights":[{"name":"The Career Turn","entries":[{"date":"22 March 2026","title":"Two Hours That Felt Like Mine","events":["Blocked out Saturday morning for the side project - phone in another room","Two uninterrupted hours on the portfolio site for the first time"],"insights":["The two hours felt different - less like performance, more like contact with something real","PROCRASTINATION didn't fire once - a specific small task made the difference"],"tensions":["Whether the side project is the actual direction or just a way of feeling busy without risking the real thing"]},{"date":"15 March 2026","title":"The Coffee That Changed the Frame","events":["Met Priya for coffee - she made the career switch two years ago"],"insights":["SELF-DOUBT reframed Priya's question as a test I was about to fail - I noticed it this time"],"tensions":["Financial pressure is shortening the timeline in ways that might distort the search"]}]},{"name":"Clearing the Ground","entries":[{"date":"14 February 2026","title":"Three Months Clean","events":["Three months without a cigarette - marked it quietly, told Jordan"],"insights":["Staying stopped required a quiet decision to stop negotiating with the habit"],"tensions":["Rest is still a deficit - evenings feel productive but not restorative"]}]}],"bestiary":{"boss":{"name":"THE INNER CRITIC","desc":"The central voice that frames every setback as evidence of fundamental inadequacy. Feels like a fair assessment. It isn't.","whyBoss":"Every other enemy is this one in disguise - Procrastination is the Critic saying you'll fail, Self-Doubt is the Critic questioning your worth, the Comparison Trap is the Critic finding external evidence.","hp":80,"vulnerabilities":[{"title":"Named in real time","desc":"The Critic loses power the moment it is caught mid-action. Each live catch weakens its automaticity - labelling it out loud is enough to create distance."},{"title":"Evidence on the table","desc":"The Critic thrives on selective memory. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data."},{"title":"Starting before ready","desc":"The Critic's main lever is the gap before beginning. Starting small - one sentence, one minute - collapses the gap before the Critic can fill it."}]},"currentEnemies":[{"name":"PROCRASTINATION","desc":"Kicks in whenever a task feels ambiguous or high-stakes. Masquerades as preparation - rearranging the desk instead of opening the document.","type":"compulsion","trigger":"Ambiguous or important tasks with no clear first step","shortTermBenefit":"Protects against the pain of trying and failing. Feels like caution.","origin":"Likely formed around high-stakes performance where effort without success felt worse than not trying.","hp":75,"priority":1},{"name":"SELF-DOUBT","desc":"Quiet voice that says others are better qualified. Speaks in first person so it sounds like truth, not like a pattern.","type":"distortion","trigger":"Attempting something new or visible","shortTermBenefit":"Keeps expectations low so disappointment hurts less. Feels like realism.","origin":"Unknown - may relate to environments where confidence was penalised or not modelled.","hp":70,"priority":2},{"name":"COMPARISON TRAP","desc":"Measuring a messy middle against others' curated highlight reel. Activates fast and feels like useful calibration.","type":"distortion","trigger":"Social media, professional updates, seeing peers succeed","shortTermBenefit":"Creates temporary direction - if others succeeded this way, the path must be real.","origin":"Unknown - the conditions that made external benchmarks feel necessary are not yet clear.","hp":65,"priority":3},{"name":"LATE-NIGHT SCROLLING","desc":"Reliably ends with feeling worse than when it started. Eats into sleep and leaves the next morning already in deficit.","type":"drain","trigger":"Evening wind-down, especially after a difficult day","shortTermBenefit":"Decompression that asks nothing. Feels like rest without the vulnerability of actually stopping.","origin":"Avoidance of the quiet - where unprocessed thoughts from the day tend to surface.","hp":85,"priority":4},{"name":"OBLIGATION YES","desc":"Agreeing to things to avoid the discomfort of declining. Fills the calendar with work that doesn't align with priorities.","type":"compulsion","trigger":"Any request that feels like it expects a yes","shortTermBenefit":"Avoids conflict and the guilt of disappointing someone. Feels like being a good person.","origin":"Unknown - likely formed where keeping others comfortable felt safer than asserting preference.","hp":90,"priority":5},{"name":"GYM SKIP WHEN STRESSED","desc":"Cutting the one thing that would most help in the moments of highest stress. Always justified in the moment.","type":"drain","trigger":"High workload, low energy, feeling behind","shortTermBenefit":"Creates the illusion of more time. Feels like a sensible trade-off.","origin":"The Inner Critic framing movement as optional when performance is on the line.","hp":80,"priority":6}],"graveyard":[{"name":"SUNDAY DREAD","defeatedDate":"Jan 2026","howDefeated":"Lost its footing when the job ended. Without the thing it was anticipating, it had nothing to attach to."},{"name":"THE AVOIDER","defeatedDate":"Dec 2025","howDefeated":"Named it properly for the first time. Avoidance disguised as being busy. Once it had a name it stopped working as cover."},{"name":"INSTAGRAM SPIRAL","defeatedDate":"Nov 2025","howDefeated":"Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every time."}]},"completedMainQuests":[],"lastUpdated":"2026-03-25","activities":[{"id":"deep-work","name":"Deep Work","description":"Focused time on the career transition - research, applications, side project.","whyItMatters":"The career I want won't build itself in the margins.","startDate":"2026-01-01","priority":1,"type":"timer","resetPeriod":"day","target":90,"unit":"minutes","xpPerUnit":0.5},{"id":"morning-run","name":"Morning Run","description":"Out before 8am, at least 20 minutes.","whyItMatters":"Movement sets the tone for the whole day.","startDate":"2026-02-01","priority":2,"type":"checkbox","resetPeriod":"day","target":1,"unit":"runs","xpPerUnit":20},{"id":"gym-sessions","name":"Gym Sessions","description":"Strength training, three or four times a week.","whyItMatters":"Weekly consistency matters more than individual sessions.","startDate":"2026-02-01","priority":3,"type":"number","resetPeriod":"week","target":4,"unit":"sessions","xpPerUnit":15}],"dailyDistribution":{"Sleep":7.5,"Deep Work":1.5,"Exercise":0.75,"Social":1,"Admin / Commute":2,"Rest / Leisure":3.5,"Unknown":7.75},"wheelOfLife":{"sleep":{"score":50,"trend":"flat"},"rest":{"score":35,"trend":"down-slight"},"movement":{"score":65,"trend":"up-slight"},"nutrition":{"score":60,"trend":"flat"},"connection":{"score":45,"trend":"down-slight"},"career":{"score":30,"trend":"up-slight"},"finances":{"score":45,"trend":"flat"}},"achievements":[{"id":"smoke-free","title":"Smoke Free","description":"Three months without a cigarette after a decade of trying.","type":"milestone","dateUnlocked":"Apr 2026","featured":true},{"id":"the-declutterer","title":"The Declutterer","description":"Cleared 75% of the home in a single sustained push.","type":"quest","dateUnlocked":"Mar 2026","featured":false},{"id":"signal-over-noise","title":"Signal Over Noise","description":"Deleted Instagram after noticing the pattern: open it feeling okay, close it feeling worse.","type":"breakthrough","dateUnlocked":"Nov 2025","featured":false}],"classes":[{"id":"creator","title":"Creator","icon":"\u2726","description":"Drawn to making things. Finds meaning in the act of creation itself, not just the result.","dateUnlocked":"Feb 2026","featured":true},{"id":"achiever","title":"Achiever","icon":"\u25c8","description":"Goal-oriented and persistent when the goal actually matters. Learning to tell the difference between achievement and validation.","dateUnlocked":"Jan 2026","featured":false}],"_xpLog":[{"date":"25 Mar 2026","amount":30,"reason":"Session update","totalAfter":500,"levelup":false},{"date":"22 Mar 2026","amount":25,"reason":"Session update","totalAfter":470,"levelup":false},{"date":"19 Mar 2026","amount":null,"reason":"Level 4 reached","totalAfter":445,"levelup":true},{"date":"19 Mar 2026","amount":45,"reason":"Session update","totalAfter":445,"levelup":false},{"date":"15 Mar 2026","amount":40,"reason":"Coffee with Priya - genuine ask for help","totalAfter":400,"levelup":false},{"date":"12 Mar 2026","amount":35,"reason":"Session update","totalAfter":360,"levelup":false},{"date":"8 Mar 2026","amount":25,"reason":"Session update","totalAfter":325,"levelup":false},{"date":"5 Mar 2026","amount":20,"reason":"Session update","totalAfter":300,"levelup":false},{"date":"26 Feb 2026","amount":null,"reason":"Level 3 reached","totalAfter":280,"levelup":true},{"date":"26 Feb 2026","amount":30,"reason":"Session update","totalAfter":280,"levelup":false},{"date":"19 Feb 2026","amount":25,"reason":"Session update","totalAfter":250,"levelup":false},{"date":"14 Feb 2026","amount":50,"reason":"Three months smoke-free - Smoke Free achievement","totalAfter":225,"levelup":false},{"date":"12 Feb 2026","amount":-15,"reason":"Skipped gym three times - named pattern, not bad luck","totalAfter":175,"levelup":false},{"date":"5 Feb 2026","amount":20,"reason":"Session update","totalAfter":190,"levelup":false},{"date":"28 Jan 2026","amount":25,"reason":"Session update","totalAfter":170,"levelup":false},{"date":"20 Jan 2026","amount":40,"reason":"Declutter complete - environment changed","totalAfter":145,"levelup":false},{"date":"20 Jan 2026","amount":null,"reason":"Level 2 reached","totalAfter":105,"levelup":true},{"date":"12 Jan 2026","amount":30,"reason":"Session update","totalAfter":105,"levelup":false},{"date":"5 Jan 2026","amount":25,"reason":"Session update","totalAfter":75,"levelup":false},{"date":"1 Jan 2026","amount":50,"reason":"Quit Smoking quest complete","totalAfter":50,"levelup":false}],"_hardcodedHistory":{"deep-work":[{"date":"2026-01-01","value":25},{"date":"2026-01-02","value":40},{"date":"2026-01-04","value":15},{"date":"2026-01-05","value":55},{"date":"2026-01-06","value":70},{"date":"2026-01-07","value":45},{"date":"2026-01-08","value":60},{"date":"2026-01-09","value":30},{"date":"2026-01-12","value":65},{"date":"2026-01-13","value":80},{"date":"2026-01-14","value":55},{"date":"2026-01-15","value":45},{"date":"2026-01-16","value":60},{"date":"2026-01-17","value":20},{"date":"2026-01-19","value":70},{"date":"2026-01-20","value":90},{"date":"2026-01-21","value":60},{"date":"2026-01-22","value":35},{"date":"2026-01-23","value":50},{"date":"2026-01-25","value":30},{"date":"2026-01-26","value":75},{"date":"2026-01-27","value":80},{"date":"2026-01-28","value":65},{"date":"2026-01-29","value":60},{"date":"2026-01-30","value":40},{"date":"2026-02-01","value":25},{"date":"2026-02-02","value":70},{"date":"2026-02-03","value":85},{"date":"2026-02-04","value":60},{"date":"2026-02-05","value":65},{"date":"2026-02-06","value":55},{"date":"2026-02-07","value":30},{"date":"2026-02-09","value":75},{"date":"2026-02-10","value":90},{"date":"2026-02-11","value":70},{"date":"2026-02-12","value":60},{"date":"2026-02-13","value":45},{"date":"2026-02-14","value":20},{"date":"2026-02-15","value":35},{"date":"2026-02-16","value":80},{"date":"2026-02-17","value":75},{"date":"2026-02-18","value":60},{"date":"2026-02-19","value":90},{"date":"2026-02-20","value":55},{"date":"2026-02-21","value":40},{"date":"2026-02-23","value":85},{"date":"2026-02-24","value":90},{"date":"2026-02-25","value":75},{"date":"2026-02-26","value":65},{"date":"2026-02-27","value":60},{"date":"2026-02-28","value":30},{"date":"2026-03-01","value":40},{"date":"2026-03-02","value":80},{"date":"2026-03-03","value":90},{"date":"2026-03-04","value":70},{"date":"2026-03-05","value":85},{"date":"2026-03-06","value":60},{"date":"2026-03-07","value":45},{"date":"2026-03-08","value":30},{"date":"2026-03-09","value":75},{"date":"2026-03-10","value":90},{"date":"2026-03-11","value":80},{"date":"2026-03-13","value":55},{"date":"2026-03-14","value":60},{"date":"2026-03-15","value":45},{"date":"2026-03-16","value":85},{"date":"2026-03-17","value":90},{"date":"2026-03-18","value":75},{"date":"2026-03-19","value":90},{"date":"2026-03-20","value":70},{"date":"2026-03-21","value":60},{"date":"2026-03-22","value":120},{"date":"2026-03-23","value":65},{"date":"2026-03-24","value":75}],"morning-run":[{"date":"2026-02-02","value":1},{"date":"2026-02-03","value":1},{"date":"2026-02-04","value":0},{"date":"2026-02-05","value":1},{"date":"2026-02-06","value":1},{"date":"2026-02-07","value":0},{"date":"2026-02-09","value":1},{"date":"2026-02-10","value":1},{"date":"2026-02-11","value":1},{"date":"2026-02-12","value":0},{"date":"2026-02-13","value":1},{"date":"2026-02-16","value":1},{"date":"2026-02-17","value":1},{"date":"2026-02-18","value":1},{"date":"2026-02-19","value":0},{"date":"2026-02-20","value":1},{"date":"2026-02-23","value":1},{"date":"2026-02-24","value":1},{"date":"2026-02-25","value":1},{"date":"2026-02-26","value":0},{"date":"2026-02-27","value":1},{"date":"2026-03-02","value":1},{"date":"2026-03-03","value":1},{"date":"2026-03-04","value":0},{"date":"2026-03-05","value":1},{"date":"2026-03-06","value":1},{"date":"2026-03-09","value":1},{"date":"2026-03-10","value":1},{"date":"2026-03-11","value":1},{"date":"2026-03-12","value":0},{"date":"2026-03-13","value":1},{"date":"2026-03-16","value":1},{"date":"2026-03-17","value":1},{"date":"2026-03-18","value":1},{"date":"2026-03-19","value":1},{"date":"2026-03-20","value":0},{"date":"2026-03-23","value":1},{"date":"2026-03-24","value":1}],"gym-sessions":[{"period":"2026-06","value":3},{"period":"2026-07","value":4},{"period":"2026-08","value":2},{"period":"2026-09","value":4},{"period":"2026-10","value":3},{"period":"2026-11","value":4},{"period":"2026-12","value":4},{"period":"2026-13","value":3}]}};
+  const data = {"_instructionsVersion":"0.7.0","name":"Example Steve","subtitle":"Survivor of the Overworld - not real data","level":4,"xp":500,"xpToNext":1000,"keyQuestion":"What would I build if I knew the Ender Dragon couldn't touch me?","claudeRead":"Steve is in a real transitional moment - the End portal is open, not theoretical. First solo mining session showed the deep caves produce a different kind of engagement than surface farming. Main risk: diamond scarcity shortens the search before the right gear lands. THE ENDER DRAGON is active but being noticed faster. Rest is the most significant unmet need. Beds explode in The End, so sleep stays unresolved.","progressionTimeline":"Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. The Ender Dragon is louder than ever, which means it's being threatened.","allies":[{"name":"Alex","desc":"Co-op partner since the tutorial world. Calls out creepers gently and shows up consistently.","why":"Knows the full inventory - the embarrassing wooden tools included."},{"name":"Wolf","desc":"Tamed with bones. Unconditional support. Not always the most talkative, but always in my corner.","why":"No performance required. Just sit. Good boy."},{"name":"Enchanting Session","type":"spell","desc":"30 minutes at the enchanting table with lapis and a specific goal. Reliable focus ritual \u2014 the bookshelves help.","why":"Lowers the Ender Dragon's HP by at least a few points every time. Costs only time and lapis."},{"name":"Solo Cave Run","type":"spell","desc":"One hour underground, no build agenda, just explore. Phone on silent. Exits with more energy than it takes.","why":"Consistently resets the mental inventory. Works even when motivation is absent at spawn."}],"mainQuest":{"title":"Defeat the Ender Dragon","description":"Reach The End, destroy the crystals, and bring down the boss once and for all.","whyItMatters":"More hours spent grinding than anywhere else. If the dragon keeps circling, everything else feels unfinished too.","doneWhen":"Standing in The End with dragon egg in inventory and the credits actually rolling.","nextSteps":[{"text":"Locate a stronghold and find the End portal room","doneWhen":"Eyes of Ender thrown, portal located - not just planned"},{"text":"Gear up: full diamond armour, enchanted bow, enough arrows","doneWhen":"Inventory checked, protection enchantments confirmed"},{"text":"Spend two sessions this week mining the deep caves - no diamond requirement, just explore","doneWhen":"Two uninterrupted sessions, no half-measures"}],"xpReward":500,"progress":15},"sliderValues":{"air":72,"fire":22,"water":58,"earth":64},"harmonyHistory":[{"date":"2026-01-05","air":42,"fire":12,"water":30,"earth":45,"harmony":40},{"date":"2026-01-12","air":45,"fire":14,"water":32,"earth":47,"harmony":43},{"date":"2026-01-20","air":48,"fire":13,"water":34,"earth":50,"harmony":44},{"date":"2026-01-28","air":50,"fire":15,"water":36,"earth":52,"harmony":47},{"date":"2026-02-05","air":46,"fire":11,"water":33,"earth":49,"harmony":41},{"date":"2026-02-12","air":44,"fire":10,"water":30,"earth":47,"harmony":38},{"date":"2026-02-19","air":52,"fire":14,"water":38,"earth":53,"harmony":46},{"date":"2026-02-26","air":58,"fire":17,"water":42,"earth":57,"harmony":51},{"date":"2026-03-05","air":62,"fire":18,"water":46,"earth":60,"harmony":55},{"date":"2026-03-12","air":66,"fire":20,"water":50,"earth":62,"harmony":59},{"date":"2026-03-19","air":70,"fire":21,"water":55,"earth":63,"harmony":62},{"date":"2026-03-25","air":72,"fire":22,"water":58,"earth":64,"harmony":64}],"sliderXpRewards":{"air":[null,100,200,350,500],"fire":[null,150,300,500,750],"water":[null,100,220,380,550],"earth":[null,120,260,440,650]},"sliderLabels":{"air":"More aware than acting - noticing mob spawns without changing sleep habits yet","fire":"Motivation patchy - flickers of purpose but mostly running on torchlight","water":"Some aliveness - mining and cooking reliable, rest of biome still dark","earth":"Reasonably grounded - Creeper anxiety present but not dominating"},"limitingBeliefs":[{"title":"THE IMPOSTER","belief":"\"I'm not skilled or geared enough to fight the bosses I actually want to fight.\"","desc":"Shows up when enchanting gear or entering new biomes. Reframes the learning curve as proof of being a noob forever.","shortTermBenefit":"Keeps ambition in the overworld and therefore safe from the humiliation of dying to a baby zombie.","origin":"Spawned in environments where being out-geared felt like the primary risk - performance over presence.","hp":75,"priority":7},{"title":"THE PERFECTIONIST","belief":"\"If I can't build the perfect base first, there's no point starting the main quest.\"","desc":"Main engine of procrastination. Creates an impossible aesthetic standard that ensures nothing is ever finished before the dragon is due.","shortTermBenefit":"The unbuilt mega-base can always be imagined as flawless. Completion would reveal the gaps.","origin":"Likely formed in creative mode where only exceptional builds were noticed - survival effort was invisible.","hp":70,"priority":8},{"title":"THE PESSIMIST","belief":"\"I always die before I reach the good loot.\"","desc":"Selective memory that catalogues every death screen and dismisses successful runs as luck or a seed exploit.","shortTermBenefit":"Low expectations mean a full chest feels like a win. Feels like protection against hype.","origin":"Unknown - possibly reinforced by a period where several hardcore worlds ended in close succession.","hp":60,"priority":9}],"empoweringBeliefs":[{"title":"THE PROBLEM SOLVER","belief":"\"I can figure out any redstone circuit if I stay in the room long enough.\"","desc":"Track record of working through ambiguous contraptions is real."},{"title":"THE LONG GAME","belief":"\"Slow progress toward diamonds beats fast progress toward gravel.\"","desc":"Useful counter to urgency and biome-comparison."},{"title":"THE BODY KNOWS","belief":"\"The aliveness I feel when mining the right cave is data, not coincidence.\"","desc":"The qualitative difference between strip-mining and a deep-cave find is the clearest signal available."}],"skills":[{"name":"Set Boundaries","mastery":1,"priority":1,"xpReward":80,"description":"Say no to side quests without over-explaining.","whyItMatters":"Without this, time and diamonds get consumed by everyone else's projects."},{"name":"Ask For Help","mastery":1,"priority":2,"xpReward":80,"description":"Reach out to the server before getting lost in a cave.","whyItMatters":"How fast the main quest actually progresses."},{"name":"Stay Consistent","mastery":2,"priority":3,"xpReward":80,"description":"Log in even when motivation is absent.","whyItMatters":"Mining, farming, enchanting all depend on this."},{"name":"Say No","mastery":1,"priority":4,"xpReward":80,"description":"Decline build requests that conflict with the main quest.","whyItMatters":"Every yes to another player's mansion is a no to the End portal."},{"name":"Mining","mastery":4,"priority":1,"xpReward":200,"description":"Navigate deep caves, read ore patterns, come back alive.","whyItMatters":"The capability that earns diamonds fastest."},{"name":"Crafting","mastery":3,"priority":2,"xpReward":150,"description":"Build the right tools without wasting materials.","whyItMatters":"In resource-scarce play, crafting is the primary signal of competence."},{"name":"Exploring","mastery":4,"priority":3,"xpReward":150,"description":"Read the terrain, find the structures, come back with a map.","whyItMatters":"Foundation of good world knowledge."}],"sideQuests":[{"title":"Build a Proper Base","priority":1,"progress":40,"description":"Upgrade from dirt hut to a real base with storage and beds.","whyItMatters":"A respawn point is the foundation everything else is built on.","nextStep":"Lay the foundation three sessions this week - no aesthetic requirement, just place blocks","xpReward":150},{"title":"Set Up an Enchanting Table","priority":2,"progress":25,"description":"Build a full enchanting setup with bookshelves.","whyItMatters":"The End fight needs enchanted gear, not just intent.","nextStep":"Gather 15 bookshelves by end of March","xpReward":200},{"title":"Explore 12 Biomes This Year","priority":3,"progress":33,"description":"One new biome per month, any type.","whyItMatters":"Deep exploration slows me down usefully and generates loot I couldn't find alone.","nextStep":"Find a mushroom island before starting the next biome","xpReward":150},{"title":"Organise the Chest Room","priority":4,"progress":75,"description":"Label and sort the entire storage system.","whyItMatters":"Inventory chaos shapes decision quality.","nextStep":"Sort the overflow chests - the last pile has been sitting for a month","xpReward":100},{"title":"Learn Redstone","priority":5,"progress":20,"description":"Build working automated farms over 12 months.","whyItMatters":"Automation opens up AFK time and is genuinely just for me.","nextStep":"Complete one redstone tutorial every day for two weeks straight","xpReward":200}],"completedQuests":[{"title":"Survive First Night","completedDate":"Jan 2026","xpEarned":300,"howResolved":"Punched trees until I had a crafting table. Sealed in a dirt box and listened to mobs outside. Three months no-death run started there."}],"drains":[{"name":"Late-night inventory hoarding","desc":"Reliably ends with a full inventory and no idea what to do with it. Eats into sleep."},{"name":"Saying yes to co-op builds","desc":"Fills the session with other people's projects that don't align with the main quest."},{"name":"Skipping mining when the base hurts","desc":"The moment exploration would help most is exactly when it gets replaced by base tinkering."}],"flowSources":[{"name":"Mining","desc":"First 10 minutes are tense, then the cave opens up and the thinking quiets down."},{"name":"Cooking","desc":"Smelting and sorting - hands busy, mind relaxed. Reliably restorative."},{"name":"Music Discs","desc":"Stal playing in the jukebox alone - no audience, no performance."},{"name":"Village trading","desc":"Peaceful haggling where nothing critical is at stake."},{"name":"Building","desc":"Long creative sessions, late at night, no mobs on peaceful."}],"needs":[{"name":"Connection","threat":"amber","alignment":45,"desc":"A server with people who know the real build style. Good with a few, absent with most."},{"name":"Rest","threat":"red","alignment":30,"desc":"Recovery time not immediately colonised by mob sounds or a to-do list. Significant deficit."},{"name":"Autonomy","threat":"none","alignment":60,"desc":"Control over which biome to explore and when. Better than it was."},{"name":"Recognition","threat":"amber","alignment":40,"desc":"Feeling that the builds and runs are seen. The server is neutral at best."}],"values":[{"name":"Authenticity","threat":"amber","alignment":45,"desc":"Playing in the style that actually feels right, not the meta loadout everyone else is running."},{"name":"Family","threat":"none","alignment":70,"desc":"Being present and reliable for the wolves and villagers who matter most."},{"name":"Health","threat":"amber","alignment":55,"desc":"Full hearts and hunger bar as a non-negotiable foundation."},{"name":"Growth","threat":"none","alignment":65,"desc":"Getting better at builds and biomes that matter."},{"name":"Financial Security","threat":"amber","alignment":50,"desc":"Enough emeralds to make genuine choices - freedom from villager price anxiety."}],"insights":[{"name":"The End Portal","entries":[{"date":"22 March 2026","title":"Two Hours That Felt Like a Cave Find","events":["Blocked out Saturday morning for deep cave exploration - phone in another room","Two uninterrupted hours in a massive cave system for the first time"],"insights":["The two hours felt different - less like surface farming, more like contact with something real underground","PROCRASTINATION didn't fire once - a specific small task (find one diamond vein) made the difference"],"tensions":["Whether the cave exploration is the actual direction or just a way of feeling productive without risking the End portal"]},{"date":"15 March 2026","title":"The Trade That Changed the Frame","events":["Traded with a librarian villager for an Efficiency V book - she'd enchanted the same route two years ago"],"insights":["SELF-DOUBT reframed the librarian's price as a test I was about to fail - I noticed it this time"],"tensions":["Diamond scarcity is shortening the timeline in ways that might distort the gear decisions"]}]},{"name":"Clearing the Inventory","entries":[{"date":"14 February 2026","title":"Three Months No-Death Run","events":["Three months without dying on this world - marked it quietly, told Alex"],"insights":["Staying alive required a quiet decision to stop fighting mobs I didn't need to fight"],"tensions":["Rest is still a deficit - sessions feel productive but not restorative. Beds still explode in The End."]}]}],"bestiary":{"boss":{"name":"THE ENDER DRAGON","desc":"The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.","whyBoss":"Every other enemy is this one in disguise - Procrastination is the Dragon saying you'll die, Self-Doubt is the Dragon questioning your enchants, the Comparison Trap is the Dragon finding external evidence you're a noob.","hp":80,"vulnerabilities":[{"title":"Named in real time","desc":"The Dragon loses power the moment it is caught mid-circle. Each live catch weakens its automaticity - calling it out loud is enough to create distance."},{"title":"Evidence on the table","desc":"The Dragon thrives on selective death screens. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data."},{"title":"Starting before ready","desc":"The Dragon's main lever is the gap before entering the portal. Starting small - one Eye of Ender thrown, one block placed - collapses the gap before the Dragon can fill it."}]},"currentEnemies":[{"name":"PROCRASTINATION","desc":"Kicks in whenever a biome feels ambiguous or high-stakes. Masquerades as preparation - rearranging the hotbar instead of entering the cave.","type":"compulsion","trigger":"Ambiguous or important caves with no clear first block","shortTermBenefit":"Protects against the pain of mining and dying. Feels like caution.","origin":"Likely formed around high-stakes mining runs where effort without diamonds felt worse than not going in.","hp":75,"priority":1},{"name":"SELF-DOUBT","desc":"Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth, not like a pattern.","type":"distortion","trigger":"Attempting a new boss or entering a new structure for the first time","shortTermBenefit":"Keeps gear expectations low so a bad enchant hurts less. Feels like realism.","origin":"Unknown - may relate to servers where confidence was one-shot or not modelled.","hp":70,"priority":2},{"name":"COMPARISON TRAP","desc":"Measuring a messy mid-game against other players' fully-automated mega-bases. Activates fast and feels like useful calibration.","type":"distortion","trigger":"Reddit, YouTube, seeing other servers' builds","shortTermBenefit":"Creates temporary direction - if others built this way, the meta must be real.","origin":"Unknown - the conditions that made external benchmarks feel necessary are not yet clear.","hp":65,"priority":3},{"name":"LATE-NIGHT INVENTORY HOARDING","desc":"Reliably ends with feeling worse than when it started. Fills the chest room and leaves the next session already in overflow.","type":"drain","trigger":"Evening wind-down session, especially after a difficult biome","shortTermBenefit":"Decompression that asks nothing. Feels like progress without the vulnerability of actually using the materials.","origin":"Avoidance of the quiet - where unprocessed loot from the day tends to surface.","hp":85,"priority":4},{"name":"OBLIGATION YES","desc":"Joining co-op builds to avoid the discomfort of declining. Fills the session with work that doesn't align with the main quest.","type":"compulsion","trigger":"Any server request that feels like it expects a yes","shortTermBenefit":"Avoids conflict and the guilt of leaving someone underground alone. Feels like being a good teammate.","origin":"Unknown - likely formed where keeping allies comfortable felt safer than asserting the main quest.","hp":90,"priority":5},{"name":"SKIP MINING WHEN STRESSED","desc":"Cutting the one session that would most help in the moments of highest Creeper anxiety. Always justified in the moment.","type":"drain","trigger":"High mob pressure, low torches, feeling behind on gear","shortTermBenefit":"Creates the illusion of more base time. Feels like a sensible trade-off.","origin":"The Ender Dragon framing exploration as optional when diamond counts are low.","hp":80,"priority":6}],"graveyard":[{"name":"SUNDAY DREAD","defeatedDate":"Jan 2026","howDefeated":"Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to."},{"name":"THE HOARDER","defeatedDate":"Dec 2025","howDefeated":"Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover."},{"name":"TWITTER SPIRAL","defeatedDate":"Nov 2025","howDefeated":"Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session."}]},"completedMainQuests":[],"lastUpdated":"2026-03-25","activities":[{"id":"deep-work","name":"Cave Diving","description":"Focused time underground - mining, mob clearing, chest looting.","whyItMatters":"The diamonds I want won't mine themselves on the surface.","startDate":"2026-01-01","priority":1,"type":"timer","resetPeriod":"day","target":90,"unit":"minutes","xpPerUnit":0.5},{"id":"morning-run","name":"Morning Patrol","description":"Perimeter check before 8am, clear all overnight spawns.","whyItMatters":"A clear base sets the tone for the whole session.","startDate":"2026-02-01","priority":2,"type":"checkbox","resetPeriod":"day","target":1,"unit":"patrols","xpPerUnit":20},{"id":"gym-sessions","name":"Nether Runs","description":"Nether resource runs, three or four times a week.","whyItMatters":"Weekly consistency matters more than individual hauls.","startDate":"2026-02-01","priority":3,"type":"number","resetPeriod":"week","target":4,"unit":"runs","xpPerUnit":15}],"dailyDistribution":{"Sleep":7.5,"Cave Diving":1.5,"Exercise":0.75,"Social":1,"Admin / Commute":2,"Rest / Leisure":3.5,"Unknown":7.75},"wheelOfLife":{"sleep":{"score":50,"trend":"flat"},"rest":{"score":35,"trend":"down-slight"},"movement":{"score":65,"trend":"up-slight"},"nutrition":{"score":60,"trend":"flat"},"connection":{"score":45,"trend":"down-slight"},"career":{"score":30,"trend":"up-slight"},"finances":{"score":45,"trend":"flat"}},"achievements":[{"id":"no-death-run","title":"No Death Run","description":"Three months without a death screen on hardcore - the first time in many worlds.","type":"milestone","dateUnlocked":"Apr 2026","featured":true},{"id":"the-declutterer","title":"The Organiser","description":"Sorted 75% of the chest room in a single sustained session. Labels and everything.","type":"quest","dateUnlocked":"Mar 2026","featured":false},{"id":"signal-over-noise","title":"Signal Over Noise","description":"Deleted the Reddit app after noticing the pattern: open it feeling okay, close it feeling like a noob.","type":"breakthrough","dateUnlocked":"Nov 2025","featured":false}],"classes":[{"id":"builder","title":"Builder","icon":"\u2726","description":"Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.","dateUnlocked":"Feb 2026","featured":true},{"id":"explorer","title":"Explorer","icon":"\u25c8","description":"Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.","dateUnlocked":"Jan 2026","featured":false}],"_xpLog":[{"date":"25 Mar 2026","amount":30,"reason":"Session update","totalAfter":500,"levelup":false},{"date":"22 Mar 2026","amount":25,"reason":"Session update","totalAfter":470,"levelup":false},{"date":"19 Mar 2026","amount":null,"reason":"Level 4 reached","totalAfter":445,"levelup":true},{"date":"19 Mar 2026","amount":45,"reason":"Session update","totalAfter":445,"levelup":false},{"date":"15 Mar 2026","amount":40,"reason":"Trade with librarian - genuine ask for help","totalAfter":400,"levelup":false},{"date":"12 Mar 2026","amount":35,"reason":"Session update","totalAfter":360,"levelup":false},{"date":"8 Mar 2026","amount":25,"reason":"Session update","totalAfter":325,"levelup":false},{"date":"5 Mar 2026","amount":20,"reason":"Session update","totalAfter":300,"levelup":false},{"date":"26 Feb 2026","amount":null,"reason":"Level 3 reached","totalAfter":280,"levelup":true},{"date":"26 Feb 2026","amount":30,"reason":"Session update","totalAfter":280,"levelup":false},{"date":"19 Feb 2026","amount":25,"reason":"Session update","totalAfter":250,"levelup":false},{"date":"14 Feb 2026","amount":50,"reason":"Three months no-death run - No Death Run achievement","totalAfter":225,"levelup":false},{"date":"12 Feb 2026","amount":-15,"reason":"Skipped mining three times - named pattern, not bad luck","totalAfter":175,"levelup":false},{"date":"5 Feb 2026","amount":20,"reason":"Session update","totalAfter":190,"levelup":false},{"date":"28 Jan 2026","amount":25,"reason":"Session update","totalAfter":170,"levelup":false},{"date":"20 Jan 2026","amount":40,"reason":"Chest room organised - environment changed","totalAfter":145,"levelup":false},{"date":"20 Jan 2026","amount":null,"reason":"Level 2 reached","totalAfter":105,"levelup":true},{"date":"12 Jan 2026","amount":30,"reason":"Session update","totalAfter":105,"levelup":false},{"date":"5 Jan 2026","amount":25,"reason":"Session update","totalAfter":75,"levelup":false},{"date":"1 Jan 2026","amount":50,"reason":"Survive First Night quest complete","totalAfter":50,"levelup":false}],"_hardcodedHistory":{"deep-work":[{"date":"2026-01-01","value":25},{"date":"2026-01-02","value":40},{"date":"2026-01-04","value":15},{"date":"2026-01-05","value":55},{"date":"2026-01-06","value":70},{"date":"2026-01-07","value":45},{"date":"2026-01-08","value":60},{"date":"2026-01-09","value":30},{"date":"2026-01-12","value":65},{"date":"2026-01-13","value":80},{"date":"2026-01-14","value":55},{"date":"2026-01-15","value":45},{"date":"2026-01-16","value":60},{"date":"2026-01-17","value":20},{"date":"2026-01-19","value":70},{"date":"2026-01-20","value":90},{"date":"2026-01-21","value":60},{"date":"2026-01-22","value":35},{"date":"2026-01-23","value":50},{"date":"2026-01-25","value":30},{"date":"2026-01-26","value":75},{"date":"2026-01-27","value":80},{"date":"2026-01-28","value":65},{"date":"2026-01-29","value":60},{"date":"2026-01-30","value":40},{"date":"2026-02-01","value":25},{"date":"2026-02-02","value":70},{"date":"2026-02-03","value":85},{"date":"2026-02-04","value":60},{"date":"2026-02-05","value":65},{"date":"2026-02-06","value":55},{"date":"2026-02-07","value":30},{"date":"2026-02-09","value":75},{"date":"2026-02-10","value":90},{"date":"2026-02-11","value":70},{"date":"2026-02-12","value":60},{"date":"2026-02-13","value":45},{"date":"2026-02-14","value":20},{"date":"2026-02-15","value":35},{"date":"2026-02-16","value":80},{"date":"2026-02-17","value":75},{"date":"2026-02-18","value":60},{"date":"2026-02-19","value":90},{"date":"2026-02-20","value":55},{"date":"2026-02-21","value":40},{"date":"2026-02-23","value":85},{"date":"2026-02-24","value":90},{"date":"2026-02-25","value":75},{"date":"2026-02-26","value":65},{"date":"2026-02-27","value":60},{"date":"2026-02-28","value":30},{"date":"2026-03-01","value":40},{"date":"2026-03-02","value":80},{"date":"2026-03-03","value":90},{"date":"2026-03-04","value":70},{"date":"2026-03-05","value":85},{"date":"2026-03-06","value":60},{"date":"2026-03-07","value":45},{"date":"2026-03-08","value":30},{"date":"2026-03-09","value":75},{"date":"2026-03-10","value":90},{"date":"2026-03-11","value":80},{"date":"2026-03-13","value":55},{"date":"2026-03-14","value":60},{"date":"2026-03-15","value":45},{"date":"2026-03-16","value":85},{"date":"2026-03-17","value":90},{"date":"2026-03-18","value":75},{"date":"2026-03-19","value":90},{"date":"2026-03-20","value":70},{"date":"2026-03-21","value":60},{"date":"2026-03-22","value":120},{"date":"2026-03-23","value":65},{"date":"2026-03-24","value":75}],"morning-run":[{"date":"2026-02-02","value":1},{"date":"2026-02-03","value":1},{"date":"2026-02-04","value":0},{"date":"2026-02-05","value":1},{"date":"2026-02-06","value":1},{"date":"2026-02-07","value":0},{"date":"2026-02-09","value":1},{"date":"2026-02-10","value":1},{"date":"2026-02-11","value":1},{"date":"2026-02-12","value":0},{"date":"2026-02-13","value":1},{"date":"2026-02-16","value":1},{"date":"2026-02-17","value":1},{"date":"2026-02-18","value":1},{"date":"2026-02-19","value":0},{"date":"2026-02-20","value":1},{"date":"2026-02-23","value":1},{"date":"2026-02-24","value":1},{"date":"2026-02-25","value":1},{"date":"2026-02-26","value":0},{"date":"2026-02-27","value":1},{"date":"2026-03-02","value":1},{"date":"2026-03-03","value":1},{"date":"2026-03-04","value":0},{"date":"2026-03-05","value":1},{"date":"2026-03-06","value":1},{"date":"2026-03-09","value":1},{"date":"2026-03-10","value":1},{"date":"2026-03-11","value":1},{"date":"2026-03-12","value":0},{"date":"2026-03-13","value":1},{"date":"2026-03-16","value":1},{"date":"2026-03-17","value":1},{"date":"2026-03-18","value":1},{"date":"2026-03-19","value":1},{"date":"2026-03-20","value":0},{"date":"2026-03-23","value":1},{"date":"2026-03-24","value":1}],"gym-sessions":[{"period":"2026-06","value":3},{"period":"2026-07","value":4},{"period":"2026-08","value":2},{"period":"2026-09","value":4},{"period":"2026-10","value":3},{"period":"2026-11","value":4},{"period":"2026-12","value":4},{"period":"2026-13","value":3}]}};
   if(data._hardcodedHistory){ Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
   if(data._xpLog){ HARDCODED_XP_LOG = data._xpLog; delete data._xpLog; }
   Object.assign(DEFAULT, data);
