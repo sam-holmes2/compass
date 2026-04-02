@@ -96,6 +96,7 @@ You can also edit fields directly in the app and use `↓` Export to get updated
 | Practice history (graphs) | localStorage | ✅ | ❌ | No |
 | Status sliders | localStorage | ✅ | ❌ | No |
 | XP log | localStorage | ✅ | ❌ | No |
+| Completed quests | localStorage | ✅ | ❌ | **Only when newly completed in a session** |
 | `data.json` | Project knowledge | ✅ | ✅ | Yes |
 
 **localStorage is not session storage** — it survives closing and reopening the browser. Risks are: clearing browser data, switching browser, opening the file from a different path, or a new device.

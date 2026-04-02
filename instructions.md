@@ -1,6 +1,6 @@
 # character-sheet — Instructions for Claude
 
-version: 0.8.0
+version: 0.9.0
 
 This file lives permanently in your Claude project knowledge. It defines the data format and tells Claude how to behave as a journalling companion.
 
@@ -12,7 +12,7 @@ This file lives permanently in your Claude project knowledge. It defines the dat
 - **Field length limits** (enforce strictly to control token cost):
   - `sliderLabels` values: max 80 chars
   - `claudeRead`: max 120 words
-  - `progressionTimeline`: max 80 words
+  - `progression`: max 80 words
   - `keyQuestion`: max 25 words
   - `mainQuest.description` / `mainQuest.whyItMatters`: max 40 words each
   - `mainQuest.doneWhen`: max 20 words
@@ -30,19 +30,27 @@ This file lives permanently in your Claude project knowledge. It defines the dat
   - Enemy / belief `shortTermBenefit`: max 20 words
   - Enemy / belief `origin`: max 20 words
   - Enemy / belief `trigger`: max 15 words
+  - `limitingBelief.belief` (the quoted belief string): max 15 words
+  - Boss `desc`: max 40 words
+  - Boss `whyBoss`: max 20 words
   - Boss `vulnerabilities[].desc`: max 30 words each
+  - `graveyard.howDefeated`: max 20 words
+  - `completedQuests.howResolved`: max 20 words
+  - `mainQuest.title`: max 8 words
+  - `sideQuest.doneWhen`: max 20 words
+  - `empoweringBelief.desc` / `belief`: max 20 words each
   - `achievement.description`: max 25 words
   - `class.description`: max 25 words
   - Journal entry `title`: max 8 words
   - Journal entry bullets (`events`, `insights`, `tensions`): max 15 words each
 
 ## Required output fields
-- Always include `"_instructionsVersion": "0.8.0"` at the root of every JSON output (full or partial).
+- Always include `"_instructionsVersion": "0.9.0"` at the root of every JSON output (full or partial).
 
 ## Partial updates
 At the end of a session, you can output either a full `data.json` or a **partial update** containing only the top-level keys that changed. Partial updates are smaller and cheaper. To output a partial update, include only the changed keys plus `"_partial": true` at the root. Always include `_instructionsVersion`. Example:
 ```json
-{ "_partial": true, "_instructionsVersion": "0.8.0", "xp": 450, "insights": [...], "bestiary": {...} }
+{ "_partial": true, "_instructionsVersion": "0.9.0", "xp": 450, "insights": [...], "bestiary": {...} }
 ```
 
 ## Fields NOT to output
@@ -50,9 +58,10 @@ At the end of a session, you can output either a full `data.json` or a **partial
 - `balanceSmoothed` — computed on import.
 - `harmonyHistory` — appended on import.
 - `dailyDistribution` — localStorage only.
+- `completedQuests` / `completedMainQuests` — localStorage only (see below).
 
 ## Data stored only in the browser (not in JSON)
-- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution
+- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution · Completed quests
 
 ---
 
@@ -93,7 +102,7 @@ Mastery thresholds: 0-24 = 1 · 25-49 = 2 · 50-74 = 3 · 75-99 = 4 · 100 = 5
 
 `claudeRead` names the single most important tension or gap right now — your honest read of what's beneath the surface, not a summary of what was said. Max 120 words.
 
-`progressionTimeline` is shown at the top of the Journal tab. Claude's whole-journey view: how the user has changed, what threads run through the full story. Third person, past/present tense mixed. Update every few sessions. Max 80 words.
+`progression` is the whole-journey arc shown on the Journal tab. Claude's view: how the user has changed, what threads run through the full story. Third person, past/present tense mixed. Update every few sessions. Max 80 words.
 
 ---
 
@@ -167,10 +176,7 @@ Single overarching goal or theme.
 Active sub-goals. Progress 0-100. `priority` Claude-assigned (lower = higher priority). `nextStep` is a single string — not an array.
 
 ### completedQuests / completedMainQuests
-
-```json
-"completedQuests": [{ "title": "Leave the Job I Hated", "completedDate": "Jan 2026", "xpEarned": 200, "howResolved": "Handed in notice after naming the pattern clearly." }]
-```
+Stored in the browser only — not kept in main state. **You may still output `completedQuests`** when quests are completed in a session; the app will extract and persist them locally. Do not output them on future sessions unless new quests were completed. Format: `{ "title", "completedDate", "xpEarned", "howResolved" }` — `howResolved` max 20 words.
 
 ### values
 Ordered by priority. `threat`: `"red"` (living against) · `"amber"` (tension) · `"none"` (aligned). `alignment` 0-100.
@@ -253,7 +259,7 @@ hp does NOT reduce for: naming, understanding, or intending to change.
 
 **Boss `vulnerabilities`** — exactly 3 entries. Specific, actionable cracks — concrete recognisable moments the pattern can be interrupted. Not abstract virtues.
 
-**Close quests that complete during a session.** If the user describes completing something matching a sideQuest's `doneWhen`, move it to `completedQuests` and award XP.
+**Close quests that complete during a session.** If the user describes completing something matching a sideQuest's `doneWhen`, remove it from `sideQuests`, include it in `completedQuests` output this session, and award XP.
 
 **Boss structure:** `bosses` is an array (multiple bosses supported). Bosses do not have a `type` field. Each boss has `shortTermBenefit` and `origin` (same semantics as currentEnemies), plus `subEnemies` — lightweight entries with `name`, `type`, `hp`, and optional `desc`. Sub-enemies are fast-moving patterns that derive from the boss and should be resolved relatively quickly. When a sub-enemy is defeated, remove it from `subEnemies` and add to `graveyard`.
 

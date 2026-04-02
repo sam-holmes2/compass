@@ -409,10 +409,28 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   overflow:visible;
 }
 .float-btn:hover { border-color:var(--gold); color:var(--gold); }
-.float-btn.dirty::after { content:''; position:absolute; top:6px; right:6px; width:7px; height:7px; border-radius:50%; background:#c84040; border:1px solid var(--bg); }
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:200; align-items:center; justify-content:center; }
+/* ══ FLOATING ACTION BAR ═════════════════════════════════ */
+#float-bar {
+  position:fixed; bottom:26px; right:26px; z-index:100;
+  display:flex; align-items:center; gap:0;
+  background:rgba(14,14,22,0.92); border:1px solid var(--help-border);
+  border-radius:28px; overflow:hidden;
+  box-shadow:0 2px 20px rgba(0,0,0,0.5);
+}
+.fbar-btn {
+  background:none; border:none; border-right:1px solid rgba(45,168,106,0.18);
+  color:var(--help); font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.1em;
+  padding:0 16px; height:40px; cursor:pointer; transition:all 0.18s; white-space:nowrap;
+  display:flex; align-items:center; gap:6px;
+}
+.fbar-btn:last-child { border-right:none; }
+.fbar-btn:hover { background:rgba(45,168,106,0.14); color:#fff; }
+.fbar-btn.fbar-primary { background:rgba(45,168,106,0.12); }
+.fbar-btn.fbar-primary:hover { background:rgba(45,168,106,0.28); }
+.fbar-btn.dirty::after { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:#c84040; margin-left:2px; }
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(4,4,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
-.modal { background:var(--card); border:1px solid var(--border-hi); border-radius:7px; padding:22px; width:500px; max-width:94vw; }
+.modal { background:rgba(14,14,22,0.97); border:1px solid var(--border-hi); border-radius:10px; padding:26px 28px; width:520px; max-width:95vw; box-shadow:0 8px 40px rgba(0,0,0,0.6); }
 .modal-title { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.2em; color:var(--text-dim); margin-bottom:10px; }
 .modal p { font-size:17px; color:var(--text-dim); line-height:1.55; margin-bottom:10px; }
 .modal textarea {
@@ -549,30 +567,60 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .el-head { padding:12px 14px 8px; }
 }
 
-/* ══ WELCOME BANNER ══════════════════════════════════════ */
-#welcome-banner {
-  border:1px solid rgba(200,168,74,0.3); border-radius:8px;
-  background:rgba(200,168,74,0.04); padding:20px 24px;
-  margin-bottom:20px; position:relative;
+/* ══ HELP THEME — green accent for all help/onboarding UI ══ */
+:root {
+  --help:     #2da86a;
+  --help-dim: rgba(45,168,106,0.12);
+  --help-border: rgba(45,168,106,0.35);
 }
-.welcome-title { font-family:'Cinzel',serif; font-size:17px; letter-spacing:0.14em; color:var(--gold); margin-bottom:6px; }
-.welcome-desc  { font-size:17px; color:var(--text-mid); margin-bottom:14px; line-height:1.55; }
-.welcome-options { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+
+/* ══ HELP COLUMNS ══════════════════════════════════════════ */
+.help-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-bottom:16px; }
+.help-col { padding:0 18px; border-right:1px solid var(--border-hi); }
+.help-col:first-child { padding-left:0; }
+.help-col:last-child { border-right:none; padding-right:0; }
+.help-col-hdr {
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--help); margin-bottom:12px; padding-bottom:8px;
+  border-bottom:1px solid var(--help-border);
+}
+.help-step { display:flex; gap:9px; padding:7px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+.help-step:last-child { border-bottom:none; }
+.help-step-num { font-family:var(--mono); font-size:14px; color:var(--help); flex-shrink:0; width:18px; padding-top:2px; opacity:0.7; }
+.help-step-text { font-size:15px; color:var(--text-mid); line-height:1.5; flex:1; }
+.help-step-text strong { color:var(--text-b); font-weight:600; }
+.help-step-text a { color:var(--help); }
+.help-note { font-size:14px; color:var(--text-dim); font-style:italic; line-height:1.5; padding:7px 0 5px; border-bottom:1px solid var(--border); }
+.help-note:last-child { border-bottom:none; }
+.help-col-sub { font-size:13px; color:var(--text-dim); font-style:italic; margin-bottom:10px; line-height:1.4; }
+@media (max-width:700px) {
+  .help-cols { grid-template-columns:1fr; }
+  .help-col { border-right:none; border-bottom:1px solid var(--border-hi); padding:0 0 14px; margin-bottom:14px; }
+  .help-col:last-child { border-bottom:none; margin-bottom:0; }
+}
+
+/* ══ WELCOME MODAL ════════════════════════════════════════ */
+#welcome-modal { z-index:400; }
+#welcome-modal .modal {
+  border-top:3px solid var(--help);
+  max-width:620px; width:96vw;
+}
+#welcome-modal .modal-title { color:var(--help); font-size:16px; }
+.welcome-modal-desc { font-size:17px; color:var(--text-mid); margin-bottom:18px; line-height:1.6; }
+.welcome-options { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
 .welcome-opt-btn {
-  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.12em; padding:8px 16px;
+  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.12em; padding:9px 18px;
   border-radius:4px; cursor:pointer; transition:all 0.15s; white-space:nowrap;
 }
-.welcome-opt-primary { background:var(--gold); border:none; color:#080808; }
-.welcome-opt-primary:hover { opacity:0.85; }
+.welcome-opt-primary { background:var(--help); border:none; color:#fff; }
+.welcome-opt-primary:hover { filter:brightness(1.12); }
 .welcome-opt-ghost { background:none; border:1px solid var(--border-hi); color:var(--text-dim); }
 .welcome-opt-ghost:hover { border-color:var(--text-dim); color:var(--text); }
-.welcome-opt-ghost.active { border-color:var(--gold); color:var(--gold); }
-.welcome-dismiss { position:absolute; top:12px; right:14px; background:none; border:none; color:var(--text-dim); font-size:18px; cursor:pointer; line-height:1; }
-.welcome-dismiss:hover { color:var(--text); }
+.welcome-opt-ghost.active { border-color:var(--help); color:var(--help); }
 #welcome-setup-steps { display:none; margin-top:18px; padding-top:18px; border-top:1px solid var(--border-hi); }
 .welcome-step { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
 .welcome-step:last-child { border-bottom:none; }
-.welcome-step-num { font-family:var(--mono); font-size:15px; color:var(--gold); flex-shrink:0; width:22px; padding-top:2px; }
+.welcome-step-num { font-family:var(--mono); font-size:15px; color:var(--help); flex-shrink:0; width:22px; padding-top:2px; }
 .welcome-step-text { font-size:17px; color:var(--text-mid); line-height:1.55; flex:1; }
 .welcome-step-text strong { color:var(--text-b); font-weight:600; }
 
@@ -610,19 +658,43 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #sync-modal { z-index:300; }
 #sync-modal .modal { border-top:3px solid rgba(200,168,74,0.5); }
 
+/* ══ LORE TAB CARDS ══════════════════════════════════════ */
+.lore-card {
+  margin-bottom:20px; padding:18px 22px;
+  border:1px solid var(--border-hi); border-radius:8px;
+  background:rgba(255,255,255,0.015);
+}
+.lore-card-hdr {
+  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.22em;
+  text-transform:uppercase; margin-bottom:5px;
+  display:flex; align-items:center; gap:8px;
+}
+.lore-card-hdr::after { content:''; flex:1; height:1px; background:linear-gradient(to right,var(--border-hi),transparent); }
+.lore-card-desc { font-size:14px; color:var(--text-dim); font-style:italic; margin-bottom:11px; }
+.lore-card-body { font-size:17px; color:var(--text-b); line-height:1.7; }
+.lore-card--progression { border-left:3px solid #7050b0; }
+.lore-card--progression .lore-card-hdr { color:#9070c8; }
+.lore-card--session { border-left:3px solid #4060b0; }
+.lore-card--session .lore-card-hdr { color:#6080c8; }
+.lore-card--keyq { border-left:3px solid var(--gold); }
+.lore-card--keyq .lore-card-hdr { color:var(--gold); opacity:0.85; }
+.lore-card--keyq .lore-card-body { font-size:18px; font-style:italic; }
+
 /* ══ SESSION STARTERS ════════════════════════════════════ */
-.starters-section { margin-bottom:18px; }
+.starters-section { margin-bottom:20px; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
 .starters-toggle {
   display:flex; align-items:center; gap:8px; cursor:pointer;
   font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.2em;
-  color:var(--text-dim); text-transform:uppercase; padding:6px 0;
-  background:none; border:none; width:100%;
+  color:var(--text-dim); text-transform:uppercase; padding:12px 16px;
+  background:rgba(255,255,255,0.01); border:none; width:100%;
+  transition:background 0.15s;
 }
-.starters-toggle:hover { color:var(--text-mid); }
+.starters-toggle:hover { background:rgba(255,255,255,0.03); color:var(--text-mid); }
 .starters-toggle-arrow { font-size:12px; transition:transform 0.2s; }
 .starters-toggle-arrow.open { transform:rotate(90deg); }
-.starters-body { display:none; padding-top:10px; }
+.starters-body { display:none; padding:0 16px 14px; border-top:1px solid var(--border); }
 .starters-body.open { display:block; }
+.starters-desc { font-size:14px; color:var(--text-dim); font-style:italic; padding:10px 0 8px; }
 .starter-row { display:flex; align-items:flex-start; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); }
 .starter-row:last-of-type { border-bottom:none; }
 .starter-text { font-size:17px; color:var(--text-mid); flex:1; line-height:1.5; font-style:italic; }
@@ -635,6 +707,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .starter-copy-btn:hover { border-color:var(--gold); color:var(--gold); }
 .starter-copy-btn.copied { border-color:#60a838; color:#60a838; }
 .starters-note { font-size:15px; color:var(--text-dim); font-style:italic; margin-top:10px; }
+.lore-chapters-hdr {
+  font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.2em;
+  color:var(--text-mid); text-transform:uppercase;
+  display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid var(--border-hi); padding-bottom:10px; margin-bottom:18px;
+}
+.lore-chapters-hdr::before { content:'◈  '; color:var(--text-dim); }
 
 /* ══ HEADER PROGRESS BAR ═════════════════════════════════ */
 .hdr-mq-bar { height:2px; background:var(--border-hi); border-radius:1px; margin-top:5px; max-width:260px; }
@@ -848,25 +927,25 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .status-charts-wrap { display:none; }
 .status-history-canvas { display:none; }
 
-/* Practice card (new multi-practice system) */
+/* Recurring Quest card */
 .practice-card {
-  border:1px solid rgba(42,122,72,0.22); border-left:3px solid var(--activity);
-  border-radius:6px; background:var(--activity-bg); margin-bottom:8px; overflow:hidden;
+  border:1px solid rgba(200,168,74,0.22); border-left:3px solid var(--gold);
+  border-radius:6px; background:rgba(200,168,74,0.04); margin-bottom:8px; overflow:hidden;
 }
 .practice-card.priority-1 {
-  border-color:rgba(42,122,72,0.4); border-left-color:var(--activity);
-  background:rgba(42,122,72,0.065);
+  border-color:rgba(200,168,74,0.4); border-left-color:var(--gold);
+  background:rgba(200,168,74,0.07);
 }
 .practice-card-hdr {
   display:flex; align-items:center; gap:8px;
-  padding:8px 14px; border-bottom:1px solid rgba(42,122,72,0.12);
-  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--activity);
+  padding:8px 14px; border-bottom:1px solid rgba(200,168,74,0.12);
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--gold);
   text-transform:uppercase;
 }
 .practice-type-badge {
   font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
-  padding:2px 6px; border-radius:2px; border:1px solid rgba(42,122,72,0.3);
-  color:var(--activity); text-transform:uppercase; flex-shrink:0;
+  padding:2px 6px; border-radius:2px; border:1px solid rgba(200,168,74,0.3);
+  color:var(--gold); text-transform:uppercase; flex-shrink:0;
 }
 .practice-period-badge {
   font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
@@ -878,16 +957,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .practice-info { padding:10px 14px; display:flex; flex-direction:column; justify-content:space-between; }
 .practice-info-text { flex:1; }
-.practice-name { font-family:'Cinzel',serif; font-size:16px; color:var(--activity); letter-spacing:0.06em; margin-bottom:3px; }
+.practice-name { font-family:'Cinzel',serif; font-size:16px; color:var(--gold); letter-spacing:0.06em; margin-bottom:3px; }
 .practice-desc { font-size:15px; color:var(--text-mid); line-height:1.55; }
-.practice-why { font-size:14px; color:#60a838; font-style:italic; margin-top:5px; line-height:1.45; opacity:0.9; }
+.practice-why { font-size:14px; color:rgba(200,168,74,0.75); font-style:italic; margin-top:5px; line-height:1.45; }
 .practice-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.7; }
-.practice-stats { display:flex; gap:14px; font-family:var(--mono); font-size:13px; color:var(--text-dim); margin-top:10px; padding-top:8px; border-top:1px solid rgba(42,122,72,0.08); flex-wrap:wrap; }
+.practice-stats { display:flex; gap:14px; font-family:var(--mono); font-size:13px; color:var(--text-dim); margin-top:10px; padding-top:8px; border-top:1px solid rgba(200,168,74,0.1); flex-wrap:wrap; }
 .practice-stat { display:flex; align-items:baseline; gap:5px; }
 .practice-stat-label { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); }
-.practice-stat-value { font-size:14px; color:var(--text-mid); }
-.practice-widget { padding:10px 14px; border-left:1px solid rgba(42,122,72,0.1); min-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
-.practice-graph-col { border-left:1px solid rgba(42,122,72,0.08); padding:10px 12px; display:flex; align-items:center; min-width:0; }
+.practice-stat-value { font-size:14px; color:var(--gold); }
+.practice-widget { padding:10px 14px; border-left:1px solid rgba(200,168,74,0.12); min-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+.practice-graph-col { border-left:1px solid rgba(200,168,74,0.1); padding:10px 12px; display:flex; align-items:center; min-width:0; }
 .practice-graph-wrap { flex:1; min-width:0; position:relative; width:100%; }
 .practice-graph-canvas { width:100%; height:56px; display:block; }
 
@@ -928,7 +1007,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   min-height:2px;
 }
 .prac-bar-col:not(.is-hardcoded):hover .prac-bar-inner {
-  opacity:0.7; outline:1px solid rgba(200,168,74,0.6);
+  opacity:0.8; outline:1px solid rgba(200,168,74,0.7);
 }
 .prac-bar-col.is-hardcoded:hover .prac-bar-inner { outline:none; }
 .prac-bar-x-axis {
@@ -941,9 +1020,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* Edit popover */
 .prac-bar-edit {
-  position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%);
-  background:#1a1a24; border:1px solid rgba(42,122,72,0.5); border-radius:5px;
-  padding:6px 8px; z-index:20; white-space:nowrap; display:flex; flex-direction:column; gap:4px;
+  position:fixed;
+  background:#1a1a24; border:1px solid rgba(200,168,74,0.4); border-radius:5px;
+  padding:6px 8px; z-index:9999; white-space:nowrap; display:flex; flex-direction:column; gap:4px;
   box-shadow:0 4px 16px rgba(0,0,0,0.5);
 }
 .prac-bar-edit-lbl {
@@ -952,29 +1031,29 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .prac-bar-edit-row { display:flex; gap:4px; align-items:center; }
 .prac-bar-edit-input {
-  background:var(--bg); border:1px solid rgba(42,122,72,0.5); border-radius:3px;
+  background:var(--bg); border:1px solid rgba(200,168,74,0.4); border-radius:3px;
   color:var(--text-b); font-family:var(--mono); font-size:14px; font-weight:700;
   padding:3px 6px; width:64px; text-align:center;
 }
-.prac-bar-edit-input:focus { outline:none; border-color:var(--activity); }
+.prac-bar-edit-input:focus { outline:none; border-color:var(--gold); }
 .prac-bar-edit-unit { font-family:var(--mono); font-size:12px; color:var(--text-dim); }
 .prac-bar-edit-save {
   font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
-  border:1px solid rgba(42,122,72,0.5); border-radius:3px; background:rgba(42,122,72,0.12);
-  color:var(--activity); cursor:pointer; padding:3px 8px; transition:background 0.15s;
+  border:1px solid rgba(200,168,74,0.4); border-radius:3px; background:rgba(200,168,74,0.1);
+  color:var(--gold); cursor:pointer; padding:3px 8px; transition:background 0.15s;
 }
-.prac-bar-edit-save:hover { background:rgba(42,122,72,0.25); }
+.prac-bar-edit-save:hover { background:rgba(200,168,74,0.22); }
 
 /* Checkbox practice widget */
 .checkbox-dots { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
 .checkbox-dot {
-  width:34px; height:34px; border-radius:50%; border:2px solid rgba(42,122,72,0.4);
+  width:34px; height:34px; border-radius:50%; border:2px solid rgba(200,168,74,0.4);
   background:none; cursor:pointer; transition:all 0.18s; display:flex; align-items:center; justify-content:center;
   font-size:16px;
 }
-.checkbox-dot.filled { background:var(--activity); border-color:var(--activity); box-shadow:0 0 7px rgba(42,122,72,0.4); }
+.checkbox-dot.filled { background:var(--gold); border-color:var(--gold); box-shadow:0 0 7px rgba(200,168,74,0.4); }
 .checkbox-dot.filled::after { content:'✓'; color:#fff; font-size:15px; font-weight:700; }
-.checkbox-dot:hover:not(.filled) { border-color:var(--activity); background:rgba(42,122,72,0.18); transform:scale(1.08); }
+.checkbox-dot:hover:not(.filled) { border-color:var(--gold); background:rgba(200,168,74,0.12); transform:scale(1.08); }
 .practice-count-lbl { font-family:var(--mono); font-size:14px; color:var(--text-dim); }
 
 /* Number practice widget */
@@ -984,21 +1063,86 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   color:var(--text-b); font-family:var(--mono); font-size:26px; font-weight:700;
   padding:8px 14px; width:88px; text-align:center;
 }
-.number-input:focus { outline:none; border-color:var(--activity); box-shadow:0 0 0 2px rgba(42,122,72,0.2); }
+.number-input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 2px rgba(200,168,74,0.2); }
 .number-save-btn {
   font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
-  border:1px solid rgba(42,122,72,0.45); border-radius:3px; background:rgba(42,122,72,0.07);
-  color:var(--activity); cursor:pointer; padding:6px 14px; transition:all 0.2s; width:100%;
+  border:1px solid rgba(200,168,74,0.4); border-radius:3px; background:rgba(200,168,74,0.07);
+  color:var(--gold); cursor:pointer; padding:6px 14px; transition:all 0.2s; width:100%;
 }
-.number-save-btn:hover { background:rgba(42,122,72,0.18); border-color:var(--activity); }
+.number-save-btn:hover { background:rgba(200,168,74,0.16); border-color:var(--gold); }
 .practice-period-lbl { font-family:var(--mono); font-size:13px; color:var(--text-dim); }
 .practice-xp-earned { font-family:var(--mono); font-size:13px; color:#b080e8; min-height:12px; text-align:center; }
+
+/* Sub-activity chips in card header */
+.rq-sub-chip {
+  font-family:var(--mono); font-size:10px; letter-spacing:0.08em;
+  padding:2px 7px; border-radius:10px; border:1px solid transparent;
+  text-transform:uppercase; opacity:0.85; display:inline-flex; align-items:center; gap:4px;
+}
+.rq-color-swatch {
+  display:inline-block; width:12px; height:12px; border-radius:50%;
+  cursor:pointer; flex-shrink:0; border:1px solid rgba(255,255,255,0.2);
+  position:relative; vertical-align:middle;
+}
+.rq-color-swatch-sm { width:9px; height:9px; }
+.rq-color-input {
+  position:absolute; inset:0; opacity:0; width:100%; height:100%;
+  cursor:pointer; padding:0; border:none;
+}
+
+/* Sub-activity toggle buttons in widget */
+.rq-sub-btns { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.rq-sub-btn {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+  padding:5px 11px; border-radius:4px; border:1px solid var(--sub-color, rgba(200,168,74,0.4));
+  background:transparent; color:var(--sub-color, var(--gold)); cursor:pointer;
+  transition:all 0.18s; opacity:0.65;
+}
+.rq-sub-btn:hover { opacity:1; background:rgba(200,168,74,0.08); }
+.rq-sub-btn.done {
+  background:var(--sub-color, rgba(200,168,74,0.25)); border-color:var(--sub-color, var(--gold));
+  color:#fff; opacity:1; box-shadow:0 0 8px rgba(0,0,0,0.3);
+}
+
+/* XP hint label in widget */
+.rq-xp-label { font-family:var(--mono); font-size:11px; color:rgba(176,128,232,0.7); letter-spacing:0.06em; }
+
+/* GitHub-style sub-activity lanes in bar chart */
+.prac-bar-col.is-sub-mode {
+  display:flex; flex-direction:column; gap:2px; justify-content:center;
+  align-items:stretch; padding:3px 0;
+}
+.prac-bar-lane-cell {
+  height:10px; border-radius:2px; flex-shrink:0; transition:opacity 0.15s;
+}
+.prac-bar-col.is-sub-mode:not(.is-hardcoded):hover .prac-bar-lane-cell {
+  outline:1px solid rgba(255,255,255,0.15);
+}
+.prac-bar-y-lanes {
+  display:flex; flex-direction:column; justify-content:center; gap:2px; padding:3px 0;
+}
+.prac-bar-lane-label {
+  font-family:var(--mono); font-size:8px; line-height:10px; height:10px;
+  text-align:right; padding-right:4px; white-space:nowrap; overflow:hidden;
+  flex-shrink:0;
+}
+/* Sub-activity chips inside bar-chart popover */
+.prac-bar-edit-sub-chips { display:flex; flex-direction:column; gap:4px; }
+.prac-bar-sub-chip {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+  padding:4px 10px; border-radius:3px; cursor:pointer; text-align:left;
+  border:1px solid var(--sc, rgba(200,168,74,0.4));
+  background:transparent; color:var(--sc, var(--gold));
+  opacity:0.55; transition:all 0.15s;
+}
+.prac-bar-sub-chip:hover { opacity:0.9; }
+.prac-bar-sub-chip.done { background:var(--sc, rgba(200,168,74,0.25)); opacity:1; color:#fff; }
 
 /* Practice hero (legacy, kept for backward compat) */
 .practice-hero {
   display:grid; grid-template-columns:1fr auto; gap:0;
-  background:var(--activity-bg); border:1px solid rgba(42,122,72,0.25);
-  border-left:3px solid var(--activity); border-radius:6px;
+  background:rgba(200,168,74,0.04); border:1px solid rgba(200,168,74,0.25);
+  border-left:3px solid var(--gold); border-radius:6px;
   margin-bottom:0; overflow:hidden;
 }
 .practice-hero-info {
@@ -1012,28 +1156,28 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   border-top:none;
 }
 
-/* History + Progression record block */
+/* Recurring Quest record block */
 .practice-record {
-  margin-top:0; border:1px solid rgba(42,122,72,0.18);
+  margin-top:0; border:1px solid rgba(200,168,74,0.18);
   border-radius:6px;
-  background:rgba(42,122,72,0.02); overflow:hidden;
+  background:rgba(200,168,74,0.02); overflow:hidden;
 }
 .practice-record-section { padding:14px 18px; }
 
-/* Activity header */
+/* Activity header (legacy) */
 .activity-card {
   display:flex; flex-direction:column; align-items:stretch;
-  background:var(--activity-bg); border:1px solid rgba(42,122,72,0.25);
-  border-left:3px solid var(--activity); border-radius:6px;
+  background:rgba(200,168,74,0.04); border:1px solid rgba(200,168,74,0.25);
+  border-left:3px solid var(--gold); border-radius:6px;
   margin-bottom:24px; overflow:hidden;
 }
 .activity-card-hdr {
-  font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.22em; color:var(--activity);
-  text-transform:uppercase; padding:10px 20px 8px; border-bottom:1px solid rgba(42,122,72,0.2);
+  font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.22em; color:var(--gold);
+  text-transform:uppercase; padding:10px 20px 8px; border-bottom:1px solid rgba(200,168,74,0.2);
 }
 .activity-card-body { display:flex; align-items:flex-start; gap:20px; padding:16px 20px; }
 .activity-info { flex:1; }
-.activity-name { font-family:'Cinzel',serif; font-size:18px; color:var(--activity); letter-spacing:0.08em; margin-bottom:4px; }
+.activity-name { font-family:'Cinzel',serif; font-size:18px; color:var(--gold); letter-spacing:0.08em; margin-bottom:4px; }
 .activity-desc { font-size:17px; color:var(--text-mid); line-height:1.6; }
 .activity-target { font-family:var(--mono); font-size:15px; color:var(--text-dim); margin-top:5px; }
 
@@ -1269,46 +1413,29 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
-<!-- ══ WELCOME BANNER ════════════════════════════════════ -->
-<div id="welcome-banner" style="display:none">
-  <button class="welcome-dismiss" onclick="dismissWelcome()" title="Dismiss">×</button>
-  <div class="welcome-title">Welcome to character-sheet</div>
-  <div class="welcome-desc">A personal life dashboard. You are looking at Example Steve's data (yes, that Steve). Set up your own sheet below, or import existing data if you already have it.</div>
-  <div class="welcome-options">
-    <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
-    <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data - import it</button>
-  </div>
-  <div id="welcome-setup-steps">
-    <div class="welcome-step">
-      <div class="welcome-step-num">1</div>
-      <div class="welcome-step-text"><strong>Download instructions.md.</strong> Claude needs this file to understand the data format. <button class="btn-ghost" style="padding:3px 10px;font-size:14px;margin-left:6px;" onclick="downloadInstructions()">Download</button></div>
+<!-- ══ WELCOME MODAL ════════════════════════════════════ -->
+<div class="modal-overlay" id="welcome-modal">
+  <div class="modal">
+    <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
+    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with your AI of choice — it updates your data, you import it here. You're looking at <strong>Example Steve's data</strong> — explore it freely, then set up your own below.</p>
+    <div class="welcome-options">
+      <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data — Import it</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome()" title="Explore Steve's data and reopen Help any time via the button at bottom right">Explore Steve's data</button>
     </div>
-    <div class="welcome-step">
-      <div class="welcome-step-num">2</div>
-      <div class="welcome-step-text"><strong>Create a Claude Project.</strong> Go to <a href="https://claude.ai" target="_blank" style="color:var(--gold)">claude.ai</a>, click "Projects" in the left sidebar, then "New project".</div>
-    </div>
-    <div class="welcome-step">
-      <div class="welcome-step-num">3</div>
-      <div class="welcome-step-text"><strong>Add instructions.md to the project.</strong> Inside your new project, click "Add content" then "Add files" and upload the file you just downloaded. It stays attached to every chat automatically.</div>
-    </div>
-    <div class="welcome-step">
-      <div class="welcome-step-num">4</div>
-      <div class="welcome-step-text"><strong>Start a chat</strong> and just start talking. Use the starters in the Journal tab if you want a prompt to begin with.</div>
-    </div>
-    <div class="welcome-step">
-      <div class="welcome-step-num">5</div>
-      <div class="welcome-step-text"><strong>At the end of your session,</strong> ask Claude: <em>"Generate my data.json"</em> and copy what it gives you.</div>
-    </div>
-    <div class="welcome-step">
-      <div class="welcome-step-num">6</div>
-      <div class="welcome-step-text"><strong>Import your data.</strong> Click the <strong>&#8593; button at the bottom-right of this page</strong>, paste the JSON, and click Import.</div>
+    <div id="welcome-setup-steps">
+      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md</strong> — the file that tells your AI how this app works. <button class="btn-ghost" style="padding:3px 10px;font-size:14px;margin-left:6px;" onclick="downloadInstructions()">Download</button></div></div>
+      <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice</strong> — Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at — then just talk.</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
+      <div class="welcome-step"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>Click ↑ Import</strong> (bottom-right), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
     </div>
   </div>
 </div>
 
 <!-- ══ DIRTY BANNER ═══════════════════════════════════════ -->
 <div id="dirty-banner">
-  <span class="dirty-banner-text">You have unsaved local edits. Export ↓ and replace your data.json in Claude to keep them.</span>
+  <span class="dirty-banner-text">You have unsaved local edits. Export ↓ and paste your data.json into your AI project to keep them.</span>
   <button class="dirty-banner-never" onclick="neverShowDirtyBanner()">Never show</button>
   <button class="dirty-banner-dismiss" onclick="dismissDirtyBanner()" title="Dismiss">×</button>
 </div>
@@ -1595,7 +1722,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 
   <div class="qt-section">
-    <div class="qt-section-hdr">Active Quests</div>
+    <div class="qt-section-hdr">Side Quests</div>
     <div class="section-desc">Active battles on secondary fronts</div>
     <div id="qt-active"></div>
   </div>
@@ -1742,19 +1869,34 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     </div>
   </div>
 
-  <!-- ── Practices ── -->
-  <div id="practices-container"></div>
+  <!-- ── Recurring Quests ── -->
+  <div id="rquests-container"></div>
 
 </div>
 
 <div id="tab-lore" class="tab-panel">
+  <div id="lore-progression" class="lore-card lore-card--progression" style="display:none;">
+    <div class="lore-card-hdr">Progression Timeline</div>
+    <div class="lore-card-desc">Summary of your entire progression so far since you started journalling with character-sheet</div>
+    <div id="lore-progression-text" class="lore-card-body"></div>
+  </div>
+
+  <div id="lore-last-session" class="lore-card lore-card--session" style="display:none;">
+    <div class="lore-card-hdr">Last Session</div>
+    <div class="lore-card-desc">Summary of the latest events, insights and unresolved tensions from your latest journalling session</div>
+    <div id="lore-last-session-text" class="lore-card-body"></div>
+  </div>
+
+  <div id="lore-key-q" class="lore-card lore-card--keyq" style="display:none;"></div>
+
   <!-- ── Session starters ── -->
   <div class="starters-section" id="starters-section">
     <button class="starters-toggle" id="starters-toggle" onclick="toggleStarters()">
       <span class="starters-toggle-arrow" id="starters-arrow">▶</span>
-      Start a session
+      New session prompt ideas
     </button>
     <div class="starters-body" id="starters-body">
+      <p class="starters-desc">Some optional inspiration for what you might want to start journalling about</p>
       <div class="starter-row">
         <span class="starter-text">"Here's what's been going on lately —"</span>
         <button class="starter-copy-btn" onclick="copyStarter(this,'Here\'s what\'s been going on lately —')">Copy</button>
@@ -1783,15 +1925,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <span class="starter-text">"[Guided] Interview me. I want to update my whole sheet"</span>
         <button class="starter-copy-btn" id="deep-dive-btn" onclick="copyDeepDive(this)">Copy</button>
       </div>
-      <p class="starters-note">Optional — or just open Claude and start talking. These are starting points.</p>
     </div>
   </div>
 
-  <div id="lore-progression" style="display:none;margin-bottom:24px;padding:18px 22px;background:rgba(96,64,160,0.05);border:1px solid rgba(96,64,160,0.18);border-left:3px solid #7050b0;border-radius:6px;">
-    <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:#9070c8;opacity:0.8;text-transform:uppercase;margin-bottom:9px;">Progression Timeline</div>
-    <div id="lore-progression-text" style="font-size:17px;color:var(--text-b);line-height:1.65;"></div>
-  </div>
-  <div id="lore-key-q" style="display:none;margin-bottom:22px;padding:16px 20px;background:rgba(180,150,80,0.07);border:1px solid rgba(180,150,80,0.2);border-left:3px solid var(--gold);border-radius:5px;"></div>
+  <div class="lore-chapters-hdr">Chapters</div>
   <div id="insights-timeline"></div>
 </div>
 
@@ -1856,25 +1993,99 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
-<button class="float-btn" id="help-btn" onclick="openHelpModal()" title="Help — show welcome &amp; instructions" style="bottom:136px;border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;color:var(--text-dim);">? Help</button>
-<button class="float-btn" id="export-btn" style="bottom:82px;border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;" onclick="exportState()" title="Export — copy to Claude">↓ Export</button>
-<button class="float-btn" id="import-btn" onclick="openModal()" title="Import — paste from Claude" style="border-radius:24px;padding:0 14px;width:auto;font-size:15px;letter-spacing:0.08em;font-family:'Cinzel',serif;">↑ Import</button>
-<script>if(location.hostname.endsWith('github.io')){document.getElementById('export-btn').style.display='none';document.getElementById('import-btn').style.display='none';}</script>
+<div id="float-bar">
+  <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help — setup instructions" style="position:relative;">? Help<span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
+  <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export — copy data to your AI">↓ Export</button>
+  <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import — paste data from your AI">↑ Import</button>
+</div>
 
 <!-- ══ HELP MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);max-width:560px;">
-    <div class="modal-title" style="color:var(--gold);">? &nbsp;HELP — CHARACTER SHEET</div>
-    <p>A personal life dashboard styled as an RPG character sheet. Journal with Claude AI, which updates your data — then import it here.</p>
-    <div id="help-setup-steps" style="margin-bottom:14px;">
-      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md.</strong> Claude needs this to understand the data format. <button class="btn-ghost" style="padding:3px 10px;font-size:13px;margin-left:6px;" onclick="downloadInstructions()">Download</button></div></div>
-      <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a Claude Project.</strong> Go to <a href="https://claude.ai" target="_blank" style="color:var(--gold)">claude.ai</a>, click "Projects" in the left sidebar, then "New project".</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Add instructions.md to the project.</strong> Inside your new project, click "Add content" → "Add files" and upload the file.</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>Start a chat</strong> and just start talking. Use the starters in the Journal tab if you want a prompt.</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>At the end of your session,</strong> ask Claude: <em>"Generate my data.json"</em> and copy the output.</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">6</div><div class="welcome-step-text"><strong>Import your data.</strong> Click the <strong>↑ Import button</strong> at the bottom-right, paste the JSON, and click Apply.</div></div>
+  <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:96vw;">
+    <div class="modal-title" style="color:var(--help);margin-bottom:16px;">? &nbsp;HOW IT WORKS</div>
+    <div class="help-cols">
+
+      <!-- Column 1: Setup / Update -->
+      <div class="help-col" id="help-col-setup">
+        <div class="help-col-hdr">
+          ⬡ &nbsp;Setup / Update
+          <div id="help-col-update-badge" style="display:none;margin-top:6px;font-size:11px;letter-spacing:0.08em;color:var(--gold);font-family:var(--mono);text-transform:none;opacity:1;">⚠ Update available — repeat these steps</div>
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">First time &amp; when updated</div>
+        </div>
+        <div id="help-download-step" style="display:none">
+          <div class="help-step">
+            <div class="help-step-num">↓</div>
+            <div class="help-step-text"><strong>Download character-sheet.html</strong> and open it in your browser. This unlocks import &amp; export.</div>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">1</div>
+          <div class="help-step-text">
+            <strong>Download character-sheet.html</strong>
+            <span style="display:block;margin-top:6px;"><button class="btn-ghost" style="font-size:13px;padding:4px 12px;" onclick="downloadApp()">↓ character-sheet.html</button></span>
+            <span style="display:block;font-size:13px;color:var(--text-dim);font-style:italic;margin-top:5px;">Open it in your browser (Firefox, Chrome, etc.)</span>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">2</div>
+          <div class="help-step-text">
+            <strong>Download instructions.md</strong>
+            <span style="display:block;margin-top:6px;"><button class="btn-ghost" style="font-size:13px;padding:4px 12px;" onclick="downloadInstructions()">↓ instructions.md</button></span>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">3</div>
+          <div class="help-step-text"><strong>Upload instructions.md to your AI project.</strong> Go to your Claude Project, ChatGPT Project, or Gemini Gem and replace the existing instructions.md in the project knowledge.</div>
+        </div>
+      </div>
+
+      <!-- Column 2: Journal with AI -->
+      <div class="help-col">
+        <div class="help-col-hdr">
+          ✦ &nbsp;Journal with AI
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Each session</div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">4</div>
+          <div class="help-step-text"><strong>Open your project</strong> in Claude, ChatGPT, or Gemini and start a new chat. Paste in your current data — use ↓ Export to get it — then just talk.</div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">5</div>
+          <div class="help-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> — it will output a JSON block. Copy it.</div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">6</div>
+          <div class="help-step-text"><strong>Import your updated data:</strong>
+            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:13px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');openModal()">↑ Import</button></span>
+            <span style="display:block;font-size:13px;color:var(--text-dim);font-style:italic;margin-top:5px;">Paste the JSON and hit Apply.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Edit in app -->
+      <div class="help-col">
+        <div class="help-col-hdr">
+          ◈ &nbsp;Edit in app
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Optional</div>
+        </div>
+        <p class="help-note">Most fields are editable directly — click any text in the app to edit it in place.</p>
+        <div class="help-step">
+          <div class="help-step-num">1</div>
+          <div class="help-step-text"><strong>Export your updated data:</strong>
+            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:13px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');exportState()">↓ Export</button></span>
+            <span style="display:block;font-size:13px;color:var(--text-dim);font-style:italic;margin-top:5px;">Copy the JSON.</span>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">2</div>
+          <div class="help-step-text"><strong>Paste the JSON into your AI project</strong> to replace the old data.json — so your AI has your latest state next session.</div>
+        </div>
+        <p class="help-note">The orange banner at the top appears when you have edits that haven't been exported yet.</p>
+      </div>
+
     </div>
-    <div class="modal-row">
+    <div id="instructions-version-notice" style="display:none;margin-top:14px;padding:8px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.35);border-radius:4px;font-size:15px;color:var(--gold);">⚠ &nbsp;An app update is available. Re-run the Setup steps above to download the latest character-sheet.html and instructions.md.</div>
+    <div class="modal-row" style="margin-top:14px;">
       <button class="btn-ghost" onclick="document.getElementById('help-modal').classList.remove('open')">Close</button>
     </div>
   </div>
@@ -1884,7 +2095,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div class="modal-overlay" id="sync-modal">
   <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);">
     <div class="modal-title" style="color:var(--gold);">HOW SYNC WORKS</div>
-    <p>Changes you make here are saved locally in your browser. To keep them, use the Export button (↓) and paste the JSON into your Claude project to replace your old data.json. This keeps Claude and the app in sync.</p>
+    <p>Changes you make here are saved locally in your browser. To keep them, use the Export button (↓) and paste the JSON into your AI project to replace your old data.json. This keeps your AI and the app in sync.</p>
     <div class="modal-row">
       <button class="btn-primary" onclick="closeSyncModal()">Got it</button>
       <button class="btn-ghost" onclick="closeSyncModal(true)">Never show again</button>
@@ -1899,9 +2110,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div class="modal-overlay" id="modal">
-  <div class="modal" style="border-top:3px solid #4a9060;">
-    <div class="modal-title" style="color:#4a9060;">↑ &nbsp;IMPORT &nbsp;— PASTE FROM CLAUDE</div>
-    <p>After a journalling session, ask Claude to output the JSON update. Paste it below and hit Apply.</p>
+  <div class="modal" style="border-top:3px solid var(--help);">
+    <div class="modal-title" style="color:var(--help);">↑ &nbsp;IMPORT &nbsp;— PASTE FROM CLAUDE</div>
+    <p>After a journalling session, ask your AI to output the JSON update. Paste it below and hit Apply.</p>
     <textarea id="json-input" placeholder='{ "name": "Alex", "mainQuest": { ... }, ... }'></textarea>
     <div class="modal-row">
       <button class="btn-primary" onclick="applyUpdate()">Apply</button>
@@ -1913,15 +2124,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ EXPORT MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid #c8a84a;">
-    <div class="modal-title" style="color:#c8a84a;">↓ &nbsp;EXPORT &nbsp;— COPY TO CLAUDE</div>
-    <p>Copy this JSON and paste it into Claude at the start of your next session so it knows your current state.</p>
-    <div id="instructions-version-notice" style="display:none;margin-bottom:10px;padding:8px 12px;background:rgba(200,168,74,0.08);border:1px solid rgba(200,168,74,0.3);border-radius:4px;font-size:16px;color:var(--gold);">Instructions update available — <button class="btn-ghost" style="padding:3px 10px;font-size:14px;" onclick="downloadInstructions()">Download instructions.md</button> and replace it in your Claude project knowledge.</div>
+  <div class="modal" style="border-top:3px solid var(--help);">
+    <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
+    <p>Copy this JSON and use it to replace the old data.json file attached in your AI project. This ensures your chat knows your updated state, including changes made in the app.</p>
     <textarea id="export-textarea" readonly style="min-height:200px;font-size:15px"></textarea>
     <div class="modal-row" style="flex-wrap:wrap;gap:8px;">
       <button class="btn-primary" id="copy-export-btn" onclick="copyExport()">Copy</button>
       <button class="btn-ghost" onclick="document.getElementById('export-modal').classList.remove('open')">Close</button>
-      <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="downloadInstructions()">↓ instructions.md</button>
+      <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="downloadExportJson()">↓ data.json</button>
     </div>
   </div>
 </div>
@@ -1994,18 +2204,37 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '0.8.0';
+const INSTRUCTIONS_VERSION = '0.9.0';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
-const FEATURED_ACH_KEY='liferpg-featured-ach-v7';
-const HDR_ICON_KEY='liferpg-hdr-icon-v7';
-const WELCOMED_KEY='liferpg-welcomed-v7';
-const SYNC_EXPLAINED_KEY='liferpg-sync-explained-v7';
-const HIDE_DIRTY_BANNER_KEY='liferpg-hide-dirty-banner-v7';
+const FEATURED_ACH_KEY='cs-featured-ach-v1';
+const COMPLETED_QUESTS_KEY='cs-completed-quests-v1';
+const HDR_ICON_KEY='cs-hdr-icon-v1';
+const WELCOMED_KEY='cs-welcomed-v1';
+const SYNC_EXPLAINED_KEY='cs-sync-explained-v1';
+const HIDE_DIRTY_BANNER_KEY='cs-hide-dirty-banner-v1';
 const IS_DEMO=location.hostname.endsWith('github.io');
-function loadState(){if(IS_DEMO)return DEFAULT;try{const r=localStorage.getItem('liferpg-v7');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
-function saveState(s){if(IS_DEMO)return;try{localStorage.setItem('liferpg-v7',JSON.stringify(s));}catch{}}
+function loadState(){if(IS_DEMO)return DEFAULT;try{const r=localStorage.getItem('cs-state-v1');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
+function saveState(s){if(IS_DEMO)return;try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch{}}
+// Migration: move completedQuests out of appState into dedicated localStorage key
+function migrateCompletedQuests(){
+  if(IS_DEMO) return;
+  try{
+    const raw=localStorage.getItem('cs-state-v1');
+    if(!raw) return;
+    const s=JSON.parse(raw);
+    if((s.completedQuests&&s.completedQuests.length)||(s.completedMainQuests&&s.completedMainQuests.length)){
+      const incoming=[...(s.completedQuests||[]),...(s.completedMainQuests||[])];
+      // Only migrate if dedicated key is empty (first migration)
+      if(!localStorage.getItem(COMPLETED_QUESTS_KEY)){
+        localStorage.setItem(COMPLETED_QUESTS_KEY,JSON.stringify(incoming));
+      }
+      delete s.completedQuests; delete s.completedMainQuests;
+      localStorage.setItem('cs-state-v1',JSON.stringify(s));
+    }
+  }catch{}
+}
 
 // Period helpers
 function getPeriodKey(date, resetPeriod) {
@@ -2029,47 +2258,54 @@ function isPeriodExpired(periodStart, resetPeriod) {
 }
 
 // Practice localStorage helpers
-function loadPracticeCurrent(charName, id){try{const r=localStorage.getItem('liferpg-prac-cur-'+charName+'-'+id);return r?JSON.parse(r):null;}catch{return null;}}
-function savePracticeCurrent(charName, id, data){try{localStorage.setItem('liferpg-prac-cur-'+charName+'-'+id,JSON.stringify(data));}catch{}}
-function loadPracticeHistory(charName, id){try{const r=localStorage.getItem('liferpg-prac-hist-'+charName+'-'+id);return r?JSON.parse(r):[];}catch{return [];}}
-function savePracticeHistory(charName, id, hist){try{localStorage.setItem('liferpg-prac-hist-'+charName+'-'+id,JSON.stringify(hist));}catch{}}
+function loadRQCurrent(charName, id){try{const r=localStorage.getItem('cs-rq-cur-'+charName+'-'+id);return r?JSON.parse(r):null;}catch{return null;}}
+function saveRQCurrent(charName, id, data){try{localStorage.setItem('cs-rq-cur-'+charName+'-'+id,JSON.stringify(data));}catch{}}
+function loadRQHistory(charName, id){try{const r=localStorage.getItem('cs-rq-hist-'+charName+'-'+id);return r?JSON.parse(r):[];}catch{return [];}}
+function saveRQHistory(charName, id, hist){try{localStorage.setItem('cs-rq-hist-'+charName+'-'+id,JSON.stringify(hist));}catch{}}
 
 // In-memory state for active practices
 const practiceState = {}; // id -> { seconds, running, interval, milestonesHit, milestoneXP, toastTimeout }
 
-function archivePracticeValue(act, charName, periodStart, value) {
+function archiveRQValue(act, charName, periodStart, value) {
   if (!value || value <= 0 || !periodStart) return;
-  const hist = loadPracticeHistory(charName, act.id);
+  const hist = loadRQHistory(charName, act.id);
   if (!hist.find(h => h.period === periodStart)) {
     hist.push({ period: periodStart, value, target: act.target || 0 });
-    savePracticeHistory(charName, act.id, hist);
+    saveRQHistory(charName, act.id, hist);
   }
 }
 
-function initPracticeState(act, charName) {
+function initRQState(act, charName) {
   const id = act.id;
   if (!practiceState[id]) practiceState[id] = { seconds:0, running:false, interval:null, milestonesHit:new Set(), milestoneXP:0, toastTimeout:null };
   const ps = practiceState[id];
-  const saved = loadPracticeCurrent(charName, id);
+  const saved = loadRQCurrent(charName, id);
   if (act.type === 'timer') {
     if (saved && !isPeriodExpired(saved.periodStart, act.resetPeriod)) {
-      ps.seconds = saved.value || 0;
+      let secs = saved.value || 0;
+      if (saved.timerRunning && saved.timerStartedAt) {
+        secs += Math.floor((Date.now() - saved.timerStartedAt) / 1000);
+      }
+      ps.seconds = secs;
+      ps._resumeTimer = saved.timerRunning && !!saved.timerStartedAt;
     } else {
-      if (saved && saved.value > 0) archivePracticeValue(act, charName, saved.periodStart, Math.floor(saved.value / 60));
+      if (saved && saved.value > 0) archiveRQValue(act, charName, saved.periodStart, Math.floor(saved.value / 60));
       ps.seconds = 0;
     }
-    ps.running = false; // never auto-resume
+    ps.running = false;
   } else {
     if (saved && !isPeriodExpired(saved.periodStart, act.resetPeriod)) {
       ps.value = saved.value || 0;
+      ps.subsDone = saved.subsDone || [];
     } else {
-      if (saved && saved.value > 0) archivePracticeValue(act, charName, saved.periodStart, saved.value);
+      if (saved && saved.value > 0) archiveRQValue(act, charName, saved.periodStart, saved.value);
       ps.value = 0;
+      ps.subsDone = [];
     }
   }
 }
 
-function getPracticeValue(act, charName) {
+function getRQValue(act, charName) {
   const id = act.id;
   const ps = practiceState[id];
   if (!ps) return 0;
@@ -2093,43 +2329,39 @@ function getHardcodedValue(act, date) {
   return null;
 }
 
-function getPracticeStats(act, charName) {
-  // Returns { best, avg7 } across last 7 completed periods
+function getRQStats(act, charName) {
+  // Returns { avg7, avgAll, lastDone } — no streak, no best
   const hardHist = HARDCODED_HISTORY[act.id] || [];
-  const periods = [];
+  const lsHist   = loadRQHistory(charName, act.id);
+  const periods = []; // { period, value } objects in descending order
   const now = new Date();
-  if (act.resetPeriod === 'day') {
-    for (let i = 1; i <= 28; i++) {
-      const d = new Date(now); d.setDate(d.getDate() - i);
-      const ds = d.toISOString().slice(0,10);
-      const hard = hardHist.find(h => h.date === ds);
-      if (hard != null) periods.push(hard.value);
-      else {
-        const ls = loadPracticeHistory(charName, act.id);
-        const le = ls.find(h => h.period === ds);
-        if (le != null) periods.push(le.value);
-      }
-    }
-  } else if (act.resetPeriod === 'week') {
-    for (let i = 1; i <= 12; i++) {
-      const d = new Date(now); d.setDate(d.getDate() - i*7);
-      const wp = getPeriodKey(d, 'week');
-      const hard = hardHist.find(h => h.period === wp);
-      if (hard != null) periods.push(hard.value);
-      else {
-        const ls = loadPracticeHistory(charName, act.id);
-        const le = ls.find(h => h.period === wp);
-        if (le != null) periods.push(le.value);
-      }
-    }
+  const numPeriods = act.resetPeriod === 'week' ? 52 : 90;
+  for (let i = 1; i <= numPeriods; i++) {
+    const d = new Date(now);
+    if (act.resetPeriod === 'day') d.setDate(d.getDate() - i);
+    else d.setDate(d.getDate() - i * 7);
+    const periodKey = getPeriodKey(d, act.resetPeriod);
+    const dateKey   = act.resetPeriod === 'day' ? d.toISOString().slice(0,10) : null;
+    const hard = dateKey
+      ? hardHist.find(h => h.date === dateKey)
+      : hardHist.find(h => h.period === periodKey);
+    const le = lsHist.find(h => h.period === periodKey);
+    let val = null;
+    if (hard != null) val = hard.value;
+    else if (le != null) val = le.value;
+    if (val != null) periods.push({ period: periodKey, value: val });
+    else periods.push({ period: periodKey, value: 0 });
   }
-  const vals = periods.filter(v => v != null && v > 0);
-  const best = vals.length ? Math.max(...vals) : 0;
-  const last7 = vals.slice(0, 7);
-  const avg7 = last7.length ? Math.round(last7.reduce((a,b)=>a+b,0) / last7.length) : 0;
-  return { best, avg7 };
+  const nonZero = periods.filter(p => p.value > 0);
+  const avg7vals = periods.slice(0, 7).map(p => p.value);
+  const avg7 = avg7vals.length ? Math.round(avg7vals.reduce((a,b)=>a+b,0) / avg7vals.length) : 0;
+  const avgAll = nonZero.length ? Math.round(nonZero.reduce((a,b)=>a+b.value,0) / nonZero.length) : 0;
+  const lastDoneEntry = nonZero[0];
+  const lastDone = lastDoneEntry ? lastDoneEntry.period : null;
+  return { avg7, avgAll, lastDone };
 }
 
+migrateCompletedQuests();
 let appState=loadState(), timerIv={};
 
 // ══ SLIDER BUILDER ══════════════════════════════════════════
@@ -2383,7 +2615,7 @@ function updateRadar(vals){
 }
 
 const STAT_COLORS = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
-const STATS_HIST_KEY = 'liferpg-stats-hist-v7';
+const STATS_HIST_KEY = 'cs-stats-hist-v1';
 
 function updateStatsRadar(){
   const R=38;
@@ -2482,7 +2714,7 @@ function loadStatSliders(s){
     setStatusGradient(el,col,pct);
   });
   updateStatsRadar();
-  setTimeout(renderStatsHistoryChart,50);
+  requestAnimationFrame(()=>requestAnimationFrame(renderStatsHistoryChart));
 }
 
 function renderCompactStats(s){ loadStatSliders(s); }
@@ -2750,9 +2982,10 @@ function completeQuest(i){
   const xp=q.xpReward||0;
   const _td=new Date(); const today=String(_td.getDate()).padStart(2,'0')+'/'+String(_td.getMonth()+1).padStart(2,'0')+'/'+_td.getFullYear();
   // Snapshot for undo
-  const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuests:JSON.parse(JSON.stringify(appState.completedQuests||[])), xp:appState.xp };
-  if(!appState.completedQuests) appState.completedQuests=[];
-  appState.completedQuests.unshift({title:q.title,completedDate:today,xpEarned:xp,howResolved:q.doneWhen||''});
+  const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuestsSnapshot:JSON.parse(JSON.stringify(loadCompletedQuests())), xp:appState.xp };
+  const cqArr=loadCompletedQuests();
+  cqArr.unshift({title:q.title,completedDate:today,xpEarned:xp,howResolved:q.doneWhen||''});
+  saveCompletedQuests(cqArr);
   appState.sideQuests.splice(i,1);
   if(xp){ appState.xp=(appState.xp||0)+xp; }
   saveState(appState); markDirty();
@@ -2761,7 +2994,7 @@ function completeQuest(i){
   showXpToast(q.title,xp,()=>{
     // Undo
     appState.sideQuests=snapshot.sideQuests;
-    appState.completedQuests=snapshot.completedQuests;
+    saveCompletedQuests(snapshot.completedQuestsSnapshot);
     appState.xp=snapshot.xp;
     saveState(appState); markDirty();
     renderQuestsTab(appState);
@@ -2788,9 +3021,9 @@ function addSideQuest(){
   if(cards.length) cards[cards.length-1].focus();
 }
 function addCompletedQuest(){
-  if(!appState.completedQuests) appState.completedQuests=[];
-  appState.completedQuests.push({title:'',completedDate:'',howResolved:''});
-  saveState(appState); markDirty(); renderQuestsTab(appState);
+  const arr=loadCompletedQuests();
+  arr.push({title:'',completedDate:'',howResolved:''});
+  saveCompletedQuests(arr); renderQuestsTab(appState);
   const cards=document.querySelectorAll('#qt-completed .cq-title-edit');
   if(cards.length) cards[cards.length-1].focus();
 }
@@ -2890,11 +3123,12 @@ function renderQuestsTab(s){
     });
   }
 
-  // Completed quests
+  // Completed quests (stored in localStorage, not appState)
   const cqEl=document.getElementById('qt-completed');
   if(cqEl){
     cqEl.innerHTML='';
-    const completed=s.completedQuests||DEFAULT.completedQuests||[];
+    const completed=loadCompletedQuests();
+    const saveCQ=(arr)=>saveCompletedQuests(arr);
     if(!completed.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No completed quests yet.'; cqEl.appendChild(p); }
     else {
       completed.forEach((q,i)=>{
@@ -2902,18 +3136,18 @@ function renderQuestsTab(s){
         const d=document.createElement('div'); d.className='cqcard';
         const head=document.createElement('div'); head.className='cqcard-head';
         const mark=document.createElement('span'); mark.className='quest-mark'; mark.textContent='!';
-        const titleEl=makeEditable(q.title,'Quest name',v=>saveNestedField(['completedQuests',i,'title'],capitalise(v)),'cq-title-edit');
+        const titleEl=makeEditable(q.title,'Quest name',v=>{ const arr=loadCompletedQuests(); arr[i].title=capitalise(v); saveCQ(arr); },'cq-title-edit');
         titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;';
-        const dateEl=makeEditable(q.completedDate,'Date completed',v=>saveNestedField(['completedQuests',i,'completedDate'],v),'cqcard-date');
+        const dateEl=makeEditable(q.completedDate,'Date completed',v=>{ const arr=loadCompletedQuests(); arr[i].completedDate=v; saveCQ(arr); },'cqcard-date');
         const arrowEl=document.createElement('div'); arrowEl.className='cqcard-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
         const delBtn=document.createElement('button'); delBtn.className='ally-delete'; delBtn.textContent='×';
-        delBtn.addEventListener('click',()=>{ appState.completedQuests.splice(i,1); saveState(appState); markDirty(); renderQuestsTab(appState); });
+        delBtn.addEventListener('click',()=>{ const arr=loadCompletedQuests(); arr.splice(i,1); saveCQ(arr); renderQuestsTab(appState); });
         head.appendChild(mark); head.appendChild(titleEl); head.appendChild(dateEl);
         if(q.xpEarned){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-earned'; pill.textContent='+'+q.xpEarned+' XP'; head.appendChild(pill); }
         head.appendChild(arrowEl); head.appendChild(delBtn);
         head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl||e.target===mark) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='cqcard-body open'; body.id=bodyId;
-        body.appendChild(makeEditable(q.howResolved,'How was this resolved?',v=>saveNestedField(['completedQuests',i,'howResolved'],v),'cqcard-how'));
+        body.appendChild(makeEditable(q.howResolved,'How was this resolved?',v=>{ const arr=loadCompletedQuests(); arr[i].howResolved=v; saveCQ(arr); },'cqcard-how'));
         d.appendChild(head); d.appendChild(body); cqEl.appendChild(d);
       });
     }
@@ -3014,6 +3248,7 @@ function renderBestiaryTab(s){
       if(isBossSubEnemy) d.style.cssText+=';margin-left:18px;border-left-width:2px;opacity:0.88;';
       d.dataset.srcType=e._srcType||''; d.dataset.srcIdx=String(e._idx??'');
       const head=document.createElement('div'); head.className='enemy-card-head';
+      if(isBoss) head.dataset.handleInject='1';
       head.style.background=`rgba(${borderRgb},0.04)`;
       head.addEventListener('mouseenter',()=>{ head.style.background=`rgba(${borderRgb},0.08)`; });
       head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${borderRgb},0.04)`; });
@@ -3030,6 +3265,7 @@ function renderBestiaryTab(s){
       const tag=document.createElement('span');
       if(isBoss){
         tag.className='enemy-type-tag'; tag.style.cssText='background:rgba(200,64,64,0.12);color:#c84040;border-color:rgba(200,64,64,0.3);'; tag.textContent='☠ Boss';
+        tag.title='Boss — the root pattern driving most of your other enemies. Has sub-enemies (fast-moving expressions) and key vulnerabilities (moments it can be interrupted).';
       } else {
         tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
         const tooltip=TYPE_TOOLTIPS[e.type]||TYPE_TOOLTIPS[e.type==='distortion'?'blindspot':e.type==='drain'?'temptation':e.type];
@@ -3104,19 +3340,35 @@ function renderBestiaryTab(s){
     if(bosses.length){
       const bossSecHdr=document.createElement('div'); bossSecHdr.className='qt-section-hdr no-prefix'; bossSecHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:10px;'; bossSecHdr.textContent='☠ Bosses';
       enemiesEl.appendChild(bossSecHdr);
+      const bossesContainer=document.createElement('div');
+      bossesContainer.className='no-drag';
+      enemiesEl.appendChild(bossesContainer);
       bosses.forEach((boss,bi)=>{
+        const bossGroup=document.createElement('div'); bossGroup.className='boss-group';
         const bossCard=renderEnemyCard({...boss, _srcType:'boss', _idx:bi}, bi, false);
-        enemiesEl.appendChild(bossCard);
+        bossGroup.appendChild(bossCard);
         // Sub-enemies
         const subs=(boss.subEnemies||[]);
         if(subs.length){
-          const subHdr=document.createElement('div'); subHdr.style.cssText='font-family:"Cinzel",serif;font-size:12px;letter-spacing:0.18em;color:rgba(200,64,64,0.45);text-transform:uppercase;margin:10px 0 6px 20px;'; subHdr.textContent='Minions';
-          enemiesEl.appendChild(subHdr);
+          const subHdr=document.createElement('div'); subHdr.className='no-drag'; subHdr.style.cssText='font-family:"Cinzel",serif;font-size:12px;letter-spacing:0.18em;color:rgba(200,64,64,0.45);text-transform:uppercase;margin:10px 0 6px 20px;'; subHdr.textContent='Minions';
+          bossGroup.appendChild(subHdr);
+          const subsContainer=document.createElement('div');
+          subsContainer.className='no-drag';
+          bossGroup.appendChild(subsContainer);
           subs.forEach((sub,si)=>{
             const subCard=renderEnemyCard({...sub, _srcType:'boss-sub', _bossIdx:bi, _idx:si}, bi*100+si+1000, true);
-            enemiesEl.appendChild(subCard);
+            subsContainer.appendChild(subCard);
+          });
+          makeSortable(subsContainer, (from, to) => {
+            reorderArray(appState.bestiary.bosses[bi].subEnemies, from, to);
+            saveState(appState); markDirty(); renderBestiaryTab(appState);
           });
         }
+        bossesContainer.appendChild(bossGroup);
+      });
+      makeSortable(bossesContainer, (from, to) => {
+        reorderArray(appState.bestiary.bosses, from, to);
+        saveState(appState); markDirty(); renderBestiaryTab(appState);
       });
     }
 
@@ -3202,7 +3454,8 @@ function renderBestiaryTab(s){
     const bossEntries=(bestiary.bosses||[]).filter(b=>b&&b.name);
     if(!bossEntries.length && bestiary.boss && bestiary.boss.name) bossEntries.push(bestiary.boss);
     bossEntries.forEach(()=>{ counts['boss']=(counts['boss']||0)+1; });
-    [...(bestiary.currentEnemies||[]),...(s.limitingBeliefs||[]).map(b=>({...b,type:'belief'}))].forEach(e=>{
+    const subEnemies=bossEntries.flatMap(b=>b.subEnemies||[]);
+    [...(bestiary.currentEnemies||[]),...subEnemies,...(s.limitingBeliefs||[]).map(b=>({...b,type:'belief'}))].forEach(e=>{
       const t=e.type||'blindspot';
       counts[t]=(counts[t]||0)+1;
     });
@@ -3219,6 +3472,25 @@ function renderBestiaryTab(s){
   // Update nav count
   const navEl=document.getElementById('nav-bestiary');
   if(navEl) navEl.textContent=(bestiary.currentEnemies||[]).length+(s.limitingBeliefs||[]).length;
+}
+
+// ══ COMPLETED QUESTS (localStorage-only) ════════════════════
+function loadCompletedQuests(){
+  try{ return JSON.parse(localStorage.getItem(COMPLETED_QUESTS_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+function saveCompletedQuests(arr){ if(IS_DEMO)return; try{ localStorage.setItem(COMPLETED_QUESTS_KEY,JSON.stringify(arr)); }catch{} }
+function mergeCompletedQuests(incoming){
+  const existing=loadCompletedQuests();
+  // Merge: add any incoming entries not already present (match by title+completedDate)
+  const key=q=>(q.title||'')+'|'+(q.completedDate||'');
+  const existingKeys=new Set(existing.map(key));
+  const merged=[...existing];
+  for(const q of (incoming||[])){
+    if(!existingKeys.has(key(q))) merged.push(q);
+  }
+  saveCompletedQuests(merged);
+  return merged;
 }
 
 // ══ ACHIEVEMENTS ════════════════════════════════════════════
@@ -3307,12 +3579,12 @@ function renderAlliesTab(s){
   alliesEl.innerHTML='';
 
   const ALLY_TYPES={
-    loot:        {icon:'☁', label:'Loot',              cls:'att-loot',        nameColor:'#4aaa72', rgb:'74,170,114'},
-    spell:       {icon:'✦', label:'Spell',             cls:'att-spell',       nameColor:'#c87828', rgb:'200,120,40'},
-    liberation:  {icon:'⬡', label:'Liberating Belief', cls:'att-liberation',  nameColor:'#2d6e40', rgb:'45,110,64'},
-    source:      {icon:'↑', label:'Source',            cls:'att-source',      nameColor:'#2a9090', rgb:'42,144,144'},
+    loot:        {icon:'☁', label:'Loot',              cls:'att-loot',        nameColor:'#4aaa72', rgb:'74,170,114', tooltip:'Loot — a person, community, or resource that tangibly supports you (mentor, friend, tool, place).'},
+    spell:       {icon:'✦', label:'Spell',             cls:'att-spell',       nameColor:'#c87828', rgb:'200,120,40', tooltip:'Spell — a practice, ritual, or technique that reliably shifts your state (meditation, exercise, journalling).'},
+    liberation:  {icon:'⬡', label:'Liberating Belief', cls:'att-liberation',  nameColor:'#2d6e40', rgb:'45,110,64',  tooltip:'Liberating Belief — an empowering story or reframe that counters a limiting belief and opens up possibility.'},
+    source:      {icon:'↑', label:'Source',            cls:'att-source',      nameColor:'#2a9090', rgb:'42,144,144', tooltip:'Source — an activity or context that reliably produces aliveness, flow, or restored energy.'},
   };
-  const DEFAULT_ATC={icon:'✦', label:'Ally', cls:'att-loot', nameColor:'#4aaa72', rgb:'74,170,114'};
+  const DEFAULT_ATC={icon:'✦', label:'Ally', cls:'att-loot', nameColor:'#4aaa72', rgb:'74,170,114', tooltip:'Ally — a supportive person, resource, belief, or practice.'};
 
   // Build unified list: allies array + empoweringBeliefs (as liberation type)
   const fromAllies=(s.allies||[]).map((a,i)=>({...a, _srcType:'allies', _idx:i}));
@@ -3353,6 +3625,7 @@ function renderAlliesTab(s){
       nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';';
       nameEl.textContent=a.name||'—';
       const tag=document.createElement('span'); tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
+      if(tc.tooltip) tag.title=tc.tooltip;
       const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
       head.appendChild(nameEl); head.appendChild(tag); head.appendChild(arrowEl);
       head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
@@ -3372,6 +3645,7 @@ function renderAlliesTab(s){
   const btnRow=document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;';
   [['loot','☁ Add Loot'],['spell','✦ Add Spell'],['liberation','⬡ Add Liberation'],['source','↑ Add Source']].forEach(([type,label])=>{
     const btn=document.createElement('button'); btn.className='add-item-btn'; btn.textContent=label;
+    const atc=ALLY_TYPES[type]; if(atc?.tooltip) btn.title=atc.tooltip;
     btn.onclick=()=>addAllyOfType(type);
     btnRow.appendChild(btn);
   });
@@ -3470,6 +3744,12 @@ function renderProgressionCard(el, s) {
     if(s.progression){ txt.textContent=s.progression; wrap.style.display='block'; }
     else { wrap.style.display='none'; }
   });
+  // Journal tab: last session (claudeRead)
+  const lsWrap=document.getElementById('lore-last-session'), lsTxt=document.getElementById('lore-last-session-text');
+  if(lsWrap&&lsTxt){
+    if(s.claudeRead){ lsTxt.textContent=s.claudeRead; lsWrap.style.display='block'; }
+    else { lsWrap.style.display='none'; }
+  }
 }
 
 // ══ SORTABLE LISTS ══════════════════════════════════════════
@@ -3483,8 +3763,9 @@ function makeSortable(container, onReorder) {
 
   function refresh() {
     Array.from(container.children).forEach((el, i) => {
-      // Skip non-card elements (add buttons, empty messages)
+      // Skip non-card elements (add buttons, empty messages, section headings)
       if (el.tagName === 'BUTTON' || el.tagName === 'P') return;
+      if (el.classList.contains('qt-section-hdr') || el.classList.contains('no-drag')) return;
 
       // Add handle if not already present
       if (!el.querySelector('.drag-handle')) {
@@ -3492,8 +3773,13 @@ function makeSortable(container, onReorder) {
         handle.className = 'drag-handle';
         handle.textContent = '⠿';
         handle.title = 'Drag to reorder';
-        // Insert as first child
-        el.insertBefore(handle, el.firstChild);
+        // If a child element requests the handle, inject it there; otherwise prepend to item root
+        const injectTarget = el.querySelector('[data-handle-inject]');
+        if (injectTarget) {
+          injectTarget.insertBefore(handle, injectTarget.firstChild);
+        } else {
+          el.insertBefore(handle, el.firstChild);
+        }
       }
 
       el.draggable = true;
@@ -3520,7 +3806,7 @@ function makeSortable(container, onReorder) {
         e.preventDefault();
         el.classList.remove('drag-over');
         if (!dragSrc || dragSrc === el) return;
-        const kids = Array.from(container.children).filter(c => c.tagName !== 'BUTTON' && c.tagName !== 'P');
+        const kids = Array.from(container.children).filter(c => c.tagName !== 'BUTTON' && c.tagName !== 'P' && !c.classList.contains('qt-section-hdr') && !c.classList.contains('no-drag'));
         const from = kids.indexOf(dragSrc);
         const to   = kids.indexOf(el);
         if (from < 0 || to < 0 || from === to) return;
@@ -3550,7 +3836,7 @@ function render(s){
   document.getElementById('hdr-mq-desc').textContent  = s.mainQuest?.description||'';
   const hdrFill=document.getElementById('hdr-mq-fill');
   if(hdrFill) hdrFill.style.width=(s.mainQuest?.progress||0)+'%';
-  const kq=document.getElementById('lore-key-q'); if(kq){ const txt=s.keyQuestion||''; kq.innerHTML=txt?`<div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--gold);opacity:0.7;margin-bottom:7px;">KEY QUESTION</div><div style="font-size:18px;font-style:italic;color:var(--text-b);line-height:1.55;">${esc(txt)}</div>`:''; kq.style.display=txt?'block':'none'; }
+  const kq=document.getElementById('lore-key-q'); if(kq){ const txt=s.keyQuestion||''; kq.innerHTML=txt?`<div class="lore-card-hdr">Key Question</div><div class="lore-card-body">${esc(txt)}</div>`:''; kq.style.display=txt?'block':'none'; }
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
 
   // Sliders
@@ -3579,7 +3865,9 @@ function render(s){
 
   // Air — distortions only (syncs to Enemies tab)
   const curEnemies=(s.bestiary||{}).currentEnemies||[];
-  const airDistortions=curEnemies.filter(e=>!e.type||e.type==='blindspot'||e.type==='distortion');
+  const subEnemiesFlat=((s.bestiary||{}).bosses||[]).flatMap(b=>b.subEnemies||[]);
+  const allEnemies=[...curEnemies,...subEnemiesFlat];
+  const airDistortions=allEnemies.filter(e=>!e.type||e.type==='blindspot'||e.type==='distortion');
   const eEl=document.getElementById('air-enemies'); if(eEl){ eEl.innerHTML='';
     if(!airDistortions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No blindspots recorded yet.'; eEl.appendChild(p); }
     airDistortions.slice(0,3).forEach(e=>{
@@ -3610,7 +3898,7 @@ function render(s){
 
   // Fire — compulsions (left) and spells (right)
   const fireCompEl=document.getElementById('fire-compulsions'); if(fireCompEl){ fireCompEl.innerHTML='';
-    const compulsions=((s.bestiary||{}).currentEnemies||[]).filter(e=>e.type==='compulsion');
+    const compulsions=allEnemies.filter(e=>e.type==='compulsion');
     if(!compulsions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No compulsions recorded yet.'; fireCompEl.appendChild(p); }
     compulsions.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
@@ -3701,7 +3989,7 @@ function render(s){
 
   // Water — drains (teal drain styling)
   const drEl=document.getElementById('water-drains'); if(drEl){ drEl.innerHTML='';
-    const waterDrains=((s.bestiary||{}).currentEnemies||[]).filter(e=>e.type==='temptation'||e.type==='drain');
+    const waterDrains=allEnemies.filter(e=>e.type==='temptation'||e.type==='drain');
     if(!waterDrains.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No temptations recorded yet.'; drEl.appendChild(p); }
     waterDrains.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
@@ -3905,7 +4193,7 @@ function render(s){
   }
 
   // Combat tab - practices
-  renderPractices(s);
+  renderRecurringQuests(s);
   renderProgressionCard(document.getElementById('combat-claude-read'), s);
   renderProgressionCard(document.getElementById('air-claude-read'), s);
   renderPieChart(s);
@@ -3943,6 +4231,15 @@ function applyUpdate(){
     if(merged._xpLog&&Array.isArray(merged._xpLog)){ saveXPLog(merged._xpLog); }
     else if(!isPartial){ saveXPLog([]); }
     if(merged._hardcodedHistory&&typeof merged._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, merged._hardcodedHistory); }
+    // completedQuests / completedMainQuests are localStorage-only — extract and merge, don't keep in state
+    let _newCQCount=0;
+    if(merged.completedQuests||merged.completedMainQuests){
+      const incoming=[...(merged.completedQuests||[]),...(merged.completedMainQuests||[])];
+      const beforeCount=loadCompletedQuests().length;
+      mergeCompletedQuests(incoming);
+      _newCQCount=loadCompletedQuests().length-beforeCount;
+      delete merged.completedQuests; delete merged.completedMainQuests;
+    }
     delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._hardcodedHistory;
     if(merged.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(merged.dailyDistribution));
     // Migrate old insights format: {chapterKey: entries[]} → [{name, entries}]
@@ -3964,19 +4261,19 @@ function applyUpdate(){
     document.getElementById('json-input').value='';
     setTimeout(closeModal,1200);
     // Show diff toast after a short delay (modal close animation)
-    const diffMsg = buildImportDiff(prevSnapshot, merged, isPartial);
+    const diffMsg = buildImportDiff(prevSnapshot, merged, isPartial, _newCQCount);
     if(diffMsg) setTimeout(()=>showImportToast(diffMsg), 600);
     // Mark welcomed if real data imported
     if(merged.name && merged.name !== DEMO_NAME && !IS_DEMO){
       localStorage.setItem(WELCOMED_KEY,'1');
-      document.getElementById('welcome-banner')?.style && (document.getElementById('welcome-banner').style.display='none');
+      document.getElementById('welcome-modal')?.classList.remove('open');
       // Expand starters on first real import
       const startersBody = document.getElementById('starters-body');
       const startersSection = document.getElementById('starters-section');
-      if(startersBody && !localStorage.getItem('liferpg-starters-seen-v7')){
+      if(startersBody && !localStorage.getItem('cs-starters-seen-v1')){
         startersBody.classList.add('open');
         startersSection?.classList.add('expanded');
-        localStorage.setItem('liferpg-starters-seen-v7','1');
+        localStorage.setItem('cs-starters-seen-v1','1');
       }
     }
   }
@@ -3985,13 +4282,13 @@ function applyUpdate(){
 function setModalStatus(msg,type){const el=document.getElementById('modal-status');el.textContent=msg;el.className='modal-status '+type;if(type==='ok')setTimeout(()=>{el.textContent='';el.className='modal-status';},3500);}
 
 // ══ XP LOG ═══════════════════════════════════════════════════
-const XP_LOG_KEY='liferpg-xplog-v7';
+const XP_LOG_KEY='cs-xplog-v1';
 function loadXPLog(){
   try{
     const raw=localStorage.getItem(XP_LOG_KEY);
     if(raw) return JSON.parse(raw);
     // Seed demo data only when showing the default demo (no real user data imported)
-    const hasUserData=!!localStorage.getItem('liferpg-v7');
+    const hasUserData=!!localStorage.getItem('cs-state-v1');
     if(!hasUserData&&typeof HARDCODED_XP_LOG!=='undefined'&&HARDCODED_XP_LOG.length){
       saveXPLog(HARDCODED_XP_LOG);
       return HARDCODED_XP_LOG.slice();
@@ -4041,8 +4338,10 @@ function renderXPLog(){
 
 // ══ EXPORT ═══════════════════════════════════════════════════
 function exportState(){
-  const raw=localStorage.getItem('liferpg-v7');
+  const raw=localStorage.getItem('cs-state-v1');
   const state=raw?JSON.parse(raw):DEFAULT;
+  // completedQuests are localStorage-only — strip from export so Claude doesn't receive them
+  delete state.completedQuests; delete state.completedMainQuests;
   state._featuredAch=getFeaturedAch();
   state._featuredCls=getFeaturedCls();
   state._xpLog=loadXPLog();
@@ -4050,14 +4349,22 @@ function exportState(){
   document.getElementById('export-modal').classList.add('open');
   document.getElementById('export-btn')?.classList.remove('dirty');
   hideDirtyBanner();
-  // Show version notice if imported data has an older minor version
+  updateInstructionsNotice(state);
+}
+function updateInstructionsNotice(state){
+  if(!state) { const raw=localStorage.getItem('cs-state-v1'); state=raw?JSON.parse(raw):DEFAULT; }
+  const iv=state._instructionsVersion||'';
+  const [,im=0]=(iv.match(/^0\.(\d+)/)||[]);
+  const [,cm=0]=(INSTRUCTIONS_VERSION.match(/^0\.(\d+)/)||[]);
+  const outdated=(iv&&parseInt(im)<parseInt(cm));
   const notice=document.getElementById('instructions-version-notice');
-  if(notice){
-    const iv=state._instructionsVersion||'';
-    const [,im=0]=(iv.match(/^0\.(\d+)/)||[]);
-    const [,cm=0]=(INSTRUCTIONS_VERSION.match(/^0\.(\d+)/)||[]);
-    notice.style.display=(iv&&parseInt(im)<parseInt(cm))?'block':'none';
-  }
+  if(notice) notice.style.display=outdated?'block':'none';
+  const dot=document.getElementById('help-dot');
+  if(dot) dot.style.display=outdated?'inline-block':'none';
+  const badge=document.getElementById('help-col-update-badge');
+  if(badge) badge.style.display=outdated?'block':'none';
+  const col=document.getElementById('help-col-setup');
+  if(col) col.style.background=outdated?'rgba(200,168,74,0.04)':'';
 }
 function copyExport(){
   const ta=document.getElementById('export-textarea');
@@ -4069,7 +4376,7 @@ function copyExport(){
 function downloadInstructions(){
   const content = `# character-sheet — Instructions for Claude
 
-version: 0.8.0
+version: 0.9.0
 
 This file lives permanently in your Claude project knowledge. It defines the data format and tells Claude how to behave as a journalling companion.
 
@@ -4081,7 +4388,7 @@ This file lives permanently in your Claude project knowledge. It defines the dat
 - **Field length limits** (enforce strictly to control token cost):
   - \`sliderLabels\` values: max 80 chars
   - \`claudeRead\`: max 120 words
-  - \`progressionTimeline\`: max 80 words
+  - \`progression\`: max 80 words
   - \`keyQuestion\`: max 25 words
   - \`mainQuest.description\` / \`mainQuest.whyItMatters\`: max 40 words each
   - \`mainQuest.doneWhen\`: max 20 words
@@ -4099,19 +4406,27 @@ This file lives permanently in your Claude project knowledge. It defines the dat
   - Enemy / belief \`shortTermBenefit\`: max 20 words
   - Enemy / belief \`origin\`: max 20 words
   - Enemy / belief \`trigger\`: max 15 words
+  - \`limitingBelief.belief\` (the quoted belief string): max 15 words
+  - Boss \`desc\`: max 40 words
+  - Boss \`whyBoss\`: max 20 words
   - Boss \`vulnerabilities[].desc\`: max 30 words each
+  - \`graveyard.howDefeated\`: max 20 words
+  - \`completedQuests.howResolved\`: max 20 words
+  - \`mainQuest.title\`: max 8 words
+  - \`sideQuest.doneWhen\`: max 20 words
+  - \`empoweringBelief.desc\` / \`belief\`: max 20 words each
   - \`achievement.description\`: max 25 words
   - \`class.description\`: max 25 words
   - Journal entry \`title\`: max 8 words
   - Journal entry bullets (\`events\`, \`insights\`, \`tensions\`): max 15 words each
 
 ## Required output fields
-- Always include \`"_instructionsVersion": "0.8.0"\` at the root of every JSON output (full or partial).
+- Always include \`"_instructionsVersion": "0.9.0"\` at the root of every JSON output (full or partial).
 
 ## Partial updates
 At the end of a session, you can output either a full \`data.json\` or a **partial update** containing only the top-level keys that changed. Partial updates are smaller and cheaper. To output a partial update, include only the changed keys plus \`"_partial": true\` at the root. Always include \`_instructionsVersion\`. Example:
 \`\`\`json
-{ "_partial": true, "_instructionsVersion": "0.8.0", "xp": 450, "insights": [...], "bestiary": {...} }
+{ "_partial": true, "_instructionsVersion": "0.9.0", "xp": 450, "insights": [...], "bestiary": {...} }
 \`\`\`
 
 ## Fields NOT to output
@@ -4119,9 +4434,10 @@ At the end of a session, you can output either a full \`data.json\` or a **parti
 - \`balanceSmoothed\` — computed on import.
 - \`harmonyHistory\` — appended on import.
 - \`dailyDistribution\` — localStorage only.
+- \`completedQuests\` / \`completedMainQuests\` — localStorage only (see below).
 
 ## Data stored only in the browser (not in JSON)
-- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution
+- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution · Completed quests
 
 ---
 
@@ -4158,11 +4474,11 @@ Mastery thresholds: 0-24 = 1 · 25-49 = 2 · 50-74 = 3 · 75-99 = 4 · 100 = 5
 - **Completing something, breaking a pattern** → XP, achievement candidate
 - **Recurring friction** → potential enemy or drain
 - **Something said for the first time** → insights entry, possible belief update
-- **Behavioral reflexes** (fast, automatic, below conscious choice) → bestiary as \`distortion\` type
+- **Behavioral reflexes** (fast, automatic, below conscious choice) → bestiary as \`blindspot\` type
 
 \`claudeRead\` names the single most important tension or gap right now — your honest read of what's beneath the surface, not a summary of what was said. Max 120 words.
 
-\`progressionTimeline\` is shown at the top of the Journal tab. Claude's whole-journey view: how the user has changed, what threads run through the full story. Third person, past/present tense mixed. Update every few sessions. Max 80 words.
+\`progression\` is the whole-journey arc shown on the Journal tab. Claude's view: how the user has changed, what threads run through the full story. Third person, past/present tense mixed. Update every few sessions. Max 80 words.
 
 ---
 
@@ -4216,10 +4532,7 @@ Single overarching goal or theme.
 Active sub-goals. Progress 0-100. \`priority\` Claude-assigned (lower = higher priority). \`nextStep\` is a single string — not an array.
 
 ### completedQuests / completedMainQuests
-
-\`\`\`json
-"completedQuests": [{ "title": "Leave the Job I Hated", "completedDate": "Jan 2026", "xpEarned": 200, "howResolved": "Handed in notice after naming the pattern clearly." }]
-\`\`\`
+Stored in the browser only — not kept in main state. **You may still output \`completedQuests\`** when quests are completed in a session; the app will extract and persist them locally. Do not output them on future sessions unless new quests were completed. Format: \`{ "title", "completedDate", "xpEarned", "howResolved" }\` — \`howResolved\` max 20 words.
 
 ### values
 Ordered by priority. \`threat\`: \`"red"\` (living against) · \`"amber"\` (tension) · \`"none"\` (aligned). \`alignment\` 0-100.
@@ -4268,7 +4581,7 @@ Patterns, beliefs, habits, and reflexes that work against the user. Use \`desc\`
 
 **Name the specific problem.** Avoid conflating multiple problems into one enemy. A "Controller" part might produce GUILT WHEN RESTING, TRANSACTIONAL LENS, and PRODUCTIVE AVOIDANCE as distinct entries.
 
-**Close quests that complete during a session.** If the user describes completing something matching a sideQuest's \`doneWhen\`, move it to \`completedQuests\` and award XP.
+**Close quests that complete during a session.** If the user describes completing something matching a sideQuest's \`doneWhen\`, remove it from \`sideQuests\`, include it in \`completedQuests\` output this session, and award XP.
 
 **\`type\`**:
 - \`"belief"\` (Earth) - false/unhelpful stories driving behaviour
@@ -4347,10 +4660,30 @@ When a chapter feels complete, tell the user and ask them to save their current 
   URL.revokeObjectURL(a.href);
 }
 
-// ══ MULTI-PRACTICE TIMER SYSTEM ════════════════════════════
+function downloadExportJson(){
+  const txt = document.getElementById('export-textarea').value;
+  if(!txt) return;
+  const blob = new Blob([txt], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function downloadApp(){
+  const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'character-sheet.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ══ RECURRING QUEST TIMER SYSTEM ════════════════════════════
 const TIMER_CIRC=552.9; // 2π×88
 
-function getPracticeTarget(act) {
+function getRQTarget(act) {
   if (act.type === 'timer') return Math.max(1, act.target || 90) * 60;
   return act.target || 1;
 }
@@ -4359,10 +4692,12 @@ function timerStart(id) {
   const ps = practiceState[id];
   if (!ps || ps.running) return;
   ps.running = true;
+  ps.startedAt = Date.now();
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
   if (!act) return;
   const charName = (window._lastState || appState).name;
+  saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true, timerStartedAt: ps.startedAt });
   const startBtn = document.getElementById('timer-start-btn-' + id);
   const stopBtn  = document.getElementById('timer-stop-btn-'  + id);
   const svgEl    = document.getElementById('timer-svg-' + id);
@@ -4374,7 +4709,7 @@ function timerStart(id) {
     checkPracticeTimerMilestones(id, act, charName);
     renderTimerRing(id, act);
     if (ps.seconds % 10 === 0) {
-      savePracticeCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true });
+      saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true, timerStartedAt: ps.startedAt });
       updateTimerToday(id, act);
     }
   }, 1000);
@@ -4395,7 +4730,8 @@ function timerStop(id) {
   if (startBtn) startBtn.style.display = '';
   if (stopBtn)  stopBtn.style.display  = 'none';
   if (svgEl) svgEl.classList.remove('running-glow');
-  if (act) savePracticeCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
+  ps.startedAt = null;
+  if (act) saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   updateTimerToday(id, act);
 }
 
@@ -4407,7 +4743,7 @@ function timerReset(id) {
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
   const charName = (window._lastState || appState).name;
-  if (act) savePracticeCurrent(charName, id, { value: 0, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
+  if (act) saveRQCurrent(charName, id, { value: 0, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   renderTimerRing(id, act);
   updateTimerToday(id, act);
 }
@@ -4415,7 +4751,7 @@ function timerReset(id) {
 function renderTimerRing(id, act) {
   const ps = practiceState[id];
   if (!ps || !act) return;
-  const target = getPracticeTarget(act);
+  const target = getRQTarget(act);
   const loopCount = Math.floor(ps.seconds / target);
   const loopProg  = target > 0 ? (ps.seconds % target) / target : 0;
   const pct = Math.round(loopProg * 100);
@@ -4458,7 +4794,7 @@ function renderTimerRing(id, act) {
 function checkPracticeTimerMilestones(id, act, charName) {
   const ps = practiceState[id];
   if (!ps) return;
-  const target = getPracticeTarget(act);
+  const target = getRQTarget(act);
   const loopCount = Math.floor(ps.seconds / target);
   const elapsed   = ps.seconds % target;
 
@@ -4532,8 +4868,17 @@ function updateTimerToday(id, act) {
 }
 
 window.addEventListener('beforeunload', (e) => {
+  // Flush latest seconds for any running timers without stopping them,
+  // so timerStartedAt survives for recovery on reload.
   Object.keys(practiceState).forEach(id => {
-    if (practiceState[id].running) timerStop(id);
+    const ps = practiceState[id];
+    if (ps.running) {
+      const act = (window._lastState || appState).activities?.find(a => a.id === id);
+      const charName = (window._lastState || appState).name;
+      if (act && charName) {
+        saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true, timerStartedAt: ps.startedAt });
+      }
+    }
   });
   const exportBtn = document.getElementById('export-btn');
   if (exportBtn && exportBtn.classList.contains('dirty')) {
@@ -4550,7 +4895,7 @@ function updateCombatNavArc(){
   const p1 = acts.slice().sort((a,b)=>(a.priority||99)-(b.priority||99))[0];
   if (!p1) { arc.setAttribute('stroke','#b07838'); arc.setAttribute('stroke-dashoffset','31.42'); return; }
   const ps = practiceState[p1.id];
-  const target = Math.max(1, getPracticeTarget(p1));
+  const target = Math.max(1, getRQTarget(p1));
   let value = 0;
   if (p1.type === 'timer') {
     value = ps ? (ps.seconds || 0) : 0;
@@ -4577,13 +4922,21 @@ function renderPracticeMiniChart(canvas, act, charName) {
   // legacy no-op — new chart uses renderPracticeBarChart on a div
 }
 
-function renderPracticeBarChart(wrap, act, charName) {
+function renderRQBarChart(wrap, act, charName) {
   if (!wrap) return;
   wrap.innerHTML = '';
+
+  const subActs    = act.subActivities || [];
+  const hasSubs    = subActs.length > 0;
+  // GitHub-style: fixed row height per sub-activity lane (or single bar if no subs)
+  const LANE_H     = 10; // px per sub-activity lane
+  const MIN_H      = 8;  // minimum height for a filled single bar
+  const plotH      = hasSubs ? Math.max(40, subActs.length * LANE_H + 8) : 64;
+
   wrap.className = 'practice-graph-wrap prac-bar-chart';
 
   const hardHist  = HARDCODED_HISTORY[act.id] || [];
-  const lsHist    = loadPracticeHistory(charName, act.id);
+  const lsHist    = loadRQHistory(charName, act.id);
   const now       = new Date();
   const numBars   = act.resetPeriod === 'week' ? 13 : 28;
   const curPeriod = currentPeriod(act.resetPeriod);
@@ -4595,16 +4948,18 @@ function renderPracticeBarChart(wrap, act, charName) {
       const ds = d.toISOString().slice(0,10);
       const hard = hardHist.find(h => h.date === ds);
       const le   = lsHist.find(h => h.period === ds);
-      let value = 0, isHard = false;
-      if (hard != null)      { value = hard.value; isHard = true; }
-      else if (le != null)   { value = le.value; }
-      else if (ds === curPeriod && act.type === 'timer') {
+      let value = 0, subsDone = [], isHard = false;
+      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; }
+      else if (le != null) { value = le.value; subsDone = le.subsDone || []; }
+      else if (ds === curPeriod) {
         const ps = practiceState[act.id];
-        value = ps ? Math.floor(ps.seconds / 60) : 0;
+        if (ps) {
+          value = act.type === 'timer' ? Math.floor(ps.seconds / 60) : (ps.value || 0);
+          subsDone = ps.subsDone || [];
+        }
       }
-      // label: "Mar-24" style
       const lbl = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
-      dataPoints.push({ period: ds, label: lbl, value, isCurrent: ds === curPeriod, isHard });
+      dataPoints.push({ period: ds, label: lbl, value, subsDone, isCurrent: ds === curPeriod, isHard });
     }
   } else if (act.resetPeriod === 'week') {
     for (let i = numBars - 1; i >= 0; i--) {
@@ -4612,46 +4967,76 @@ function renderPracticeBarChart(wrap, act, charName) {
       const wp = getPeriodKey(d, 'week');
       const hard = hardHist.find(h => h.period === wp);
       const le   = lsHist.find(h => h.period === wp);
-      let value = 0, isHard = false;
-      if (hard != null)    { value = hard.value; isHard = true; }
-      else if (le != null) { value = le.value; }
+      let value = 0, subsDone = [], isHard = false;
+      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; }
+      else if (le != null) { value = le.value; subsDone = le.subsDone || []; }
+      else if (wp === curPeriod) {
+        const ps = practiceState[act.id];
+        if (ps) { value = ps.value || 0; subsDone = ps.subsDone || []; }
+      }
       const lbl = 'W' + wp.slice(5);
-      dataPoints.push({ period: wp, label: lbl, value, isCurrent: wp === curPeriod, isHard });
+      dataPoints.push({ period: wp, label: lbl, value, subsDone, isCurrent: wp === curPeriod, isHard });
     }
   }
 
   const maxV = Math.max(...dataPoints.map(d => d.value), act.target || 1, 1);
   const unit = act.type === 'timer' ? 'min' : (act.unit || '');
 
-  // ── Y-axis labels (top, mid, 0) ──────────────────────────────
-  const plot = document.createElement('div'); plot.className = 'prac-bar-plot';
+  // ── Build chart plot ──────────────────────────────────────────
+  const plot = document.createElement('div');
+  plot.className = 'prac-bar-plot';
+  plot.style.height = plotH + 'px';
 
-  const yAxis = document.createElement('div'); yAxis.className = 'prac-bar-y-axis';
-  const yTop = document.createElement('div'); yTop.className = 'prac-bar-y-label';
-  yTop.textContent = maxV >= 1000 ? (maxV/1000).toFixed(1)+'k' : maxV;
-  const yMid = document.createElement('div'); yMid.className = 'prac-bar-y-label';
-  yMid.textContent = Math.round(maxV / 2);
-  const yBot = document.createElement('div'); yBot.className = 'prac-bar-y-label';
-  yBot.textContent = '0';
-  yAxis.appendChild(yTop); yAxis.appendChild(yMid); yAxis.appendChild(yBot);
-  plot.appendChild(yAxis);
+  if (!hasSubs) {
+    // Classic Y-axis labels
+    const yAxis = document.createElement('div'); yAxis.className = 'prac-bar-y-axis';
+    const yTop = document.createElement('div'); yTop.className = 'prac-bar-y-label';
+    yTop.textContent = maxV >= 1000 ? (maxV/1000).toFixed(1)+'k' : maxV;
+    const yMid = document.createElement('div'); yMid.className = 'prac-bar-y-label';
+    yMid.textContent = Math.round(maxV / 2);
+    const yBot = document.createElement('div'); yBot.className = 'prac-bar-y-label';
+    yBot.textContent = '0';
+    yAxis.appendChild(yTop); yAxis.appendChild(yMid); yAxis.appendChild(yBot);
+    plot.appendChild(yAxis);
+  } else {
+    // Sub-activity legend on Y-axis (one label per lane)
+    const yAxis = document.createElement('div'); yAxis.className = 'prac-bar-y-axis prac-bar-y-lanes';
+    subActs.forEach(sa => {
+      const laneLabel = document.createElement('div');
+      laneLabel.className = 'prac-bar-lane-label';
+      laneLabel.textContent = sa.name.slice(0, 3).toUpperCase();
+      laneLabel.style.color = sa.color || 'rgba(200,168,74,0.6)';
+      yAxis.appendChild(laneLabel);
+    });
+    plot.appendChild(yAxis);
+  }
 
-  // ── Bars container ────────────────────────────────────────────
+  // ── Bars / cells container ────────────────────────────────────
   const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
 
-  // Target line (inside colsWrap so left:0 = after Y-axis)
-  if (act.target) {
+  if (!hasSubs && act.target) {
     const pct = Math.min(100, (act.target / maxV) * 100);
     const line = document.createElement('div');
     line.className = 'prac-bar-target-line';
-    line.style.cssText = `bottom:${pct}%;left:0;right:0;`;
+    line.style.cssText = `bottom:${pct}%;left:0;right:0;${act.color ? 'border-color:' + act.color + '60;' : ''}`;
     colsWrap.appendChild(line);
   }
 
-  // Close any open popovers
   const closePopovers = () => {
-    wrap.querySelectorAll('.prac-bar-edit').forEach(p => p.remove());
+    document.querySelectorAll('.prac-bar-edit').forEach(p => p.remove());
     wrap.querySelectorAll('.prac-bar-col.active').forEach(c => c.classList.remove('active'));
+  };
+
+  // Shared: update stats display after any save
+  const refreshStats = () => {
+    const newStats = getRQStats(act, charName);
+    const fv = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
+    const lastEl   = document.getElementById('stat-last-'   + act.id);
+    const avgEl    = document.getElementById('stat-avg-'    + act.id);
+    const avgAllEl = document.getElementById('stat-avgall-' + act.id);
+    if (lastEl)   lastEl.textContent   = newStats.lastDone ? newStats.lastDone : '—';
+    if (avgEl)    avgEl.textContent    = fv(newStats.avg7);
+    if (avgAllEl) avgAllEl.textContent = fv(newStats.avgAll);
   };
 
   const attachPopover = (col, dp) => {
@@ -4669,6 +5054,106 @@ function renderPracticeBarChart(wrap, act, charName) {
       lbl.textContent = dp.label + (dp.isCurrent ? ' (today)' : '');
       popover.appendChild(lbl);
 
+      if (hasSubs) {
+        // Sub-activity toggle chips — save immediately on each click, no Set button
+        const chipsRow = document.createElement('div');
+        chipsRow.className = 'prac-bar-edit-sub-chips';
+
+        const saveSubsToHistory = (newSubsDone) => {
+          if (dp.isCurrent) {
+            // Mirror into live practiceState so the widget buttons stay in sync
+            const ps = practiceState[act.id];
+            if (ps) {
+              ps.subsDone = [...newSubsDone];
+              ps.value    = newSubsDone.length;
+              saveRQCurrent(charName, act.id, { value: ps.value, subsDone: ps.subsDone, periodStart: curPeriod });
+              // Update widget buttons
+              const widget = document.getElementById('rq-chart-' + act.id)
+                ?.closest('.practice-card-body')
+                ?.querySelector('.practice-widget');
+              if (widget) {
+                widget.querySelectorAll('.rq-sub-btn').forEach(b => {
+                  b.classList.toggle('done', ps.subsDone.includes(b.dataset.subId));
+                });
+                const lblEl = document.getElementById('checkbox-lbl-' + act.id);
+                if (lblEl) lblEl.textContent = ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
+              }
+            }
+          }
+          const hist = loadRQHistory(charName, act.id);
+          const idx  = hist.findIndex(h => h.period === dp.period);
+          if (newSubsDone.length > 0) {
+            if (idx >= 0) { hist[idx].value = newSubsDone.length; hist[idx].subsDone = [...newSubsDone]; }
+            else hist.push({ period: dp.period, value: newSubsDone.length, target: act.target||1, subsDone: [...newSubsDone] });
+          } else if (idx >= 0) {
+            hist.splice(idx, 1);
+          }
+          saveRQHistory(charName, act.id, hist);
+          dp.subsDone = [...newSubsDone];
+          dp.value    = newSubsDone.length;
+          renderRQBarChart(wrap, act, charName);
+          refreshStats();
+        };
+
+        subActs.forEach(sa => {
+          const chip = document.createElement('button');
+          chip.className = 'prac-bar-sub-chip' + (dp.subsDone.includes(sa.id) ? ' done' : '');
+          chip.style.setProperty('--sc', sa.color || '#c8a84a');
+          chip.textContent = sa.name;
+          chip.addEventListener('click', ev => {
+            ev.stopPropagation();
+            const current = dp.subsDone.includes(sa.id);
+            const newSubs = current
+              ? dp.subsDone.filter(id => id !== sa.id)
+              : [...dp.subsDone, sa.id];
+            saveSubsToHistory(newSubs);
+            // popover was re-rendered by renderRQBarChart — it's gone, nothing more to do
+          });
+          chipsRow.appendChild(chip);
+        });
+
+        popover.appendChild(chipsRow);
+        document.body.appendChild(popover);
+        requestAnimationFrame(() => {
+          const cr = col.getBoundingClientRect();
+          popover.style.left = Math.max(4, cr.left + cr.width/2 - popover.offsetWidth/2) + 'px';
+          popover.style.top  = (cr.top - popover.offsetHeight - 6) + 'px';
+        });
+        return; // no Set button needed
+      }
+
+      // ── Checkbox (no subs): instant toggle, no popover ────────
+      if (act.type === 'checkbox') {
+        const newVal = dp.value > 0 ? 0 : 1;
+        if (dp.isCurrent) {
+          const ps = practiceState[act.id];
+          if (ps) {
+            ps.value = newVal;
+            const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
+            if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
+            const lblEl = document.getElementById('checkbox-lbl-' + act.id);
+            if (lblEl) lblEl.textContent = `${ps.value} / ${act.target||1} ${act.unit||''}`;
+            saveRQCurrent(charName, act.id, { value: ps.value, periodStart: curPeriod });
+          }
+        } else {
+          const hist = loadRQHistory(charName, act.id);
+          const idx  = hist.findIndex(h => h.period === dp.period);
+          if (newVal > 0) {
+            if (idx >= 0) hist[idx].value = newVal;
+            else hist.push({ period: dp.period, value: newVal, target: act.target || 1 });
+          } else if (idx >= 0) {
+            hist.splice(idx, 1);
+          }
+          saveRQHistory(charName, act.id, hist);
+        }
+        dp.value = newVal;
+        closePopovers();
+        renderRQBarChart(wrap, act, charName);
+        refreshStats();
+        return;
+      }
+
+      // ── Numeric / timer input ──────────────────────────────────
       const row = document.createElement('div');
       row.className = 'prac-bar-edit-row';
 
@@ -4697,7 +5182,6 @@ function renderPracticeBarChart(wrap, act, charName) {
         if (isNaN(rawVal) || rawVal < 0) { closePopovers(); return; }
 
         if (dp.isCurrent) {
-          // Write into live practice state (current period)
           const ps = practiceState[act.id];
           if (ps) {
             if (act.type === 'timer') {
@@ -4707,7 +5191,6 @@ function renderPracticeBarChart(wrap, act, charName) {
               if (todayEl) todayEl.textContent = `Today: ${rawVal} / ${act.target||90} min`;
             } else if (act.type === 'checkbox') {
               ps.value = Math.min(rawVal, act.target || 1);
-              // Update dots directly
               const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
               if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
               const lblEl = document.getElementById('checkbox-lbl-' + act.id);
@@ -4719,32 +5202,32 @@ function renderPracticeBarChart(wrap, act, charName) {
               const lblEl = document.getElementById('number-lbl-' + act.id);
               if (lblEl) lblEl.textContent = `This ${act.resetPeriod}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
             }
-            savePracticeCurrent(charName, act.id, { value: ps.value ?? rawVal, seconds: ps.seconds, periodStart: curPeriod });
+            saveRQCurrent(charName, act.id, { value: ps.value ?? rawVal, seconds: ps.seconds, periodStart: curPeriod });
           }
         } else {
-          const hist = loadPracticeHistory(charName, act.id);
+          const hist = loadRQHistory(charName, act.id);
           const idx  = hist.findIndex(h => h.period === dp.period);
           if (idx >= 0) hist[idx].value = rawVal;
           else hist.push({ period: dp.period, value: rawVal, target: act.target || 0 });
-          savePracticeHistory(charName, act.id, hist);
+          saveRQHistory(charName, act.id, hist);
         }
 
         dp.value = rawVal;
         closePopovers();
-        renderPracticeBarChart(wrap, act, charName);
-        const newStats = getPracticeStats(act, charName);
-        const fv = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
-        const be = document.getElementById('stat-best-' + act.id);
-        const ae = document.getElementById('stat-avg-'  + act.id);
-        if (be) be.textContent = fv(newStats.best);
-        if (ae) ae.textContent = fv(newStats.avg7);
+        renderRQBarChart(wrap, act, charName);
+        refreshStats();
       };
 
       saveBtn.addEventListener('click', e => { e.stopPropagation(); doSave(); });
       inp.addEventListener('keydown', e => { if (e.key === 'Enter') doSave(); if (e.key === 'Escape') closePopovers(); });
 
-      col.appendChild(popover);
-      requestAnimationFrame(() => inp.focus());
+      document.body.appendChild(popover);
+      requestAnimationFrame(() => {
+        const cr = col.getBoundingClientRect();
+        popover.style.left = Math.max(4, cr.left + cr.width/2 - popover.offsetWidth/2) + 'px';
+        popover.style.top  = (cr.top - popover.offsetHeight - 6) + 'px';
+        inp.focus();
+      });
     });
   };
 
@@ -4752,21 +5235,46 @@ function renderPracticeBarChart(wrap, act, charName) {
     const col = document.createElement('div');
     col.className = 'prac-bar-col' +
       (dp.isCurrent ? ' is-current' : '') +
-      (dp.isHard    ? ' is-hardcoded' : '');
-    col.title = dp.label + (dp.value ? ': ' + dp.value + (unit ? ' ' + unit : '') : '') + (dp.isCurrent ? ' (today)' : '');
+      (dp.isHard    ? ' is-hardcoded' : '') +
+      (hasSubs      ? ' is-sub-mode' : '');
 
-    const bar = document.createElement('div');
-    bar.className = 'prac-bar-inner';
-    const heightPct = dp.value > 0 ? Math.max(4, (dp.value / maxV) * 100) : 2;
-    bar.style.cssText = `height:${heightPct}%;background:${
-      dp.isCurrent ? 'rgba(200,168,74,0.8)' :
-      dp.value > 0 ? 'rgba(200,168,74,0.32)' :
-                     'rgba(255,255,255,0.04)'
-    };`;
-    col.appendChild(bar);
+    if (hasSubs) {
+      // GitHub-style: fixed-height column, one cell per sub-activity lane
+      col.style.height = '100%';
+      const subsDone = dp.subsDone || [];
+      const doneSubs = subActs.filter(sa => subsDone.includes(sa.id));
+      const titleStr = doneSubs.length
+        ? dp.label + ': ' + doneSubs.map(s => s.name).join(', ') + (dp.isCurrent ? ' (today)' : '')
+        : dp.label + (dp.isCurrent ? ' (today)' : '');
+      col.title = titleStr;
+
+      subActs.forEach(sa => {
+        const cell = document.createElement('div');
+        cell.className = 'prac-bar-lane-cell';
+        const done = subsDone.includes(sa.id);
+        cell.style.cssText = `background:${
+          done
+            ? (sa.color || 'rgba(200,168,74,0.75)')
+            : (dp.isCurrent ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)')
+        };${done && dp.isCurrent ? `box-shadow:0 0 4px ${sa.color || 'rgba(200,168,74,0.4)'};` : ''}`;
+        col.appendChild(cell);
+      });
+    } else {
+      // Classic bar
+      col.title = dp.label + (dp.value ? ': ' + dp.value + (unit ? ' ' + unit : '') : '') + (dp.isCurrent ? ' (today)' : '');
+      const bar = document.createElement('div');
+      bar.className = 'prac-bar-inner';
+      const heightPct = dp.value > 0 ? Math.max(4, (dp.value / maxV) * 100) : 2;
+      const barBase = act.color || '#c8a84a';
+      bar.style.cssText = `height:${heightPct}%;background:${
+        dp.isCurrent ? barBase + 'cc' :
+        dp.value > 0 ? barBase + '52' :
+                       'rgba(255,255,255,0.04)'
+      };`;
+      col.appendChild(bar);
+    }
 
     if (!dp.isHard) attachPopover(col, dp);
-
     colsWrap.appendChild(col);
   });
 
@@ -4775,14 +5283,12 @@ function renderPracticeBarChart(wrap, act, charName) {
 
   // ── X-axis labels (show ~5 evenly spaced) ─────────────────────
   const xAxis = document.createElement('div'); xAxis.className = 'prac-bar-x-axis';
-  // Bar column width as fraction of colsWrap width — computed after layout
-  // Use indices: first, ~25%, ~50%, ~75%, last
   const labelIndices = new Set();
   const n = dataPoints.length;
   [0, Math.round(n*0.25), Math.round(n*0.5), Math.round(n*0.75), n-1].forEach(i => labelIndices.add(Math.min(i, n-1)));
   labelIndices.forEach(i => {
     const dp = dataPoints[i];
-    const xPct = ((i + 0.5) / n) * 100; // centre of bar column as % of colsWrap width
+    const xPct = ((i + 0.5) / n) * 100;
     const xlbl = document.createElement('span');
     xlbl.className = 'prac-bar-x-label';
     xlbl.textContent = dp.label;
@@ -4799,18 +5305,17 @@ function renderPracticeBarChart(wrap, act, charName) {
 }
 
 // ══ RENDER PRACTICES ═════════════════════════════════════════
-function renderPractices(s) {
-  const container = document.getElementById('practices-container');
+function renderRecurringQuests(s) {
+  const container = document.getElementById('rquests-container');
   if (!container) return;
   container.innerHTML = '';
   const activities = (s.activities || DEFAULT.activities || [])
-    .slice().sort((a,b) => (a.priority||99) - (b.priority||99))
-    .slice(0, 3);
+    .slice().sort((a,b) => (a.priority||99) - (b.priority||99));
   const charName = s.name || 'default';
 
   activities.forEach(act => {
-    initPracticeState(act, charName);
-    const stats = getPracticeStats(act, charName);
+    initRQState(act, charName);
+    const stats = getRQStats(act, charName);
     const card = document.createElement('div');
     card.className = 'practice-card' + (act.priority === 1 ? ' priority-1' : '');
 
@@ -4818,7 +5323,83 @@ function renderPractices(s) {
     const typeLabel = { timer:'TIMER', checkbox:'CHECK', number:'NUMBER' }[act.type] || (act.type ? act.type.toUpperCase() : '');
     const periodLabel = act.resetPeriod ? act.resetPeriod.toUpperCase() : '';
     const hdr = document.createElement('div'); hdr.className = 'practice-card-hdr';
-    hdr.innerHTML = `<span>${esc(act.name)}</span><span class="practice-type-badge">${typeLabel}</span><span class="practice-period-badge">${periodLabel}</span>`;
+    const subActs = act.subActivities || [];
+
+    // Name + color swatch for simple quests (no sub-activities)
+    const nameSpan = document.createElement('span'); nameSpan.className = 'rq-hdr-name'; nameSpan.textContent = act.name;
+    hdr.appendChild(nameSpan);
+
+    if (subActs.length === 0) {
+      // Single color swatch for the whole activity
+      const swatch = document.createElement('span');
+      swatch.className = 'rq-color-swatch';
+      swatch.title = 'Set bar colour';
+      swatch.style.background = act.color || 'rgba(200,168,74,0.5)';
+      const cpk = document.createElement('input');
+      cpk.type = 'color';
+      cpk.value = act.color || '#c8a84a';
+      cpk.className = 'rq-color-input';
+      const applyActColor = v => {
+        act.color = v;
+        swatch.style.background = v;
+        const actInState = (appState.activities || []).find(a => a.id === act.id);
+        if (actInState) actInState.color = v;
+        const cw = document.getElementById('rq-chart-' + act.id);
+        if (cw) renderRQBarChart(cw, act, charName);
+      };
+      cpk.addEventListener('input', e => applyActColor(e.target.value));
+      cpk.addEventListener('change', e => { saveState(appState); markDirty(); });
+      swatch.appendChild(cpk);
+      swatch.addEventListener('click', e => { e.stopPropagation(); if (e.target !== cpk) cpk.click(); });
+      hdr.appendChild(swatch);
+    } else {
+      // Sub-activity chips with individual color swatches
+      subActs.forEach(sa => {
+        const chip = document.createElement('span');
+        chip.className = 'rq-sub-chip';
+        chip.style.background = sa.color || 'rgba(200,168,74,0.15)';
+        chip.style.borderColor = sa.color || 'rgba(200,168,74,0.4)';
+
+        const chipName = document.createElement('span'); chipName.textContent = sa.name;
+        chip.appendChild(chipName);
+
+        const swatch = document.createElement('span');
+        swatch.className = 'rq-color-swatch rq-color-swatch-sm';
+        swatch.title = 'Set colour';
+        swatch.style.background = sa.color || 'rgba(200,168,74,0.5)';
+        const cpk = document.createElement('input');
+        cpk.type = 'color';
+        cpk.value = sa.color || '#c8a84a';
+        cpk.className = 'rq-color-input';
+        const applySubColor = v => {
+          sa.color = v;
+          swatch.style.background = v;
+          chip.style.background = v;
+          chip.style.borderColor = v;
+          const actInState = (appState.activities || []).find(a => a.id === act.id);
+          if (actInState) {
+            const saInState = (actInState.subActivities || []).find(s => s.id === sa.id);
+            if (saInState) saInState.color = v;
+          }
+          const cw = document.getElementById('rq-chart-' + act.id);
+          if (cw) renderRQBarChart(cw, act, charName);
+          document.querySelectorAll(`.rq-sub-btn[data-sub-id="${sa.id}"]`).forEach(b => {
+            b.style.setProperty('--sub-color', v);
+          });
+        };
+        cpk.addEventListener('input', e => applySubColor(e.target.value));
+        cpk.addEventListener('change', () => { saveState(appState); markDirty(); });
+        swatch.appendChild(cpk);
+        swatch.addEventListener('click', e => { e.stopPropagation(); if (e.target !== cpk) cpk.click(); });
+        chip.appendChild(swatch);
+        hdr.appendChild(chip);
+      });
+    }
+
+    const typeBadge = document.createElement('span'); typeBadge.className = 'practice-type-badge'; typeBadge.textContent = typeLabel;
+    const periodBadge = document.createElement('span'); periodBadge.className = 'practice-period-badge'; periodBadge.textContent = periodLabel;
+    hdr.appendChild(typeBadge);
+    hdr.appendChild(periodBadge);
     card.appendChild(hdr);
 
     // Body: info + widget
@@ -4833,10 +5414,19 @@ function renderPractices(s) {
       if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
       return v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—';
     };
+    const fmtLastDone = period => {
+      if (!period) return '—';
+      if (act.resetPeriod === 'day') {
+        const diff = Math.round((new Date() - new Date(period)) / 86400000);
+        return diff === 0 ? 'Today' : diff === 1 ? 'Yesterday' : diff + 'd ago';
+      }
+      return period;
+    };
     const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
     statsRow.innerHTML = `
-      <div class="practice-stat"><span class="practice-stat-label">Best</span><span class="practice-stat-value" id="stat-best-${act.id}">${formatVal(stats.best)}</span></div>
+      <div class="practice-stat"><span class="practice-stat-label">Last done</span><span class="practice-stat-value" id="stat-last-${act.id}">${fmtLastDone(stats.lastDone)}</span></div>
       <div class="practice-stat"><span class="practice-stat-label">7-${act.resetPeriod} avg</span><span class="practice-stat-value" id="stat-avg-${act.id}">${formatVal(stats.avg7)}</span></div>
+      <div class="practice-stat"><span class="practice-stat-label">All-time avg</span><span class="practice-stat-value" id="stat-avgall-${act.id}">${formatVal(stats.avgAll)}</span></div>
     `;
     info.appendChild(statsRow);
     body.appendChild(info);
@@ -4847,7 +5437,7 @@ function renderPractices(s) {
     if (act.type === 'timer') {
       // Timer ring widget
       const ps = practiceState[act.id];
-      const target = getPracticeTarget(act);
+      const target = getRQTarget(act);
       widget.innerHTML = `
         <div class="timer-ring-wrap">
           <svg class="timer-svg" id="timer-svg-${act.id}" width="160" height="160" viewBox="0 0 220 220">
@@ -4888,23 +5478,44 @@ function renderPractices(s) {
       const ps = practiceState[act.id];
       const curVal = ps ? (ps.value || 0) : 0;
       const tgt = act.target || 1;
-      const dotsHtml = Array.from({length: tgt}, (_,i) =>
-        `<button class="checkbox-dot${i < curVal ? ' filled' : ''}" onclick="handleCheckboxDot('${act.id}',${i}, this)" aria-label="Mark ${i+1}"></button>`
-      ).join('');
-      widget.innerHTML = `
-        <div class="checkbox-dots">${dotsHtml}</div>
-        <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${curVal} / ${tgt} ${esc(act.unit||'')}</div>
-        <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
-      `;
+      const hasSubs = (act.subActivities || []).length > 0;
+      if (hasSubs) {
+        // Sub-activity buttons: tap to log which sub-activity was done today
+        const todayDone = ps ? (ps.subsDone || []) : [];
+        const subBtnsHtml = (act.subActivities || []).map(sa => {
+          const done = todayDone.includes(sa.id);
+          return `<button class="rq-sub-btn${done ? ' done' : ''}" style="--sub-color:${sa.color||'#c8a84a'}" onclick="handleSubActivity('${act.id}','${sa.id}',this)" data-sub-id="${sa.id}">${esc(sa.name)}</button>`;
+        }).join('');
+        const xpLbl = act.xpPerUnit ? `<span class="rq-xp-label">+${Math.round(act.xpPerUnit)} XP per activity</span>` : '';
+        widget.innerHTML = `
+          <div class="rq-sub-btns">${subBtnsHtml}</div>
+          ${xpLbl}
+          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${todayDone.length} / ${tgt} ${esc(act.unit||'')}</div>
+          <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
+        `;
+      } else {
+        const dotsHtml = Array.from({length: tgt}, (_,i) =>
+          `<button class="checkbox-dot${i < curVal ? ' filled' : ''}" onclick="handleCheckboxDot('${act.id}',${i}, this)" aria-label="Mark ${i+1}"></button>`
+        ).join('');
+        const xpLbl = act.xpPerUnit ? `<span class="rq-xp-label">+${Math.round(act.xpPerUnit)} XP each</span>` : '';
+        widget.innerHTML = `
+          <div class="checkbox-dots">${dotsHtml}</div>
+          ${xpLbl}
+          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${curVal} / ${tgt} ${esc(act.unit||'')}</div>
+          <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
+        `;
+      }
 
     } else if (act.type === 'number') {
       const ps = practiceState[act.id];
       const curVal = ps ? (ps.value || 0) : 0;
+      const xpLbl = act.xpPerUnit ? `<span class="rq-xp-label">+${act.xpPerUnit} XP per ${act.unit||'unit'}</span>` : '';
       widget.innerHTML = `
         <div class="number-entry">
           <input class="number-input" type="number" id="number-input-${act.id}" value="${curVal}" min="0" max="999">
           <button class="number-save-btn" onclick="handleNumberSave('${act.id}')">Save</button>
         </div>
+        ${xpLbl}
         <div class="practice-period-lbl" id="number-lbl-${act.id}">This ${act.resetPeriod}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}</div>
         <div class="practice-xp-earned" id="number-xp-${act.id}"></div>
       `;
@@ -4916,17 +5527,21 @@ function renderPractices(s) {
     const graphCol = document.createElement('div'); graphCol.className = 'practice-graph-col';
     const graphWrap = document.createElement('div');
     graphWrap.className = 'practice-graph-wrap';
-    graphWrap.id = 'practice-chart-' + act.id;
+    graphWrap.id = 'rq-chart-' + act.id;
     graphCol.appendChild(graphWrap);
     body.appendChild(graphCol);
 
     card.appendChild(body);
     container.appendChild(card);
 
-    // Render ring + bar chart after DOM insertion
+    // Render ring + bar chart after DOM insertion; auto-resume timer if it was running
     requestAnimationFrame(() => {
-      if (act.type === 'timer') renderTimerRing(act.id, act);
-      renderPracticeBarChart(graphWrap, act, charName);
+      if (act.type === 'timer') {
+        renderTimerRing(act.id, act);
+        const ps = practiceState[act.id];
+        if (ps && ps._resumeTimer) { ps._resumeTimer = false; timerStart(act.id); }
+      }
+      renderRQBarChart(graphWrap, act, charName);
     });
   });
 }
@@ -4962,24 +5577,34 @@ function handleBackfill(id) {
   // Don't allow backfilling the current period (use the live widget for that)
   if (period === currentPeriod(act.resetPeriod)) return;
 
-  const hist = loadPracticeHistory(charName, id);
+  const hist = loadRQHistory(charName, id);
   const existing = hist.findIndex(h => h.period === period);
   if (existing >= 0) {
     hist[existing].value = rawVal;
   } else {
     hist.push({ period, value: rawVal, target: act.target || 0 });
   }
-  savePracticeHistory(charName, id, hist);
+  saveRQHistory(charName, id, hist);
 
   // Re-render chart and stats
-  const chartWrap = document.getElementById('practice-chart-' + id);
-  if (chartWrap) renderPracticeBarChart(chartWrap, act, charName);
-  const newStats = getPracticeStats(act, charName);
+  const chartWrap = document.getElementById('rq-chart-' + id);
+  if (chartWrap) renderRQBarChart(chartWrap, act, charName);
+  const newStats = getRQStats(act, charName);
   const formatV = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
-  const bestEl = document.getElementById('stat-best-' + id);
-  const avgEl  = document.getElementById('stat-avg-'  + id);
-  if (bestEl) bestEl.textContent = formatV(newStats.best);
-  if (avgEl)  avgEl.textContent  = formatV(newStats.avg7);
+  const fmtLastDoneB = period => {
+    if (!period) return '—';
+    if (act.resetPeriod === 'day') {
+      const diff = Math.round((new Date() - new Date(period)) / 86400000);
+      return diff === 0 ? 'Today' : diff === 1 ? 'Yesterday' : diff + 'd ago';
+    }
+    return period;
+  };
+  const lastEl   = document.getElementById('stat-last-'   + id);
+  const avgEl    = document.getElementById('stat-avg-'    + id);
+  const avgAllEl = document.getElementById('stat-avgall-' + id);
+  if (lastEl)   lastEl.textContent   = fmtLastDoneB(newStats.lastDone);
+  if (avgEl)    avgEl.textContent    = formatV(newStats.avg7);
+  if (avgAllEl) avgAllEl.textContent = formatV(newStats.avgAll);
 
   // Flash feedback on the save button
   const btn = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
@@ -5002,7 +5627,7 @@ function handleCheckboxDot(id, dotIndex, btn) {
   } else {
     ps.value = newVal;
   }
-  savePracticeCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
+  saveRQCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
 
   // Update dots UI
   const container = btn.closest('.checkbox-dots');
@@ -5017,10 +5642,82 @@ function handleCheckboxDot(id, dotIndex, btn) {
   // XP
   if (ps.value > oldVal) {
     const xp = Math.round(act.xpPerUnit || 20);
+    awardRQXP(id, xp);
     const xpEl = document.getElementById('checkbox-xp-' + id);
     if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
   }
   updateCombatNavArc();
+}
+
+function handleSubActivity(actId, subId, btn) {
+  const act = (window._lastState || appState).activities?.find(a => a.id === actId) ||
+              DEFAULT.activities?.find(a => a.id === actId);
+  if (!act) return;
+  const charName = (window._lastState || appState).name;
+  const ps = practiceState[actId];
+  if (!ps) return;
+
+  if (!ps.subsDone) ps.subsDone = [];
+  const idx = ps.subsDone.indexOf(subId);
+  const tgt = act.target || 1;
+
+  if (idx >= 0) {
+    // Toggle off
+    ps.subsDone.splice(idx, 1);
+  } else {
+    ps.subsDone.push(subId);
+  }
+  const oldVal = ps.value || 0;
+  ps.value = ps.subsDone.length;
+  saveRQCurrent(charName, actId, { value: ps.value, subsDone: ps.subsDone, periodStart: currentPeriod(act.resetPeriod) });
+
+  // Update all sub buttons
+  const widget = btn.closest('.practice-widget, .timer-card');
+  if (widget) {
+    widget.querySelectorAll('.rq-sub-btn').forEach(b => {
+      b.classList.toggle('done', ps.subsDone.includes(b.dataset.subId));
+    });
+  }
+  const lbl = document.getElementById('checkbox-lbl-' + actId);
+  if (lbl) lbl.textContent = ps.value + ' / ' + tgt + ' ' + (act.unit||'');
+
+  // Archive / remove history entry for current period
+  const period = currentPeriod(act.resetPeriod);
+  const hist = loadRQHistory(charName, actId);
+  const existingIdx = hist.findIndex(h => h.period === period);
+  if (ps.subsDone.length > 0) {
+    if (existingIdx >= 0) {
+      hist[existingIdx].value = ps.value;
+      hist[existingIdx].subsDone = [...ps.subsDone];
+    } else {
+      hist.push({ period, value: ps.value, target: tgt, subsDone: [...ps.subsDone] });
+    }
+  } else if (existingIdx >= 0) {
+    // All subs unchecked — remove the entry entirely
+    hist.splice(existingIdx, 1);
+  }
+  saveRQHistory(charName, actId, hist);
+
+  // XP for new addition
+  if (ps.value > oldVal) {
+    const xp = Math.round(act.xpPerUnit || 20);
+    awardRQXP(actId, xp);
+    const xpEl = document.getElementById('checkbox-xp-' + actId);
+    if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
+  }
+
+  // Re-render chart
+  const chartWrap = document.getElementById('rq-chart-' + actId);
+  if (chartWrap) renderRQBarChart(chartWrap, act, charName);
+  updateCombatNavArc();
+}
+
+function awardRQXP(actId, xp) {
+  if (!xp || IS_DEMO) return;
+  appState.xp = (appState.xp || 0) + xp;
+  saveState(appState);
+  markDirty();
+  updateXpRing(appState.level, appState.xp, appState.xpToNext);
 }
 
 function handleNumberSave(id) {
@@ -5036,11 +5733,12 @@ function handleNumberSave(id) {
   if (isNaN(newVal) || newVal < 0) return;
   const oldVal = ps.value || 0;
   ps.value = newVal;
-  savePracticeCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
+  saveRQCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
   const lbl = document.getElementById('number-lbl-' + id);
   if (lbl) lbl.textContent = 'This ' + act.resetPeriod + ': ' + ps.value + ' / ' + (act.target||4) + ' ' + (act.unit||'');
   if (newVal > oldVal) {
     const xp = Math.round(act.xpPerUnit * (newVal - oldVal));
+    awardRQXP(id, xp);
     const xpEl = document.getElementById('number-xp-' + id);
     if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
   }
@@ -5213,7 +5911,7 @@ function renderCombatSkills(s){
 }
 
 // ══ CLASSES ═════════════════════════════════════════════════
-const FEATURED_CLS_KEY='liferpg-featured-cls-v7';
+const FEATURED_CLS_KEY='cs-featured-cls-v1';
 
 function getFeaturedCls(){ try{ return JSON.parse(localStorage.getItem(FEATURED_CLS_KEY)||'[]'); }catch(e){return[];} }
 function setFeaturedCls(ids){ localStorage.setItem(FEATURED_CLS_KEY,JSON.stringify(ids)); }
@@ -5303,7 +6001,7 @@ function cycleHdrIcon(){
 
 // ══ STATUS SLIDERS ════════════════════════════════════════════
 const STATUS_COLORS = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
-const STATUS_LS_KEY = 'liferpg-status-v7';
+const STATUS_LS_KEY = 'cs-status-v1';
 
 function setStatusGradient(el, col, pct) {
   el.style.background = `linear-gradient(to right,${col} ${pct}%,#232332 ${pct}%)`;
@@ -5332,7 +6030,7 @@ function updateStatusRadar() {
   });
 }
 
-const STATUS_HIST_KEY = 'liferpg-status-hist-v7';
+const STATUS_HIST_KEY = 'cs-status-hist-v1';
 
 function saveStatusSnapshot() {
   // Call once when user has finished adjusting sliders (on first change of a session day)
@@ -5398,7 +6096,7 @@ function loadStatusSliders() {
     setStatusGradient(el, col, pct);
   });
   updateStatusRadar();
-  setTimeout(renderStatusHistoryChart, 50);
+  requestAnimationFrame(()=>requestAnimationFrame(renderStatusHistoryChart));
 }
 
 function initStatBars(){
@@ -5421,31 +6119,33 @@ function initStatBars(){
 const DEMO_NAME = 'Steve';
 
 function isUsingDemoData(){
-  return !localStorage.getItem('liferpg-v7') || (appState && appState.name === DEMO_NAME && !IS_DEMO);
+  return !localStorage.getItem('cs-state-v1') || (appState && appState.name === DEMO_NAME && !IS_DEMO);
 }
 
 function maybeShowWelcome(){
   if(IS_DEMO) return;
   if(localStorage.getItem(WELCOMED_KEY)) return;
   if(isUsingDemoData()){
-    const el = document.getElementById('welcome-banner');
-    if(el) el.style.display = 'block';
+    document.getElementById('welcome-modal').classList.add('open');
   }
 }
 
 function dismissWelcome(){
-  const el = document.getElementById('welcome-banner');
-  if(el) el.style.display = 'none';
+  document.getElementById('welcome-modal').classList.remove('open');
   localStorage.setItem(WELCOMED_KEY, '1');
 }
 
 function openHelpModal(){
+  // Show the "download the .html file" step only when NOT running locally
+  const isLocal = location.protocol === 'file:';
+  const dlStep = document.getElementById('help-download-step');
+  if(dlStep) dlStep.style.display = isLocal ? 'none' : 'block';
+  updateInstructionsNotice(null);
   document.getElementById('help-modal').classList.add('open');
 }
 
 function showWelcome(){
-  const el = document.getElementById('welcome-banner');
-  if(el){ el.style.display = 'block'; el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  document.getElementById('welcome-modal').classList.add('open');
 }
 
 function toggleWelcomeSetup(){
@@ -5500,7 +6200,7 @@ function toggleStarters(){
 }
 
 // ══ IMPORT DIFF TOAST ═══════════════════════════════════════
-function buildImportDiff(prev, next, isPartial){
+function buildImportDiff(prev, next, isPartial, newCQCount){
   const parts = [];
   if(isPartial) parts.push('Partial update');
   // XP
@@ -5531,8 +6231,7 @@ function buildImportDiff(prev, next, isPartial){
   // New side quests or completed
   const newSQ = (next.sideQuests||[]).filter(sq=>!(prev.sideQuests||[]).find(p=>p.title===sq.title));
   if(newSQ.length) parts.push(newSQ.length+' new quest'+(newSQ.length>1?'s':''));
-  const newCQ = (next.completedQuests||[]).length - (prev.completedQuests||[]).length;
-  if(newCQ > 0) parts.push(newCQ+' quest'+(newCQ>1?'s':'')+' completed');
+  if((newCQCount||0) > 0) parts.push(newCQCount+' quest'+(newCQCount>1?'s':'')+' completed');
   // New achievements / classes
   const newAch = (next.achievements||[]).length - (prev.achievements||[]).length;
   if(newAch > 0) parts.push(newAch+' new title'+(newAch>1?'s':''));
@@ -5563,7 +6262,7 @@ let _hasDoneFirstEdit = false;
 function markDirtyExtended(){
   if(IS_DEMO) return;
   // First-edit sync modal
-  if(!_hasDoneFirstEdit && localStorage.getItem('liferpg-v7') && !localStorage.getItem(SYNC_EXPLAINED_KEY)){
+  if(!_hasDoneFirstEdit && localStorage.getItem('cs-state-v1') && !localStorage.getItem(SYNC_EXPLAINED_KEY)){
     _hasDoneFirstEdit = true;
     const m = document.getElementById('sync-modal');
     if(m) m.classList.add('open');
@@ -5605,7 +6304,7 @@ function _init(){
   loadStatusSliders();
   loadStatSliders(appState);
   (appState.activities || DEFAULT.activities || []).forEach(act => {
-    initPracticeState(act, appState.name);
+    initRQState(act, appState.name);
   });
   updateCombatNavArc();
   window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
@@ -5615,12 +6314,14 @@ function _init(){
 // Steve demo data is inlined — works on file:// and github.io alike.
 (function(){
   const data = {"_instructionsVersion":"0.7.0","name":"Example Steve","subtitle":"Survivor of the Overworld - not real data","level":4,"xp":500,"xpToNext":1000,"keyQuestion":"What would I build if I knew the Ender Dragon couldn't touch me?","claudeRead":"Steve is in a real transitional moment - the End portal is open, not theoretical. First solo mining session showed the deep caves produce a different kind of engagement than surface farming. Main risk: diamond scarcity shortens the search before the right gear lands. THE ENDER DRAGON is active but being noticed faster. Rest is the most significant unmet need. Beds explode in The End, so sleep stays unresolved.","progressionTimeline":"Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. The Ender Dragon is louder than ever, which means it's being threatened.","allies":[{"name":"Alex","desc":"Co-op partner since the tutorial world. Calls out creepers gently and shows up consistently.","why":"Knows the full inventory - the embarrassing wooden tools included."},{"name":"Wolf","desc":"Tamed with bones. Unconditional support. Not always the most talkative, but always in my corner.","why":"No performance required. Just sit. Good boy."},{"name":"Enchanting Session","type":"spell","desc":"30 minutes at the enchanting table with lapis and a specific goal. Reliable focus ritual \u2014 the bookshelves help.","why":"Lowers the Ender Dragon's HP by at least a few points every time. Costs only time and lapis."},{"name":"Solo Cave Run","type":"spell","desc":"One hour underground, no build agenda, just explore. Phone on silent. Exits with more energy than it takes.","why":"Consistently resets the mental inventory. Works even when motivation is absent at spawn."}],"mainQuest":{"title":"Defeat the Ender Dragon","description":"Reach The End, destroy the crystals, and bring down the boss once and for all.","whyItMatters":"More hours spent grinding than anywhere else. If the dragon keeps circling, everything else feels unfinished too.","doneWhen":"Standing in The End with dragon egg in inventory and the credits actually rolling.","nextSteps":[{"text":"Locate a stronghold and find the End portal room","doneWhen":"Eyes of Ender thrown, portal located - not just planned"},{"text":"Gear up: full diamond armour, enchanted bow, enough arrows","doneWhen":"Inventory checked, protection enchantments confirmed"},{"text":"Spend two sessions this week mining the deep caves - no diamond requirement, just explore","doneWhen":"Two uninterrupted sessions, no half-measures"}],"xpReward":500,"progress":15},"sliderValues":{"air":72,"fire":22,"water":58,"earth":64},"harmonyHistory":[{"date":"2026-01-05","air":42,"fire":12,"water":30,"earth":45,"harmony":40},{"date":"2026-01-12","air":45,"fire":14,"water":32,"earth":47,"harmony":43},{"date":"2026-01-20","air":48,"fire":13,"water":34,"earth":50,"harmony":44},{"date":"2026-01-28","air":50,"fire":15,"water":36,"earth":52,"harmony":47},{"date":"2026-02-05","air":46,"fire":11,"water":33,"earth":49,"harmony":41},{"date":"2026-02-12","air":44,"fire":10,"water":30,"earth":47,"harmony":38},{"date":"2026-02-19","air":52,"fire":14,"water":38,"earth":53,"harmony":46},{"date":"2026-02-26","air":58,"fire":17,"water":42,"earth":57,"harmony":51},{"date":"2026-03-05","air":62,"fire":18,"water":46,"earth":60,"harmony":55},{"date":"2026-03-12","air":66,"fire":20,"water":50,"earth":62,"harmony":59},{"date":"2026-03-19","air":70,"fire":21,"water":55,"earth":63,"harmony":62},{"date":"2026-03-25","air":72,"fire":22,"water":58,"earth":64,"harmony":64}],"sliderXpRewards":{"air":[null,100,200,350,500],"fire":[null,150,300,500,750],"water":[null,100,220,380,550],"earth":[null,120,260,440,650]},"sliderLabels":{"air":"More aware than acting - noticing mob spawns without changing sleep habits yet","fire":"Motivation patchy - flickers of purpose but mostly running on torchlight","water":"Some aliveness - mining and cooking reliable, rest of biome still dark","earth":"Reasonably grounded - Creeper anxiety present but not dominating"},"limitingBeliefs":[{"title":"THE IMPOSTER","belief":"\"I'm not skilled or geared enough to fight the bosses I actually want to fight.\"","desc":"Shows up when enchanting gear or entering new biomes. Reframes the learning curve as proof of being a noob forever.","shortTermBenefit":"Keeps ambition in the overworld and therefore safe from the humiliation of dying to a baby zombie.","origin":"Spawned in environments where being out-geared felt like the primary risk - performance over presence.","hp":75,"priority":7},{"title":"THE PERFECTIONIST","belief":"\"If I can't build the perfect base first, there's no point starting the main quest.\"","desc":"Main engine of procrastination. Creates an impossible aesthetic standard that ensures nothing is ever finished before the dragon is due.","shortTermBenefit":"The unbuilt mega-base can always be imagined as flawless. Completion would reveal the gaps.","origin":"Likely formed in creative mode where only exceptional builds were noticed - survival effort was invisible.","hp":70,"priority":8},{"title":"THE PESSIMIST","belief":"\"I always die before I reach the good loot.\"","desc":"Selective memory that catalogues every death screen and dismisses successful runs as luck or a seed exploit.","shortTermBenefit":"Low expectations mean a full chest feels like a win. Feels like protection against hype.","origin":"Unknown - possibly reinforced by a period where several hardcore worlds ended in close succession.","hp":60,"priority":9}],"empoweringBeliefs":[{"title":"THE PROBLEM SOLVER","belief":"\"I can figure out any redstone circuit if I stay in the room long enough.\"","desc":"Track record of working through ambiguous contraptions is real."},{"title":"THE LONG GAME","belief":"\"Slow progress toward diamonds beats fast progress toward gravel.\"","desc":"Useful counter to urgency and biome-comparison."},{"title":"THE BODY KNOWS","belief":"\"The aliveness I feel when mining the right cave is data, not coincidence.\"","desc":"The qualitative difference between strip-mining and a deep-cave find is the clearest signal available."}],"skills":[{"name":"Set Boundaries","mastery":1,"priority":1,"xpReward":80,"description":"Say no to side quests without over-explaining.","whyItMatters":"Without this, time and diamonds get consumed by everyone else's projects."},{"name":"Ask For Help","mastery":1,"priority":2,"xpReward":80,"description":"Reach out to the server before getting lost in a cave.","whyItMatters":"How fast the main quest actually progresses."},{"name":"Stay Consistent","mastery":2,"priority":3,"xpReward":80,"description":"Log in even when motivation is absent.","whyItMatters":"Mining, farming, enchanting all depend on this."},{"name":"Say No","mastery":1,"priority":4,"xpReward":80,"description":"Decline build requests that conflict with the main quest.","whyItMatters":"Every yes to another player's mansion is a no to the End portal."},{"name":"Mining","mastery":4,"priority":1,"xpReward":200,"description":"Navigate deep caves, read ore patterns, come back alive.","whyItMatters":"The capability that earns diamonds fastest."},{"name":"Crafting","mastery":3,"priority":2,"xpReward":150,"description":"Build the right tools without wasting materials.","whyItMatters":"In resource-scarce play, crafting is the primary signal of competence."},{"name":"Exploring","mastery":4,"priority":3,"xpReward":150,"description":"Read the terrain, find the structures, come back with a map.","whyItMatters":"Foundation of good world knowledge."}],"sideQuests":[{"title":"Build a Proper Base","priority":1,"progress":40,"description":"Upgrade from dirt hut to a real base with storage and beds.","whyItMatters":"A respawn point is the foundation everything else is built on.","nextStep":"Lay the foundation three sessions this week - no aesthetic requirement, just place blocks","xpReward":150},{"title":"Set Up an Enchanting Table","priority":2,"progress":25,"description":"Build a full enchanting setup with bookshelves.","whyItMatters":"The End fight needs enchanted gear, not just intent.","nextStep":"Gather 15 bookshelves by end of March","xpReward":200},{"title":"Explore 12 Biomes This Year","priority":3,"progress":33,"description":"One new biome per month, any type.","whyItMatters":"Deep exploration slows me down usefully and generates loot I couldn't find alone.","nextStep":"Find a mushroom island before starting the next biome","xpReward":150},{"title":"Organise the Chest Room","priority":4,"progress":75,"description":"Label and sort the entire storage system.","whyItMatters":"Inventory chaos shapes decision quality.","nextStep":"Sort the overflow chests - the last pile has been sitting for a month","xpReward":100},{"title":"Learn Redstone","priority":5,"progress":20,"description":"Build working automated farms over 12 months.","whyItMatters":"Automation opens up AFK time and is genuinely just for me.","nextStep":"Complete one redstone tutorial every day for two weeks straight","xpReward":200}],"completedQuests":[{"title":"Survive First Night","completedDate":"Jan 2026","xpEarned":300,"howResolved":"Punched trees until I had a crafting table. Sealed in a dirt box and listened to mobs outside. Three months no-death run started there."}],"drains":[{"name":"Late-night inventory hoarding","desc":"Reliably ends with a full inventory and no idea what to do with it. Eats into sleep."},{"name":"Saying yes to co-op builds","desc":"Fills the session with other people's projects that don't align with the main quest."},{"name":"Skipping mining when the base hurts","desc":"The moment exploration would help most is exactly when it gets replaced by base tinkering."}],"flowSources":[{"name":"Mining","desc":"First 10 minutes are tense, then the cave opens up and the thinking quiets down."},{"name":"Cooking","desc":"Smelting and sorting - hands busy, mind relaxed. Reliably restorative."},{"name":"Music Discs","desc":"Stal playing in the jukebox alone - no audience, no performance."},{"name":"Village trading","desc":"Peaceful haggling where nothing critical is at stake."},{"name":"Building","desc":"Long creative sessions, late at night, no mobs on peaceful."}],"needs":[{"name":"Connection","threat":"amber","alignment":45,"desc":"A server with people who know the real build style. Good with a few, absent with most."},{"name":"Rest","threat":"red","alignment":30,"desc":"Recovery time not immediately colonised by mob sounds or a to-do list. Significant deficit."},{"name":"Autonomy","threat":"none","alignment":60,"desc":"Control over which biome to explore and when. Better than it was."},{"name":"Recognition","threat":"amber","alignment":40,"desc":"Feeling that the builds and runs are seen. The server is neutral at best."}],"values":[{"name":"Authenticity","threat":"amber","alignment":45,"desc":"Playing in the style that actually feels right, not the meta loadout everyone else is running."},{"name":"Family","threat":"none","alignment":70,"desc":"Being present and reliable for the wolves and villagers who matter most."},{"name":"Health","threat":"amber","alignment":55,"desc":"Full hearts and hunger bar as a non-negotiable foundation."},{"name":"Growth","threat":"none","alignment":65,"desc":"Getting better at builds and biomes that matter."},{"name":"Financial Security","threat":"amber","alignment":50,"desc":"Enough emeralds to make genuine choices - freedom from villager price anxiety."}],"insights":[{"name":"The End Portal","entries":[{"date":"22 March 2026","title":"Two Hours That Felt Like a Cave Find","events":["Blocked out Saturday morning for deep cave exploration - phone in another room","Two uninterrupted hours in a massive cave system for the first time"],"insights":["The two hours felt different - less like surface farming, more like contact with something real underground","PROCRASTINATION didn't fire once - a specific small task (find one diamond vein) made the difference"],"tensions":["Whether the cave exploration is the actual direction or just a way of feeling productive without risking the End portal"]},{"date":"15 March 2026","title":"The Trade That Changed the Frame","events":["Traded with a librarian villager for an Efficiency V book - she'd enchanted the same route two years ago"],"insights":["SELF-DOUBT reframed the librarian's price as a test I was about to fail - I noticed it this time"],"tensions":["Diamond scarcity is shortening the timeline in ways that might distort the gear decisions"]}]},{"name":"Clearing the Inventory","entries":[{"date":"14 February 2026","title":"Three Months No-Death Run","events":["Three months without dying on this world - marked it quietly, told Alex"],"insights":["Staying alive required a quiet decision to stop fighting mobs I didn't need to fight"],"tensions":["Rest is still a deficit - sessions feel productive but not restorative. Beds still explode in The End."]}]}],"bestiary":{"boss":{"name":"THE ENDER DRAGON","desc":"The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.","whyBoss":"Every other enemy is this one in disguise - Procrastination is the Dragon saying you'll die, Self-Doubt is the Dragon questioning your enchants, the Comparison Trap is the Dragon finding external evidence you're a noob.","hp":80,"vulnerabilities":[{"title":"Named in real time","desc":"The Dragon loses power the moment it is caught mid-circle. Each live catch weakens its automaticity - calling it out loud is enough to create distance."},{"title":"Evidence on the table","desc":"The Dragon thrives on selective death screens. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data."},{"title":"Starting before ready","desc":"The Dragon's main lever is the gap before entering the portal. Starting small - one Eye of Ender thrown, one block placed - collapses the gap before the Dragon can fill it."}]},"currentEnemies":[{"name":"PROCRASTINATION","desc":"Kicks in whenever a biome feels ambiguous or high-stakes. Masquerades as preparation - rearranging the hotbar instead of entering the cave.","type":"compulsion","trigger":"Ambiguous or important caves with no clear first block","shortTermBenefit":"Protects against the pain of mining and dying. Feels like caution.","origin":"Likely formed around high-stakes mining runs where effort without diamonds felt worse than not going in.","hp":75,"priority":1},{"name":"SELF-DOUBT","desc":"Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth, not like a pattern.","type":"distortion","trigger":"Attempting a new boss or entering a new structure for the first time","shortTermBenefit":"Keeps gear expectations low so a bad enchant hurts less. Feels like realism.","origin":"Unknown - may relate to servers where confidence was one-shot or not modelled.","hp":70,"priority":2},{"name":"COMPARISON TRAP","desc":"Measuring a messy mid-game against other players' fully-automated mega-bases. Activates fast and feels like useful calibration.","type":"distortion","trigger":"Reddit, YouTube, seeing other servers' builds","shortTermBenefit":"Creates temporary direction - if others built this way, the meta must be real.","origin":"Unknown - the conditions that made external benchmarks feel necessary are not yet clear.","hp":65,"priority":3},{"name":"LATE-NIGHT INVENTORY HOARDING","desc":"Reliably ends with feeling worse than when it started. Fills the chest room and leaves the next session already in overflow.","type":"drain","trigger":"Evening wind-down session, especially after a difficult biome","shortTermBenefit":"Decompression that asks nothing. Feels like progress without the vulnerability of actually using the materials.","origin":"Avoidance of the quiet - where unprocessed loot from the day tends to surface.","hp":85,"priority":4},{"name":"OBLIGATION YES","desc":"Joining co-op builds to avoid the discomfort of declining. Fills the session with work that doesn't align with the main quest.","type":"compulsion","trigger":"Any server request that feels like it expects a yes","shortTermBenefit":"Avoids conflict and the guilt of leaving someone underground alone. Feels like being a good teammate.","origin":"Unknown - likely formed where keeping allies comfortable felt safer than asserting the main quest.","hp":90,"priority":5},{"name":"SKIP MINING WHEN STRESSED","desc":"Cutting the one session that would most help in the moments of highest Creeper anxiety. Always justified in the moment.","type":"drain","trigger":"High mob pressure, low torches, feeling behind on gear","shortTermBenefit":"Creates the illusion of more base time. Feels like a sensible trade-off.","origin":"The Ender Dragon framing exploration as optional when diamond counts are low.","hp":80,"priority":6}],"graveyard":[{"name":"SUNDAY DREAD","defeatedDate":"Jan 2026","howDefeated":"Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to."},{"name":"THE HOARDER","defeatedDate":"Dec 2025","howDefeated":"Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover."},{"name":"TWITTER SPIRAL","defeatedDate":"Nov 2025","howDefeated":"Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session."}]},"completedMainQuests":[],"lastUpdated":"2026-03-25","activities":[{"id":"deep-work","name":"Cave Diving","description":"Focused time underground - mining, mob clearing, chest looting.","whyItMatters":"The diamonds I want won't mine themselves on the surface.","startDate":"2026-01-01","priority":1,"type":"timer","resetPeriod":"day","target":90,"unit":"minutes","xpPerUnit":0.5},{"id":"morning-run","name":"Morning Patrol","description":"Perimeter check before 8am, clear all overnight spawns.","whyItMatters":"A clear base sets the tone for the whole session.","startDate":"2026-02-01","priority":2,"type":"checkbox","resetPeriod":"day","target":1,"unit":"patrols","xpPerUnit":20},{"id":"gym-sessions","name":"Nether Runs","description":"Nether resource runs, three or four times a week.","whyItMatters":"Weekly consistency matters more than individual hauls.","startDate":"2026-02-01","priority":3,"type":"number","resetPeriod":"week","target":4,"unit":"runs","xpPerUnit":15}],"dailyDistribution":{"Sleep":7.5,"Cave Diving":1.5,"Exercise":0.75,"Social":1,"Admin / Commute":2,"Rest / Leisure":3.5,"Unknown":7.75},"wheelOfLife":{"sleep":{"score":50,"trend":"flat"},"rest":{"score":35,"trend":"down-slight"},"movement":{"score":65,"trend":"up-slight"},"nutrition":{"score":60,"trend":"flat"},"connection":{"score":45,"trend":"down-slight"},"career":{"score":30,"trend":"up-slight"},"finances":{"score":45,"trend":"flat"}},"achievements":[{"id":"no-death-run","title":"No Death Run","description":"Three months without a death screen on hardcore - the first time in many worlds.","type":"milestone","dateUnlocked":"Apr 2026","featured":true},{"id":"the-declutterer","title":"The Organiser","description":"Sorted 75% of the chest room in a single sustained session. Labels and everything.","type":"quest","dateUnlocked":"Mar 2026","featured":false},{"id":"signal-over-noise","title":"Signal Over Noise","description":"Deleted the Reddit app after noticing the pattern: open it feeling okay, close it feeling like a noob.","type":"breakthrough","dateUnlocked":"Nov 2025","featured":false}],"classes":[{"id":"builder","title":"Builder","icon":"\u2726","description":"Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.","dateUnlocked":"Feb 2026","featured":true},{"id":"explorer","title":"Explorer","icon":"\u25c8","description":"Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.","dateUnlocked":"Jan 2026","featured":false}],"_xpLog":[{"date":"25 Mar 2026","amount":30,"reason":"Session update","totalAfter":500,"levelup":false},{"date":"22 Mar 2026","amount":25,"reason":"Session update","totalAfter":470,"levelup":false},{"date":"19 Mar 2026","amount":null,"reason":"Level 4 reached","totalAfter":445,"levelup":true},{"date":"19 Mar 2026","amount":45,"reason":"Session update","totalAfter":445,"levelup":false},{"date":"15 Mar 2026","amount":40,"reason":"Trade with librarian - genuine ask for help","totalAfter":400,"levelup":false},{"date":"12 Mar 2026","amount":35,"reason":"Session update","totalAfter":360,"levelup":false},{"date":"8 Mar 2026","amount":25,"reason":"Session update","totalAfter":325,"levelup":false},{"date":"5 Mar 2026","amount":20,"reason":"Session update","totalAfter":300,"levelup":false},{"date":"26 Feb 2026","amount":null,"reason":"Level 3 reached","totalAfter":280,"levelup":true},{"date":"26 Feb 2026","amount":30,"reason":"Session update","totalAfter":280,"levelup":false},{"date":"19 Feb 2026","amount":25,"reason":"Session update","totalAfter":250,"levelup":false},{"date":"14 Feb 2026","amount":50,"reason":"Three months no-death run - No Death Run achievement","totalAfter":225,"levelup":false},{"date":"12 Feb 2026","amount":-15,"reason":"Skipped mining three times - named pattern, not bad luck","totalAfter":175,"levelup":false},{"date":"5 Feb 2026","amount":20,"reason":"Session update","totalAfter":190,"levelup":false},{"date":"28 Jan 2026","amount":25,"reason":"Session update","totalAfter":170,"levelup":false},{"date":"20 Jan 2026","amount":40,"reason":"Chest room organised - environment changed","totalAfter":145,"levelup":false},{"date":"20 Jan 2026","amount":null,"reason":"Level 2 reached","totalAfter":105,"levelup":true},{"date":"12 Jan 2026","amount":30,"reason":"Session update","totalAfter":105,"levelup":false},{"date":"5 Jan 2026","amount":25,"reason":"Session update","totalAfter":75,"levelup":false},{"date":"1 Jan 2026","amount":50,"reason":"Survive First Night quest complete","totalAfter":50,"levelup":false}],"_hardcodedHistory":{"deep-work":[{"date":"2026-01-01","value":25},{"date":"2026-01-02","value":40},{"date":"2026-01-04","value":15},{"date":"2026-01-05","value":55},{"date":"2026-01-06","value":70},{"date":"2026-01-07","value":45},{"date":"2026-01-08","value":60},{"date":"2026-01-09","value":30},{"date":"2026-01-12","value":65},{"date":"2026-01-13","value":80},{"date":"2026-01-14","value":55},{"date":"2026-01-15","value":45},{"date":"2026-01-16","value":60},{"date":"2026-01-17","value":20},{"date":"2026-01-19","value":70},{"date":"2026-01-20","value":90},{"date":"2026-01-21","value":60},{"date":"2026-01-22","value":35},{"date":"2026-01-23","value":50},{"date":"2026-01-25","value":30},{"date":"2026-01-26","value":75},{"date":"2026-01-27","value":80},{"date":"2026-01-28","value":65},{"date":"2026-01-29","value":60},{"date":"2026-01-30","value":40},{"date":"2026-02-01","value":25},{"date":"2026-02-02","value":70},{"date":"2026-02-03","value":85},{"date":"2026-02-04","value":60},{"date":"2026-02-05","value":65},{"date":"2026-02-06","value":55},{"date":"2026-02-07","value":30},{"date":"2026-02-09","value":75},{"date":"2026-02-10","value":90},{"date":"2026-02-11","value":70},{"date":"2026-02-12","value":60},{"date":"2026-02-13","value":45},{"date":"2026-02-14","value":20},{"date":"2026-02-15","value":35},{"date":"2026-02-16","value":80},{"date":"2026-02-17","value":75},{"date":"2026-02-18","value":60},{"date":"2026-02-19","value":90},{"date":"2026-02-20","value":55},{"date":"2026-02-21","value":40},{"date":"2026-02-23","value":85},{"date":"2026-02-24","value":90},{"date":"2026-02-25","value":75},{"date":"2026-02-26","value":65},{"date":"2026-02-27","value":60},{"date":"2026-02-28","value":30},{"date":"2026-03-01","value":40},{"date":"2026-03-02","value":80},{"date":"2026-03-03","value":90},{"date":"2026-03-04","value":70},{"date":"2026-03-05","value":85},{"date":"2026-03-06","value":60},{"date":"2026-03-07","value":45},{"date":"2026-03-08","value":30},{"date":"2026-03-09","value":75},{"date":"2026-03-10","value":90},{"date":"2026-03-11","value":80},{"date":"2026-03-13","value":55},{"date":"2026-03-14","value":60},{"date":"2026-03-15","value":45},{"date":"2026-03-16","value":85},{"date":"2026-03-17","value":90},{"date":"2026-03-18","value":75},{"date":"2026-03-19","value":90},{"date":"2026-03-20","value":70},{"date":"2026-03-21","value":60},{"date":"2026-03-22","value":120},{"date":"2026-03-23","value":65},{"date":"2026-03-24","value":75}],"morning-run":[{"date":"2026-02-02","value":1},{"date":"2026-02-03","value":1},{"date":"2026-02-04","value":0},{"date":"2026-02-05","value":1},{"date":"2026-02-06","value":1},{"date":"2026-02-07","value":0},{"date":"2026-02-09","value":1},{"date":"2026-02-10","value":1},{"date":"2026-02-11","value":1},{"date":"2026-02-12","value":0},{"date":"2026-02-13","value":1},{"date":"2026-02-16","value":1},{"date":"2026-02-17","value":1},{"date":"2026-02-18","value":1},{"date":"2026-02-19","value":0},{"date":"2026-02-20","value":1},{"date":"2026-02-23","value":1},{"date":"2026-02-24","value":1},{"date":"2026-02-25","value":1},{"date":"2026-02-26","value":0},{"date":"2026-02-27","value":1},{"date":"2026-03-02","value":1},{"date":"2026-03-03","value":1},{"date":"2026-03-04","value":0},{"date":"2026-03-05","value":1},{"date":"2026-03-06","value":1},{"date":"2026-03-09","value":1},{"date":"2026-03-10","value":1},{"date":"2026-03-11","value":1},{"date":"2026-03-12","value":0},{"date":"2026-03-13","value":1},{"date":"2026-03-16","value":1},{"date":"2026-03-17","value":1},{"date":"2026-03-18","value":1},{"date":"2026-03-19","value":1},{"date":"2026-03-20","value":0},{"date":"2026-03-23","value":1},{"date":"2026-03-24","value":1}],"gym-sessions":[{"period":"2026-06","value":3},{"period":"2026-07","value":4},{"period":"2026-08","value":2},{"period":"2026-09","value":4},{"period":"2026-10","value":3},{"period":"2026-11","value":4},{"period":"2026-12","value":4},{"period":"2026-13","value":3}]}};
-  if(data._hardcodedHistory){ Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
   if(data._xpLog){ HARDCODED_XP_LOG = data._xpLog; delete data._xpLog; }
+  const isDemo = !localStorage.getItem('cs-state-v1') || IS_DEMO;
+  if(data._hardcodedHistory){ if(isDemo) Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
   Object.assign(DEFAULT, data);
-  if(!localStorage.getItem('liferpg-v7') || IS_DEMO) appState = loadState();
+  if(isDemo) appState = loadState();
 })();
 _init();
+updateInstructionsNotice(null);
 </script>
 </body>
 </html>
