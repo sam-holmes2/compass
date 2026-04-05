@@ -1475,11 +1475,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div class="modal-overlay" id="welcome-modal">
   <div class="modal">
     <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
-    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with your AI of choice — it updates your data, you import it here. You're looking at <strong>Example Steve's data</strong> — explore it freely, then set up your own below.</p>
+    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with your AI of choice — it updates your data, you import it here.</p>
     <div class="welcome-options">
       <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data — Import it</button>
-      <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome()" title="Explore Steve's data and reopen Help any time via the button at bottom right">Explore Steve's data</button>
     </div>
     <div id="welcome-setup-steps">
       <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md</strong> — the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructions()">↓ instructions.md</button></div></div>
@@ -1510,7 +1509,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="demo-banner">
-  <span class="demo-banner-text">You're viewing <strong>Example Steve's data</strong> — nothing you do here is saved. Download the app to create your own character sheet.</span>
+  <span class="demo-banner-text">You're viewing <strong>Example Steve's data</strong>. Nothing you do here is saved. Download the app to create your own character sheet.</span>
   <button class="demo-banner-dl" onclick="downloadApp()">↓ Download character-sheet.html</button>
   <button class="demo-banner-dismiss" onclick="this.closest('#demo-banner').style.display='none'" title="Dismiss">×</button>
 </div>
@@ -6769,7 +6768,7 @@ function _init(){
   const hasUserData = !!localStorage.getItem('cs-state-v1') || !!localStorage.getItem('cs-enc-v1');
   const isDemo = !hasUserData || IS_DEMO;
   if(data._hardcodedHistory){ if(isDemo) Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
-  Object.assign(DEFAULT, data);
+  if(isDemo) Object.assign(DEFAULT, data);
   if(isDemo) appState = loadState();
 })();
 _init();
