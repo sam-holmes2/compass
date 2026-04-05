@@ -6,6 +6,8 @@ Use them when a session feels flat or you want to go somewhere specific. No need
 
 ---
 
+
+
 ## Getting oriented
 
 - What's actually on your mind right now — not what you think you should be thinking about?
@@ -103,3 +105,21 @@ Use them when a session feels flat or you want to go somewhere specific. No need
 - What's the one thing from this conversation you most want to remember?
 - What's the one thing you're going to do differently before the next session?
 - What are you still not saying?
+
+
+# TODO - add more
+Mark Manson
+What people or objects are you mistaking for your needs? What actual needs are they fulfilling?
+
+
+Chris Williamson 
+inversion - What would I do if I wanted to make 85 year old me as miserable and regretful as possible?
+
+
+Ali Abdaal
+"How can I make this feel like play instead of work?"
+What would the most energized version of me do with this challenge?"
+"How can I add an element of curiosity or experimentation to this?"
+"What systems would eliminate the willpower requirement here?"
+"How would I teach this to someone else in the most engaging way possible?"
+ "What would this look like if I optimized for enjoyment AND results?"

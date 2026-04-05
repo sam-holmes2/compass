@@ -400,6 +400,50 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chapter-add-bullet:hover { opacity:1; }
 
 
+/* ══ LOCK SCREEN ════════════════════════════════════════ */
+#lock-screen {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:var(--bg); align-items:center; justify-content:center;
+  flex-direction:column; gap:24px;
+}
+#lock-screen.open { display:flex; }
+.lock-title { font-family:'Cinzel Decorative',serif; font-size:22px; color:var(--gold); letter-spacing:0.15em; }
+.lock-subtitle { font-size:16px; color:var(--text-dim); margin-top:-16px; }
+.lock-pin-row { display:flex; gap:10px; align-items:center; }
+.lock-pin-input {
+  background:var(--surface); border:1px solid var(--border-hi); border-radius:6px;
+  color:var(--text-b); font-family:var(--mono); font-size:20px; letter-spacing:0.25em;
+  padding:10px 16px; width:160px; text-align:center; outline:none;
+  transition:border-color 0.15s;
+}
+.lock-pin-input:focus { border-color:var(--gold); }
+.lock-pin-input.error { border-color:#903030; animation:shake 0.3s; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+}
+.lock-error { font-size:15px; color:#903030; min-height:20px; }
+
+/* ══ SETTINGS MODAL ══════════════════════════════════════ */
+.settings-section { margin-bottom:18px; }
+.settings-label { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px; }
+.settings-pin-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.settings-pin-input {
+  background:var(--surface); border:1px solid var(--border-hi); border-radius:6px;
+  color:var(--text-b); font-family:var(--mono); font-size:16px; letter-spacing:0.2em;
+  padding:7px 12px; width:120px; text-align:center; outline:none;
+  transition:border-color 0.15s;
+}
+.settings-pin-input:focus { border-color:var(--gold); }
+.settings-select {
+  background:var(--surface); border:1px solid var(--border-hi); border-radius:6px;
+  color:var(--text-b); font-family:'Crimson Pro',serif; font-size:16px;
+  padding:7px 12px; outline:none; cursor:pointer;
+}
+.settings-select:focus { border-color:var(--gold); }
+.settings-status { font-size:15px; color:var(--text-dim); margin-top:6px; min-height:18px; }
+.settings-status.ok  { color:#3a8050; }
+.settings-status.err { color:#903030; }
+
 /* ══ FLOAT + MODAL ═══════════════════════════════════════ */
 .float-btn {
   position:fixed; bottom:26px; right:26px;
@@ -444,6 +488,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .btn-primary:hover { opacity:0.82; }
 .btn-ghost { background:none; border:1px solid var(--border-hi); border-radius:4px; color:var(--text-dim); cursor:pointer; font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.12em; padding:8px 16px; transition:all 0.2s; }
 .btn-ghost:hover { border-color:var(--text-dim); color:var(--text); }
+.btn-download { color:var(--help); border-color:var(--help-border); font-size:14px; padding:3px 10px; }
+.btn-download:hover { background:var(--help-dim); border-color:var(--help); color:var(--help); }
 .modal-status { font-size:17px; color:var(--text-dim); margin-left:4px; }
 .modal-status.ok  { color:#3a8050; }
 .modal-status.err { color:#903030; }
@@ -636,6 +682,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #dirty-banner .dirty-banner-dismiss:hover { color:var(--text); }
 #dirty-banner .dirty-banner-never { background:none; border:none; color:var(--text-dim); font-size:15px; cursor:pointer; text-decoration:underline; text-underline-offset:2px; flex-shrink:0; font-family:inherit; }
 #dirty-banner .dirty-banner-never:hover { color:var(--text-mid); }
+
+#demo-banner {
+  display:none; align-items:center; gap:12px;
+  padding:9px 16px; background:rgba(80,140,200,0.08);
+  border:1px solid rgba(80,140,200,0.28); border-radius:6px;
+  margin-bottom:14px; font-size:16px; color:#6090c8;
+}
+#demo-banner .demo-banner-text { flex:1; }
+#demo-banner .demo-banner-dl { background:none; border:1px solid rgba(80,140,200,0.4); color:#6090c8; border-radius:4px; padding:3px 10px; font-size:14px; cursor:pointer; font-family:inherit; flex-shrink:0; }
+#demo-banner .demo-banner-dl:hover { background:rgba(80,140,200,0.12); }
+#demo-banner .demo-banner-dismiss { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
+#demo-banner .demo-banner-dismiss:hover { color:var(--text); }
 
 /* ══ IMPORT DIFF TOAST ════════════════════════════════════ */
 #import-toast {
@@ -1424,7 +1482,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome()" title="Explore Steve's data and reopen Help any time via the button at bottom right">Explore Steve's data</button>
     </div>
     <div id="welcome-setup-steps">
-      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md</strong> — the file that tells your AI how this app works. <button class="btn-ghost" style="padding:3px 10px;font-size:14px;margin-left:6px;" onclick="downloadInstructions()">Download</button></div></div>
+      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md</strong> — the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructions()">↓ instructions.md</button></div></div>
       <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice</strong> — Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at — then just talk.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
@@ -1433,11 +1491,28 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
+<!-- ══ LOCK SCREEN ══════════════════════════════════════ -->
+<div id="lock-screen">
+  <div class="lock-title">⬡ CHARACTER-SHEET</div>
+  <div class="lock-subtitle">Enter your PIN to continue</div>
+  <div class="lock-pin-row">
+    <input class="lock-pin-input" id="lock-pin-input" type="password" inputmode="numeric" maxlength="12" placeholder="PIN" autocomplete="off" onkeydown="if(event.key==='Enter')unlockApp()">
+    <button class="btn-primary" onclick="unlockApp()">Unlock</button>
+  </div>
+  <div class="lock-error" id="lock-error"></div>
+</div>
+
 <!-- ══ DIRTY BANNER ═══════════════════════════════════════ -->
 <div id="dirty-banner">
   <span class="dirty-banner-text">You have unsaved local edits. Export ↓ and paste your data.json into your AI project to keep them.</span>
   <button class="dirty-banner-never" onclick="neverShowDirtyBanner()">Never show</button>
   <button class="dirty-banner-dismiss" onclick="dismissDirtyBanner()" title="Dismiss">×</button>
+</div>
+
+<div id="demo-banner">
+  <span class="demo-banner-text">You're viewing <strong>Example Steve's data</strong> — nothing you do here is saved. Download the app to create your own character sheet.</span>
+  <button class="demo-banner-dl" onclick="downloadApp()">↓ Download character-sheet.html</button>
+  <button class="demo-banner-dismiss" onclick="this.closest('#demo-banner').style.display='none'" title="Dismiss">×</button>
 </div>
 
 <!-- ══ SLIDER TEMPLATE (reused via JS) ══════════════════════
@@ -1995,6 +2070,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <div id="float-bar">
   <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help — setup instructions" style="position:relative;">? Help<span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
+  <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Settings">⚙ Settings</button>
+  <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡ Lock</button>
   <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export — copy data to your AI">↓ Export</button>
   <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import — paste data from your AI">↑ Import</button>
 </div>
@@ -2022,7 +2099,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="help-step-num">1</div>
           <div class="help-step-text">
             <strong>Download character-sheet.html</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-ghost" style="font-size:13px;padding:4px 12px;" onclick="downloadApp()">↓ character-sheet.html</button></span>
+            <span style="display:block;margin-top:6px;"><button class="btn-ghost btn-download" onclick="downloadApp()">↓ character-sheet.html</button></span>
             <span style="display:block;font-size:13px;color:var(--text-dim);font-style:italic;margin-top:5px;">Open it in your browser (Firefox, Chrome, etc.)</span>
           </div>
         </div>
@@ -2030,7 +2107,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="help-step-num">2</div>
           <div class="help-step-text">
             <strong>Download instructions.md</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-ghost" style="font-size:13px;padding:4px 12px;" onclick="downloadInstructions()">↓ instructions.md</button></span>
+            <span style="display:block;margin-top:6px;"><button class="btn-ghost btn-download" onclick="downloadInstructions()">↓ instructions.md</button></span>
           </div>
         </div>
         <div class="help-step">
@@ -2046,15 +2123,19 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Each session</div>
         </div>
         <div class="help-step">
+          <div class="help-step-num">1</div>
+          <div class="help-step-text"><strong>Open your character-sheet project</strong> in your AI of choice and start a new chat..</div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">2</div>
+          <div class="help-step-text"><strong>Get chatting</strong> about anything you want!</div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">3</div>
+          <div class="help-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div>
+        </div>
+        <div class="help-step">
           <div class="help-step-num">4</div>
-          <div class="help-step-text"><strong>Open your project</strong> in Claude, ChatGPT, or Gemini and start a new chat. Paste in your current data — use ↓ Export to get it — then just talk.</div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">5</div>
-          <div class="help-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> — it will output a JSON block. Copy it.</div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">6</div>
           <div class="help-step-text"><strong>Import your updated data:</strong>
             <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:13px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');openModal()">↑ Import</button></span>
             <span style="display:block;font-size:13px;color:var(--text-dim);font-style:italic;margin-top:5px;">Paste the JSON and hit Apply.</span>
@@ -2078,7 +2159,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
         <div class="help-step">
           <div class="help-step-num">2</div>
-          <div class="help-step-text"><strong>Paste the JSON into your AI project</strong> to replace the old data.json — so your AI has your latest state next session.</div>
+          <div class="help-step-text"><strong>Paste the JSON into your AI project</strong> to replace the old data.json, so your AI has your latest state next session.</div>
         </div>
         <p class="help-note">The orange banner at the top appears when you have edits that haven't been exported yet.</p>
       </div>
@@ -2099,6 +2180,51 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="modal-row">
       <button class="btn-primary" onclick="closeSyncModal()">Got it</button>
       <button class="btn-ghost" onclick="closeSyncModal(true)">Never show again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETTINGS MODAL ══════════════════════════════════════ -->
+<div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettingsModal()">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);">
+    <div class="modal-title" style="color:var(--gold);">⚙ &nbsp;SETTINGS</div>
+
+    <div class="settings-section">
+      <div class="settings-label">PIN Protection</div>
+      <p id="settings-pin-status-text" style="font-size:16px;color:var(--text-dim);margin-bottom:8px;"></p>
+      <div class="settings-pin-row" id="settings-pin-set-row">
+        <input class="settings-pin-input" id="settings-pin-new" type="password" inputmode="numeric" maxlength="12" placeholder="New PIN" autocomplete="new-password">
+        <input class="settings-pin-input" id="settings-pin-confirm" type="password" inputmode="numeric" maxlength="12" placeholder="Confirm" autocomplete="new-password">
+        <button class="btn-primary" onclick="settingsSavePIN()">Set PIN</button>
+      </div>
+      <div class="settings-pin-row" id="settings-pin-remove-row" style="display:none;">
+        <input class="settings-pin-input" id="settings-pin-current" type="password" inputmode="numeric" maxlength="12" placeholder="Current PIN" autocomplete="current-password">
+        <button class="btn-ghost" onclick="settingsRemovePIN()">Remove PIN</button>
+        <button class="btn-primary" onclick="settingsShowChangePIN()">Change PIN</button>
+      </div>
+      <div class="settings-pin-row" id="settings-pin-change-row" style="display:none;margin-top:8px;">
+        <input class="settings-pin-input" id="settings-pin-change-new" type="password" inputmode="numeric" maxlength="12" placeholder="New PIN" autocomplete="new-password">
+        <input class="settings-pin-input" id="settings-pin-change-confirm" type="password" inputmode="numeric" maxlength="12" placeholder="Confirm" autocomplete="new-password">
+        <button class="btn-primary" onclick="settingsChangePIN()">Save</button>
+        <button class="btn-ghost" onclick="settingsHideChangePIN()">Cancel</button>
+      </div>
+      <div class="settings-status" id="settings-pin-status"></div>
+    </div>
+
+    <div class="settings-section" id="settings-timeout-section">
+      <div class="settings-label">Auto-Lock After</div>
+      <select class="settings-select" id="settings-timeout-select" onchange="settingsSaveTimeout()">
+        <option value="0">Never</option>
+        <option value="1">1 minute</option>
+        <option value="5">5 minutes</option>
+        <option value="15">15 minutes</option>
+        <option value="30">30 minutes</option>
+        <option value="60">1 hour</option>
+      </select>
+    </div>
+
+    <div class="modal-row" style="margin-top:6px;">
+      <button class="btn-ghost" onclick="closeSettingsModal()">Close</button>
     </div>
   </div>
 </div>
@@ -2124,9 +2250,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ EXPORT MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:600px;">
     <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
     <p>Copy this JSON and use it to replace the old data.json file attached in your AI project. This ensures your chat knows your updated state, including changes made in the app.</p>
+    <div id="export-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:15px;line-height:1.4;"></div>
+    <div style="display:flex;gap:16px;align-items:center;margin-bottom:12px;">
+      <canvas id="export-pie" width="110" height="110" style="flex-shrink:0;"></canvas>
+      <div id="export-pie-legend" style="flex:1;display:flex;flex-direction:column;gap:3px;font-size:13px;font-family:var(--mono);min-width:0;"></div>
+    </div>
     <textarea id="export-textarea" readonly style="min-height:200px;font-size:15px"></textarea>
     <div class="modal-row" style="flex-wrap:wrap;gap:8px;">
       <button class="btn-primary" id="copy-export-btn" onclick="copyExport()">Copy</button>
@@ -2215,8 +2346,8 @@ const WELCOMED_KEY='cs-welcomed-v1';
 const SYNC_EXPLAINED_KEY='cs-sync-explained-v1';
 const HIDE_DIRTY_BANNER_KEY='cs-hide-dirty-banner-v1';
 const IS_DEMO=location.hostname.endsWith('github.io');
-function loadState(){if(IS_DEMO)return DEFAULT;try{const r=localStorage.getItem('cs-state-v1');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
-function saveState(s){if(IS_DEMO)return;try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch{}}
+function loadState(){if(IS_DEMO)return DEFAULT;if(typeof _hasPIN==='function'&&_hasPIN())return DEFAULT;try{const r=localStorage.getItem('cs-state-v1');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
+function saveState(s){if(IS_DEMO)return;if(typeof _pinActive!=='undefined'&&_pinActive&&_currentPIN){_encryptAndSave(s,_currentPIN);return;}try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch{}}
 // Migration: move completedQuests out of appState into dedicated localStorage key
 function migrateCompletedQuests(){
   if(IS_DEMO) return;
@@ -3668,16 +3799,13 @@ function renderAlliesTab(s){
       liberation: {label:'Liberating Belief',  colour:'#2d6e40'},
       source:     {label:'Source',             colour:'#2a9090'},
     };
-    const counts={};
-    all.forEach(a=>{
-      const t=a.type||'other';
-      counts[t]=(counts[t]||0)+1;
-    });
-    const entries=Object.entries(counts).map(([t,count],i)=>({
-      label: (TYPES_AL[t]||{label:t}).label,
-      count,
-      colour: (TYPES_AL[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour
-    }));
+    const counts={loot:0,spell:0,liberation:0,source:0};
+    all.forEach(a=>{ if(counts[a.type]!==undefined) counts[a.type]++; });
+    const entries=Object.entries(TYPES_AL).map(([t,meta])=>({
+      label: meta.label,
+      count: counts[t],
+      colour: meta.colour
+    })).filter(e=>e.count>0);
     renderTypePie('al-pie-chart','al-pie-legend',entries);
   }
 
@@ -4288,7 +4416,7 @@ function loadXPLog(){
     const raw=localStorage.getItem(XP_LOG_KEY);
     if(raw) return JSON.parse(raw);
     // Seed demo data only when showing the default demo (no real user data imported)
-    const hasUserData=!!localStorage.getItem('cs-state-v1');
+    const hasUserData=!!localStorage.getItem('cs-state-v1')||!!localStorage.getItem('cs-enc-v1');
     if(!hasUserData&&typeof HARDCODED_XP_LOG!=='undefined'&&HARDCODED_XP_LOG.length){
       saveXPLog(HARDCODED_XP_LOG);
       return HARDCODED_XP_LOG.slice();
@@ -4338,21 +4466,23 @@ function renderXPLog(){
 
 // ══ EXPORT ═══════════════════════════════════════════════════
 function exportState(){
-  const raw=localStorage.getItem('cs-state-v1');
-  const state=raw?JSON.parse(raw):DEFAULT;
+  const raw=(_pinActive&&_currentPIN)?null:localStorage.getItem('cs-state-v1');
+  const state=raw?JSON.parse(raw):(_pinActive?JSON.parse(JSON.stringify(appState)):DEFAULT);
   // completedQuests are localStorage-only — strip from export so Claude doesn't receive them
   delete state.completedQuests; delete state.completedMainQuests;
   state._featuredAch=getFeaturedAch();
   state._featuredCls=getFeaturedCls();
   state._xpLog=loadXPLog();
-  document.getElementById('export-textarea').value=JSON.stringify(state,null,2);
+  const jsonStr=JSON.stringify(state,null,2);
+  document.getElementById('export-textarea').value=jsonStr;
+  renderExportPie(state,jsonStr);
   document.getElementById('export-modal').classList.add('open');
   document.getElementById('export-btn')?.classList.remove('dirty');
   hideDirtyBanner();
   updateInstructionsNotice(state);
 }
 function updateInstructionsNotice(state){
-  if(!state) { const raw=localStorage.getItem('cs-state-v1'); state=raw?JSON.parse(raw):DEFAULT; }
+  if(!state) { const raw=(typeof _pinActive!=='undefined'&&_pinActive)?null:localStorage.getItem('cs-state-v1'); state=raw?JSON.parse(raw):(typeof appState!=='undefined'?appState:DEFAULT); }
   const iv=state._instructionsVersion||'';
   const [,im=0]=(iv.match(/^0\.(\d+)/)||[]);
   const [,cm=0]=(INSTRUCTIONS_VERSION.match(/^0\.(\d+)/)||[]);
@@ -4371,6 +4501,80 @@ function copyExport(){
   ta.select(); document.execCommand('copy');
   const btn=document.getElementById('copy-export-btn');
   btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy',2000);
+}
+function renderExportPie(state,jsonStr){
+  const COLORS=['#5cb85c','#c8a84a','#7b68ee','#e07070','#60a8c8','#e09050','#a060c0','#60c0a0','#c06080','#8090b0','#b0a060'];
+  const KEY_LABELS={bestiary:'enemies'};
+  const WARN_AMBER=40000;
+  const WARN_RED=80000;
+  const keys=Object.keys(state);
+  const sizes=keys.map(k=>JSON.stringify(state[k]).length);
+  const total=jsonStr.length;
+  const warn=document.getElementById('export-size-warning');
+  if(total>=WARN_RED){
+    warn.style.display='block';
+    warn.style.background='rgba(160,60,60,0.12)';
+    warn.style.border='1px solid rgba(160,60,60,0.4)';
+    warn.style.color='#c07070';
+    warn.textContent='Large export ('+Math.round(total/1000)+'KB / ~'+Math.round(total/4)+' tokens). Consider trimming old journal entries — they grow the most over time.';
+  } else if(total>=WARN_AMBER){
+    warn.style.display='block';
+    warn.style.background='rgba(200,168,74,0.08)';
+    warn.style.border='1px solid rgba(200,168,74,0.3)';
+    warn.style.color='var(--gold)';
+    warn.textContent='Growing export ('+Math.round(total/1000)+'KB / ~'+Math.round(total/4)+' tokens). Keep an eye on journal size over time.';
+  } else {
+    warn.style.display='none';
+  }
+  const indexed=keys.map((k,i)=>({k,s:sizes[i]})).sort((a,b)=>b.s-a.s);
+  const TOP=8;
+  const top=indexed.slice(0,TOP);
+  const rest=indexed.slice(TOP);
+  const otherSize=rest.reduce((a,x)=>a+x.s,0);
+  const segments=[...top];
+  if(otherSize>0) segments.push({k:'other',s:otherSize});
+  const canvas=document.getElementById('export-pie');
+  const ctx=canvas.getContext('2d');
+  const cx=55,cy=55,r=48,inner=28;
+  ctx.clearRect(0,0,110,110);
+  let angle=-Math.PI/2;
+  segments.forEach((seg,i)=>{
+    const slice=(seg.s/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,angle,angle+slice);
+    ctx.closePath();
+    ctx.fillStyle=COLORS[i%COLORS.length];
+    ctx.fill();
+    angle+=slice;
+  });
+  ctx.beginPath();
+  ctx.arc(cx,cy,inner,0,Math.PI*2);
+  ctx.fillStyle='rgba(14,14,22,0.97)';
+  ctx.fill();
+  ctx.fillStyle='#888';
+  ctx.font='bold 11px monospace';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText(Math.round(total/1000)+'KB',cx,cy);
+  const legend=document.getElementById('export-pie-legend');
+  legend.innerHTML='';
+  segments.forEach((seg,i)=>{
+    const pct=Math.round(seg.s/total*100);
+    const kb=(seg.s/1000).toFixed(1);
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;';
+    const dot=document.createElement('span');
+    dot.style.cssText='width:9px;height:9px;border-radius:50%;flex-shrink:0;background:'+COLORS[i%COLORS.length]+';';
+    const lbl=document.createElement('span');
+    lbl.style.cssText='color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;flex:1;';
+    lbl.textContent=KEY_LABELS[seg.k]||seg.k;
+    const val=document.createElement('span');
+    val.style.cssText='color:var(--text-mid);flex-shrink:0;';
+    val.textContent=kb+'KB ('+pct+'%)';
+    row.appendChild(dot); row.appendChild(lbl); row.appendChild(val);
+    legend.appendChild(row);
+  });
 }
 
 function downloadInstructions(){
@@ -4733,6 +4937,8 @@ function timerStop(id) {
   ps.startedAt = null;
   if (act) saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   updateTimerToday(id, act);
+  const chartWrap = document.getElementById('rq-chart-' + id);
+  if (chartWrap && act) renderRQBarChart(chartWrap, act, charName);
 }
 
 function timerReset(id) {
@@ -6123,7 +6329,11 @@ function isUsingDemoData(){
 }
 
 function maybeShowWelcome(){
-  if(IS_DEMO) return;
+  if(IS_DEMO){
+    const b = document.getElementById('demo-banner');
+    if(b) b.style.display = 'flex';
+    return;
+  }
   if(localStorage.getItem(WELCOMED_KEY)) return;
   if(isUsingDemoData()){
     document.getElementById('welcome-modal').classList.add('open');
@@ -6296,6 +6506,247 @@ function closeSyncModal(never){
   localStorage.setItem(SYNC_EXPLAINED_KEY, '1');
 }
 
+// ══ ENCRYPTION (PIN protection) ═════════════════════════════
+const ENC_KEY   = 'cs-enc-v1';
+const PIN_CHECK = 'cs-pin-check-v1';
+const PIN_TIMEOUT_KEY = 'cs-pin-timeout-v1';
+const SENTINEL  = 'cs-unlocked';
+
+let _lockTimer = null;
+let _pinActive = false; // true when user has set a PIN and app is unlocked
+
+function _b64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function _unb64(s){ return Uint8Array.from(atob(s), c=>c.charCodeAt(0)).buffer; }
+
+async function _deriveKey(pin, salt){
+  const enc = new TextEncoder();
+  const keyMat = await crypto.subtle.importKey('raw', enc.encode(pin), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt, iterations:200000, hash:'SHA-256'},
+    keyMat, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']
+  );
+}
+
+async function _encrypt(pin, plaintext){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const key  = await _deriveKey(pin, salt);
+  const enc  = new TextEncoder();
+  const data = await crypto.subtle.encrypt({name:'AES-GCM',iv}, key, enc.encode(plaintext));
+  return JSON.stringify({salt:_b64(salt), iv:_b64(iv), data:_b64(data)});
+}
+
+async function _decrypt(pin, stored){
+  try {
+    const {salt, iv, data} = JSON.parse(stored);
+    const key = await _deriveKey(pin, _unb64(salt));
+    const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv:_unb64(iv)}, key, _unb64(data));
+    return new TextDecoder().decode(plain);
+  } catch { return null; }
+}
+
+function _hasPIN(){ return !!localStorage.getItem('cs-pin-check-v1'); }
+
+async function _verifyAndDecrypt(pin){
+  const check = localStorage.getItem(PIN_CHECK);
+  if(!check) return null;
+  const sentinel = await _decrypt(pin, check);
+  if(sentinel !== SENTINEL) return null;
+  const enc = localStorage.getItem(ENC_KEY);
+  if(!enc) return null;
+  return _decrypt(pin, enc);
+}
+
+// Called after successful unlock or when saving with PIN active
+let _currentPIN = null;
+
+async function _encryptAndSave(s, pin){
+  if(IS_DEMO) return;
+  const json = JSON.stringify(s);
+  const enc = await _encrypt(pin, json);
+  localStorage.setItem(ENC_KEY, enc);
+  localStorage.removeItem('cs-state-v1'); // clear plaintext
+}
+
+// ── Auto-lock ──────────────────────────────────────────────
+function _getLockTimeout(){ return parseInt(localStorage.getItem(PIN_TIMEOUT_KEY)||'0')||0; }
+
+function _resetLockTimer(){
+  if(_lockTimer){ clearTimeout(_lockTimer); _lockTimer=null; }
+  const mins = _getLockTimeout();
+  if(!_pinActive || !mins) return;
+  _lockTimer = setTimeout(()=>lockApp(), mins*60*1000);
+}
+
+['mousemove','keydown','touchstart','click'].forEach(ev=>{
+  document.addEventListener(ev, ()=>{ if(_pinActive) _resetLockTimer(); }, {passive:true});
+});
+
+// ── Lock / Unlock ──────────────────────────────────────────
+function lockApp(){
+  if(_lockTimer){ clearTimeout(_lockTimer); _lockTimer=null; }
+  _pinActive = false;
+  _currentPIN = null;
+  document.getElementById('lock-screen').classList.add('open');
+  document.getElementById('lock-pin-input').value = '';
+  document.getElementById('lock-error').textContent = '';
+  // hide main UI
+  document.querySelector('.hdr').style.visibility='hidden';
+  document.querySelector('.tab-nav').style.visibility='hidden';
+  document.querySelector('#float-bar').style.visibility='hidden';
+  document.querySelectorAll('.tab-panel').forEach(p=>p.style.visibility='hidden');
+  setTimeout(()=>document.getElementById('lock-pin-input').focus(), 50);
+}
+
+function _showApp(){
+  document.getElementById('lock-screen').classList.remove('open');
+  document.querySelector('.hdr').style.visibility='';
+  document.querySelector('.tab-nav').style.visibility='';
+  document.querySelector('#float-bar').style.visibility='';
+  document.querySelectorAll('.tab-panel').forEach(p=>p.style.visibility='');
+  document.getElementById('lock-btn').style.display='';
+}
+
+async function unlockApp(){
+  const pin = document.getElementById('lock-pin-input').value;
+  const input = document.getElementById('lock-pin-input');
+  const errEl = document.getElementById('lock-error');
+  if(!pin){ errEl.textContent='Enter your PIN'; input.classList.add('error'); setTimeout(()=>input.classList.remove('error'),400); return; }
+  errEl.textContent='';
+  const plain = await _verifyAndDecrypt(pin);
+  if(plain===null){
+    errEl.textContent='Incorrect PIN';
+    input.classList.add('error');
+    setTimeout(()=>input.classList.remove('error'),400);
+    input.value='';
+    return;
+  }
+  _currentPIN = pin;
+  _pinActive = true;
+  try { appState = JSON.parse(plain); } catch { appState = DEFAULT; }
+  render(appState);
+  loadStatusSliders();
+  loadStatSliders(appState);
+  (appState.activities||DEFAULT.activities||[]).forEach(act=>initRQState(act, appState.name));
+  updateCombatNavArc();
+  _showApp();
+  _resetLockTimer();
+}
+
+// ── Settings modal ─────────────────────────────────────────
+function openSettingsModal(){
+  const hasPIN = _hasPIN();
+  document.getElementById('settings-pin-status-text').textContent = hasPIN
+    ? 'PIN protection is enabled. Your data is encrypted in the browser.'
+    : 'No PIN set. Data is stored in plain text.';
+  document.getElementById('settings-pin-set-row').style.display = hasPIN ? 'none' : '';
+  document.getElementById('settings-pin-remove-row').style.display = hasPIN ? '' : 'none';
+  document.getElementById('settings-pin-change-row').style.display = 'none';
+  document.getElementById('settings-timeout-section').style.display = hasPIN ? '' : 'none';
+  ['settings-pin-new','settings-pin-confirm','settings-pin-current','settings-pin-change-new','settings-pin-change-confirm'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('settings-pin-status').textContent='';
+  // Set timeout dropdown
+  const sel = document.getElementById('settings-timeout-select');
+  const t = _getLockTimeout();
+  [...sel.options].forEach(o=>o.selected=(parseInt(o.value)===t));
+  document.getElementById('settings-modal').classList.add('open');
+}
+
+function closeSettingsModal(){
+  document.getElementById('settings-modal').classList.remove('open');
+}
+
+function _setSettingsStatus(msg, type){
+  const el = document.getElementById('settings-pin-status');
+  el.textContent = msg; el.className='settings-status '+(type||'');
+}
+
+async function settingsSavePIN(){
+  const p1 = document.getElementById('settings-pin-new').value;
+  const p2 = document.getElementById('settings-pin-confirm').value;
+  if(!p1){ _setSettingsStatus('Enter a PIN','err'); return; }
+  if(p1!==p2){ _setSettingsStatus('PINs do not match','err'); return; }
+  _setSettingsStatus('Encrypting…','');
+  // Write sentinel
+  const check = await _encrypt(p1, SENTINEL);
+  localStorage.setItem(PIN_CHECK, check);
+  // Encrypt current state
+  await _encryptAndSave(appState, p1);
+  _currentPIN = p1;
+  _pinActive = true;
+  document.getElementById('lock-btn').style.display='';
+  _setSettingsStatus('PIN set. Data is now encrypted.','ok');
+  document.getElementById('settings-pin-status-text').textContent='PIN protection is enabled. Your data is encrypted in the browser.';
+  document.getElementById('settings-pin-set-row').style.display='none';
+  document.getElementById('settings-pin-remove-row').style.display='';
+  document.getElementById('settings-timeout-section').style.display='';
+  _resetLockTimer();
+}
+
+async function settingsRemovePIN(){
+  const pin = document.getElementById('settings-pin-current').value;
+  if(!pin){ _setSettingsStatus('Enter current PIN to confirm','err'); return; }
+  const sentinel = await _decrypt(pin, localStorage.getItem(PIN_CHECK));
+  if(sentinel!==SENTINEL){ _setSettingsStatus('Incorrect PIN','err'); return; }
+  // Decrypt and store as plain
+  const plain = await _decrypt(pin, localStorage.getItem(ENC_KEY));
+  localStorage.removeItem(PIN_CHECK);
+  localStorage.removeItem(ENC_KEY);
+  localStorage.removeItem(PIN_TIMEOUT_KEY);
+  if(plain) localStorage.setItem('cs-state-v1', plain);
+  _currentPIN = null;
+  _pinActive = false;
+  if(_lockTimer){ clearTimeout(_lockTimer); _lockTimer=null; }
+  document.getElementById('lock-btn').style.display='none';
+  _setSettingsStatus('PIN removed. Data stored in plain text.','ok');
+  document.getElementById('settings-pin-status-text').textContent='No PIN set. Data is stored in plain text.';
+  document.getElementById('settings-pin-set-row').style.display='';
+  document.getElementById('settings-pin-remove-row').style.display='none';
+  document.getElementById('settings-timeout-section').style.display='none';
+}
+
+function settingsShowChangePIN(){
+  document.getElementById('settings-pin-change-row').style.display='';
+}
+function settingsHideChangePIN(){
+  document.getElementById('settings-pin-change-row').style.display='none';
+}
+
+async function settingsChangePIN(){
+  const oldPin = document.getElementById('settings-pin-current').value;
+  const newPin = document.getElementById('settings-pin-change-new').value;
+  const conf   = document.getElementById('settings-pin-change-confirm').value;
+  if(!oldPin||!newPin){ _setSettingsStatus('Fill in all fields','err'); return; }
+  if(newPin!==conf){ _setSettingsStatus('New PINs do not match','err'); return; }
+  const sentinel = await _decrypt(oldPin, localStorage.getItem(PIN_CHECK));
+  if(sentinel!==SENTINEL){ _setSettingsStatus('Incorrect current PIN','err'); return; }
+  _setSettingsStatus('Encrypting…','');
+  const check = await _encrypt(newPin, SENTINEL);
+  localStorage.setItem(PIN_CHECK, check);
+  await _encryptAndSave(appState, newPin);
+  _currentPIN = newPin;
+  _setSettingsStatus('PIN changed.','ok');
+  settingsHideChangePIN();
+  document.getElementById('settings-pin-current').value='';
+}
+
+function settingsSaveTimeout(){
+  const val = document.getElementById('settings-timeout-select').value;
+  localStorage.setItem(PIN_TIMEOUT_KEY, val);
+  _resetLockTimer();
+}
+
+// ── Init PIN check ─────────────────────────────────────────
+async function _initPINCheck(){
+  if(IS_DEMO) return;
+  if(_hasPIN()){
+    document.getElementById('lock-btn').style.display='';
+    lockApp();
+  }
+}
+
 // ══ INIT ════════════════════════════════════════════════════
 function _init(){
   render(appState);
@@ -6308,14 +6759,15 @@ function _init(){
   });
   updateCombatNavArc();
   window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
-  maybeShowWelcome();
+  _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
 }
 
 // Steve demo data is inlined — works on file:// and github.io alike.
 (function(){
-  const data = {"_instructionsVersion":"0.7.0","name":"Example Steve","subtitle":"Survivor of the Overworld - not real data","level":4,"xp":500,"xpToNext":1000,"keyQuestion":"What would I build if I knew the Ender Dragon couldn't touch me?","claudeRead":"Steve is in a real transitional moment - the End portal is open, not theoretical. First solo mining session showed the deep caves produce a different kind of engagement than surface farming. Main risk: diamond scarcity shortens the search before the right gear lands. THE ENDER DRAGON is active but being noticed faster. Rest is the most significant unmet need. Beds explode in The End, so sleep stays unresolved.","progressionTimeline":"Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. The Ender Dragon is louder than ever, which means it's being threatened.","allies":[{"name":"Alex","desc":"Co-op partner since the tutorial world. Calls out creepers gently and shows up consistently.","why":"Knows the full inventory - the embarrassing wooden tools included."},{"name":"Wolf","desc":"Tamed with bones. Unconditional support. Not always the most talkative, but always in my corner.","why":"No performance required. Just sit. Good boy."},{"name":"Enchanting Session","type":"spell","desc":"30 minutes at the enchanting table with lapis and a specific goal. Reliable focus ritual \u2014 the bookshelves help.","why":"Lowers the Ender Dragon's HP by at least a few points every time. Costs only time and lapis."},{"name":"Solo Cave Run","type":"spell","desc":"One hour underground, no build agenda, just explore. Phone on silent. Exits with more energy than it takes.","why":"Consistently resets the mental inventory. Works even when motivation is absent at spawn."}],"mainQuest":{"title":"Defeat the Ender Dragon","description":"Reach The End, destroy the crystals, and bring down the boss once and for all.","whyItMatters":"More hours spent grinding than anywhere else. If the dragon keeps circling, everything else feels unfinished too.","doneWhen":"Standing in The End with dragon egg in inventory and the credits actually rolling.","nextSteps":[{"text":"Locate a stronghold and find the End portal room","doneWhen":"Eyes of Ender thrown, portal located - not just planned"},{"text":"Gear up: full diamond armour, enchanted bow, enough arrows","doneWhen":"Inventory checked, protection enchantments confirmed"},{"text":"Spend two sessions this week mining the deep caves - no diamond requirement, just explore","doneWhen":"Two uninterrupted sessions, no half-measures"}],"xpReward":500,"progress":15},"sliderValues":{"air":72,"fire":22,"water":58,"earth":64},"harmonyHistory":[{"date":"2026-01-05","air":42,"fire":12,"water":30,"earth":45,"harmony":40},{"date":"2026-01-12","air":45,"fire":14,"water":32,"earth":47,"harmony":43},{"date":"2026-01-20","air":48,"fire":13,"water":34,"earth":50,"harmony":44},{"date":"2026-01-28","air":50,"fire":15,"water":36,"earth":52,"harmony":47},{"date":"2026-02-05","air":46,"fire":11,"water":33,"earth":49,"harmony":41},{"date":"2026-02-12","air":44,"fire":10,"water":30,"earth":47,"harmony":38},{"date":"2026-02-19","air":52,"fire":14,"water":38,"earth":53,"harmony":46},{"date":"2026-02-26","air":58,"fire":17,"water":42,"earth":57,"harmony":51},{"date":"2026-03-05","air":62,"fire":18,"water":46,"earth":60,"harmony":55},{"date":"2026-03-12","air":66,"fire":20,"water":50,"earth":62,"harmony":59},{"date":"2026-03-19","air":70,"fire":21,"water":55,"earth":63,"harmony":62},{"date":"2026-03-25","air":72,"fire":22,"water":58,"earth":64,"harmony":64}],"sliderXpRewards":{"air":[null,100,200,350,500],"fire":[null,150,300,500,750],"water":[null,100,220,380,550],"earth":[null,120,260,440,650]},"sliderLabels":{"air":"More aware than acting - noticing mob spawns without changing sleep habits yet","fire":"Motivation patchy - flickers of purpose but mostly running on torchlight","water":"Some aliveness - mining and cooking reliable, rest of biome still dark","earth":"Reasonably grounded - Creeper anxiety present but not dominating"},"limitingBeliefs":[{"title":"THE IMPOSTER","belief":"\"I'm not skilled or geared enough to fight the bosses I actually want to fight.\"","desc":"Shows up when enchanting gear or entering new biomes. Reframes the learning curve as proof of being a noob forever.","shortTermBenefit":"Keeps ambition in the overworld and therefore safe from the humiliation of dying to a baby zombie.","origin":"Spawned in environments where being out-geared felt like the primary risk - performance over presence.","hp":75,"priority":7},{"title":"THE PERFECTIONIST","belief":"\"If I can't build the perfect base first, there's no point starting the main quest.\"","desc":"Main engine of procrastination. Creates an impossible aesthetic standard that ensures nothing is ever finished before the dragon is due.","shortTermBenefit":"The unbuilt mega-base can always be imagined as flawless. Completion would reveal the gaps.","origin":"Likely formed in creative mode where only exceptional builds were noticed - survival effort was invisible.","hp":70,"priority":8},{"title":"THE PESSIMIST","belief":"\"I always die before I reach the good loot.\"","desc":"Selective memory that catalogues every death screen and dismisses successful runs as luck or a seed exploit.","shortTermBenefit":"Low expectations mean a full chest feels like a win. Feels like protection against hype.","origin":"Unknown - possibly reinforced by a period where several hardcore worlds ended in close succession.","hp":60,"priority":9}],"empoweringBeliefs":[{"title":"THE PROBLEM SOLVER","belief":"\"I can figure out any redstone circuit if I stay in the room long enough.\"","desc":"Track record of working through ambiguous contraptions is real."},{"title":"THE LONG GAME","belief":"\"Slow progress toward diamonds beats fast progress toward gravel.\"","desc":"Useful counter to urgency and biome-comparison."},{"title":"THE BODY KNOWS","belief":"\"The aliveness I feel when mining the right cave is data, not coincidence.\"","desc":"The qualitative difference between strip-mining and a deep-cave find is the clearest signal available."}],"skills":[{"name":"Set Boundaries","mastery":1,"priority":1,"xpReward":80,"description":"Say no to side quests without over-explaining.","whyItMatters":"Without this, time and diamonds get consumed by everyone else's projects."},{"name":"Ask For Help","mastery":1,"priority":2,"xpReward":80,"description":"Reach out to the server before getting lost in a cave.","whyItMatters":"How fast the main quest actually progresses."},{"name":"Stay Consistent","mastery":2,"priority":3,"xpReward":80,"description":"Log in even when motivation is absent.","whyItMatters":"Mining, farming, enchanting all depend on this."},{"name":"Say No","mastery":1,"priority":4,"xpReward":80,"description":"Decline build requests that conflict with the main quest.","whyItMatters":"Every yes to another player's mansion is a no to the End portal."},{"name":"Mining","mastery":4,"priority":1,"xpReward":200,"description":"Navigate deep caves, read ore patterns, come back alive.","whyItMatters":"The capability that earns diamonds fastest."},{"name":"Crafting","mastery":3,"priority":2,"xpReward":150,"description":"Build the right tools without wasting materials.","whyItMatters":"In resource-scarce play, crafting is the primary signal of competence."},{"name":"Exploring","mastery":4,"priority":3,"xpReward":150,"description":"Read the terrain, find the structures, come back with a map.","whyItMatters":"Foundation of good world knowledge."}],"sideQuests":[{"title":"Build a Proper Base","priority":1,"progress":40,"description":"Upgrade from dirt hut to a real base with storage and beds.","whyItMatters":"A respawn point is the foundation everything else is built on.","nextStep":"Lay the foundation three sessions this week - no aesthetic requirement, just place blocks","xpReward":150},{"title":"Set Up an Enchanting Table","priority":2,"progress":25,"description":"Build a full enchanting setup with bookshelves.","whyItMatters":"The End fight needs enchanted gear, not just intent.","nextStep":"Gather 15 bookshelves by end of March","xpReward":200},{"title":"Explore 12 Biomes This Year","priority":3,"progress":33,"description":"One new biome per month, any type.","whyItMatters":"Deep exploration slows me down usefully and generates loot I couldn't find alone.","nextStep":"Find a mushroom island before starting the next biome","xpReward":150},{"title":"Organise the Chest Room","priority":4,"progress":75,"description":"Label and sort the entire storage system.","whyItMatters":"Inventory chaos shapes decision quality.","nextStep":"Sort the overflow chests - the last pile has been sitting for a month","xpReward":100},{"title":"Learn Redstone","priority":5,"progress":20,"description":"Build working automated farms over 12 months.","whyItMatters":"Automation opens up AFK time and is genuinely just for me.","nextStep":"Complete one redstone tutorial every day for two weeks straight","xpReward":200}],"completedQuests":[{"title":"Survive First Night","completedDate":"Jan 2026","xpEarned":300,"howResolved":"Punched trees until I had a crafting table. Sealed in a dirt box and listened to mobs outside. Three months no-death run started there."}],"drains":[{"name":"Late-night inventory hoarding","desc":"Reliably ends with a full inventory and no idea what to do with it. Eats into sleep."},{"name":"Saying yes to co-op builds","desc":"Fills the session with other people's projects that don't align with the main quest."},{"name":"Skipping mining when the base hurts","desc":"The moment exploration would help most is exactly when it gets replaced by base tinkering."}],"flowSources":[{"name":"Mining","desc":"First 10 minutes are tense, then the cave opens up and the thinking quiets down."},{"name":"Cooking","desc":"Smelting and sorting - hands busy, mind relaxed. Reliably restorative."},{"name":"Music Discs","desc":"Stal playing in the jukebox alone - no audience, no performance."},{"name":"Village trading","desc":"Peaceful haggling where nothing critical is at stake."},{"name":"Building","desc":"Long creative sessions, late at night, no mobs on peaceful."}],"needs":[{"name":"Connection","threat":"amber","alignment":45,"desc":"A server with people who know the real build style. Good with a few, absent with most."},{"name":"Rest","threat":"red","alignment":30,"desc":"Recovery time not immediately colonised by mob sounds or a to-do list. Significant deficit."},{"name":"Autonomy","threat":"none","alignment":60,"desc":"Control over which biome to explore and when. Better than it was."},{"name":"Recognition","threat":"amber","alignment":40,"desc":"Feeling that the builds and runs are seen. The server is neutral at best."}],"values":[{"name":"Authenticity","threat":"amber","alignment":45,"desc":"Playing in the style that actually feels right, not the meta loadout everyone else is running."},{"name":"Family","threat":"none","alignment":70,"desc":"Being present and reliable for the wolves and villagers who matter most."},{"name":"Health","threat":"amber","alignment":55,"desc":"Full hearts and hunger bar as a non-negotiable foundation."},{"name":"Growth","threat":"none","alignment":65,"desc":"Getting better at builds and biomes that matter."},{"name":"Financial Security","threat":"amber","alignment":50,"desc":"Enough emeralds to make genuine choices - freedom from villager price anxiety."}],"insights":[{"name":"The End Portal","entries":[{"date":"22 March 2026","title":"Two Hours That Felt Like a Cave Find","events":["Blocked out Saturday morning for deep cave exploration - phone in another room","Two uninterrupted hours in a massive cave system for the first time"],"insights":["The two hours felt different - less like surface farming, more like contact with something real underground","PROCRASTINATION didn't fire once - a specific small task (find one diamond vein) made the difference"],"tensions":["Whether the cave exploration is the actual direction or just a way of feeling productive without risking the End portal"]},{"date":"15 March 2026","title":"The Trade That Changed the Frame","events":["Traded with a librarian villager for an Efficiency V book - she'd enchanted the same route two years ago"],"insights":["SELF-DOUBT reframed the librarian's price as a test I was about to fail - I noticed it this time"],"tensions":["Diamond scarcity is shortening the timeline in ways that might distort the gear decisions"]}]},{"name":"Clearing the Inventory","entries":[{"date":"14 February 2026","title":"Three Months No-Death Run","events":["Three months without dying on this world - marked it quietly, told Alex"],"insights":["Staying alive required a quiet decision to stop fighting mobs I didn't need to fight"],"tensions":["Rest is still a deficit - sessions feel productive but not restorative. Beds still explode in The End."]}]}],"bestiary":{"boss":{"name":"THE ENDER DRAGON","desc":"The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.","whyBoss":"Every other enemy is this one in disguise - Procrastination is the Dragon saying you'll die, Self-Doubt is the Dragon questioning your enchants, the Comparison Trap is the Dragon finding external evidence you're a noob.","hp":80,"vulnerabilities":[{"title":"Named in real time","desc":"The Dragon loses power the moment it is caught mid-circle. Each live catch weakens its automaticity - calling it out loud is enough to create distance."},{"title":"Evidence on the table","desc":"The Dragon thrives on selective death screens. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data."},{"title":"Starting before ready","desc":"The Dragon's main lever is the gap before entering the portal. Starting small - one Eye of Ender thrown, one block placed - collapses the gap before the Dragon can fill it."}]},"currentEnemies":[{"name":"PROCRASTINATION","desc":"Kicks in whenever a biome feels ambiguous or high-stakes. Masquerades as preparation - rearranging the hotbar instead of entering the cave.","type":"compulsion","trigger":"Ambiguous or important caves with no clear first block","shortTermBenefit":"Protects against the pain of mining and dying. Feels like caution.","origin":"Likely formed around high-stakes mining runs where effort without diamonds felt worse than not going in.","hp":75,"priority":1},{"name":"SELF-DOUBT","desc":"Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth, not like a pattern.","type":"distortion","trigger":"Attempting a new boss or entering a new structure for the first time","shortTermBenefit":"Keeps gear expectations low so a bad enchant hurts less. Feels like realism.","origin":"Unknown - may relate to servers where confidence was one-shot or not modelled.","hp":70,"priority":2},{"name":"COMPARISON TRAP","desc":"Measuring a messy mid-game against other players' fully-automated mega-bases. Activates fast and feels like useful calibration.","type":"distortion","trigger":"Reddit, YouTube, seeing other servers' builds","shortTermBenefit":"Creates temporary direction - if others built this way, the meta must be real.","origin":"Unknown - the conditions that made external benchmarks feel necessary are not yet clear.","hp":65,"priority":3},{"name":"LATE-NIGHT INVENTORY HOARDING","desc":"Reliably ends with feeling worse than when it started. Fills the chest room and leaves the next session already in overflow.","type":"drain","trigger":"Evening wind-down session, especially after a difficult biome","shortTermBenefit":"Decompression that asks nothing. Feels like progress without the vulnerability of actually using the materials.","origin":"Avoidance of the quiet - where unprocessed loot from the day tends to surface.","hp":85,"priority":4},{"name":"OBLIGATION YES","desc":"Joining co-op builds to avoid the discomfort of declining. Fills the session with work that doesn't align with the main quest.","type":"compulsion","trigger":"Any server request that feels like it expects a yes","shortTermBenefit":"Avoids conflict and the guilt of leaving someone underground alone. Feels like being a good teammate.","origin":"Unknown - likely formed where keeping allies comfortable felt safer than asserting the main quest.","hp":90,"priority":5},{"name":"SKIP MINING WHEN STRESSED","desc":"Cutting the one session that would most help in the moments of highest Creeper anxiety. Always justified in the moment.","type":"drain","trigger":"High mob pressure, low torches, feeling behind on gear","shortTermBenefit":"Creates the illusion of more base time. Feels like a sensible trade-off.","origin":"The Ender Dragon framing exploration as optional when diamond counts are low.","hp":80,"priority":6}],"graveyard":[{"name":"SUNDAY DREAD","defeatedDate":"Jan 2026","howDefeated":"Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to."},{"name":"THE HOARDER","defeatedDate":"Dec 2025","howDefeated":"Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover."},{"name":"TWITTER SPIRAL","defeatedDate":"Nov 2025","howDefeated":"Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session."}]},"completedMainQuests":[],"lastUpdated":"2026-03-25","activities":[{"id":"deep-work","name":"Cave Diving","description":"Focused time underground - mining, mob clearing, chest looting.","whyItMatters":"The diamonds I want won't mine themselves on the surface.","startDate":"2026-01-01","priority":1,"type":"timer","resetPeriod":"day","target":90,"unit":"minutes","xpPerUnit":0.5},{"id":"morning-run","name":"Morning Patrol","description":"Perimeter check before 8am, clear all overnight spawns.","whyItMatters":"A clear base sets the tone for the whole session.","startDate":"2026-02-01","priority":2,"type":"checkbox","resetPeriod":"day","target":1,"unit":"patrols","xpPerUnit":20},{"id":"gym-sessions","name":"Nether Runs","description":"Nether resource runs, three or four times a week.","whyItMatters":"Weekly consistency matters more than individual hauls.","startDate":"2026-02-01","priority":3,"type":"number","resetPeriod":"week","target":4,"unit":"runs","xpPerUnit":15}],"dailyDistribution":{"Sleep":7.5,"Cave Diving":1.5,"Exercise":0.75,"Social":1,"Admin / Commute":2,"Rest / Leisure":3.5,"Unknown":7.75},"wheelOfLife":{"sleep":{"score":50,"trend":"flat"},"rest":{"score":35,"trend":"down-slight"},"movement":{"score":65,"trend":"up-slight"},"nutrition":{"score":60,"trend":"flat"},"connection":{"score":45,"trend":"down-slight"},"career":{"score":30,"trend":"up-slight"},"finances":{"score":45,"trend":"flat"}},"achievements":[{"id":"no-death-run","title":"No Death Run","description":"Three months without a death screen on hardcore - the first time in many worlds.","type":"milestone","dateUnlocked":"Apr 2026","featured":true},{"id":"the-declutterer","title":"The Organiser","description":"Sorted 75% of the chest room in a single sustained session. Labels and everything.","type":"quest","dateUnlocked":"Mar 2026","featured":false},{"id":"signal-over-noise","title":"Signal Over Noise","description":"Deleted the Reddit app after noticing the pattern: open it feeling okay, close it feeling like a noob.","type":"breakthrough","dateUnlocked":"Nov 2025","featured":false}],"classes":[{"id":"builder","title":"Builder","icon":"\u2726","description":"Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.","dateUnlocked":"Feb 2026","featured":true},{"id":"explorer","title":"Explorer","icon":"\u25c8","description":"Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.","dateUnlocked":"Jan 2026","featured":false}],"_xpLog":[{"date":"25 Mar 2026","amount":30,"reason":"Session update","totalAfter":500,"levelup":false},{"date":"22 Mar 2026","amount":25,"reason":"Session update","totalAfter":470,"levelup":false},{"date":"19 Mar 2026","amount":null,"reason":"Level 4 reached","totalAfter":445,"levelup":true},{"date":"19 Mar 2026","amount":45,"reason":"Session update","totalAfter":445,"levelup":false},{"date":"15 Mar 2026","amount":40,"reason":"Trade with librarian - genuine ask for help","totalAfter":400,"levelup":false},{"date":"12 Mar 2026","amount":35,"reason":"Session update","totalAfter":360,"levelup":false},{"date":"8 Mar 2026","amount":25,"reason":"Session update","totalAfter":325,"levelup":false},{"date":"5 Mar 2026","amount":20,"reason":"Session update","totalAfter":300,"levelup":false},{"date":"26 Feb 2026","amount":null,"reason":"Level 3 reached","totalAfter":280,"levelup":true},{"date":"26 Feb 2026","amount":30,"reason":"Session update","totalAfter":280,"levelup":false},{"date":"19 Feb 2026","amount":25,"reason":"Session update","totalAfter":250,"levelup":false},{"date":"14 Feb 2026","amount":50,"reason":"Three months no-death run - No Death Run achievement","totalAfter":225,"levelup":false},{"date":"12 Feb 2026","amount":-15,"reason":"Skipped mining three times - named pattern, not bad luck","totalAfter":175,"levelup":false},{"date":"5 Feb 2026","amount":20,"reason":"Session update","totalAfter":190,"levelup":false},{"date":"28 Jan 2026","amount":25,"reason":"Session update","totalAfter":170,"levelup":false},{"date":"20 Jan 2026","amount":40,"reason":"Chest room organised - environment changed","totalAfter":145,"levelup":false},{"date":"20 Jan 2026","amount":null,"reason":"Level 2 reached","totalAfter":105,"levelup":true},{"date":"12 Jan 2026","amount":30,"reason":"Session update","totalAfter":105,"levelup":false},{"date":"5 Jan 2026","amount":25,"reason":"Session update","totalAfter":75,"levelup":false},{"date":"1 Jan 2026","amount":50,"reason":"Survive First Night quest complete","totalAfter":50,"levelup":false}],"_hardcodedHistory":{"deep-work":[{"date":"2026-01-01","value":25},{"date":"2026-01-02","value":40},{"date":"2026-01-04","value":15},{"date":"2026-01-05","value":55},{"date":"2026-01-06","value":70},{"date":"2026-01-07","value":45},{"date":"2026-01-08","value":60},{"date":"2026-01-09","value":30},{"date":"2026-01-12","value":65},{"date":"2026-01-13","value":80},{"date":"2026-01-14","value":55},{"date":"2026-01-15","value":45},{"date":"2026-01-16","value":60},{"date":"2026-01-17","value":20},{"date":"2026-01-19","value":70},{"date":"2026-01-20","value":90},{"date":"2026-01-21","value":60},{"date":"2026-01-22","value":35},{"date":"2026-01-23","value":50},{"date":"2026-01-25","value":30},{"date":"2026-01-26","value":75},{"date":"2026-01-27","value":80},{"date":"2026-01-28","value":65},{"date":"2026-01-29","value":60},{"date":"2026-01-30","value":40},{"date":"2026-02-01","value":25},{"date":"2026-02-02","value":70},{"date":"2026-02-03","value":85},{"date":"2026-02-04","value":60},{"date":"2026-02-05","value":65},{"date":"2026-02-06","value":55},{"date":"2026-02-07","value":30},{"date":"2026-02-09","value":75},{"date":"2026-02-10","value":90},{"date":"2026-02-11","value":70},{"date":"2026-02-12","value":60},{"date":"2026-02-13","value":45},{"date":"2026-02-14","value":20},{"date":"2026-02-15","value":35},{"date":"2026-02-16","value":80},{"date":"2026-02-17","value":75},{"date":"2026-02-18","value":60},{"date":"2026-02-19","value":90},{"date":"2026-02-20","value":55},{"date":"2026-02-21","value":40},{"date":"2026-02-23","value":85},{"date":"2026-02-24","value":90},{"date":"2026-02-25","value":75},{"date":"2026-02-26","value":65},{"date":"2026-02-27","value":60},{"date":"2026-02-28","value":30},{"date":"2026-03-01","value":40},{"date":"2026-03-02","value":80},{"date":"2026-03-03","value":90},{"date":"2026-03-04","value":70},{"date":"2026-03-05","value":85},{"date":"2026-03-06","value":60},{"date":"2026-03-07","value":45},{"date":"2026-03-08","value":30},{"date":"2026-03-09","value":75},{"date":"2026-03-10","value":90},{"date":"2026-03-11","value":80},{"date":"2026-03-13","value":55},{"date":"2026-03-14","value":60},{"date":"2026-03-15","value":45},{"date":"2026-03-16","value":85},{"date":"2026-03-17","value":90},{"date":"2026-03-18","value":75},{"date":"2026-03-19","value":90},{"date":"2026-03-20","value":70},{"date":"2026-03-21","value":60},{"date":"2026-03-22","value":120},{"date":"2026-03-23","value":65},{"date":"2026-03-24","value":75}],"morning-run":[{"date":"2026-02-02","value":1},{"date":"2026-02-03","value":1},{"date":"2026-02-04","value":0},{"date":"2026-02-05","value":1},{"date":"2026-02-06","value":1},{"date":"2026-02-07","value":0},{"date":"2026-02-09","value":1},{"date":"2026-02-10","value":1},{"date":"2026-02-11","value":1},{"date":"2026-02-12","value":0},{"date":"2026-02-13","value":1},{"date":"2026-02-16","value":1},{"date":"2026-02-17","value":1},{"date":"2026-02-18","value":1},{"date":"2026-02-19","value":0},{"date":"2026-02-20","value":1},{"date":"2026-02-23","value":1},{"date":"2026-02-24","value":1},{"date":"2026-02-25","value":1},{"date":"2026-02-26","value":0},{"date":"2026-02-27","value":1},{"date":"2026-03-02","value":1},{"date":"2026-03-03","value":1},{"date":"2026-03-04","value":0},{"date":"2026-03-05","value":1},{"date":"2026-03-06","value":1},{"date":"2026-03-09","value":1},{"date":"2026-03-10","value":1},{"date":"2026-03-11","value":1},{"date":"2026-03-12","value":0},{"date":"2026-03-13","value":1},{"date":"2026-03-16","value":1},{"date":"2026-03-17","value":1},{"date":"2026-03-18","value":1},{"date":"2026-03-19","value":1},{"date":"2026-03-20","value":0},{"date":"2026-03-23","value":1},{"date":"2026-03-24","value":1}],"gym-sessions":[{"period":"2026-06","value":3},{"period":"2026-07","value":4},{"period":"2026-08","value":2},{"period":"2026-09","value":4},{"period":"2026-10","value":3},{"period":"2026-11","value":4},{"period":"2026-12","value":4},{"period":"2026-13","value":3}]}};
+  const data = {"_instructionsVersion":"0.7.0","name":"Example Steve","subtitle":"Survivor of the Overworld - not real data","level":4,"xp":500,"xpToNext":1000,"keyQuestion":"What would I build if I knew the Ender Dragon couldn't touch me?","claudeRead":"Steve is in a real transitional moment - the End portal is open, not theoretical. First solo mining session showed the deep caves produce a different kind of engagement than surface farming. Main risk: diamond scarcity shortens the search before the right gear lands. THE ENDER DRAGON is active but being noticed faster. Rest is the most significant unmet need. Beds explode in The End, so sleep stays unresolved.","progressionTimeline":"Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. The Ender Dragon is louder than ever, which means it's being threatened.","allies":[{"name":"Alex","type":"loot","desc":"Co-op partner since the tutorial world. Calls out creepers gently and shows up consistently.","why":"Knows the full inventory - the embarrassing wooden tools included.","priority":0},{"name":"Wolf","type":"loot","desc":"Tamed with bones. Unconditional support. Not always the most talkative, but always in my corner.","why":"No performance required. Just sit. Good boy.","priority":1},{"name":"Enchanting Session","type":"spell","desc":"30 minutes at the enchanting table with lapis and a specific goal. Reliable focus ritual \u2014 the bookshelves help.","why":"Lowers the Ender Dragon's HP by at least a few points every time. Costs only time and lapis.","priority":2},{"name":"Solo Cave Run","type":"spell","desc":"One hour underground, no build agenda, just explore. Phone on silent. Exits with more energy than it takes.","why":"Consistently resets the mental inventory. Works even when motivation is absent at spawn.","priority":3},{"name":"The caves produce a different kind of engagement","type":"liberation","desc":"Not avoidance - a genuine qualitative difference between strip-mining and a deep-cave find. The aliveness is real data, not coincidence.","why":"Directly counters THE PESSIMIST's story that good loot is luck. Reframes experience as signal.","priority":4},{"name":"Mining","type":"source","desc":"First 10 minutes tense, then the cave opens up and the thinking quiets down. Consistently exits with more energy than it started with.","why":"One of the only activities that reliably produces aliveness rather than just completion.","priority":5}],"mainQuest":{"title":"Defeat the Ender Dragon","description":"Reach The End, destroy the crystals, and bring down the boss once and for all.","whyItMatters":"More hours spent grinding than anywhere else. If the dragon keeps circling, everything else feels unfinished too.","doneWhen":"Standing in The End with dragon egg in inventory and the credits actually rolling.","nextSteps":[{"text":"Locate a stronghold and find the End portal room","doneWhen":"Eyes of Ender thrown, portal located - not just planned"},{"text":"Gear up: full diamond armour, enchanted bow, enough arrows","doneWhen":"Inventory checked, protection enchantments confirmed"},{"text":"Spend two sessions this week mining the deep caves - no diamond requirement, just explore","doneWhen":"Two uninterrupted sessions, no half-measures"}],"xpReward":500,"progress":15},"sliderValues":{"air":72,"fire":22,"water":58,"earth":64},"harmonyHistory":[{"date":"2026-01-05","air":42,"fire":12,"water":30,"earth":45,"harmony":40},{"date":"2026-01-12","air":45,"fire":14,"water":32,"earth":47,"harmony":43},{"date":"2026-01-20","air":48,"fire":13,"water":34,"earth":50,"harmony":44},{"date":"2026-01-28","air":50,"fire":15,"water":36,"earth":52,"harmony":47},{"date":"2026-02-05","air":46,"fire":11,"water":33,"earth":49,"harmony":41},{"date":"2026-02-12","air":44,"fire":10,"water":30,"earth":47,"harmony":38},{"date":"2026-02-19","air":52,"fire":14,"water":38,"earth":53,"harmony":46},{"date":"2026-02-26","air":58,"fire":17,"water":42,"earth":57,"harmony":51},{"date":"2026-03-05","air":62,"fire":18,"water":46,"earth":60,"harmony":55},{"date":"2026-03-12","air":66,"fire":20,"water":50,"earth":62,"harmony":59},{"date":"2026-03-19","air":70,"fire":21,"water":55,"earth":63,"harmony":62},{"date":"2026-03-25","air":72,"fire":22,"water":58,"earth":64,"harmony":64}],"sliderXpRewards":{"air":[null,100,200,350,500],"fire":[null,150,300,500,750],"water":[null,100,220,380,550],"earth":[null,120,260,440,650]},"sliderLabels":{"air":"More aware than acting - noticing mob spawns without changing sleep habits yet","fire":"Motivation patchy - flickers of purpose but mostly running on torchlight","water":"Some aliveness - mining and cooking reliable, rest of biome still dark","earth":"Reasonably grounded - Creeper anxiety present but not dominating"},"limitingBeliefs":[{"title":"THE IMPOSTER","belief":"\"I'm not skilled or geared enough to fight the bosses I actually want to fight.\"","desc":"Shows up when enchanting gear or entering new biomes. Reframes the learning curve as proof of being a noob forever.","shortTermBenefit":"Keeps ambition in the overworld and therefore safe from the humiliation of dying to a baby zombie.","origin":"Spawned in environments where being out-geared felt like the primary risk - performance over presence.","hp":75,"priority":7},{"title":"THE PERFECTIONIST","belief":"\"If I can't build the perfect base first, there's no point starting the main quest.\"","desc":"Main engine of procrastination. Creates an impossible aesthetic standard that ensures nothing is ever finished before the dragon is due.","shortTermBenefit":"The unbuilt mega-base can always be imagined as flawless. Completion would reveal the gaps.","origin":"Likely formed in creative mode where only exceptional builds were noticed - survival effort was invisible.","hp":70,"priority":8},{"title":"THE PESSIMIST","belief":"\"I always die before I reach the good loot.\"","desc":"Selective memory that catalogues every death screen and dismisses successful runs as luck or a seed exploit.","shortTermBenefit":"Low expectations mean a full chest feels like a win. Feels like protection against hype.","origin":"Unknown - possibly reinforced by a period where several hardcore worlds ended in close succession.","hp":60,"priority":9}],"empoweringBeliefs":[{"title":"THE PROBLEM SOLVER","belief":"\"I can figure out any redstone circuit if I stay in the room long enough.\"","desc":"Track record of working through ambiguous contraptions is real."},{"title":"THE LONG GAME","belief":"\"Slow progress toward diamonds beats fast progress toward gravel.\"","desc":"Useful counter to urgency and biome-comparison."},{"title":"THE BODY KNOWS","belief":"\"The aliveness I feel when mining the right cave is data, not coincidence.\"","desc":"The qualitative difference between strip-mining and a deep-cave find is the clearest signal available."}],"skills":[{"name":"Set Boundaries","mastery":1,"priority":1,"xpReward":80,"description":"Say no to side quests without over-explaining.","whyItMatters":"Without this, time and diamonds get consumed by everyone else's projects."},{"name":"Ask For Help","mastery":1,"priority":2,"xpReward":80,"description":"Reach out to the server before getting lost in a cave.","whyItMatters":"How fast the main quest actually progresses."},{"name":"Stay Consistent","mastery":2,"priority":3,"xpReward":80,"description":"Log in even when motivation is absent.","whyItMatters":"Mining, farming, enchanting all depend on this."},{"name":"Say No","mastery":1,"priority":4,"xpReward":80,"description":"Decline build requests that conflict with the main quest.","whyItMatters":"Every yes to another player's mansion is a no to the End portal."},{"name":"Mining","mastery":4,"priority":1,"xpReward":200,"description":"Navigate deep caves, read ore patterns, come back alive.","whyItMatters":"The capability that earns diamonds fastest."},{"name":"Crafting","mastery":3,"priority":2,"xpReward":150,"description":"Build the right tools without wasting materials.","whyItMatters":"In resource-scarce play, crafting is the primary signal of competence."},{"name":"Exploring","mastery":4,"priority":3,"xpReward":150,"description":"Read the terrain, find the structures, come back with a map.","whyItMatters":"Foundation of good world knowledge."}],"sideQuests":[{"title":"Build a Proper Base","priority":1,"progress":40,"description":"Upgrade from dirt hut to a real base with storage and beds.","whyItMatters":"A respawn point is the foundation everything else is built on.","nextStep":"Lay the foundation three sessions this week - no aesthetic requirement, just place blocks","xpReward":150},{"title":"Set Up an Enchanting Table","priority":2,"progress":25,"description":"Build a full enchanting setup with bookshelves.","whyItMatters":"The End fight needs enchanted gear, not just intent.","nextStep":"Gather 15 bookshelves by end of March","xpReward":200},{"title":"Explore 12 Biomes This Year","priority":3,"progress":33,"description":"One new biome per month, any type.","whyItMatters":"Deep exploration slows me down usefully and generates loot I couldn't find alone.","nextStep":"Find a mushroom island before starting the next biome","xpReward":150},{"title":"Organise the Chest Room","priority":4,"progress":75,"description":"Label and sort the entire storage system.","whyItMatters":"Inventory chaos shapes decision quality.","nextStep":"Sort the overflow chests - the last pile has been sitting for a month","xpReward":100},{"title":"Learn Redstone","priority":5,"progress":20,"description":"Build working automated farms over 12 months.","whyItMatters":"Automation opens up AFK time and is genuinely just for me.","nextStep":"Complete one redstone tutorial every day for two weeks straight","xpReward":200}],"completedQuests":[{"title":"Survive First Night","completedDate":"Jan 2026","xpEarned":300,"howResolved":"Punched trees until I had a crafting table. Sealed in a dirt box and listened to mobs outside. Three months no-death run started there."}],"drains":[{"name":"Late-night inventory hoarding","desc":"Reliably ends with a full inventory and no idea what to do with it. Eats into sleep."},{"name":"Saying yes to co-op builds","desc":"Fills the session with other people's projects that don't align with the main quest."},{"name":"Skipping mining when the base hurts","desc":"The moment exploration would help most is exactly when it gets replaced by base tinkering."}],"flowSources":[{"name":"Mining","desc":"First 10 minutes are tense, then the cave opens up and the thinking quiets down."},{"name":"Cooking","desc":"Smelting and sorting - hands busy, mind relaxed. Reliably restorative."},{"name":"Music Discs","desc":"Stal playing in the jukebox alone - no audience, no performance."},{"name":"Village trading","desc":"Peaceful haggling where nothing critical is at stake."},{"name":"Building","desc":"Long creative sessions, late at night, no mobs on peaceful."}],"needs":[{"name":"Connection","threat":"amber","alignment":45,"desc":"A server with people who know the real build style. Good with a few, absent with most."},{"name":"Rest","threat":"red","alignment":30,"desc":"Recovery time not immediately colonised by mob sounds or a to-do list. Significant deficit."},{"name":"Autonomy","threat":"none","alignment":60,"desc":"Control over which biome to explore and when. Better than it was."},{"name":"Recognition","threat":"amber","alignment":40,"desc":"Feeling that the builds and runs are seen. The server is neutral at best."}],"values":[{"name":"Authenticity","threat":"amber","alignment":45,"desc":"Playing in the style that actually feels right, not the meta loadout everyone else is running."},{"name":"Family","threat":"none","alignment":70,"desc":"Being present and reliable for the wolves and villagers who matter most."},{"name":"Health","threat":"amber","alignment":55,"desc":"Full hearts and hunger bar as a non-negotiable foundation."},{"name":"Growth","threat":"none","alignment":65,"desc":"Getting better at builds and biomes that matter."},{"name":"Financial Security","threat":"amber","alignment":50,"desc":"Enough emeralds to make genuine choices - freedom from villager price anxiety."}],"insights":[{"name":"The End Portal","entries":[{"date":"22 March 2026","title":"Two Hours That Felt Like a Cave Find","events":["Blocked out Saturday morning for deep cave exploration - phone in another room","Two uninterrupted hours in a massive cave system for the first time"],"insights":["The two hours felt different - less like surface farming, more like contact with something real underground","PROCRASTINATION didn't fire once - a specific small task (find one diamond vein) made the difference"],"tensions":["Whether the cave exploration is the actual direction or just a way of feeling productive without risking the End portal"]},{"date":"15 March 2026","title":"The Trade That Changed the Frame","events":["Traded with a librarian villager for an Efficiency V book - she'd enchanted the same route two years ago"],"insights":["SELF-DOUBT reframed the librarian's price as a test I was about to fail - I noticed it this time"],"tensions":["Diamond scarcity is shortening the timeline in ways that might distort the gear decisions"]}]},{"name":"Clearing the Inventory","entries":[{"date":"14 February 2026","title":"Three Months No-Death Run","events":["Three months without dying on this world - marked it quietly, told Alex"],"insights":["Staying alive required a quiet decision to stop fighting mobs I didn't need to fight"],"tensions":["Rest is still a deficit - sessions feel productive but not restorative. Beds still explode in The End."]}]}],"bestiary":{"boss":{"name":"THE ENDER DRAGON","desc":"The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.","whyBoss":"Every other enemy is this one in disguise - Procrastination is the Dragon saying you'll die, Self-Doubt is the Dragon questioning your enchants, the Comparison Trap is the Dragon finding external evidence you're a noob.","hp":80,"vulnerabilities":[{"title":"Named in real time","desc":"The Dragon loses power the moment it is caught mid-circle. Each live catch weakens its automaticity - calling it out loud is enough to create distance."},{"title":"Evidence on the table","desc":"The Dragon thrives on selective death screens. A written list of things that actually went well - not inspiration, just facts - starves it of its operating data."},{"title":"Starting before ready","desc":"The Dragon's main lever is the gap before entering the portal. Starting small - one Eye of Ender thrown, one block placed - collapses the gap before the Dragon can fill it."}]},"currentEnemies":[{"name":"PROCRASTINATION","desc":"Kicks in whenever a biome feels ambiguous or high-stakes. Masquerades as preparation - rearranging the hotbar instead of entering the cave.","type":"compulsion","trigger":"Ambiguous or important caves with no clear first block","shortTermBenefit":"Protects against the pain of mining and dying. Feels like caution.","origin":"Likely formed around high-stakes mining runs where effort without diamonds felt worse than not going in.","hp":75,"priority":1},{"name":"SELF-DOUBT","desc":"Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth, not like a pattern.","type":"distortion","trigger":"Attempting a new boss or entering a new structure for the first time","shortTermBenefit":"Keeps gear expectations low so a bad enchant hurts less. Feels like realism.","origin":"Unknown - may relate to servers where confidence was one-shot or not modelled.","hp":70,"priority":2},{"name":"COMPARISON TRAP","desc":"Measuring a messy mid-game against other players' fully-automated mega-bases. Activates fast and feels like useful calibration.","type":"distortion","trigger":"Reddit, YouTube, seeing other servers' builds","shortTermBenefit":"Creates temporary direction - if others built this way, the meta must be real.","origin":"Unknown - the conditions that made external benchmarks feel necessary are not yet clear.","hp":65,"priority":3},{"name":"LATE-NIGHT INVENTORY HOARDING","desc":"Reliably ends with feeling worse than when it started. Fills the chest room and leaves the next session already in overflow.","type":"drain","trigger":"Evening wind-down session, especially after a difficult biome","shortTermBenefit":"Decompression that asks nothing. Feels like progress without the vulnerability of actually using the materials.","origin":"Avoidance of the quiet - where unprocessed loot from the day tends to surface.","hp":85,"priority":4},{"name":"OBLIGATION YES","desc":"Joining co-op builds to avoid the discomfort of declining. Fills the session with work that doesn't align with the main quest.","type":"compulsion","trigger":"Any server request that feels like it expects a yes","shortTermBenefit":"Avoids conflict and the guilt of leaving someone underground alone. Feels like being a good teammate.","origin":"Unknown - likely formed where keeping allies comfortable felt safer than asserting the main quest.","hp":90,"priority":5},{"name":"SKIP MINING WHEN STRESSED","desc":"Cutting the one session that would most help in the moments of highest Creeper anxiety. Always justified in the moment.","type":"drain","trigger":"High mob pressure, low torches, feeling behind on gear","shortTermBenefit":"Creates the illusion of more base time. Feels like a sensible trade-off.","origin":"The Ender Dragon framing exploration as optional when diamond counts are low.","hp":80,"priority":6}],"graveyard":[{"name":"SUNDAY DREAD","defeatedDate":"Jan 2026","howDefeated":"Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to."},{"name":"THE HOARDER","defeatedDate":"Dec 2025","howDefeated":"Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover."},{"name":"TWITTER SPIRAL","defeatedDate":"Nov 2025","howDefeated":"Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session."}]},"completedMainQuests":[],"lastUpdated":"2026-03-25","activities":[{"id":"deep-work","name":"Cave Diving","description":"Focused time underground - mining, mob clearing, chest looting.","whyItMatters":"The diamonds I want won't mine themselves on the surface.","startDate":"2026-01-01","priority":1,"type":"timer","resetPeriod":"day","target":90,"unit":"minutes","xpPerUnit":0.5},{"id":"morning-run","name":"Morning Patrol","description":"Perimeter check before 8am, clear all overnight spawns.","whyItMatters":"A clear base sets the tone for the whole session.","startDate":"2026-02-01","priority":2,"type":"checkbox","resetPeriod":"day","target":1,"unit":"patrols","xpPerUnit":20},{"id":"gym-sessions","name":"Nether Runs","description":"Nether resource runs, three or four times a week.","whyItMatters":"Weekly consistency matters more than individual hauls.","startDate":"2026-02-01","priority":3,"type":"number","resetPeriod":"week","target":4,"unit":"runs","xpPerUnit":15}],"dailyDistribution":{"Sleep":7.5,"Cave Diving":1.5,"Exercise":0.75,"Social":1,"Admin / Commute":2,"Rest / Leisure":3.5,"Unknown":7.75},"wheelOfLife":{"sleep":{"score":50,"trend":"flat"},"rest":{"score":35,"trend":"down-slight"},"movement":{"score":65,"trend":"up-slight"},"nutrition":{"score":60,"trend":"flat"},"connection":{"score":45,"trend":"down-slight"},"career":{"score":30,"trend":"up-slight"},"finances":{"score":45,"trend":"flat"}},"achievements":[{"id":"no-death-run","title":"No Death Run","description":"Three months without a death screen on hardcore - the first time in many worlds.","type":"milestone","dateUnlocked":"Apr 2026","featured":true},{"id":"the-declutterer","title":"The Organiser","description":"Sorted 75% of the chest room in a single sustained session. Labels and everything.","type":"quest","dateUnlocked":"Mar 2026","featured":false},{"id":"signal-over-noise","title":"Signal Over Noise","description":"Deleted the Reddit app after noticing the pattern: open it feeling okay, close it feeling like a noob.","type":"breakthrough","dateUnlocked":"Nov 2025","featured":false}],"classes":[{"id":"builder","title":"Builder","icon":"\u2726","description":"Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.","dateUnlocked":"Feb 2026","featured":true},{"id":"explorer","title":"Explorer","icon":"\u25c8","description":"Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.","dateUnlocked":"Jan 2026","featured":false}],"_xpLog":[{"date":"25 Mar 2026","amount":30,"reason":"Session update","totalAfter":500,"levelup":false},{"date":"22 Mar 2026","amount":25,"reason":"Session update","totalAfter":470,"levelup":false},{"date":"19 Mar 2026","amount":null,"reason":"Level 4 reached","totalAfter":445,"levelup":true},{"date":"19 Mar 2026","amount":45,"reason":"Session update","totalAfter":445,"levelup":false},{"date":"15 Mar 2026","amount":40,"reason":"Trade with librarian - genuine ask for help","totalAfter":400,"levelup":false},{"date":"12 Mar 2026","amount":35,"reason":"Session update","totalAfter":360,"levelup":false},{"date":"8 Mar 2026","amount":25,"reason":"Session update","totalAfter":325,"levelup":false},{"date":"5 Mar 2026","amount":20,"reason":"Session update","totalAfter":300,"levelup":false},{"date":"26 Feb 2026","amount":null,"reason":"Level 3 reached","totalAfter":280,"levelup":true},{"date":"26 Feb 2026","amount":30,"reason":"Session update","totalAfter":280,"levelup":false},{"date":"19 Feb 2026","amount":25,"reason":"Session update","totalAfter":250,"levelup":false},{"date":"14 Feb 2026","amount":50,"reason":"Three months no-death run - No Death Run achievement","totalAfter":225,"levelup":false},{"date":"12 Feb 2026","amount":-15,"reason":"Skipped mining three times - named pattern, not bad luck","totalAfter":175,"levelup":false},{"date":"5 Feb 2026","amount":20,"reason":"Session update","totalAfter":190,"levelup":false},{"date":"28 Jan 2026","amount":25,"reason":"Session update","totalAfter":170,"levelup":false},{"date":"20 Jan 2026","amount":40,"reason":"Chest room organised - environment changed","totalAfter":145,"levelup":false},{"date":"20 Jan 2026","amount":null,"reason":"Level 2 reached","totalAfter":105,"levelup":true},{"date":"12 Jan 2026","amount":30,"reason":"Session update","totalAfter":105,"levelup":false},{"date":"5 Jan 2026","amount":25,"reason":"Session update","totalAfter":75,"levelup":false},{"date":"1 Jan 2026","amount":50,"reason":"Survive First Night quest complete","totalAfter":50,"levelup":false}],"_hardcodedHistory":{"deep-work":[{"date":"2026-01-01","value":25},{"date":"2026-01-02","value":40},{"date":"2026-01-04","value":15},{"date":"2026-01-05","value":55},{"date":"2026-01-06","value":70},{"date":"2026-01-07","value":45},{"date":"2026-01-08","value":60},{"date":"2026-01-09","value":30},{"date":"2026-01-12","value":65},{"date":"2026-01-13","value":80},{"date":"2026-01-14","value":55},{"date":"2026-01-15","value":45},{"date":"2026-01-16","value":60},{"date":"2026-01-17","value":20},{"date":"2026-01-19","value":70},{"date":"2026-01-20","value":90},{"date":"2026-01-21","value":60},{"date":"2026-01-22","value":35},{"date":"2026-01-23","value":50},{"date":"2026-01-25","value":30},{"date":"2026-01-26","value":75},{"date":"2026-01-27","value":80},{"date":"2026-01-28","value":65},{"date":"2026-01-29","value":60},{"date":"2026-01-30","value":40},{"date":"2026-02-01","value":25},{"date":"2026-02-02","value":70},{"date":"2026-02-03","value":85},{"date":"2026-02-04","value":60},{"date":"2026-02-05","value":65},{"date":"2026-02-06","value":55},{"date":"2026-02-07","value":30},{"date":"2026-02-09","value":75},{"date":"2026-02-10","value":90},{"date":"2026-02-11","value":70},{"date":"2026-02-12","value":60},{"date":"2026-02-13","value":45},{"date":"2026-02-14","value":20},{"date":"2026-02-15","value":35},{"date":"2026-02-16","value":80},{"date":"2026-02-17","value":75},{"date":"2026-02-18","value":60},{"date":"2026-02-19","value":90},{"date":"2026-02-20","value":55},{"date":"2026-02-21","value":40},{"date":"2026-02-23","value":85},{"date":"2026-02-24","value":90},{"date":"2026-02-25","value":75},{"date":"2026-02-26","value":65},{"date":"2026-02-27","value":60},{"date":"2026-02-28","value":30},{"date":"2026-03-01","value":40},{"date":"2026-03-02","value":80},{"date":"2026-03-03","value":90},{"date":"2026-03-04","value":70},{"date":"2026-03-05","value":85},{"date":"2026-03-06","value":60},{"date":"2026-03-07","value":45},{"date":"2026-03-08","value":30},{"date":"2026-03-09","value":75},{"date":"2026-03-10","value":90},{"date":"2026-03-11","value":80},{"date":"2026-03-13","value":55},{"date":"2026-03-14","value":60},{"date":"2026-03-15","value":45},{"date":"2026-03-16","value":85},{"date":"2026-03-17","value":90},{"date":"2026-03-18","value":75},{"date":"2026-03-19","value":90},{"date":"2026-03-20","value":70},{"date":"2026-03-21","value":60},{"date":"2026-03-22","value":120},{"date":"2026-03-23","value":65},{"date":"2026-03-24","value":75}],"morning-run":[{"date":"2026-02-02","value":1},{"date":"2026-02-03","value":1},{"date":"2026-02-04","value":0},{"date":"2026-02-05","value":1},{"date":"2026-02-06","value":1},{"date":"2026-02-07","value":0},{"date":"2026-02-09","value":1},{"date":"2026-02-10","value":1},{"date":"2026-02-11","value":1},{"date":"2026-02-12","value":0},{"date":"2026-02-13","value":1},{"date":"2026-02-16","value":1},{"date":"2026-02-17","value":1},{"date":"2026-02-18","value":1},{"date":"2026-02-19","value":0},{"date":"2026-02-20","value":1},{"date":"2026-02-23","value":1},{"date":"2026-02-24","value":1},{"date":"2026-02-25","value":1},{"date":"2026-02-26","value":0},{"date":"2026-02-27","value":1},{"date":"2026-03-02","value":1},{"date":"2026-03-03","value":1},{"date":"2026-03-04","value":0},{"date":"2026-03-05","value":1},{"date":"2026-03-06","value":1},{"date":"2026-03-09","value":1},{"date":"2026-03-10","value":1},{"date":"2026-03-11","value":1},{"date":"2026-03-12","value":0},{"date":"2026-03-13","value":1},{"date":"2026-03-16","value":1},{"date":"2026-03-17","value":1},{"date":"2026-03-18","value":1},{"date":"2026-03-19","value":1},{"date":"2026-03-20","value":0},{"date":"2026-03-23","value":1},{"date":"2026-03-24","value":1}],"gym-sessions":[{"period":"2026-06","value":3},{"period":"2026-07","value":4},{"period":"2026-08","value":2},{"period":"2026-09","value":4},{"period":"2026-10","value":3},{"period":"2026-11","value":4},{"period":"2026-12","value":4},{"period":"2026-13","value":3}]}};
   if(data._xpLog){ HARDCODED_XP_LOG = data._xpLog; delete data._xpLog; }
-  const isDemo = !localStorage.getItem('cs-state-v1') || IS_DEMO;
+  const hasUserData = !!localStorage.getItem('cs-state-v1') || !!localStorage.getItem('cs-enc-v1');
+  const isDemo = !hasUserData || IS_DEMO;
   if(data._hardcodedHistory){ if(isDemo) Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
   Object.assign(DEFAULT, data);
   if(isDemo) appState = loadState();
