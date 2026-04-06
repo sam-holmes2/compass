@@ -136,13 +136,13 @@
     { "title": "THE BODY KNOWS",     "belief": "\"The aliveness I feel when mining the right cave is data, not coincidence.\"", "desc": "The qualitative difference between strip-mining and a deep-cave find is the clearest signal available." }
   ],
   "skills": [
-    { "name": "Set Boundaries",   "mastery": 1, "priority": 1, "xpReward": 80,  "description": "Say no to side quests without over-explaining.",          "whyItMatters": "Without this, time and diamonds get consumed by everyone else's projects." },
-    { "name": "Ask For Help",     "mastery": 1, "priority": 2, "xpReward": 80,  "description": "Reach out to the server before getting lost in a cave.",  "whyItMatters": "How fast the main quest actually progresses." },
-    { "name": "Stay Consistent",  "mastery": 2, "priority": 3, "xpReward": 80,  "description": "Log in even when motivation is absent.",                  "whyItMatters": "Mining, farming, enchanting all depend on this." },
-    { "name": "Say No",           "mastery": 1, "priority": 4, "xpReward": 80,  "description": "Decline build requests that conflict with the main quest.", "whyItMatters": "Every yes to another player's mansion is a no to the End portal." },
-    { "name": "Mining",           "mastery": 4, "priority": 1, "xpReward": 200, "description": "Navigate deep caves, read ore patterns, come back alive.", "whyItMatters": "The capability that earns diamonds fastest." },
-    { "name": "Crafting",         "mastery": 3, "priority": 2, "xpReward": 150, "description": "Build the right tools without wasting materials.",         "whyItMatters": "In resource-scarce play, crafting is the primary signal of competence." },
-    { "name": "Exploring",        "mastery": 4, "priority": 3, "xpReward": 150, "description": "Read the terrain, find the structures, come back with a map.", "whyItMatters": "Foundation of good world knowledge." }
+    { "name": "Set Boundaries",   "role": "Tank",    "mastery": 1, "priority": 1, "xpReward": 80,  "description": "Say no to side quests without over-explaining.",          "whyItMatters": "Without this, time and diamonds get consumed by everyone else's projects." },
+    { "name": "Ask For Help",     "role": "Support", "mastery": 1, "priority": 2, "xpReward": 80,  "description": "Reach out to the server before getting lost in a cave.",  "whyItMatters": "How fast the main quest actually progresses." },
+    { "name": "Stay Consistent",  "role": "DPS",     "mastery": 2, "priority": 3, "xpReward": 80,  "description": "Log in even when motivation is absent.",                  "whyItMatters": "Mining, farming, enchanting all depend on this." },
+    { "name": "Say No",           "role": "Tank",    "mastery": 1, "priority": 4, "xpReward": 80,  "description": "Decline build requests that conflict with the main quest.", "whyItMatters": "Every yes to another player's mansion is a no to the End portal." },
+    { "name": "Mining",           "role": "DPS",     "mastery": 4, "priority": 1, "xpReward": 200, "description": "Navigate deep caves, read ore patterns, come back alive.", "whyItMatters": "The capability that earns diamonds fastest." },
+    { "name": "Crafting",         "role": "DPS",     "mastery": 3, "priority": 2, "xpReward": 150, "description": "Build the right tools without wasting materials.",         "whyItMatters": "In resource-scarce play, crafting is the primary signal of competence." },
+    { "name": "Exploring",        "role": "DPS",     "mastery": 4, "priority": 3, "xpReward": 150, "description": "Read the terrain, find the structures, come back with a map.", "whyItMatters": "Foundation of good world knowledge." }
   ],
   "sideQuests": [
     { "title": "Build a Proper Base",           "priority": 1, "progress": 40, "description": "Upgrade from dirt hut to a real base with storage and beds.",      "whyItMatters": "A respawn point is the foundation everything else is built on.",    "nextStep": "Lay the foundation three sessions this week - no aesthetic requirement, just place blocks", "xpReward": 150 },
@@ -327,9 +327,11 @@
     "finances":   { "score": 45, "trend": "flat"        }
   },
   "achievements": [
-    { "id": "no-death-run",     "title": "No Death Run",      "description": "Three months without a death screen on hardcore - the first time in many worlds.",                              "type": "milestone",    "dateUnlocked": "Apr 2026", "featured": true  },
-    { "id": "the-declutterer",  "title": "The Organiser",     "description": "Sorted 75% of the chest room in a single sustained session. Labels and everything.",                           "type": "quest",        "dateUnlocked": "Mar 2026", "featured": false },
-    { "id": "signal-over-noise","title": "Signal Over Noise", "description": "Deleted the Reddit app after noticing the pattern: open it feeling okay, close it feeling like a noob.", "type": "breakthrough", "dateUnlocked": "Nov 2025", "featured": false }
+    { "id": "no-death-run",     "title": "No Death Run",      "description": "Three months without a death screen on hardcore - the first time in many worlds. Feb 14, 2026.",          "type": "deed",          "dateUnlocked": "Feb 2026", "featured": true  },
+    { "id": "the-organiser",    "title": "The Organiser",     "description": "Sorted 75% of the chest room in a single sustained session. Labels and everything. Jan 20, 2026.",         "type": "deed",          "dateUnlocked": "Jan 2026", "featured": false },
+    { "id": "signal-over-noise","title": "Signal Over Noise", "description": "Noticed the pattern: open Reddit feeling okay, close it feeling like a noob. Nov 2025.",                  "type": "insight",       "dateUnlocked": "Nov 2025", "featured": false },
+    { "id": "borrowed-axe",     "title": "The Borrowed Axe",  "description": "Asked another player for help with a dungeon instead of grinding alone for three more hours. Mar 2026.",   "type": "surrender",     "dateUnlocked": "Mar 2026", "featured": false },
+    { "id": "not-just-a-noob",  "title": "Not Just a Noob",   "description": "Stopped seeing the death counter as proof of incompetence. Failure is data. Feb 2026.",                     "type": "transmutation", "dateUnlocked": "Feb 2026", "featured": false }
   ],
   "classes": [
     { "id": "builder",  "title": "Builder",  "icon": "✦", "description": "Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.", "dateUnlocked": "Feb 2026", "featured": true  },
