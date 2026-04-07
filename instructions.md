@@ -11,6 +11,15 @@ This file lives in project knowledge alongside `data.json` (source of truth).
 
 **Writing rules:** No markdown or em dashes in JSON strings. All names/descriptions must be self-explanatory without context.
 
+## Character identity fields
+
+Always include these in any first session or when they change:
+
+`"name"` — the user's first name or chosen character name. Shown in the header. Required for the sheet to feel personal.  
+`"subtitle"` — a short tagline or role description (e.g. "Builder of Autonomous Systems"). Optional but shown beneath the name.
+
+Include both in your first partial update if they are not already set in `data.json`.
+
 ---
 
 # Output

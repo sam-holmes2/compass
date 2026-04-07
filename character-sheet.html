@@ -27,11 +27,12 @@
   --water:     #3a80c8;   --water-bg: rgba(58,128,200,0.06);
   --earth:     #60a838;   --earth-bg: rgba(96,168,56,0.06);
 }
-html { background:var(--bg); }
+html { background:var(--bg); overflow-x:hidden; }
 body {
   color:var(--text); font-family:'Crimson Pro',Georgia,serif;
   font-size:18px; line-height:1.65;
   padding:24px 40px 80px;
+  overflow-x:hidden;
 }
 
 /* ══ HEADER ══════════════════════════════════════════════ */
@@ -263,6 +264,9 @@ input[type=range] {
   border-radius:3px; outline:none; cursor:default; pointer-events:none;
   position:relative; z-index:1;
 }
+input[type=range]::-webkit-slider-runnable-track {
+  height:4px; border-radius:3px; background:#232332;
+}
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance:none; width:14px; height:14px;
   border-radius:50%; border:2px solid var(--bg);
@@ -284,7 +288,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .stat-bar-lbl { font-family:var(--mono); font-size:15px; min-width:72px; }
 .stat-bar-val { font-family:var(--mono); font-size:15px; color:var(--text-mid); min-width:28px; text-align:right; }
 .stat-range { flex:1; -webkit-appearance:none; appearance:none; height:5px; border-radius:3px; outline:none; cursor:pointer; pointer-events:auto !important; }
-.stat-range::-webkit-slider-runnable-track { height:5px; border-radius:3px; }
+.stat-range::-webkit-slider-runnable-track { height:5px; border-radius:3px; background:#1e1e28; }
 .stat-range-focus   { background:#1e1e28; }
 .stat-range-focus::-webkit-slider-thumb   { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#c0cad4; border:2px solid var(--bg); cursor:pointer; }
 .stat-range-energy  { background:#1e1e28; }
@@ -1581,7 +1585,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* ══ HARMONY CARD ════════════════════════════════════════ */
 .balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; }
-.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.22em; color:#8090a8; text-transform:uppercase; padding:14px 18px 0; }
+.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:18px; letter-spacing:0.2em; color:#8090a8; text-transform:uppercase; padding:14px 18px 0; }
 .balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; }
 .balance-el-card-body {
   display:grid;
@@ -1591,15 +1595,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   padding:10px 16px 14px;
 }
 /* Left cell: legend | radar (capped) | scores — all centred, no dead space */
-.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:14px; min-width:0; }
-.balance-el-radar-svg { display:block; flex:1; max-width:200px; min-width:80px; aspect-ratio:1; overflow:visible; flex-shrink:1; }
+.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px; min-width:0; }
+.balance-el-radar-svg { display:block; flex:1; max-width:240px; min-width:80px; aspect-ratio:1; overflow:visible; flex-shrink:1; }
 /* Radar legend — left flank */
 .balance-el-radar-meta {
   display:flex; flex-direction:row; align-items:flex-start;
   gap:14px; flex-shrink:0;
 }
 .balance-radar-legend { display:flex; flex-direction:column; gap:6px; }
-.balance-radar-legend-item { display:flex; align-items:center; gap:7px; font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; color:#8090a8; text-transform:uppercase; }
+.balance-radar-legend-item { display:flex; align-items:center; gap:5px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.06em; color:#8090a8; text-transform:uppercase; }
 .brl-line { display:inline-block; width:14px; height:1.5px; flex-shrink:0; }
 .brl-current { background:var(--gold); opacity:0.9; }
 .brl-week    { background:var(--gold); opacity:0.45; }
@@ -1637,6 +1641,33 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .tab-nav { overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .tab-nav::-webkit-scrollbar { display:none; }
 .tab-btn { white-space:nowrap; flex-shrink:0; }
+
+/* ── Mobile bottom nav ── */
+@media (max-width:820px) {
+  .tab-nav {
+    position:fixed; bottom:0; left:0; right:0; z-index:200;
+    background:rgba(10,10,18,0.97); backdrop-filter:blur(12px);
+    border-top:1px solid var(--border-hi);
+    border-bottom:none;
+    margin-bottom:0;
+    padding:4px 0 env(safe-area-inset-bottom,4px);
+    display:flex; justify-content:flex-start;
+    box-shadow:0 -2px 16px rgba(0,0,0,0.4);
+  }
+  .tab-btn {
+    border-bottom:none !important;
+    border-top:2px solid transparent;
+    flex-direction:column; gap:2px;
+    padding:6px 14px 4px;
+    font-size:11px; letter-spacing:0.06em;
+    min-height:54px; justify-content:center; align-items:center;
+    margin-bottom:0;
+  }
+  .tab-btn.active { border-top-color:currentColor; border-bottom-color:transparent !important; }
+  .tab-btn span.tab-nav-count { font-size:13px; }
+  /* push page content above bottom nav */
+  body { padding-bottom:calc(68px + env(safe-area-inset-bottom,0px)); }
+}
 /* Touch-friendly: make delete/action buttons always slightly visible */
 .ally-delete { opacity:0.25; }
 .quest-complete-btn { opacity:0.25; }
@@ -1655,6 +1686,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-mobile-row { display:none; }
 .hdr-mobile-level { font-family:'Cinzel Decorative',serif; font-size:15px; font-weight:700; color:#b080e8; }
 .hdr-mobile-quest { font-family:'Cinzel',serif; font-size:13px; color:var(--gold); letter-spacing:0.05em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hdr-mobile-vitals { display:none; flex-direction:column; gap:5px; padding-top:6px; margin-top:4px; border-top:1px solid var(--border); width:100%; }
+.hdr-mobile-vital-row { display:flex; align-items:center; gap:8px; }
+.hdr-mobile-vital-icon { font-size:13px; flex-shrink:0; width:14px; text-align:center; }
 
 @media (max-width:820px) {
   /* Practice card: stack layout vertically */
@@ -1694,6 +1728,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     border-top:1px solid var(--border);
     width:100%;
   }
+  /* Show compact vitals row */
+  .hdr-mobile-vitals { display:flex; }
   /* XP bar inline — slim version */
   .hdr-mobile-xp { flex:1; display:flex; flex-direction:column; gap:3px; }
   .hdr-mobile-xp-track { height:5px; background:rgba(100,60,160,0.15); border-radius:3px; border:1px solid rgba(144,96,192,0.2); overflow:hidden; }
@@ -1704,7 +1740,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .tab-nav-count { font-size:14px; }
 
   /* ── Float bar: icon + short label, smaller ── */
-  #float-bar { bottom:16px; right:14px; left:14px; border-radius:22px; }
+  #float-bar { bottom:calc(68px + env(safe-area-inset-bottom,4px) + 8px); right:14px; left:14px; border-radius:22px; }
   .fbar-btn { font-size:12px; padding:0 11px; height:38px; letter-spacing:0.06em; }
 
   /* ── Modal: bottom sheet ── */
@@ -1725,14 +1761,36 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .modal textarea { min-height:120px; font-size:15px; }
 
   /* ── Toasts above float bar ── */
-  .xp-toast { bottom:76px; right:14px; left:14px; width:auto; max-width:calc(100vw - 28px); }
-  #import-toast { bottom:76px; }
+  .xp-toast { bottom:calc(68px + env(safe-area-inset-bottom,4px) + 52px); right:14px; left:14px; width:auto; max-width:calc(100vw - 28px); }
+  #import-toast { bottom:calc(68px + env(safe-area-inset-bottom,4px) + 52px); }
 
   /* ── Content layout ── */
   .pie-wrap { flex-direction:column; align-items:flex-start; gap:16px; }
   .radar-panel-body { grid-template-columns:1fr; }
   .radar-panel-radar { border-right:none; border-bottom:1px solid rgba(255,255,255,0.05); justify-content:flex-start; }
   .radar-panel-sliders { border-right:none; }
+
+  /* ── Prevent horizontal overflow on cards ── */
+  .enemy-card-head { flex-wrap:wrap; gap:6px 8px; }
+  .enemy-type-tag { order:3; }
+  .hp-bar-wrap { order:4; width:52px; flex-shrink:0; }
+  .kill-btn, .move-enemy-btn { order:5; opacity:0.7 !important; }
+  .enemy-card-arrow { order:6; }
+  .enemy-priority-badge { order:1; }
+  /* Shrink fixed widths that cause overflow */
+  .wheel-domain-name { width:72px; font-size:13px; letter-spacing:0.06em; }
+  .wheel-score { min-width:22px; width:22px; }
+  /* Help cols: collapse to single column */
+  .help-cols { grid-template-columns:1fr; }
+  /* Quest/ally/achievement heads: allow wrapping */
+  .sqcard-head { flex-wrap:wrap; gap:4px; }
+  .sqcard-track { width:40px; }
+  .ally-card-head { flex-wrap:wrap; gap:4px; }
+  .ach-card-row, .cls-card-row { flex-wrap:wrap; }
+  .grave-card-head { flex-wrap:wrap; gap:4px; }
+  .grave-card-date { font-size:13px; }
+  /* Ensure no child element forces the page wider */
+  .tab-panel > * { max-width:100%; }
 }
 
 @media (max-width:480px) {
@@ -1845,6 +1903,27 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="hdr-mobile-xp-track"><div class="hdr-mobile-xp-fill" id="hdr-mobile-xp-fill" style="width:0%"></div></div>
     </div>
     <span class="hdr-mobile-quest" id="hdr-mobile-quest">Main Quest</span>
+  </div>
+  <!-- Mobile-only vitals row (hidden on desktop via CSS) -->
+  <div class="hdr-mobile-vitals" id="hdr-mobile-vitals">
+    <div class="hdr-mobile-vital-row">
+      <span class="hdr-mobile-vital-icon" style="color:#ff6060">♥</span>
+      <div class="vital-track-wrap">
+        <div class="vital-track hp">
+          <div class="vital-fill hp" id="hp-bar-fill-m" style="width:0%"></div>
+        </div>
+        <div class="vital-baseline hp" id="hp-baseline-m" style="left:0%;display:none"></div>
+      </div>
+    </div>
+    <div class="hdr-mobile-vital-row">
+      <span class="hdr-mobile-vital-icon" style="color:#60a0ff">✦</span>
+      <div class="vital-track-wrap">
+        <div class="vital-track mana">
+          <div class="vital-fill mana" id="mana-bar-fill-m" style="width:0%"></div>
+        </div>
+        <div class="vital-baseline mana" id="mana-baseline-m" style="left:0%;display:none"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1962,10 +2041,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:120px"></canvas>
       </div>
       <div class="harmony-chart-legend">
+        <span><span class="hcl-swatch" style="background:#b0b8c8;height:2px;border-radius:1px;vertical-align:middle;margin-bottom:1px"></span>Total Mastery</span>
         <span><span class="hcl-swatch" style="background:#8090a8"></span>Air</span>
         <span><span class="hcl-swatch" style="background:#d07830"></span>Fire</span>
-        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
         <span><span class="hcl-swatch" style="background:#60a838"></span>Earth</span>
+        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
       </div>
     </div>
   </div>
@@ -2286,7 +2366,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="radar-panel-body">
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
-          <div class="radar-panel-title">Status check-in</div>
+          <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Status check-in</div>
           <div class="radar-panel-desc">Log how you feel in relation to whatever you <em>should</em> be doing</div>
         </div>
         <div class="stat-bar-row">
@@ -2701,7 +2781,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="btn-primary" onclick="applyUpdate()">Apply</button>
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
       <span class="modal-status" id="modal-status"></span>
-      <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="document.getElementById('import-file-input').click()">↑ data.json</button>
+      <button class="btn-ghost" id="paste-clipboard-btn" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="pasteFromClipboard()">⌘ Paste</button>
+      <button class="btn-ghost" style="font-size:13px;opacity:0.7;" onclick="document.getElementById('import-file-input').click()">↑ data.json</button>
       <input type="file" id="import-file-input" accept=".json,application/json" style="display:none" onchange="importFromFile(event)">
     </div>
   </div>
@@ -3049,6 +3130,12 @@ function buildSliderCol(elName, labelId, sliderId, rangeClass, value, labelText,
       <div class="slider-why-question">${lbCfg.why.q}</div>
       <div class="slider-why-hi">${lbCfg.why.hi}</div>
     </div>`;
+  // iOS Safari: set -webkit-slider-runnable-track background via a dynamic <style> tag
+  // because inline background on input[type=range] doesn't affect the track on WebKit
+  const styleId = 'rs-'+sliderId;
+  let st = document.getElementById(styleId);
+  if (!st) { st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
+  st.textContent = `#${sliderId}::-webkit-slider-runnable-track{background:linear-gradient(to right,${colC} ${v}%,#232332 ${v}%);height:4px;border-radius:3px;}`;
 }
 
 // ══ LEGACY TIMER HELPERS (kept for compatibility) ══════════
@@ -3147,7 +3234,7 @@ function renderHarmonyChart(state){
     return;
   }
 
-  const padL=8,padR=8,padT=6,padB=18;
+  const padL=26,padR=8,padT=6,padB=18;
   const pW=W-padL-padR, pH=H-padT-padB;
   const n=hist.length;
 
@@ -3156,8 +3243,8 @@ function renderHarmonyChart(state){
 
   // Element stack order (bottom to top) and colors
   const ELS=[
-    {k:'earth', col:'rgba(96,168,56,0.75)',  hi:'rgba(96,168,56,0.95)' },
     {k:'water', col:'rgba(58,128,200,0.75)', hi:'rgba(58,128,200,0.95)'},
+    {k:'earth', col:'rgba(96,168,56,0.75)',  hi:'rgba(96,168,56,0.95)' },
     {k:'fire',  col:'rgba(208,120,48,0.75)', hi:'rgba(208,120,48,0.95)'},
     {k:'air',   col:'rgba(128,144,168,0.75)',hi:'rgba(128,144,168,0.95)'},
   ];
@@ -3166,11 +3253,15 @@ function renderHarmonyChart(state){
   const gap=n>30?1:n>15?2:3;
   const barW=Math.max(2, (pW-(n-1)*gap)/n);
 
-  // Subtle horizontal grid lines at 100/200/300/400
-  ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1; ctx.setLineDash([]);
+  // Horizontal grid lines + Y-axis labels at 100/200/300/400
+  ctx.font='7px JetBrains Mono,monospace';
+  ctx.textAlign='right';
   [100,200,300,400].forEach(v=>{
     const y=padT+pH-(v/maxTotal)*pH;
+    ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1; ctx.setLineDash([]);
     ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+    ctx.fillStyle='rgba(128,120,100,0.45)';
+    ctx.fillText(String(v), padL-3, y+2.5);
   });
 
   // Draw stacked bars
@@ -3186,18 +3277,39 @@ function renderHarmonyChart(state){
       ctx.fillRect(x, bottom-barH, barW, barH);
       bottom-=barH;
     });
-
-    // Harmony line tick: a thin golden line at the "balance point" — height if all were equal
-    // (i.e. harmony = how close the distribution is to equal; show as a small notch on the top)
-    const total=(h.air||0)+(h.fire||0)+(h.water||0)+(h.earth||0);
-    const totalH=(total/maxTotal)*pH;
-    const topY=padT+pH-totalH;
-    if(isLast){
-      // Bright cap on latest bar
-      ctx.fillStyle='rgba(200,168,74,0.55)';
-      ctx.fillRect(x, topY-1.5, barW, 1.5);
-    }
   });
+
+  // Total mastery line of best fit (silver)
+  // Compute bar-centre x and total-top y for each entry
+  const pts=hist.map((h,i)=>{
+    const cx=padL+i*(barW+gap)+barW/2;
+    const total=(h.air||0)+(h.fire||0)+(h.water||0)+(h.earth||0);
+    const cy=padT+pH-(total/maxTotal)*pH;
+    return {cx,cy,total};
+  });
+  if(pts.length>=2){
+    // Linear regression
+    let sx=0,sy=0,sxx=0,sxy=0,nn=pts.length;
+    pts.forEach(p=>{sx+=p.cx;sy+=p.cy;sxx+=p.cx*p.cx;sxy+=p.cx*p.cy;});
+    const slope=(nn*sxy-sx*sy)/(nn*sxx-sx*sx);
+    const intercept=(sy-slope*sx)/nn;
+    const x0=padL, x1=W-padR;
+    const y0=slope*x0+intercept, y1=slope*x1+intercept;
+    ctx.save();
+    ctx.strokeStyle='rgba(176,184,200,0.9)';
+    ctx.lineWidth=1.5;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    ctx.restore();
+  } else if(pts.length===1){
+    // Single point — draw a horizontal dashed line
+    ctx.save();
+    ctx.strokeStyle='rgba(176,184,200,0.9)';
+    ctx.lineWidth=1.5;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(padL,pts[0].cy); ctx.lineTo(W-padR,pts[0].cy); ctx.stroke();
+    ctx.restore();
+  }
 
   // X-axis: date labels at up to 5 positions
   ctx.fillStyle='rgba(128,120,100,0.5)';
@@ -3210,24 +3322,6 @@ function renderHarmonyChart(state){
     ctx.textAlign=align;
     const dx=li===0?padL:li===labelCount-1?W-padR:x;
     if(hist[i]){ const p=hist[i].date.split('-'); ctx.fillText(p[2]+'/'+p[1],dx,H-3); }
-  }
-
-  // Latest bar: "total mastery: NNN" label above the bar
-  if(n>=1){
-    const last=hist[n-1];
-    const total=(last.air||0)+(last.fire||0)+(last.water||0)+(last.earth||0);
-    const totalH=(total/maxTotal)*pH;
-    const topY=padT+pH-totalH;
-    const label=`total mastery: ${total}/400`;
-    ctx.font='7.5px JetBrains Mono,monospace';
-    const tw=ctx.measureText(label).width;
-    const lx=W-padR-tw; const ly=Math.max(topY-5,padT+8);
-    // Subtle background pill
-    ctx.fillStyle='rgba(20,18,28,0.7)';
-    ctx.fillRect(lx-3,ly-8,tw+6,11);
-    ctx.fillStyle='rgba(200,168,74,0.65)';
-    ctx.textAlign='left';
-    ctx.fillText(label,lx,ly);
   }
 }
 
@@ -3398,6 +3492,8 @@ function switchTab(name){
     const col=activeBtn.dataset.tabColour||'var(--gold)';
     activeBtn.style.color=col;
     activeBtn.style.borderBottomColor=col;
+    // Scroll active tab button into view in the nav bar
+    activeBtn.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
   }
   if(name==='lore'){
     document.querySelectorAll('#tab-lore textarea').forEach(ta=>{
@@ -3536,11 +3632,27 @@ function updateVitalBars(s){
   const manaFill = document.getElementById('mana-bar-fill');
   const hpBase   = document.getElementById('hp-baseline');
   const manaBase = document.getElementById('mana-baseline');
+  // Mobile duplicates
+  const hpFillM   = document.getElementById('hp-bar-fill-m');
+  const manaFillM = document.getElementById('mana-bar-fill-m');
+  const hpBaseM   = document.getElementById('hp-baseline-m');
+  const manaBaseM = document.getElementById('mana-baseline-m');
+  const mobileVitals = document.getElementById('hdr-mobile-vitals');
 
-  if(hpFill)   hpFill.style.width   = (hp   != null ? Math.min(100, Math.max(0, hp))   : 0)+'%';
-  if(manaFill) manaFill.style.width = (mana != null ? Math.min(100, Math.max(0, mana)) : 0)+'%';
+  const hpPct   = hp   != null ? Math.min(100, Math.max(0, hp))   : 0;
+  const manaPct = mana != null ? Math.min(100, Math.max(0, mana)) : 0;
+
+  if(hpFill)   hpFill.style.width   = hpPct+'%';
+  if(manaFill) manaFill.style.width = manaPct+'%';
   if(hpBase){   hpBase.style.left = Math.min(100,Math.max(0,hpAvg??0))+'%';   hpBase.style.display   = hpAvg   != null ? '' : 'none'; }
   if(manaBase){ manaBase.style.left= Math.min(100,Math.max(0,manaAvg??0))+'%'; manaBase.style.display = manaAvg != null ? '' : 'none'; }
+
+  if(hpFillM)   hpFillM.style.width   = hpPct+'%';
+  if(manaFillM) manaFillM.style.width = manaPct+'%';
+  if(hpBaseM){   hpBaseM.style.left = Math.min(100,Math.max(0,hpAvg??0))+'%';   hpBaseM.style.display   = hpAvg   != null ? '' : 'none'; }
+  if(manaBaseM){ manaBaseM.style.left= Math.min(100,Math.max(0,manaAvg??0))+'%'; manaBaseM.style.display = manaAvg != null ? '' : 'none'; }
+  // Hide mobile vitals section if no data
+  if(mobileVitals) mobileVitals.style.display = (hp != null || mana != null) ? '' : 'none';
 }
 
 // ══ XP JUICE ════════════════════════════════════════════════
@@ -5241,6 +5353,18 @@ function showConfirmDelete(name, onConfirm){
 }
 function closeConfirmDelete(){ document.getElementById('confirm-delete-modal').classList.remove('open'); }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+async function pasteFromClipboard(){
+  const btn=document.getElementById('paste-clipboard-btn');
+  try{
+    const text=await navigator.clipboard.readText();
+    document.getElementById('json-input').value=text;
+    btn.textContent='✓ Pasted';
+    setTimeout(()=>{ btn.textContent='⌘ Paste'; },1500);
+  }catch(e){
+    btn.textContent='✗ No access';
+    setTimeout(()=>{ btn.textContent='⌘ Paste'; },2000);
+  }
+}
 function applyUpdate(){
   const raw=document.getElementById('json-input').value.trim();
   try{
@@ -7209,14 +7333,19 @@ function renderClassesTab(s){
     const isFeatured=featured.includes(c.id);
     const card=document.createElement('div');
     card.className='cls-card'+(isFeatured?' featured':'');
-    card.innerHTML=`
-      <div class="cls-card-row">
-        <div class="cls-card-icon">${esc(c.icon||'◈')}</div>
-        <div class="cls-card-title">${esc(c.title||c.name||'')}</div>
-        <div class="cls-card-date">${esc(c.dateUnlocked||'')}</div>
-      </div>
-      <div class="cls-card-desc">${esc(c.description||'')}</div>
-    `;
+    const row=document.createElement('div'); row.className='cls-card-row'; row.dataset.handleInject='1';
+    const clsDelBtn=document.createElement('button'); clsDelBtn.className='ally-delete card-head-del'; clsDelBtn.textContent='×'; clsDelBtn.title='Delete class';
+    clsDelBtn.addEventListener('click',e=>{ e.stopPropagation(); showConfirmDelete(c.title||c.name||'this class',()=>{
+      const ci=appState.classes.findIndex(x=>x.id===c.id);
+      if(ci>=0){ appState.classes.splice(ci,1); saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
+    }); });
+    row.appendChild(clsDelBtn);
+    const clsIcon=document.createElement('div'); clsIcon.className='cls-card-icon'; clsIcon.textContent=c.icon||'◈';
+    const clsTitle=document.createElement('div'); clsTitle.className='cls-card-title'; clsTitle.textContent=c.title||c.name||'';
+    const clsDate=document.createElement('div'); clsDate.className='cls-card-date'; clsDate.textContent=c.dateUnlocked||'';
+    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsDate);
+    const desc=document.createElement('div'); desc.className='cls-card-desc'; desc.textContent=c.description||'';
+    card.appendChild(row); card.appendChild(desc);
     card.onclick=()=>{
       const f=getFeaturedCls();
       const idx=f.indexOf(c.id);
@@ -7227,12 +7356,6 @@ function renderClassesTab(s){
       renderClassesTab(s);
       renderHdrClasses(s);
     };
-    const clsDelBtn=document.createElement('button'); clsDelBtn.className='ally-delete'; clsDelBtn.textContent='×'; clsDelBtn.title='Delete class';
-    clsDelBtn.addEventListener('click',e=>{ e.stopPropagation(); showConfirmDelete(c.title||c.name||'this class',()=>{
-      const ci=appState.classes.findIndex(x=>x.id===c.id);
-      if(ci>=0){ appState.classes.splice(ci,1); saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
-    }); });
-    card.appendChild(clsDelBtn);
     listEl.appendChild(card);
   });
   makeSortable(listEl, (from, to) => {
@@ -7845,6 +7968,8 @@ function _init(){
     .then(data => {
       if(data._xpLog){ HARDCODED_XP_LOG = data._xpLog; delete data._xpLog; }
       if(data._hardcodedHistory){ Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
+      if(data._featuredCls){ setFeaturedCls(data._featuredCls); delete data._featuredCls; }
+      if(data._featuredAch){ setFeaturedAch(data._featuredAch); delete data._featuredAch; }
       Object.assign(DEFAULT, data);
       appState = loadState();
       _init();
