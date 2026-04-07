@@ -432,14 +432,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 
 /* ══ TIMELINE ════════════════════════════════════════════ */
-.chapter-group { border:1px solid var(--border-hi); border-radius:6px; overflow:hidden; margin-bottom:16px; }
+.chapter-group { border:1px solid var(--border-hi); border-left:3px solid #207878; border-radius:6px; overflow:hidden; margin-bottom:16px; }
 .chapter-group-head {
   display:flex; align-items:center; gap:10px; padding:12px 16px;
   cursor:pointer; user-select:none; background:var(--surface); position:relative;
 }
 .chapter-group-head:hover { background:#0f0f18; }
 .chapter-group-head:hover .card-head-del { opacity:1; }
-.chapter-group-name { font-family:'Cinzel',serif; font-size:17px; font-weight:600; letter-spacing:0.1em; color:var(--gold); flex:1; }
+.chapter-group-name { font-family:'Cinzel',serif; font-size:17px; font-weight:600; letter-spacing:0.1em; color:#3aacac; flex:1; }
 .chapter-group-count { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
 .chapter-group-arrow { font-size:15px; color:var(--text-dim); transition:transform 0.2s; }
 .chapter-group-arrow.open { transform:rotate(90deg); }
@@ -823,8 +823,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .lore-card-body { font-size:17px; color:var(--text-b); line-height:1.7; }
 .lore-card--progression { border-left:3px solid #7050b0; }
 .lore-card--progression .lore-card-hdr { color:#9070c8; }
-.lore-card--session { border-left:3px solid #4060b0; }
-.lore-card--session .lore-card-hdr { color:#6080c8; }
+.lore-card--session { border-left:3px solid #207878; }
+.lore-card--session .lore-card-hdr { color:#3aacac; }
 .lore-card--keyq { border-left:3px solid var(--gold); }
 .lore-card--keyq .lore-card-hdr { color:var(--gold); opacity:0.85; }
 .lore-card--keyq .lore-card-body { font-size:18px; font-style:italic; }
@@ -858,11 +858,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .starters-note { font-size:15px; color:var(--text-dim); font-style:italic; margin-top:10px; }
 .lore-chapters-hdr {
   font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.2em;
-  color:var(--text-mid); text-transform:uppercase;
+  color:#3aacac; text-transform:uppercase;
   display:flex; align-items:center; gap:10px;
   border-bottom:1px solid var(--border-hi); padding-bottom:10px; margin-bottom:18px;
 }
-.lore-chapters-hdr::before { content:'◈  '; color:var(--text-dim); }
+.lore-chapters-hdr::before { content:'◈  '; color:#207878; }
 
 /* ══ HEADER PROGRESS BAR ═════════════════════════════════ */
 .hdr-mq-bar { height:2px; background:var(--border-hi); border-radius:1px; margin-top:3px; margin-bottom:5px; }
@@ -1581,7 +1581,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* ══ HARMONY CARD ════════════════════════════════════════ */
 .balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; }
-.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.22em; color:var(--text-mid); text-transform:uppercase; padding:14px 18px 0; }
+.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.22em; color:#8090a8; text-transform:uppercase; padding:14px 18px 0; }
 .balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; }
 .balance-el-card-body {
   display:grid;
@@ -1590,37 +1590,36 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   gap:0;
   padding:10px 16px 14px;
 }
-/* Left cell: legend on the left, radar SVG fills remaining space */
-.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; gap:12px; min-width:0; }
-.balance-el-radar-svg { display:block; flex:1; min-width:0; aspect-ratio:1; overflow:visible; }
-/* Radar legend stacked vertically beside radar */
+/* Left cell: legend | radar (capped) | scores — all centred, no dead space */
+.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:14px; min-width:0; }
+.balance-el-radar-svg { display:block; flex:1; max-width:200px; min-width:80px; aspect-ratio:1; overflow:visible; flex-shrink:1; }
+/* Radar legend — left flank */
 .balance-el-radar-meta {
   display:flex; flex-direction:row; align-items:flex-start;
-  gap:16px; flex-shrink:0;
+  gap:14px; flex-shrink:0;
 }
 .balance-radar-legend { display:flex; flex-direction:column; gap:6px; }
-.balance-radar-legend-item { display:flex; align-items:center; gap:7px; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase; }
-.brl-line { display:inline-block; width:16px; height:1.5px; flex-shrink:0; }
+.balance-radar-legend-item { display:flex; align-items:center; gap:7px; font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; color:#8090a8; text-transform:uppercase; }
+.brl-line { display:inline-block; width:14px; height:1.5px; flex-shrink:0; }
 .brl-current { background:var(--gold); opacity:0.9; }
 .brl-week    { background:var(--gold); opacity:0.45; }
 .brl-month   { background:var(--gold); opacity:0.2; border-top:1px dashed rgba(200,168,74,0.5); height:0; }
-.balance-harmony-lbl { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.14em; color:var(--text-dim); text-transform:uppercase; margin-top:2px; }
-/* Trio: stacked vertically */
-.balance-harmony-trio { display:flex; flex-direction:column; gap:10px; }
+/* Harmony scores — right flank */
+.balance-harmony-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.12em; color:#8090a8; text-transform:uppercase; margin-top:2px; }
+.balance-harmony-trio { display:flex; flex-direction:column; gap:8px; flex-shrink:0; }
 .bht-cell { display:flex; flex-direction:column; }
-.bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:17px; }
-.bht-now { font-size:20px; color:#c8d0d8; }
+.bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:16px; }
+.bht-now { font-size:18px; color:#c8d0d8; }
 /* Right cell: Over Time chart + its legend to the right */
 .harmony-chart-col { display:flex; flex-direction:row; align-items:stretch; gap:0; border-left:1px solid var(--border); padding-left:16px; min-width:0; }
 .harmony-chart-canvas-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
-.harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
-.harmony-chart-legend { display:flex; flex-direction:column; gap:5px; justify-content:center; font-size:10px; letter-spacing:0.08em; color:var(--text-dim); opacity:0.7; flex-shrink:0; padding-left:10px; border-left:1px solid var(--border); }
-.hcl-swatch { display:inline-block; width:7px; height:7px; border-radius:1px; opacity:0.8; margin-right:4px; }
+.harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em; color:#8090a8; text-transform:uppercase; margin-bottom:6px; }
+.harmony-chart-legend { display:flex; flex-direction:column; gap:5px; justify-content:center; font-size:10px; letter-spacing:0.08em; color:#8090a8; opacity:0.8; flex-shrink:0; padding-left:10px; border-left:1px solid var(--border); }
+.hcl-swatch { display:inline-block; width:7px; height:7px; border-radius:1px; opacity:0.9; margin-right:4px; }
 /* Narrow window: stack */
 @media (max-width: 600px) {
   .balance-el-card-body { grid-template-columns: 1fr; }
   .harmony-chart-col { border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; flex-direction:row; }
-  .balance-el-radar-svg { width:120px; }
 }
 /* ══ STATS panel — uses radar-panel; keep for margin override ══ */
 .stats-card { margin-bottom:18px; }
@@ -1734,7 +1733,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .radar-panel-body { grid-template-columns:1fr; }
   .radar-panel-radar { border-right:none; border-bottom:1px solid rgba(255,255,255,0.05); justify-content:flex-start; }
   .radar-panel-sliders { border-right:none; }
-  .balance-el-radar-svg { max-width:160px; }
 }
 
 @media (max-width:480px) {
@@ -1766,8 +1764,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .mqcard-title { font-size:18px; }
   .lore-card { padding:12px 14px; }
 
-  /* ── Balance radar ── */
-  .balance-el-radar-svg { max-width:130px; }
   .wheel-domain-name { width:80px; font-size:14px; }
 }
 
@@ -1908,7 +1904,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('bestiary')" title="Problems and negative patterns working against you"><span class="tab-nav-count" id="nav-bestiary" style="color:#c84040">0</span>Enemies</button>
   <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Resources and positive patterns working for you"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
   <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Specific moments worth recognising"><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
-  <button class="tab-btn" data-tab-colour="#706a5a" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#706a5a">1</span>Journal</button>
+  <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
 </nav>
 
 <div id="tab-balance" class="tab-panel">
@@ -1919,8 +1915,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="balance-el-card-hdr">Harmony</div>
   <div class="balance-el-card-desc">Balance between the four elements, inferred from each session</div>
   <div class="balance-el-card-body">
-    <!-- Col 1: radar SVG + legend to the right -->
+    <!-- Col 1: [line legend] [radar] [harmony scores] -->
     <div class="balance-el-radar-row">
+      <div class="balance-el-radar-meta">
+        <div class="balance-radar-legend">
+          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Now</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>Last week</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>Last month</div>
+        </div>
+      </div>
       <svg id="radar-svg" viewBox="-90 -94 180 196" xmlns="http://www.w3.org/2000/svg" class="balance-el-radar-svg">
         <polygon points="0,-60 60,0 0,60 -60,0" fill="none" stroke="#232332" stroke-width="0.8"/>
         <polygon points="0,-45 45,0 0,45 -45,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
@@ -1941,21 +1944,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <text x="0"   y="85"  text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#3a80c8" letter-spacing="0.12em">WATER</text>
         <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
       </svg>
-      <div class="balance-el-radar-meta">
-        <div class="balance-radar-legend">
-          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Now</div>
-          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>Last week</div>
-          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>Last month</div>
+      <div class="balance-harmony-trio">
+        <div class="bht-cell">
+          <div class="bht-num" id="balance-harmony-initial">—</div>
+          <div class="balance-harmony-lbl">Initial</div>
         </div>
-        <div class="balance-harmony-trio">
-          <div class="bht-cell">
-            <div class="bht-num" id="balance-harmony-initial">—</div>
-            <div class="balance-harmony-lbl">Initial</div>
-          </div>
-          <div class="bht-cell">
-            <div class="bht-num bht-now" id="balance-harmony-now">—</div>
-            <div class="balance-harmony-lbl">Now</div>
-          </div>
+        <div class="bht-cell">
+          <div class="bht-num bht-now" id="balance-harmony-now">—</div>
+          <div class="balance-harmony-lbl">Now</div>
         </div>
       </div>
     </div>
@@ -4327,29 +4323,30 @@ function renderBestiaryTab(s){
   // Type pie chart for enemies
   {
     const TYPES_BT={
-      blindspot:   {label:'Blindspot',      colour:'#c83060'},
-      compulsion:  {label:'Compulsion',     colour:'#c83030'},
-      belief:      {label:'Limiting Belief', colour:'#8b5e3c'},
-      temptation:  {label:'Temptation',     colour:'#6040a0'},
+      blindspot:   {label:'Blindspot',      colour:'#c83060', tooltip:'Blindspot (Air) - a perception-level misread; how evidence is filtered before a conscious choice is made'},
+      compulsion:  {label:'Compulsion',     colour:'#c83030', tooltip:'Compulsion (Fire) - an action-level pattern driven by urgency or avoidance; pulled toward doing something'},
+      belief:      {label:'Limiting Belief', colour:'#8b5e3c', tooltip:'Belief (Earth) - a false or limiting story treated as true, driving behaviour from below'},
+      temptation:  {label:'Temptation',     colour:'#6040a0', tooltip:'Temptation (Water) - a desire-level pull toward something that costs more than it gives; want-driven rather than fear-driven'},
       // legacy aliases
-      distortion:  {label:'Blindspot',      colour:'#c83060'},
-      drain:       {label:'Temptation',     colour:'#6040a0'},
+      distortion:  {label:'Blindspot',      colour:'#c83060', tooltip:'Blindspot (Air) - a perception-level misread; how evidence is filtered before a conscious choice is made'},
+      drain:       {label:'Temptation',     colour:'#6040a0', tooltip:'Temptation (Water) - a desire-level pull toward something that costs more than it gives; want-driven rather than fear-driven'},
     };
     const counts={};
     const bossEntries=(bestiary.bosses||[]).filter(b=>b&&b.name);
     if(!bossEntries.length && bestiary.boss && bestiary.boss.name) bossEntries.push(bestiary.boss);
     bossEntries.forEach(()=>{ counts['boss']=(counts['boss']||0)+1; });
     const subEnemies=bossEntries.flatMap(b=>b.subEnemies||[]);
-    [...(bestiary.currentEnemies||[]),...subEnemies,...(s.limitingBeliefs||[]).map(b=>({...b,type:'belief'}))].forEach(e=>{
+    [...(bestiary.currentEnemies||[]),...subEnemies,...(s.limitingBeliefs||[]).map(b=>({...b,type:'limitingBelief'}))].forEach(e=>{
       const t=e.type||'blindspot';
       counts[t]=(counts[t]||0)+1;
     });
-    const TYPES_BT_BOSS={boss:{label:'Boss',colour:'#c84040'}};
+    const TYPES_BT_BOSS={boss:{label:'Boss',colour:'#c84040',tooltip:'Boss: the root pattern driving most of your other enemies. Has sub-enemies (fast-moving expressions) and key vulnerabilities (moments it can be interrupted).'}};
     const allTypeDefs={...TYPES_BT_BOSS,...TYPES_BT};
     const entries=Object.entries(counts).map(([t,count],i)=>({
       label: (allTypeDefs[t]||{label:t}).label,
       count,
-      colour: (allTypeDefs[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour
+      colour: (allTypeDefs[t]||{colour:PIE_COLOURS[i%PIE_COLOURS.length]}).colour,
+      tooltip: (allTypeDefs[t]||{}).tooltip||''
     })).sort((a,b)=>b.count-a.count);
     renderTypePie('bt-pie-chart','bt-pie-legend',entries);
   }
@@ -4591,17 +4588,18 @@ function renderAlliesTab(s){
   // Type pie chart for allies
   {
     const TYPES_AL={
-      loot:       {label:'Loot',               colour:'#4aaa72'},
-      spell:      {label:'Spell',              colour:'#c87828'},
-      liberation: {label:'Liberating Belief',  colour:'#2d6e40'},
-      source:     {label:'Source',             colour:'#2a9090'},
+      loot:       {label:'Loot',               colour:'#4aaa72', tooltip:'Loot: a person, community, or resource that tangibly supports you (mentor, friend, tool, place).'},
+      spell:      {label:'Spell',              colour:'#c87828', tooltip:'Spell: a practice, ritual, or technique that reliably shifts your state (meditation, exercise, journalling).'},
+      liberation: {label:'Liberating Belief',  colour:'#2d6e40', tooltip:'Liberating Belief: an empowering story or reframe that counters a limiting belief and opens up possibility.'},
+      source:     {label:'Source',             colour:'#2a9090', tooltip:'Source: an activity or context that reliably produces aliveness, flow, or restored energy.'},
     };
     const counts={loot:0,spell:0,liberation:0,source:0};
     all.forEach(a=>{ if(counts[a.type]!==undefined) counts[a.type]++; });
     const entries=Object.entries(TYPES_AL).map(([t,meta])=>({
       label: meta.label,
       count: counts[t],
-      colour: meta.colour
+      colour: meta.colour,
+      tooltip: meta.tooltip||''
     })).filter(e=>e.count>0);
     renderTypePie('al-pie-chart','al-pie-legend',entries);
   }
@@ -6972,6 +6970,7 @@ function renderTypePie(svgId, legendId, entries){
     svg.appendChild(path);
     angle+=slice;
     const li=document.createElement('div'); li.className='pie-legend-item';
+    if(e.tooltip) li.title=e.tooltip;
     const dot=document.createElement('div'); dot.className='pie-legend-dot'; dot.style.background=e.colour;
     const lbl=document.createElement('span'); lbl.className='pie-legend-label'; lbl.textContent=e.label;
     const cnt=document.createElement('span'); cnt.className='pie-legend-hours'; cnt.textContent=e.count;
