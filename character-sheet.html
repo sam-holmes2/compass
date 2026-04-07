@@ -37,23 +37,24 @@ body {
 /* ══ HEADER ══════════════════════════════════════════════ */
 .hdr {
   display:grid; grid-template-columns:1fr auto 1fr;
+  grid-template-rows:auto auto;
   align-items:center; gap:0;
-  padding-bottom:20px; border-bottom:1px solid var(--border-hi); margin-bottom:4px;
+  padding-bottom:10px; border-bottom:1px solid var(--border-hi); margin-bottom:4px;
 }
-.hdr > * { padding:0 32px; }
+.hdr > * { padding:0 28px; }
 .hdr > *:first-child { padding-left:0; }
-.hdr > *:last-child  { padding-right:0; border-right:none; }
-.hdr > *:not(:last-child) { border-right:1px solid var(--border-hi); }
+.hdr-xp-full { grid-column:1/-1; padding:0; padding-top:8px; }
+.hdr > *:not(.hdr-xp-full):not(:last-child) { border-right:1px solid var(--border-hi); }
 .hdr-centre { text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:240px; }
 .hdr-name-row { display:flex; align-items:center; gap:10px; }
 .hdr-icon { font-size:22px; line-height:1; cursor:pointer; user-select:none; transition:opacity 0.15s; }
 .hdr-icon:hover { opacity:0.7; }
-.hdr-name { font-family:'Cinzel Decorative',serif; font-size:30px; font-weight:700; color:#5cb85c; letter-spacing:0.15em; }
-.hdr-sub  { font-size:17px; color:var(--text-dim); letter-spacing:0.04em; margin-top:3px; }
-.hdr-left { display:flex; flex-direction:column; gap:4px; }
+.hdr-name { font-family:'Cinzel Decorative',serif; font-size:26px; font-weight:700; color:#5cb85c; letter-spacing:0.15em; }
+.hdr-sub  { font-size:15px; color:var(--text-dim); letter-spacing:0.04em; margin-top:2px; }
+.hdr-left { display:flex; flex-direction:column; gap:2px; }
 .hdr-quest-label { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.22em; color:var(--text-dim); text-transform:uppercase; }
 .hdr-quest-title { font-family:'Cinzel',serif; font-size:19px; font-weight:700; color:var(--gold); letter-spacing:0.06em; line-height:1.2; }
-.hdr-quest-desc  { font-size:16px; color:var(--text-mid); font-style:italic; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.hdr-quest-desc  { font-size:15px; color:var(--text-mid); font-style:italic; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
 /* ══ TAB NAV ══════════════════════════════════════════════ */
 .tab-nav { display:flex; justify-content:center; border-bottom:1px solid var(--border-hi); margin-bottom:24px; }
@@ -93,11 +94,12 @@ body {
   margin-bottom:10px;
 }
 .el-head-title-row {
-  display:grid; grid-template-columns:1fr 1fr 1fr;
+  display:grid; grid-template-columns:1fr 1fr;
   align-items:center; gap:0 16px; margin-bottom:8px;
 }
 .el-head-title-group { display:flex; align-items:center; gap:12px; }
 .el-head-status {
+  display:flex; align-items:flex-start; justify-content:flex-end;
   font-size:17px; font-style:italic;
   text-align:right; line-height:1.5;
   padding:0 8px; padding-top:2px;
@@ -109,6 +111,9 @@ body {
 
 /* full-width slider row */
 .el-head-slider { width:100%; padding-bottom:14px; }
+
+/* AI-inferred indicator glyph */
+.el-ai-glyph { font-size:11px; opacity:0.35; margin-right:6px; cursor:help; flex-shrink:0; }
 
 .el-glyph { font-size:22px; line-height:1; justify-self:center; }
 
@@ -133,10 +138,8 @@ body {
 .earth .el-verb { background:rgba(96,168,56,0.12);   color:#8cd060; }
 
 /* ══ XP BAR ═══════════════════════════════════════════════ */
-.hdr-xp-col { justify-self:stretch; display:flex; flex-direction:column; justify-content:center; gap:6px; border-right:none !important; }
+.hdr-xp-col { display:none; }
 .xp-top-row { display:flex; align-items:baseline; gap:10px; }
-.xp-bar-lbl { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.2em; color:var(--text-dim); text-transform:uppercase; }
-#xp-level { font-family:'Cinzel Decorative',serif; font-size:32px; font-weight:700; color:#b080e8; line-height:1; }
 .xp-bar-track { height:12px; background:rgba(100,60,160,0.1); border-radius:6px; border:1px solid rgba(144,96,192,0.2); overflow:hidden; }
 @keyframes xp-bar-glow {
   0%,100% { box-shadow:0 0 8px rgba(144,96,192,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
@@ -217,8 +220,8 @@ body {
 .xp-nxt-num  { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.12em; color:var(--text-dim); opacity:0.4; }
 
 .el-question {
-  font-size:16px; font-style:italic; color:var(--text-dim);
-  text-align:center; line-height:1.4;
+  font-size:15px; font-style:italic; color:var(--text-dim);
+  text-align:left; line-height:1.4; margin-top:3px;
 }
 .el-question-keyword {
   font-family:'Cinzel',serif; font-size:14px; font-style:normal; letter-spacing:0.18em;
@@ -320,7 +323,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* ══ SECTION LABEL ═══════════════════════════════════════ */
 .lbl {
-  font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.24em;
+  font-family:'Cinzel',serif; font-size:16px; font-weight:600; letter-spacing:0.18em;
   color:#5a9830; text-transform:uppercase;
   display:flex; align-items:center; gap:8px; margin-bottom:11px;
 }
@@ -687,12 +690,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .grid-2,.grid-3 { grid-template-columns:1fr; }
   .el-head-title-row { grid-template-columns:1fr; }
   .el-head-status { text-align:left; }
-  .hdr { grid-template-columns:1fr auto; gap:0; justify-items:center; text-align:center; }
+  .hdr { grid-template-columns:1fr auto; grid-template-rows:auto auto; gap:0; justify-items:center; text-align:center; }
   .hdr > * { padding:12px 16px; border-right:none; border-bottom:1px solid var(--border-hi); }
   .hdr > *:last-child { border-bottom:none; }
-  .hdr-xp-col { align-items:center; justify-self:auto; grid-column:2; grid-row:1; border-bottom:1px solid var(--border-hi); }
   .hdr-centre { grid-column:1; grid-row:1; }
+  .hdr-vitals { grid-column:2; grid-row:1; border-bottom:1px solid var(--border-hi); justify-content:center; min-width:120px; }
   .hdr-left { grid-column:1/-1; grid-row:2; align-items:center; text-align:center; }
+  .hdr-xp-full { grid-column:1/-1; grid-row:3; border-bottom:none !important; padding:10px 16px 0; }
   .tab-btn { padding:10px 12px; font-size:14px; }
 }
 @media (max-width:600px) {
@@ -861,8 +865,58 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .lore-chapters-hdr::before { content:'◈  '; color:var(--text-dim); }
 
 /* ══ HEADER PROGRESS BAR ═════════════════════════════════ */
-.hdr-mq-bar { height:2px; background:var(--border-hi); border-radius:1px; margin-top:5px; max-width:260px; }
-.hdr-mq-fill { height:100%; background:var(--gold); border-radius:1px; transition:width .4s; }
+.hdr-mq-bar { height:2px; background:var(--border-hi); border-radius:1px; margin-top:3px; margin-bottom:5px; }
+.hdr-mq-fill { height:100%; background:var(--gold); border-radius:1px; transition:width .4s; box-shadow:0 0 6px rgba(200,168,74,0.5); }
+
+/* ══ VITAL BARS (HP + MANA) ══════════════════════════════ */
+.hdr-vitals { display:flex; flex-direction:column; gap:5px; align-items:stretch; justify-content:center; padding-right:0; width:100%; }
+.vital-row { display:flex; align-items:center; gap:9px; }
+.vital-icon { font-size:22px; line-height:1; width:24px; text-align:center; flex-shrink:0; }
+.vital-track-wrap { position:relative; flex:1; display:flex; flex-direction:column; justify-content:center; }
+.vital-track { height:20px; border-radius:10px; overflow:hidden; position:relative; }
+.vital-track.hp  { background:rgba(200,60,60,0.12); }
+.vital-track.mana{ background:rgba(48,100,220,0.12); }
+.vital-fill { height:100%; border-radius:10px; position:relative; transition:width 0.9s cubic-bezier(0.4,0,0.2,1); }
+.vital-fill.hp {
+  background:linear-gradient(90deg,#7a1a1a 0%,#c03030 55%,#ff6060 100%);
+  box-shadow:0 0 8px rgba(220,60,60,0.45), inset 0 1px 0 rgba(255,255,255,0.1);
+  animation:vital-hp-glow 3s ease-in-out infinite;
+}
+.vital-fill.mana {
+  background:linear-gradient(90deg,#1a2a7a 0%,#3060c8 55%,#60a0ff 100%);
+  box-shadow:0 0 8px rgba(60,110,230,0.45), inset 0 1px 0 rgba(255,255,255,0.1);
+  animation:vital-mana-glow 3s ease-in-out infinite;
+}
+@keyframes vital-hp-glow {
+  0%,100% { box-shadow:0 0 6px rgba(220,60,60,0.35), inset 0 1px 0 rgba(255,255,255,0.1); }
+  50%      { box-shadow:0 0 16px rgba(255,80,80,0.65), inset 0 1px 0 rgba(255,255,255,0.18); }
+}
+@keyframes vital-mana-glow {
+  0%,100% { box-shadow:0 0 6px rgba(60,110,230,0.35), inset 0 1px 0 rgba(255,255,255,0.1); }
+  50%      { box-shadow:0 0 16px rgba(80,140,255,0.65), inset 0 1px 0 rgba(255,255,255,0.18); }
+}
+/* Baseline marker — vertical tick at all-time average */
+.vital-baseline {
+  position:absolute; top:50%; width:2px; height:28px; border-radius:1px;
+  transform:translate(-50%,-50%); pointer-events:none; z-index:2;
+  transition:left 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.vital-baseline.hp   { background:rgba(255,160,160,0.75); box-shadow:0 0 4px rgba(255,100,100,0.5); }
+.vital-baseline.mana { background:rgba(140,190,255,0.75); box-shadow:0 0 4px rgba(100,160,255,0.5); }
+
+/* ══ FULL-WIDTH XP BAR ROW ════════════════════════════════ */
+/* Single-row layout: ████████░░░░ · 500/1000 XP · → Lv5 */
+.hdr-xp-full { display:flex; align-items:center; gap:10px; }
+.hdr-xp-track-wrap { position:relative; flex:1; min-width:0; }
+.hdr-xp-track-full { height:10px; background:rgba(100,60,160,0.1); border-radius:5px; border:1px solid rgba(144,96,192,0.2); overflow:hidden; width:100%; }
+.hdr-xp-right { display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0; gap:1px; }
+.xp-fraction { font-family:var(--mono); font-size:11px; color:var(--text-dim); letter-spacing:0.03em; white-space:nowrap; }
+.xp-nxt-num  { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.1em; color:#b080e8; opacity:0.5; white-space:nowrap; }
+
+/* ══ LEVEL BADGE (left of XP bar) ═══════════════════════ */
+.hdr-xp-level-badge { display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:1px; }
+.xp-bar-lbl { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.22em; color:var(--text-dim); text-transform:uppercase; }
+#xp-level { font-family:'Cinzel Decorative',serif; font-size:26px; font-weight:700; color:#b080e8; line-height:1; }
 
 /* ══ MQCARD COLLAPSIBLE ══════════════════════════════════ */
 .mqcard-wrap { border:1px solid rgba(200,168,74,0.2); border-radius:6px; overflow:hidden; }
@@ -975,7 +1029,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ach-card-type.att-default       { color:var(--text-dim); border-color:var(--border-hi); }
 .ach-card-desc { font-size:17px; color:var(--text-mid); line-height:1.55; }
 .ach-featured-tag { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.1em; color:var(--gold); background:rgba(200,168,74,0.1); border:1px solid rgba(200,168,74,0.3); border-radius:12px; padding:3px 10px; }
-.hdr-titles { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:5px; }
+.hdr-titles { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-top:4px; }
 .hdr-title-tag { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; color:var(--gold); background:rgba(200,168,74,0.1); border:1px solid rgba(200,168,74,0.25); border-radius:10px; padding:2px 9px; }
 
 /* ══ CLASSES ════════════════════════════════════════════════ */
@@ -1527,23 +1581,22 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* ══ HARMONY CARD ════════════════════════════════════════ */
 .balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; }
-.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.26em; color:var(--text-dim); text-transform:uppercase; padding:12px 18px 0; }
+.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.22em; color:var(--text-mid); text-transform:uppercase; padding:14px 18px 0; }
 .balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; }
 .balance-el-card-body {
   display:grid;
-  grid-template-columns: minmax(0,300px) minmax(0,1fr);
-  align-items:stretch;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  align-items:center;
   gap:0;
   padding:10px 16px 14px;
 }
-/* Radar column wrapper */
-.balance-el-radar-col { display:flex; flex-direction:column; align-items:center; gap:10px; }
-/* Radar SVG — square via aspect-ratio, capped so it doesn't fill the whole column */
-.balance-el-radar-svg { display:block; width:80%; max-width:200px; aspect-ratio:1; overflow:visible; }
-/* Legend + scores below radar */
+/* Left cell: legend on the left, radar SVG fills remaining space */
+.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; gap:12px; min-width:0; }
+.balance-el-radar-svg { display:block; flex:1; min-width:0; aspect-ratio:1; overflow:visible; }
+/* Radar legend stacked vertically beside radar */
 .balance-el-radar-meta {
-  display:flex; flex-direction:row; justify-content:center; align-items:flex-start;
-  gap:20px; width:100%; padding:0 4px;
+  display:flex; flex-direction:row; align-items:flex-start;
+  gap:16px; flex-shrink:0;
 }
 .balance-radar-legend { display:flex; flex-direction:column; gap:6px; }
 .balance-radar-legend-item { display:flex; align-items:center; gap:7px; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase; }
@@ -1557,13 +1610,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .bht-cell { display:flex; flex-direction:column; }
 .bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:17px; }
 .bht-now { font-size:20px; color:#c8d0d8; }
-/* Chart column — fills remaining space */
-.harmony-chart-col { display:flex; flex-direction:column; justify-content:center; border-left:1px solid var(--border); padding-left:16px; min-width:0; }
+/* Right cell: Over Time chart + its legend to the right */
+.harmony-chart-col { display:flex; flex-direction:row; align-items:stretch; gap:0; border-left:1px solid var(--border); padding-left:16px; min-width:0; }
+.harmony-chart-canvas-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
 .harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
-/* Narrow window: stack chart below radar */
+.harmony-chart-legend { display:flex; flex-direction:column; gap:5px; justify-content:center; font-size:10px; letter-spacing:0.08em; color:var(--text-dim); opacity:0.7; flex-shrink:0; padding-left:10px; border-left:1px solid var(--border); }
+.hcl-swatch { display:inline-block; width:7px; height:7px; border-radius:1px; opacity:0.8; margin-right:4px; }
+/* Narrow window: stack */
 @media (max-width: 600px) {
   .balance-el-card-body { grid-template-columns: 1fr; }
-  .harmony-chart-col { border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; margin-top:4px; }
+  .harmony-chart-col { border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; flex-direction:row; }
+  .balance-el-radar-svg { width:120px; }
 }
 /* ══ STATS panel — uses radar-panel; keep for margin override ══ */
 .stats-card { margin-bottom:18px; }
@@ -1621,7 +1678,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     padding-bottom:12px;
   }
   /* Hide desktop header sections */
-  .hdr-left, .hdr-xp-col { display:none; }
+  .hdr-left, .hdr-xp-col, .hdr-vitals, .hdr-xp-full { display:none; }
   .hdr-centre {
     border-right:none;
     padding:0;
@@ -1733,8 +1790,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="hdr-left">
     <div class="hdr-quest-label">◈ Main Quest</div>
     <div class="hdr-quest-title" id="hdr-mq-title">Sovereignty</div>
-    <div class="hdr-quest-desc" id="hdr-mq-desc">Building autonomous selfhood not as escape from others, but as solid ground to actually meet them from</div>
     <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:8%"></div></div>
+    <div class="hdr-quest-desc" id="hdr-mq-desc">Building autonomous selfhood not as escape from others, but as solid ground to actually meet them from</div>
   </div>
 
   <!-- Col 2: Character name + subtitle + achievement tags -->
@@ -1746,16 +1803,40 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="hdr-sub" id="hdr-sub"></div>
   </div>
 
-  <!-- Col 3: XP bar -->
-  <div class="hdr-xp-col">
-    <div class="xp-top-row">
-      <div id="xp-level">4</div>
-      <div class="xp-bar-lbl">Level</div>
+  <!-- Col 3: HP + Mana vitals -->
+  <div class="hdr-vitals">
+    <div class="vital-row">
+      <span class="vital-icon" style="color:#ff6060">♥</span>
+      <div class="vital-track-wrap">
+        <div class="vital-track hp">
+          <div class="vital-fill hp" id="hp-bar-fill" style="width:0%"></div>
+        </div>
+        <div class="vital-baseline hp" id="hp-baseline" style="left:0%;display:none"></div>
+      </div>
     </div>
-    <div class="xp-bar-track">
-      <div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div>
+    <div class="vital-row">
+      <span class="vital-icon" style="color:#60a0ff">✦</span>
+      <div class="vital-track-wrap">
+        <div class="vital-track mana">
+          <div class="vital-fill mana" id="mana-bar-fill" style="width:0%"></div>
+        </div>
+        <div class="vital-baseline mana" id="mana-baseline" style="left:0%;display:none"></div>
+      </div>
     </div>
-    <div class="xp-bar-meta">
+  </div>
+
+  <!-- Full-width XP bar (spans all columns) -->
+  <div class="hdr-xp-full">
+    <div class="hdr-xp-level-badge">
+      <span class="xp-bar-lbl">Level</span>
+      <span id="xp-level">4</span>
+    </div>
+    <div class="hdr-xp-track-wrap">
+      <div class="hdr-xp-track-full">
+        <div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="hdr-xp-right">
       <span class="xp-fraction" id="xp-fraction">0 / 1000 XP</span>
       <span class="xp-nxt-num" id="xp-next-level">→ Level 5</span>
     </div>
@@ -1820,14 +1901,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 -->
 
 <nav class="tab-nav">
-  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')"><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat</button>
-  <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')"><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
-  <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
-  <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills</button>
-  <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('bestiary')"><span class="tab-nav-count" id="nav-bestiary" style="color:#c84040">0</span>Enemies</button>
-  <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
-  <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')"><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
-  <button class="tab-btn" data-tab-colour="#706a5a" onclick="switchTab('lore')"><span class="tab-nav-count" id="nav-lore" style="color:#706a5a">1</span>Journal</button>
+  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Daily practices and check-in"><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat</button>
+  <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')" title="Life balance across four dimensions"><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
+  <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')" title="Active goals and direction"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
+  <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')" title="Skills and habits ranked by mastery"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills</button>
+  <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('bestiary')" title="Problems and negative patterns working against you"><span class="tab-nav-count" id="nav-bestiary" style="color:#c84040">0</span>Enemies</button>
+  <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Resources and positive patterns working for you"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
+  <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Specific moments worth recognising"><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
+  <button class="tab-btn" data-tab-colour="#706a5a" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#706a5a">1</span>Journal</button>
 </nav>
 
 <div id="tab-balance" class="tab-panel">
@@ -1838,8 +1919,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="balance-el-card-hdr">Harmony</div>
   <div class="balance-el-card-desc">Balance between the four elements, inferred from each session</div>
   <div class="balance-el-card-body">
-    <!-- Col 1: radar + legend below -->
-    <div class="balance-el-radar-col">
+    <!-- Col 1: radar SVG + legend to the right -->
+    <div class="balance-el-radar-row">
       <svg id="radar-svg" viewBox="-90 -94 180 196" xmlns="http://www.w3.org/2000/svg" class="balance-el-radar-svg">
         <polygon points="0,-60 60,0 0,60 -60,0" fill="none" stroke="#232332" stroke-width="0.8"/>
         <polygon points="0,-45 45,0 0,45 -45,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
@@ -1878,10 +1959,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
       </div>
     </div>
-    <!-- Col 2: line chart -->
+    <!-- Col 2: Over Time chart + legend to the right -->
     <div class="harmony-chart-col">
-      <div class="harmony-chart-col-hdr">Over Time</div>
-      <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:100px"></canvas>
+      <div class="harmony-chart-canvas-wrap">
+        <div class="harmony-chart-col-hdr">Over Time</div>
+        <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:120px"></canvas>
+      </div>
+      <div class="harmony-chart-legend">
+        <span><span class="hcl-swatch" style="background:#8090a8"></span>Air</span>
+        <span><span class="hcl-swatch" style="background:#d07830"></span>Fire</span>
+        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
+        <span><span class="hcl-swatch" style="background:#60a838"></span>Earth</span>
+      </div>
     </div>
   </div>
 </div>
@@ -1897,11 +1986,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-glyph"><img src="data:image/png;base64,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" width="36" height="36" style="border-radius:4px;opacity:0.9"></div>
           <div class="el-title-block">
             <div class="el-name-row"><span class="el-name">AIR</span></div>
-            <div class="el-subtitle">Feeling emotions</div>
+            <div class="el-question"><span class="el-question-keyword" style="color:#8090a8">Awareness:</span>"What can you notice now?"</div>
           </div>
         </div>
-        <div class="el-question"><span class="el-question-keyword" style="color:#8090a8">Awareness:</span>"What can you notice now?"</div>
-        <div class="el-head-status" id="air-label">Mostly Dirty Air - self-monitoring mistaken for awareness</div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="air-label">Mostly Dirty Air - self-monitoring mistaken for awareness</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="air-slider-col"></div>
@@ -1946,11 +2034,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="el-glyph"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAKq0lEQVR4nMWYe7BdVX3HP7+19nufc+6DmxeEGxJCIECCimkiYw0EbAjIyzRAi4RpGRBbBKdTO1iBhJFBpFLqtCPCICIMrwRRUR4l0FIeQqFgQAhBMICQ3LxDXvfcc/Za69c/zr0aJEBNnXH9t/eavX6f/f3+1m//1ob/x1gEBuD4tDxyRtGYu+u9P8pQEMD+a1Fb+cNG3R9aMl3+WFAjQesw5Y4ib7eKMlxd5C8CiXbmZE/W3eM3WdEJKEfYdOI+YuI7UZlrk0POSfNFAmHJHq69x0AHgwjohCieu4+Be9ru+QEXBuca+0Wg9zTw7IFKewoki8Er5FNFTxIVXgzta15V88jhEfXj4/jPFFgEdnfP/sGBZoM1oNPi+OTZUZi0XD1FUs56k9ZAjmi/JEftLpaCEdA/KNBsiB4Hp5RjFtr06r2AR7zluDQ6e3Xw+wUNEkU6CuCQ4eBLOkoFgaAfEvP3AloA9lFwHtLzM7l9YRqPu7YtG1PxW/q9bhCcjYHKd1x5qKOKnNrJp0mXZ8XSi7qKR4F0uGS8x77/M9ACsEvBa8rERUVx78UJR91ZuXC3c899Oo6Kla6d9xH1e2CbD5sA812oBPTEtLzillrt+VPy7M9HOxm/O5DfC2gRmKXgx0f5jG/Z+tNfNNHRt1c6cGVz8Ma/TOjtF0mfDtWqiSYqt6OsN/4NIHjSyefGjUcvLaKvrKeq/bcP/leOm4ChxR0bPzCf2B35omHZ9yI58NtZvvHtepdekOY7atiTjozyW16sN/S7eW3HJDH3P1TkbllZ0+k2ujOH8ecl2TOvd3XpVWX5zJw4XnZHo0ePifJZI4p/qBLSQZZFEI2oN5KE56fFI2saXfp3Sba6B3P6VJP94/V5XV9p1P1RkX3ns3G2akPZ0Cuycg1w0Glx9syKnm69Js+3AbO+WavddGO90QIaw+F2606064VCLFABToDvQHwqhCm2mPeZOPrU4071Ry78y97IJz8amTOPi0WvbXt529M4MZeu7QgP+ZAcbuySs/No2gtVxd3ObTm1yG8bdNqXxc7TifG+Xhk6FRdALqj3PHhV2f3UGVH+JSXd7/NQLQU/y/KZ/Y2RZc4PhND+dSxywvzIFK+FwDLX8g2DThPLL9Sx1lV7HZEk0/YH/V6zempfG43e20blkOj6PonTPop+BVnwPoltRqwC2Du4/vmRnbmwFl/z/Xq28ry8vKGH+JxaHOa9Q+BV34obYr/cZ00yVWz0VGjJkPooN2JyQTcrtI1uPdra6oWgvOLdlvHWJg30uZdDdfcUseaYJJwooAd/AJDOH874/3TNq14yXn/abK17B28vSuOzLyuS60d5Hb9JlaZKU5D99jJ2bClOt4QYIwYXhPWKjBdlnJGu8RLFL/vgI/TQ0WIMhPKeVvVfq7XNnCg+X8n3WdypTe/JIwOwtFNF+feWW7LZ+e0HxcnQhdtbMy5vDj03V6w/MY6jqmN+XzAhjVHNApITSL3BqvKIUyZZYWaUYoNja5BIRXoLoNIw0cMTDwxVP5sdRX1nJLpIgCUfVBiHZ7asCjLQb2TCjESP3SiM+7fQsuOcZwyGvWMprFJbr142o0wTJYkEBB6vhnjSG860EHVWVS9ha5MQRqvta4C5tx1/ZYWvmJ/ac7rjePpp4H93+48AqR+uN2LCmgR0Z5AjZ6bJuIEAr+ClBLptRIzloNgS+cA8B99KYv4hjflkHHNra4gNqkz2FTVDiNUkb/nKTbZJNtlk57/BjsfurtrXzxDDhTb5hnZU0t0Bie3YZnrUTxgMIgOOp5w31ejI8gsMTVXeqhznFTGXa4Qaw2OxYXNQpgNXWMvpccr3K2VADFON2NzS96IPtiGBqUYWAtwSty95uF1tPCmWubNteqxA2FUlA7AATAAm2nTOASaZ+Kq6nVuo7s3wG0aLsMKjJY4vxCmnO8ddAhf6ikurFpe4Ic5zFd8Lgfk2cJhV/iko/VFEvxg/UGk1oE5nJbanJD70sJ1d7Qe9XzoW1dmp/Ss6KvG7QACckibnTjDICq+LU+jJjR9jA+EthdIpc6shbrYx17Za1FT4myTn8iTnT23Gbc5xk8Jx1vBLF1jpvM5OUttUGXq+Cv7QiN6DrDurYuvgfXDd8mBkuvGfAnrNLt2lAWS43eRky8efrKrWTUOD3z7ARFP6xdrNQf1WvLRFWRFF3NFyHGCFi4uMKaqsVcPnIsMJScxjlScylnFWeSlUYbo11ESe/pXTh0aJcHiU778C2u9U1csr0GcnSjT2IzaZqcMu/UYhpWNiBsXjPvwEGJxopb9PhPU+tFNYlyMsV69bteKzUcKm4LmoGuJrQ9t5wCkfNYIRRxQCqVp2BjXdWHoN01cF99a2AJOFg4EEaK8N1crEGP1I0vl8jbhkRlI8Ad5U8W9a7gIYI7Jf3StblLV9Eq2sYVmHCakYt68Vnqs8KYZ5ecH+seU5lNEakYiyCejCUAaPiraagWQQpVt8DmQK4lBjgkiEfVdxfNdFU4NPqmonQGkZiyjNEAZbYNpGKYNQEawPnlEYKmCSSfl55fhx03NEHLE2xKwOjgMjYYc63RF0Z26oSqClso1O00Yv8WFDKC9UrAN4aXj7vwuoUJXSR24RmMKLpKoURjesD/7VTQE92EJbVB5ygaPijKNNwr3NbTwcBlkYRcyxwm2uRSnwCTE8H4y8Lrp4X5GeXlFdE6IBgeZUm8450iQHv+Dd5qdd8yUBLhsBGqndbWCCieIisvMug7DeaDsVdKy1+77tgn1YgsxCwvE240euzRLf4i+ShG8WOdekNY5ODFe7Nj9zgb+N8pACD4RqqO7tiR+L4pmViqyQwVuVfPyZmb15VOS533MJsP3O3+keZbjh5gf1xuu313t8CpMOibOFy2ul3ljLdTz2ijlJeutjtUK3FVn7q0Ue/sTGenwU6+fTWM+OUz0mifW4JNW7itLvLOr61azUA0Wu/ESU3bO83tDrarVVQO8FRfHoa909+uU0vWd4Q723URtpU48tkuOWdnXvvK6ra3Cmzf754jR5c0O9DOel2fMR0eyT0/zm/ygKHcpr+mxW6A1Z5r6e5e6aLHX35blbWxa6riz10qzWPNQmp4wy5qzr87L5bL3ePsRE9/99nv/05z1demlW+zFQfuA/gBGVJhFP+3pX474LGvXXJ5rsc3fkXfpWraZfSJPHgOkzbH7V19Ji/eNFpr8uS91Q5rq2LPWlItebi2znaXH6yxSOHmfMORdnxdY3GvX2FVnNfaOW64NdPXpBVn4HkGFZ3gPzrhsjRx2A0TBmPaz7eFz89Zfi+IZjoiB3t3TbPcHd9HA19HRvbKf0WzumO9DbhJ1rVFevCuGJPvXdx9j41HmxPWmBGHldI/4nMWxyLH+wuf3SB7z/if62S31PJ7vbU8ZiUAEdAZxs7afPTfIr51v5mIjwioe16rYO+bBph5E2qtQF7RYZPcbKXgeKYQ2eZVVYs1rNstd8dcMDzj1J53+AEQi7tel9/fvtnO6iWnZCmp5xpLVnHSByQBdmbB0hRVGBtgY2ibLRm3UvKy883K7ufCK0fghshk6yzN/FgT0B+s1YAPYH4Hd5rb4Jtpy2j5VGoqHbRvpO28NrwW4acDtWAhtHIC6BaAXo0o4qH3ow/F9uG6KDKmUNIgAAAABJRU5ErkJggg==" width="36" height="36" style="opacity:0.92"></div>
         <div class="el-title-block">
           <div class="el-name-row"><span class="el-name">FIRE</span></div>
-          <div class="el-subtitle">Controlling actions</div>
+          <div class="el-question"><span class="el-question-keyword" style="color:#d07830">Action:</span>"What do you feel called to do?"</div>
         </div>
       </div>
-        <div class="el-question"><span class="el-question-keyword" style="color:#d07830">Action:</span>"What do you feel called to do?"</div>
-        <div class="el-head-status" id="fire-label">Depleted - running on fear and obligation, not values</div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="fire-label">Depleted - running on fear and obligation, not values</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="fire-slider-col"></div>
@@ -1990,11 +2077,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="el-glyph"><img src="data:image/png;base64,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" width="36" height="36" style="opacity:0.92"></div>
         <div class="el-title-block">
           <div class="el-name-row"><span class="el-name">EARTH</span></div>
-          <div class="el-subtitle">Challenging beliefs</div>
+          <div class="el-question"><span class="el-question-keyword" style="color:#60a838">Beliefs:</span>"What story are you telling yourself?"</div>
         </div>
       </div>
-        <div class="el-question"><span class="el-question-keyword" style="color:#60a838">Belief:</span>"What story are you telling yourself?"</div>
-        <div class="el-head-status" id="earth-label">Controller dominant - narrating experience as failure</div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="earth-label">Controller dominant - narrating experience as failure</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="earth-slider-col"></div>
@@ -2030,11 +2116,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="el-glyph"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAK60lEQVR4nN2YeZCXxZnHP939vr9z7nuGWwY5hmsil64woIYEBfEarIAbRbfcxJRJTEzMxrgD5HDNGtHEGCFbblJJDDJAFA0CXgyUAjqwXKMgDMfMiAMzwly/8327e/+YQVSIuLXlpmq/Vf1Pd/Xbn/fpp7uf54H/pxJ97e8mSVWVQ1WNQ42VCMGHzVpBdbWCavV5QwiqqhyslQj5ybEMoOicGdaKPrBzJvztRT6LqqsVq1ZrrAEgCOUmd/AMWTJsuM0ryzZecgp+utj6fhM9bTHbeWKt+eBIA7D+I1+RgPnfAkmstQhhgTKncNh8d8wVVaJs9JWqdFSYjDykEuA4CKGwQiIMmGQ3pmUf/v4tG/z6VRv9ZOwNhN6GtRf8908DkghpsAYnf+S9oRlfvYcJN5WZfuVYAYHTHVo37bHe268Ic6BOaC8hRGaeJZKHU1xuA+UThTN0ovSO7iK97pG4f2j7EjP3tw9TO88CZ9pnBjoDU+KOnvX76E0/mWmDYVKN9T49bUIkOqWQSlA4BLd0FMKkib26HL1/E0iFSXYDArffGB1c+GtLdqkyaxaL5MtPLjAm/jRMc6DO/6xAkpoaWLy4LDjuutrw7U9M8Q5s8pJrfiJNqlNJoRBCYlGgXEQkD7dyFuHpC0m8uhyvYTPhKTehii7C27veeu/tN+7tTwmVXWT8Zxd58b/+7EaEeBFrz+tT5wJVr1TUztPBYVXPRu/609zE7nXpxJoljoxEkG5ECsBIhRAKqVNoA9pPEhxZRWj2fdjOdsQHx0i17CZUeS3egTcQgSAi/yKj+g+XidofNaW2/elyhGg+H9QnjmO1onaeFoVDF4dvfnBu+p06L7nqAUdm5giEkjrRg9G9ltY6js4tQZSWo7KK8fe9ht73EjYUoeeFn8PBbfT8+Ye4xRdjDNiWvTK5vdaPXPvDgapoxC+wVlJdfY5BPtohEcIoKeeEr61ZqybfbNJbnxHB4VOEyciHdBL9/n5SO1/AnnqPyFV34ZRdjNVppLHENz6OJwNEqheRfvFRssfMoOfYPty8/mgNEp/u9b8k9961fmrLH1Rq/cPf9f3E0t57qlZ/1EICkFSvFFgr5JBLHxJVd6DDOQTHXSlSLe/gbX0Gb/8WVFE5ka88RHD+L1D5/en5y4/pXHE/ycNvEbrqa9h4B2iNDYTp2vEiTnYeydZ3CZRXkj68FZE6TaL+OeFOmCN0Tum0XoSVH9syhzNHsHYe4ExyJlxXbkOZVm94RCbq12A7T2OUQLouqdf/SOCyBQSu/i7x5Qsh0UW0tJzY9lU4ZSNx8vtjkjHCU29FH9iMSSUJjZ9NfMfzpI82ILJL8PauF8EJcwn2ryxPth8OIGQai+jjwKFwUAkBWUTSC0oV/H6g4ko3ve5hndr0pCKcjRp6CaH8gXgnD2M7mvDq/4I7diayXwXCUYQqZ+N5Po7RoAI4GXmk636LCOXgjJyBNRZn2KUEKuegrMbvbMWEc5CDx2Sya7ULIv3RK8kRsEho/tlof4UsGTlNBjNt6sgORSCb6PS7cMdfgek6RSiUSfLNVSR3rkU37yUwdDKxt2pxyoYRrZxFfO/LOONno9ub8btOE6ycg3XD2NYD6PZG0qdaEMkYQljpZBQYlT9kkCvdBZ71lve5ju4DsocAje8VyNxBhdpPWdt+lODoKwhUTKdrxQN4Jw8THDqJ8PSFpA++iT5+EPWF6wnNvIdUUz3p7m6cCdcjc0vQTQ1Eqxfh7XqB1PZnsV0nsekO8NJgLLrzfSJ5A21oxDSbCEYnkehYDtVAba+FjIktEzL7fhz3KhWMGpHqljYVxx1xOfGdz6NbDxEoGUT6wJuEK69B5BYjlYPtOgHRbCIz70b7GnOyEdv9AYHySSSf+zdSh95ACA3CIktH4pSOQEbysKkunCGVaBA4GUOgAxhlzzq1yJgKVmF0zCoRsdoD4yP8JMJxEBiyxs4iPTkHBzAnm5DT78C+/QqJV5eRyMhHhrIIfulbyIxc4s/chzl5EIGDUziMwD8sQA0Yh42fxp46DqdbsDn9MV1tFpNu6cV4+8Prx5FCjEGqTKxusIIKqwVISerwDqIzvoa3+zU6tq0kdNEETjc1EBj7ZYJZ+XStfwSkRGYVEr3+X6G7jfjTP8DE2hBuhPCUebiTbsYe/S8Sqxdh3mtAp7uh8wThG34qZXaB8GMnf9Mb1NWetZBRyaeEDY+wxhRb36sQbsBK6Yr0no04gy4h45+W4h/di47HyBh3DSocIbb6IWxbM84XriX8pbvx9m8hteFxSMcRGYWE59yHUzCQ+LNL8PfXnfFXhPWwgaB1i4cI/2RjJ3CIsye+b8taW9ssLEQFZtn2o1+kYLAMz/uZ8N5cSWL9Y/i71yMHjAXlkmzeg/9eA07BACK3LEX1H0267j9J1z+P0Snc0mGEb6zBdrXT/dSd2K5WUApSaUROKSqzEIw1orCfYs+6A0A7RguEMGeBQEGVIFS/U7e3vEFn61RZcrGJ3vhjadIpvGM78U81IXQaMXAMkan/iMotwT+yi/gfv41uPYS1hkDFdEJX/wDTsJHYxkdB+2ANTvYggpctQA6uQLQ1Y2QAIzPwGuvfAgSLFn3MRE6vPYsU8fgJk2p8yTY3TLMS073xUYLjr0P1q8ApHYYUYOKdeO+8Tvrg6/in3kX4HtLNwp1+G4EJ1SRfewJv+yqktBgRJDztVoITb8Q7usOkVtf4qcZtMjJ3iZQ6rdPH9r4IFhbPO29MJqipkS5UuFNueSfvl83GGT5DE8q2MmeAVYXlVpSNsqroYuvkDbGyqNyq/uNtYMoCm/2jbTbn54ds4PLbrOo/yroDxlln+FU25/4tNufBd23osoVW5A/23ewyzxk0wc9desRGZn5rExDgzmXuuSBnJRHCyIzcr0ZvefL3DKjw/Vf/w9Fd72N7TmGtQQSCkFmCUzQMVX4JqqwCc2AryZcfx8bbEUJAJJfIbU+gTx8n8cz30PEOnEDUmu5TIjz/37XK66dij83/so63boCbPvbSfxIIqqoc6upMYNClm8J3/3mqzSjwbdMuR2YVggz0PcM+JnEa07IXf+8GvOa3Ua7Cpn1MVhFZt/0K09ZoY0/faxAoIR3P7zjZE6q6PTM6614n9ruvr0ruXFNNjZUsFheMGM9kGSNC4697Ojj/4fFe8x4/tfkPCp0WQklsMoaNtSNTcVAORipsMo7qN4roLUvR7zeSWPEdrBAWLwHJVCI4/Q43fM09bmLFvzQl6pZVUmM7WCzOG+ifz6EEQlqsiQTGz30hcsMDM6zv28Qry7R/YLM0XlJK5YB0EG4UmVdGYOwsnMu+gt69jvhzP7XST1ijrRDF5V501rcDauhE4msfrEu98utbEfIY1ojzwfwtIACFkBprylXJiG+GZtz5jeAlN0id6sFr3Gp1W7NR2QWo3AHIzGJhUp0iuX2l9fa8hMjMTbglI3ErZ4fdMdOlObKbxMu/eczbt+47fZnMpyaMn5aXnbEUwOjAkMnfcMZfPc0dMGYUxaPQBQMRVmM7jmPajiJ9jczIQUazMcEINO3Bq/9rXeL13z0C6bV9PsOnwVwIqHe8pkawZInpyzoDwGhZUjFZFg6e6BQMHiCyi4oJZRUKKbXWfpvoPH5Ct+yp9/a9tBnYCHyYyVxgrf+RJDU15ysynFEUCJ/Te7bY8LlJQE0vXI2VWCuRCoQEKUEqetOblf8n5ZgLgP59C1afm/4b4w72JcWcF0IAAAAASUVORK5CYII=" width="36" height="36" style="opacity:0.92"></div>
         <div class="el-title-block">
           <div class="el-name-row"><span class="el-name">WATER</span></div>
-          <div class="el-subtitle">Trusting desires</div>
+          <div class="el-question"><span class="el-question-keyword" style="color:#3a80c8">Flow:</span>"What are you resisting right now?"</div>
         </div>
       </div>
-        <div class="el-question"><span class="el-question-keyword" style="color:#3a80c8">Desire:</span>"What do you really want?"</div>
-        <div class="el-head-status" id="water-label">Real aliveness scarce - compulsive exits filling the gap</div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="water-label">Real aliveness scarce - compulsive exits filling the gap</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="water-slider-col"></div>
@@ -2153,7 +2238,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <text x="0"    y="-47" text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#8090a8" letter-spacing="0.1em">REST</text>
           <text x="48"   y="3"   text-anchor="start"  font-family="'Cinzel',serif" font-size="6.5" fill="#d07830" letter-spacing="0.1em">MOVE</text>
           <text x="0"    y="54"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6.5" fill="#3a80c8" letter-spacing="0.1em">CONNECT</text>
-          <text x="-48"  y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="6.5" fill="#60a838" letter-spacing="0.1em">NUTRI</text>
+          <text x="-48"  y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="6.5" fill="#60a838" letter-spacing="0.1em">NUTRITION</text>
         </svg>
       </div>
       <div class="radar-panel-charts">
@@ -2345,7 +2430,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div id="tab-bestiary" class="tab-panel">
   <div class="bt-top-row">
     <div class="qt-section" style="margin-bottom:0">
-      <div class="section-desc">Negative patterns, ranked by priority. Your main boss is number one.</div>
       <div id="bt-enemies"></div>
     </div>
     <div class="bt-pie-col">
@@ -2725,7 +2809,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '0.9.0';
+const INSTRUCTIONS_VERSION = '1.1.0';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -2738,22 +2822,25 @@ const HIDE_DIRTY_BANNER_KEY='cs-hide-dirty-banner-v1';
 const IS_DEMO=location.hostname.endsWith('github.io');
 function loadState(){if(IS_DEMO)return DEFAULT;if(typeof _hasPIN==='function'&&_hasPIN())return DEFAULT;try{const r=localStorage.getItem('cs-state-v1');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
 function saveState(s){if(IS_DEMO)return;if(typeof _pinActive!=='undefined'&&_pinActive&&_currentPIN){_encryptAndSave(s,_currentPIN);return;}try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch{}}
-// Migration: move completedQuests out of appState into dedicated localStorage key
+// Migration: move completedQuests from dedicated localStorage key back into appState
 function migrateCompletedQuests(){
   if(IS_DEMO) return;
   try{
+    const dedicated=localStorage.getItem(COMPLETED_QUESTS_KEY);
+    if(!dedicated) return;
+    const incoming=JSON.parse(dedicated)||[];
+    if(!incoming.length){ localStorage.removeItem(COMPLETED_QUESTS_KEY); return; }
     const raw=localStorage.getItem('cs-state-v1');
-    if(!raw) return;
-    const s=JSON.parse(raw);
-    if((s.completedQuests&&s.completedQuests.length)||(s.completedMainQuests&&s.completedMainQuests.length)){
-      const incoming=[...(s.completedQuests||[]),...(s.completedMainQuests||[])];
-      // Only migrate if dedicated key is empty (first migration)
-      if(!localStorage.getItem(COMPLETED_QUESTS_KEY)){
-        localStorage.setItem(COMPLETED_QUESTS_KEY,JSON.stringify(incoming));
-      }
-      delete s.completedQuests; delete s.completedMainQuests;
-      localStorage.setItem('cs-state-v1',JSON.stringify(s));
-    }
+    const s=raw?JSON.parse(raw):{};
+    // Merge into state, deduplicating by title+completedDate
+    const existing=s.completedQuests||[];
+    const key=q=>(q.title||'')+'|'+(q.completedDate||'');
+    const existingKeys=new Set(existing.map(key));
+    for(const q of incoming){ if(!existingKeys.has(key(q))) existing.push(q); }
+    s.completedQuests=existing;
+    delete s.completedMainQuests;
+    localStorage.setItem('cs-state-v1',JSON.stringify(s));
+    localStorage.removeItem(COMPLETED_QUESTS_KEY);
   }catch{}
 }
 
@@ -3045,16 +3132,18 @@ function updateRadarWithGhosts(state){
 
 }
 
-// ══ HARMONY LINE CHART ══════════════════════════════════════
+// ══ HARMONY STACKED BAR CHART ═══════════════════════════════
 function renderHarmonyChart(state){
   const canvas=document.getElementById('harmony-chart'); if(!canvas) return;
   const hist=(state.harmonyHistory||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
-  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
   const W=canvas.offsetWidth||600, H=canvas.offsetHeight||160;
-  canvas.width=W; canvas.height=H;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
   ctx.clearRect(0,0,W,H);
 
-  if(hist.length<2){
+  if(hist.length<1){
     ctx.fillStyle='rgba(128,120,100,0.3)';
     ctx.font='11px JetBrains Mono,monospace';
     ctx.textAlign='center';
@@ -3062,63 +3151,88 @@ function renderHarmonyChart(state){
     return;
   }
 
-  const padL=8,padR=8,padT=8,padB=20;
+  const padL=8,padR=8,padT=6,padB=18;
   const pW=W-padL-padR, pH=H-padT-padB;
   const n=hist.length;
 
-  // Draw subtle grid lines at 25/50/75/100
-  ctx.strokeStyle='rgba(255,255,255,0.03)'; ctx.lineWidth=1; ctx.setLineDash([]);
-  [25,50,75,100].forEach(v=>{
-    const y=padT+pH-(v/100)*pH;
+  // Max possible total = 400 (4 elements × 100). Scale Y to that.
+  const maxTotal=400;
+
+  // Element stack order (bottom to top) and colors
+  const ELS=[
+    {k:'earth', col:'rgba(96,168,56,0.75)',  hi:'rgba(96,168,56,0.95)' },
+    {k:'water', col:'rgba(58,128,200,0.75)', hi:'rgba(58,128,200,0.95)'},
+    {k:'fire',  col:'rgba(208,120,48,0.75)', hi:'rgba(208,120,48,0.95)'},
+    {k:'air',   col:'rgba(128,144,168,0.75)',hi:'rgba(128,144,168,0.95)'},
+  ];
+
+  // Bar geometry: fill width with small gaps
+  const gap=n>30?1:n>15?2:3;
+  const barW=Math.max(2, (pW-(n-1)*gap)/n);
+
+  // Subtle horizontal grid lines at 100/200/300/400
+  ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1; ctx.setLineDash([]);
+  [100,200,300,400].forEach(v=>{
+    const y=padT+pH-(v/maxTotal)*pH;
     ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
   });
 
-  // Gradient fill under line
-  const grad=ctx.createLinearGradient(0,padT,0,padT+pH);
-  grad.addColorStop(0,'rgba(200,168,74,0.18)');
-  grad.addColorStop(1,'rgba(200,168,74,0)');
-  ctx.beginPath();
+  // Draw stacked bars
   hist.forEach((h,i)=>{
-    const x=padL+i*(pW/(n-1)), y=padT+pH-(h.harmony/100)*pH;
-    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-  });
-  ctx.lineTo(padL+(n-1)*(pW/(n-1)),padT+pH);
-  ctx.lineTo(padL,padT+pH);
-  ctx.closePath();
-  ctx.fillStyle=grad; ctx.fill();
+    const x=padL+i*(barW+gap);
+    const isLast=(i===n-1);
+    let bottom=padT+pH;
+    ELS.forEach(el=>{
+      const val=h[el.k]||0;
+      const barH=(val/maxTotal)*pH;
+      if(barH<0.5) return;
+      ctx.fillStyle=isLast?el.hi:el.col;
+      ctx.fillRect(x, bottom-barH, barW, barH);
+      bottom-=barH;
+    });
 
-  // Line
-  ctx.strokeStyle='rgba(200,168,74,0.8)'; ctx.lineWidth=1.5; ctx.setLineDash([]);
-  ctx.beginPath();
-  hist.forEach((h,i)=>{
-    const x=padL+i*(pW/(n-1)), y=padT+pH-(h.harmony/100)*pH;
-    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-  });
-  ctx.stroke();
-
-  // Dots for each point
-  hist.forEach((h,i)=>{
-    const x=padL+i*(pW/(n-1)), y=padT+pH-(h.harmony/100)*pH;
-    ctx.beginPath(); ctx.arc(x,y,2.5,0,Math.PI*2);
-    ctx.fillStyle='rgba(200,168,74,0.7)'; ctx.fill();
+    // Harmony line tick: a thin golden line at the "balance point" — height if all were equal
+    // (i.e. harmony = how close the distribution is to equal; show as a small notch on the top)
+    const total=(h.air||0)+(h.fire||0)+(h.water||0)+(h.earth||0);
+    const totalH=(total/maxTotal)*pH;
+    const topY=padT+pH-totalH;
+    if(isLast){
+      // Bright cap on latest bar
+      ctx.fillStyle='rgba(200,168,74,0.55)';
+      ctx.fillRect(x, topY-1.5, barW, 1.5);
+    }
   });
 
-  // X axis: up to 5 evenly spaced date labels
-  ctx.fillStyle='rgba(128,120,100,0.5)'; ctx.font='8px JetBrains Mono,monospace';
+  // X-axis: date labels at up to 5 positions
+  ctx.fillStyle='rgba(128,120,100,0.5)';
+  ctx.font=`${8*Math.min(1,dpr)}px JetBrains Mono,monospace`;
   const labelCount=Math.min(5,n);
   for(let li=0;li<labelCount;li++){
-    const i=Math.round(li*(n-1)/(labelCount-1));
-    const x=padL+i*(pW/(n-1));
+    const i=n===1?0:Math.round(li*(n-1)/(labelCount-1));
+    const x=padL+i*(barW+gap)+barW/2;
     const align=li===0?'left':li===labelCount-1?'right':'center';
     ctx.textAlign=align;
     const dx=li===0?padL:li===labelCount-1?W-padR:x;
-    if(hist[i]){ const p=hist[i].date.split('-'); ctx.fillText(p[2]+'/'+p[1],dx,H-4); }
+    if(hist[i]){ const p=hist[i].date.split('-'); ctx.fillText(p[2]+'/'+p[1],dx,H-3); }
   }
 
-  // Current harmony label on right
-  const lastY=padT+pH-(hist[n-1].harmony/100)*pH;
-  ctx.fillStyle='rgba(200,168,74,0.7)'; ctx.textAlign='right';
-  ctx.fillText(hist[n-1].harmony,W-padR-2,lastY-4);
+  // Latest bar: "total mastery: NNN" label above the bar
+  if(n>=1){
+    const last=hist[n-1];
+    const total=(last.air||0)+(last.fire||0)+(last.water||0)+(last.earth||0);
+    const totalH=(total/maxTotal)*pH;
+    const topY=padT+pH-totalH;
+    const label=`total mastery: ${total}/400`;
+    ctx.font='7.5px JetBrains Mono,monospace';
+    const tw=ctx.measureText(label).width;
+    const lx=W-padR-tw; const ly=Math.max(topY-5,padT+8);
+    // Subtle background pill
+    ctx.fillStyle='rgba(20,18,28,0.7)';
+    ctx.fillRect(lx-3,ly-8,tw+6,11);
+    ctx.fillStyle='rgba(200,168,74,0.65)';
+    ctx.textAlign='left';
+    ctx.fillText(label,lx,ly);
+  }
 }
 
 // ══ RADAR ═══════════════════════════════════════════════════
@@ -3415,6 +3529,24 @@ function updateXpRing(level, xp, xpToNext){
   if(mFill) mFill.style.width=pct+'%';
 }
 
+// ══ VITAL BARS (HP + MANA) ══════════════════════════════════
+function updateVitalBars(s){
+  const hp      = typeof s.health    === 'number' ? s.health    : null;
+  const mana    = typeof s.mana      === 'number' ? s.mana      : null;
+  const hpAvg   = typeof s.healthAvg === 'number' ? s.healthAvg : null;
+  const manaAvg = typeof s.manaAvg   === 'number' ? s.manaAvg   : null;
+
+  const hpFill   = document.getElementById('hp-bar-fill');
+  const manaFill = document.getElementById('mana-bar-fill');
+  const hpBase   = document.getElementById('hp-baseline');
+  const manaBase = document.getElementById('mana-baseline');
+
+  if(hpFill)   hpFill.style.width   = (hp   != null ? Math.min(100, Math.max(0, hp))   : 0)+'%';
+  if(manaFill) manaFill.style.width = (mana != null ? Math.min(100, Math.max(0, mana)) : 0)+'%';
+  if(hpBase){   hpBase.style.left = Math.min(100,Math.max(0,hpAvg??0))+'%';   hpBase.style.display   = hpAvg   != null ? '' : 'none'; }
+  if(manaBase){ manaBase.style.left= Math.min(100,Math.max(0,manaAvg??0))+'%'; manaBase.style.display = manaAvg != null ? '' : 'none'; }
+}
+
 // ══ XP JUICE ════════════════════════════════════════════════
 let _xpLuTimer = null;
 function showLevelUpOverlay(level, subtext){
@@ -3626,7 +3758,7 @@ function completeQuest(i){
   const xp=q.xpReward||0;
   const _td=new Date(); const today=String(_td.getDate()).padStart(2,'0')+'/'+String(_td.getMonth()+1).padStart(2,'0')+'/'+_td.getFullYear();
   // Snapshot for undo
-  const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuestsSnapshot:JSON.parse(JSON.stringify(loadCompletedQuests())), xp:appState.xp, level:appState.level };
+  const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuests:JSON.parse(JSON.stringify(appState.completedQuests||[])), xp:appState.xp, level:appState.level };
   const cqArr=loadCompletedQuests();
   cqArr.unshift({title:q.title,completedDate:today,xpEarned:xp,howResolved:q.doneWhen||''});
   saveCompletedQuests(cqArr);
@@ -3642,7 +3774,7 @@ function completeQuest(i){
   showXpToast(q.title,xp,()=>{
     // Undo
     appState.sideQuests=snapshot.sideQuests;
-    saveCompletedQuests(snapshot.completedQuestsSnapshot);
+    appState.completedQuests=snapshot.completedQuests;
     appState.xp=snapshot.xp;
     saveState(appState); markDirty();
     renderQuestsTab(appState);
@@ -3956,6 +4088,8 @@ function renderBestiaryTab(s){
       compulsion: {icon:'⚡', label:'Compulsion',     cls:'ett-compulsion', nameColor:'#c83030', rgb:'200,48,48'},
       belief:     {icon:'⬡', label:'Limiting Belief',   cls:'ett-belief',    nameColor:'#8b5e3c', rgb:'139,94,60'},
       temptation: {icon:'↓', label:'Temptation',      cls:'ett-temptation',nameColor:'#6040a0', rgb:'96,64,160'},
+      // canonical alias
+      limitingBelief: {icon:'⬡', label:'Limiting Belief', cls:'ett-belief', nameColor:'#8b5e3c', rgb:'139,94,60'},
       // legacy aliases
       distortion: {icon:'◈', label:'Blindspot',      cls:'ett-blindspot',  nameColor:'#c83060', rgb:'200,48,96'},
       drain:      {icon:'↓', label:'Temptation',      cls:'ett-temptation',nameColor:'#6040a0', rgb:'96,64,160'},
@@ -4222,15 +4356,14 @@ function renderBestiaryTab(s){
 
   // Update nav count
   const navEl=document.getElementById('nav-bestiary');
-  if(navEl) navEl.textContent=(bestiary.currentEnemies||[]).length+(s.limitingBeliefs||[]).length;
+  if(navEl) navEl.textContent=(bestiary.bosses||[]).length+(bestiary.currentEnemies||[]).length;
 }
 
-// ══ COMPLETED QUESTS (localStorage-only) ════════════════════
+// ══ COMPLETED QUESTS (appState) ═════════════════════════════
 function loadCompletedQuests(){
-  try{ return JSON.parse(localStorage.getItem(COMPLETED_QUESTS_KEY)||'[]'); }
-  catch(e){ return []; }
+  return appState.completedQuests||[];
 }
-function saveCompletedQuests(arr){ if(IS_DEMO)return; try{ localStorage.setItem(COMPLETED_QUESTS_KEY,JSON.stringify(arr)); }catch{} }
+function saveCompletedQuests(arr){ appState.completedQuests=arr; saveState(appState); }
 function mergeCompletedQuests(incoming){
   const existing=loadCompletedQuests();
   // Merge: add any incoming entries not already present (match by title+completedDate)
@@ -4699,6 +4832,7 @@ function render(s){
   if(hdrFill) hdrFill.style.width=(s.mainQuest?.progress||0)+'%';
   const kq=document.getElementById('lore-key-q'); if(kq){ const txt=s.keyQuestion||''; kq.innerHTML=txt?`<div class="lore-card-hdr">Key Question</div><div class="lore-card-body">${esc(txt)}</div>`:''; kq.style.display=txt?'block':'none'; }
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
+  updateVitalBars(s);
 
   // Sliders
   const sv = resolveElementScores(s);
@@ -4734,8 +4868,8 @@ function render(s){
     airDistortions.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(200,48,96,0.05);border:1px solid rgba(200,48,96,0.2);border-left:3px solid #c83060;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
-      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#c83060;margin-bottom:4px;'; nameEl.textContent=e.name||'—';
-      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=e.desc||'';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:14px;font-weight:600;letter-spacing:0.08em;color:#c83060;margin-bottom:3px;'; nameEl.textContent=e.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:14px;color:var(--text-mid);line-height:1.5;'; descEl.textContent=e.desc||'';
       d.appendChild(nameEl); d.appendChild(descEl);
       if(e.shortTermBenefit){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit; d.appendChild(b); }
       eEl.appendChild(d);
@@ -4749,8 +4883,8 @@ function render(s){
     airLoot.slice(0,3).forEach(item=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(74,170,114,0.05);border:1px solid rgba(74,170,114,0.2);border-left:3px solid #4aaa72;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
-      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#4aaa72;margin-bottom:4px;'; nameEl.textContent=item.name||'—';
-      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=item.desc||'';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:14px;font-weight:600;letter-spacing:0.08em;color:#4aaa72;margin-bottom:3px;'; nameEl.textContent=item.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:14px;color:var(--text-mid);line-height:1.5;'; descEl.textContent=item.desc||'';
       d.appendChild(nameEl); d.appendChild(descEl);
       if(item.why){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+item.why; d.appendChild(b); }
       alEl.appendChild(d);
@@ -4764,8 +4898,8 @@ function render(s){
     compulsions.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(200,48,48,0.05);border:1px solid rgba(200,48,48,0.2);border-left:3px solid #c83030;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
-      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#c83030;margin-bottom:4px;'; nameEl.textContent=e.name||'—';
-      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=e.desc||'';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:14px;font-weight:600;letter-spacing:0.08em;color:#c83030;margin-bottom:3px;'; nameEl.textContent=e.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:14px;color:var(--text-mid);line-height:1.5;'; descEl.textContent=e.desc||'';
       d.appendChild(nameEl); d.appendChild(descEl);
       if(e.shortTermBenefit){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit; d.appendChild(b); }
       fireCompEl.appendChild(d);
@@ -4777,8 +4911,8 @@ function render(s){
     spells.slice(0,3).forEach(item=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(200,120,40,0.05);border:1px solid rgba(200,120,40,0.2);border-left:3px solid #c87828;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
-      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#c87828;margin-bottom:4px;'; nameEl.textContent=item.name||'—';
-      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=item.desc||'';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:14px;font-weight:600;letter-spacing:0.08em;color:#c87828;margin-bottom:3px;'; nameEl.textContent=item.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:14px;color:var(--text-mid);line-height:1.5;'; descEl.textContent=item.desc||'';
       d.appendChild(nameEl); d.appendChild(descEl);
       if(item.why){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+item.why; d.appendChild(b); }
       fireSpellEl.appendChild(d);
@@ -4855,8 +4989,8 @@ function render(s){
     waterDrains.slice(0,3).forEach(e=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(96,64,160,0.05);border:1px solid rgba(96,64,160,0.2);border-left:3px solid #6040a0;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
-      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#6040a0;margin-bottom:4px;'; nameEl.textContent=e.name||'—';
-      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=e.desc||'';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:14px;font-weight:600;letter-spacing:0.08em;color:#6040a0;margin-bottom:3px;'; nameEl.textContent=e.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:14px;color:var(--text-mid);line-height:1.5;'; descEl.textContent=e.desc||'';
       d.appendChild(nameEl); d.appendChild(descEl);
       if(e.shortTermBenefit){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+e.shortTermBenefit; d.appendChild(b); }
       drEl.appendChild(d);
@@ -4865,13 +4999,13 @@ function render(s){
 
   // Water — sources (source teal styling)
   const flEl=document.getElementById('flow-sources'); if(flEl){ flEl.innerHTML='';
-    const waterSources=(s.allies||[]).filter(a=>a.type==='source');
+    const waterSources=(s.allies||[]).filter(a=>a.type==='source'||a.type==='sources');
     if(!waterSources.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No sources recorded yet.'; flEl.appendChild(p); }
     waterSources.slice(0,3).forEach(item=>{
       const d=document.createElement('div');
       d.style.cssText='background:rgba(42,144,144,0.05);border:1px solid rgba(42,144,144,0.2);border-left:3px solid #2a9090;border-radius:5px;padding:12px 15px 12px 15px;margin-bottom:8px;';
-      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:17px;font-weight:700;letter-spacing:0.09em;color:#2a9090;margin-bottom:4px;'; nameEl.textContent=item.name||'—';
-      const descEl=document.createElement('div'); descEl.style.cssText='font-size:17px;color:var(--text-mid);line-height:1.55;'; descEl.textContent=item.desc||'';
+      const nameEl=document.createElement('div'); nameEl.style.cssText='font-family:"Cinzel",serif;font-size:14px;font-weight:600;letter-spacing:0.08em;color:#2a9090;margin-bottom:3px;'; nameEl.textContent=item.name||'—';
+      const descEl=document.createElement('div'); descEl.style.cssText='font-size:14px;color:var(--text-mid);line-height:1.5;'; descEl.textContent=item.desc||'';
       d.appendChild(nameEl); d.appendChild(descEl);
       if(item.why){ const b=document.createElement('div'); b.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:4px;'; b.textContent='+ '+item.why; d.appendChild(b); }
       flEl.appendChild(d);
@@ -5132,14 +5266,16 @@ function applyUpdate(){
     if(merged._xpLog&&Array.isArray(merged._xpLog)){ saveXPLog(merged._xpLog); }
     else if(!isPartial){ saveXPLog([]); }
     if(merged._hardcodedHistory&&typeof merged._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, merged._hardcodedHistory); }
-    // completedQuests / completedMainQuests are localStorage-only — extract and merge, don't keep in state
+    // completedMainQuests: flatten into completedQuests
     let _newCQCount=0;
-    if(merged.completedQuests||merged.completedMainQuests){
-      const incoming=[...(merged.completedQuests||[]),...(merged.completedMainQuests||[])];
-      const beforeCount=loadCompletedQuests().length;
-      mergeCompletedQuests(incoming);
-      _newCQCount=loadCompletedQuests().length-beforeCount;
-      delete merged.completedQuests; delete merged.completedMainQuests;
+    if(merged.completedMainQuests){
+      merged.completedQuests=[...(merged.completedQuests||[]),...merged.completedMainQuests];
+      delete merged.completedMainQuests;
+    }
+    if(merged.completedQuests){
+      const before=(appState.completedQuests||[]).length;
+      // Will be set into appState below; just track count for toast
+      _newCQCount=(merged.completedQuests||[]).length-before;
     }
     delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._hardcodedHistory;
     if(merged.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(merged.dailyDistribution));
@@ -5248,8 +5384,7 @@ function renderXPLog(){
 function exportState(){
   const raw=(_pinActive&&_currentPIN)?null:localStorage.getItem('cs-state-v1');
   const state=raw?JSON.parse(raw):(_pinActive?JSON.parse(JSON.stringify(appState)):DEFAULT);
-  // completedQuests are localStorage-only — strip from export so Claude doesn't receive them
-  delete state.completedQuests; delete state.completedMainQuests;
+  delete state.completedMainQuests;
   state._featuredAch=getFeaturedAch();
   state._featuredCls=getFeaturedCls();
   state._xpLog=loadXPLog();
@@ -5360,7 +5495,7 @@ function renderExportPie(state,jsonStr){
 function downloadInstructions(){
   const content = `# character-sheet — Instructions for Claude
 
-version: 0.9.0
+version: 1.1.0
 
 This file lives permanently in your Claude project knowledge. It defines the data format and tells Claude how to behave as a journalling companion.
 
@@ -5381,9 +5516,7 @@ This file lives permanently in your Claude project knowledge. It defines the dat
   - \`sideQuest.nextStep\`: max 20 words
   - \`activity.description\` / \`whyItMatters\`: max 25 words each
   - \`skill.description\` / \`whyItMatters\`: max 25 words each
-  - \`ally.desc\` / \`why\`: max 20 words each
-  - \`flowSource.desc\`: max 20 words
-  - \`drain.desc\`: max 20 words
+  - \`ally.desc\` / \`why\` / \`corruption\`: max 20 words each
   - \`value.desc\`: max 20 words
   - \`need.desc\`: max 20 words
   - Enemy / belief \`desc\`: max 30 words
@@ -5405,12 +5538,12 @@ This file lives permanently in your Claude project knowledge. It defines the dat
   - Journal entry bullets (\`events\`, \`insights\`, \`tensions\`): max 15 words each
 
 ## Required output fields
-- Always include \`"_instructionsVersion": "0.9.0"\` at the root of every JSON output (full or partial).
+- Always include \`"_instructionsVersion": "1.1.0"\` at the root of every JSON output (full or partial).
 
 ## Partial updates
 At the end of a session, you can output either a full \`data.json\` or a **partial update** containing only the top-level keys that changed. Partial updates are smaller and cheaper. To output a partial update, include only the changed keys plus \`"_partial": true\` at the root. Always include \`_instructionsVersion\`. Example:
 \`\`\`json
-{ "_partial": true, "_instructionsVersion": "0.9.0", "xp": 450, "insights": [...], "bestiary": {...} }
+{ "_partial": true, "_instructionsVersion": "1.1.0", "xp": 450, "insights": [...], "bestiary": {...} }
 \`\`\`
 
 ## Fields NOT to output
@@ -5418,10 +5551,8 @@ At the end of a session, you can output either a full \`data.json\` or a **parti
 - \`balanceSmoothed\` — computed on import.
 - \`harmonyHistory\` — appended on import.
 - \`dailyDistribution\` — localStorage only.
-- \`completedQuests\` / \`completedMainQuests\` — localStorage only (see below).
-
 ## Data stored only in the browser (not in JSON)
-- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution · Completed quests
+- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution
 
 ---
 
@@ -5429,7 +5560,7 @@ At the end of a session, you can output either a full \`data.json\` or a **parti
 
 1. Read \`data.json\` from project knowledge — this is the source of truth.
 2. Listen to the brain dump. Infer what is really important beneath the words.
-3. Before adding enemies, limitingBeliefs, or insights — compare against existing entries. **Update rather than duplicate.** Avoid semantic drift.
+3. Before adding enemies or insights — compare against existing entries. **Update rather than duplicate.** Avoid semantic drift.
 4. Output:
    - A full updated \`data.json\` (all fields, even unchanged ones)
    - Celebrate any XP earned in your chat response before the JSON
@@ -5451,8 +5582,8 @@ Mastery thresholds: 0-24 = 1 · 25-49 = 2 · 50-74 = 3 · 75-99 = 4 · 100 = 5
 
 ## What to listen for
 
-- **Avoidance, self-criticism** → enemies, limitingBeliefs, Earth score down
-- **Energy spikes, flow** → flowSources, Fire/Water scores up
+- **Avoidance, self-criticism** → enemies (limitingBelief type), Earth score down
+- **Energy spikes, flow** → sources allies, Water up
 - **Feeling unseen, disconnected** → needs (connection, recognition), Water score
 - **Acting against stated values** → values alignment down, threat up
 - **Completing something, breaking a pattern** → XP, achievement candidate
@@ -5515,8 +5646,8 @@ Single overarching goal or theme.
 ### sideQuests
 Active sub-goals. Progress 0-100. \`priority\` Claude-assigned (lower = higher priority). \`nextStep\` is a single string — not an array.
 
-### completedQuests / completedMainQuests
-Stored in the browser only — not kept in main state. **You may still output \`completedQuests\`** when quests are completed in a session; the app will extract and persist them locally. Do not output them on future sessions unless new quests were completed. Format: \`{ "title", "completedDate", "xpEarned", "howResolved" }\` — \`howResolved\` max 20 words.
+### completedQuests
+Lives in JSON alongside active quests. Include the full array when outputting — app merges by title+date so existing entries are safe. Only include in a partial update when new quests close this session. Format: \`{ "title", "completedDate", "xpEarned", "howResolved" }\` — \`howResolved\` max 20 words.
 
 ### values
 Ordered by priority. \`threat\`: \`"red"\` (living against) · \`"amber"\` (tension) · \`"none"\` (aligned). \`alignment\` 0-100.
@@ -5525,13 +5656,17 @@ Ordered by priority. \`threat\`: \`"red"\` (living against) · \`"amber"\` (tens
 Core psychological needs. Same structure and threat levels as values.
 
 ### allies
-People and places that provide genuine support or safety.
+Resources — people, activities, beliefs, or environments that strengthen an element. Each ally has a \`type\` tag:
+- \`"loot"\` (Air) - moment of clarity, gratitude, or appreciation
+- \`"spell"\` (Fire) - leverage point that reliably overcomes friction
+- \`"liberatingBelief"\` (Earth) - true belief that frees from unnecessary suffering
+- \`"sources"\` (Water) - flow state or environment that reliably produces aliveness
 
-### drains
-Habitual behaviours that cost more than they give.
+Optional \`corruption\` field: the internal block that stops the user fully receiving what this ally offers.
 
-### flowSources
-Activities and contexts that reliably produce genuine aliveness.
+\`\`\`json
+{ "name": "BJJ", "type": "sources", "desc": "Full presence enforced through physical constraint.", "why": "Controller goes quiet on the mat.", "corruption": "Skipped when energy is low - exactly when most needed." }
+\`\`\`
 
 ### skills
 \`mastery\`: 1-5. \`priority\`: Claude-assigned value of mastering this now (lower = higher priority). Use null if unknown.
@@ -5544,21 +5679,18 @@ Activities and contexts that reliably produce genuine aliveness.
 Character archetypes unlocked. \`featured: true\` pins to header (max ~3). \`icon\` is a single emoji.
 
 ### achievements
-\`featured: true\` pins to header. \`type\`: \`"milestone" | "breakthrough" | "streak" | "quest" | "default"\`.
+\`featured: true\` pins to header. \`type\` tag (elemental):
+- \`"insight"\` (Air) - moment of clarity, pattern noticed, something seen differently
+- \`"deed"\` (Fire) - action completed, goal hit, pattern broken in behaviour
+- \`"transmutation"\` (Earth) - before/after identity or belief shift that permanently changed
+- \`"surrender"\` (Water) - something released, fear let go, old fight stopped
 
 \`\`\`json
-"achievements": [{ "id": "signal-over-noise", "title": "Signal Over Noise", "description": "Deleted Instagram. Chose attention over approval.", "type": "milestone", "dateUnlocked": "Feb 2026", "featured": false }]
+"achievements": [{ "id": "signal-over-noise", "title": "Signal Over Noise", "description": "Deleted Instagram. Chose attention over approval.", "type": "deed", "dateUnlocked": "Feb 2026" }]
 \`\`\`
 
-### limitingBeliefs / liberatingBeliefs
-Limiting: false or unhelpful beliefs driving behaviour (Earth element). Typically 2-4 entries.
-Empowering: true beliefs worth remembering. Same structure (no hp/priority needed).
-
-Limiting beliefs share the \`priority\` ranking space with \`bestiary.currentEnemies\` — assign unique integers so all patterns sort together.
-
-\`\`\`json
-"limitingBeliefs": [{ "title": "THE IMPOSTOR CEILING", "belief": "\\"I'll be found out eventually.\\"", "desc": "Keeps ambition just below where real risk would be required.", "shortTermBenefit": "Protects against aiming high and failing.", "origin": "Unknown.", "hp": 80, "priority": 3 }]
-\`\`\`
+### classes
+Character archetypes unlocked. \`featured: true\` pins to header (max ~3). \`icon\` is a single emoji. Include \`dateUnlocked\`.
 
 ### Enemies (bestiary)
 Patterns, beliefs, habits, and reflexes that work against the user. Use \`desc\` and \`trigger\` to capture how a pattern *moves*, not just what it is. ALL CAPS names. Avoid duplicates — update rather than create.
@@ -5568,12 +5700,14 @@ Patterns, beliefs, habits, and reflexes that work against the user. Use \`desc\`
 **Close quests that complete during a session.** If the user describes completing something matching a sideQuest's \`doneWhen\`, remove it from \`sideQuests\`, include it in \`completedQuests\` output this session, and award XP.
 
 **\`type\`**:
-- \`"belief"\` (Earth) - false/unhelpful stories driving behaviour
-- \`"temptation"\` or \`"drain"\` (Water) - desire-driven pull or habitual behaviour costing more than it gives; both render identically
-- \`"compulsion"\` (Fire) - action-level patterns driven by urgency or avoidance
-- \`"blindspot"\` (Air) - perception-level misreads, how evidence is filtered
+- \`"limitingBelief"\` (Earth) - false or limiting story treated as true
+- \`"temptation"\` (Water) - desire-driven pull toward something that costs more than it gives
+- \`"compulsion"\` (Fire) - action-level pull driven by urgency or avoidance
+- \`"blindspot"\` (Air) - perception-level misread, how evidence is filtered before conscious choice
 
-**\`priority\`** — unique integer across ALL enemies and limitingBeliefs combined (1 = most pressing). No two entries share the same number.
+\`limitingBelief\` entries may include a \`belief\` field — the false belief in first person, quoted: \`"\\"I'll be found out eventually.\\""\`
+
+**\`priority\`** — unique integer across ALL enemies (boss subEnemies + currentEnemies) combined (1 = most pressing). No two entries share the same number.
 
 **\`hp\`** (0-100) — how much power this pattern holds. Start new entries at 100. Move to graveyard at 0.
 

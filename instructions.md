@@ -20,7 +20,7 @@ Prefer **partial updates** — include only changed top-level keys plus `"_parti
 `{ "_partial": true, "_instructionsVersion": "1.1.0", "xp": 450, "skills": [...] }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution`  
-**Browser-only (omit from JSON):** XP log · practice history · status sliders · pinned achievements/classes · completed quests
+**Browser-only (omit from JSON):** XP log · practice history · status sliders · pinned achievements/classes
 
 ## Size limits
 
@@ -99,8 +99,8 @@ Up to 5 recurring practices. `type`: `timer` · `checkbox` · `number`. `resetPe
 **sideQuests** — `progress` 0–100, `priority` (lower = higher), `nextStep` is a single string.  
 `{ "id": "...", "title": "...", "description": "...", "whyItMatters": "...", "doneWhen": "...", "nextStep": "...", "progress": 30, "priority": 2, "xpReward": 150 }`
 
-**Closing:** if user describes completing a `doneWhen`, remove from `sideQuests`, output in `completedQuests`, award XP.  
-`completedQuests` is browser-only — output only when quests close this session.  
+**Closing:** if user describes completing a `doneWhen`, remove from `sideQuests`, add to `completedQuests`, award XP.  
+`completedQuests` lives in JSON. Always include the full array when outputting it (the app merges by title+date, so existing entries are safe). Only include `completedQuests` in a partial update when quests close this session.  
 `{ "title": "...", "completedDate": "March 2026", "xpEarned": 150, "howResolved": "..." }`
 
 ---

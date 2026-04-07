@@ -3,11 +3,15 @@
   "name": "Example Steve",
   "subtitle": "Survivor of the Overworld - not real data",
   "level": 4,
-  "xp": 500,
+  "xp": 570,
   "xpToNext": 1000,
+  "health": 68,
+  "healthAvg": 74,
+  "mana": 55,
+  "manaAvg": 61,
   "keyQuestion": "What would I build if I knew the Ender Dragon couldn't touch me?",
-  "claudeRead": "Steve is in a real transitional moment - the End portal is open, not theoretical. First solo mining session showed the deep caves produce a different kind of engagement than surface farming. Main risk: diamond scarcity shortens the search before the right gear lands. THE ENDER DRAGON is active but being noticed faster. Rest is the most significant unmet need. Beds explode in The End, so sleep stays unresolved.",
-  "progressionTimeline": "Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. The Ender Dragon is louder than ever, which means it's being threatened.",
+  "claudeRead": "Steve is one session away from the End portal - gear is ready, date is set, Alex is in. The main risk has shifted: it's no longer about preparation, it's about whether rest deficit means showing up depleted for the fight that's been building all year. THE PERFECTIONIST made a last attempt to delay via sword enchants - it got named and the date held. That's new. The unresolved thing is sleep, which still can't happen in The End.",
+  "progression": "Started the year punching trees in a bog biome with nothing to my name. Quit dirt huts cold turkey in January. Began clearing the inventory - and something else too. By March the End portal is located and the first enchanting table session has happened. By April the gear is almost ready and the Dragon is being threatened for the first time - louder because it's running out of room.",
   "allies": [
     {
       "name": "Alex",
@@ -87,7 +91,9 @@
     { "date": "2026-03-05",  "air": 62, "fire": 18, "water": 46, "earth": 60, "harmony": 55 },
     { "date": "2026-03-12",  "air": 66, "fire": 20, "water": 50, "earth": 62, "harmony": 59 },
     { "date": "2026-03-19",  "air": 70, "fire": 21, "water": 55, "earth": 63, "harmony": 62 },
-    { "date": "2026-03-25",  "air": 72, "fire": 22, "water": 58, "earth": 64, "harmony": 64 }
+    { "date": "2026-03-25",  "air": 72, "fire": 22, "water": 58, "earth": 64, "harmony": 64 },
+    { "date": "2026-04-01",  "air": 74, "fire": 24, "water": 60, "earth": 65, "harmony": 66 },
+    { "date": "2026-04-07",  "air": 75, "fire": 25, "water": 61, "earth": 66, "harmony": 67 }
   ],
   "sliderXpRewards": {
     "air":   [null, 100, 200, 350, 500],
@@ -208,6 +214,36 @@
           "tensions": [
             "Diamond scarcity is shortening the timeline in ways that might push gear decisions before they're ready"
           ]
+        },
+        {
+          "date": "1 April 2026",
+          "title": "Full Diamond, Almost Ready",
+          "events": [
+            "Completed the full diamond armour set - Protection III on the chestplate, Feather Falling IV on boots",
+            "Threw three Eyes of Ender - all tracked toward the same stronghold, less than 300 blocks out"
+          ],
+          "insights": [
+            "THE PERFECTIONIST tried to stall the End run until the sword got Sharpness V - noticed it this time and set the portal date anyway",
+            "The armour session felt different: building toward something specific rather than stockpiling against a vague threat"
+          ],
+          "tensions": [
+            "Whether the date set for the End run will actually hold or become another thing that gets moved when the week gets hard"
+          ]
+        },
+        {
+          "date": "6 April 2026",
+          "title": "One Session Before the Portal",
+          "events": [
+            "Final prep run - brewed slowness and harming splash potions, restocked arrows to 256",
+            "Alex confirmed they'll be in the server when the run happens - first time not going in solo"
+          ],
+          "insights": [
+            "Rest deficit showed up clearly in the prep session - had to stop early when focus dropped. Not ignoring it this time.",
+            "Naming the run date out loud to Alex made PROCRASTINATION audible for the first time - it argued against the specific day, not the concept"
+          ],
+          "tensions": [
+            "Rest is still the real unknown - showing up well-geared but depleted is a different kind of under-prepared"
+          ]
         }
       ]
     },
@@ -290,7 +326,7 @@
     ]
   },
   "completedMainQuests": [],
-  "lastUpdated": "2026-03-25",
+  "lastUpdated": "2026-04-07",
   "activities": [
     { "id": "deep-work",    "name": "Cave Diving",       "description": "Focused time underground — mining, exploring, clearing mobs.", "whyItMatters": "The diamonds won't come from the surface.", "startDate": "2026-01-01", "priority": 1, "type": "timer",    "resetPeriod": "day",  "target": 90, "unit": "minutes",  "xpPerUnit": 0.5 },
     { "id": "morning-run",  "name": "Morning Patrol",    "description": "Perimeter check at the start of the day, clear overnight spawns.", "whyItMatters": "A clear base sets the tone for everything after.", "startDate": "2026-02-01", "priority": 2, "type": "checkbox", "resetPeriod": "day",  "target": 1,  "unit": "patrols",  "xpPerUnit": 20  },
@@ -338,6 +374,8 @@
     { "id": "explorer", "title": "Explorer", "icon": "◈", "description": "Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.", "dateUnlocked": "Jan 2026", "featured": false }
   ],
   "_xpLog": [
+    { "date": "7 Apr 2026",  "amount":  20,  "reason": "Session update",                                                      "totalAfter": 570, "levelup": false },
+    { "date": "1 Apr 2026",  "amount":  25,  "reason": "Session update",                                                      "totalAfter": 550, "levelup": false },
     { "date": "25 Mar 2026", "amount":  30,  "reason": "Session update",                                                      "totalAfter": 500, "levelup": false },
     { "date": "22 Mar 2026", "amount":  25,  "reason": "Session update",                                                      "totalAfter": 470, "levelup": false },
     { "date": "19 Mar 2026", "amount": null, "reason": "Level 4 reached",                                                     "totalAfter": 445, "levelup": true  },
@@ -385,7 +423,13 @@
       { "date": "2026-03-14", "value": 60 }, { "date": "2026-03-15", "value": 45 }, { "date": "2026-03-16", "value": 85 },
       { "date": "2026-03-17", "value": 90 }, { "date": "2026-03-18", "value": 75 }, { "date": "2026-03-19", "value": 90 },
       { "date": "2026-03-20", "value": 70 }, { "date": "2026-03-21", "value": 60 }, { "date": "2026-03-22", "value": 120 },
-      { "date": "2026-03-23", "value": 65 }, { "date": "2026-03-24", "value": 75 }
+      { "date": "2026-03-23", "value": 65 }, { "date": "2026-03-24", "value": 75 },
+      { "date": "2026-03-25", "value": 90 }, { "date": "2026-03-26", "value": 55 },
+      { "date": "2026-03-27", "value": 70 }, { "date": "2026-03-28", "value": 45 },
+      { "date": "2026-03-30", "value": 80 }, { "date": "2026-03-31", "value": 90 },
+      { "date": "2026-04-01", "value": 60 }, { "date": "2026-04-02", "value": 75 },
+      { "date": "2026-04-03", "value": 85 }, { "date": "2026-04-04", "value": 50 },
+      { "date": "2026-04-05", "value": 40 }, { "date": "2026-04-06", "value": 95 }
     ],
     "morning-run": [
       { "date": "2026-02-02", "value": 1 }, { "date": "2026-02-03", "value": 1 }, { "date": "2026-02-04", "value": 0 },
@@ -400,7 +444,12 @@
       { "date": "2026-03-10", "value": 1 }, { "date": "2026-03-11", "value": 1 }, { "date": "2026-03-12", "value": 0 },
       { "date": "2026-03-13", "value": 1 }, { "date": "2026-03-16", "value": 1 }, { "date": "2026-03-17", "value": 1 },
       { "date": "2026-03-18", "value": 1 }, { "date": "2026-03-19", "value": 1 }, { "date": "2026-03-20", "value": 0 },
-      { "date": "2026-03-23", "value": 1 }, { "date": "2026-03-24", "value": 1 }
+      { "date": "2026-03-23", "value": 1 }, { "date": "2026-03-24", "value": 1 },
+      { "date": "2026-03-25", "value": 1 }, { "date": "2026-03-26", "value": 1 },
+      { "date": "2026-03-27", "value": 0 }, { "date": "2026-03-30", "value": 1 },
+      { "date": "2026-03-31", "value": 1 }, { "date": "2026-04-01", "value": 1 },
+      { "date": "2026-04-02", "value": 0 }, { "date": "2026-04-03", "value": 1 },
+      { "date": "2026-04-06", "value": 1 }
     ],
     "resource-work": [
       { "date": "2026-02-03", "value": 1 }, { "date": "2026-02-05", "value": 2 }, { "date": "2026-02-07", "value": 1 },
@@ -410,12 +459,16 @@
       { "date": "2026-03-03", "value": 2 }, { "date": "2026-03-05", "value": 1 }, { "date": "2026-03-07", "value": 2 },
       { "date": "2026-03-10", "value": 2 }, { "date": "2026-03-12", "value": 1 }, { "date": "2026-03-14", "value": 2 },
       { "date": "2026-03-17", "value": 2 }, { "date": "2026-03-19", "value": 2 }, { "date": "2026-03-21", "value": 1 },
-      { "date": "2026-03-24", "value": 2 }
+      { "date": "2026-03-24", "value": 2 },
+      { "date": "2026-03-26", "value": 2 }, { "date": "2026-03-28", "value": 1 },
+      { "date": "2026-03-31", "value": 2 }, { "date": "2026-04-02", "value": 2 },
+      { "date": "2026-04-04", "value": 1 }, { "date": "2026-04-06", "value": 2 }
     ],
     "nether-runs": [
       { "period": "2026-06", "value": 2 }, { "period": "2026-07", "value": 3 }, { "period": "2026-08", "value": 2 },
       { "period": "2026-09", "value": 3 }, { "period": "2026-10", "value": 3 }, { "period": "2026-11", "value": 3 },
-      { "period": "2026-12", "value": 2 }, { "period": "2026-13", "value": 3 }
+      { "period": "2026-12", "value": 2 }, { "period": "2026-13", "value": 3 },
+      { "period": "2026-14", "value": 2 }, { "period": "2026-15", "value": 3 }
     ]
   }
 }
