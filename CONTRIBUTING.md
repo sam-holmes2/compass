@@ -4,6 +4,14 @@ Thanks for taking an interest. This is a solo side project and contributions are
 
 ---
 
+## A note on maintainership
+This is my first time maintaining an open source project and I'm learning as I go. I don't have all the answers on process, conventions, or where this is headed. I'd rather be upfront about that than pretend otherwise.
+
+If something feels off about how the project is run, a contribution wasn't handled well, or you have suggestions on how to improve things from a maintainer perspective, I genuinely want to hear it. Open an issue, start a discussion, or flag it directly.
+
+I'll make mistakes, I'll try to fix them and hopefully we can all continue levelling up :)
+
+
 ## What kind of contributions are welcome
 
 - **Bug fixes** - especially anything that breaks data import/export, localStorage, or the Claude workflow
