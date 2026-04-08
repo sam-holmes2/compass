@@ -1256,18 +1256,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-stat-label { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); }
 .practice-stat-value { font-size:14px; color:var(--gold); }
 .practice-widget { padding:10px 14px; border-left:1px solid rgba(200,168,74,0.12); min-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
-.practice-graph-col { border-left:1px solid rgba(200,168,74,0.1); padding:10px 12px; display:flex; align-items:center; min-width:0; }
-.practice-graph-wrap { flex:1; min-width:0; position:relative; width:100%; }
+.practice-graph-col { border-left:1px solid rgba(200,168,74,0.1); padding:10px 12px; display:flex; align-items:stretch; min-width:0; }
+.practice-graph-wrap { flex:1; min-width:0; position:relative; width:100%; display:flex; flex-direction:column; }
 .practice-graph-canvas { width:100%; height:56px; display:block; }
 
 /* Interactive bar chart */
 .prac-bar-chart {
   display:flex; flex-direction:column;
-  width:100%; box-sizing:border-box;
+  width:100%; box-sizing:border-box; height:100%;
 }
 .prac-bar-plot {
   display:flex; align-items:flex-end; gap:2px;
-  height:64px; width:100%; position:relative; flex-shrink:0;
+  width:100%; position:relative; flex:1; min-height:40px;
 }
 .prac-bar-y-axis {
   position:absolute; left:0; top:0; bottom:0; width:28px;
@@ -2845,6 +2845,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ IMPORT TOAST ════════════════════════════════════════ -->
 <div id="import-toast">
   <div id="import-toast-text"></div>
+  <button id="import-toast-undo" onclick="undoImport()" style="display:none;background:none;border:1px solid rgba(96,168,56,0.5);color:var(--accent);cursor:pointer;font-size:12px;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px;">Undo</button>
   <button id="import-toast-close" onclick="hideImportToast()">×</button>
 </div>
 
@@ -2858,8 +2859,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="btn-primary" onclick="applyUpdate()">Apply</button>
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
       <span class="modal-status" id="modal-status"></span>
-      <button class="btn-ghost" id="paste-clipboard-btn" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="pasteFromClipboard()">⌘ Paste</button>
-      <button class="btn-ghost" style="font-size:13px;opacity:0.7;" onclick="document.getElementById('import-file-input').click()">↑ data.json</button>
+      <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="document.getElementById('import-file-input').click()">↑ data.json</button>
       <input type="file" id="import-file-input" accept=".json,application/json" style="display:none" onchange="importFromFile(event)">
     </div>
   </div>
@@ -5627,18 +5627,6 @@ function showConfirmDelete(name, onConfirm){
 }
 function closeConfirmDelete(){ document.getElementById('confirm-delete-modal').classList.remove('open'); }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
-async function pasteFromClipboard(){
-  const btn=document.getElementById('paste-clipboard-btn');
-  try{
-    const text=await navigator.clipboard.readText();
-    document.getElementById('json-input').value=text;
-    btn.textContent='✓ Pasted';
-    setTimeout(()=>{ btn.textContent='⌘ Paste'; },1500);
-  }catch(e){
-    btn.textContent='✗ No access';
-    setTimeout(()=>{ btn.textContent='⌘ Paste'; },2000);
-  }
-}
 function applyUpdate(){
   const raw=document.getElementById('json-input').value.trim();
   try{
@@ -5646,8 +5634,16 @@ function applyUpdate(){
     const isPartial = p._partial === true || (!p.name && !p.level);
     if(!isPartial && !p.name && !p.mainQuest && !p.skills) throw new Error('Looks empty');
     delete p._partial;
-    // Take snapshot before any changes for diff toast
+    // Take snapshot before any changes for diff toast + undo
     const prevSnapshot = JSON.parse(JSON.stringify(appState));
+    if(!IS_DEMO){
+      localStorage.setItem('liferpg-undo-v7', JSON.stringify({
+        state: prevSnapshot,
+        featuredAch: getFeaturedAch(),
+        featuredCls: getFeaturedCls(),
+        xpLog: loadXPLog(),
+      }));
+    }
     let merged;
     if(isPartial){
       // Merge only provided top-level keys into existing state
@@ -6658,7 +6654,6 @@ function renderRQBarChart(wrap, act, charName) {
   // ── Build chart plot ──────────────────────────────────────────
   const plot = document.createElement('div');
   plot.className = 'prac-bar-plot';
-  plot.style.height = plotH + 'px';
 
   if (!hasSubs) {
     // Classic Y-axis labels
@@ -8146,16 +8141,36 @@ let _importToastTimer = null;
 function showImportToast(msg){
   const el  = document.getElementById('import-toast');
   const txt = document.getElementById('import-toast-text');
+  const undoBtn = document.getElementById('import-toast-undo');
   if(!el||!txt) return;
   txt.textContent = msg;
+  if(undoBtn) undoBtn.style.display = (!IS_DEMO && localStorage.getItem('liferpg-undo-v7')) ? 'block' : 'none';
   el.classList.add('visible');
   clearTimeout(_importToastTimer);
-  _importToastTimer = setTimeout(hideImportToast, 6000);
+  _importToastTimer = setTimeout(hideImportToast, 8000);
 }
 function hideImportToast(){
   const el = document.getElementById('import-toast');
   if(el) el.classList.remove('visible');
   clearTimeout(_importToastTimer);
+}
+function undoImport(){
+  try{
+    const raw = localStorage.getItem('liferpg-undo-v7');
+    if(!raw) return;
+    const snap = JSON.parse(raw);
+    localStorage.removeItem('liferpg-undo-v7');
+    if(snap.featuredAch) setFeaturedAch(snap.featuredAch);
+    if(snap.featuredCls) setFeaturedCls(snap.featuredCls);
+    if(snap.xpLog) saveXPLog(snap.xpLog);
+    saveState(snap.state); appState = snap.state; render(snap.state);
+    hideImportToast();
+    const undoMsg = document.createElement('div');
+    undoMsg.textContent = '↩ Import undone';
+    undoMsg.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(14,14,22,0.97);border:1px solid rgba(96,168,56,0.35);color:var(--accent);padding:10px 18px;border-radius:8px;z-index:600;font-size:14px;';
+    document.body.appendChild(undoMsg);
+    setTimeout(()=>undoMsg.remove(), 2500);
+  } catch(e){ console.error('Undo failed', e); }
 }
 
 // ══ SYNC STATUS UX ══════════════════════════════════════════
