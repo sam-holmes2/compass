@@ -11,15 +11,13 @@
 ---
 
 ## Privacy & security
-
-Everything stays on your machine. Nothing is sent anywhere unless you paste it into an AI.
-
+- **Only `data.json` is sensitive.** `character-sheet.html` and `instructions.md` are the same for every user — share them freely. `data.json` holds everything you've journalled; treat it like a private diary and don't use this on a shared computer. 
+- By default, everything stays on your machine. Nothing is sent anywhere unless you paste it into an AI.
 - What you share with an AI is subject to that provider's data retention policy. Check their privacy settings to opt out of training data use.
-- Don't use this on a shared computer.
-- **Use [Firefox](https://www.firefox.com/) if possible.** In Chrome and Edge, all local HTML files share the same storage origin — any other local HTML file you open could technically read your data. Firefox gives each local file its own isolated origin. If you prefer Chrome, run from a local server: `python3 -m http.server` in the same folder, then open `localhost:8000/character-sheet.html`.
+- **Use [Firefox](https://www.firefox.com/) if possible.** In Chrome and Edge, all local HTML files share the same storage origin, meaning any other local HTML file you open could technically read your journalling data. Firefox gives each local file its own isolated origin. If you prefer another browser and care about security, ideally run characer-sheet from a local server by installing Python and running `python3 -m http.server` in the same folder, then open `localhost:8000/character-sheet.html`.
 - **AI is optional.** You can use character-sheet as a plain offline tracker with no AI at all.
 - **Local LLMs are supported.** Use a local model (e.g. [Ollama](https://ollama.com)) and paste its output in manually — no journal content ever leaves your machine.
-- **Cloud storage** (Dropbox, Google Drive, iCloud) is fine for the HTML file itself — it contains no personal data.
+- **Cloud storage** (Dropbox, Google Drive, iCloud) is fine for `character-sheet.html` and `instructions.md` — they contain no personal data. Think twice before syncing `data.json` to unencrypted cloud storage.
 
 **→ [Full journalling threat model](journalling-threat-model.md)** — privacy risks and mitigations across every journalling approach, and where character-sheet fits in.
 
