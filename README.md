@@ -19,12 +19,16 @@ Everything stays on your machine. Nothing is sent anywhere unless you paste it i
 - What you share with your AI is subject to that provider's data retention policy. Check their privacy settings to opt out of training data use if that matters to you.
 - Don't use this on a shared computer.
 - Firefox is the safest browser — see [Security](#security).
+- **AI is optional.** You can use character-sheet as a plain offline tracker with no AI at all.
+- **Local LLMs are supported.** If you'd rather not share journal content with any cloud provider, you can use a local model (e.g. [Ollama](https://ollama.com)) and paste its output into the app manually.
+
+**→ [Journalling threat model](journalling-threat-model.md)** — a full breakdown of privacy risks and mitigations across every journalling approach, from pen and paper to frontier AI, and where character-sheet fits in.
 
 ---
 
 ## Setup
 
-You need: an AI that supports persistent project context (such as Claude Projects) and the two files below.
+You need: an AI that supports persistent project context (such as Claude Projects) and the two files below. If you'd prefer not to share data with a cloud provider, you can use a local model instead — see [Journalling threat model](journalling-threat-model.md) for the tradeoffs.
 
 1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md)** — click each link, then the download icon (top right).
 2. **Create an AI project** — for example, go to [claude.ai](https://claude.ai) and click New Project.
@@ -55,7 +59,7 @@ Want to populate more of your sheet in one go? Try the **[Deep Dive](deep-dive.m
 ## Each session
 
 1. **Start a new chat** in your AI project. The AI already has your context from project knowledge.
-2. **Journal** — brain dump freely.
+2. **Journal** — brain dump freely, or pick a mode (see below).
 3. **End the session** — ask the AI: *"Update my data.json based on this chat."*
 4. **Replace `data.json` in project knowledge** — remove the old version, upload the new one.
 5. **Sync the app** — open `character-sheet.html`, click `↑`, paste the JSON, Import.
@@ -64,15 +68,34 @@ You can also edit fields directly in the app and use `↓` Export to get updated
 
 ---
 
+## Session modes
+
+You can stay in **Freeflow** (the default) or invoke any mode mid-session just by naming it. The AI switches immediately.
+
+| Mode | Element | Trigger phrase | Best for |
+|------|---------|----------------|----------|
+| 💧 **Freeflow** | Water | *(default, no trigger needed)* | Following energy wherever it goes — the baseline session |
+| 🔥 **Coach** | Fire | `"coach mode"` | You have a specific goal and want accountability and a clear plan |
+| 🌬️ **Introspection** | Air | `"introspection mode"` | Going deep — blindspots, patterns, what you keep avoiding |
+| 🌱 **Guided** | Earth | `"guided mode"` | You're not sure where to start — the AI leads with prompts |
+| 🌀 **Catch-up** | — | `"catch-up mode"` | It's been a while — fast, broad sweep to capture what's changed |
+| 📋 **Debrief** | — | `"debrief mode"` | Review and approve what's about to be written to your JSON |
+
+The elemental association reflects each mode's orientation: Water (Freeflow) follows aliveness and desire; Fire (Coach) is deliberate, goal-directed action; Air (Introspection) is awareness and pattern recognition; Earth (Guided) builds through honest, grounded prompts.
+
+Catch-up and Debrief are utility modes — they don't map to a single element.
+
+---
+
 ## Keeping up to date
 
-1. **Export first** — click `↓` (bottom right) and copy the JSON.
+1. **Export first** — click `↓` (bottom right). Use the **Full Migration Backup** column to download `migration.json`. This preserves your practice history, status history, and XP log in addition to your character data.
 2. **Re-download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html)**.
 3. **Clear old localStorage**:
    - **Firefox:** `about:preferences#privacy` → Manage Data → search for the file name → Remove
    - **Chrome:** Open the old file → DevTools (F12) → Application → Local Storage → right-click → Clear
    - **Quickest:** open browser console (F12 → Console) and run `localStorage.clear()`, then refresh
-4. **Re-import your data** — open the new file, click `↑`, paste JSON.
+4. **Re-import your data** — open the new file, click `↑`, paste JSON. Use your `data.json` (AI Journal Export) for the normal import — `migration.json` is not for the import modal.
 5. **Re-download [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md)** and replace it in your AI project knowledge.
 
 ---
@@ -139,6 +162,7 @@ The AI controls all XP. You can negotiate — made a breakthrough? Call it out. 
 | **[journalling-prompts.md](journalling-prompts.md)** | Optional. Upload to project knowledge for deeper session prompts. |
 | **[wiki.md](wiki.md)** | Full documentation for each tab. |
 | **[steve-example-data.json](steve-example-data.json)** | Demo data. Not needed once you import your own. |
+| **[journalling-threat-model.md](journalling-threat-model.md)** | Privacy risk breakdown across all journalling approaches. |
 
 ---
 
@@ -177,7 +201,7 @@ AI made journalling and self-reflection genuinely useful for me, but every conve
 
 character-sheet works with any AI that supports persistent project context — Claude, GPT-4, Gemini, or similar.
 
-I'm a professional cyber security consultant with real concerns about trusting any company with deep personal data. character-sheet was inspired by [Obsidian.md](https://obsidian.md/) and the principle that users should own their knowledge on their own devices where possible.
+I'm a professional cyber security consultant with real concerns about trusting any company with deep personal data. character-sheet was inspired by [Obsidian.md](https://obsidian.md/) and the principle that users should own their knowledge on their own devices where possible. The app itself is a single HTML file with no server, no telemetry, and no accounts — and if you want to go further, you can pair it with a local LLM like [Ollama](https://ollama.com) so no journal content ever leaves your machine.
 
 If social media can use gamification to hold attention and keep people scrolling, I'd rather use the same tools to help people understand and improve themselves.
 

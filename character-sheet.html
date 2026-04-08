@@ -48,9 +48,11 @@ body {
 .hdr > *:not(.hdr-xp-full):not(:last-child) { border-right:1px solid var(--border-hi); }
 .hdr-centre { text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:240px; }
 .hdr-name-row { display:flex; align-items:center; gap:10px; }
+#hdr-name-color { width:20px; height:20px; border:none; border-radius:50%; padding:0; background:none; cursor:pointer; flex-shrink:0; opacity:0.7; transition:opacity 0.15s; }
+#hdr-name-color:hover { opacity:1; }
 .hdr-icon { font-size:22px; line-height:1; cursor:pointer; user-select:none; transition:opacity 0.15s; }
 .hdr-icon:hover { opacity:0.7; }
-.hdr-name { font-family:'Cinzel Decorative',serif; font-size:26px; font-weight:700; color:#5cb85c; letter-spacing:0.15em; }
+.hdr-name { font-family:'Cinzel Decorative',serif; font-size:26px; font-weight:700; color:#5cb85c; letter-spacing:0.15em; cursor:text; outline:none; } /* color overridden dynamically via nameColor */
 .hdr-sub  { font-size:15px; color:var(--text-dim); letter-spacing:0.04em; margin-top:2px; }
 .hdr-left { display:flex; flex-direction:column; gap:2px; }
 .hdr-quest-label { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.22em; color:var(--text-dim); text-transform:uppercase; }
@@ -549,6 +551,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .fbar-btn.dirty::after { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:#c84040; margin-left:2px; }
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(4,4,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
+.emoji-picker { position:fixed; z-index:400; background:rgba(16,16,26,0.98); border:1px solid var(--border-hi); border-radius:10px; padding:10px; box-shadow:0 6px 32px rgba(0,0,0,0.7); width:220px; }
+.emoji-picker-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:8px; }
+.emoji-picker-grid button { font-size:18px; padding:3px; border:none; background:none; cursor:pointer; border-radius:4px; line-height:1.3; transition:background 0.1s; }
+.emoji-picker-grid button:hover { background:rgba(255,255,255,0.12); }
+.emoji-picker-input { width:100%; box-sizing:border-box; background:rgba(255,255,255,0.06); border:1px solid var(--border-hi); border-radius:6px; color:var(--text); font-size:15px; padding:4px 7px; outline:none; }
+.emoji-picker-label { font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-bottom:4px; letter-spacing:0.08em; }
+.emoji-picker-reset { font-family:var(--mono); font-size:11px; color:var(--text-dim); background:none; border:none; cursor:pointer; padding:4px 0 0; display:block; width:100%; text-align:right; }
+.emoji-picker-reset:hover { color:var(--text); }
 .modal { background:rgba(14,14,22,0.97); border:1px solid var(--border-hi); border-radius:10px; padding:26px 28px; width:520px; max-width:95vw; box-shadow:0 8px 40px rgba(0,0,0,0.6); }
 .modal-title { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.2em; color:var(--text-dim); margin-bottom:10px; }
 .modal p { font-size:17px; color:var(--text-dim); line-height:1.55; margin-bottom:10px; }
@@ -568,6 +578,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .modal-status { font-size:17px; color:var(--text-dim); margin-left:4px; }
 .modal-status.ok  { color:#3a8050; }
 .modal-status.err { color:#903030; }
+.modal-close { position:absolute; top:12px; right:14px; background:none; border:none; color:var(--text-dim); font-size:20px; line-height:1; cursor:pointer; padding:2px 4px; transition:color 0.15s; font-family:inherit; }
+.modal-close:hover { color:#c84040; }
 
 /* ══ QUESTS TAB ══════════════════════════════════════════════ */
 .qt-section { margin-bottom:28px; }
@@ -825,7 +837,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .lore-card-hdr::after { content:''; flex:1; height:1px; background:linear-gradient(to right,var(--border-hi),transparent); }
 .lore-card-desc { font-size:14px; color:var(--text-dim); font-style:italic; margin-bottom:11px; }
 .lore-card-body { font-size:17px; color:var(--text-b); line-height:1.7; }
-.lore-card--progression { border-left:3px solid #7050b0; }
+.lore-card--progression { border-left:3px solid #5cb85c; }
 .lore-card--progression .lore-card-hdr { color:#9070c8; }
 .lore-card--session { border-left:3px solid #207878; }
 .lore-card--session .lore-card-hdr { color:#3aacac; }
@@ -1014,7 +1026,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ach-pie-col { border:1px solid rgba(200,168,74,0.2); border-radius:8px; padding:16px 18px; background:rgba(200,168,74,0.03); }
 .ach-card {
   border:1px solid rgba(200,168,74,0.15); border-radius:6px;
-  padding:13px 16px; margin-bottom:8px; cursor:pointer;
+  padding:13px 16px; margin-bottom:8px;
   transition:border-color 0.2s, background 0.2s;
   background:rgba(200,168,74,0.02);
 }
@@ -1022,7 +1034,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ach-card:hover { border-color:rgba(200,168,74,0.35); background:rgba(200,168,74,0.06); }
 .ach-card.featured { border-color:rgba(200,168,74,0.55); background:rgba(200,168,74,0.08); border-left:3px solid var(--gold); }
 .ach-card-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
-.ach-card-icon { font-size:18px; flex-shrink:0; }
+.ach-card-icon { font-size:18px; flex-shrink:0; cursor:pointer; border-radius:4px; padding:1px 3px; transition:background 0.15s; }
+.ach-card-icon:hover { background:rgba(255,255,255,0.08); }
+.cls-card-icon-wrap { position:relative; display:inline-block; }
 .ach-card-title { font-family:'Cinzel',serif; font-size:17px; color:var(--gold); letter-spacing:0.06em; flex:1; }
 .ach-card-date { font-family:var(--mono); font-size:15px; color:var(--text-dim); flex-shrink:0; }
 .ach-card-type { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; padding:2px 7px; border-radius:10px; flex-shrink:0; border:1px solid; }
@@ -1032,14 +1046,45 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ach-card-type.att-surrender     { color:var(--water); border-color:rgba(58,128,200,0.4);  background:var(--water-bg); }
 .ach-card-type.att-default       { color:var(--text-dim); border-color:var(--border-hi); }
 .ach-card-desc { font-size:17px; color:var(--text-mid); line-height:1.55; }
-.ach-featured-tag { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.1em; color:var(--gold); background:rgba(200,168,74,0.1); border:1px solid rgba(200,168,74,0.3); border-radius:12px; padding:3px 10px; }
+.ach-feature-btn {
+  flex-shrink:0; width:32px; height:32px; border-radius:50%;
+  border:2px solid rgba(200,168,74,0.3); background:transparent;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:18px; line-height:1; color:rgba(200,168,74,0.3);
+  transition:border-color 0.15s, background 0.15s, color 0.15s, transform 0.12s;
+  padding:0;
+}
+.ach-feature-btn:hover { border-color:rgba(200,168,74,0.7); color:rgba(200,168,74,0.7); transform:scale(1.12); }
+.ach-feature-btn.active { border-color:var(--gold); background:rgba(200,168,74,0.15); color:var(--gold); }
+.ach-feature-btn.active:hover { background:rgba(200,168,74,0.25); }
+.ach-feature-btn.pop { animation:achPop 0.25s ease; }
+@keyframes achPop { 0%{transform:scale(1)} 50%{transform:scale(1.35)} 100%{transform:scale(1)} }
+.cls-feature-btn {
+  flex-shrink:0; width:32px; height:32px; border-radius:50%;
+  border:2px solid rgba(144,96,192,0.3); background:transparent;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:18px; line-height:1; color:rgba(144,96,192,0.3);
+  transition:border-color 0.15s, background 0.15s, color 0.15s, transform 0.12s;
+  padding:0;
+}
+.cls-feature-btn:hover { border-color:rgba(144,96,192,0.7); color:rgba(144,96,192,0.7); transform:scale(1.12); }
+.cls-feature-btn.active { border-color:#9060c0; background:rgba(144,96,192,0.15); color:#b080e8; }
+.cls-feature-btn.active:hover { background:rgba(144,96,192,0.25); }
+.cls-feature-btn.pop { animation:achPop 0.25s ease; }
 .hdr-titles { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-top:4px; }
-.hdr-title-tag { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; color:var(--gold); background:rgba(200,168,74,0.1); border:1px solid rgba(200,168,74,0.25); border-radius:10px; padding:2px 9px; }
+/* Shared tag style — used in header, preview section, everywhere */
+.feat-tag { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; background:rgba(200,168,74,0.08); border:1px solid rgba(200,168,74,0.28); border-radius:999px; padding:2px 9px; white-space:nowrap; display:inline-flex; align-items:center; gap:5px; }
+.feat-tag.ach { color:var(--gold); }
+.feat-tag.cls { color:#b080e8; border-color:rgba(144,96,192,0.35); background:rgba(96,64,160,0.07); }
+.feat-tag .tag-role { opacity:0.65; font-size:10px; }
+/* aliases kept for any stray references */
+.hdr-title-tag { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; color:var(--gold); background:rgba(200,168,74,0.08); border:1px solid rgba(200,168,74,0.28); border-radius:999px; padding:2px 9px; white-space:nowrap; }
+.hdr-class-tag { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; color:#b080e8; background:rgba(96,64,160,0.07); border:1px solid rgba(144,96,192,0.35); border-radius:999px; padding:2px 9px; white-space:nowrap; }
 
 /* ══ CLASSES ════════════════════════════════════════════════ */
 .cls-card {
   border:1px solid rgba(144,96,192,0.18); border-radius:6px;
-  padding:13px 16px; margin-bottom:8px; cursor:pointer;
+  padding:13px 16px; margin-bottom:8px;
   transition:border-color 0.2s, background 0.2s;
   background:rgba(96,64,160,0.03); position:relative;
 }
@@ -1047,10 +1092,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .cls-card:hover .ally-delete { opacity:1; }
 .cls-card.featured { border-color:rgba(144,96,192,0.6); background:rgba(96,64,160,0.1); border-left:3px solid #9060c0; }
 .cls-card-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
-.cls-card-icon { font-size:18px; flex-shrink:0; }
+.cls-card-icon { font-size:18px; flex-shrink:0; cursor:pointer; border-radius:4px; padding:1px 3px; transition:background 0.15s; }
+.cls-card-icon:hover { background:rgba(255,255,255,0.08); }
 .cls-card-title { font-family:'Cinzel',serif; font-size:17px; color:#b080e8; letter-spacing:0.06em; flex:1; }
 .cls-card-date { font-family:var(--mono); font-size:15px; color:var(--text-dim); flex-shrink:0; }
 .cls-card-desc { font-size:17px; color:var(--text-mid); line-height:1.55; }
+.cls-role-select { font-family:var(--mono); font-size:12px; flex-shrink:0; padding:1px 6px; border-radius:8px; border:1px solid var(--border-hi); background:var(--bg); color:var(--text-dim); cursor:pointer; outline:none; appearance:none; -webkit-appearance:none; }
+.cls-role-select.dps     { color:#d07830; border-color:#d0783060; background:rgba(208,120,48,0.07); }
+.cls-role-select.tank    { color:#3a80c8; border-color:#3a80c860; background:rgba(58,128,200,0.07); }
+.cls-role-select.support { color:#60a838; border-color:#60a83860; background:rgba(96,168,56,0.07); }
+.cls-role-select.lead    { color:#8090a8; border-color:#8090a860; background:rgba(128,144,168,0.07); }
 .cls-featured-tag { font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.1em; color:#b080e8; background:rgba(96,64,160,0.12); border:1px solid rgba(144,96,192,0.3); border-radius:12px; padding:3px 10px; }
 .hdr-class-tag { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; color:#b080e8; background:rgba(96,64,160,0.08); border:1px solid rgba(144,96,192,0.22); border-radius:10px; padding:2px 9px; }
 
@@ -1074,24 +1125,41 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 
 /* XP Log */
-.xp-log-feed { display:flex; flex-direction:column; gap:4px; }
+.xp-log-feed { display:flex; flex-direction:column; gap:6px; }
+.xp-log-group { border:1px solid rgba(255,255,255,0.06); border-radius:6px; overflow:hidden; }
+.xp-log-group-hdr {
+  display:flex; align-items:center; gap:8px; padding:7px 10px;
+  background:rgba(255,255,255,0.03); cursor:pointer; user-select:none;
+  font-size:13px; border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.xp-log-group-hdr:hover { background:rgba(255,255,255,0.055); }
+.xp-log-group-date { font-family:var(--mono); color:var(--text-dim); flex:1; }
+.xp-log-group-total { font-family:var(--mono); color:#a070d8; font-size:13px; }
+.xp-log-group-total b { color:#b080e8; }
+.xp-log-chevron { color:var(--text-dim); font-size:11px; transition:transform 0.15s; }
+.xp-log-group-body { display:flex; flex-direction:column; gap:2px; padding:4px 6px; }
+.xp-log-group-body.collapsed { display:none; }
 .xp-log-entry {
   display:flex; align-items:baseline; gap:10px;
-  padding:5px 10px; border-radius:4px;
-  background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04);
-  animation:xp-entry-in 0.3s ease;
+  padding:5px 8px; border-radius:4px;
+  background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.03);
+  animation:xp-entry-in 0.3s ease; flex-wrap:wrap;
 }
 .xp-log-entry.levelup {
   background:rgba(176,128,232,0.08); border-color:rgba(176,128,232,0.25);
 }
+.xp-log-entry.kill { background:rgba(200,64,64,0.06); border-color:rgba(200,64,64,0.2); }
 .xp-log-amount {
-  font-family:var(--mono); font-size:15px; font-weight:700;
-  color:#b080e8; flex-shrink:0; min-width:48px;
+  font-family:var(--mono); font-size:14px; font-weight:700;
+  color:#b080e8; flex-shrink:0; min-width:56px;
 }
-.xp-log-entry.levelup .xp-log-amount { color:#d4a0ff; font-size:15px; }
-.xp-log-reason { font-size:15px; color:var(--text-mid); flex:1; }
-.xp-log-entry.levelup .xp-log-reason { color:#d4a0ff; font-weight:600; font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; }
-.xp-log-date { font-family:var(--mono); font-size:13px; color:var(--text-dim); flex-shrink:0; }
+.xp-log-entry.kill .xp-log-amount { color:#e07070; }
+.xp-log-entry.levelup .xp-log-amount { color:#d4a0ff; }
+.xp-log-reason { font-size:14px; color:var(--text-mid); flex:1; }
+.xp-log-reason .xp-log-total { color:var(--text-dim); font-size:12px; }
+.xp-log-entry.levelup .xp-log-reason { color:#d4a0ff; font-weight:600; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.1em; }
+.xp-log-items { margin:4px 0 2px 56px; padding:0; list-style:none; width:100%; }
+.xp-log-items li { font-size:12px; color:var(--text-dim); padding:1px 0; }
 .xp-log-empty { font-size:15px; color:var(--text-dim); font-style:italic; }
 @keyframes xp-entry-in {
   from { opacity:0; transform:translateY(-4px); }
@@ -1545,6 +1613,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .skill-role-badge.dps   { color:#d07830; border-color:#d0783040; background:rgba(208,120,48,0.07); }
 .skill-role-badge.tank  { color:#3a80c8; border-color:#3a80c840; background:rgba(58,128,200,0.07); }
 .skill-role-badge.support { color:#60a838; border-color:#60a83840; background:rgba(96,168,56,0.07); }
+.skill-role-badge.lead  { color:#8090a8; border-color:#8090a840; background:rgba(128,144,168,0.07); }
 .skill-role-badge.none  { color:var(--text-dim); border-color:var(--border-hi); background:none; }
 
 /* ══ SKILLS TAB TOP ROW ═════════════════════════════════════ */
@@ -1553,27 +1622,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   border:1px solid rgba(144,96,192,0.35); border-radius:8px; padding:18px 20px;
   background:rgba(96,64,160,0.05);
 }
-.sk-keystone-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.28em; color:#9060c0; text-transform:uppercase; margin-bottom:8px; opacity:0.8; }
 .sk-keystone-name { font-family:'Cinzel',serif; font-size:20px; font-weight:700; color:#b080e8; letter-spacing:0.06em; margin-bottom:6px; }
 .sk-keystone-meta { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
 .sk-keystone-desc { font-size:17px; color:var(--text-mid); line-height:1.55; }
 .sk-keystone-why  { font-size:16px; color:#9060c0; font-style:italic; opacity:0.85; margin-top:4px; }
 .sk-keystone-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.75; }
-.sk-keystone-tooltip {
-  display:inline-flex; align-items:center; gap:5px; cursor:help;
-  font-family:var(--mono); font-size:11px; letter-spacing:0.07em;
-  color:var(--text-dim); border-bottom:1px dashed var(--border-hi);
-  margin-bottom:10px; position:relative;
-}
-.sk-keystone-tooltip:hover::after {
-  content: attr(data-tip);
-  position:absolute; bottom:calc(100% + 6px); left:0;
-  background:#131320; border:1px solid rgba(144,96,192,0.4);
-  color:var(--text); font-size:13px; letter-spacing:0.02em; line-height:1.5;
-  padding:8px 12px; border-radius:6px; width:260px; z-index:100;
-  font-family:'Crimson Pro',Georgia,serif; white-space:normal;
-  box-shadow:0 4px 16px rgba(0,0,0,0.5);
-}
 .sk-pie-col { border:1px solid rgba(144,96,192,0.2); border-radius:8px; padding:16px 18px; background:rgba(96,64,160,0.03); }
 .sk-no-skills { font-size:16px; color:var(--text-dim); font-style:italic; padding:20px 0; }
 
@@ -1852,7 +1905,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="hdr-centre">
     <div class="hdr-name-row">
       <span class="hdr-icon" id="hdr-icon" onclick="cycleHdrIcon()" title="Click to cycle icon">★</span>
-      <div class="hdr-name" id="hdr-name">Hero</div>
+      <input type="color" id="hdr-name-color" title="Name colour" value="#5cb85c" oninput="setNameColor(this.value)">
+      <div class="hdr-name" id="hdr-name" contenteditable="true" spellcheck="false" title="Click to edit name">Hero</div>
     </div>
     <div class="hdr-sub" id="hdr-sub"></div>
   </div>
@@ -2072,11 +2126,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <div class="el-body open">
     <div style="margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:12px;">
-      <div class="lbl">Progression</div>
-      <div class="section-desc">Summary of how this chapter is going</div>
+      <div class="lbl" id="balance-progression-lbl">Progression Timeline</div>
+      <div class="section-desc">Summary of your entire progression so far since you started journalling with character-sheet</div>
       <div class="claude-read-card" id="air-claude-read">No read yet.</div>
       <div id="air-progression" style="display:none;margin-top:12px;">
-        <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:var(--text-dim);opacity:0.7;text-transform:uppercase;margin-bottom:7px;">Progression Timeline</div>
+        <div id="air-progression-hdr" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;opacity:0.7;text-transform:uppercase;margin-bottom:7px;">Progression Timeline</div>
         <div id="air-progression-text" style="font-size:17px;color:var(--text-mid);line-height:1.65;"></div>
       </div>
     </div>
@@ -2141,6 +2195,24 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
       </div>
     </div>
+    <div class="grid-2" style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border);">
+      <div>
+        <div class="lbl" style="color:#d07830">▲ Underlevelled</div>
+        <div class="section-desc">High-priority skills still at beginner or novice level</div>
+        <div id="fire-skills-left"></div>
+        <div style="margin-top:10px;text-align:right">
+          <span class="bestiary-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#d07830;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
+        </div>
+      </div>
+      <div>
+        <div class="lbl" style="color:#c8a84a">★ Signature</div>
+        <div class="section-desc">High-priority skills at adept level or above</div>
+        <div id="fire-skills-right"></div>
+        <div style="margin-top:10px;text-align:right">
+          <span class="bestiary-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c8a84a;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2165,13 +2237,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="grid-2" style="margin-bottom:14px">
       <div>
         <div class="lbl" style="color:#8b5e3c">⬡ Limiting Beliefs</div>
-        <div class="section-desc">False stories driving behaviour</div>
+        <div class="section-desc">Harmful narratives that constrain how you act</div>
         <div id="limiting-list"></div>
         <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#8b5e3c;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
       </div>
       <div>
-        <div class="lbl" style="color:#2d6e40">⬡ Empowering Beliefs</div>
-        <div class="section-desc">True things worth remembering</div>
+        <div class="lbl" style="color:#2d6e40">⬡ Liberating Beliefs</div>
+        <div class="section-desc">Useful reframes that open up what's possible</div>
         <div id="empowering-list"></div>
         <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2d6e40;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span></div>
       </div>
@@ -2338,9 +2410,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     </div>
     <div class="sk-pie-col">
       <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">By Role</div>
-      <div class="section-desc">Skill breakdown by type</div>
-      <div class="pie-wrap" style="flex-direction:column;align-items:center;gap:14px;margin-top:12px;">
-        <div class="pie-svg-wrap"><svg id="sk-pie-chart" width="130" height="130" viewBox="0 0 140 140"></svg></div>
+      <div class="section-desc">Breakdown of number of skills tracked for each role. Pips display average mastery for skills of each role (I–V)</div>
+      <div class="pie-wrap" style="margin-top:12px;gap:16px;align-items:center;">
+        <div class="pie-svg-wrap"><svg id="sk-pie-chart" width="110" height="110" viewBox="0 0 140 140"></svg></div>
         <div class="pie-legend" id="sk-pie-legend"></div>
       </div>
     </div>
@@ -2423,6 +2495,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 
   <!-- ── Recurring Quests ── -->
+  <div class="radar-panel-title" style="font-size:18px;color:#c8a84a;letter-spacing:0.2em;padding:18px 0 6px 0;">Regular quests</div>
   <div id="rquests-container"></div>
 
 </div>
@@ -2566,7 +2639,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ HELP MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:96vw;">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:96vw;position:relative;">
+    <button class="modal-close" onclick="document.getElementById('help-modal').classList.remove('open')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);margin-bottom:16px;">? &nbsp;HOW CHARACTER-SHEET WORKS</div>
     <div class="help-cols">
 
@@ -2703,7 +2777,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ SYNC EXPLAINED MODAL ══════════════════════════════ -->
 <div class="modal-overlay" id="sync-modal">
-  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);position:relative;">
+    <button class="modal-close" onclick="closeSyncModal()" title="Close">×</button>
     <div class="modal-title" style="color:var(--gold);">HOW SYNC WORKS</div>
     <p>Changes you make here are saved locally in your browser. To keep them, use the Export button (↓) and paste the JSON into your AI project to replace your old data.json. This keeps your AI and the app in sync.</p>
     <div class="modal-row">
@@ -2715,7 +2790,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ SETTINGS MODAL ══════════════════════════════════════ -->
 <div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettingsModal()">
-  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);position:relative;">
+    <button class="modal-close" onclick="closeSettingsModal()" title="Close">×</button>
     <div class="modal-title" style="color:var(--gold);">⚙ &nbsp;SETTINGS</div>
 
     <div class="settings-section">
@@ -2773,7 +2849,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div class="modal-overlay" id="modal">
-  <div class="modal" style="border-top:3px solid var(--help);">
+  <div class="modal" style="border-top:3px solid var(--help);position:relative;">
+    <button class="modal-close" onclick="closeModal()" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);">↑ &nbsp;IMPORT &nbsp;/ PASTE FROM AI</div>
     <p>After a journalling session, ask your AI to output the JSON update. Paste it below and hit Apply.</p>
     <textarea id="json-input" placeholder='{ "name": "Alex", "mainQuest": { ... }, ... }'></textarea>
@@ -2790,19 +2867,40 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ EXPORT MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:600px;">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:1000px;width:95vw;position:relative;">
+    <button class="modal-close" onclick="document.getElementById('export-modal').classList.remove('open')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
-    <p>Copy this JSON and use it to replace the old data.json file attached in your AI project. This ensures your chat knows your updated state, including changes made in the app.</p>
-    <div id="export-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:15px;line-height:1.4;"></div>
-    <div style="display:flex;gap:16px;align-items:center;margin-bottom:12px;">
-      <canvas id="export-pie" width="110" height="110" style="flex-shrink:0;"></canvas>
-      <div id="export-pie-legend" style="flex:1;display:flex;flex-direction:column;gap:3px;font-size:13px;font-family:var(--mono);min-width:0;"></div>
-    </div>
-    <textarea id="export-textarea" readonly style="min-height:200px;font-size:15px"></textarea>
-    <div class="modal-row" style="flex-wrap:wrap;gap:8px;">
-      <button class="btn-primary" id="copy-export-btn" onclick="copyExport()">Copy</button>
-      <button class="btn-ghost" onclick="document.getElementById('export-modal').classList.remove('open')">Close</button>
-      <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="downloadExportJson()">↓ data.json</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
+      <!-- Left: Summary export (for AI journalling) -->
+      <div style="display:flex;flex-direction:column;">
+        <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">AI Journal Export</div>
+        <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Copy this JSON and paste it into your AI project as <code>data.json</code>. This keeps your AI up to date with your latest state.</p>
+        <div id="export-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;"></div>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;overflow:visible;">
+          <canvas id="export-pie" width="110" height="110" style="flex-shrink:0;width:90px;height:90px;"></canvas>
+          <div id="export-pie-legend" style="flex:1;display:flex;flex-direction:column;gap:3px;font-size:12px;font-family:var(--mono);min-width:0;"></div>
+        </div>
+        <textarea id="export-textarea" readonly style="flex:1;min-height:160px;font-size:13px"></textarea>
+        <div class="modal-row" style="flex-wrap:wrap;gap:8px;margin-top:8px;">
+          <button class="btn-primary" id="copy-export-btn" onclick="copyExport()" style="background:rgba(200,168,74,0.15);border-color:rgba(200,168,74,0.5);color:var(--gold);">Copy</button>
+          <button class="btn-ghost" style="font-size:13px;opacity:0.7;" onclick="downloadExportJson()">↓ data.json</button>
+        </div>
+      </div>
+      <!-- Right: Full migration export -->
+      <div style="display:flex;flex-direction:column;">
+        <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Migrate / backup localstorage (optional)</div>
+        <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Exports <em>all</em> app data, including quest and xp history, etc. Use this for moving between devices or browsers.</p>
+        <div id="migration-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;background:rgba(200,168,74,0.08);border:1px solid rgba(200,168,74,0.3);color:var(--gold);">⚠ This file is large — do not paste it into an AI chat. It's for device migration only.</div>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;overflow:visible;">
+          <canvas id="migration-pie" width="110" height="110" style="flex-shrink:0;width:90px;height:90px;"></canvas>
+          <div id="migration-pie-legend" style="flex:1;display:flex;flex-direction:column;gap:3px;font-size:12px;font-family:var(--mono);min-width:0;"></div>
+        </div>
+        <textarea id="migration-textarea" readonly style="flex:1;min-height:160px;font-size:13px"></textarea>
+        <div class="modal-row" style="flex-wrap:wrap;gap:8px;margin-top:8px;">
+          <button class="btn-primary" id="copy-migration-btn" onclick="copyMigration()" style="background:rgba(200,168,74,0.15);border-color:rgba(200,168,74,0.5);color:var(--gold);">Copy</button>
+          <button class="btn-ghost" style="font-size:13px;opacity:0.7;" onclick="downloadMigrationJson()">↓ migration.json</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -3466,7 +3564,7 @@ function updateNavCounts(s){
   const sv=resolveElementScores(s);
   const biEl=document.getElementById('nav-balance-icon'); if(biEl) biEl.innerHTML=buildBalanceIcon(sv);
   const qEl=document.getElementById('nav-quests'); if(qEl) qEl.textContent=(s.sideQuests||DEFAULT.sideQuests).length;
-  const cEl=document.getElementById('nav-lore'); if(cEl){ const chs=s.insights||DEFAULT.insights||[]; cEl.textContent=chs.reduce((n,c)=>n+(c.entries||[]).length,0); }
+  const cEl=document.getElementById('nav-lore'); if(cEl){ const chs=s.insights||DEFAULT.insights||[]; cEl.textContent=s.sessionCount!=null?s.sessionCount:chs.reduce((n,c)=>n+(c.entries||[]).length,0); }
   const skEl=document.getElementById('nav-skills'); if(skEl) skEl.textContent=(s.skills||DEFAULT.skills||[]).length;
   const alEl=document.getElementById('nav-allies'); if(alEl) alEl.textContent=(s.allies||DEFAULT.allies||[]).length;
 }
@@ -3502,6 +3600,14 @@ function switchTab(name){
   }
   if(name==='skills'){
     requestAnimationFrame(()=>requestAnimationFrame(renderStatsHistoryChart));
+  }
+  if(name==='combat'){
+    // Force canvas redraw after layout is visible (fixes Firefox stretch on initial load)
+    requestAnimationFrame(()=>requestAnimationFrame(renderStatusHistoryChart));
+  }
+  if(name==='balance'){
+    // Force harmony chart redraw after layout is visible (fixes Firefox stretch on initial load)
+    requestAnimationFrame(()=>requestAnimationFrame(()=>renderHarmonyChart(appState)));
   }
 }
 function initTabColours(){
@@ -3953,13 +4059,32 @@ function renderQuestsTab(s){
     body.appendChild(makeEditable(mq.description,'Describe your main quest…',v=>saveMQField('description',v),'mqcard-desc'));
     const whyEl=makeEditable(mq.whyItMatters,'Why does this matter?',v=>saveMQField('whyItMatters',v),'sqcard-why');
     body.appendChild(whyEl);
-    if(mq.doneWhen){ const dw=document.createElement('div'); dw.className='quest-done-when'; dw.innerHTML=`<span class="quest-tick">✓</span> Completed when ${esc(s.name||'you')}: ${esc(mq.doneWhen)}`; body.appendChild(dw); }
+    {
+      const dw=document.createElement('div'); dw.className='quest-done-when';
+      const tickSpan=document.createElement('span'); tickSpan.className='quest-tick'; tickSpan.textContent='✓';
+      const doneLabel=document.createElement('span'); doneLabel.textContent=` Completed when ${esc(s.name||'you')}: `;
+      const dwEl=makeEditable(mq.doneWhen||'','Completed when…',v=>saveMQField('doneWhen',v),'');
+      dwEl.style.display='inline';
+      dw.appendChild(tickSpan); dw.appendChild(doneLabel); dw.appendChild(dwEl);
+      body.appendChild(dw);
+    }
 
     const steps=(mq.nextSteps||[]).slice(0,3);
     if(steps.length){
       const sd=document.createElement('div'); sd.className='mqcard-steps';
       steps.forEach((st,i)=>{ const r=document.createElement('div'); r.className='mqstep';
-        r.innerHTML=`<div class="mqstep-num">${i+1}</div><div><div class="mqstep-text">${esc(st.text||st)}</div>${st.doneWhen?`<div class="quest-done-when" style="margin-top:4px"><span class="quest-tick">✓</span> Completed when ${esc(s.name||'you')}: ${esc(st.doneWhen)}</div>`:''}</div>`; sd.appendChild(r); });
+        const stepNum=document.createElement('div'); stepNum.className='mqstep-num'; stepNum.textContent=i+1;
+        const stepBody=document.createElement('div');
+        const stepText=makeEditable(st.text||st,'Step description',v=>{ if(appState.mainQuest?.nextSteps?.[i]) appState.mainQuest.nextSteps[i].text=v; saveState(appState); markDirty(); },'mqstep-text');
+        stepBody.appendChild(stepText);
+        const dwWrap=document.createElement('div'); dwWrap.className='quest-done-when'; dwWrap.style.marginTop='4px';
+        const tick=document.createElement('span'); tick.className='quest-tick'; tick.textContent='✓';
+        const dwLabel=document.createElement('span'); dwLabel.textContent=` Completed when ${esc(s.name||'you')}: `;
+        const dwEl=makeEditable(st.doneWhen||'','Completed when…',v=>{ if(appState.mainQuest?.nextSteps?.[i]) appState.mainQuest.nextSteps[i].doneWhen=v; saveState(appState); markDirty(); },'');
+        dwEl.style.display='inline';
+        dwWrap.appendChild(tick); dwWrap.appendChild(dwLabel); dwWrap.appendChild(dwEl);
+        stepBody.appendChild(dwWrap);
+        r.appendChild(stepNum); r.appendChild(stepBody); sd.appendChild(r); });
       body.appendChild(sd);
     }
     body.appendChild(makeDeadlineRow(mq.deadline||'',v=>{ saveMQField('deadline',v); renderQuestsTab(s); }));
@@ -4117,6 +4242,18 @@ function killEnemy(e){
   if(!appState.bestiary.graveyard) appState.bestiary.graveyard=[];
   const graveEntry={name:e.name||'',defeatedDate:todayStr,howDefeated:'',type:e.type||'',desc:e.desc||''};
   appState.bestiary.graveyard.unshift(graveEntry);
+  // Award XP if enemy has xpReward
+  if(e.xpReward && e.xpReward>0){
+    const _oldXp=appState.xp||0; const _oldLevel=appState.level||1;
+    appState.xp=(_oldXp+e.xpReward);
+    const log=loadXPLog();
+    const _d=new Date(); const date=String(_d.getDate()).padStart(2,'0')+'/'+String(_d.getMonth()+1).padStart(2,'0')+'/'+_d.getFullYear();
+    log.unshift({date,type:'kill',amount:e.xpReward,reason:(e.name||'Enemy')+' defeated',totalAfter:appState.xp});
+    saveXPLog(log);
+    updateXpRing(appState.level,appState.xp,appState.xpToNext);
+    animateXpGain(_oldXp,appState.xp,_oldLevel,appState.level||1,appState.xpToNext,'+'+e.xpReward+' XP');
+    renderXPLog();
+  }
   // Remove from source
   if(e._srcType==='bestiary'){
     (appState.bestiary.currentEnemies||[]).splice(e._idx,1);
@@ -4230,10 +4367,16 @@ function renderBestiaryTab(s){
         rankBadge.textContent=ci+1;
         head.appendChild(rankBadge);
       }
-      const nameEl=document.createElement('div');
       const nameColor=isBoss?'#c84040':tc.nameColor;
-      nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:'+(isBossSubEnemy?'14':'16')+'px;font-weight:600;color:'+nameColor+';';
-      nameEl.textContent=e.name||'—';
+      function saveEnemyField(field,val){
+        if(e._srcType==='boss'){ if(appState.bestiary?.bosses?.[e._idx]) appState.bestiary.bosses[e._idx][field]=val; }
+        else if(e._srcType==='boss-sub'){ if(appState.bestiary?.bosses?.[e._bossIdx]?.subEnemies?.[e._idx]) appState.bestiary.bosses[e._bossIdx].subEnemies[e._idx][field]=val; }
+        else if(e._srcType==='bestiary'){ if(appState.bestiary?.currentEnemies?.[e._idx]) appState.bestiary.currentEnemies[e._idx][field]=val; }
+        else if(e._srcType==='belief'){ if(appState.limitingBeliefs?.[e._idx]) appState.limitingBeliefs[e._idx][field]=val; }
+        saveState(appState); markDirty();
+      }
+      const nameEl=makeEditable(e.name||'','Enemy name',v=>saveEnemyField('name',v));
+      nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:'+(isBossSubEnemy?'14':'16')+'px;font-weight:600;color:'+nameColor+';outline:none;cursor:text;';
       // Boss gets a "Boss" tag; others get element type tag
       const tag=document.createElement('span');
       if(isBoss){
@@ -4274,47 +4417,49 @@ function renderBestiaryTab(s){
         // Minions: uncollapsed by default, show desc
         head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
-        if(e.desc){ const descEl=document.createElement('div'); descEl.className='enemy-card-desc'; descEl.textContent=e.desc; body.appendChild(descEl); }
+        const subDescEl=makeEditable(e.desc||'','Description',v=>saveEnemyField('desc',v),'enemy-card-desc');
+        body.appendChild(subDescEl);
         d.appendChild(head); d.appendChild(body);
       } else {
         head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
-        const descEl=document.createElement('div'); descEl.className='enemy-card-desc';
-        descEl.style.whiteSpace='pre-wrap'; descEl.textContent=e.desc||'';
+        const descEl=makeEditable(e.desc||'','Description',v=>saveEnemyField('desc',v),'enemy-card-desc');
+        descEl.style.whiteSpace='pre-wrap';
         body.appendChild(descEl);
-        if(e.whyBoss){
-          const wy=document.createElement('div');
-          wy.style.cssText='margin-top:8px;font-size:16px;color:rgba(200,64,64,0.7);font-style:italic;';
-          wy.textContent=e.whyBoss; body.appendChild(wy);
+        if(isBoss){
+          const wyEl=makeEditable(e.whyBoss||'','Why is this the root boss?…',v=>saveEnemyField('whyBoss',v));
+          wyEl.style.cssText='margin-top:8px;font-size:16px;color:rgba(200,64,64,0.7);font-style:italic;';
+          body.appendChild(wyEl);
         }
-        if(e._srcType!=='belief'&&e.trigger){
-          const trigEl=document.createElement('div');
-          trigEl.style.cssText='margin-top:8px;font-size:16px;color:var(--text-dim);font-style:italic;';
-          trigEl.textContent='Triggered by: '+e.trigger; body.appendChild(trigEl);
+        if(e._srcType!=='belief'){
+          const trigWrap=document.createElement('div'); trigWrap.style.cssText='margin-top:8px;font-size:16px;color:var(--text-dim);font-style:italic;display:flex;align-items:baseline;gap:4px;';
+          const trigLbl=document.createElement('span'); trigLbl.textContent='Triggered by: ';
+          const trigEl=makeEditable(e.trigger||'','trigger…',v=>saveEnemyField('trigger',v));
+          trigEl.style.cssText='flex:1;';
+          trigWrap.appendChild(trigLbl); trigWrap.appendChild(trigEl);
+          body.appendChild(trigWrap);
         }
-        if(e.shortTermBenefit||e.origin){
+        {
           const posHdr=document.createElement('div'); posHdr.style.cssText='margin-top:12px;padding-top:10px;border-top:1px solid rgba(76,175,125,0.15);';
-          if(e.shortTermBenefit){
-            const bLbl=document.createElement('div'); bLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(76,175,125,0.6);text-transform:uppercase;margin-bottom:5px;'; bLbl.textContent='Short-term benefit';
-            const bEl=document.createElement('div'); bEl.className='enemy-card-desc'; bEl.style.color='rgba(76,175,125,0.8)'; bEl.textContent=e.shortTermBenefit;
-            posHdr.appendChild(bLbl); posHdr.appendChild(bEl);
-          }
-          if(e.origin){
-            const oLbl=document.createElement('div'); oLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-top:10px;margin-bottom:5px;'; oLbl.textContent='Origin';
-            const oEl=document.createElement('div'); oEl.className='enemy-card-desc'; oEl.style.color='var(--text-dim)'; oEl.textContent=e.origin;
-            posHdr.appendChild(oLbl); posHdr.appendChild(oEl);
-          }
+          const bLbl=document.createElement('div'); bLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(76,175,125,0.6);text-transform:uppercase;margin-bottom:5px;'; bLbl.textContent='Short-term benefit';
+          const bEl=makeEditable(e.shortTermBenefit||'','What short-term benefit does this pattern provide?…',v=>saveEnemyField('shortTermBenefit',v),'enemy-card-desc');
+          bEl.style.color='rgba(76,175,125,0.8)';
+          posHdr.appendChild(bLbl); posHdr.appendChild(bEl);
+          const oLbl=document.createElement('div'); oLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-top:10px;margin-bottom:5px;'; oLbl.textContent='Origin';
+          const oEl=makeEditable(e.origin||'','Where did this pattern come from?…',v=>saveEnemyField('origin',v),'enemy-card-desc');
+          oEl.style.color='var(--text-dim)';
+          posHdr.appendChild(oLbl); posHdr.appendChild(oEl);
           body.appendChild(posHdr);
         }
         if((e.vulnerabilities||[]).length){
           const vulnHdr=document.createElement('div'); vulnHdr.className='boss-vuln-hdr'; vulnHdr.textContent='Key Vulnerabilities'; body.appendChild(vulnHdr);
-          e.vulnerabilities.slice(0,3).forEach((v,i)=>{
+          e.vulnerabilities.slice(0,3).forEach((v,vi)=>{
             const row=document.createElement('div'); row.className='boss-vuln';
-            const num=document.createElement('div'); num.className='boss-vuln-num'; num.textContent=i+1;
+            const num=document.createElement('div'); num.className='boss-vuln-num'; num.textContent=vi+1;
             const vBody=document.createElement('div'); vBody.style.flex='1';
-            const title=document.createElement('div'); title.className='boss-vuln-title'; title.textContent=v.title||'';
-            const desc=document.createElement('div'); desc.className='boss-vuln-desc'; desc.textContent=v.desc||'';
-            vBody.appendChild(title); if(v.desc) vBody.appendChild(desc);
+            const titleEl=makeEditable(v.title||'','Vulnerability title',t=>{ if(e._srcType==='boss'&&appState.bestiary?.bosses?.[e._idx]?.vulnerabilities?.[vi]) appState.bestiary.bosses[e._idx].vulnerabilities[vi].title=t; saveState(appState); markDirty(); },'boss-vuln-title');
+            const descEl2=makeEditable(v.desc||'','Description',t=>{ if(e._srcType==='boss'&&appState.bestiary?.bosses?.[e._idx]?.vulnerabilities?.[vi]) appState.bestiary.bosses[e._idx].vulnerabilities[vi].desc=t; saveState(appState); markDirty(); },'boss-vuln-desc');
+            vBody.appendChild(titleEl); vBody.appendChild(descEl2);
             row.appendChild(num); row.appendChild(vBody); body.appendChild(row);
           });
         }
@@ -4440,8 +4585,9 @@ function renderBestiaryTab(s){
       belief:      {label:'Limiting Belief', colour:'#8b5e3c', tooltip:'Belief (Earth) - a false or limiting story treated as true, driving behaviour from below'},
       temptation:  {label:'Temptation',     colour:'#6040a0', tooltip:'Temptation (Water) - a desire-level pull toward something that costs more than it gives; want-driven rather than fear-driven'},
       // legacy aliases
-      distortion:  {label:'Blindspot',      colour:'#c83060', tooltip:'Blindspot (Air) - a perception-level misread; how evidence is filtered before a conscious choice is made'},
-      drain:       {label:'Temptation',     colour:'#6040a0', tooltip:'Temptation (Water) - a desire-level pull toward something that costs more than it gives; want-driven rather than fear-driven'},
+      distortion:    {label:'Blindspot',       colour:'#c83060', tooltip:'Blindspot (Air) - a perception-level misread; how evidence is filtered before a conscious choice is made'},
+      drain:         {label:'Temptation',      colour:'#6040a0', tooltip:'Temptation (Water) - a desire-level pull toward something that costs more than it gives; want-driven rather than fear-driven'},
+      limitingBelief:{label:'Limiting Belief', colour:'#8b5e3c', tooltip:'Belief (Earth) - a false or limiting story treated as true, driving behaviour from below'},
     };
     const counts={};
     const bossEntries=(bestiary.bosses||[]).filter(b=>b&&b.name);
@@ -4516,7 +4662,7 @@ function renderAchievementsTab(s){
   if(previewEl){
     const featuredAchs=achievements.filter(a=>featured.includes(a.id));
     previewEl.innerHTML=featuredAchs.length
-      ? featuredAchs.map(a=>{ const tc=ACH_TYPES[a.type]||ACH_DEFAULT; return `<span class="ach-featured-tag">${tc.icon} ${esc(a.title)}</span>`; }).join('')
+      ? featuredAchs.map(a=>{ const tc=ACH_TYPES[a.type]||ACH_DEFAULT; return `<span class="feat-tag ach">${esc(a.customIcon||tc.icon)} ${esc(a.title)}</span>`; }).join('')
       : '<span style="font-size:16px;color:var(--text-dim);font-style:italic;">None selected</span>';
   }
 
@@ -4546,24 +4692,47 @@ function renderAchievementsTab(s){
       if(ai>=0){ appState.achievements.splice(ai,1); saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
     }); });
     row.appendChild(achDelBtn);
-    const achIcon=document.createElement('div'); achIcon.className='ach-card-icon'; achIcon.textContent=tc.icon;
-    const achTitle=document.createElement('div'); achTitle.className='ach-card-title'; achTitle.textContent=a.title||'';
+    const ai2=appState.achievements.findIndex(x=>x.id===a.id);
+    const achIcon=document.createElement('div'); achIcon.className='ach-card-icon'; achIcon.textContent=a.customIcon||tc.icon;
+    achIcon.title='Click to change icon'; achIcon.addEventListener('click',e=>{ e.stopPropagation();
+      showEmojiPicker(achIcon, a.customIcon||tc.icon, tc.icon, v=>{
+        if(ai2>=0){ if(v===null){ delete appState.achievements[ai2].customIcon; } else { appState.achievements[ai2].customIcon=v; }
+          saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
+      });
+    });
+    const achTitle=makeEditable(a.title||'','Title',v=>{ if(ai2>=0){appState.achievements[ai2].title=v; saveState(appState); markDirty(); renderHdrTitles(appState);} },'ach-card-title');
+    achTitle.addEventListener('click',e=>e.stopPropagation());
     const achType=document.createElement('div'); achType.className='ach-card-type '+tc.cls;
-    achType.textContent=tc.label; if(tc.tooltip) achType.title=tc.tooltip;
-    const achDate=document.createElement('div'); achDate.className='ach-card-date'; achDate.textContent=a.dateUnlocked||'';
-    row.appendChild(achIcon); row.appendChild(achTitle); row.appendChild(achType); row.appendChild(achDate);
-    const desc=document.createElement('div'); desc.className='ach-card-desc'; desc.textContent=a.description||'';
-    card.appendChild(row); card.appendChild(desc);
-    card.onclick=()=>{
+    achType.textContent=tc.icon+' '+tc.label; if(tc.tooltip) achType.title='Click to change type';
+    achType.style.cursor='pointer';
+    achType.addEventListener('click',e=>{ e.stopPropagation();
+      const types=Object.keys(ACH_TYPES); const cur=a.type||types[0];
+      const ni=(types.indexOf(cur)+1)%types.length;
+      if(ai2>=0){ appState.achievements[ai2].type=types[ni]; saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
+    });
+    const achDate=makeEditable(a.dateUnlocked||'','Date unlocked',v=>{ if(ai2>=0){appState.achievements[ai2].dateUnlocked=v; saveState(appState); markDirty();} },'ach-card-date');
+    achDate.addEventListener('click',e=>e.stopPropagation());
+    const achFeatBtn=document.createElement('button');
+    achFeatBtn.className='ach-feature-btn'+(isFeatured?' active':'');
+    achFeatBtn.title=isFeatured?'Remove from featured':'Pin to featured (max 3)';
+    achFeatBtn.textContent='✓';
+    achFeatBtn.addEventListener('click',e=>{
+      e.stopPropagation();
       const f=getFeaturedAch();
       const idx=f.indexOf(a.id);
       if(idx>=0){ f.splice(idx,1); }
       else if(f.length<3){ f.push(a.id); }
       else{ return; }
       setFeaturedAch(f);
+      achFeatBtn.classList.add('pop');
+      achFeatBtn.addEventListener('animationend',()=>achFeatBtn.classList.remove('pop'),{once:true});
       renderAchievementsTab(s);
       renderHdrTitles(s);
-    };
+    });
+    row.appendChild(achIcon); row.appendChild(achTitle); row.appendChild(achType); row.appendChild(achDate); row.appendChild(achFeatBtn);
+    const desc=makeEditable(a.description||'','Description',v=>{ if(ai2>=0){appState.achievements[ai2].description=v; saveState(appState); markDirty();} },'ach-card-desc');
+    desc.addEventListener('click',e=>e.stopPropagation());
+    card.appendChild(row); card.appendChild(desc);
     listEl.appendChild(card);
   });
   makeSortable(listEl, (from, to) => {
@@ -4583,7 +4752,7 @@ function renderHdrTitles(s){
     const sub=document.getElementById('hdr-sub');
     if(sub) sub.parentNode.insertBefore(titlesEl,sub.nextSibling);
   }
-  titlesEl.innerHTML=featuredAchs.map(a=>{ const tc=ACH_TYPES[a.type]||ACH_DEFAULT; return `<span class="hdr-title-tag">${tc.icon} ${esc(a.title)}</span>`; }).join('');
+  titlesEl.innerHTML=featuredAchs.map(a=>{ const tc=ACH_TYPES[a.type]||ACH_DEFAULT; return `<span class="feat-tag ach">${esc(a.customIcon||tc.icon)} ${esc(a.title)}</span>`; }).join('');
 }
 
 // ══ ALLIES ══════════════════════════════════════════════════
@@ -4636,9 +4805,14 @@ function renderAlliesTab(s){
       head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${tc.rgb},0.04)`; });
       const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
       rankBadge.textContent=ci+1;
-      const nameEl=document.createElement('div');
-      nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';';
-      nameEl.textContent=a.name||'—';
+      const nameEl=makeEditable(a.name||'','Ally name',v=>{
+        if(a._srcType==='allies'&&appState.allies?.[a._idx]) appState.allies[a._idx].name=v;
+        else if(a._srcType==='liberatingBeliefs'&&appState.liberatingBeliefs?.[a._idx]){
+          const b=appState.liberatingBeliefs[a._idx]; if(typeof b==='object') b.title=v; else appState.liberatingBeliefs[a._idx]={belief:v};
+        }
+        saveState(appState); markDirty();
+      });
+      nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;color:'+tc.nameColor+';outline:none;cursor:text;';
       const tag=document.createElement('span'); tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
       if(tc.tooltip) tag.title='Click to change type';
       tag.style.cursor='pointer';
@@ -4660,14 +4834,29 @@ function renderAlliesTab(s){
       head.appendChild(delBtn); head.appendChild(rankBadge); head.appendChild(nameEl); head.appendChild(tag); head.appendChild(arrowEl);
       head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
       const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
-      const descEl=document.createElement('div'); descEl.className='enemy-card-desc';
-      descEl.style.whiteSpace='pre-wrap'; descEl.textContent=a.desc||'';
+      const descEl=makeEditable(a.desc||'','Description',v=>{
+        if(a._srcType==='allies'&&appState.allies?.[a._idx]) appState.allies[a._idx].desc=v;
+        else if(a._srcType==='liberatingBeliefs'&&appState.liberatingBeliefs?.[a._idx]){
+          const b=appState.liberatingBeliefs[a._idx]; if(typeof b==='object') b.desc=v;
+        }
+        saveState(appState); markDirty();
+      },'enemy-card-desc');
+      descEl.style.whiteSpace='pre-wrap';
       body.appendChild(descEl);
-      if(a.why){ const w=document.createElement('div'); w.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:6px;'; w.textContent='+ '+a.why; body.appendChild(w); }
-      if(a.corruption){
+      const whyEl2=makeEditable(a.why||'','Why this matters…',v=>{
+        if(a._srcType==='allies'&&appState.allies?.[a._idx]) appState.allies[a._idx].why=v;
+        saveState(appState); markDirty();
+      });
+      whyEl2.style.cssText='font-size:16px;color:rgba(76,175,125,0.7);font-style:italic;margin-top:6px;';
+      body.appendChild(whyEl2);
+      {
         const corSec=document.createElement('div'); corSec.style.cssText='margin-top:12px;padding-top:10px;border-top:1px solid rgba(200,64,64,0.15);';
         const corLbl=document.createElement('div'); corLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(200,64,64,0.6);text-transform:uppercase;margin-bottom:5px;cursor:help;'; corLbl.textContent='Corruption'; corLbl.title='How your own patterns or enemies block you from fully enjoying or appreciating this ally — the internal friction that stops you receiving what it offers.';
-        const corEl=document.createElement('div'); corEl.className='enemy-card-desc'; corEl.style.color='rgba(200,96,96,0.85)'; corEl.textContent=a.corruption;
+        const corEl=makeEditable(a.corruption||'','How are you blocked from receiving this?…',v=>{
+          if(a._srcType==='allies'&&appState.allies?.[a._idx]) appState.allies[a._idx].corruption=v;
+          saveState(appState); markDirty();
+        },'enemy-card-desc');
+        corEl.style.color='rgba(200,96,96,0.85)';
         corSec.appendChild(corLbl); corSec.appendChild(corEl);
         body.appendChild(corSec);
       }
@@ -4773,12 +4962,22 @@ function renderProgressionCard(el, s) {
     }
   }
   // Journal tab + Air tab: whole-journey arc
+  const progColor = s.nameColor || '#5cb85c';
   [['lore-progression','lore-progression-text'],['air-progression','air-progression-text']].forEach(([wrapId,txtId])=>{
     const wrap=document.getElementById(wrapId), txt=document.getElementById(txtId);
     if(!wrap||!txt) return;
     if(s.progression){ txt.textContent=s.progression; wrap.style.display='block'; }
     else { wrap.style.display='none'; }
   });
+  // Apply nameColor to progression headers and border
+  const loreCard = document.getElementById('lore-progression');
+  if(loreCard) loreCard.style.borderLeftColor = progColor;
+  const loreHdr = document.querySelector('#lore-progression .lore-card-hdr');
+  if(loreHdr) loreHdr.style.color = progColor;
+  const airHdr = document.getElementById('air-progression-hdr');
+  if(airHdr) airHdr.style.color = progColor;
+  const balLbl = document.getElementById('balance-progression-lbl');
+  if(balLbl) balLbl.style.color = progColor;
   // Journal tab: last session (claudeRead)
   const lsWrap=document.getElementById('lore-last-session'), lsTxt=document.getElementById('lore-last-session-text');
   if(lsWrap&&lsTxt){
@@ -4932,7 +5131,12 @@ function reorderArray(arr, from, to) {
 
 // ══ RENDER ══════════════════════════════════════════════════
 function render(s){
-  document.getElementById('hdr-name').textContent = s.name||'Hero';
+  const hdrNameEl = document.getElementById('hdr-name');
+  if(document.activeElement !== hdrNameEl) hdrNameEl.textContent = s.name||'Hero';
+  const nameColor = s.nameColor||'#5cb85c';
+  hdrNameEl.style.color = nameColor;
+  const nameColorPicker = document.getElementById('hdr-name-color');
+  if(nameColorPicker) nameColorPicker.value = nameColor;
   updateHdrIcon(s);
   document.getElementById('hdr-sub').textContent  = s.subtitle||'';
   document.getElementById('hdr-mq-title').textContent = s.mainQuest?.title||'Sovereignty';
@@ -5028,6 +5232,13 @@ function render(s){
       fireSpellEl.appendChild(d);
     });
   }
+
+  // Fire — underlevelled skills (left) and signature skills (right)
+  const allSkillsSorted=(s.skills||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99));
+  const underlevelled=allSkillsSorted.filter(sk=>(sk.mastery||1)<=2).slice(0,2);
+  const signature=allSkillsSorted.filter(sk=>(sk.mastery||1)>=3).slice(0,2);
+  renderEditableSkillsList('fire-skills-left',underlevelled,s);
+  renderEditableSkillsList('fire-skills-right',signature,s);
 
   // Fire — quest summaries (main quest + top 2 side quests by priority)
   const fqEl=document.getElementById('fire-quests');
@@ -5142,40 +5353,37 @@ function render(s){
     saveState(appState); markDirty(); render(appState);
   }); }
 
-  // Limiting beliefs — editable title + belief text + desc
+  // Limiting beliefs — sourced from bestiary.currentEnemies + boss subEnemies (type limitingBelief) + legacy limitingBeliefs array
   const antEl=document.getElementById('limiting-list'); if(antEl){ antEl.innerHTML='';
-  (s.limitingBeliefs||DEFAULT.limitingBeliefs).slice(0,3).forEach((b,i)=>{
+  const fromCurrentEnemies=(s.bestiary?.currentEnemies||[]).filter(e=>e.type==='limitingBelief'||e.type==='belief');
+  const fromSubEnemies=(s.bestiary?.bosses||[]).flatMap(b=>b.subEnemies||[]).filter(e=>e.type==='limitingBelief'||e.type==='belief');
+  const limitingSource=[...fromCurrentEnemies,...fromSubEnemies,...(s.limitingBeliefs||[])].sort((a,b)=>(a.priority??99)-(b.priority??99));
+  limitingSource.slice(0,3).forEach((b,i)=>{
     const d=document.createElement('div'); d.className='limiting';
-    const title=typeof b==='object'?b.title:'BELIEF TO DISSOLVE';
+    const title=typeof b==='object'?b.title||b.name:'BELIEF TO DISSOLVE';
     const text=typeof b==='object'?b.belief:b;
     const desc=typeof b==='object'?b.desc||'':'';
-    const lblEl=makeEditable(title,'Belief label',v=>saveNestedField(['limitingBeliefs',i,'title'],v),'ant-lbl');
+    const lblEl=makeEditable(title,'Belief label',()=>{},'ant-lbl');
     lblEl.style.color='#8b5e3c';
-    const txtEl=makeEditable(text,'What is the limiting belief?',v=>saveNestedField(['limitingBeliefs',i,'belief'],v));
-    const descEl=makeEditable(desc,'Brief definition: what does this belief actually do?',v=>saveNestedField(['limitingBeliefs',i,'desc'],capitalise(v)),'limiting-desc');
+    const txtEl=makeEditable(text,'What is the limiting belief?',()=>{});
+    const descEl=makeEditable(desc,'Brief definition: what does this belief actually do?',()=>{},'limiting-desc');
     d.appendChild(lblEl); d.appendChild(txtEl); d.appendChild(descEl); antEl.appendChild(d);
-  });
-  makeSortable(antEl, (from, to) => {
-    reorderArray(appState.limitingBeliefs, from, to);
-    saveState(appState); markDirty(); render(appState);
   }); }
 
-  // Empowering beliefs
+  // Liberating beliefs — sourced from allies (type liberatingBelief) + legacy liberatingBeliefs array
   const empEl=document.getElementById('empowering-list'); if(empEl){ empEl.innerHTML='';
-  (s.liberatingBeliefs||[]).slice(0,3).forEach((b,i)=>{
+  const fromAllies=(s.allies||[]).filter(a=>a.type==='liberatingBelief'||a.type==='liberation');
+  const liberatingSource=[...fromAllies,...(s.liberatingBeliefs||[])];
+  liberatingSource.slice(0,3).forEach((b,i)=>{
     const d=document.createElement('div'); d.className='empowering';
-    const title=typeof b==='object'?b.title:'BELIEF';
-    const text=typeof b==='object'?b.belief:b;
-    const desc=typeof b==='object'?b.desc||'':'';
-    const lblEl=makeEditable(title,'Belief label',v=>saveNestedField(['liberatingBeliefs',i,'title'],v),'ant-lbl');
+    const title=typeof b==='object'?b.title||b.name:'BELIEF';
+    const text=typeof b==='object'?b.belief||b.desc:b;
+    const desc=typeof b==='object'?b.why||(b.belief?b.desc:'')||'':'';
+    const lblEl=makeEditable(title,'Belief label',()=>{},'ant-lbl');
     lblEl.style.color='#2d6e40';
-    const txtEl=makeEditable(text,'What is the empowering belief?',v=>saveNestedField(['liberatingBeliefs',i,'belief'],v));
-    const descEl=makeEditable(desc,'What does holding this belief make possible?',v=>saveNestedField(['liberatingBeliefs',i,'desc'],capitalise(v)),'limiting-desc');
+    const txtEl=makeEditable(text,'What is the liberating belief?',()=>{});
+    const descEl=makeEditable(desc,'What does holding this belief make possible?',()=>{},'limiting-desc');
     d.appendChild(lblEl); d.appendChild(txtEl); d.appendChild(descEl); empEl.appendChild(d);
-  });
-  makeSortable(empEl, (from, to) => {
-    reorderArray(appState.liberatingBeliefs, from, to);
-    saveState(appState); markDirty(); render(appState);
   }); }
 
   // Values — editable name + description
@@ -5216,7 +5424,7 @@ function render(s){
         ta.addEventListener('input',()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
         ta.addEventListener('change',()=>{ saveNestedField([...arrPath,bi], ta.value.trim()); markDirty(); });
         setTimeout(()=>{ if(ta.scrollHeight>0){ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; } },0);
-        const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete'; del.style.cssText='margin-top:2px;flex-shrink:0';
+        const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete card-head-del'; del.style.cssText='margin-top:2px;flex-shrink:0';
         del.onclick=()=>{ getNestedArr(arrPath).splice(bi,1); saveState(appState); markDirty(); render(appState); };
         li.appendChild(ta); li.appendChild(del); ul.appendChild(li);
       });
@@ -5344,6 +5552,72 @@ function showTypeDropdown(anchorEl, options, currentVal, onSelect){
   setTimeout(()=>document.addEventListener('click',close,true),0);
 }
 
+// ══ EMOJI PICKER ════════════════════════════════════════════
+const EMOJI_PICKER_SET=[
+  '★','☁','⚔','⬡','↓','◈','✦','♛','🛡','☠','⚡','🔥','🌊','🌱','🌟','💡',
+  '🎯','🏆','🧠','❤️','🦋','🌙','☀️','⚗️','🗡️','🔮','🌀','💎','🎖️','🏅',
+  '🦅','🐉','🌿','🍃','⚖️','🔱','🌸','🌺','🎭','🎪','🧩','🎲','🌈','⭐',
+  '💫','✨','🔴','🟡','🟢','🔵','🟣','🟤','🔶','🔷','🔸','🔹',
+];
+let _emojiPickerEl=null;
+let _emojiPickerClose=null;
+function showEmojiPicker(anchorEl, currentEmoji, defaultEmoji, onPick){
+  closeEmojiPicker();
+  const picker=document.createElement('div');
+  picker.className='emoji-picker';
+  _emojiPickerEl=picker;
+
+  const lbl=document.createElement('div'); lbl.className='emoji-picker-label'; lbl.textContent='PICK AN ICON';
+  picker.appendChild(lbl);
+
+  const grid=document.createElement('div'); grid.className='emoji-picker-grid';
+  EMOJI_PICKER_SET.forEach(em=>{
+    const btn=document.createElement('button'); btn.textContent=em; btn.type='button';
+    btn.title=em;
+    btn.addEventListener('click',e=>{ e.stopPropagation(); onPick(em); closeEmojiPicker(); });
+    grid.appendChild(btn);
+  });
+  picker.appendChild(grid);
+
+  const inputLbl=document.createElement('div'); inputLbl.className='emoji-picker-label'; inputLbl.textContent='OR TYPE ONE';
+  picker.appendChild(inputLbl);
+  const inp=document.createElement('input'); inp.className='emoji-picker-input'; inp.type='text';
+  inp.placeholder='e.g. 🦁'; inp.maxLength=4;
+  inp.addEventListener('click',e=>e.stopPropagation());
+  inp.addEventListener('input',()=>{
+    const v=[...inp.value.trim()][0]||'';
+    if(v){ onPick(v); closeEmojiPicker(); }
+  });
+  picker.appendChild(inp);
+
+  if(defaultEmoji && defaultEmoji!==currentEmoji){
+    const reset=document.createElement('button'); reset.className='emoji-picker-reset'; reset.type='button';
+    reset.textContent='↩ Reset to default ('+defaultEmoji+')';
+    reset.addEventListener('click',e=>{ e.stopPropagation(); onPick(null); closeEmojiPicker(); });
+    picker.appendChild(reset);
+  }
+
+  document.body.appendChild(picker);
+
+  // Position below anchor
+  const r=anchorEl.getBoundingClientRect();
+  let top=r.bottom+4, left=r.left;
+  if(left+220>window.innerWidth) left=window.innerWidth-228;
+  if(top+260>window.innerHeight) top=r.top-264;
+  picker.style.top=top+'px'; picker.style.left=left+'px';
+
+  // Close on outside click
+  setTimeout(()=>{
+    _emojiPickerClose=e=>{ if(!picker.contains(e.target)&&e.target!==anchorEl){ closeEmojiPicker(); } };
+    document.addEventListener('click',_emojiPickerClose,{capture:true});
+  },0);
+}
+function closeEmojiPicker(){
+  if(_emojiPickerEl){ _emojiPickerEl.remove(); _emojiPickerEl=null; }
+  if(_emojiPickerClose){ document.removeEventListener('click',_emojiPickerClose,{capture:true}); _emojiPickerClose=null; }
+}
+// ═══════════════════════════════════════════════════════════
+
 function showConfirmDelete(name, onConfirm){
   const msg=document.getElementById('confirm-delete-msg');
   const ok=document.getElementById('confirm-delete-ok');
@@ -5462,9 +5736,9 @@ function loadXPLog(){
     return [];
   }catch{ return []; }
 }
-function saveXPLog(log){ try{ localStorage.setItem(XP_LOG_KEY,JSON.stringify(log.slice(-50))); }catch{} }
+function saveXPLog(log){ try{ localStorage.setItem(XP_LOG_KEY,JSON.stringify(log.slice(-500))); }catch{} }
 
-function logXPChange(prevState, nextState){
+function logXPChange(prevState, nextState, items){
   const prevXP=prevState?.xp||0, prevLevel=prevState?.level||1;
   const nextXP=nextState?.xp||0, nextLevel=nextState?.level||1;
   const diff=nextXP-prevXP;
@@ -5472,10 +5746,12 @@ function logXPChange(prevState, nextState){
   const log=loadXPLog();
   const _d=new Date(); const date=String(_d.getDate()).padStart(2,'0')+'/'+String(_d.getMonth()+1).padStart(2,'0')+'/'+_d.getFullYear();
   if(nextLevel>prevLevel){
-    log.unshift({date,amount:null,reason:'Level '+nextLevel+' reached',totalAfter:nextXP,levelup:true});
+    log.unshift({date,type:'levelup',amount:null,reason:'Level '+nextLevel+' reached',totalAfter:nextXP});
   }
   if(diff!==0){
-    log.unshift({date,amount:diff,reason:diff>0?'Session update':'Correction',totalAfter:nextXP,levelup:false});
+    const entry={date,type:'session',amount:diff,reason:diff>0?'Session update':'Correction',totalAfter:nextXP};
+    if(items&&items.length) entry.items=items;
+    log.unshift(entry);
   }
   saveXPLog(log);
 }
@@ -5486,23 +5762,136 @@ function renderXPLog(){
   el.innerHTML='';
   if(!log.length){
     const p=document.createElement('div'); p.className='xp-log-empty';
-    p.textContent='No XP recorded yet. Import a session to start tracking.';
+    p.textContent='No XP recorded yet. Import a session or defeat an enemy to start tracking.';
     el.appendChild(p); return;
   }
+  // Group entries by date
+  const groups=[];
   log.forEach(entry=>{
-    const row=document.createElement('div');
-    row.className='xp-log-entry'+(entry.levelup?' levelup':'');
-    const amt=document.createElement('div'); amt.className='xp-log-amount';
-    amt.textContent=entry.levelup?'▲ LEVEL UP':((entry.amount>0?'+':'')+entry.amount+' XP');
-    const reason=document.createElement('div'); reason.className='xp-log-reason';
-    reason.textContent=entry.levelup?entry.reason:entry.reason+(entry.totalAfter!=null?' · '+entry.totalAfter+' total':'');
-    const date=document.createElement('div'); date.className='xp-log-date'; date.textContent=entry.date;
-    row.appendChild(amt); row.appendChild(reason); row.appendChild(date);
-    el.appendChild(row);
+    const d=entry.date||'Unknown';
+    const last=groups[groups.length-1];
+    if(last&&last.date===d) last.entries.push(entry);
+    else groups.push({date:d,entries:[entry]});
+  });
+  groups.forEach(group=>{
+    const sec=document.createElement('div'); sec.className='xp-log-group';
+    const hdr=document.createElement('div'); hdr.className='xp-log-group-hdr';
+    const groupTotal=group.entries.filter(e=>e.type!=='levelup'&&!e.levelup).reduce((s,e)=>s+(e.amount||0),0);
+    hdr.innerHTML=`<span class="xp-log-group-date">${esc(group.date)}</span><span class="xp-log-group-total">${groupTotal>0?'+':''}<b>${groupTotal}</b> XP</span><span class="xp-log-chevron">▾</span>`;
+    const body=document.createElement('div'); body.className='xp-log-group-body';
+    group.entries.forEach(entry=>{
+      if(entry.type==='levelup'||entry.levelup){
+        const row=document.createElement('div'); row.className='xp-log-entry levelup';
+        row.innerHTML=`<span class="xp-log-amount">▲ LEVEL UP</span><span class="xp-log-reason">${esc(entry.reason)}</span>`;
+        body.appendChild(row);
+      } else {
+        const row=document.createElement('div'); row.className='xp-log-entry'+(entry.type==='kill'?' kill':'');
+        const sign=entry.amount>0?'+':'';
+        const icon=entry.type==='kill'?'☠ ':'⟳ ';
+        row.innerHTML=`<span class="xp-log-amount">${sign}${entry.amount} XP</span><span class="xp-log-reason">${icon}${esc(entry.reason)}${entry.totalAfter!=null?' <span class="xp-log-total">· '+entry.totalAfter+' total</span>':''}</span>`;
+        if(entry.items&&entry.items.length){
+          const ul=document.createElement('ul'); ul.className='xp-log-items';
+          entry.items.forEach(it=>{ const li=document.createElement('li'); li.textContent=(it.amount>0?'+':'')+it.amount+' — '+it.label; ul.appendChild(li); });
+          row.appendChild(ul);
+        }
+        body.appendChild(row);
+      }
+    });
+    hdr.addEventListener('click',()=>{
+      const open=body.classList.toggle('collapsed');
+      hdr.querySelector('.xp-log-chevron').textContent=open?'▸':'▾';
+    });
+    sec.appendChild(hdr); sec.appendChild(body);
+    el.appendChild(sec);
   });
 }
 
 // ══ EXPORT ═══════════════════════════════════════════════════
+function buildMigrationBundle(){
+  // Collect all localStorage keys belonging to this app
+  const bundle={_migration:true,_migratedAt:new Date().toISOString()};
+  // Main state
+  const rawState=localStorage.getItem('cs-state-v1');
+  if(rawState) try{bundle['cs-state-v1']=JSON.parse(rawState);}catch{}
+  // XP log
+  const rawXp=localStorage.getItem('cs-xplog-v1');
+  if(rawXp) try{bundle['cs-xplog-v1']=JSON.parse(rawXp);}catch{}
+  // Featured pins
+  const rawAch=localStorage.getItem('cs-featured-ach-v1');
+  if(rawAch) try{bundle['cs-featured-ach-v1']=JSON.parse(rawAch);}catch{}
+  const rawCls=localStorage.getItem('cs-featured-cls-v1');
+  if(rawCls) try{bundle['cs-featured-cls-v1']=JSON.parse(rawCls);}catch{}
+  // Status history
+  const rawStats=localStorage.getItem('cs-stats-hist-v1');
+  if(rawStats) try{bundle['cs-stats-hist-v1']=JSON.parse(rawStats);}catch{}
+  // Practice data (cs-rq-cur-* and cs-rq-hist-*)
+  const rqKeys={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k&&(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-'))){
+      try{rqKeys[k]=JSON.parse(localStorage.getItem(k));}catch{}
+    }
+  }
+  if(Object.keys(rqKeys).length) bundle._practiceData=rqKeys;
+  return bundle;
+}
+
+function renderMigrationPie(bundle,jsonStr){
+  const COLORS=['#5cb85c','#c8a84a','#7b68ee','#e07070','#60a8c8','#e09050','#a060c0','#60c0a0','#8090b0'];
+  // Break down cs-state-v1 by its top sub-keys
+  const stateObj=bundle['cs-state-v1']||{};
+  const stateKeys=Object.keys(stateObj).sort((a,b)=>JSON.stringify(stateObj[b]).length-JSON.stringify(stateObj[a]).length);
+  const STATE_TOP=4;
+  const topStateKeys=stateKeys.slice(0,STATE_TOP);
+  const restStateKeys=stateKeys.slice(STATE_TOP);
+  const stateSections=topStateKeys.map(k=>({label:'state.'+k,size:JSON.stringify(stateObj[k]).length}));
+  const restStateSize=restStateKeys.reduce((a,k)=>a+JSON.stringify(stateObj[k]).length,0);
+  if(restStateSize>0) stateSections.push({label:'state (rest)',size:restStateSize});
+  // Other top-level bundle keys
+  const otherSections=[
+    {k:'cs-xplog-v1',label:'XP log'},
+    {k:'cs-stats-hist-v1',label:'Status history'},
+    {k:'_practiceData',label:'Practice data'},
+    {k:'cs-featured-ach-v1',label:'Featured ach'},
+    {k:'cs-featured-cls-v1',label:'Featured cls'},
+  ].filter(s=>bundle[s.k]!=null).map(s=>({label:s.label,size:JSON.stringify(bundle[s.k]).length}));
+  const allSections=[...stateSections,...otherSections];
+  const segTotal=allSections.reduce((a,e)=>a+e.size,0)||1;
+  const canvas=document.getElementById('migration-pie');
+  const legend=document.getElementById('migration-pie-legend');
+  if(!canvas||!legend) return;
+  const ctx=canvas.getContext('2d');
+  const cx=55,cy=55,r=48,inner=28;
+  ctx.clearRect(0,0,110,110);
+  let angle=-Math.PI/2;
+  allSections.forEach((e,i)=>{
+    const sweep=(e.size/segTotal)*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,angle,angle+sweep);ctx.closePath();
+    ctx.fillStyle=COLORS[i%COLORS.length];ctx.fill();
+    angle+=sweep;
+  });
+  // Donut hole
+  ctx.beginPath();ctx.arc(cx,cy,inner,0,Math.PI*2);
+  ctx.fillStyle='rgba(14,14,22,0.97)';ctx.fill();
+  ctx.fillStyle='#888';ctx.font='bold 11px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(Math.round(jsonStr.length/1000)+'KB',cx,cy);
+  legend.innerHTML='';
+  allSections.forEach((e,i)=>{
+    const pct=Math.round(e.size/segTotal*100);
+    const kb=(e.size/1000).toFixed(1);
+    const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;';
+    const dot=document.createElement('span');dot.style.cssText='width:9px;height:9px;border-radius:50%;flex-shrink:0;background:'+COLORS[i%COLORS.length]+';';
+    const lbl=document.createElement('span');lbl.style.cssText='color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;flex:1;';
+    lbl.textContent=e.label;
+    const val=document.createElement('span');val.style.cssText='color:var(--text-mid);flex-shrink:0;';
+    val.textContent=kb+'KB ('+pct+'%)';
+    row.appendChild(dot);row.appendChild(lbl);row.appendChild(val);legend.appendChild(row);
+  });
+  // Token warning for migration (it's always large)
+  const warn=document.getElementById('migration-size-warning');
+  if(warn) warn.style.display='block';
+}
+
 function exportState(){
   const raw=(_pinActive&&_currentPIN)?null:localStorage.getItem('cs-state-v1');
   const state=raw?JSON.parse(raw):(_pinActive?JSON.parse(JSON.stringify(appState)):DEFAULT);
@@ -5513,6 +5902,11 @@ function exportState(){
   const jsonStr=JSON.stringify(state,null,2);
   document.getElementById('export-textarea').value=jsonStr;
   renderExportPie(state,jsonStr);
+  // Build and render migration bundle
+  const bundle=buildMigrationBundle();
+  const migStr=JSON.stringify(bundle,null,2);
+  document.getElementById('migration-textarea').value=migStr;
+  renderMigrationPie(bundle,migStr);
   document.getElementById('export-modal').classList.add('open');
   document.getElementById('export-btn')?.classList.remove('dirty');
   hideDirtyBanner();
@@ -5537,6 +5931,12 @@ function copyExport(){
   const ta=document.getElementById('export-textarea');
   ta.select(); document.execCommand('copy');
   const btn=document.getElementById('copy-export-btn');
+  btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy',2000);
+}
+function copyMigration(){
+  const ta=document.getElementById('migration-textarea');
+  ta.select(); document.execCommand('copy');
+  const btn=document.getElementById('copy-migration-btn');
   btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy',2000);
 }
 function renderExportPie(state,jsonStr){
@@ -5564,10 +5964,11 @@ function renderExportPie(state,jsonStr){
     warn.style.display='none';
   }
   const indexed=keys.map((k,i)=>({k,s:sizes[i]})).sort((a,b)=>b.s-a.s);
-  const TOP=8;
+  const TOP=10;
   const top=indexed.slice(0,TOP);
   const rest=indexed.slice(TOP);
   const otherSize=rest.reduce((a,x)=>a+x.s,0);
+  const segTotal=indexed.reduce((a,x)=>a+x.s,0)||1;
   const segments=[...top];
   if(otherSize>0) segments.push({k:'other',s:otherSize});
   const canvas=document.getElementById('export-pie');
@@ -5576,7 +5977,7 @@ function renderExportPie(state,jsonStr){
   ctx.clearRect(0,0,110,110);
   let angle=-Math.PI/2;
   segments.forEach((seg,i)=>{
-    const slice=(seg.s/total)*Math.PI*2;
+    const slice=(seg.s/segTotal)*Math.PI*2;
     ctx.beginPath();
     ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,r,angle,angle+slice);
@@ -5597,7 +5998,7 @@ function renderExportPie(state,jsonStr){
   const legend=document.getElementById('export-pie-legend');
   legend.innerHTML='';
   segments.forEach((seg,i)=>{
-    const pct=Math.round(seg.s/total*100);
+    const pct=Math.round(seg.s/segTotal*100);
     const kb=(seg.s/1000).toFixed(1);
     const row=document.createElement('div');
     row.style.cssText='display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;';
@@ -5919,6 +6320,16 @@ function downloadExportJson(){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'data.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function downloadMigrationJson(){
+  const txt = document.getElementById('migration-textarea').value;
+  if(!txt) return;
+  const blob = new Blob([txt], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'migration.json';
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -7096,9 +7507,19 @@ function renderTypePie(svgId, legendId, entries){
     const li=document.createElement('div'); li.className='pie-legend-item';
     if(e.tooltip) li.title=e.tooltip;
     const dot=document.createElement('div'); dot.className='pie-legend-dot'; dot.style.background=e.colour;
-    const lbl=document.createElement('span'); lbl.className='pie-legend-label'; lbl.textContent=e.label;
+    const lbl=document.createElement('span'); lbl.className='pie-legend-label'; lbl.textContent=e.label; if(e.labelTooltip){ lbl.title=e.labelTooltip; lbl.style.cursor='help'; }
     const cnt=document.createElement('span'); cnt.className='pie-legend-hours'; cnt.textContent=e.count;
     li.appendChild(dot); li.appendChild(lbl); li.appendChild(cnt);
+    if(e.avgMastery!=null){
+      const pips=document.createElement('span'); pips.style.cssText='display:inline-flex;gap:2px;margin-left:8px;flex-shrink:0;';
+      const filled=Math.round(e.avgMastery);
+      for(let p=1;p<=5;p++){
+        const pip=document.createElement('span');
+        pip.style.cssText=`display:inline-block;width:6px;height:6px;border-radius:1px;background:${p<=filled?e.colour:'rgba(255,255,255,0.1)'};`;
+        pips.appendChild(pip);
+      }
+      li.appendChild(pips);
+    }
     legend.appendChild(li);
   });
 }
@@ -7186,12 +7607,13 @@ function addDailySlice(){
 }
 
 // ══ SKILLS TAB ══════════════════════════════════════════════
-const SKILL_ROLES=['DPS','Tank','Support'];
-const SKILL_ROLE_COLS={DPS:'#d07830',Tank:'#3a80c8',Support:'#60a838'};
+const SKILL_ROLES=['DPS','Tank','Support','Lead'];
+const SKILL_ROLE_COLS={DPS:'#d07830',Tank:'#3a80c8',Support:'#60a838',Lead:'#8090a8'};
 const SKILL_ROLE_DESCS={
   DPS:'Do more: improve external circumstances and solve outer problems',
   Tank:'Do less: improve internal emotional state and accept inner challenges',
-  Support:'Genuine sacrifice and compassion for future self or others'
+  Support:'Genuine sacrifice and compassion for future self or others',
+  Lead:'Direct others: set direction, hold vision, own outcomes beyond yourself'
 };
 
 function cycleSkillRole(realIdx){
@@ -7219,10 +7641,6 @@ function renderSkillsTopRow(s){
     const m=Math.max(1,Math.min(5,sk.mastery||1));
     const col=BELT_COLS[m-1];
     const wrap=document.createElement('div'); wrap.className='sk-keystone-card';
-    const tooltip=document.createElement('div'); tooltip.className='sk-keystone-tooltip';
-    tooltip.setAttribute('data-tip','The Keystone Skill is your highest-priority underlevelled skill (mastery I or II). Low level + high priority = maximum growth potential for minimum effort. This is where to focus next.');
-    tooltip.innerHTML='⚑ Keystone Skill <span style="opacity:0.5">(?)</span>';
-    wrap.appendChild(tooltip);
     const nameEl=document.createElement('div'); nameEl.className='sk-keystone-name'; nameEl.textContent=sk.name||'Unnamed Skill';
     wrap.appendChild(nameEl);
     const meta=document.createElement('div'); meta.className='sk-keystone-meta';
@@ -7242,10 +7660,14 @@ function renderSkillsTopRow(s){
     keystoneEl.appendChild(wrap);
   }
 
-  // Role pie
-  const roleCounts={DPS:0,Tank:0,Support:0};
-  allSkills.forEach(sk=>{ if(sk.role&&roleCounts[sk.role]!==undefined) roleCounts[sk.role]++; });
-  const entries=Object.entries(roleCounts).filter(([,c])=>c>0).map(([role,count])=>({label:role,count,colour:SKILL_ROLE_COLS[role]}));
+  // Role pie — colour segments by average mastery (dim=low, bright=high)
+  const roleData={DPS:{count:0,totalMastery:0},Tank:{count:0,totalMastery:0},Support:{count:0,totalMastery:0},Lead:{count:0,totalMastery:0}};
+  allSkills.forEach(sk=>{ if(sk.role&&roleData[sk.role]){ roleData[sk.role].count++; roleData[sk.role].totalMastery+=(sk.mastery||1); } });
+  const entries=Object.entries(roleData).filter(([,d])=>d.count>0).map(([role,d])=>{
+    const avgMastery=d.totalMastery/d.count;
+    const avgLabel=avgMastery.toFixed(1);
+    return {label:role,count:d.count,colour:SKILL_ROLE_COLS[role],avgMastery,labelTooltip:SKILL_ROLE_DESCS[role]||'',tooltip:`${role}: ${d.count} skill${d.count!==1?'s':''} · avg mastery ${avgLabel}/5`};
+  });
   renderTypePie('sk-pie-chart','sk-pie-legend',entries);
 }
 
@@ -7274,16 +7696,16 @@ function renderCombatSkills(s){
     const card=document.createElement('div'); card.className='skill-card';
     const head=document.createElement('div'); head.className='skill-card-head'; head.dataset.handleInject='1';
     const pri=document.createElement('div'); pri.className='skill-card-priority'; pri.textContent=sk.priority||'—';
-    const nameEl=makeEditable(sk.name,'Skill name',v=>{ saveNestedField(['skills',realIdx,'name'],capitalise(v)); const upd=appState.skills||[]; renderEditableSkillsList('fire-skills-left',upd.filter(s=>(s.mastery||1)<=2).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,3),appState); renderEditableSkillsList('fire-skills-right',upd.filter(s=>(s.mastery||1)>=3).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,3),appState); },'sk-name-edit skill-card-name');
+    const nameEl=makeEditable(sk.name,'Skill name',v=>{ saveNestedField(['skills',realIdx,'name'],capitalise(v)); const upd=appState.skills||[]; renderEditableSkillsList('fire-skills-left',upd.filter(s=>(s.mastery||1)<=2).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,2),appState); renderEditableSkillsList('fire-skills-right',upd.filter(s=>(s.mastery||1)>=3).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,2),appState); },'sk-name-edit skill-card-name');
     const mastery=document.createElement('div'); mastery.className='skill-card-mastery'; mastery.style.cssText=`color:${col};border-color:${col}40`; mastery.textContent=MASTERY_LABELS[m];
     // Role badge — click cycles through DPS → Tank → Support → none
     const roleBadge=document.createElement('div');
     const roleVal=sk.role||null;
     roleBadge.className='skill-role-badge '+(roleVal?roleVal.toLowerCase():'none');
     roleBadge.textContent=roleVal||'+ Role';
-    roleBadge.title=roleVal?(SKILL_ROLE_DESCS[roleVal]||''):'Click to assign a role (DPS / Tank / Support)';
+    roleBadge.title=roleVal?(SKILL_ROLE_DESCS[roleVal]||''):'Click to assign a role (DPS / Tank / Support / Lead)';
     roleBadge.addEventListener('click',e=>{ e.stopPropagation();
-      const roleOpts=[{value:'DPS',icon:'⚔',label:'DPS: Do More',color:'#d07830'},{value:'Tank',icon:'🛡',label:'Tank: Do Less',color:'#3a80c8'},{value:'Support',icon:'✦',label:'Support: Support Others',color:'#60a838'}];
+      const roleOpts=[{value:'DPS',icon:'⚔',label:'DPS: Do More',color:'#d07830'},{value:'Tank',icon:'🛡',label:'Tank: Do Less',color:'#3a80c8'},{value:'Support',icon:'✦',label:'Support: Support Others',color:'#60a838'},{value:'Lead',icon:'♛',label:'Lead: Self-Led',color:'#8090a8'}];
       if(roleVal) roleOpts.push({value:null,icon:'×',label:'Remove role',color:'#886666'});
       showTypeDropdown(roleBadge,roleOpts,roleVal,newRole=>{ const sk=appState.skills[realIdx]; if(sk){ sk.role=newRole; saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState); } });
     });
@@ -7322,7 +7744,7 @@ function renderClassesTab(s){
   if(previewEl){
     const featuredCls=classes.filter(c=>featured.includes(c.id));
     previewEl.innerHTML=featuredCls.length
-      ?featuredCls.map(c=>`<span class="cls-featured-tag">${esc(c.icon||'◈')} ${esc(c.title||c.name||'')}</span>`).join('')
+      ?featuredCls.map(c=>{ const CLS_RS={Tank:'🛡',DPS:'⚔',Support:'✦',Lead:'♛'}; const rs=c.role?`<span class="tag-role">${CLS_RS[c.role]}</span>`:''; return `<span class="feat-tag cls">${esc(c.customIcon||c.icon||'◈')} ${esc(c.title||c.name||'')} ${rs}</span>`; }).join('')
       :'<span style="font-size:16px;color:var(--text-dim);font-style:italic;">None selected</span>';
   }
   const listEl=document.getElementById('cls-list');
@@ -7340,22 +7762,54 @@ function renderClassesTab(s){
       if(ci>=0){ appState.classes.splice(ci,1); saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
     }); });
     row.appendChild(clsDelBtn);
-    const clsIcon=document.createElement('div'); clsIcon.className='cls-card-icon'; clsIcon.textContent=c.icon||'◈';
-    const clsTitle=document.createElement('div'); clsTitle.className='cls-card-title'; clsTitle.textContent=c.title||c.name||'';
-    const clsDate=document.createElement('div'); clsDate.className='cls-card-date'; clsDate.textContent=c.dateUnlocked||'';
-    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsDate);
-    const desc=document.createElement('div'); desc.className='cls-card-desc'; desc.textContent=c.description||'';
-    card.appendChild(row); card.appendChild(desc);
-    card.onclick=()=>{
+    const ci2=appState.classes.findIndex(x=>x.id===c.id);
+    const clsIcon=document.createElement('div'); clsIcon.className='cls-card-icon'; clsIcon.textContent=c.customIcon||c.icon||'◈';
+    clsIcon.title='Click to change icon'; clsIcon.addEventListener('click',e=>{ e.stopPropagation();
+      showEmojiPicker(clsIcon, c.customIcon||c.icon||'◈', c.icon||'◈', v=>{
+        if(ci2>=0){ if(v===null){ delete appState.classes[ci2].customIcon; } else { appState.classes[ci2].customIcon=v; }
+          saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
+      });
+    });
+    const clsTitle=makeEditable(c.title||c.name||'','Title',v=>{ if(ci2>=0){appState.classes[ci2].title=v; saveState(appState); markDirty(); renderHdrClasses(appState);} },'cls-card-title');
+    clsTitle.addEventListener('click',e=>e.stopPropagation());
+    const clsDate=makeEditable(c.dateUnlocked||'','Date unlocked',v=>{ if(ci2>=0){appState.classes[ci2].dateUnlocked=v; saveState(appState); markDirty();} },'cls-card-date');
+    clsDate.addEventListener('click',e=>e.stopPropagation());
+    // Role dropdown
+    const roleSelect=document.createElement('select');
+    roleSelect.className='cls-role-select '+(c.role?c.role.toLowerCase():'');
+    roleSelect.title='Role';
+    [['','— Role —'],['Tank','🛡 Tank'],['DPS','⚔ DPS'],['Support','✦ Support'],['Lead','♛ Lead']].forEach(([val,lbl])=>{
+      const opt=document.createElement('option'); opt.value=val; opt.textContent=lbl;
+      if((c.role||'')=== val) opt.selected=true;
+      roleSelect.appendChild(opt);
+    });
+    roleSelect.addEventListener('change',e=>{ e.stopPropagation();
+      if(ci2>=0){ appState.classes[ci2].role=roleSelect.value||null; saveState(appState); markDirty();
+        roleSelect.className='cls-role-select '+(roleSelect.value?roleSelect.value.toLowerCase():'');
+        renderHdrClasses(appState); renderClassesTab(appState); }
+    });
+    roleSelect.addEventListener('click',e=>e.stopPropagation());
+    const clsFeatBtn=document.createElement('button');
+    clsFeatBtn.className='cls-feature-btn'+(isFeatured?' active':'');
+    clsFeatBtn.title=isFeatured?'Remove from featured':'Pin to featured (max 3)';
+    clsFeatBtn.textContent='✓';
+    clsFeatBtn.addEventListener('click',e=>{
+      e.stopPropagation();
       const f=getFeaturedCls();
       const idx=f.indexOf(c.id);
       if(idx>=0){f.splice(idx,1);}
       else if(f.length<3){f.push(c.id);}
       else{return;}
       setFeaturedCls(f);
+      clsFeatBtn.classList.add('pop');
+      clsFeatBtn.addEventListener('animationend',()=>clsFeatBtn.classList.remove('pop'),{once:true});
       renderClassesTab(s);
       renderHdrClasses(s);
-    };
+    });
+    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsDate); row.appendChild(roleSelect); row.appendChild(clsFeatBtn);
+    const desc=makeEditable(c.description||'','Description',v=>{ if(ci2>=0){appState.classes[ci2].description=v; saveState(appState); markDirty();} },'cls-card-desc');
+    desc.addEventListener('click',e=>e.stopPropagation());
+    card.appendChild(row); card.appendChild(desc);
     listEl.appendChild(card);
   });
   makeSortable(listEl, (from, to) => {
@@ -7377,14 +7831,18 @@ function renderHdrClasses(s){
     const sub=document.getElementById('hdr-sub');
     if(sub) sub.parentNode.insertBefore(clsEl,sub.nextSibling);
   }
-  clsEl.innerHTML=featuredCls.map(c=>`<span class="hdr-class-tag">${esc(c.icon||'◈')} ${esc(c.title||c.name||'')}</span>`).join('');
+  const CLS_RS={Tank:'🛡',DPS:'⚔',Support:'✦',Lead:'♛'};
+  clsEl.innerHTML=featuredCls.map(c=>{
+    const rs=c.role?`<span class="tag-role">${CLS_RS[c.role]}</span>`:'';
+    return `<span class="feat-tag cls">${esc(c.customIcon||c.icon||'◈')} ${esc(c.title||c.name||'')} ${rs}</span>`;
+  }).join('');
 }
 
 // ══ STAT BARS ════════════════════════════════════════════════
 // ══ HEADER ICON ══════════════════════════════════════════════
 function getIconPool(s){
-  const achIcons=(s.achievements||DEFAULT.achievements||[]).map(a=>ACH_ICONS[a.type]||ACH_ICONS.default);
-  const clsIcons=(s.classes||DEFAULT.classes||[]).map(c=>c.icon).filter(Boolean);
+  const achIcons=(s.achievements||DEFAULT.achievements||[]).map(a=>a.customIcon||ACH_ICONS[a.type]||ACH_ICONS.default);
+  const clsIcons=(s.classes||DEFAULT.classes||[]).map(c=>c.customIcon||c.icon).filter(Boolean);
   const pool=[...new Set([...clsIcons,...achIcons])];
   return pool.length?pool:['★'];
 }
@@ -7394,6 +7852,42 @@ function updateHdrIcon(s){
   const el=document.getElementById('hdr-icon');
   if(el) el.textContent=pool[idx];
 }
+function initNameEditable(){
+  const el = document.getElementById('hdr-name');
+  if(!el || el.dataset.editWired) return;
+  el.dataset.editWired = '1';
+  el.addEventListener('blur', () => {
+    const v = el.textContent.trim();
+    if(v && v !== (appState.name||'Hero')){
+      appState.name = v;
+      saveState(appState);
+      markDirty();
+    } else if(!v){
+      el.textContent = appState.name||'Hero';
+    }
+  });
+  el.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); el.blur(); }
+    if(e.key === 'Escape'){ el.textContent = appState.name||'Hero'; el.blur(); }
+  });
+}
+
+function setNameColor(color){
+  appState.nameColor = color;
+  document.getElementById('hdr-name').style.color = color;
+  // Also update progression timeline headers and border
+  const loreCard = document.getElementById('lore-progression');
+  if(loreCard) loreCard.style.borderLeftColor = color;
+  const loreHdr = document.querySelector('#lore-progression .lore-card-hdr');
+  if(loreHdr) loreHdr.style.color = color;
+  const airHdr = document.getElementById('air-progression-hdr');
+  if(airHdr) airHdr.style.color = color;
+  const balLbl = document.getElementById('balance-progression-lbl');
+  if(balLbl) balLbl.style.color = color;
+  saveState(appState);
+  markDirty();
+}
+
 function cycleHdrIcon(){
   const pool=getIconPool(appState);
   const idx=(Math.min(parseInt(localStorage.getItem(HDR_ICON_KEY)||'0'),pool.length-1)+1)%pool.length;
@@ -7948,6 +8442,7 @@ async function _initPINCheck(){
 // ══ INIT ════════════════════════════════════════════════════
 function _init(){
   render(appState);
+  initNameEditable();
   initTabColours();
   initStatBars();
   loadStatusSliders();

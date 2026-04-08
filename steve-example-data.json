@@ -275,6 +275,7 @@
         "desc": "The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.",
         "whyBoss": "Every other enemy is this one in disguise - Procrastination is the Dragon saying you'll die, Self-Doubt is the Dragon questioning your enchants, the Comparison Trap is the Dragon finding external evidence you're a noob.",
         "hp": 80,
+        "xpReward": 500,
         "shortTermBenefit": "Keeps standards high. Feels like appropriate caution before a high-stakes fight.",
         "origin": "Formed in environments where being under-geared was the primary risk - performance over presence.",
         "vulnerabilities": [
@@ -283,9 +284,9 @@
           { "title": "Starting before ready", "desc": "The Dragon's main lever is the gap before entering the portal. Starting small - one Eye of Ender thrown, one block placed - collapses the gap before the Dragon can fill it." }
         ],
         "subEnemies": [
-          { "name": "PROCRASTINATION", "type": "compulsion", "hp": 75, "desc": "Masquerades as preparation. Rearranges the hotbar instead of entering the cave." },
-          { "name": "SELF-DOUBT", "type": "blindspot", "hp": 70, "desc": "Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth." },
-          { "name": "COMPARISON TRAP", "type": "blindspot", "hp": 65, "desc": "Measures a messy mid-game against other players' fully-automated mega-bases." }
+          { "name": "PROCRASTINATION", "type": "compulsion", "hp": 75, "desc": "Masquerades as preparation. Rearranges the hotbar instead of entering the cave.", "xpReward": 100 },
+          { "name": "SELF-DOUBT", "type": "blindspot", "hp": 70, "desc": "Quiet voice that says other players have better gear. Speaks in first person so it sounds like truth.", "xpReward": 80 },
+          { "name": "COMPARISON TRAP", "type": "blindspot", "hp": 65, "desc": "Measures a messy mid-game against other players' fully-automated mega-bases.", "xpReward": 60 }
         ]
       }
     ],
@@ -298,6 +299,7 @@
         "shortTermBenefit": "Decompression that asks nothing. Feels like progress without the vulnerability of actually using the materials.",
         "origin": "Avoidance of the quiet - where unprocessed loot from the day tends to surface.",
         "hp": 85,
+        "xpReward": 130,
         "priority": 1
       },
       {
@@ -308,6 +310,7 @@
         "shortTermBenefit": "Avoids conflict and the guilt of leaving someone underground alone. Feels like being a good teammate.",
         "origin": "Unknown - likely formed where keeping allies comfortable felt safer than asserting the main quest.",
         "hp": 90,
+        "xpReward": 150,
         "priority": 2
       },
       {
@@ -318,6 +321,7 @@
         "shortTermBenefit": "Creates the illusion of more base time. Feels like a sensible trade-off.",
         "origin": "The Ender Dragon framing exploration as optional when diamond counts are low.",
         "hp": 80,
+        "xpReward": 110,
         "priority": 3
       }
     ],
@@ -372,8 +376,8 @@
     { "id": "not-just-a-noob",  "title": "Not Just a Noob",   "description": "Stopped seeing the death counter as proof of incompetence. Failure is data. Feb 2026.",                     "type": "transmutation", "dateUnlocked": "Feb 2026", "featured": false }
   ],
   "classes": [
-    { "id": "builder",  "title": "Builder",  "icon": "✦", "description": "Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.", "dateUnlocked": "Feb 2026", "featured": true  },
-    { "id": "explorer", "title": "Explorer", "icon": "◈", "description": "Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.", "dateUnlocked": "Jan 2026", "featured": false }
+    { "id": "builder",  "title": "Builder",  "icon": "✦", "description": "Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.", "dateUnlocked": "Feb 2026", "featured": true,  "role": "DPS"     },
+    { "id": "explorer", "title": "Explorer", "icon": "◈", "description": "Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.", "dateUnlocked": "Jan 2026", "featured": false, "role": "Support" }
   ],
   "_xpLog": [
     { "date": "7 Apr 2026",  "amount":  20,  "reason": "Session update",                                                      "totalAfter": 570, "levelup": false },

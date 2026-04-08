@@ -54,13 +54,13 @@ XP is awarded when you cross a mastery threshold.
 
 **Keystone skill** — your highest-priority underlevelled skill. Low mastery + high priority = maximum growth potential.
 
-**By Role** — a pie chart breaking down your skills by role: DPS (push harder), Tank (pull back), Support (give to others or future self).
+**By Role** — a pie chart breaking down your skills by role: DPS (push harder), Tank (pull back), Support (give to others or future self). Each segment is shaded dim→bright based on average mastery — bright means that role is well developed.
 
 **All skills** — full ranked list, draggable to reorder. Each skill shows mastery (1–5), role, and priority.
 
 Mastery: 1 = just starting · 2 = developing · 3 = competent · 4 = strong · 5 = unconscious competence
 
-**XP History** — log of all XP gains, losses, and level-ups.
+**XP History** — log of all XP gains, losses, and level-ups, grouped by date into collapsible sessions. Each session shows total XP earned that day. Kill entries (enemy defeated) are highlighted in red.
 
 ---
 
@@ -81,7 +81,7 @@ All patterns sorted by AI-assigned priority:
 
 **The Graveyard** — defeated patterns, recorded with how they were overcome.
 
-Each enemy shows its HP bar (red = still strong, amber = weakening, green = losing grip), short-term benefit, and inferred origin.
+Each enemy shows its HP bar (red = still strong, amber = weakening, green = losing grip), short-term benefit, and inferred origin. Defeating an enemy (moving it to the graveyard) immediately awards its `xpReward` XP.
 
 A pie chart shows enemy breakdown by type.
 
@@ -144,6 +144,14 @@ The Journal is where long-term use compounds. After a few months, patterns emerg
 **In the JSON** (safe as long as you export): everything the AI writes — quests, enemies, beliefs, skills, elements, journal, XP, achievements. Export after every session.
 
 **In localStorage only** (lost if you clear browser storage): practice tracker values and history, XP log, status sliders, core skills sliders, pinned achievements/classes. Losing these won't affect your core data.
+
+## Export vs Migration
+
+The export modal has two columns:
+
+**AI Journal Export (left)** — the JSON you paste into your AI project as `data.json`. Contains all your character data. Keep this up to date after every session.
+
+**Full Migration Backup (right)** — a larger bundle that includes everything in the AI export *plus* practice tracker history, status check-in history, featured pins, and XP log. Use this when moving to a new device or browser. Do not paste this into an AI chat — it is too large and contains data the AI doesn't need.
 
 ## Practice period resets
 
