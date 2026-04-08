@@ -1,0 +1,41 @@
+# Tips
+
+## Keeping token usage low
+
+- **Start a new chat each session.** Most important. Every message in a conversation re-sends the entire history — costs compound fast.
+- **Use project knowledge.** `instructions.md` and `data.json` load once at the start, not per message.
+- **Keep `data.json` concise.** It loads every session. Push back if the AI makes it verbose.
+- **One topic per session.** Focused sessions produce leaner JSON updates.
+
+---
+
+## What does and doesn't persist
+
+| What | Where | Survives browser restart? | Survives clearing browser data? | AI knows? |
+|------|-------|--------------------------|--------------------------------|-----------|
+| Everything imported via `↑` | localStorage | ✅ | ❌ | Yes |
+| Edits made in the app | localStorage | ✅ | ❌ | **Only if you export `↓`** |
+| Practice timer / checkbox / number | localStorage | ✅ | ❌ | No |
+| Practice history (graphs) | localStorage | ✅ | ❌ | No |
+| Status sliders | localStorage | ✅ | ❌ | No |
+| Core skills sliders | localStorage | ✅ | ❌ | No |
+| XP log | localStorage | ✅ | ❌ | No |
+| Completed quests | localStorage | ✅ | ❌ | **Only when newly completed in a session** |
+| `data.json` | Project knowledge | ✅ | ✅ | Yes |
+
+**localStorage is not session storage** — it survives closing and reopening the browser. Risks are: clearing browser data, switching browser, opening the file from a different path, or a new device.
+
+**The safe habit:** end every session by asking the AI to update your `data.json`, replace it in project knowledge, and import the new version. That way the AI and the app always match.
+
+---
+
+## Updating to a new version
+
+1. **Export first** — click `↓` (bottom right). Use **Full Migration Backup** to download `migration.json`. This preserves practice history, status history, and XP log.
+2. **Re-download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html)**.
+3. **Clear old localStorage:**
+   - **Firefox:** `about:preferences#privacy` → Manage Data → search for the file name → Remove
+   - **Chrome:** Open the old file → DevTools (F12) → Application → Local Storage → right-click → Clear
+   - **Quickest:** open browser console (F12 → Console) and run `localStorage.clear()`, then refresh
+4. **Re-import your data** — open the new file, click `↑`, paste your `data.json`. (`migration.json` is not for the import modal — it's a backup only.)
+5. **Re-download [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md)** and replace it in your AI project knowledge.
