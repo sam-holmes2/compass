@@ -48,7 +48,7 @@ Apps like Purpose, Rosebud, or Reflectly use frontier model APIs under the hood.
 |-------|--------------|
 | **0** | Browse Steve's demo, use the tab structure as inspiration for what to reflect on, journal on paper using the same categories |
 | **1** | Download `character-sheet.html`, open locally in Firefox, use as a standalone offline tracker — no AI needed |
-| **2** | Store the file in Google Drive or iCloud; it has no personal data, so syncing the file itself is low risk |
+| **2** | Store the file in Google Drive or iCloud to enable sync across devices|
 | **3** | Journal with a local model (Ollama + Open WebUI); paste the AI's JSON output into character-sheet manually |
 | **4** | The default setup: Claude Projects + `instructions.md` + `data.json` in project knowledge |
 | **5** | Use a journalling app that connects to Claude; import its output into character-sheet if it can produce JSON |

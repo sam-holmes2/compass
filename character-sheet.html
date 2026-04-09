@@ -638,6 +638,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .xp-toast-xp { color:#b080e8; font-size:17px; font-weight:700; white-space:nowrap; }
 .xp-toast-undo { background:none; border:1px solid rgba(255,255,255,0.15); border-radius:4px; color:var(--text-dim); font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.1em; padding:3px 8px; cursor:pointer; margin-left:4px; white-space:nowrap; transition:border-color 0.15s,color 0.15s; }
 .xp-toast-undo:hover { border-color:rgba(255,255,255,0.4); color:var(--text-b); }
+.xp-toast.delete-toast { border-color:rgba(200,64,64,0.4); border-left-color:#c84040; }
 .sqcard { border:1px solid rgba(200,168,74,0.18); border-radius:6px; overflow:hidden; margin-bottom:8px; }
 .sqcard-head {
   display:flex; align-items:center; gap:12px; padding:10px 14px;
@@ -1200,19 +1201,20 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .radar-panel-radar svg { width:100%; height:100%; display:block; }
 .radar-panel-charts {
   display:flex; flex-direction:column; gap:0;
-  padding:8px 14px 8px 12px; min-width:0; justify-content:center;
+  padding:8px 14px 8px 12px; min-width:0;
 }
 .radar-chart-group {
   display:flex; flex-direction:column; padding:4px 0;
+  flex:1 1 0; min-height:0;
 }
 .radar-chart-group + .radar-chart-group {
   border-top:1px solid rgba(255,255,255,0.05);
 }
 .radar-chart-lbl {
   font-family:var(--mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase;
-  color:rgba(255,255,255,0.25); margin-bottom:3px;
+  color:rgba(255,255,255,0.25); margin-bottom:3px; flex:0 0 auto;
 }
-.radar-chart-canvas { width:100%; display:block; height:36px; }
+.radar-chart-canvas { width:100%; display:block; flex:1 1 0; min-height:36px; }
 /* Legacy compat */
 .status-charts-wrap { display:none; }
 .status-history-canvas { display:none; }
@@ -1232,6 +1234,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--gold);
   text-transform:uppercase;
 }
+.rq-hdr-name { flex:1; min-width:0; }
 .practice-type-badge {
   font-family:var(--mono); font-size:11px; letter-spacing:0.1em;
   padding:2px 6px; border-radius:2px; border:1px solid rgba(200,168,74,0.3);
@@ -1242,6 +1245,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   padding:2px 6px; border-radius:2px; border:1px solid rgba(128,144,168,0.25);
   color:var(--text-dim); text-transform:uppercase; flex-shrink:0;
 }
+.practice-type-select, .practice-period-select {
+  appearance:none; -webkit-appearance:none; background:transparent;
+  cursor:pointer; outline:none;
+}
+.practice-type-select:hover { border-color:rgba(200,168,74,0.6); }
+.practice-period-select:hover { border-color:rgba(128,144,168,0.5); }
+.practice-type-select option, .practice-period-select option { background:#1a1a24; color:#c8d0d8; }
 .practice-card-body {
   display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1.6fr); gap:0; align-items:stretch;
 }
@@ -1251,10 +1261,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-desc { font-size:15px; color:var(--text-mid); line-height:1.55; }
 .practice-why { font-size:14px; color:rgba(200,168,74,0.75); font-style:italic; margin-top:5px; line-height:1.45; }
 .practice-why::before { content:"Why: "; font-weight:700; font-style:normal; opacity:0.7; }
-.practice-stats { display:flex; gap:14px; font-family:var(--mono); font-size:13px; color:var(--text-dim); margin-top:10px; padding-top:8px; border-top:1px solid rgba(200,168,74,0.1); flex-wrap:wrap; }
-.practice-stat { display:flex; align-items:baseline; gap:5px; }
-.practice-stat-label { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); }
-.practice-stat-value { font-size:14px; color:var(--gold); }
+.practice-stats { display:flex; flex-direction:column; gap:4px; font-family:var(--mono); font-size:13px; margin-top:10px; padding-top:8px; border-top:1px solid rgba(200,168,74,0.1); }
+.practice-trends-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; margin-bottom:3px; }
+.practice-trend-row { display:flex; align-items:center; gap:7px; }
+.practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
+.practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
+.practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
+.practice-trend-lbl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); flex:1; }
+.practice-trend-val { font-size:13px; font-family:var(--mono); }
+.practice-trend-val-7d  { color:#e05060; }
+.practice-trend-val-all { color:#40c8c0; }
 .practice-widget { padding:10px 14px; border-left:1px solid rgba(200,168,74,0.12); min-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
 .practice-graph-col { border-left:1px solid rgba(200,168,74,0.1); padding:10px 12px; display:flex; align-items:stretch; min-width:0; }
 .practice-graph-wrap { flex:1; min-width:0; position:relative; width:100%; display:flex; flex-direction:column; }
@@ -1370,11 +1386,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   text-transform:uppercase; opacity:0.85; display:inline-flex; align-items:center; gap:4px;
 }
 .rq-color-swatch {
-  display:inline-block; width:12px; height:12px; border-radius:50%;
-  cursor:pointer; flex-shrink:0; border:1px solid rgba(255,255,255,0.2);
-  position:relative; vertical-align:middle;
+  display:inline-flex; align-items:center; gap:5px; flex-shrink:0;
+  font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  padding:2px 7px 2px 4px; border-radius:2px; border:1px solid rgba(255,255,255,0.12);
+  cursor:pointer; position:relative; color:rgba(200,210,220,0.7);
+  transition:border-color 0.15s;
 }
-.rq-color-swatch-sm { width:9px; height:9px; }
+.rq-color-swatch:hover { border-color:rgba(255,255,255,0.3); color:#c8d0d8; }
+.rq-color-dot {
+  display:inline-block; width:10px; height:10px; border-radius:2px; flex-shrink:0;
+}
+.rq-color-swatch-sm { width:9px; height:9px; border-radius:50%; display:inline-block; }
 .rq-color-input {
   position:absolute; inset:0; opacity:0; width:100%; height:100%;
   cursor:pointer; padding:0; border:none;
@@ -1637,18 +1659,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   background:rgba(58,128,200,0.05); border-radius:0 5px 5px 0;
 }
 /* ══ HARMONY CARD ════════════════════════════════════════ */
-.balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; }
-.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:18px; letter-spacing:0.2em; color:#8090a8; text-transform:uppercase; padding:14px 18px 0; }
-.balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; }
+.balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: auto auto 1fr; }
+.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:18px; letter-spacing:0.2em; color:#8090a8; text-transform:uppercase; padding:14px 18px 0; grid-column:1; }
+.balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; grid-column:1; }
 .balance-el-card-body {
-  display:grid;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-  align-items:center;
-  gap:0;
-  padding:10px 16px 14px;
+  display:contents;
 }
-/* Left cell: legend | radar (capped) | scores — all centred, no dead space */
-.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px; min-width:0; }
+/* Right cell: legend | radar (capped) | scores — all centred, no dead space */
+.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px; min-width:0; border-left:1px solid var(--border); padding-left:16px; grid-column:2; grid-row:1 / -1; padding-right:16px; }
 .balance-el-radar-svg { display:block; flex:1; max-width:240px; min-width:80px; aspect-ratio:1; overflow:visible; flex-shrink:1; }
 /* Radar legend — left flank */
 .balance-el-radar-meta {
@@ -1659,24 +1677,27 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .balance-radar-legend-item { display:flex; align-items:center; gap:5px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.06em; color:#8090a8; text-transform:uppercase; }
 .brl-line { display:inline-block; width:14px; height:1.5px; flex-shrink:0; }
 .brl-current { background:var(--gold); opacity:0.9; }
-.brl-week    { background:var(--gold); opacity:0.45; }
-.brl-month   { background:var(--gold); opacity:0.2; border-top:1px dashed rgba(200,168,74,0.5); height:0; }
+.brl-week    { background:rgba(224,80,96,0.7);  border-top:1px dotted rgba(224,80,96,0.8);  height:0; }
+.brl-month   { background:rgba(64,200,192,0.65); border-top:1px dashed rgba(64,200,192,0.8); height:0; }
 /* Harmony scores — right flank */
 .balance-harmony-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.12em; color:#8090a8; text-transform:uppercase; margin-top:2px; }
 .balance-harmony-trio { display:flex; flex-direction:column; gap:8px; flex-shrink:0; }
 .bht-cell { display:flex; flex-direction:column; }
 .bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:16px; }
 .bht-now { font-size:18px; color:#c8d0d8; }
-/* Right cell: Over Time chart + its legend to the right */
-.harmony-chart-col { display:flex; flex-direction:row; align-items:stretch; gap:0; border-left:1px solid var(--border); padding-left:16px; min-width:0; }
+/* Left cell: Over Time chart + its legend to the right */
+.harmony-chart-col { display:flex; flex-direction:row; align-items:stretch; gap:0; min-width:0; grid-column:1; grid-row:3; padding:10px 16px 14px; }
 .harmony-chart-canvas-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
 .harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em; color:#8090a8; text-transform:uppercase; margin-bottom:6px; }
 .harmony-chart-legend { display:flex; flex-direction:column; gap:5px; justify-content:center; font-size:10px; letter-spacing:0.08em; color:#8090a8; opacity:0.8; flex-shrink:0; padding-left:10px; border-left:1px solid var(--border); }
 .hcl-swatch { display:inline-block; width:7px; height:7px; border-radius:1px; opacity:0.9; margin-right:4px; }
 /* Narrow window: stack */
 @media (max-width: 600px) {
-  .balance-el-card-body { grid-template-columns: 1fr; }
-  .harmony-chart-col { border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:12px; flex-direction:row; }
+  .balance-el-card { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .balance-el-card-hdr { grid-column:1; }
+  .balance-el-card-desc { grid-column:1; }
+  .harmony-chart-col { grid-column:1; grid-row:auto; padding:10px 16px 12px; border-bottom:1px solid var(--border); flex-direction:row; }
+  .balance-el-radar-row { grid-column:1; grid-row:auto; border-left:none; padding-left:16px; padding-right:16px; border-top:1px solid var(--border); padding-top:12px; }
 }
 /* ══ STATS panel — uses radar-panel; keep for margin override ══ */
 .stats-card { margin-bottom:18px; }
@@ -2048,13 +2069,27 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="balance-el-card-hdr">Harmony</div>
   <div class="balance-el-card-desc">Balance between the four elements, inferred from each session</div>
   <div class="balance-el-card-body">
-    <!-- Col 1: [line legend] [radar] [harmony scores] -->
+    <!-- Col 1: Over Time chart + legend to the right -->
+    <div class="harmony-chart-col">
+      <div class="harmony-chart-canvas-wrap">
+        <div class="harmony-chart-col-hdr">Over Time</div>
+        <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:120px"></canvas>
+      </div>
+      <div class="harmony-chart-legend">
+        <span><span class="hcl-swatch" style="background:#b0b8c8;height:2px;border-radius:1px;vertical-align:middle;margin-bottom:1px"></span>Total Mastery</span>
+        <span><span class="hcl-swatch" style="background:#8090a8"></span>Air</span>
+        <span><span class="hcl-swatch" style="background:#d07830"></span>Fire</span>
+        <span><span class="hcl-swatch" style="background:#60a838"></span>Earth</span>
+        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
+      </div>
+    </div>
+    <!-- Col 2: [line legend] [radar] [harmony scores] -->
     <div class="balance-el-radar-row">
       <div class="balance-el-radar-meta">
         <div class="balance-radar-legend">
           <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Now</div>
-          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>Last week</div>
-          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>Last month</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>7-day avg</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>All-time avg</div>
         </div>
       </div>
       <svg id="radar-svg" viewBox="-90 -94 180 196" xmlns="http://www.w3.org/2000/svg" class="balance-el-radar-svg">
@@ -2064,8 +2099,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <polygon points="0,-15 15,0 0,15 -15,0" fill="none" stroke="#18181f" stroke-width="0.4"/>
         <line x1="0" y1="-72" x2="0" y2="72" stroke="#1e1e28" stroke-width="0.5"/>
         <line x1="-72" y1="0" x2="72" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
-        <polygon id="radar-ghost-month" fill="none" stroke="rgba(200,168,74,0.12)" stroke-width="1.2" stroke-dasharray="3,3"/>
-        <polygon id="radar-ghost-week"  fill="none" stroke="rgba(200,168,74,0.30)" stroke-width="1.2" stroke-dasharray="3,3"/>
+        <polygon id="radar-ghost-month" fill="none" stroke="rgba(64,200,192,0.55)" stroke-width="1.2" stroke-dasharray="5,3"/>
+        <polygon id="radar-ghost-week"  fill="none" stroke="rgba(224,80,96,0.65)"  stroke-width="1.2" stroke-dasharray="1.5,4"/>
         <polygon id="radar-fill"   fill="rgba(200,168,74,0.07)" stroke="none"/>
         <polygon id="radar-stroke" fill="none" stroke="var(--gold)" stroke-width="1.6" opacity="0.8"/>
         <circle id="r-air"   cx="0" cy="0" r="4.5" fill="#8090a8"/>
@@ -2086,20 +2121,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="bht-num bht-now" id="balance-harmony-now">—</div>
           <div class="balance-harmony-lbl">Now</div>
         </div>
-      </div>
-    </div>
-    <!-- Col 2: Over Time chart + legend to the right -->
-    <div class="harmony-chart-col">
-      <div class="harmony-chart-canvas-wrap">
-        <div class="harmony-chart-col-hdr">Over Time</div>
-        <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:120px"></canvas>
-      </div>
-      <div class="harmony-chart-legend">
-        <span><span class="hcl-swatch" style="background:#b0b8c8;height:2px;border-radius:1px;vertical-align:middle;margin-bottom:1px"></span>Total Mastery</span>
-        <span><span class="hcl-swatch" style="background:#8090a8"></span>Air</span>
-        <span><span class="hcl-swatch" style="background:#d07830"></span>Fire</span>
-        <span><span class="hcl-swatch" style="background:#60a838"></span>Earth</span>
-        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
       </div>
     </div>
   </div>
@@ -2130,7 +2151,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="section-desc">Summary of your entire progression so far since you started journalling with character-sheet</div>
       <div class="claude-read-card" id="air-claude-read">No read yet.</div>
       <div id="air-progression" style="display:none;margin-top:12px;">
-        <div id="air-progression-hdr" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;opacity:0.7;text-transform:uppercase;margin-bottom:7px;">Progression Timeline</div>
+        <div id="air-progression-hdr" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:#3aacac;text-transform:uppercase;margin-bottom:7px;">Last Session</div>
         <div id="air-progression-text" style="font-size:17px;color:var(--text-mid);line-height:1.65;"></div>
       </div>
     </div>
@@ -3287,19 +3308,24 @@ function updateRadarWithGhosts(state){
   document.getElementById('r-water')?.setAttribute('cy', ( R*(sv.water||0)/100).toFixed(1));
   document.getElementById('r-earth')?.setAttribute('cx', (-R*(sv.earth||0)/100).toFixed(1));
 
-  // Ghosts from harmonyHistory
+  // Ghosts from harmonyHistory: 7-day avg and all-time avg
   const hist=state.harmonyHistory||[];
   const now=new Date(todayStr());
-  function nearest(days){ // find closest snapshot at least `days` ago
-    const target=new Date(now); target.setDate(target.getDate()-days);
-    const past=hist.filter(h=>new Date(h.date)<=target);
-    return past.length?past[past.length-1]:null;
+  function avgSnapshot(entries){ // average a set of snapshots into one pseudo-snapshot
+    if(!entries.length) return null;
+    const keys=['air','fire','water','earth'];
+    const out={};
+    keys.forEach(k=>{ out[k]=entries.reduce((s,h)=>s+(h[k]||0),0)/entries.length; });
+    return out;
   }
-  const week=nearest(7), month=nearest(30);
+  const cutoff7=new Date(now); cutoff7.setDate(cutoff7.getDate()-7);
+  const last7=hist.filter(h=>new Date(h.date)>=cutoff7);
+  const weekAvg=avgSnapshot(last7.length?last7:hist.slice(-1)); // fallback to latest if <7d data
+  const allAvg=avgSnapshot(hist);
   const gw=document.getElementById('radar-ghost-week');
   const gm=document.getElementById('radar-ghost-month');
-  if(gw) gw.setAttribute('points', week  ? radarPts(week, R)  : '');
-  if(gm) gm.setAttribute('points', month ? radarPts(month, R) : '');
+  if(gw) gw.setAttribute('points', weekAvg ? radarPts(weekAvg, R) : '');
+  if(gm) gm.setAttribute('points', allAvg  ? radarPts(allAvg, R)  : '');
 
   // Harmony: initial / now
   const nowScore=calcHarmony(sv);
@@ -4116,7 +4142,13 @@ function renderQuestsTab(s){
       completeBtn.innerHTML='<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/><path d="M4.5 8.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       completeBtn.addEventListener('click',e=>{ e.stopPropagation(); completeQuest(i); });
       const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.title='Cancel quest (no XP)'; delBtn.textContent='×';
-      delBtn.addEventListener('click',e=>{ e.stopPropagation(); showConfirmDelete(q.title||'this quest',()=>{ appState.sideQuests.splice(i,1); saveState(appState); markDirty(); renderQuestsTab(appState); }); });
+      delBtn.addEventListener('click',e=>{ e.stopPropagation();
+        const snap=JSON.parse(JSON.stringify(appState.sideQuests));
+        showConfirmDelete(q.title||'this quest',
+          ()=>{ appState.sideQuests.splice(i,1); saveState(appState); markDirty(); renderQuestsTab(appState); },
+          ()=>{ appState.sideQuests=snap; saveState(appState); markDirty(); renderQuestsTab(appState); }
+        );
+      });
       head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(tr); head.appendChild(ps);
       if(q.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+q.xpReward+' XP'; head.appendChild(pill); }
       const dlInfo=deadlineInfo(q.deadline);
@@ -4169,7 +4201,13 @@ function renderQuestsTab(s){
           saveState(appState); markDirty(); renderQuestsTab(appState);
         });
         const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.textContent='×';
-        delBtn.addEventListener('click',e=>{ e.stopPropagation(); const arr=loadCompletedQuests(); arr.splice(i,1); saveCQ(arr); renderQuestsTab(appState); });
+        delBtn.addEventListener('click',e=>{ e.stopPropagation();
+          const snap=loadCompletedQuests().slice();
+          showConfirmDelete(q.title||'this completed quest',
+            ()=>{ const arr=loadCompletedQuests(); arr.splice(i,1); saveCQ(arr); renderQuestsTab(appState); },
+            ()=>{ saveCQ(snap); renderQuestsTab(appState); }
+          );
+        });
         head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(dateEl);
         if(q.xpEarned){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-earned'; pill.textContent='+'+q.xpEarned+' XP'; head.appendChild(pill); }
         head.appendChild(reopenBtn); head.appendChild(arrowEl);
@@ -4498,6 +4536,19 @@ function renderBestiaryTab(s){
             reorderArray(appState.bestiary.bosses[bi].subEnemies, from, to);
             saveState(appState); markDirty(); renderBestiaryTab(appState);
           });
+          // Collapsing the boss also collapses its minions. This listener is registered
+          // after the one in renderEnemyCard, so it fires second and reads the already-
+          // updated open state.
+          const bossHead=bossCard.querySelector('.enemy-card-head');
+          const bossBody=bossCard.querySelector('.enemy-card-body');
+          if(bossHead&&bossBody){
+            bossHead.addEventListener('click',ev=>{
+              if(ev.target!==bossHead&&!ev.target.classList.contains('enemy-card-arrow')) return;
+              const open=bossBody.classList.contains('open');
+              subHdr.style.display=open?'':'none';
+              subsContainer.style.display=open?'':'none';
+            });
+          }
         }
         bossesContainer.appendChild(bossGroup);
       });
@@ -4558,7 +4609,13 @@ function renderBestiaryTab(s){
         const dateEl=makeEditable(e.defeatedDate,'Date defeated',v=>saveNestedField(['bestiary','graveyard',i,'defeatedDate'],v),'grave-card-date');
         const arrowEl=document.createElement('div'); arrowEl.className='grave-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
         const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.textContent='×';
-        delBtn.addEventListener('click',e=>{ e.stopPropagation(); appState.bestiary.graveyard.splice(i,1); saveState(appState); markDirty(); renderBestiaryTab(appState); });
+        delBtn.addEventListener('click',ev=>{ ev.stopPropagation();
+          const snap=JSON.parse(JSON.stringify(appState.bestiary.graveyard));
+          showConfirmDelete(e.name||'this graveyard entry',
+            ()=>{ appState.bestiary.graveyard.splice(i,1); saveState(appState); markDirty(); renderBestiaryTab(appState); },
+            ()=>{ appState.bestiary.graveyard=snap; saveState(appState); markDirty(); renderBestiaryTab(appState); }
+          );
+        });
         const resurrectBtn=document.createElement('button'); resurrectBtn.className='resurrect-btn'; resurrectBtn.title='Resurrect: move back to active enemies'; resurrectBtn.textContent='↑';
         resurrectBtn.addEventListener('click',e=>{ e.stopPropagation(); resurrectEnemy(i); });
         head.appendChild(delBtn); head.appendChild(nameEl); head.appendChild(dateEl);
@@ -4687,10 +4744,14 @@ function renderAchievementsTab(s){
     card.className='ach-card'+(isFeatured?' featured':'');
     const row=document.createElement('div'); row.className='ach-card-row'; row.dataset.handleInject='1';
     const achDelBtn=document.createElement('button'); achDelBtn.className='ally-delete card-head-del'; achDelBtn.textContent='×'; achDelBtn.title='Delete title';
-    achDelBtn.addEventListener('click',e=>{ e.stopPropagation(); showConfirmDelete(a.title||'this title',()=>{
-      const ai=appState.achievements.findIndex(x=>x.id===a.id);
-      if(ai>=0){ appState.achievements.splice(ai,1); saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
-    }); });
+    achDelBtn.addEventListener('click',e=>{ e.stopPropagation();
+      const snap=JSON.parse(JSON.stringify(appState.achievements));
+      showConfirmDelete(a.title||'this title',
+        ()=>{ const ai=appState.achievements.findIndex(x=>x.id===a.id);
+          if(ai>=0){ appState.achievements.splice(ai,1); saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); } },
+        ()=>{ appState.achievements=snap; saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
+      );
+    });
     row.appendChild(achDelBtn);
     const ai2=appState.achievements.findIndex(x=>x.id===a.id);
     const achIcon=document.createElement('div'); achIcon.className='ach-card-icon'; achIcon.textContent=a.customIcon||tc.icon;
@@ -4826,11 +4887,18 @@ function renderAlliesTab(s){
       });
       const arrowEl=document.createElement('div'); arrowEl.className='enemy-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
       const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.textContent='×';
-      delBtn.addEventListener('click',e=>{ e.stopPropagation(); showConfirmDelete(a.name||'this ally',()=>{
-        if(a._srcType==='allies'){ appState.allies.splice(a._idx,1); }
-        else if(a._srcType==='liberatingBeliefs'){ appState.liberatingBeliefs.splice(a._idx,1); }
-        saveState(appState); markDirty(); renderAlliesTab(appState);
-      }); });
+      delBtn.addEventListener('click',e=>{ e.stopPropagation();
+        const snapA=JSON.parse(JSON.stringify(appState.allies||[]));
+        const snapL=JSON.parse(JSON.stringify(appState.liberatingBeliefs||[]));
+        showConfirmDelete(a.name||'this ally',
+          ()=>{
+            if(a._srcType==='allies'){ appState.allies.splice(a._idx,1); }
+            else if(a._srcType==='liberatingBeliefs'){ appState.liberatingBeliefs.splice(a._idx,1); }
+            saveState(appState); markDirty(); renderAlliesTab(appState);
+          },
+          ()=>{ appState.allies=snapA; appState.liberatingBeliefs=snapL; saveState(appState); markDirty(); renderAlliesTab(appState); }
+        );
+      });
       head.appendChild(delBtn); head.appendChild(rankBadge); head.appendChild(nameEl); head.appendChild(tag); head.appendChild(arrowEl);
       head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
       const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
@@ -5424,8 +5492,15 @@ function render(s){
         ta.addEventListener('input',()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
         ta.addEventListener('change',()=>{ saveNestedField([...arrPath,bi], ta.value.trim()); markDirty(); });
         setTimeout(()=>{ if(ta.scrollHeight>0){ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; } },0);
-        const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete card-head-del'; del.style.cssText='margin-top:2px;flex-shrink:0';
-        del.onclick=()=>{ getNestedArr(arrPath).splice(bi,1); saveState(appState); markDirty(); render(appState); };
+        const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete card-head-del'; del.style.cssText='margin-top:2px;flex-shrink:0'; del.title='Delete bullet';
+        del.onclick=ev=>{ ev.stopPropagation();
+          const snap=JSON.parse(JSON.stringify(appState.insights));
+          const label=(txt||'').trim().slice(0,40)||'this bullet';
+          showConfirmDelete(label,
+            ()=>{ getNestedArr(arrPath).splice(bi,1); saveState(appState); markDirty(); render(appState); },
+            ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
+          );
+        };
         li.appendChild(ta); li.appendChild(del); ul.appendChild(li);
       });
       const addBullet=document.createElement('button'); addBullet.className='chapter-add-bullet';
@@ -5446,8 +5521,14 @@ function render(s){
       const gcountEl=document.createElement('span'); gcountEl.className='chapter-group-count';
       gcountEl.textContent=(ch.entries||[]).length+' entries';
       const garrEl=document.createElement('div'); garrEl.className='chapter-group-arrow'+(isFirst?' open':''); garrEl.id=garrId; garrEl.textContent='▾';
-      const gdelBtn=document.createElement('button'); gdelBtn.className='ally-delete card-head-del'; gdelBtn.textContent='×';
-      gdelBtn.onclick=()=>{ appState.insights.splice(ci,1); saveState(appState); markDirty(); render(appState); };
+      const gdelBtn=document.createElement('button'); gdelBtn.className='ally-delete card-head-del'; gdelBtn.textContent='×'; gdelBtn.title='Delete chapter';
+      gdelBtn.onclick=ev=>{ ev.stopPropagation();
+        const snap=JSON.parse(JSON.stringify(appState.insights));
+        showConfirmDelete(ch.name||'this chapter',
+          ()=>{ appState.insights.splice(ci,1); saveState(appState); markDirty(); render(appState); },
+          ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
+        );
+      };
       ghead.appendChild(gdelBtn); ghead.appendChild(gnameEl); ghead.appendChild(gcountEl); ghead.appendChild(garrEl);
       ghead.addEventListener('click',e=>{ if(e.target===ghead||e.target===garrEl||e.target===gcountEl) toggleChapter(gbodyId,garrId); });
 
@@ -5464,8 +5545,14 @@ function render(s){
         const edateEl=makeEditable(entry.date,'Date',v=>saveNestedField(['insights',ci,'entries',ei,'date'],v),'chapter-date');
         const etitleEl=makeEditable(entry.title,'Entry title',v=>saveNestedField(['insights',ci,'entries',ei,'title'],v),'chapter-title');
         const earrEl=document.createElement('div'); earrEl.className='chapter-arrow'+(isFirstEntry?' open':''); earrEl.id=earrId; earrEl.textContent='▾';
-        const edelBtn=document.createElement('button'); edelBtn.className='ally-delete card-head-del'; edelBtn.textContent='×';
-        edelBtn.onclick=()=>{ appState.insights[ci].entries.splice(ei,1); saveState(appState); markDirty(); render(appState); };
+        const edelBtn=document.createElement('button'); edelBtn.className='ally-delete card-head-del'; edelBtn.textContent='×'; edelBtn.title='Delete entry';
+        edelBtn.onclick=ev=>{ ev.stopPropagation();
+          const snap=JSON.parse(JSON.stringify(appState.insights));
+          showConfirmDelete(entry.title||'this entry',
+            ()=>{ appState.insights[ci].entries.splice(ei,1); saveState(appState); markDirty(); render(appState); },
+            ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
+          );
+        };
         ehead.appendChild(edelBtn); ehead.appendChild(edateEl); ehead.appendChild(etitleEl); ehead.appendChild(earrEl);
         ehead.addEventListener('click',e=>{ if(e.target===ehead||e.target===earrEl) toggleChapter(ebodyId,earrId); });
 
@@ -5618,14 +5705,24 @@ function closeEmojiPicker(){
 }
 // ═══════════════════════════════════════════════════════════
 
-function showConfirmDelete(name, onConfirm){
+function showConfirmDelete(name, onConfirm, onUndo){
   const msg=document.getElementById('confirm-delete-msg');
   const ok=document.getElementById('confirm-delete-ok');
-  if(msg) msg.textContent='Are you sure you want to delete "'+name+'"? This cannot be undone.';
-  if(ok){ ok.onclick=()=>{ closeConfirmDelete(); onConfirm(); }; }
+  if(msg) msg.textContent='Are you sure you want to delete "'+name+'"?'+(onUndo?'':' This cannot be undone.');
+  if(ok){ ok.onclick=()=>{ closeConfirmDelete(); onConfirm(); if(onUndo) showDeleteToast(name, onUndo); }; }
   document.getElementById('confirm-delete-modal').classList.add('open');
 }
 function closeConfirmDelete(){ document.getElementById('confirm-delete-modal').classList.remove('open'); }
+function showDeleteToast(name, onUndo){
+  const existing=document.getElementById('xp-toast'); if(existing) existing.remove();
+  const t=document.createElement('div'); t.id='xp-toast'; t.className='xp-toast delete-toast';
+  t.innerHTML=`<span class="xp-toast-tick" style="color:#c84040;">✕</span><span class="xp-toast-quest">Deleted "${esc(name)}"</span><button class="xp-toast-undo">Undo</button>`;
+  const undoBtn=t.querySelector('.xp-toast-undo');
+  const tid=setTimeout(()=>{ t.classList.remove('visible'); setTimeout(()=>t.remove(),500); },5000);
+  undoBtn.addEventListener('click',()=>{ clearTimeout(tid); t.classList.remove('visible'); setTimeout(()=>t.remove(),400); if(onUndo) onUndo(); });
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>{ t.classList.add('visible'); });
+}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
 function applyUpdate(){
   const raw=document.getElementById('json-input').value.trim();
@@ -6589,6 +6686,7 @@ function renderRQBarChart(wrap, act, charName) {
   if (!wrap) return;
   wrap.innerHTML = '';
 
+  const stats = getRQStats(act, charName);
   const subActs    = act.subActivities || [];
   const hasSubs    = subActs.length > 0;
   // GitHub-style: fixed row height per sub-activity lane (or single bar if no subs)
@@ -6682,13 +6780,6 @@ function renderRQBarChart(wrap, act, charName) {
   // ── Bars / cells container ────────────────────────────────────
   const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
 
-  if (!hasSubs && act.target) {
-    const pct = Math.min(100, (act.target / maxV) * 100);
-    const line = document.createElement('div');
-    line.className = 'prac-bar-target-line';
-    line.style.cssText = `bottom:${pct}%;left:0;right:0;${act.color ? 'border-color:' + act.color + '60;' : ''}`;
-    colsWrap.appendChild(line);
-  }
 
   const closePopovers = () => {
     document.querySelectorAll('.prac-bar-edit').forEach(p => p.remove());
@@ -6699,10 +6790,8 @@ function renderRQBarChart(wrap, act, charName) {
   const refreshStats = () => {
     const newStats = getRQStats(act, charName);
     const fv = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
-    const lastEl   = document.getElementById('stat-last-'   + act.id);
     const avgEl    = document.getElementById('stat-avg-'    + act.id);
     const avgAllEl = document.getElementById('stat-avgall-' + act.id);
-    if (lastEl)   lastEl.textContent   = newStats.lastDone ? newStats.lastDone : '—';
     if (avgEl)    avgEl.textContent    = fv(newStats.avg7);
     if (avgAllEl) avgAllEl.textContent = fv(newStats.avgAll);
   };
@@ -6946,44 +7035,41 @@ function renderRQBarChart(wrap, act, charName) {
     colsWrap.appendChild(col);
   });
 
-  // ── Trendline overlay (non-sub-activity charts only) ──────────
+  // ── Trendline + avg overlays (non-sub-activity charts only) ──────────
   if (!hasSubs) {
-    const nonZero = displayPoints.filter(d => d.value > 0);
-    if (nonZero.length >= 5) {
-      const n = displayPoints.length;
-      const xs = displayPoints.map((_, i) => i);
-      const ys = displayPoints.map(d => d.value);
-      const sumX = xs.reduce((a, b) => a + b, 0);
-      const sumY = ys.reduce((a, b) => a + b, 0);
-      const sumXY = xs.reduce((a, x, i) => a + x * ys[i], 0);
-      const sumX2 = xs.reduce((a, x) => a + x * x, 0);
-      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-      const intercept = (sumY - slope * sumX) / n;
-      const trendY0 = intercept;
-      const trendY1 = slope * (n - 1) + intercept;
-      const svgNS = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(svgNS, 'svg');
-      svg.setAttribute('preserveAspectRatio', 'none');
-      svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;';
-      const toYPct = v => 100 - Math.min(100, Math.max(0, (v / maxV) * 100));
-      const x0Pct = (0.5 / n) * 100;
-      const x1Pct = ((n - 0.5) / n) * 100;
-      const y0Pct = toYPct(trendY0);
-      const y1Pct = toYPct(trendY1);
-      const line = document.createElementNS(svgNS, 'line');
-      line.setAttribute('x1', x0Pct + '%');
-      line.setAttribute('y1', y0Pct + '%');
-      line.setAttribute('x2', x1Pct + '%');
-      line.setAttribute('y2', y1Pct + '%');
-      const trendColor = act.color || '#c8a84a';
-      line.setAttribute('stroke', trendColor);
-      line.setAttribute('stroke-width', '1.5');
-      line.setAttribute('stroke-opacity', '0.55');
-      line.setAttribute('stroke-dasharray', '4 3');
-      line.setAttribute('stroke-linecap', 'round');
-      svg.appendChild(line);
-      colsWrap.appendChild(svg);
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;';
+    const toYPct = v => 100 - Math.min(100, Math.max(0, (v / maxV) * 100));
+
+    // 7-period avg line (coral, dotted)
+    if (stats.avg7 > 0) {
+      const yPct = toYPct(stats.avg7);
+      const avg7Line = document.createElementNS(svgNS, 'line');
+      avg7Line.setAttribute('x1', '0%'); avg7Line.setAttribute('y1', yPct + '%');
+      avg7Line.setAttribute('x2', '100%'); avg7Line.setAttribute('y2', yPct + '%');
+      avg7Line.setAttribute('stroke', '#e05060');
+      avg7Line.setAttribute('stroke-width', '1.2');
+      avg7Line.setAttribute('stroke-opacity', '0.7');
+      avg7Line.setAttribute('stroke-dasharray', '1.5 4');
+      svg.appendChild(avg7Line);
     }
+
+    // All-time avg line (cyan, dashed)
+    if (stats.avgAll > 0) {
+      const yPct = toYPct(stats.avgAll);
+      const avgAllLine = document.createElementNS(svgNS, 'line');
+      avgAllLine.setAttribute('x1', '0%'); avgAllLine.setAttribute('y1', yPct + '%');
+      avgAllLine.setAttribute('x2', '100%'); avgAllLine.setAttribute('y2', yPct + '%');
+      avgAllLine.setAttribute('stroke', '#40c8c0');
+      avgAllLine.setAttribute('stroke-width', '1.2');
+      avgAllLine.setAttribute('stroke-opacity', '0.7');
+      avgAllLine.setAttribute('stroke-dasharray', '5 3');
+      svg.appendChild(avgAllLine);
+    }
+
+    colsWrap.appendChild(svg);
   }
 
   plot.appendChild(colsWrap);
@@ -7035,37 +7121,60 @@ function renderRecurringQuests(s) {
 
     // Delete button
     const rqDelBtn = document.createElement('button'); rqDelBtn.className = 'ally-delete card-head-del'; rqDelBtn.textContent = '×'; rqDelBtn.title = 'Delete recurring quest';
-    rqDelBtn.addEventListener('click', e => { e.stopPropagation(); showConfirmDelete(act.name || 'this recurring quest', () => {
-      const idx = (appState.activities || []).findIndex(a => a.id === act.id);
-      if (idx >= 0) appState.activities.splice(idx, 1);
-      saveState(appState); markDirty(); renderRecurringQuests(appState);
-    }); });
+    rqDelBtn.addEventListener('click', e => { e.stopPropagation();
+      const snap=JSON.parse(JSON.stringify(appState.activities||[]));
+      showConfirmDelete(act.name || 'this recurring quest', () => {
+        const idx = (appState.activities || []).findIndex(a => a.id === act.id);
+        if (idx >= 0) appState.activities.splice(idx, 1);
+        saveState(appState); markDirty(); renderRecurringQuests(appState);
+      }, () => { appState.activities=snap; saveState(appState); markDirty(); renderRecurringQuests(appState); });
+    });
     hdr.appendChild(rqDelBtn);
 
-    // Name + color swatch for simple quests (no sub-activities)
-    const nameSpan = document.createElement('span'); nameSpan.className = 'rq-hdr-name'; nameSpan.textContent = act.name;
+    // Name (editable) + color swatch for simple quests (no sub-activities)
+    const nameSpan = makeEditable(act.name, 'Quest name', v => {
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) { actInState.name = v; act.name = v; }
+      saveState(appState); markDirty();
+    }, 'rq-hdr-name');
     hdr.appendChild(nameSpan);
 
+    // Assign a random colour if none set
+    if (!act.color) {
+      const palette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0','#c05a3a','#5ac03a'];
+      const idx = Math.abs((act.id || '').split('').reduce((h,c) => (h*31+c.charCodeAt(0))|0, 0)) % palette.length;
+      act.color = palette[idx];
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) actInState.color = act.color;
+      saveState(appState);
+    }
+
     if (subActs.length === 0) {
-      // Single color swatch for the whole activity
+      // Colour picker button
       const swatch = document.createElement('span');
       swatch.className = 'rq-color-swatch';
-      swatch.title = 'Set bar colour';
-      swatch.style.background = act.color || 'rgba(200,168,74,0.5)';
+      swatch.title = 'Change bar colour';
+      const dot = document.createElement('span');
+      dot.className = 'rq-color-dot';
+      dot.style.background = act.color;
+      const lbl = document.createElement('span');
+      lbl.textContent = 'Colour';
       const cpk = document.createElement('input');
       cpk.type = 'color';
-      cpk.value = act.color || '#c8a84a';
+      cpk.value = act.color;
       cpk.className = 'rq-color-input';
       const applyActColor = v => {
         act.color = v;
-        swatch.style.background = v;
+        dot.style.background = v;
         const actInState = (appState.activities || []).find(a => a.id === act.id);
         if (actInState) actInState.color = v;
         const cw = document.getElementById('rq-chart-' + act.id);
         if (cw) renderRQBarChart(cw, act, charName);
       };
       cpk.addEventListener('input', e => applyActColor(e.target.value));
-      cpk.addEventListener('change', e => { saveState(appState); markDirty(); });
+      cpk.addEventListener('change', () => { saveState(appState); markDirty(); });
+      swatch.appendChild(dot);
+      swatch.appendChild(lbl);
       swatch.appendChild(cpk);
       swatch.addEventListener('click', e => { e.stopPropagation(); if (e.target !== cpk) cpk.click(); });
       hdr.appendChild(swatch);
@@ -7113,10 +7222,34 @@ function renderRecurringQuests(s) {
       });
     }
 
-    const typeBadge = document.createElement('span'); typeBadge.className = 'practice-type-badge'; typeBadge.textContent = typeLabel;
-    const periodBadge = document.createElement('span'); periodBadge.className = 'practice-period-badge'; periodBadge.textContent = periodLabel;
-    hdr.appendChild(typeBadge);
-    hdr.appendChild(periodBadge);
+    const typeSelect = document.createElement('select'); typeSelect.className = 'practice-type-badge practice-type-select';
+    [['timer','TIMER'],['checkbox','CHECK'],['number','NUMBER']].forEach(([v,l]) => {
+      const o = document.createElement('option'); o.value = v; o.textContent = l;
+      if (act.type === v) o.selected = true;
+      typeSelect.appendChild(o);
+    });
+    typeSelect.addEventListener('change', e => {
+      e.stopPropagation();
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) actInState.type = e.target.value;
+      saveState(appState); markDirty(); renderRecurringQuests(appState);
+    });
+
+    const periodSelect = document.createElement('select'); periodSelect.className = 'practice-period-badge practice-period-select';
+    ['day','week','month','year'].forEach(p => {
+      const o = document.createElement('option'); o.value = p; o.textContent = p.toUpperCase();
+      if (act.resetPeriod === p) o.selected = true;
+      periodSelect.appendChild(o);
+    });
+    periodSelect.addEventListener('change', e => {
+      e.stopPropagation();
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) actInState.resetPeriod = e.target.value;
+      saveState(appState); markDirty(); renderRecurringQuests(appState);
+    });
+
+    hdr.appendChild(typeSelect);
+    hdr.appendChild(periodSelect);
     card.appendChild(hdr);
 
     // Body: info + widget
@@ -7125,7 +7258,18 @@ function renderRecurringQuests(s) {
     // Info section (left col): description + why + stats
     const info = document.createElement('div'); info.className = 'practice-info';
     const infoText = document.createElement('div'); infoText.className = 'practice-info-text';
-    infoText.innerHTML = `<div class="practice-desc">${esc(act.description || '')}</div><div class="practice-why">${esc(act.whyItMatters || '')}</div>`;
+    const descEl = makeEditable(act.description || '', 'Description…', v => {
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) { actInState.description = v; act.description = v; }
+      saveState(appState); markDirty();
+    }, 'practice-desc');
+    const whyEl = makeEditable(act.whyItMatters || '', 'Why it matters…', v => {
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) { actInState.whyItMatters = v; act.whyItMatters = v; }
+      saveState(appState); markDirty();
+    }, 'practice-why');
+    infoText.appendChild(descEl);
+    infoText.appendChild(whyEl);
     info.appendChild(infoText);
     const formatVal = v => {
       if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
@@ -7141,9 +7285,17 @@ function renderRecurringQuests(s) {
     };
     const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
     statsRow.innerHTML = `
-      <div class="practice-stat"><span class="practice-stat-label">Last done</span><span class="practice-stat-value" id="stat-last-${act.id}">${fmtLastDone(stats.lastDone)}</span></div>
-      <div class="practice-stat"><span class="practice-stat-label">7-${act.resetPeriod} avg</span><span class="practice-stat-value" id="stat-avg-${act.id}">${formatVal(stats.avg7)}</span></div>
-      <div class="practice-stat"><span class="practice-stat-label">All-time avg</span><span class="practice-stat-value" id="stat-avgall-${act.id}">${formatVal(stats.avgAll)}</span></div>
+      <div class="practice-trends-hdr">Trends</div>
+      <div class="practice-trend-row">
+        <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
+        <span class="practice-trend-lbl">7-${act.resetPeriod} avg</span>
+        <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.avg7)}</span>
+      </div>
+      <div class="practice-trend-row">
+        <span class="practice-trend-swatch practice-trend-swatch-all"></span>
+        <span class="practice-trend-lbl">All-time avg</span>
+        <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.avgAll)}</span>
+      </div>
     `;
     info.appendChild(statsRow);
     body.appendChild(info);
@@ -7330,10 +7482,8 @@ function handleBackfill(id) {
     }
     return period;
   };
-  const lastEl   = document.getElementById('stat-last-'   + id);
   const avgEl    = document.getElementById('stat-avg-'    + id);
   const avgAllEl = document.getElementById('stat-avgall-' + id);
-  if (lastEl)   lastEl.textContent   = fmtLastDoneB(newStats.lastDone);
   if (avgEl)    avgEl.textContent    = formatV(newStats.avg7);
   if (avgAllEl) avgAllEl.textContent = formatV(newStats.avgAll);
 
@@ -7588,7 +7738,14 @@ function renderPieChart(s){
     });
     const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete'; del.style.cssText='margin-left:4px;flex-shrink:0';
     if(label==='Unknown'){ del.style.visibility='hidden'; lbl.setAttribute('contenteditable','false'); hrs.setAttribute('contenteditable','false'); }
-    del.onclick=()=>{ delete appState.dailyDistribution[label]; if(appState.pieColours) delete appState.pieColours[label]; saveState(appState); markDirty(); renderPieChart(appState); };
+    del.onclick=()=>{
+      const snapD=JSON.parse(JSON.stringify(appState.dailyDistribution||{}));
+      const snapC=JSON.parse(JSON.stringify(appState.pieColours||{}));
+      showConfirmDelete(label||'this slice',
+        ()=>{ delete appState.dailyDistribution[label]; if(appState.pieColours) delete appState.pieColours[label]; saveState(appState); markDirty(); renderPieChart(appState); },
+        ()=>{ appState.dailyDistribution=snapD; appState.pieColours=snapC; saveState(appState); markDirty(); renderPieChart(appState); }
+      );
+    };
     li.appendChild(dot); li.appendChild(lbl); li.appendChild(hrs); li.appendChild(del);
     legend.appendChild(li);
   });
@@ -7635,8 +7792,9 @@ function renderSkillsTopRow(s){
     const MASTERY_LABELS=['','I: Beginner','II: Novice','III: Adept','IV: Expert','V: Master'];
     const m=Math.max(1,Math.min(5,sk.mastery||1));
     const col=BELT_COLS[m-1];
+    const realIdx=(appState.skills||[]).indexOf(sk);
     const wrap=document.createElement('div'); wrap.className='sk-keystone-card';
-    const nameEl=document.createElement('div'); nameEl.className='sk-keystone-name'; nameEl.textContent=sk.name||'Unnamed Skill';
+    const nameEl=makeEditable(sk.name||'','Skill name',v=>{ saveNestedField(['skills',realIdx,'name'],capitalise(v)); renderCombatSkills(appState); renderSkillsTopRow(appState); },'sk-keystone-name');
     wrap.appendChild(nameEl);
     const meta=document.createElement('div'); meta.className='sk-keystone-meta';
     const mastEl=document.createElement('div'); mastEl.className='skill-card-mastery'; mastEl.style.cssText=`color:${col};border-color:${col}40`; mastEl.textContent=MASTERY_LABELS[m];
@@ -7650,8 +7808,10 @@ function renderSkillsTopRow(s){
     }
     if(sk.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-skill'; pill.textContent='+'+sk.xpReward+' XP'; meta.appendChild(pill); }
     wrap.appendChild(meta);
-    if(sk.description){ const desc=document.createElement('div'); desc.className='sk-keystone-desc'; desc.textContent=sk.description; wrap.appendChild(desc); }
-    if(sk.whyItMatters){ const why=document.createElement('div'); why.className='sk-keystone-why'; why.textContent=sk.whyItMatters; wrap.appendChild(why); }
+    const descEl=makeEditable(sk.description||'','Describe this skill…',v=>saveNestedField(['skills',realIdx,'description'],v),'sk-keystone-desc');
+    wrap.appendChild(descEl);
+    const whyEl=makeEditable(sk.whyItMatters||'','Why does this matter?',v=>saveNestedField(['skills',realIdx,'whyItMatters'],v),'sk-keystone-why');
+    wrap.appendChild(whyEl);
     keystoneEl.appendChild(wrap);
   }
 
@@ -7706,7 +7866,13 @@ function renderCombatSkills(s){
     });
     const arrowEl=document.createElement('div'); arrowEl.className='skill-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
     const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.textContent='×';
-    delBtn.addEventListener('click',()=>{ appState.skills.splice(realIdx,1); saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState); });
+    delBtn.addEventListener('click',()=>{
+      const snap=JSON.parse(JSON.stringify(appState.skills));
+      showConfirmDelete(sk.name||'this skill',
+        ()=>{ appState.skills.splice(realIdx,1); saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState); },
+        ()=>{ appState.skills=snap; saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState); }
+      );
+    });
     head.appendChild(delBtn); head.appendChild(pri); head.appendChild(nameEl); head.appendChild(mastery); head.appendChild(roleBadge);
     if(sk.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-skill'; pill.textContent='+'+sk.xpReward+' XP'; head.appendChild(pill); }
     head.appendChild(arrowEl);
@@ -7752,10 +7918,13 @@ function renderClassesTab(s){
     card.className='cls-card'+(isFeatured?' featured':'');
     const row=document.createElement('div'); row.className='cls-card-row'; row.dataset.handleInject='1';
     const clsDelBtn=document.createElement('button'); clsDelBtn.className='ally-delete card-head-del'; clsDelBtn.textContent='×'; clsDelBtn.title='Delete class';
-    clsDelBtn.addEventListener('click',e=>{ e.stopPropagation(); showConfirmDelete(c.title||c.name||'this class',()=>{
-      const ci=appState.classes.findIndex(x=>x.id===c.id);
-      if(ci>=0){ appState.classes.splice(ci,1); saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
-    }); });
+    clsDelBtn.addEventListener('click',e=>{ e.stopPropagation();
+      const snap=JSON.parse(JSON.stringify(appState.classes||[]));
+      showConfirmDelete(c.title||c.name||'this class',()=>{
+        const ci=appState.classes.findIndex(x=>x.id===c.id);
+        if(ci>=0){ appState.classes.splice(ci,1); saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
+      }, ()=>{ appState.classes=snap; saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); });
+    });
     row.appendChild(clsDelBtn);
     const ci2=appState.classes.findIndex(x=>x.id===c.id);
     const clsIcon=document.createElement('div'); clsIcon.className='cls-card-icon'; clsIcon.textContent=c.customIcon||c.icon||'◈';

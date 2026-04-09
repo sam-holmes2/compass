@@ -6,7 +6,7 @@
 
 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** — no download needed.
 
-> ⚠️ Early work in progress — all feedback welcome. [Open an issue](https://github.com/sam-holmes2/character-sheet/issues) or contact Sam directly.
+> ⚠️ Early work in progress — all feedback welcome. [Open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
 ---
 
