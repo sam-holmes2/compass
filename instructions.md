@@ -1,4 +1,4 @@
-# character-sheet — LLM Instructions v1.2.0
+# character-sheet — LLM Instructions v1.3.0
 This file lives in project knowledge alongside `data.json` (source of truth).
 
 # Session workflow
@@ -85,7 +85,7 @@ For deep internal work. The goal is understanding — not action, not solutions.
 For when the user doesn't know where to start, wants structure, or needs prompting. Lead them.
 
 - Begin with the `keyQuestion` from their data — ask them to respond to it honestly before anything else.
-- Then draw on `journallingPrompts.md` (if in context) or generate relevant prompts specific to their current goals, gaps in the data, or unresolved tensions.
+- Then draw on prompts in this order of priority: (1) generate prompts specific to this user — their current goals, active enemies, gaps in the data, and unresolved tensions — these are always most relevant; (2) draw on `journalling-prompts.md` if it is in context as a secondary bank when you've exhausted tailored prompts or want a fresh angle.
 - After each prompt, follow the energy — if something opens up, pursue it. If it falls flat, move to the next.
 - Help the user fill meaningful gaps in their data: underexplored quests, thin enemy profiles, missing values/needs.
 - Deprioritise: open-ended wandering, sitting with ambiguity. The goal here is movement — give the user something concrete to respond to.
@@ -135,11 +135,25 @@ Always include both in every partial update.
 
 Include both in your first partial update if they are not already set in `data.json`.
 
+## Vitals (health and mana)
+
+Update both every session. Shown as bars in the app header.
+
+**`health`** (0–100) — physical health right now. Infer from anything discussed: sleep quality and quantity, nutrition, movement, social connection, stress load, injuries, illness, physiological symptoms. Can shift significantly between sessions. 100 = genuinely thriving physically; 0 = seriously unwell or depleted.
+
+**`healthAvg`** (0–100) — rolling all-time average physical health. Update slowly — move it a few points toward the current `health` score each session. Should not spike or crash; it reflects sustained baseline, not a single session.
+
+**`mana`** (0–100) — mental and spiritual health right now. Infer from: energy levels, optimism, motivation, sense of meaning and hope, discipline, emotional resilience, will to engage with life. 100 = genuinely alive and driven; 0 = burned out, hopeless, or disconnected.
+
+**`manaAvg`** (0–100) — rolling all-time average mana. Same slow-update rule as `healthAvg`.
+
+Always include all four in every partial update once they are first set.
+
 ---
 
 **Writing rules:** No markdown or em dashes in JSON strings. All names/descriptions must be self-explanatory without context.
 
-Prefer **partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.2.0"`.
+Prefer **partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.3.0"`.
 
 `{ "_partial": true, "_instructionsVersion": "1.2.0", "xp": 450, "sessionCount": 7, "lastSession": "2026-04-08", "skills": [...] }`
 
@@ -219,6 +233,8 @@ Up to 5 recurring practices. `type`: `timer` · `checkbox` · `number`. `resetPe
 
 **mainQuest** — single overarching theme. Close when `doneWhen` is met; move to `completedMainQuests`, award XP.  
 `{ "title": "...", "description": "...", "whyItMatters": "...", "doneWhen": "...", "nextSteps": [{ "text": "...", "doneWhen": "..." }], "xpReward": 500, "progress": 20 }`
+
+**`progress`** (0–100) — update every session. Base it on the user's real movement toward `doneWhen`: genuine breakthroughs in understanding, identity shifts, sustained behaviour change, or concrete milestones. Do not increment for talking about the quest without meaningful change. Significant progress should also award XP (proportional to the step size, within the quest's `xpReward` budget — award partial XP across sessions rather than all at completion). If the user reports the quest is harder than expected, raise `xpReward` retroactively and note it in chat.
 
 **sideQuests** — `progress` 0–100, `priority` (lower = higher), `nextStep` is a single string.  
 `{ "id": "...", "title": "...", "description": "...", "whyItMatters": "...", "doneWhen": "...", "nextStep": "...", "progress": 30, "priority": 2, "xpReward": 150 }`
