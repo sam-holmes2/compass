@@ -3159,10 +3159,11 @@ function getRQStats(act, charName) {
   const nonZero = periods.filter(p => p.value > 0);
   const avg7vals = periods.slice(0, 7).map(p => p.value);
   const avg7 = avg7vals.length ? Math.round(avg7vals.reduce((a,b)=>a+b,0) / avg7vals.length) : 0;
+  const avg7done = avg7vals.filter(v => v > 0).length;
   const avgAll = nonZero.length ? Math.round(nonZero.reduce((a,b)=>a+b.value,0) / nonZero.length) : 0;
   const lastDoneEntry = nonZero[0];
   const lastDone = lastDoneEntry ? lastDoneEntry.period : null;
-  return { avg7, avgAll, lastDone };
+  return { avg7, avg7done, avgAll, lastDone };
 }
 
 migrateCompletedQuests();
@@ -6758,11 +6759,15 @@ function renderRQBarChart(wrap, act, charName) {
     const yAxis = document.createElement('div'); yAxis.className = 'prac-bar-y-axis';
     const yTop = document.createElement('div'); yTop.className = 'prac-bar-y-label';
     yTop.textContent = maxV >= 1000 ? (maxV/1000).toFixed(1)+'k' : maxV;
-    const yMid = document.createElement('div'); yMid.className = 'prac-bar-y-label';
-    yMid.textContent = Math.round(maxV / 2);
     const yBot = document.createElement('div'); yBot.className = 'prac-bar-y-label';
     yBot.textContent = '0';
-    yAxis.appendChild(yTop); yAxis.appendChild(yMid); yAxis.appendChild(yBot);
+    if (act.type !== 'checkbox') {
+      const yMid = document.createElement('div'); yMid.className = 'prac-bar-y-label';
+      yMid.textContent = Math.round(maxV / 2);
+      yAxis.appendChild(yTop); yAxis.appendChild(yMid); yAxis.appendChild(yBot);
+    } else {
+      yAxis.appendChild(yTop); yAxis.appendChild(yBot);
+    }
     plot.appendChild(yAxis);
   } else {
     // Sub-activity legend on Y-axis (one label per lane)
@@ -6789,11 +6794,15 @@ function renderRQBarChart(wrap, act, charName) {
   // Shared: update stats display after any save
   const refreshStats = () => {
     const newStats = getRQStats(act, charName);
-    const fv = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
+    const fv = (v, isAvg7) => {
+      if (act.type === 'checkbox' && isAvg7) return newStats.avg7done + '/7';
+      if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
+      return v >= 0 ? (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '0') : '—';
+    };
     const avgEl    = document.getElementById('stat-avg-'    + act.id);
     const avgAllEl = document.getElementById('stat-avgall-' + act.id);
-    if (avgEl)    avgEl.textContent    = fv(newStats.avg7);
-    if (avgAllEl) avgAllEl.textContent = fv(newStats.avgAll);
+    if (avgEl)    avgEl.textContent    = fv(newStats.avg7, true);
+    if (avgAllEl) avgAllEl.textContent = fv(newStats.avgAll, false);
   };
 
   const attachPopover = (col, dp) => {
@@ -7043,12 +7052,34 @@ function renderRQBarChart(wrap, act, charName) {
     svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;';
     const toYPct = v => 100 - Math.min(100, Math.max(0, (v / maxV) * 100));
 
-    // 7-period avg line (coral, dotted)
-    if (stats.avg7 > 0) {
-      const yPct = toYPct(stats.avg7);
+    // Linear regression helper: returns {slope, intercept} over indexed points
+    const linReg = pts => {
+      const n = pts.length;
+      if (n < 2) return null;
+      let sx = 0, sy = 0, sxy = 0, sxx = 0;
+      pts.forEach(([x, y]) => { sx += x; sy += y; sxy += x*y; sxx += x*x; });
+      const denom = n*sxx - sx*sx;
+      if (denom === 0) return null;
+      const slope = (n*sxy - sx*sy) / denom;
+      const intercept = (sy - slope*sx) / n;
+      return { slope, intercept };
+    };
+
+    // 7-period trend line of best fit (coral, dotted) — last 7 display points
+    const pts7 = displayPoints.slice(-7).map((dp, i) => [i, dp.value]);
+    const reg7 = linReg(pts7);
+    if (reg7) {
+      const n7 = pts7.length;
+      // x positions: map the 7-pt window back to full chart x-percentages
+      const totalPts = displayPoints.length;
+      const startIdx = totalPts - n7;
+      const x1Pct = ((startIdx + 0.5) / totalPts) * 100;
+      const x2Pct = ((totalPts - 1 + 0.5) / totalPts) * 100;
+      const y1Pct = toYPct(reg7.slope * 0 + reg7.intercept);
+      const y2Pct = toYPct(reg7.slope * (n7 - 1) + reg7.intercept);
       const avg7Line = document.createElementNS(svgNS, 'line');
-      avg7Line.setAttribute('x1', '0%'); avg7Line.setAttribute('y1', yPct + '%');
-      avg7Line.setAttribute('x2', '100%'); avg7Line.setAttribute('y2', yPct + '%');
+      avg7Line.setAttribute('x1', x1Pct + '%'); avg7Line.setAttribute('y1', y1Pct + '%');
+      avg7Line.setAttribute('x2', x2Pct + '%'); avg7Line.setAttribute('y2', y2Pct + '%');
       avg7Line.setAttribute('stroke', '#e05060');
       avg7Line.setAttribute('stroke-width', '1.2');
       avg7Line.setAttribute('stroke-opacity', '0.7');
@@ -7056,12 +7087,18 @@ function renderRQBarChart(wrap, act, charName) {
       svg.appendChild(avg7Line);
     }
 
-    // All-time avg line (cyan, dashed)
-    if (stats.avgAll > 0) {
-      const yPct = toYPct(stats.avgAll);
+    // All-time trend line of best fit (cyan, dashed) — all display points
+    const ptsAll = displayPoints.map((dp, i) => [i, dp.value]);
+    const regAll = linReg(ptsAll);
+    if (regAll) {
+      const nAll = ptsAll.length;
+      const x1Pct = (0.5 / nAll) * 100;
+      const x2Pct = ((nAll - 1 + 0.5) / nAll) * 100;
+      const y1Pct = toYPct(regAll.slope * 0 + regAll.intercept);
+      const y2Pct = toYPct(regAll.slope * (nAll - 1) + regAll.intercept);
       const avgAllLine = document.createElementNS(svgNS, 'line');
-      avgAllLine.setAttribute('x1', '0%'); avgAllLine.setAttribute('y1', yPct + '%');
-      avgAllLine.setAttribute('x2', '100%'); avgAllLine.setAttribute('y2', yPct + '%');
+      avgAllLine.setAttribute('x1', x1Pct + '%'); avgAllLine.setAttribute('y1', y1Pct + '%');
+      avgAllLine.setAttribute('x2', x2Pct + '%'); avgAllLine.setAttribute('y2', y2Pct + '%');
       avgAllLine.setAttribute('stroke', '#40c8c0');
       avgAllLine.setAttribute('stroke-width', '1.2');
       avgAllLine.setAttribute('stroke-opacity', '0.7');
@@ -7271,9 +7308,13 @@ function renderRecurringQuests(s) {
     infoText.appendChild(descEl);
     infoText.appendChild(whyEl);
     info.appendChild(infoText);
-    const formatVal = v => {
+    const formatVal = (v, isAvg7) => {
+      if (act.type === 'checkbox' && isAvg7) {
+        // Show days done / 7 for checkbox 7-period trend
+        return stats.avg7done + '/7';
+      }
       if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
-      return v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—';
+      return v >= 0 ? (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '0') : '—';
     };
     const fmtLastDone = period => {
       if (!period) return '—';
@@ -7288,12 +7329,12 @@ function renderRecurringQuests(s) {
       <div class="practice-trends-hdr">Trends</div>
       <div class="practice-trend-row">
         <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
-        <span class="practice-trend-lbl">7-${act.resetPeriod} avg</span>
-        <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.avg7)}</span>
+        <span class="practice-trend-lbl">7-${act.resetPeriod} trend</span>
+        <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.avg7, true)}</span>
       </div>
       <div class="practice-trend-row">
         <span class="practice-trend-swatch practice-trend-swatch-all"></span>
-        <span class="practice-trend-lbl">All-time avg</span>
+        <span class="practice-trend-lbl">All-time trend</span>
         <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.avgAll)}</span>
       </div>
     `;
@@ -7473,7 +7514,11 @@ function handleBackfill(id) {
   const chartWrap = document.getElementById('rq-chart-' + id);
   if (chartWrap) renderRQBarChart(chartWrap, act, charName);
   const newStats = getRQStats(act, charName);
-  const formatV = v => act.type === 'timer' ? (v > 0 ? v + ' min' : '—') : (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '—');
+  const formatV = (v, isAvg7) => {
+    if (act.type === 'checkbox' && isAvg7) return newStats.avg7done + '/7';
+    if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
+    return v >= 0 ? (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '0') : '—';
+  };
   const fmtLastDoneB = period => {
     if (!period) return '—';
     if (act.resetPeriod === 'day') {
@@ -7484,8 +7529,8 @@ function handleBackfill(id) {
   };
   const avgEl    = document.getElementById('stat-avg-'    + id);
   const avgAllEl = document.getElementById('stat-avgall-' + id);
-  if (avgEl)    avgEl.textContent    = formatV(newStats.avg7);
-  if (avgAllEl) avgAllEl.textContent = formatV(newStats.avgAll);
+  if (avgEl)    avgEl.textContent    = formatV(newStats.avg7, true);
+  if (avgAllEl) avgAllEl.textContent = formatV(newStats.avgAll, false);
 
   // Flash feedback on the save button
   const btn = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
