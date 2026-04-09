@@ -1215,6 +1215,23 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   color:rgba(255,255,255,0.25); margin-bottom:3px; flex:0 0 auto;
 }
 .radar-chart-canvas { width:100%; display:block; flex:1 1 0; min-height:36px; }
+.hist-chart-canvas { min-height:90px; }
+.hist-chart-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.hist-reset-btn {
+  background:none; border:1px solid rgba(255,255,255,0.1); border-radius:3px;
+  color:rgba(255,255,255,0.25); font-family:var(--mono); font-size:9px; letter-spacing:0.08em;
+  text-transform:uppercase; padding:2px 6px; cursor:pointer; transition:border-color 0.15s,color 0.15s;
+}
+.hist-reset-btn:hover { border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.5); }
+.hist-chart-legend {
+  display:flex; flex-wrap:wrap; gap:6px 10px; margin-top:5px;
+}
+.hist-legend-item {
+  display:flex; align-items:center; gap:4px;
+  font-family:var(--mono); font-size:8px; letter-spacing:0.06em; text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+.hist-legend-swatch { width:16px; height:2px; border-radius:1px; flex-shrink:0; }
 /* Legacy compat */
 .status-charts-wrap { display:none; }
 .status-history-canvas { display:none; }
@@ -1915,7 +1932,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ HEADER ══════════════════════════════════════════════ -->
 <div class="hdr">
   <!-- Col 1: Main quest -->
-  <div class="hdr-left">
+  <div class="hdr-left" title="Main Quest: your single most important current goal — the one thing that would change everything else if you made real progress on it. Progress and XP are set by Claude based on breakthroughs, identity shifts, and sustained behaviour change.">
     <div class="hdr-quest-label">◈ Main Quest</div>
     <div class="hdr-quest-title" id="hdr-mq-title">Sovereignty</div>
     <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:8%"></div></div>
@@ -1934,7 +1951,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- Col 3: HP + Mana vitals -->
   <div class="hdr-vitals">
-    <div class="vital-row">
+    <div class="vital-row" title="HP: Physical health (0–100). Inferred by Claude from sleep, nutrition, movement, stress, and physical symptoms. The tick mark shows your all-time average.">
       <span class="vital-icon" style="color:#ff6060">♥</span>
       <div class="vital-track-wrap">
         <div class="vital-track hp">
@@ -1943,7 +1960,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="vital-baseline hp" id="hp-baseline" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="vital-row">
+    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by Claude from your energy, optimism, motivation, sense of meaning, and emotional resilience. The tick mark shows your all-time average.">
       <span class="vital-icon" style="color:#60a0ff">✦</span>
       <div class="vital-track-wrap">
         <div class="vital-track mana">
@@ -1955,7 +1972,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 
   <!-- Full-width XP bar (spans all columns) -->
-  <div class="hdr-xp-full">
+  <div class="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Awarded by Claude during journalling sessions.">
     <div class="hdr-xp-level-badge">
       <span class="xp-bar-lbl">Level</span>
       <span id="xp-level">4</span>
@@ -1981,7 +1998,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <!-- Mobile-only vitals row (hidden on desktop via CSS) -->
   <div class="hdr-mobile-vitals" id="hdr-mobile-vitals">
-    <div class="hdr-mobile-vital-row">
+    <div class="hdr-mobile-vital-row" title="HP: Physical health (0–100). Inferred by Claude from sleep, nutrition, movement, stress, and physical symptoms.">
       <span class="hdr-mobile-vital-icon" style="color:#ff6060">♥</span>
       <div class="vital-track-wrap">
         <div class="vital-track hp">
@@ -1990,7 +2007,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="vital-baseline hp" id="hp-baseline-m" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="hdr-mobile-vital-row">
+    <div class="hdr-mobile-vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by Claude from your energy, optimism, motivation, and emotional resilience.">
       <span class="hdr-mobile-vital-icon" style="color:#60a0ff">✦</span>
       <div class="vital-track-wrap">
         <div class="vital-track mana">
@@ -2051,7 +2068,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 -->
 
 <nav class="tab-nav">
-  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Daily practices and check-in"><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat</button>
+  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Combat: daily practices and check-in. The circle arc shows progress towards your top-priority regular quest today."><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat</button>
   <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')" title="Life balance across four dimensions"><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
   <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')" title="Active goals and direction"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
   <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')" title="Skills and habits ranked by mastery"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills</button>
@@ -2113,15 +2130,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
       </svg>
       <div class="balance-harmony-trio">
-        <div class="bht-cell">
+        <div class="bht-cell" title="Harmony when you first started using character-sheet">
           <div class="bht-num" id="balance-harmony-initial">—</div>
           <div class="balance-harmony-lbl">Initial</div>
         </div>
-        <div class="bht-cell">
+        <div class="bht-cell" title="Harmony right now">
           <div class="bht-num bht-now" id="balance-harmony-now">—</div>
           <div class="balance-harmony-lbl">Now</div>
         </div>
       </div>
+      <div style="font-size:11px;color:rgba(128,144,168,0.65);text-align:center;max-width:120px;line-height:1.4;margin-top:6px;font-style:italic;">Harmony measures balance between the four elements — 100% if all are equal, lower if any are far apart. High total mastery with low harmony means one dimension is dominating.</div>
     </div>
   </div>
 </div>
@@ -2372,22 +2390,22 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
-          <input type="range" class="stat-range" id="stat-rest" min="0" max="100" value="50" oninput="updateStat('rest',this.value)">
+          <input type="range" class="stat-range" id="stat-rest" min="0" max="100" value="50" oninput="updateStat('rest',this.value)" title="Rest — sleep quality, recovery, and downtime. High = well-rested and recharged; low = running on empty.">
           <span class="stat-bar-val" id="stat-rest-val">50</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
-          <input type="range" class="stat-range" id="stat-movement" min="0" max="100" value="50" oninput="updateStat('movement',this.value)">
+          <input type="range" class="stat-range" id="stat-movement" min="0" max="100" value="50" oninput="updateStat('movement',this.value)" title="Movement — physical activity and exercise. High = regularly active; low = sedentary or fatigued.">
           <span class="stat-bar-val" id="stat-movement-val">50</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#60a838">Nutrition</span>
-          <input type="range" class="stat-range" id="stat-nutrition" min="0" max="100" value="50" oninput="updateStat('nutrition',this.value)">
+          <input type="range" class="stat-range" id="stat-nutrition" min="0" max="100" value="50" oninput="updateStat('nutrition',this.value)" title="Nutrition — diet quality and eating habits. High = nourishing, intentional eating; low = skipping meals or poor choices.">
           <span class="stat-bar-val" id="stat-nutrition-val">50</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
-          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)">
+          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)" title="Connection — quality of social bonds and sense of belonging. High = feeling supported and seen; low = isolated or disconnected.">
           <span class="stat-bar-val" id="stat-connection-val">50</span>
         </div>
       </div>
@@ -2411,14 +2429,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </svg>
       </div>
       <div class="radar-panel-charts">
-        <div class="radar-chart-group">
-          <div class="radar-chart-lbl">7-day avg</div>
-          <canvas id="stats-chart-7d" class="radar-chart-canvas"></canvas>
+        <div class="hist-chart-header">
+          <div class="radar-chart-lbl">History</div>
+          <button class="hist-reset-btn" onclick="confirmResetHistory('stats')" title="Reset Core Skills history">Reset</button>
         </div>
-        <div class="radar-chart-group">
-          <div class="radar-chart-lbl">All-time avg</div>
-          <canvas id="stats-chart-all" class="radar-chart-canvas"></canvas>
-        </div>
+        <canvas id="stats-hist-canvas" class="radar-chart-canvas hist-chart-canvas"></canvas>
+        <div class="hist-chart-legend" id="stats-hist-legend"></div>
       </div>
     </div>
   </div>
@@ -2460,26 +2476,26 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
           <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Status check-in</div>
-          <div class="radar-panel-desc">Log how you feel in relation to whatever you <em>should</em> be doing</div>
+          <div class="radar-panel-desc">Log how you feel right now in relation to what you <em>should</em> be doing. These are stored locally and not sent to Claude — useful for spotting which factor most often holds you back.</div>
         </div>
         <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#c0cad4">Focus</span>
-          <input type="range" class="stat-range stat-range-focus" id="status-focus" min="0" max="100" value="70" oninput="updateStatus('focus',this.value)">
+          <span class="stat-bar-lbl" style="color:#c0cad4" title="Focus: how well you can direct and sustain attention on what matters right now">Focus</span>
+          <input type="range" class="stat-range stat-range-focus" id="status-focus" min="0" max="100" value="70" oninput="updateStatus('focus',this.value)" title="Focus: how well you can direct and sustain attention on what matters right now">
           <span class="stat-bar-val" id="status-focus-val">70</span>
         </div>
         <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#d07830">Energy</span>
-          <input type="range" class="stat-range stat-range-energy" id="status-energy" min="0" max="100" value="60" oninput="updateStatus('energy',this.value)">
+          <span class="stat-bar-lbl" style="color:#d07830" title="Energy: physical and mental fuel — how much capacity you have to act and engage">Energy</span>
+          <input type="range" class="stat-range stat-range-energy" id="status-energy" min="0" max="100" value="60" oninput="updateStatus('energy',this.value)" title="Energy: physical and mental fuel — how much capacity you have to act and engage">
           <span class="stat-bar-val" id="status-energy-val">60</span>
         </div>
         <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#3a80c8">Interest</span>
-          <input type="range" class="stat-range stat-range-interest" id="status-interest" min="0" max="100" value="65" oninput="updateStatus('interest',this.value)">
+          <span class="stat-bar-lbl" style="color:#3a80c8" title="Interest: genuine curiosity or engagement with what you're doing — not going through the motions">Interest</span>
+          <input type="range" class="stat-range stat-range-interest" id="status-interest" min="0" max="100" value="65" oninput="updateStatus('interest',this.value)" title="Interest: genuine curiosity or engagement with what you're doing — not going through the motions">
           <span class="stat-bar-val" id="status-interest-val">65</span>
         </div>
         <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
-          <input type="range" class="stat-range stat-range-purpose" id="status-purpose" min="0" max="100" value="55" oninput="updateStatus('purpose',this.value)">
+          <span class="stat-bar-lbl" style="color:#60a838" title="Purpose: sense that what you're doing matters and connects to something you care about">Purpose</span>
+          <input type="range" class="stat-range stat-range-purpose" id="status-purpose" min="0" max="100" value="55" oninput="updateStatus('purpose',this.value)" title="Purpose: sense that what you're doing matters and connects to something you care about">
           <span class="stat-bar-val" id="status-purpose-val">55</span>
         </div>
       </div>
@@ -2503,14 +2519,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </svg>
       </div>
       <div class="radar-panel-charts">
-        <div class="radar-chart-group">
-          <div class="radar-chart-lbl">7-day avg</div>
-          <canvas id="status-chart-7d" class="radar-chart-canvas"></canvas>
+        <div class="hist-chart-header">
+          <div class="radar-chart-lbl">History</div>
+          <button class="hist-reset-btn" onclick="confirmResetHistory('status')" title="Reset Status check-in history">Reset</button>
         </div>
-        <div class="radar-chart-group">
-          <div class="radar-chart-lbl">All-time avg</div>
-          <canvas id="status-chart-all" class="radar-chart-canvas"></canvas>
-        </div>
+        <canvas id="status-hist-canvas" class="radar-chart-canvas hist-chart-canvas"></canvas>
+        <div class="hist-chart-legend" id="status-hist-legend"></div>
       </div>
     </div>
   </div>
@@ -2962,7 +2976,7 @@ function getAlignment(item){
 
 // ══ DEFAULT STATE ═══════════════════════════════════════════
 // Steve's demo data — inlined so it works on file:// and github.io alike.
-let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{} };
+let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{}, statusSliders:{focus:70,energy:60,interest:65,purpose:55} };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
 let HARDCODED_STATUS_HIST = [
@@ -3005,7 +3019,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '1.1.0';
+const INSTRUCTIONS_VERSION = '1.4.0';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -3481,44 +3495,128 @@ function updateStatsRadar(){
   const sn=document.getElementById('s-nutrition');  if(sn)  { sn.setAttribute('cx',nx);   sn.setAttribute('cy','0'); }
 }
 
-function _drawAvgBarsInCanvas(canvasId, avgs, keys, cols){
-  const canvas=document.getElementById(canvasId);
-  if(!canvas) return;
-  const dpr=window.devicePixelRatio||1;
-  const W=canvas.offsetWidth||canvas.parentElement?.offsetWidth||200;
-  const H=canvas.offsetHeight||36;
-  canvas.width=W*dpr; canvas.height=H*dpr;
-  const ctx=canvas.getContext('2d');
-  ctx.scale(dpr,dpr);
-  const padL=4,padR=4,padT=4,padB=14;
-  const plotW=W-padL-padR, plotH=H-padT-padB;
-  const barGap=3, numBars=keys.length;
-  const barW=(plotW-barGap*(numBars-1))/numBars;
-  keys.forEach((k,i)=>{
-    const x=padL+i*(barW+barGap);
-    const barH=Math.max(1,(avgs[k]/100)*plotH);
-    const y=padT+plotH-barH;
-    ctx.fillStyle='rgba(255,255,255,0.06)'; ctx.fillRect(x,padT,barW,plotH);
-    ctx.fillStyle=cols[k]; ctx.globalAlpha=0.8; ctx.fillRect(x,y,barW,barH); ctx.globalAlpha=1;
-    ctx.fillStyle=cols[k]; ctx.font='bold 9px monospace'; ctx.textAlign='center';
-    ctx.fillText(avgs[k],x+barW/2,padT+plotH+10);
+// Multi-line day-by-day history chart with all-time + 7-day trend lines
+function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || canvas.parentElement?.offsetWidth || 200;
+  const H = canvas.offsetHeight || 90;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const padL = 24, padR = 8, padT = 6, padB = 14;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  // Y axis labels
+  ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.font = '8px monospace'; ctx.textAlign = 'right';
+  [0, 50, 100].forEach(v => {
+    const y = padT + plotH - (v / 100) * plotH;
+    ctx.fillText(v, padL - 3, y + 3);
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
   });
+
+  if (!hist.length) {
+    ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.font = '9px monospace'; ctx.textAlign = 'center';
+    ctx.fillText('No data yet — move a slider to begin', padL + plotW / 2, padT + plotH / 2 + 3);
+    return;
+  }
+
+  const n = hist.length;
+  const xOf = i => padL + (i / Math.max(n - 1, 1)) * plotW;
+  const yOf = v => padT + plotH - Math.min(100, Math.max(0, v)) / 100 * plotH;
+
+  // Linear regression over [index, value] pairs — returns {slope, intercept}
+  const linReg = pts => {
+    const m = pts.length; if (m < 2) return null;
+    let sx=0,sy=0,sxy=0,sxx=0;
+    pts.forEach(([x,y])=>{sx+=x;sy+=y;sxy+=x*y;sxx+=x*x;});
+    const d=m*sxx-sx*sx; if(!d) return null;
+    const slope=(m*sxy-sx*sy)/d;
+    return {slope, intercept:(sy-slope*sx)/m};
+  };
+
+  keys.forEach(k => {
+    const col = cols[k];
+    const pts = hist.map((e, i) => ({ x: xOf(i), y: yOf(e[k] ?? 0), v: e[k] ?? 0 }));
+
+    // Draw line
+    ctx.beginPath(); ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
+    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.stroke(); ctx.globalAlpha = 1;
+
+    // Dots for each data point
+    pts.forEach(p => {
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
+      ctx.fillStyle = col; ctx.globalAlpha = 0.85; ctx.fill(); ctx.globalAlpha = 1;
+    });
+
+    // All-time trend line (dashed, teal)
+    const regAll = linReg(pts.map((p, i) => [i, p.v]));
+    if (regAll) {
+      const y1 = yOf(regAll.intercept);
+      const y2 = yOf(regAll.slope * (n-1) + regAll.intercept);
+      ctx.beginPath(); ctx.setLineDash([5, 3]); ctx.lineWidth = 1;
+      ctx.strokeStyle = '#40c8c0'; ctx.globalAlpha = 0.55;
+      ctx.moveTo(xOf(0), y1); ctx.lineTo(xOf(n-1), y2);
+      ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    }
+
+    // 7-period trend line (dotted, coral)
+    const last7 = pts.slice(-7);
+    const reg7 = linReg(last7.map((p, i) => [i, p.v]));
+    if (reg7 && last7.length >= 2) {
+      const startX = xOf(n - last7.length);
+      const endX   = xOf(n - 1);
+      const y1 = yOf(reg7.intercept);
+      const y2 = yOf(reg7.slope * (last7.length-1) + reg7.intercept);
+      ctx.beginPath(); ctx.setLineDash([1.5, 4]); ctx.lineWidth = 1.2;
+      ctx.strokeStyle = '#e05060'; ctx.globalAlpha = 0.7;
+      ctx.moveTo(startX, y1); ctx.lineTo(endX, y2);
+      ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    }
+  });
+
+  // X-axis: show ~4 dates
+  if (hist.length > 0) {
+    ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '7px monospace'; ctx.textAlign = 'center';
+    const labelIdxs = n === 1 ? [0] : [0, Math.round(n*0.33), Math.round(n*0.66), n-1].filter((v,i,a)=>a.indexOf(v)===i);
+    labelIdxs.forEach(i => {
+      const d = hist[i]?.date || '';
+      if (!d) return;
+      const lbl = d.slice(5).replace('-','/');
+      ctx.fillText(lbl, xOf(i), padT + plotH + 11);
+    });
+  }
+
+  // Build legend
+  const legendEl = document.getElementById(legendId);
+  if (legendEl && !legendEl.dataset.built) {
+    legendEl.dataset.built = '1';
+    legendEl.innerHTML = '';
+    keys.forEach(k => {
+      const item = document.createElement('div'); item.className = 'hist-legend-item';
+      const sw = document.createElement('div'); sw.className = 'hist-legend-swatch'; sw.style.background = cols[k];
+      const lbl = document.createElement('span'); lbl.textContent = k;
+      item.appendChild(sw); item.appendChild(lbl);
+      legendEl.appendChild(item);
+    });
+    // Trend line legend entries
+    const allTimeLi = document.createElement('div'); allTimeLi.className = 'hist-legend-item';
+    allTimeLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="#40c8c0" stroke-width="1" stroke-dasharray="5 3" stroke-opacity="0.7"/></svg><span>all-time trend</span>';
+    const wk7Li = document.createElement('div'); wk7Li.className = 'hist-legend-item';
+    wk7Li.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="#e05060" stroke-width="1.2" stroke-dasharray="1.5 4" stroke-opacity="0.85"/></svg><span>7-day trend</span>';
+    legendEl.appendChild(allTimeLi); legendEl.appendChild(wk7Li);
+  }
 }
 
 function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
   if(!hist.length && HARDCODED_STATS_HIST.length && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
-  const keys=['rest','movement','nutrition','connection'];
-  const cols=STAT_COLORS;
-  const last7=hist.slice(-7);
-  const avg7={}, avgAll={};
-  keys.forEach(k=>{
-    avg7[k]=hist.length?Math.round(last7.reduce((s,e)=>s+(e[k]||0),0)/(last7.length||1)):0;
-    avgAll[k]=hist.length?Math.round(hist.reduce((s,e)=>s+(e[k]||0),0)/hist.length):0;
-  });
-  _drawAvgBarsInCanvas('stats-chart-7d', avg7, keys, cols);
-  _drawAvgBarsInCanvas('stats-chart-all', avgAll, keys, cols);
+  _drawMultiLineHistChart('stats-hist-canvas','stats-hist-legend',hist,['rest','movement','nutrition','connection'],STAT_COLORS);
 }
 
 function saveStatsSnapshot(){
@@ -5785,6 +5883,9 @@ function applyUpdate(){
     logXPChange(appState, merged);
     snapshotHarmony(merged);
     saveState(merged);appState=merged;render(merged);
+    // Reload sliders from new appState so Claude-set values appear immediately
+    if(merged.statusSliders) { loadStatusSliders(merged); saveStatusSnapshot(); }
+    if(merged.wheelOfLife) saveStatsSnapshot();
     setModalStatus('✓ Sheet updated','ok');
     document.getElementById('json-input').value='';
     setTimeout(closeModal,1200);
@@ -6009,9 +6110,9 @@ function exportState(){
 function updateInstructionsNotice(state){
   if(!state) { const raw=(typeof _pinActive!=='undefined'&&_pinActive)?null:localStorage.getItem('cs-state-v1'); state=raw?JSON.parse(raw):(typeof appState!=='undefined'?appState:DEFAULT); }
   const iv=state._instructionsVersion||'';
-  const [,im=0]=(iv.match(/^0\.(\d+)/)||[]);
-  const [,cm=0]=(INSTRUCTIONS_VERSION.match(/^0\.(\d+)/)||[]);
-  const outdated=(iv&&parseInt(im)<parseInt(cm));
+  // Compare semver strings numerically (major.minor.patch)
+  const semverNum = v => { const [a=0,b=0,c=0]=(v||'').split('.').map(Number); return a*10000+b*100+c; };
+  const outdated=(iv && semverNum(iv) < semverNum(INSTRUCTIONS_VERSION));
   const notice=document.getElementById('instructions-version-notice');
   if(notice) notice.style.display=outdated?'block':'none';
   const dot=document.getElementById('help-dot');
@@ -8161,16 +8262,43 @@ function renderStatusHistoryChart() {
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
   if (!hist.length && HARDCODED_STATUS_HIST.length && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
-  const keys = ['focus','energy','purpose','interest'];
-  const cols = STATUS_COLORS;
-  const last7 = hist.slice(-7);
-  const avg7 = {}, avgAll = {};
-  keys.forEach(k => {
-    avg7[k] = hist.length ? Math.round(last7.reduce((s,e) => s + (e[k]||0), 0) / (last7.length||1)) : 0;
-    avgAll[k] = hist.length ? Math.round(hist.reduce((s,e) => s + (e[k]||0), 0) / hist.length) : 0;
-  });
-  _drawAvgBarsInCanvas('status-chart-7d', avg7, keys, cols);
-  _drawAvgBarsInCanvas('status-chart-all', avgAll, keys, cols);
+  _drawMultiLineHistChart('status-hist-canvas','status-hist-legend',hist,['focus','energy','purpose','interest'],STATUS_COLORS);
+}
+
+function confirmResetHistory(type) {
+  // type: 'stats' or 'status'
+  const label = type === 'stats' ? 'Core Skills' : 'Status check-in';
+  const key   = type === 'stats' ? STATS_HIST_KEY : STATUS_HIST_KEY;
+  const msg   = document.getElementById('confirm-delete-msg');
+  const ok    = document.getElementById('confirm-delete-ok');
+  const title = document.querySelector('#confirm-delete-modal .modal-title');
+  if (msg) msg.textContent = `Clear all ${label} history? This resets the graph but not the current slider values.`;
+  if (ok)  ok.textContent = 'Reset';
+  if (title) title.textContent = 'Reset history?';
+  if (ok) ok.onclick = () => {
+    closeConfirmDelete();
+    // Save backup for undo
+    let backup = '[]';
+    try { backup = localStorage.getItem(key) || '[]'; } catch(e) {}
+    // Clear
+    try { localStorage.removeItem(key); } catch(e) {}
+    // Invalidate built legend so it rebuilds
+    const legendEl = document.getElementById(type === 'stats' ? 'stats-hist-legend' : 'status-hist-legend');
+    if (legendEl) legendEl.dataset.built = '';
+    if (type === 'stats') renderStatsHistoryChart();
+    else renderStatusHistoryChart();
+    // Undo toast
+    showDeleteToast(`${label} history`, () => {
+      try { localStorage.setItem(key, backup); } catch(e) {}
+      if (legendEl) legendEl.dataset.built = '';
+      if (type === 'stats') renderStatsHistoryChart();
+      else renderStatusHistoryChart();
+    });
+    // Restore modal labels to defaults for next delete use
+    if (title) title.textContent = 'Delete?';
+    if (ok)    ok.textContent = 'Delete';
+  };
+  document.getElementById('confirm-delete-modal').classList.add('open');
 }
 
 function updateStatus(name, value) {
@@ -8181,7 +8309,11 @@ function updateStatus(name, value) {
   if (el) setStatusGradient(el, col, pct);
   if (valEl) valEl.textContent = pct;
   updateStatusRadar();
-  // Persist
+  // Persist to appState (round-trips through JSON export/import)
+  if (!appState.statusSliders) appState.statusSliders = {};
+  appState.statusSliders[name] = pct;
+  saveState(appState); markDirty();
+  // Also keep localStorage mirror for fast load
   try {
     const saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}');
     saved[name] = pct;
@@ -8190,18 +8322,24 @@ function updateStatus(name, value) {
   saveStatusSnapshot();
 }
 
-function loadStatusSliders() {
-  let saved = {};
-  try { saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}'); } catch(e) {}
+function loadStatusSliders(s) {
+  // Prefer appState.statusSliders (round-trips through JSON), fall back to localStorage
+  const fromState = (s || appState).statusSliders || {};
+  let fromLS = {};
+  try { fromLS = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}'); } catch(e) {}
   Object.entries(STATUS_COLORS).forEach(([name, col]) => {
     const el = document.getElementById('status-' + name);
     const valEl = document.getElementById('status-' + name + '-val');
     if (!el) return;
-    const pct = saved[name] !== undefined ? saved[name] : parseInt(el.value);
+    // appState takes priority (Claude may have set it); LS is fallback
+    const pct = fromState[name] !== undefined ? fromState[name] : (fromLS[name] !== undefined ? fromLS[name] : parseInt(el.value));
     el.value = pct;
     if (valEl) valEl.textContent = pct;
     setStatusGradient(el, col, pct);
+    // Keep LS mirror in sync
+    fromLS[name] = pct;
   });
+  try { localStorage.setItem(STATUS_LS_KEY, JSON.stringify(fromLS)); } catch(e) {}
   updateStatusRadar();
   requestAnimationFrame(()=>requestAnimationFrame(renderStatusHistoryChart));
 }
@@ -8691,7 +8829,64 @@ function _init(){
     .then(r => r.json())
     .then(data => {
       if(data._xpLog){ HARDCODED_XP_LOG = data._xpLog; delete data._xpLog; }
-      if(data._hardcodedHistory){ Object.assign(HARDCODED_HISTORY, data._hardcodedHistory); delete data._hardcodedHistory; }
+      if(data._hardcodedHistory){
+        // Shift all history dates so the most recent daily entry = yesterday,
+        // and the most recent weekly entry = current week. This keeps demo data
+        // looking fresh whenever the file is opened, regardless of when it was last edited.
+        const hist = data._hardcodedHistory;
+        const MS_DAY = 86400000;
+        // Find latest date across all daily entries
+        let latestDateMs = 0;
+        // Find latest week period string across all weekly entries
+        let latestWeekPeriod = null;
+        Object.values(hist).forEach(entries => {
+          entries.forEach(e => {
+            if (e.date) {
+              const ms = new Date(e.date).getTime();
+              if (ms > latestDateMs) latestDateMs = ms;
+            }
+            if (e.period && /^\d{4}-\d{2}$/.test(e.period)) {
+              if (!latestWeekPeriod || e.period > latestWeekPeriod) latestWeekPeriod = e.period;
+            }
+          });
+        });
+        // Day shift: map latest date → yesterday
+        const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1); yesterday.setHours(0,0,0,0);
+        const latestDay = latestDateMs ? new Date(new Date(latestDateMs).toISOString().slice(0,10)) : null;
+        if (latestDay) latestDay.setHours(0,0,0,0);
+        const dayShift = latestDay ? Math.round((yesterday - latestDay) / MS_DAY) : 0;
+        // Week shift: map latest week period → current week
+        let weekShift = 0;
+        if (latestWeekPeriod) {
+          const curWeek = getPeriodKey(new Date(), 'week');
+          const [ly, lw] = latestWeekPeriod.split('-').map(Number);
+          const [cy, cw] = curWeek.split('-').map(Number);
+          weekShift = (cy - ly) * 52 + (cw - lw);
+        }
+        // Apply shifts
+        if (dayShift !== 0 || weekShift !== 0) {
+          Object.keys(hist).forEach(id => {
+            hist[id] = hist[id].map(e => {
+              if (e.date && dayShift !== 0) {
+                const d = new Date(e.date); d.setDate(d.getDate() + dayShift);
+                return { ...e, date: d.toISOString().slice(0,10) };
+              }
+              if (e.period && /^\d{4}-\d{2}$/.test(e.period) && weekShift !== 0) {
+                const d = new Date(); // use a date offset by (latestWeek - e.period) weeks back, then shift
+                const [ey, ew] = e.period.split('-').map(Number);
+                // reconstruct approx date for this period key, then add weekShift weeks
+                // Easiest: parse as week-of-year → Jan 4 + (week-1)*7 days
+                const jan4 = new Date(ey, 0, 4);
+                jan4.setDate(jan4.getDate() + (ew - 1) * 7);
+                jan4.setDate(jan4.getDate() + weekShift * 7);
+                return { ...e, period: getPeriodKey(jan4, 'week') };
+              }
+              return e;
+            });
+          });
+        }
+        Object.assign(HARDCODED_HISTORY, hist); delete data._hardcodedHistory;
+      }
       if(data._featuredCls){ setFeaturedCls(data._featuredCls); delete data._featuredCls; }
       if(data._featuredAch){ setFeaturedAch(data._featuredAch); delete data._featuredAch; }
       Object.assign(DEFAULT, data);

@@ -79,7 +79,8 @@
       }
     ],
     "xpReward": 500,
-    "progress": 15
+    "progress": 15,
+    "deadline": "20/04/2026"
   },
   "sliderValues": { "air": 72, "fire": 22, "water": 58, "earth": 64 },
   "harmonyHistory": [
@@ -156,11 +157,11 @@
     { "name": "Adaptability",     "role": "DPS",     "mastery": 4, "priority": 3, "xpReward": 150, "description": "Read the situation, adjust the approach, keep moving forward.",               "whyItMatters": "Foundation of making progress when conditions are not ideal." }
   ],
   "sideQuests": [
-    { "id": "build-base",        "title": "Build a Proper Home Base",        "priority": 1, "progress": 40, "description": "Upgrade from a temporary setup to a real base with storage and proper systems.", "whyItMatters": "A stable foundation makes everything else less chaotic.",      "doneWhen": "Storage sorted, bed placed, systems working without constant firefighting.", "nextStep": "Lay the foundation three sessions this week - no aesthetic requirement, just get it built.", "xpReward": 150 },
-    { "id": "enchanting-setup",  "title": "Set Up a Full Enchanting Setup",  "priority": 2, "progress": 80, "description": "Build a complete enchanting table with bookshelves and reliable access.",         "whyItMatters": "The big fight needs properly prepared gear, not just intent.",   "doneWhen": "Full setup built, at least one piece of gear fully enchanted and ready.",  "nextStep": "Final two bookshelves to place - the setup is 80% done, finish it this week.", "xpReward": 200 },
-    { "id": "explore-biomes",    "title": "Explore 12 New Places This Year", "priority": 3, "progress": 33, "description": "One new area per month. Variety and curiosity over efficiency.",                  "whyItMatters": "Exploration generates unexpected insight and breaks tunnel vision.", "doneWhen": "12 different places explored with at least one journal note from each.",   "nextStep": "Find one genuinely new place this month before moving to the next.",    "xpReward": 150 },
-    { "id": "organise-storage",  "title": "Fully Organise Storage System",   "priority": 4, "progress": 75, "description": "Label and sort the entire storage setup so nothing is lost in the overflow.",     "whyItMatters": "Chaos in the environment creates chaos in decision-making.",      "doneWhen": "Every category has a place. Overflow pile gone.",                         "nextStep": "Sort the overflow pile - it has been sitting there for a month.",       "xpReward": 100 },
-    { "id": "learn-automation",  "title": "Build Three Working Automations", "priority": 5, "progress": 20, "description": "Design and build three automated systems over the year.",                         "whyItMatters": "Automation creates leverage. Effort compounds instead of repeating.", "doneWhen": "Three automations running reliably without manual intervention.",        "nextStep": "Complete one tutorial on automation fundamentals this week.",            "xpReward": 200 }
+    { "id": "build-base",        "title": "Build a Proper Home Base",        "priority": 1, "progress": 40, "description": "Upgrade from a temporary setup to a real base with storage and proper systems.", "whyItMatters": "A stable foundation makes everything else less chaotic.",      "doneWhen": "Storage sorted, bed placed, systems working without constant firefighting.", "nextStep": "Lay the foundation three sessions this week - no aesthetic requirement, just get it built.", "xpReward": 150, "deadline": "30/04/2026" },
+    { "id": "enchanting-setup",  "title": "Set Up a Full Enchanting Setup",  "priority": 2, "progress": 80, "description": "Build a complete enchanting table with bookshelves and reliable access.",         "whyItMatters": "The big fight needs properly prepared gear, not just intent.",   "doneWhen": "Full setup built, at least one piece of gear fully enchanted and ready.",  "nextStep": "Final two bookshelves to place - the setup is 80% done, finish it this week.", "xpReward": 200, "deadline": "13/04/2026" },
+    { "id": "explore-biomes",    "title": "Explore 12 New Places This Year", "priority": 3, "progress": 33, "description": "One new area per month. Variety and curiosity over efficiency.",                  "whyItMatters": "Exploration generates unexpected insight and breaks tunnel vision.", "doneWhen": "12 different places explored with at least one journal note from each.",   "nextStep": "Find one genuinely new place this month before moving to the next.",    "xpReward": 150, "deadline": "31/12/2026" },
+    { "id": "organise-storage",  "title": "Fully Organise Storage System",   "priority": 4, "progress": 75, "description": "Label and sort the entire storage setup so nothing is lost in the overflow.",     "whyItMatters": "Chaos in the environment creates chaos in decision-making.",      "doneWhen": "Every category has a place. Overflow pile gone.",                         "nextStep": "Sort the overflow pile - it has been sitting there for a month.",       "xpReward": 100, "deadline": "18/04/2026" },
+    { "id": "learn-automation",  "title": "Build Three Working Automations", "priority": 5, "progress": 20, "description": "Design and build three automated systems over the year.",                         "whyItMatters": "Automation creates leverage. Effort compounds instead of repeating.", "doneWhen": "Three automations running reliably without manual intervention.",        "nextStep": "Complete one tutorial on automation fundamentals this week.",            "xpReward": 200, "deadline": "30/06/2026" }
   ],
   "completedQuests": [
     { "title": "Survive the First Month", "completedDate": "Jan 2026", "xpEarned": 300, "howResolved": "Built the foundation with very little in place. Made it through with no major setbacks. The three-month consistency run started there." }
@@ -503,10 +504,11 @@
       { "date": "2026-04-06", "value": 2, "subsDone": ["mining", "crafting"] }
     ],
     "diamonds-mined": [
-      { "period": "2026-06", "value": 2 }, { "period": "2026-07", "value": 3 }, { "period": "2026-08", "value": 2 },
-      { "period": "2026-09", "value": 3 }, { "period": "2026-10", "value": 3 }, { "period": "2026-11", "value": 3 },
-      { "period": "2026-12", "value": 2 }, { "period": "2026-13", "value": 3 },
-      { "period": "2026-14", "value": 2 }, { "period": "2026-15", "value": 3 }
+      { "period": "2026-02", "value": 1 }, { "period": "2026-03", "value": 1 }, { "period": "2026-04", "value": 2 },
+      { "period": "2026-05", "value": 1 }, { "period": "2026-06", "value": 2 }, { "period": "2026-07", "value": 2 },
+      { "period": "2026-08", "value": 3 }, { "period": "2026-09", "value": 2 }, { "period": "2026-10", "value": 3 },
+      { "period": "2026-11", "value": 4 }, { "period": "2026-12", "value": 3 }, { "period": "2026-13", "value": 5 },
+      { "period": "2026-14", "value": 6 }
     ]
   }
 }

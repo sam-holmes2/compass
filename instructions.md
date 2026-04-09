@@ -1,4 +1,4 @@
-# character-sheet — LLM Instructions v1.3.0
+# character-sheet — LLM Instructions v1.4.0
 This file lives in project knowledge alongside `data.json` (source of truth).
 
 # Session workflow
@@ -153,12 +153,12 @@ Always include all four in every partial update once they are first set.
 
 **Writing rules:** No markdown or em dashes in JSON strings. All names/descriptions must be self-explanatory without context.
 
-Prefer **partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.3.0"`.
+Prefer **partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.4.0"`.
 
 `{ "_partial": true, "_instructionsVersion": "1.2.0", "xp": 450, "sessionCount": 7, "lastSession": "2026-04-08", "skills": [...] }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution`  
-**Browser-only (omit from JSON):** XP log · practice history · status sliders · pinned achievements/classes
+**Browser-only (omit from JSON):** XP log · practice history · pinned achievements/classes
 
 ## Size limits
 
@@ -270,6 +270,22 @@ Always assign a `role` to every skill. Infer from context — do not ask directl
 Flexible life domains — add/remove based on what the user tracks. Stored as `wheelOfLife` in JSON. `trend`: `up-strong` · `up-slight` · `flat` · `down-slight` · `down-strong`.
 
 `"wheelOfLife": { "sleep": { "score": 40, "trend": "down-slight" }, "movement": { "score": 30, "trend": "down-strong" }, ... }`
+
+Update `wheelOfLife` scores each session based on anything discussed about rest, movement, nutrition, and connection. The app plots these on a history chart — only update when you have genuine information about that domain.
+
+## statusSliders
+Four internal state scores (0–100) showing how the user feels right now relative to what they should be doing. Stored as `statusSliders` in JSON and displayed in the app. Update any of these when the user directly mentions their current state in that dimension — only update what was actually discussed.
+
+`"statusSliders": { "focus": 75, "energy": 50, "interest": 65, "purpose": 60 }`
+
+| Key | What it measures |
+|---|---|
+| `focus` | How well attention can be directed and sustained on what matters |
+| `energy` | Physical and mental fuel — capacity to act and engage |
+| `interest` | Genuine curiosity and engagement, not just going through the motions |
+| `purpose` | Sense that current actions matter and connect to something the user cares about |
+
+When the user imports a JSON with updated `statusSliders`, the app sliders update immediately. Always include all four keys if you include `statusSliders`.
 
 ---
 
