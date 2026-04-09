@@ -3,7 +3,6 @@
   "_featuredAch": ["the-organiser", "not-just-a-noob"],
   "_instructionsVersion": "0.7.0",
   "name": "Example Steve",
-  "subtitle": "Explorer of the Overworld",
   "level": 4,
   "xp": 570,
   "xpToNext": 1000,
@@ -352,8 +351,8 @@
       "unit": "activities",
       "xpPerUnit": 25,
       "subActivities": [
-        { "id": "cardio",    "name": "Cardio",    "color": "rgba(100,160,220,0.25)" },
-        { "id": "strength",  "name": "Strength",  "color": "rgba(200,140,60,0.25)"  }
+        { "id": "mining",    "name": "Mining",    "color": "rgba(100,160,220,0.25)", "description": "Cave runs, strip mining, or resource gathering. Moving through the world to collect what's needed." },
+        { "id": "crafting",  "name": "Crafting",  "color": "rgba(200,140,60,0.25)",  "description": "Building, organising, or creating at the workbench. Turning raw materials into something useful." }
       ]
     },
     { "id": "morning-routine", "name": "Morning Routine", "description": "Consistent start to the day before the world gets loud.", "whyItMatters": "Sets the tone. Everything downstream is easier.", "startDate": "2026-02-01", "priority": 3, "type": "checkbox", "resetPeriod": "day",  "target": 1,  "unit": "mornings", "xpPerUnit": 20  },
@@ -483,12 +482,25 @@
       { "date": "2026-02-17", "value": 2 }, { "date": "2026-02-19", "value": 1 }, { "date": "2026-02-21", "value": 2 },
       { "date": "2026-02-24", "value": 2 }, { "date": "2026-02-26", "value": 1 }, { "date": "2026-02-28", "value": 2 },
       { "date": "2026-03-03", "value": 2 }, { "date": "2026-03-05", "value": 1 }, { "date": "2026-03-07", "value": 2 },
-      { "date": "2026-03-10", "value": 2 }, { "date": "2026-03-12", "value": 1 }, { "date": "2026-03-14", "value": 2 },
-      { "date": "2026-03-17", "value": 2 }, { "date": "2026-03-19", "value": 2 }, { "date": "2026-03-21", "value": 1 },
-      { "date": "2026-03-24", "value": 2 },
-      { "date": "2026-03-26", "value": 2 }, { "date": "2026-03-28", "value": 1 },
-      { "date": "2026-03-31", "value": 2 }, { "date": "2026-04-02", "value": 2 },
-      { "date": "2026-04-04", "value": 1 }, { "date": "2026-04-06", "value": 2 }
+      { "date": "2026-03-10", "value": 2 }, { "date": "2026-03-12", "value": 1 },
+      { "date": "2026-03-13", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-14", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-16", "value": 1, "subsDone": ["mining"] },
+      { "date": "2026-03-17", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-19", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-20", "value": 1, "subsDone": ["crafting"] },
+      { "date": "2026-03-21", "value": 1, "subsDone": ["mining"] },
+      { "date": "2026-03-23", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-24", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-25", "value": 1, "subsDone": ["crafting"] },
+      { "date": "2026-03-26", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-28", "value": 1, "subsDone": ["crafting"] },
+      { "date": "2026-03-30", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-31", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-04-01", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-04-02", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-04-04", "value": 1, "subsDone": ["mining"] },
+      { "date": "2026-04-06", "value": 2, "subsDone": ["mining", "crafting"] }
     ],
     "diamonds-mined": [
       { "period": "2026-06", "value": 2 }, { "period": "2026-07", "value": 3 }, { "period": "2026-08", "value": 2 },
