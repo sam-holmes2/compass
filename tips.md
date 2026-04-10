@@ -4,8 +4,41 @@
 
 - **Start a new chat each session.** Most important. Every message in a conversation re-sends the entire history — costs compound fast.
 - **Use project knowledge.** `instructions.md` and `data.json` load once at the start, not per message.
+- **Use partial updates.** Instead of asking for a full `data.json`, ask: *"Give me a partial update for what changed."* The AI will output only the fields that changed — much smaller and cheaper to generate. See [Partial updates](#partial-updates) below.
 - **Keep `data.json` concise.** It loads every session. Push back if the AI makes it verbose.
 - **One topic per session.** Focused sessions produce leaner JSON updates.
+
+---
+
+## Partial updates
+
+A partial update is a smaller JSON that contains only the top-level fields that changed, rather than the full `data.json`. The app merges it into your existing data.
+
+**When to use it:** any session where only a few things changed — XP, a quest or two, a status read. No need to re-output skills, allies, enemies, and everything else that didn't move.
+
+**How to request one:** ask the AI: *"Give me a partial update JSON for what changed this session."*
+
+**What the AI outputs** (example):
+```json
+{
+  "_partial": true,
+  "_instructionsVersion": "1.4.0",
+  "xp": 520,
+  "sessionCount": 12,
+  "lastSession": "2026-04-10",
+  "health": 72,
+  "mana": 68,
+  "healthAvg": 65,
+  "manaAvg": 63,
+  "sideQuests": [...]
+}
+```
+
+**How to import it:** exactly the same as a full update — click `↑`, paste, Import. The app detects the `"_partial": true` flag and merges rather than replaces.
+
+**What gets merged vs replaced:** partial updates do a shallow merge at the top level. If you include `"sideQuests"`, the entire `sideQuests` array is replaced. If you omit it, it stays untouched. The same applies to any other top-level key.
+
+**The diff toast** shows "Partial update" as the first item so you can confirm what changed before the modal closes.
 
 ---
 

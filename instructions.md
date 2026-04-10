@@ -155,7 +155,7 @@ Always include all four in every partial update once they are first set.
 
 Prefer **partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.4.0"`.
 
-`{ "_partial": true, "_instructionsVersion": "1.2.0", "xp": 450, "sessionCount": 7, "lastSession": "2026-04-08", "skills": [...] }`
+`{ "_partial": true, "_instructionsVersion": "1.4.0", "xp": 450, "sessionCount": 7, "lastSession": "2026-04-08", "skills": [...] }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution`  
 **Browser-only (omit from JSON):** XP log · practice history · pinned achievements/classes

@@ -46,7 +46,7 @@ Once you have a reasonable picture, generate my data.json using the format in in
 
 1. **Start a new chat** in your AI project. The AI already has your context from project knowledge.
 2. **Journal** - brain dump freely, or pick a mode (see below).
-3. **End the session** - ask: *"Update my data.json based on this chat."*
+3. **End the session** - ask: *"Update my data.json based on this chat."* For sessions where only a few things changed, ask for a partial update instead: *"Give me a partial update JSON for what changed this session."* — it's smaller and cheaper. See [Partial updates](tips.md#partial-updates).
 4. **Replace `data.json` in project knowledge** - remove the old version, upload the new one.
 5. **Sync the app** - click `↑`, paste the JSON, Import.
 
@@ -112,6 +112,7 @@ It's a conversation, not a vending machine. But it's also a mirror.
 ## Tips
 
 - [Keeping token usage low](tips.md#keeping-token-usage-low)
+- [Partial updates](tips.md#partial-updates)
 - [What does and doesn't persist](tips.md#what-does-and-doesnt-persist)
 - [Updating to a new version](tips.md#updating-to-a-new-version)
 

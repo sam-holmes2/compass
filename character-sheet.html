@@ -1932,7 +1932,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ HEADER ══════════════════════════════════════════════ -->
 <div class="hdr">
   <!-- Col 1: Main quest -->
-  <div class="hdr-left" title="Main Quest: your single most important current goal — the one thing that would change everything else if you made real progress on it. Progress and XP are set by Claude based on breakthroughs, identity shifts, and sustained behaviour change.">
+  <div class="hdr-left" title="Main Quest: your single most important current goal — the one thing that would change everything else if you made real progress on it. Progress and XP are set by your AI based on breakthroughs, identity shifts, and sustained behaviour change.">
     <div class="hdr-quest-label">◈ Main Quest</div>
     <div class="hdr-quest-title" id="hdr-mq-title">Sovereignty</div>
     <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:8%"></div></div>
@@ -1951,7 +1951,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- Col 3: HP + Mana vitals -->
   <div class="hdr-vitals">
-    <div class="vital-row" title="HP: Physical health (0–100). Inferred by Claude from sleep, nutrition, movement, stress, and physical symptoms. The tick mark shows your all-time average.">
+    <div class="vital-row" title="HP: Physical health (0–100). Inferred by your AI from sleep, nutrition, movement, stress, and physical symptoms. The tick mark shows your all-time average.">
       <span class="vital-icon" style="color:#ff6060">♥</span>
       <div class="vital-track-wrap">
         <div class="vital-track hp">
@@ -1960,7 +1960,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="vital-baseline hp" id="hp-baseline" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by Claude from your energy, optimism, motivation, sense of meaning, and emotional resilience. The tick mark shows your all-time average.">
+    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by your AI from your energy, optimism, motivation, sense of meaning, and emotional resilience. The tick mark shows your all-time average.">
       <span class="vital-icon" style="color:#60a0ff">✦</span>
       <div class="vital-track-wrap">
         <div class="vital-track mana">
@@ -1972,7 +1972,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 
   <!-- Full-width XP bar (spans all columns) -->
-  <div class="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Awarded by Claude during journalling sessions.">
+  <div class="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Awarded by your AI during journalling sessions.">
     <div class="hdr-xp-level-badge">
       <span class="xp-bar-lbl">Level</span>
       <span id="xp-level">4</span>
@@ -1998,7 +1998,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <!-- Mobile-only vitals row (hidden on desktop via CSS) -->
   <div class="hdr-mobile-vitals" id="hdr-mobile-vitals">
-    <div class="hdr-mobile-vital-row" title="HP: Physical health (0–100). Inferred by Claude from sleep, nutrition, movement, stress, and physical symptoms.">
+    <div class="hdr-mobile-vital-row" title="HP: Physical health (0–100). Inferred by your AI from sleep, nutrition, movement, stress, and physical symptoms.">
       <span class="hdr-mobile-vital-icon" style="color:#ff6060">♥</span>
       <div class="vital-track-wrap">
         <div class="vital-track hp">
@@ -2007,7 +2007,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="vital-baseline hp" id="hp-baseline-m" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="hdr-mobile-vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by Claude from your energy, optimism, motivation, and emotional resilience.">
+    <div class="hdr-mobile-vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by your AI from your energy, optimism, motivation, and emotional resilience.">
       <span class="hdr-mobile-vital-icon" style="color:#60a0ff">✦</span>
       <div class="vital-track-wrap">
         <div class="vital-track mana">
@@ -2029,7 +2029,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data: Import it</button>
     </div>
     <div id="welcome-setup-steps">
-      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructions()">↓ instructions.md</button></div></div>
+      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <a class="btn-ghost btn-download" style="margin-left:6px;" href="https://github.com/sam-holmes2/character-sheet/raw/master/instructions.md" download="instructions.md" target="_blank" rel="noopener">↓ instructions.md</a></div></div>
       <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at, then just talk.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
@@ -2158,7 +2158,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
             <div class="el-question"><span class="el-question-keyword" style="color:#8090a8">Awareness:</span>"What can you notice now?"</div>
           </div>
         </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="air-label">Mostly Dirty Air - self-monitoring mistaken for awareness</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="air-label">Mostly Dirty Air - self-monitoring mistaken for awareness</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="air-slider-col"></div>
@@ -2206,7 +2206,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-question"><span class="el-question-keyword" style="color:#d07830">Action:</span>"What do you feel called to do?"</div>
         </div>
       </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="fire-label">Depleted - running on fear and obligation, not values</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="fire-label">Depleted - running on fear and obligation, not values</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="fire-slider-col"></div>
@@ -2267,7 +2267,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-question"><span class="el-question-keyword" style="color:#60a838">Beliefs:</span>"What story are you telling yourself?"</div>
         </div>
       </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="earth-label">Controller dominant - narrating experience as failure</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="earth-label">Controller dominant - narrating experience as failure</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="earth-slider-col"></div>
@@ -2306,7 +2306,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-question"><span class="el-question-keyword" style="color:#3a80c8">Flow:</span>"What are you resisting right now?"</div>
         </div>
       </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by Claude from your journal sessions">✦</span><span id="water-label">Real aliveness scarce - compulsive exits filling the gap</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="water-label">Real aliveness scarce - compulsive exits filling the gap</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="water-slider-col"></div>
@@ -2476,7 +2476,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
           <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Status check-in</div>
-          <div class="radar-panel-desc">Log how you feel right now in relation to what you <em>should</em> be doing. These are stored locally and not sent to Claude — useful for spotting which factor most often holds you back.</div>
+          <div class="radar-panel-desc">Log how you feel right now in relation to what you <em>should</em> be doing. Useful for spotting which factor most often holds you back.</div>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#c0cad4" title="Focus: how well you can direct and sustain attention on what matters right now">Focus</span>
@@ -2531,6 +2531,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- ── Recurring Quests ── -->
   <div class="radar-panel-title" style="font-size:18px;color:#c8a84a;letter-spacing:0.2em;padding:18px 0 6px 0;">Regular quests</div>
+  <div class="section-desc" style="margin-bottom:10px;">Recurring things that matter — track consistency and spot trends over time</div>
   <div id="rquests-container"></div>
 
 </div>
@@ -2704,7 +2705,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="help-step-num">2</div>
           <div class="help-step-text">
             <strong>Download instructions.md</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-ghost btn-download" onclick="downloadInstructions()">↓ instructions.md</button></span>
+            <span style="display:block;margin-top:6px;"><a class="btn-ghost btn-download" href="https://github.com/sam-holmes2/character-sheet/raw/master/instructions.md" download="instructions.md" target="_blank" rel="noopener">↓ instructions.md</a></span>
           </div>
         </div>
         <div class="help-step">
@@ -2911,6 +2912,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">AI Journal Export</div>
         <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Copy this JSON and paste it into your AI project as <code>data.json</code>. This keeps your AI up to date with your latest state.</p>
         <div id="export-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;"></div>
+        <div id="export-context-note" style="margin-bottom:10px;font-size:12px;color:var(--text-dim);font-family:var(--mono);"></div>
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;overflow:visible;">
           <canvas id="export-pie" width="110" height="110" style="flex-shrink:0;width:90px;height:90px;"></canvas>
           <div id="export-pie-legend" style="flex:1;display:flex;flex-direction:column;gap:3px;font-size:12px;font-family:var(--mono);min-width:0;"></div>
@@ -2979,34 +2981,97 @@ function getAlignment(item){
 let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{}, statusSliders:{focus:70,energy:60,interest:65,purpose:55} };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
-let HARDCODED_STATUS_HIST = [
-  {date:"2026-01-05",focus:55,energy:20,purpose:18,interest:68},{date:"2026-01-08",focus:58,energy:18,purpose:15,interest:70},
-  {date:"2026-01-12",focus:60,energy:22,purpose:17,interest:72},{date:"2026-01-15",focus:57,energy:19,purpose:16,interest:69},
-  {date:"2026-01-19",focus:62,energy:24,purpose:19,interest:74},{date:"2026-01-22",focus:65,energy:21,purpose:18,interest:76},
-  {date:"2026-01-26",focus:63,energy:26,purpose:20,interest:73},{date:"2026-01-29",focus:68,energy:23,purpose:22,interest:78},
-  {date:"2026-02-02",focus:66,energy:20,purpose:19,interest:75},{date:"2026-02-05",focus:70,energy:18,purpose:17,interest:80},
-  {date:"2026-02-09",focus:67,energy:25,purpose:21,interest:77},{date:"2026-02-12",focus:72,energy:22,purpose:20,interest:79},
-  {date:"2026-02-16",focus:74,energy:28,purpose:24,interest:81},{date:"2026-02-19",focus:71,energy:24,purpose:23,interest:78},
-  {date:"2026-02-23",focus:75,energy:30,purpose:27,interest:83},{date:"2026-02-26",focus:73,energy:26,purpose:25,interest:80},
-  {date:"2026-03-02",focus:76,energy:32,purpose:28,interest:84},{date:"2026-03-05",focus:78,energy:28,purpose:30,interest:85},
-  {date:"2026-03-09",focus:74,energy:25,purpose:27,interest:82},{date:"2026-03-12",focus:79,energy:33,purpose:31,interest:86},
-  {date:"2026-03-16",focus:80,energy:35,purpose:33,interest:87},{date:"2026-03-19",focus:77,energy:30,purpose:32,interest:84},
-  {date:"2026-03-22",focus:82,energy:38,purpose:35,interest:88},{date:"2026-03-25",focus:80,energy:34,purpose:34,interest:86}
-];
-let HARDCODED_STATS_HIST = [
-  {date:"2026-01-05",rest:20,movement:65,nutrition:55,connection:28},{date:"2026-01-08",rest:18,movement:68,nutrition:52,connection:25},
-  {date:"2026-01-12",rest:22,movement:70,nutrition:57,connection:30},{date:"2026-01-15",rest:19,movement:67,nutrition:54,connection:27},
-  {date:"2026-01-19",rest:24,movement:72,nutrition:59,connection:32},{date:"2026-01-22",rest:21,movement:75,nutrition:61,connection:29},
-  {date:"2026-01-26",rest:25,movement:73,nutrition:63,connection:33},{date:"2026-01-29",rest:22,movement:76,nutrition:65,connection:30},
-  {date:"2026-02-02",rest:20,movement:74,nutrition:62,connection:28},{date:"2026-02-05",rest:18,movement:78,nutrition:64,connection:25},
-  {date:"2026-02-09",rest:23,movement:75,nutrition:66,connection:31},{date:"2026-02-12",rest:21,movement:79,nutrition:68,connection:29},
-  {date:"2026-02-16",rest:26,movement:80,nutrition:70,connection:35},{date:"2026-02-19",rest:24,movement:77,nutrition:67,connection:33},
-  {date:"2026-02-23",rest:28,movement:82,nutrition:71,connection:37},{date:"2026-02-26",rest:25,movement:80,nutrition:69,connection:34},
-  {date:"2026-03-02",rest:30,movement:83,nutrition:72,connection:38},{date:"2026-03-05",rest:27,movement:81,nutrition:70,connection:36},
-  {date:"2026-03-09",rest:25,movement:79,nutrition:68,connection:34},{date:"2026-03-12",rest:32,movement:84,nutrition:73,connection:40},
-  {date:"2026-03-16",rest:35,movement:85,nutrition:75,connection:42},{date:"2026-03-19",rest:30,movement:82,nutrition:72,connection:38},
-  {date:"2026-03-22",rest:38,movement:86,nutrition:76,connection:44},{date:"2026-03-25",rest:34,movement:83,nutrition:74,connection:41}
-];
+// Generate demo history anchored to today so charts always fill to current date.
+// Seed points cover ~3 months of a clear positive trend; any gap between the last
+// seed date and today is filled automatically at 3-day intervals.
+(function(){
+  // Each entry: [daysAgo, {fields}]
+  // "daysAgo" is relative to today so the series always ends near the present.
+  const today = new Date(); today.setHours(0,0,0,0);
+  function addDays(base, n){ const d=new Date(base); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+  function dateAt(daysAgo){ return addDays(today, -daysAgo); }
+
+  // Status check-in seeds: focus/energy/purpose/interest
+  // Positive trend: energy & purpose start low and climb; focus & interest start mid and improve
+  const statusSeeds = [
+    [97, {focus:55,energy:20,purpose:18,interest:68}],
+    [94, {focus:58,energy:18,purpose:15,interest:70}],
+    [90, {focus:60,energy:22,purpose:17,interest:72}],
+    [87, {focus:57,energy:19,purpose:16,interest:69}],
+    [83, {focus:62,energy:24,purpose:19,interest:74}],
+    [80, {focus:65,energy:21,purpose:18,interest:76}],
+    [76, {focus:63,energy:26,purpose:20,interest:73}],
+    [73, {focus:68,energy:23,purpose:22,interest:78}],
+    [69, {focus:66,energy:20,purpose:19,interest:75}],
+    [66, {focus:70,energy:18,purpose:17,interest:80}],
+    [62, {focus:67,energy:25,purpose:21,interest:77}],
+    [59, {focus:72,energy:22,purpose:20,interest:79}],
+    [55, {focus:74,energy:28,purpose:24,interest:81}],
+    [52, {focus:71,energy:24,purpose:23,interest:78}],
+    [48, {focus:75,energy:30,purpose:27,interest:83}],
+    [45, {focus:73,energy:26,purpose:25,interest:80}],
+    [41, {focus:76,energy:32,purpose:28,interest:84}],
+    [38, {focus:78,energy:28,purpose:30,interest:85}],
+    [34, {focus:74,energy:25,purpose:27,interest:82}],
+    [31, {focus:79,energy:33,purpose:31,interest:86}],
+    [27, {focus:80,energy:35,purpose:33,interest:87}],
+    [24, {focus:77,energy:30,purpose:32,interest:84}],
+    [20, {focus:82,energy:38,purpose:35,interest:88}],
+    [17, {focus:80,energy:34,purpose:34,interest:86}],
+    [13, {focus:83,energy:40,purpose:37,interest:89}],
+    [10, {focus:81,energy:36,purpose:38,interest:87}],
+    [6,  {focus:85,energy:44,purpose:41,interest:91}],
+    [3,  {focus:84,energy:42,purpose:43,interest:90}],
+    [0,  {focus:86,energy:46,purpose:45,interest:92}],
+  ];
+
+  // Core skills seeds: rest/movement/nutrition/connection
+  // Positive trend: rest & connection start low and rise steadily
+  const statsSeeds = [
+    [97, {rest:20,movement:65,nutrition:55,connection:28}],
+    [94, {rest:18,movement:68,nutrition:52,connection:25}],
+    [90, {rest:22,movement:70,nutrition:57,connection:30}],
+    [87, {rest:19,movement:67,nutrition:54,connection:27}],
+    [83, {rest:24,movement:72,nutrition:59,connection:32}],
+    [80, {rest:21,movement:75,nutrition:61,connection:29}],
+    [76, {rest:25,movement:73,nutrition:63,connection:33}],
+    [73, {rest:22,movement:76,nutrition:65,connection:30}],
+    [69, {rest:20,movement:74,nutrition:62,connection:28}],
+    [66, {rest:18,movement:78,nutrition:64,connection:25}],
+    [62, {rest:23,movement:75,nutrition:66,connection:31}],
+    [59, {rest:21,movement:79,nutrition:68,connection:29}],
+    [55, {rest:26,movement:80,nutrition:70,connection:35}],
+    [52, {rest:24,movement:77,nutrition:67,connection:33}],
+    [48, {rest:28,movement:82,nutrition:71,connection:37}],
+    [45, {rest:25,movement:80,nutrition:69,connection:34}],
+    [41, {rest:30,movement:83,nutrition:72,connection:38}],
+    [38, {rest:27,movement:81,nutrition:70,connection:36}],
+    [34, {rest:25,movement:79,nutrition:68,connection:34}],
+    [31, {rest:32,movement:84,nutrition:73,connection:40}],
+    [27, {rest:35,movement:85,nutrition:75,connection:42}],
+    [24, {rest:30,movement:82,nutrition:72,connection:38}],
+    [20, {rest:38,movement:86,nutrition:76,connection:44}],
+    [17, {rest:34,movement:83,nutrition:74,connection:41}],
+    [13, {rest:40,movement:87,nutrition:77,connection:46}],
+    [10, {rest:37,movement:85,nutrition:75,connection:44}],
+    [6,  {rest:44,movement:88,nutrition:79,connection:50}],
+    [3,  {rest:42,movement:86,nutrition:78,connection:48}],
+    [0,  {rest:46,movement:89,nutrition:80,connection:52}],
+  ];
+
+  function buildHist(seeds, keys){
+    const entries = seeds.map(([ago, vals]) => Object.assign({date: dateAt(ago)}, vals));
+    entries.sort((a,b) => a.date < b.date ? -1 : 1);
+    // Deduplicate by date (keep last)
+    const seen = {}; entries.forEach(e => seen[e.date] = e);
+    return Object.values(seen).sort((a,b) => a.date < b.date ? -1 : 1);
+  }
+
+  window.HARDCODED_STATUS_HIST = buildHist(statusSeeds, ['focus','energy','purpose','interest']);
+  window.HARDCODED_STATS_HIST  = buildHist(statsSeeds,  ['rest','movement','nutrition','connection']);
+})();
+let HARDCODED_STATUS_HIST = window.HARDCODED_STATUS_HIST;
+let HARDCODED_STATS_HIST  = window.HARDCODED_STATS_HIST;
 
 // ══ SECURITY ════════════════════════════════════════════════
 function esc(str){ const d=document.createElement('div'); d.textContent=str??''; return d.innerHTML; }
@@ -6143,18 +6208,23 @@ function renderExportPie(state,jsonStr){
   const sizes=keys.map(k=>JSON.stringify(state[k]).length);
   const total=jsonStr.length;
   const warn=document.getElementById('export-size-warning');
+  const INSTRUCTIONS_TOKENS = 7200; // instructions.md (~28KB), updated manually if file changes
+  const dataTok = Math.round(total/4);
+  const combinedTok = dataTok + INSTRUCTIONS_TOKENS;
+  const contextEl = document.getElementById('export-context-note');
+  if(contextEl) contextEl.textContent = 'data.json ~'+dataTok.toLocaleString()+' tokens + instructions.md ~'+INSTRUCTIONS_TOKENS.toLocaleString()+' tokens = ~'+combinedTok.toLocaleString()+' tokens total AI context.';
   if(total>=WARN_RED){
     warn.style.display='block';
     warn.style.background='rgba(160,60,60,0.12)';
     warn.style.border='1px solid rgba(160,60,60,0.4)';
     warn.style.color='#c07070';
-    warn.textContent='Large export ('+Math.round(total/1000)+'KB / ~'+Math.round(total/4)+' tokens). Consider trimming old journal entries: they grow the most over time.';
+    warn.textContent='Large export ('+Math.round(total/1000)+'KB / ~'+dataTok.toLocaleString()+' tokens). Consider trimming old journal entries: they grow the most over time.';
   } else if(total>=WARN_AMBER){
     warn.style.display='block';
     warn.style.background='rgba(200,168,74,0.08)';
     warn.style.border='1px solid rgba(200,168,74,0.3)';
     warn.style.color='var(--gold)';
-    warn.textContent='Growing export ('+Math.round(total/1000)+'KB / ~'+Math.round(total/4)+' tokens). Keep an eye on journal size over time.';
+    warn.textContent='Growing export ('+Math.round(total/1000)+'KB / ~'+dataTok.toLocaleString()+' tokens). Keep an eye on journal size over time.';
   } else {
     warn.style.display='none';
   }
@@ -6208,292 +6278,6 @@ function renderExportPie(state,jsonStr){
     row.appendChild(dot); row.appendChild(lbl); row.appendChild(val);
     legend.appendChild(row);
   });
-}
-
-function downloadInstructions(){
-  const content = `# character-sheet — Instructions for Claude
-
-version: 1.1.0
-
-This file lives permanently in your Claude project knowledge. It defines the data format and tells Claude how to behave as a journalling companion.
-
----
-
-## Writing rules (apply to all JSON string content)
-- No markdown inside JSON strings.
-- Use a hyphen-space ( - ) or colon instead of em dashes.
-- **Field length limits** (enforce strictly to control token cost):
-  - \`sliderLabels\` values: max 80 chars
-  - \`claudeRead\`: max 120 words
-  - \`progression\`: max 80 words
-  - \`keyQuestion\`: max 25 words
-  - \`mainQuest.description\` / \`mainQuest.whyItMatters\`: max 40 words each
-  - \`mainQuest.doneWhen\`: max 20 words
-  - \`mainQuest.nextSteps[].text\` / \`doneWhen\`: max 20 words each
-  - \`sideQuest.description\` / \`whyItMatters\`: max 30 words each
-  - \`sideQuest.nextStep\`: max 20 words
-  - \`activity.description\` / \`whyItMatters\`: max 25 words each
-  - \`skill.description\` / \`whyItMatters\`: max 25 words each
-  - \`ally.desc\` / \`why\` / \`corruption\`: max 20 words each
-  - \`value.desc\`: max 20 words
-  - \`need.desc\`: max 20 words
-  - Enemy / belief \`desc\`: max 30 words
-  - Enemy / belief \`shortTermBenefit\`: max 20 words
-  - Enemy / belief \`origin\`: max 20 words
-  - Enemy / belief \`trigger\`: max 15 words
-  - \`limitingBelief.belief\` (the quoted belief string): max 15 words
-  - Boss \`desc\`: max 40 words
-  - Boss \`whyBoss\`: max 20 words
-  - Boss \`vulnerabilities[].desc\`: max 30 words each
-  - \`graveyard.howDefeated\`: max 20 words
-  - \`completedQuests.howResolved\`: max 20 words
-  - \`mainQuest.title\`: max 8 words
-  - \`sideQuest.doneWhen\`: max 20 words
-  - \`empoweringBelief.desc\` / \`belief\`: max 20 words each
-  - \`achievement.description\`: max 25 words
-  - \`class.description\`: max 25 words
-  - Journal entry \`title\`: max 8 words
-  - Journal entry bullets (\`events\`, \`insights\`, \`tensions\`): max 15 words each
-
-## Required output fields
-- Always include \`"_instructionsVersion": "1.1.0"\` at the root of every JSON output (full or partial).
-
-## Partial updates
-At the end of a session, you can output either a full \`data.json\` or a **partial update** containing only the top-level keys that changed. Partial updates are smaller and cheaper. To output a partial update, include only the changed keys plus \`"_partial": true\` at the root. Always include \`_instructionsVersion\`. Example:
-\`\`\`json
-{ "_partial": true, "_instructionsVersion": "1.1.0", "xp": 450, "insights": [...], "bestiary": {...} }
-\`\`\`
-
-## Fields NOT to output
-- \`_featuredAch\` / \`_featuredCls\` — injected automatically.
-- \`balanceSmoothed\` — computed on import.
-- \`harmonyHistory\` — appended on import.
-- \`dailyDistribution\` — localStorage only.
-## Data stored only in the browser (not in JSON)
-- XP log · Practice tracker values and history · Status sliders · Pinned achievements/classes · Daily distribution
-
----
-
-## Your role in a session
-
-1. Read \`data.json\` from project knowledge — this is the source of truth.
-2. Listen to the brain dump. Infer what is really important beneath the words.
-3. Before adding enemies or insights — compare against existing entries. **Update rather than duplicate.** Avoid semantic drift.
-4. Output:
-   - A full updated \`data.json\` (all fields, even unchanged ones)
-   - Celebrate any XP earned in your chat response before the JSON
-
----
-
-## The four elements
-
-Score each 0-100. Write a one-line \`sliderLabel\` (max 80 chars) summarising current state.
-
-- **Air** - Mindset and self-awareness. High = noticing patterns in real time. Low = reactive, unexamined.
-- **Fire** - Drive and direction. High = acting from genuine will. Low = drifting, obligated, or burned out.
-- **Water** - Aliveness and desire. High = following genuine appetite. Low = numbing, compulsive exits, flatness.
-- **Earth** - Groundedness and belief. High = beliefs are honest and useful. Low = running on false or limiting narratives.
-
-Mastery thresholds: 0-24 = 1 · 25-49 = 2 · 50-74 = 3 · 75-99 = 4 · 100 = 5
-
----
-
-## What to listen for
-
-- **Avoidance, self-criticism** → enemies (limitingBelief type), Earth score down
-- **Energy spikes, flow** → sources allies, Water up
-- **Feeling unseen, disconnected** → needs (connection, recognition), Water score
-- **Acting against stated values** → values alignment down, threat up
-- **Completing something, breaking a pattern** → XP, achievement candidate
-- **Recurring friction** → potential enemy or drain
-- **Something said for the first time** → insights entry, possible belief update
-- **Behavioral reflexes** (fast, automatic, below conscious choice) → bestiary as \`blindspot\` type
-
-\`claudeRead\` names the single most important tension or gap right now — your honest read of what's beneath the surface, not a summary of what was said. Max 120 words.
-
-\`progression\` is the whole-journey arc shown on the Journal tab. Claude's view: how the user has changed, what threads run through the full story. Third person, past/present tense mixed. Update every few sessions. Max 80 words.
-
----
-
-## Field reference
-
-### level / xp / xpToNext
-Award for: completing quests, mastery advances, meaningful breakthroughs. Deduct for: falling back into named patterns, mastery dropping. Celebrate in chat before outputting JSON.
-
-**Level-up rule:** if \`xp >= xpToNext\`, level up: subtract \`xpToNext\` from \`xp\`, increment \`level\` by 1, set \`xpToNext = round(old_xpToNext * 1.2)\`. Repeat if still overflowing. Never write JSON where \`xp >= xpToNext\`.
-
-### keyQuestion
-Your single best question to prompt journalling next session. Max 25 words.
-
-### activities
-Up to 5 tracked practices. Set based on what the user is actively working on.
-
-**\`type\`**: \`"timer"\` · \`"checkbox"\` · \`"number"\`
-**\`resetPeriod\`**: \`"day"\` · \`"week"\` · \`"month"\`
-**\`target\`**: minutes (timer) or count (checkbox/number)
-**\`xpPerUnit\`**: XP per minute (timer) or per unit (checkbox/number)
-**\`priority\`**: 1 = shown first
-
-\`\`\`json
-"activities": [
-  { "id": "deep-work", "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 1, "type": "timer", "resetPeriod": "day", "target": 90, "unit": "minutes", "xpPerUnit": 0.5 },
-  { "id": "bjj", "name": "BJJ", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 2, "type": "number", "resetPeriod": "week", "target": 3, "unit": "sessions", "xpPerUnit": 25 }
-]
-\`\`\`
-
-### mainQuest
-Single overarching goal or theme.
-
-\`\`\`json
-"mainQuest": {
-  "title": "Find Work That Fits",
-  "description": "...", "whyItMatters": "...",
-  "doneWhen": "Employed in a role where the work itself is the reward.",
-  "nextSteps": [{ "text": "Identify three roles that genuinely excite you", "doneWhen": "List exists and feels honest" }],
-  "xpReward": 500, "progress": 20
-}
-\`\`\`
-
-### sliderXpRewards
-\`[null, tier-II, tier-III, tier-IV, tier-V]\` — index 0 always null.
-
-\`\`\`json
-"sliderXpRewards": { "air": [null, 100, 200, 350, 500], "fire": [null, 150, 300, 500, 750], "water": [null, 100, 220, 380, 550], "earth": [null, 120, 260, 440, 650] }
-\`\`\`
-
-### sideQuests
-Active sub-goals. Progress 0-100. \`priority\` Claude-assigned (lower = higher priority). \`nextStep\` is a single string — not an array.
-
-### completedQuests
-Lives in JSON alongside active quests. Include the full array when outputting — app merges by title+date so existing entries are safe. Only include in a partial update when new quests close this session. Format: \`{ "title", "completedDate", "xpEarned", "howResolved" }\` — \`howResolved\` max 20 words.
-
-### values
-Ordered by priority. \`threat\`: \`"red"\` (living against) · \`"amber"\` (tension) · \`"none"\` (aligned). \`alignment\` 0-100.
-
-### needs
-Core psychological needs. Same structure and threat levels as values.
-
-### allies
-Resources — people, activities, beliefs, or environments that strengthen an element. Each ally has a \`type\` tag:
-- \`"loot"\` (Air) - moment of clarity, gratitude, or appreciation
-- \`"spell"\` (Fire) - leverage point that reliably overcomes friction
-- \`"liberatingBelief"\` (Earth) - true belief that frees from unnecessary suffering
-- \`"sources"\` (Water) - flow state or environment that reliably produces aliveness
-
-Optional \`corruption\` field: the internal block that stops the user fully receiving what this ally offers.
-
-\`\`\`json
-{ "name": "BJJ", "type": "sources", "desc": "Full presence enforced through physical constraint.", "why": "Controller goes quiet on the mat.", "corruption": "Skipped when energy is low - exactly when most needed." }
-\`\`\`
-
-### skills
-\`mastery\`: 1-5. \`priority\`: Claude-assigned value of mastering this now (lower = higher priority). Use null if unknown.
-
-\`\`\`json
-"skills": [{ "name": "Ask For What I Need", "mastery": 1, "priority": 1, "xpReward": 80, "description": "...", "whyItMatters": "..." }]
-\`\`\`
-
-### classes
-Character archetypes unlocked. \`featured: true\` pins to header (max ~3). \`icon\` is a single emoji.
-
-### achievements
-\`featured: true\` pins to header. \`type\` tag (elemental):
-- \`"insight"\` (Air) - moment of clarity, pattern noticed, something seen differently
-- \`"deed"\` (Fire) - action completed, goal hit, pattern broken in behaviour
-- \`"transmutation"\` (Earth) - before/after identity or belief shift that permanently changed
-- \`"surrender"\` (Water) - something released, fear let go, old fight stopped
-
-\`\`\`json
-"achievements": [{ "id": "signal-over-noise", "title": "Signal Over Noise", "description": "Deleted Instagram. Chose attention over approval.", "type": "deed", "dateUnlocked": "Feb 2026" }]
-\`\`\`
-
-### classes
-Character archetypes unlocked. \`featured: true\` pins to header (max ~3). \`icon\` is a single emoji. Include \`dateUnlocked\`.
-
-### Enemies (bestiary)
-Patterns, beliefs, habits, and reflexes that work against the user. Use \`desc\` and \`trigger\` to capture how a pattern *moves*, not just what it is. ALL CAPS names. Avoid duplicates — update rather than create.
-
-**Name the specific problem.** Avoid conflating multiple problems into one enemy. A "Controller" part might produce GUILT WHEN RESTING, TRANSACTIONAL LENS, and PRODUCTIVE AVOIDANCE as distinct entries.
-
-**Close quests that complete during a session.** If the user describes completing something matching a sideQuest's \`doneWhen\`, remove it from \`sideQuests\`, include it in \`completedQuests\` output this session, and award XP.
-
-**\`type\`**:
-- \`"limitingBelief"\` (Earth) - false or limiting story treated as true
-- \`"temptation"\` (Water) - desire-driven pull toward something that costs more than it gives
-- \`"compulsion"\` (Fire) - action-level pull driven by urgency or avoidance
-- \`"blindspot"\` (Air) - perception-level misread, how evidence is filtered before conscious choice
-
-\`limitingBelief\` entries may include a \`belief\` field — the false belief in first person, quoted: \`"\\"I'll be found out eventually.\\""\`
-
-**\`priority\`** — unique integer across ALL enemies (boss subEnemies + currentEnemies) combined (1 = most pressing). No two entries share the same number.
-
-**\`hp\`** (0-100) — how much power this pattern holds. Start new entries at 100. Move to graveyard at 0.
-
-hp reduces only when:
-- Pattern caught and interrupted in real time
-- Behaviour changed where this pattern previously ran unchecked
-- User acted against the pattern under conditions where it would normally win
-- Pattern feels less automatic than before
-
-hp does NOT reduce for: naming, understanding, or intending to change.
-
-**Boss structure:** \`bosses\` is an array (multiple bosses supported). Bosses do not have a \`type\` field. Each boss has \`shortTermBenefit\` and \`origin\`, plus \`subEnemies\` — entries with \`name\`, \`type\`, \`hp\`, and optional \`desc\`. Sub-enemies are fast-moving patterns that derive from the boss. When defeated, move to graveyard.
-
-**\`currentEnemies\`** — true cross-cutting patterns that do not belong under any single boss. Keep lean; most patterns should live as boss subEnemies.
-
-**Boss \`vulnerabilities\`** — exactly 3 entries. Specific, actionable cracks — concrete recognisable moments the pattern can be interrupted. Not abstract virtues.
-
-\`\`\`json
-"bestiary": {
-  "bosses": [{
-    "name": "THE APPROVAL ENGINE", "desc": "...", "whyBoss": "Every other enemy is a sub-routine of this one.", "hp": 85,
-    "shortTermBenefit": "Rejection is rare. Social surfaces stay smooth.",
-    "origin": "Reactions were unpredictable early on.",
-    "vulnerabilities": [
-      { "title": "Named in real time", "desc": "Loses grip the moment it is spotted mid-action, not just analysed after." },
-      { "title": "Clean fuel present", "desc": "When working from genuine desire rather than fear, the Engine has nothing to attach to." },
-      { "title": "Resentment allowed to land", "desc": "Holding the feeling for one minute before dissolving it starves the Engine." }
-    ],
-    "subEnemies": [
-      { "name": "BEST CASE PROJECTION", "type": "compulsion", "hp": 75, "desc": "Presents the optimistic version to manage how others perceive you." }
-    ]
-  }],
-  "currentEnemies": [{ "name": "PRODUCTIVE AVOIDANCE", "desc": "...", "type": "compulsion", "trigger": "Emotional discomfort", "shortTermBenefit": "Avoidance feels like progress.", "origin": "Unknown.", "hp": 70, "priority": 1 }],
-  "graveyard": [{ "name": "SUNDAY DREAD", "defeatedDate": "Jan 2026", "howDefeated": "Left the job. Pattern had nowhere left to live." }]
-}
-\`\`\`
-
-### insights
-Lore chronicle. Array of chapters (most recent first), each with entries (newest first).
-
-Each entry: \`date\`, \`title\` (max 8 words), \`events\`, \`insights\`, \`tensions\`.
-
-Bullet limits by age — apply retroactively when rewriting older entries:
-- **Current session**: up to 3 bullets per field, max 15 words each
-- **1-4 weeks old**: max 2 bullets per field — condense to the most load-bearing
-- **Older than 1 month**: max 1 bullet per field — distil to the single most important point
-
-\`\`\`json
-"insights": [{
-  "name": "The Career Turn",
-  "entries": [{
-    "date": "20 March 2026", "title": "Naming the Pattern",
-    "events": ["Handed in notice", "First session with new therapist"],
-    "insights": ["The approval loop was loudest in the room I most wanted to leave"],
-    "tensions": ["Whether the next role will be chosen freely or just be the next trap"]
-  }]
-}]
-\`\`\`
-
-### Chapter archiving
-When a chapter feels complete, tell the user and ask them to save their current JSON export as a permanent archive. Then remove the closed chapter from the working JSON — only keep active chapter(s). The exported file is the archive.
-`;
-  const blob = new Blob([content], {type:'text/markdown'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'instructions.md';
-  a.click();
-  URL.revokeObjectURL(a.href);
 }
 
 function importFromFile(e){
