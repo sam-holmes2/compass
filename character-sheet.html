@@ -366,7 +366,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ally-delete { position:absolute; top:8px; right:10px; font-size:17px; color:var(--text-dim); cursor:pointer; opacity:0; transition:opacity 0.15s; background:none; border:none; padding:0; line-height:1; }
 .card-head-del { position:static !important; top:auto !important; right:auto !important; flex-shrink:0; font-size:17px; margin-right:2px; }
 .ally-delete:hover { color:#c84040; }
-.editable { outline:none; cursor:text; border-radius:2px; user-select:text; }
+.editable { outline:none; cursor:text; border-radius:2px; user-select:text; letter-spacing:normal; text-transform:none; }
 .editable:hover { background:rgba(255,255,255,0.04); }
 .editable:focus { background:rgba(255,255,255,0.06); box-shadow:0 0 0 1px var(--border-hi); }
 .editable[data-placeholder]:empty::before { content:attr(data-placeholder); color:var(--text-dim); font-style:italic; pointer-events:none; }
@@ -778,6 +778,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .welcome-step-text { font-size:17px; color:var(--text-mid); line-height:1.55; flex:1; }
 .welcome-step-text strong { color:var(--text-b); font-weight:600; }
 
+/* ══ STORAGE ERROR BANNER ═════════════════════════════════ */
+#storage-error-banner {
+  display:none; align-items:center; gap:12px;
+  padding:9px 16px; background:rgba(200,60,60,0.1);
+  border:1px solid rgba(200,60,60,0.35); border-radius:6px;
+  margin-bottom:14px; font-size:16px; color:#c07070;
+}
+#storage-error-banner span { flex:1; }
+#storage-error-banner button { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
+#storage-error-banner button:hover { color:var(--text); }
+
 /* ══ DIRTY BANNER ═════════════════════════════════════════ */
 #dirty-banner {
   display:none; align-items:center; gap:12px;
@@ -802,6 +813,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #demo-banner .demo-banner-dl:hover { background:rgba(80,140,200,0.12); }
 #demo-banner .demo-banner-dismiss { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
 #demo-banner .demo-banner-dismiss:hover { color:var(--text); }
+
+#setup-banner {
+  display:none; align-items:center; gap:12px;
+  padding:9px 16px; background:rgba(140,180,80,0.08);
+  border:1px solid rgba(140,180,80,0.28); border-radius:6px;
+  margin-bottom:14px; font-size:16px; color:#90b848;
+}
+#setup-banner .setup-banner-text { flex:1; }
+#setup-banner .setup-banner-link { background:none; border:1px solid rgba(140,180,80,0.4); color:#90b848; border-radius:4px; padding:3px 10px; font-size:14px; cursor:pointer; font-family:inherit; flex-shrink:0; }
+#setup-banner .setup-banner-link:hover { background:rgba(140,180,80,0.12); }
+#setup-banner .setup-banner-dismiss { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
+#setup-banner .setup-banner-dismiss:hover { color:var(--text); }
 
 /* ══ IMPORT DIFF TOAST ════════════════════════════════════ */
 #import-toast {
@@ -2029,11 +2052,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data: Import it</button>
     </div>
     <div id="welcome-setup-steps">
-      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <a class="btn-ghost btn-download" style="margin-left:6px;" href="https://github.com/sam-holmes2/character-sheet/raw/master/instructions.md" download="instructions.md" target="_blank" rel="noopener">↓ instructions.md</a></div></div>
+      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
       <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at, then just talk.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
       <div class="welcome-step"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>Click ↑ Import</strong> (bottom-right), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+    </div>
+    <div class="modal-row" style="margin-top:14px;">
+      <button class="btn-ghost" onclick="dismissWelcome()">Close</button>
     </div>
   </div>
 </div>
@@ -2050,6 +2076,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <!-- ══ DIRTY BANNER ═══════════════════════════════════════ -->
+<div id="storage-error-banner">
+  <span>⚠ Your data could not be saved — browser storage is full. Export ↓ immediately to avoid losing changes. Clear some browser data and try again.</span>
+  <button onclick="this.closest('#storage-error-banner').style.display='none'" title="Dismiss">×</button>
+</div>
+
 <div id="dirty-banner">
   <span class="dirty-banner-text">You have unsaved local edits. Export ↓ and paste your data.json into your AI project to keep them.</span>
   <button class="dirty-banner-never" onclick="neverShowDirtyBanner()">Never show</button>
@@ -2060,6 +2091,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <span class="demo-banner-text">You're viewing <strong>Example Steve's data</strong>. Nothing you do here is saved. Download the app to create your own character sheet.</span>
   <button class="demo-banner-dl" onclick="downloadApp()">↓ Download character-sheet.html</button>
   <button class="demo-banner-dismiss" onclick="this.closest('#demo-banner').style.display='none'" title="Dismiss">×</button>
+</div>
+
+<div id="setup-banner">
+  <span class="setup-banner-text">Your sheet is empty. Set up your character to get started.</span>
+  <button class="setup-banner-link" onclick="dismissSetupBanner();showWelcome()">First-time setup →</button>
+  <button class="setup-banner-dismiss" onclick="dismissSetupBanner()" title="Dismiss">×</button>
 </div>
 
 <!-- ══ SLIDER TEMPLATE (reused via JS) ══════════════════════
@@ -2705,7 +2742,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="help-step-num">2</div>
           <div class="help-step-text">
             <strong>Download instructions.md</strong>
-            <span style="display:block;margin-top:6px;"><a class="btn-ghost btn-download" href="https://github.com/sam-holmes2/character-sheet/raw/master/instructions.md" download="instructions.md" target="_blank" rel="noopener">↓ instructions.md</a></span>
+            <span style="display:block;margin-top:6px;"><button class="btn-ghost btn-download" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></span>
           </div>
         </div>
         <div class="help-step">
@@ -2833,6 +2870,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="settings-section">
       <div class="settings-label">PIN Protection</div>
       <p id="settings-pin-status-text" style="font-size:16px;color:var(--text-dim);margin-bottom:8px;"></p>
+      <p style="font-size:15px;color:var(--text-dim);margin-bottom:8px;">⚠ If you forget your PIN, your data cannot be recovered. Keep an export of your data.json as a backup.</p>
       <div class="settings-pin-row" id="settings-pin-set-row">
         <input class="settings-pin-input" id="settings-pin-new" type="password" inputmode="numeric" maxlength="12" placeholder="New PIN" autocomplete="new-password">
         <input class="settings-pin-input" id="settings-pin-confirm" type="password" inputmode="numeric" maxlength="12" placeholder="Confirm" autocomplete="new-password">
@@ -3096,7 +3134,7 @@ const SYNC_EXPLAINED_KEY='cs-sync-explained-v1';
 const HIDE_DIRTY_BANNER_KEY='cs-hide-dirty-banner-v1';
 const IS_DEMO=location.hostname.endsWith('github.io');
 function loadState(){if(IS_DEMO)return DEFAULT;if(typeof _hasPIN==='function'&&_hasPIN())return DEFAULT;try{const r=localStorage.getItem('cs-state-v1');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
-function saveState(s){if(IS_DEMO)return;if(typeof _pinActive!=='undefined'&&_pinActive&&_currentPIN){_encryptAndSave(s,_currentPIN);return;}try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch{}}
+function saveState(s){if(IS_DEMO)return;if(typeof _pinActive!=='undefined'&&_pinActive&&_currentPIN){_encryptAndSave(s,_currentPIN);return;}try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch(e){showStorageError();}}
 // Migration: move completedQuests from dedicated localStorage key back into appState
 function migrateCompletedQuests(){
   if(IS_DEMO) return;
@@ -3677,11 +3715,146 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
   }
 }
 
+// Attach click-to-backfill popover to a multi-line hist chart canvas.
+// Clicking near a data point dot opens a .prac-bar-edit popover with one
+// labeled range slider per key, pre-filled from the tapped entry.
+function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave) {
+  const c = document.getElementById(canvasId);
+  if (!c || !hist.length) return;
+
+  // Remove previously attached handler so re-renders don't stack listeners
+  if (c._histBackfillHandler) c.removeEventListener('click', c._histBackfillHandler);
+
+  c.style.cursor = 'pointer';
+  c.title = 'Click a data point to edit';
+
+  const handler = e => {
+    // If a backfill popover is already open, ignore canvas clicks
+    if (document.querySelector('.hist-backfill-pop')) return;
+
+    const rect = c.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+
+    const W = c.offsetWidth || 200;
+    const padL = 24, padR = 8;
+    const plotW = W - padL - padR;
+    const n = hist.length;
+    const xOf = i => padL + (i / Math.max(n - 1, 1)) * plotW;
+
+    // Find the nearest entry by x proximity
+    let bestIdx = 0, bestDist = Infinity;
+    hist.forEach((_, i) => {
+      const dist = Math.abs(xOf(i) - clickX);
+      if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+    });
+    if (bestDist > 20) return; // too far from any dot
+
+    const entry = hist[bestIdx];
+    const date = entry.date || '';
+
+    // Build popover
+    const pop = document.createElement('div');
+    pop.className = 'prac-bar-edit hist-backfill-pop';
+
+    // Header row: date label + close button
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;';
+    const lbl = document.createElement('div');
+    lbl.className = 'prac-bar-edit-lbl';
+    lbl.style.flex = '1';
+    lbl.textContent = date.slice(5).replace('-', '/') + (date === new Date().toISOString().slice(0,10) ? ' (today)' : '');
+    const closeBtn = document.createElement('button');
+    closeBtn.style.cssText = 'background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;line-height:1;padding:0;flex-shrink:0;';
+    closeBtn.textContent = '✕';
+    closeBtn.addEventListener('click', e => { e.stopPropagation(); pop.remove(); });
+    hdr.appendChild(lbl);
+    hdr.appendChild(closeBtn);
+    pop.appendChild(hdr);
+
+    // One slider row per key
+    const sliders = {};
+    keys.forEach(k => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:6px;';
+
+      const nameLbl = document.createElement('span');
+      nameLbl.style.cssText = `font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.08em;color:${cols[k]};width:70px;flex-shrink:0;text-transform:uppercase;`;
+      nameLbl.textContent = k;
+      row.appendChild(nameLbl);
+
+      const sl = document.createElement('input');
+      sl.type = 'range'; sl.min = '0'; sl.max = '100';
+      sl.value = entry[k] ?? 0;
+      // Reuse stat-range class for styling; force thumb color via inline style
+      sl.className = 'stat-range';
+      sl.style.cssText = `width:110px;flex-shrink:0;`;
+      setStatusGradient(sl, cols[k], parseInt(sl.value));
+      sliders[k] = sl;
+
+      const valSpan = document.createElement('span');
+      valSpan.style.cssText = `font-family:var(--mono);font-size:12px;color:var(--text-b);width:24px;text-align:right;flex-shrink:0;`;
+      valSpan.textContent = sl.value;
+
+      sl.addEventListener('input', () => {
+        setStatusGradient(sl, cols[k], parseInt(sl.value));
+        valSpan.textContent = sl.value;
+      });
+
+      row.appendChild(sl);
+      row.appendChild(valSpan);
+      pop.appendChild(row);
+    });
+
+    // Set button
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'prac-bar-edit-save';
+    saveBtn.textContent = 'Set';
+    saveBtn.style.cssText = 'align-self:flex-end;margin-top:2px;';
+    pop.appendChild(saveBtn);
+
+    const doSave = () => {
+      try {
+        const storedHist = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        const newEntry = { date };
+        keys.forEach(k => { newEntry[k] = parseInt(sliders[k].value); });
+        const idx = storedHist.findIndex(e => e.date === date);
+        if (idx >= 0) { storedHist[idx] = { ...storedHist[idx], ...newEntry }; }
+        else { storedHist.push(newEntry); storedHist.sort((a,b) => a.date < b.date ? -1 : 1); }
+        if (storedHist.length > 90) storedHist.splice(0, storedHist.length - 90);
+        localStorage.setItem(storageKey, JSON.stringify(storedHist));
+      } catch(ex) {}
+      pop.remove();
+      onSave();
+    };
+
+    saveBtn.addEventListener('click', e => { e.stopPropagation(); doSave(); });
+    pop.addEventListener('keydown', e => { if (e.key === 'Enter') doSave(); if (e.key === 'Escape') pop.remove(); });
+
+    document.body.appendChild(pop);
+    requestAnimationFrame(() => {
+      const dotScreenX = rect.left + xOf(bestIdx);
+      const popW = pop.offsetWidth;
+      const popH = pop.offsetHeight;
+      let left = dotScreenX - popW / 2;
+      left = Math.max(6, Math.min(left, window.innerWidth - popW - 6));
+      // Position above the canvas; if not enough room, go below
+      let top = rect.top - popH - 8;
+      if (top < 6) top = rect.bottom + 8;
+      pop.style.left = left + 'px';
+      pop.style.top  = top + 'px';
+    });
+  };
+
+  c._histBackfillHandler = handler;
+  c.addEventListener('click', handler);
+}
+
 function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
   if(!hist.length && HARDCODED_STATS_HIST.length && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
   _drawMultiLineHistChart('stats-hist-canvas','stats-hist-legend',hist,['rest','movement','nutrition','connection'],STAT_COLORS);
+  _attachHistChartBackfill('stats-hist-canvas', hist, ['rest','movement','nutrition','connection'], STAT_COLORS, STATS_HIST_KEY, renderStatsHistoryChart);
 }
 
 function saveStatsSnapshot(){
@@ -4087,6 +4260,22 @@ function makeEditable(text, placeholder, onSave, extraClass){
   el.textContent=text||'';
   el.addEventListener('blur',()=>onSave(el.textContent.trim()));
   el.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); el.blur(); }});
+  // Prevent draggable parent from intercepting clicks, which would reset cursor to start
+  el.addEventListener('mousedown',e=>e.stopPropagation());
+  // Place cursor at exact click position (works around browser issues with letter-spacing/text-transform)
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    const range = document.caretRangeFromPoint
+      ? document.caretRangeFromPoint(e.clientX, e.clientY)
+      : (document.caretPositionFromPoint
+          ? (() => { const cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (!cp) return null; const r = document.createRange(); r.setStart(cp.offsetNode, cp.offset); r.collapse(true); return r; })()
+          : null);
+    if (range) {
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  });
   return el;
 }
 function saveNestedField(path, value){
@@ -5250,6 +5439,11 @@ function makeSortable(container, onReorder) {
 
       el.draggable = true;
       el.addEventListener('dragstart', e => {
+        // Don't start drag when clicking inside an editable field
+        if (e.target.closest('[contenteditable="true"], input, textarea, select')) {
+          e.preventDefault();
+          return;
+        }
         dragSrc = el;
         el.classList.add('dragging');
         e.dataTransfer.effectAllowed = 'move';
@@ -5888,10 +6082,36 @@ function showDeleteToast(name, onUndo){
   requestAnimationFrame(()=>{ t.classList.add('visible'); });
 }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+function applyMigrationBundle(p){
+  // Restore a full migration bundle (exported via the data.json tab)
+  if(!IS_DEMO){
+    if(p['cs-state-v1']) localStorage.setItem('cs-state-v1',JSON.stringify(p['cs-state-v1']));
+    if(p['cs-xplog-v1']) localStorage.setItem('cs-xplog-v1',JSON.stringify(p['cs-xplog-v1']));
+    if(p['cs-featured-ach-v1']) localStorage.setItem('cs-featured-ach-v1',JSON.stringify(p['cs-featured-ach-v1']));
+    if(p['cs-featured-cls-v1']) localStorage.setItem('cs-featured-cls-v1',JSON.stringify(p['cs-featured-cls-v1']));
+    if(p['cs-stats-hist-v1']) localStorage.setItem('cs-stats-hist-v1',JSON.stringify(p['cs-stats-hist-v1']));
+    if(p['cs-status-hist-v1']) localStorage.setItem('cs-status-hist-v1',JSON.stringify(p['cs-status-hist-v1']));
+    if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>localStorage.setItem(k,JSON.stringify(v)));
+  }
+  const state=p['cs-state-v1'];
+  if(!state) throw new Error('Migration bundle missing cs-state-v1');
+  appState=state; saveState(state); render(state);
+  renderStatsHistoryChart(); renderStatusHistoryChart();
+  setModalStatus('✓ Data restored','ok');
+  document.getElementById('json-input').value='';
+  setTimeout(closeModal,1200);
+  if(state.name && state.name !== DEMO_NAME && !IS_DEMO){
+    localStorage.setItem(WELCOMED_KEY,'1');
+    document.getElementById('welcome-modal')?.classList.remove('open');
+    dismissSetupBanner();
+  }
+}
 function applyUpdate(){
   const raw=document.getElementById('json-input').value.trim();
   try{
     const p=JSON.parse(raw);
+    // Full migration bundle (data.json export) — restore all localStorage keys
+    if(p._migration===true){ applyMigrationBundle(p); return; }
     const isPartial = p._partial === true || (!p.name && !p.level);
     if(!isPartial && !p.name && !p.mainQuest && !p.skills) throw new Error('Looks empty');
     delete p._partial;
@@ -5967,6 +6187,7 @@ function applyUpdate(){
     if(merged.name && merged.name !== DEMO_NAME && !IS_DEMO){
       localStorage.setItem(WELCOMED_KEY,'1');
       document.getElementById('welcome-modal')?.classList.remove('open');
+      dismissSetupBanner();
       // Expand starters on first real import
       const startersBody = document.getElementById('starters-body');
       const startersSection = document.getElementById('starters-section');
@@ -6081,9 +6302,12 @@ function buildMigrationBundle(){
   if(rawAch) try{bundle['cs-featured-ach-v1']=JSON.parse(rawAch);}catch{}
   const rawCls=localStorage.getItem('cs-featured-cls-v1');
   if(rawCls) try{bundle['cs-featured-cls-v1']=JSON.parse(rawCls);}catch{}
-  // Status history
+  // Core skills history
   const rawStats=localStorage.getItem('cs-stats-hist-v1');
   if(rawStats) try{bundle['cs-stats-hist-v1']=JSON.parse(rawStats);}catch{}
+  // Status slider history (focus/energy/purpose/interest)
+  const rawStatusHist=localStorage.getItem('cs-status-hist-v1');
+  if(rawStatusHist) try{bundle['cs-status-hist-v1']=JSON.parse(rawStatusHist);}catch{}
   // Practice data (cs-rq-cur-* and cs-rq-hist-*)
   const rqKeys={};
   for(let i=0;i<localStorage.length;i++){
@@ -6110,7 +6334,8 @@ function renderMigrationPie(bundle,jsonStr){
   // Other top-level bundle keys
   const otherSections=[
     {k:'cs-xplog-v1',label:'XP log'},
-    {k:'cs-stats-hist-v1',label:'Status history'},
+    {k:'cs-stats-hist-v1',label:'Core skills hist'},
+    {k:'cs-status-hist-v1',label:'Status hist'},
     {k:'_practiceData',label:'Practice data'},
     {k:'cs-featured-ach-v1',label:'Featured ach'},
     {k:'cs-featured-cls-v1',label:'Featured cls'},
@@ -6314,7 +6539,14 @@ function downloadMigrationJson(){
 }
 
 function downloadApp(){
-  const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+  // Capture current DOM, but strip any live banner display state so the
+  // downloaded file always opens as a blank slate (setup banner, not demo banner).
+  let html = document.documentElement.outerHTML;
+  // Reset demo-banner to hidden and setup-banner to hidden in the serialized HTML.
+  // The downloaded file's maybeShowWelcome() will show the correct banner on load.
+  html = html.replace(/(<div id="demo-banner"[^>]*?)style="[^"]*display\s*:\s*flex[^"]*"/, '$1');
+  html = html.replace(/(<div id="setup-banner"[^>]*?)style="[^"]*display\s*:\s*flex[^"]*"/, '$1');
+  const blob = new Blob([html], {type:'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'character-sheet.html';
@@ -7013,8 +7245,12 @@ function renderRQBarChart(wrap, act, charName) {
   });
   wrap.appendChild(xAxis);
 
-  // Outside click handler
-  const outsideHandler = e => { if (!wrap.contains(e.target)) closePopovers(); };
+  // Outside click handler — ignore clicks inside any open popover (e.g. hist-backfill-pop appended to body)
+  const outsideHandler = e => {
+    if (wrap.contains(e.target)) return;
+    if (e.target.closest('.prac-bar-edit')) return;
+    closePopovers();
+  };
   if (wrap._outsideHandler) document.removeEventListener('click', wrap._outsideHandler, true);
   wrap._outsideHandler = outsideHandler;
   document.addEventListener('click', outsideHandler, true);
@@ -7648,6 +7884,8 @@ function renderPieChart(s){
     dot.addEventListener('click',()=>colInput.click());
     const lbl=document.createElement('span'); lbl.className='pie-legend-label editable'; lbl.textContent=label;
     lbl.setAttribute('contenteditable','true');
+    lbl.addEventListener('mousedown',e=>e.stopPropagation());
+    lbl.addEventListener('click',e=>{ e.stopPropagation(); const range=document.caretRangeFromPoint?document.caretRangeFromPoint(e.clientX,e.clientY):(document.caretPositionFromPoint?(()=>{const cp=document.caretPositionFromPoint(e.clientX,e.clientY);if(!cp)return null;const r=document.createRange();r.setStart(cp.offsetNode,cp.offset);r.collapse(true);return r;})():null); if(range){const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);} });
     lbl.addEventListener('blur',()=>{
       const newLabel=lbl.textContent.trim(); if(!newLabel||newLabel===label) return;
       if(!appState.dailyDistribution) appState.dailyDistribution={};
@@ -7659,6 +7897,8 @@ function renderPieChart(s){
     });
     const hrs=document.createElement('span'); hrs.className='pie-legend-hours editable'; hrs.textContent=hours+'h';
     hrs.setAttribute('contenteditable','true');
+    hrs.addEventListener('mousedown',e=>e.stopPropagation());
+    hrs.addEventListener('click',e=>{ e.stopPropagation(); const range=document.caretRangeFromPoint?document.caretRangeFromPoint(e.clientX,e.clientY):(document.caretPositionFromPoint?(()=>{const cp=document.caretPositionFromPoint(e.clientX,e.clientY);if(!cp)return null;const r=document.createRange();r.setStart(cp.offsetNode,cp.offset);r.collapse(true);return r;})():null); if(range){const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);} });
     hrs.addEventListener('blur',()=>{
       const v=parseFloat(hrs.textContent.replace('h',''));
       if(isNaN(v)||v<0) { hrs.textContent=hours+'h'; return; }
@@ -7956,6 +8196,7 @@ function initNameEditable(){
       appState.name = v;
       saveState(appState);
       markDirty();
+      dismissSetupBanner();
     } else if(!v){
       el.textContent = appState.name||'Hero';
     }
@@ -7963,6 +8204,16 @@ function initNameEditable(){
   el.addEventListener('keydown', e => {
     if(e.key === 'Enter'){ e.preventDefault(); el.blur(); }
     if(e.key === 'Escape'){ el.textContent = appState.name||'Hero'; el.blur(); }
+  });
+  el.addEventListener('mousedown', e => e.stopPropagation());
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    const range = document.caretRangeFromPoint
+      ? document.caretRangeFromPoint(e.clientX, e.clientY)
+      : (document.caretPositionFromPoint
+          ? (() => { const cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (!cp) return null; const r = document.createRange(); r.setStart(cp.offsetNode, cp.offset); r.collapse(true); return r; })()
+          : null);
+    if (range) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
   });
 }
 
@@ -7997,6 +8248,14 @@ const STATUS_LS_KEY = 'cs-status-v1';
 
 function setStatusGradient(el, col, pct) {
   el.style.background = `linear-gradient(to right,${col} ${pct}%,#232332 ${pct}%)`;
+  // WebKit renders the track via ::-webkit-slider-runnable-track, not the element background.
+  // Inject a per-ID <style> tag so the track gradient shows on Safari/Chrome WebKit.
+  if (el.id) {
+    const styleId = 'rs-' + el.id;
+    let st = document.getElementById(styleId);
+    if (!st) { st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
+    st.textContent = `#${el.id}::-webkit-slider-runnable-track{background:linear-gradient(to right,${col} ${pct}%,#232332 ${pct}%);height:5px;border-radius:3px;}`;
+  }
 }
 
 function updateStatusRadar() {
@@ -8047,6 +8306,7 @@ function renderStatusHistoryChart() {
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
   if (!hist.length && HARDCODED_STATUS_HIST.length && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
   _drawMultiLineHistChart('status-hist-canvas','status-hist-legend',hist,['focus','energy','purpose','interest'],STATUS_COLORS);
+  _attachHistChartBackfill('status-hist-canvas', hist, ['focus','energy','purpose','interest'], STATUS_COLORS, STATUS_HIST_KEY, renderStatusHistoryChart);
 }
 
 function confirmResetHistory(type) {
@@ -8084,6 +8344,7 @@ function confirmResetHistory(type) {
   };
   document.getElementById('confirm-delete-modal').classList.add('open');
 }
+
 
 function updateStatus(name, value) {
   const pct = parseInt(value);
@@ -8152,15 +8413,32 @@ function isUsingDemoData(){
 }
 
 function maybeShowWelcome(){
+  const isBlankSlate = !appState.name || appState.name === '';
   if(IS_DEMO){
-    const b = document.getElementById('demo-banner');
-    if(b) b.style.display = 'flex';
+    if(isBlankSlate){
+      // Fetch failed or data not yet loaded — show setup banner, not Steve banner
+      const sb = document.getElementById('setup-banner');
+      if(sb) sb.style.display = 'flex';
+    } else {
+      const b = document.getElementById('demo-banner');
+      if(b) b.style.display = 'flex';
+    }
     return;
   }
-  if(localStorage.getItem(WELCOMED_KEY)) return;
-  if(isUsingDemoData()){
-    document.getElementById('welcome-modal').classList.add('open');
+  const isBlankLocal = !localStorage.getItem('cs-state-v1') || isBlankSlate;
+  if(isBlankLocal){
+    const sb = document.getElementById('setup-banner');
+    if(sb) sb.style.display = 'flex';
+    if(!localStorage.getItem(WELCOMED_KEY)){
+      document.getElementById('welcome-modal').classList.add('open');
+    }
+    return;
   }
+}
+
+function dismissSetupBanner(){
+  const sb = document.getElementById('setup-banner');
+  if(sb) sb.style.display = 'none';
 }
 
 function dismissWelcome(){
@@ -8331,6 +8609,27 @@ function markDirtyExtended(){
 function hideDirtyBanner(){
   const b = document.getElementById('dirty-banner');
   if(b) b.style.display = 'none';
+}
+
+function downloadInstructionsMd(btn){
+  const url='https://raw.githubusercontent.com/sam-holmes2/character-sheet/master/instructions.md';
+  const orig=btn.textContent;
+  btn.textContent='Downloading…'; btn.disabled=true;
+  fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.text();}).then(text=>{
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([text],{type:'text/markdown'}));
+    a.download='instructions.md'; document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+    btn.textContent='✓ Downloaded'; btn.disabled=false;
+    setTimeout(()=>{btn.textContent=orig;},2500);
+  }).catch(()=>{
+    btn.textContent='✗ Failed — check connection'; btn.disabled=false;
+    setTimeout(()=>{btn.textContent=orig;},3000);
+  });
+}
+function showStorageError(){
+  const b = document.getElementById('storage-error-banner');
+  if(b) b.style.display = 'flex';
 }
 
 function dismissDirtyBanner(){
