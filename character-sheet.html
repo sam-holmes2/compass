@@ -1404,12 +1404,25 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* Number practice widget */
 .number-entry { display:flex; gap:8px; align-items:center; flex-direction:column; }
-.number-input {
-  background:var(--bg); border:2px solid var(--border-hi); border-radius:5px;
-  color:var(--text-b); font-family:var(--mono); font-size:26px; font-weight:700;
-  padding:8px 14px; width:88px; text-align:center;
+.number-stepper { display:flex; align-items:center; gap:0; border:2px solid var(--border-hi); border-radius:6px; overflow:hidden; background:var(--bg); transition:border-color 0.2s, box-shadow 0.2s; }
+.number-stepper:focus-within { border-color:var(--gold); box-shadow:0 0 0 2px rgba(200,168,74,0.2); }
+.number-step-btn {
+  background:rgba(200,168,74,0.06); border:none; color:var(--gold);
+  font-size:20px; font-weight:700; line-height:1; cursor:pointer;
+  padding:0 13px; height:52px; transition:background 0.15s;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  user-select:none; font-family:var(--mono);
 }
-.number-input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 2px rgba(200,168,74,0.2); }
+.number-step-btn:hover { background:rgba(200,168,74,0.18); }
+.number-step-btn:active { background:rgba(200,168,74,0.28); }
+.number-input {
+  background:transparent; border:none; border-left:1px solid var(--border-hi); border-right:1px solid var(--border-hi);
+  color:var(--text-b); font-family:var(--mono); font-size:26px; font-weight:700;
+  padding:8px 6px; width:72px; text-align:center; -moz-appearance:textfield;
+}
+.number-input:focus { outline:none; }
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
 .number-save-btn {
   font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
   border:1px solid rgba(200,168,74,0.4); border-radius:3px; background:rgba(200,168,74,0.07);
@@ -1948,6 +1961,44 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* Touch drag state */
 [draggable=true].touch-dragging { opacity:0.6; background:rgba(200,168,74,0.1) !important; }
+
+/* ══ FOCUS MODE OVERLAY ══════════════════════════════════════ */
+#focus-overlay {
+  position:fixed; inset:0; z-index:9999;
+  background:#070a0c;
+  display:none; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:0;
+}
+#focus-exit-btn {
+  position:absolute; top:20px; right:24px;
+  font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.12); border-radius:3px; background:none;
+  color:rgba(255,255,255,0.3); cursor:pointer; padding:6px 14px;
+  transition:all 0.2s;
+}
+#focus-exit-btn:hover { border-color:rgba(255,255,255,0.35); color:rgba(255,255,255,0.7); }
+#focus-name {
+  font-family:'Cinzel',serif; font-size:18px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--gold); text-align:center; margin-bottom:32px;
+  opacity:0.85;
+}
+#focus-timer-card {
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  background:transparent; border:none; padding:0;
+}
+.focus-ring-wrap {
+  position:relative; width:300px; height:300px; flex-shrink:0; margin-bottom:10px;
+}
+.focus-ring-wrap .timer-center .timer-display { font-size:52px; }
+.focus-ring-wrap .timer-center .timer-pct-lbl { font-size:18px; }
+.focus-ring-wrap .timer-center .timer-loop-ind { font-size:16px; }
+.focus-ring-wrap .timer-toast-wrap { bottom:-24px; }
+.focus-ring-wrap .timer-toast { font-size:20px; }
+#focus-timer-today { font-size:17px; color:var(--text-mid); font-family:var(--mono); }
+#focus-timer-xp-today { font-size:16px; }
+#focus-timer-card .timer-btns { gap:10px; margin-top:4px; }
+#focus-timer-card .timer-btn { font-size:14px; padding:7px 18px; }
 </style>
 </head>
 <body>
@@ -1974,7 +2025,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- Col 3: HP + Mana vitals -->
   <div class="hdr-vitals">
-    <div class="vital-row" title="HP: Physical health (0–100). Inferred by your AI from sleep, nutrition, movement, stress, and physical symptoms. The tick mark shows your all-time average.">
+    <div class="vital-row" title="HP: Physical health (0–100). Inferred by your AI from sleep, nutrition, movement, stress, and physical symptoms. The vertical line shows your all-time average.">
       <span class="vital-icon" style="color:#ff6060">♥</span>
       <div class="vital-track-wrap">
         <div class="vital-track hp">
@@ -1983,7 +2034,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="vital-baseline hp" id="hp-baseline" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by your AI from your energy, optimism, motivation, sense of meaning, and emotional resilience. The tick mark shows your all-time average.">
+    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by your AI from your energy, optimism, motivation, sense of meaning, and emotional resilience. The vertical line shows your all-time average.">
       <span class="vital-icon" style="color:#60a0ff">✦</span>
       <div class="vital-track-wrap">
         <div class="vital-track mana">
@@ -2047,6 +2098,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal">
     <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
     <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with your AI of choice: it updates your data, you import it here.</p>
+    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>Privacy note:</strong> data.json contains your private journal. Treat it like a diary. Any AI provider you journal with (Claude, ChatGPT, etc.) may store what you share with them. Use Firefox if possible; Chrome and Edge share local file storage across all sites.</p>
     <div class="welcome-options">
       <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data: Import it</button>
@@ -2704,7 +2756,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <div id="float-bar">
   <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
-  <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Settings">⚙<span class="fbar-label"> Settings</span></button>
+  <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
   <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
   <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export: copy data to your AI">↓<span class="fbar-label"> Export</span></button>
   <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import: paste data from your AI">↑<span class="fbar-label"> Import</span></button>
@@ -2865,7 +2917,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettingsModal()">
   <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);position:relative;">
     <button class="modal-close" onclick="closeSettingsModal()" title="Close">×</button>
-    <div class="modal-title" style="color:var(--gold);">⚙ &nbsp;SETTINGS</div>
+    <div class="modal-title" style="color:var(--gold);">⚙ &nbsp;SECURITY</div>
+    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>data.json contains your private journal.</strong> Nothing leaves your machine unless you send it, but any AI provider you journal with may store what you share with them. Use Firefox if possible; Chrome and Edge share storage across local files. A PIN encrypts your data in the browser.</p>
 
     <div class="settings-section">
       <div class="settings-label">PIN Protection</div>
@@ -2936,6 +2989,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="document.getElementById('import-file-input').click()">↑ data.json</button>
       <input type="file" id="import-file-input" accept=".json,application/json" style="display:none" onchange="importFromFile(event)">
     </div>
+    <p style="font-size:12px;color:#c84040;margin-top:8px;margin-bottom:0;">⚠ data.json contains your private journal. Treat it like a diary and don't share it casually.</p>
   </div>
 </div>
 
@@ -2977,6 +3031,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
       </div>
     </div>
+    <p style="font-size:12px;color:#c84040;margin-top:14px;margin-bottom:0;text-align:center;">⚠ Both files contain your private journal. Treat them like a diary. Uploading to an AI service or cloud storage means trusting that provider with your data.</p>
   </div>
 </div>
 
@@ -6578,6 +6633,10 @@ function timerStart(id) {
   if (startBtn) startBtn.style.display = 'none';
   if (stopBtn)  stopBtn.style.display  = '';
   if (svgEl) svgEl.classList.add('running-glow');
+  if (window._focusId === id) {
+    const fs = document.getElementById('focus-timer-start-btn'), fp = document.getElementById('focus-timer-stop-btn'), fsvg = document.getElementById('focus-timer-svg');
+    if (fs) fs.style.display = 'none'; if (fp) fp.style.display = ''; if (fsvg) fsvg.classList.add('running-glow');
+  }
   ps.interval = setInterval(() => {
     ps.seconds++;
     checkPracticeTimerMilestones(id, act, charName);
@@ -6604,12 +6663,54 @@ function timerStop(id) {
   if (startBtn) startBtn.style.display = '';
   if (stopBtn)  stopBtn.style.display  = 'none';
   if (svgEl) svgEl.classList.remove('running-glow');
+  if (window._focusId === id) {
+    const fs = document.getElementById('focus-timer-start-btn'), fp = document.getElementById('focus-timer-stop-btn'), fsvg = document.getElementById('focus-timer-svg');
+    if (fs) fs.style.display = ''; if (fp) fp.style.display = 'none'; if (fsvg) fsvg.classList.remove('running-glow');
+  }
   ps.startedAt = null;
   if (act) saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   updateTimerToday(id, act);
   const chartWrap = document.getElementById('rq-chart-' + id);
   if (chartWrap && act) renderRQBarChart(chartWrap, act, charName);
 }
+
+// ── Focus mode ──────────────────────────────────────────────
+function enterFocusMode(id) {
+  const act = (window._lastState || appState).activities?.find(a => a.id === id);
+  if (!act) return;
+  window._focusId = id;
+  document.getElementById('focus-name').textContent = act.name;
+  document.getElementById('focus-lbl-25').textContent  = '+' + TIMER_MILESTONE_XP[0.25] + ' XP';
+  document.getElementById('focus-lbl-50').textContent  = '+' + TIMER_MILESTONE_XP[0.5]  + ' XP';
+  document.getElementById('focus-lbl-75').textContent  = '+' + TIMER_MILESTONE_XP[0.75] + ' XP';
+  document.getElementById('focus-lbl-100').textContent = '+' + TIMER_MILESTONE_XP[1.0]  + ' XP';
+  // Sync timer card state colour
+  const ps = practiceState[id];
+  const focusCard = document.getElementById('focus-timer-card');
+  if (focusCard) {
+    const origCard = document.getElementById('timer-card-' + id);
+    focusCard.dataset.tstate = origCard ? origCard.dataset.tstate : 'idle';
+  }
+  // Sync button visibility
+  const focusStartBtn = document.getElementById('focus-timer-start-btn');
+  const focusStopBtn  = document.getElementById('focus-timer-stop-btn');
+  const focusSvg      = document.getElementById('focus-timer-svg');
+  if (focusStartBtn) focusStartBtn.style.display = ps?.running ? 'none' : '';
+  if (focusStopBtn)  focusStopBtn.style.display  = ps?.running ? '' : 'none';
+  if (focusSvg) focusSvg.classList.toggle('running-glow', !!ps?.running);
+  renderTimerRing(id, act);
+  updateTimerToday(id, act);
+  document.getElementById('focus-overlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function exitFocusMode() {
+  window._focusId = null;
+  document.getElementById('focus-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && window._focusId) exitFocusMode(); });
 
 function timerReset(id) {
   timerStop(id);
@@ -6664,6 +6765,27 @@ function renderTimerRing(id, act) {
     if (tick) tick.classList.toggle('hit', pct >= p || loopCount > 0);
   });
 
+  // Sync focus overlay if active for this timer
+  if (window._focusId === id) {
+    const fCard = document.getElementById('focus-timer-card');
+    if (fCard) fCard.dataset.tstate = tstate;
+    const fArc = document.getElementById('focus-timer-arc');
+    if (fArc) {
+      fArc.style.strokeDashoffset = (TIMER_CIRC * (1 - loopProg)).toFixed(2);
+      fArc.style.stroke = isOverflow ? loopOverflowGreens[Math.min(loopCount-1, loopOverflowGreens.length-1)] : arcColors[tstate];
+    }
+    const fDisp = document.getElementById('focus-timer-display');
+    if (fDisp) fDisp.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    const fPct = document.getElementById('focus-timer-pct-lbl');
+    if (fPct) fPct.textContent = pct + '%';
+    const fLoop = document.getElementById('focus-timer-loop-ind');
+    if (fLoop) { fLoop.textContent = loopCount > 0 ? 'Loop ×' + (loopCount + 1) : ''; fLoop.classList.toggle('visible', loopCount > 0); }
+    [25,50,75].forEach(p => {
+      const ft = document.getElementById('focus-tick-' + p);
+      if (ft) ft.classList.toggle('hit', pct >= p || loopCount > 0);
+    });
+  }
+
   updateCombatNavArc();
 }
 
@@ -6712,6 +6834,15 @@ function firePracticeTimerMilestone(id, pct, loopN) {
     svgEl.classList.add(pct === 1.0 ? 'loop-flash' : 'milestone-beat');
     setTimeout(() => svgEl.classList.remove('milestone-beat','loop-flash'), pct === 1.0 ? 900 : 500);
   }
+  if (window._focusId === id) {
+    const fsvg = document.getElementById('focus-timer-svg');
+    if (fsvg) {
+      fsvg.classList.remove('milestone-beat','loop-flash');
+      void fsvg.offsetWidth;
+      fsvg.classList.add(pct === 1.0 ? 'loop-flash' : 'milestone-beat');
+      setTimeout(() => fsvg.classList.remove('milestone-beat','loop-flash'), pct === 1.0 ? 900 : 500);
+    }
+  }
   const act = (window._lastState || appState).activities?.find(a => a.id === id);
   if (act) updateTimerToday(id, act);
 }
@@ -6723,9 +6854,18 @@ function showPracticeTimerToast(id, msg, col) {
   if (ps && ps.toastTimeout) clearTimeout(ps.toastTimeout);
   el.textContent = msg; el.style.color = col || '#b080e8';
   el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+  // Mirror to focus overlay
+  if (window._focusId === id) {
+    const fel = document.getElementById('focus-timer-toast');
+    if (fel) { fel.textContent = msg; fel.style.color = col || '#b080e8'; fel.classList.remove('show'); void fel.offsetWidth; fel.classList.add('show'); }
+  }
   const t = setTimeout(() => {
     el.style.transition = 'opacity 0.5s'; el.style.opacity = '0';
     setTimeout(() => { el.classList.remove('show'); el.style.opacity = ''; el.style.transition = ''; }, 500);
+    if (window._focusId === id) {
+      const fel = document.getElementById('focus-timer-toast');
+      if (fel) { fel.style.transition = 'opacity 0.5s'; fel.style.opacity = '0'; setTimeout(() => { fel.classList.remove('show'); fel.style.opacity = ''; fel.style.transition = ''; }, 500); }
+    }
   }, 2200);
   if (ps) ps.toastTimeout = t;
 }
@@ -6742,6 +6882,10 @@ function updateTimerToday(id, act) {
   const totalXP = timeXP + (ps ? (ps.milestoneXP || 0) : 0);
   const xpEl = document.getElementById('timer-xp-today-' + id);
   if (xpEl) xpEl.textContent = totalXP > 0 ? '+' + totalXP + ' XP today' : '';
+  if (window._focusId === id) {
+    const ft = document.getElementById('focus-timer-today'); if (ft) ft.textContent = 'Today: ' + mins + ' / ' + goalMins + ' min';
+    const fx = document.getElementById('focus-timer-xp-today'); if (fx) fx.textContent = totalXP > 0 ? '+' + totalXP + ' XP today' : '';
+  }
   updateCombatNavArc();
 }
 
@@ -7496,6 +7640,7 @@ function renderRecurringQuests(s) {
           <button class="timer-btn start-btn" id="timer-start-btn-${act.id}" onclick="timerStart('${act.id}')">Start</button>
           <button class="timer-btn stop-btn"  id="timer-stop-btn-${act.id}"  onclick="timerStop('${act.id}')"  style="display:none">Pause</button>
           <button class="timer-btn" onclick="timerReset('${act.id}')">Reset</button>
+          <button class="timer-btn" onclick="enterFocusMode('${act.id}')" title="Focus mode — fullscreen timer">Focus</button>
         </div>
         <div class="timer-today" id="timer-today-${act.id}">Today: 0 / ${act.target||90} min</div>
         <div class="timer-xp-earned" id="timer-xp-today-${act.id}"></div>
@@ -7547,7 +7692,11 @@ function renderRecurringQuests(s) {
       const xpLbl = act.xpPerUnit ? `<span class="rq-xp-label">+${act.xpPerUnit} XP per ${act.unit||'unit'}</span>` : '';
       widget.innerHTML = `
         <div class="number-entry">
-          <input class="number-input" type="number" id="number-input-${act.id}" value="${curVal}" min="0" max="999">
+          <div class="number-stepper">
+            <button class="number-step-btn" onclick="stepNumberInput('${act.id}',-1)" tabindex="-1">−</button>
+            <input class="number-input" type="number" id="number-input-${act.id}" value="${curVal}" min="0" max="999">
+            <button class="number-step-btn" onclick="stepNumberInput('${act.id}',1)" tabindex="-1">+</button>
+          </div>
           <button class="number-save-btn" onclick="handleNumberSave('${act.id}')">Save</button>
         </div>
         ${xpLbl}
@@ -7765,6 +7914,13 @@ function awardRQXP(actId, xp) {
   saveState(appState);
   markDirty();
   updateXpRing(appState.level, appState.xp, appState.xpToNext);
+}
+
+function stepNumberInput(id, delta) {
+  const input = document.getElementById('number-input-' + id);
+  if (!input) return;
+  const cur = parseInt(input.value, 10) || 0;
+  input.value = Math.max(0, Math.min(999, cur + delta));
 }
 
 function handleNumberSave(id) {
@@ -8980,5 +9136,42 @@ function _init(){
     .catch(() => { _init(); updateInstructionsNotice(null); });
 })();
 </script>
+
+<!-- ══ FOCUS MODE OVERLAY ════════════════════════════════════ -->
+<div id="focus-overlay">
+  <button id="focus-exit-btn" onclick="exitFocusMode()" title="Exit focus mode (Esc)">✕ &nbsp;Exit Focus</button>
+  <div id="focus-name"></div>
+  <div id="focus-timer-card" class="timer-card">
+    <div class="focus-ring-wrap">
+      <svg class="timer-svg" id="focus-timer-svg" width="300" height="300" viewBox="0 0 220 220">
+        <defs><filter id="ring-blur-focus"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
+        <circle class="timer-track" cx="110" cy="110" r="88"/>
+        <line id="focus-tick-25" class="timer-milestone-tick" x1="198" y1="110" x2="212" y2="110"/>
+        <line id="focus-tick-50" class="timer-milestone-tick" x1="110" y1="198" x2="110" y2="212"/>
+        <line id="focus-tick-75" class="timer-milestone-tick" x1="22"  y1="110" x2="8"   y2="110"/>
+        <circle class="timer-arc" id="focus-timer-arc" cx="110" cy="110" r="88" transform="rotate(-90 110 110)"/>
+        <text id="focus-lbl-25"  class="timer-milestone-lbl" x="222" y="114" text-anchor="start"></text>
+        <text id="focus-lbl-50"  class="timer-milestone-lbl" x="110" y="234" text-anchor="middle"></text>
+        <text id="focus-lbl-75"  class="timer-milestone-lbl" x="-2"  y="114" text-anchor="end"></text>
+        <text id="focus-lbl-100" class="timer-milestone-lbl" x="110" y="-8"  text-anchor="middle"></text>
+      </svg>
+      <div class="timer-center">
+        <div class="timer-display" id="focus-timer-display">00:00</div>
+        <div class="timer-loop-ind" id="focus-timer-loop-ind"></div>
+        <div class="timer-pct-lbl" id="focus-timer-pct-lbl">0%</div>
+      </div>
+      <div class="timer-toast-wrap">
+        <span class="timer-toast" id="focus-timer-toast"></span>
+      </div>
+    </div>
+    <div class="timer-btns">
+      <button class="timer-btn start-btn" id="focus-timer-start-btn" onclick="timerStart(window._focusId)">Start</button>
+      <button class="timer-btn stop-btn"  id="focus-timer-stop-btn"  onclick="timerStop(window._focusId)" style="display:none">Pause</button>
+      <button class="timer-btn"                                       onclick="timerReset(window._focusId)">Reset</button>
+    </div>
+    <div class="timer-today" id="focus-timer-today"></div>
+    <div class="timer-xp-earned" id="focus-timer-xp-today"></div>
+  </div>
+</div>
 </body>
 </html>

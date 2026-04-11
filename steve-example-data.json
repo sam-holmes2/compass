@@ -11,7 +11,7 @@
   "mana": 55,
   "manaAvg": 61,
   "keyQuestion": "What would I attempt if I knew the fear of failure couldn't stop me?",
-  "claudeRead": "Steve is one session away from the big attempt - preparation is done, date is set, Alex is in. The main risk has shifted from readiness to rest: showing up depleted for something that has been building all year. THE PERFECTIONIST made a last attempt to delay - it got named and the date held. That's new. The unresolved thing is sleep.",
+  "claudeRead": "Steve is one session away from the big attempt - preparation is done, date is set, Alex is in. The main risk has shifted from readiness to rest: showing up depleted for something that has been building all year. \"The Perfectionist\" made a last attempt to delay - it got named and the date held. That's new. The unresolved thing is sleep.",
   "progression": "Started the year with nothing in place and no clear direction. Left the temporary setup behind in January. Began clearing the backlog - and something deeper too. By March the destination is identified and the first serious preparation has happened. By April everything is ready and the big attempt is being threatened for the first time - louder now, because the excuses are running out of room.",
   "allies": [
     {
@@ -113,7 +113,7 @@
   },
   "limitingBeliefs": [
     {
-      "title": "THE IMPOSTER",
+      "title": "The Imposter",
       "belief": "\"I'm not capable enough to go after the things I actually want.\"",
       "desc": "Shows up before high-stakes attempts. Reframes the learning curve as permanent evidence of inadequacy.",
       "shortTermBenefit": "Keeps ambition small and safe from the humiliation of public failure.",
@@ -123,7 +123,7 @@
       "xpReward": 120
     },
     {
-      "title": "THE PERFECTIONIST",
+      "title": "The Perfectionist",
       "belief": "\"If I can't do it perfectly, there's no point starting.\"",
       "desc": "Main engine of procrastination. Creates an impossible standard that ensures nothing is finished before it needs to be.",
       "shortTermBenefit": "The unstarted thing can always be imagined as flawless. Starting would reveal the gaps.",
@@ -133,7 +133,7 @@
       "xpReward": 100
     },
     {
-      "title": "THE PESSIMIST",
+      "title": "The Pessimist",
       "belief": "\"I always fall short before the good stuff happens.\"",
       "desc": "Selective memory that catalogues every failure and dismisses successful runs as luck or a fluke.",
       "shortTermBenefit": "Low expectations mean any progress feels like a win. Feels like protection against disappointment.",
@@ -144,9 +144,9 @@
     }
   ],
   "liberatingBeliefs": [
-    { "title": "THE PROBLEM SOLVER", "belief": "\"I can work through any hard thing if I stay in the room long enough.\"",     "desc": "Track record of figuring things out under uncertainty is real.", "type": "liberatingBelief" },
-    { "title": "THE LONG GAME",      "belief": "\"Slow progress toward the right thing beats fast progress toward the wrong one.\"", "desc": "Useful counter to urgency and comparison spirals.", "type": "liberatingBelief" },
-    { "title": "THE BODY KNOWS",     "belief": "\"The aliveness I feel when doing the right work is data, not coincidence.\"", "desc": "The qualitative difference between the right work and the wrong is the clearest signal available.", "type": "liberatingBelief" }
+    { "title": "The Problem Solver", "belief": "\"I can work through any hard thing if I stay in the room long enough.\"",     "desc": "Track record of figuring things out under uncertainty is real.", "type": "liberatingBelief" },
+    { "title": "The Long Game",      "belief": "\"Slow progress toward the right thing beats fast progress toward the wrong one.\"", "desc": "Useful counter to urgency and comparison spirals.", "type": "liberatingBelief" },
+    { "title": "The Body Knows",     "belief": "\"The aliveness I feel when doing the right work is data, not coincidence.\"", "desc": "The qualitative difference between the right work and the wrong is the clearest signal available.", "type": "liberatingBelief" }
   ],
   "skills": [
     { "name": "Set Boundaries",   "role": "Tank",    "mastery": 1, "priority": 1, "xpReward": 80,  "description": "Decline requests that conflict with the main quest without over-explaining.", "whyItMatters": "Without this, time and energy get consumed by everyone else's priorities." },
@@ -202,7 +202,7 @@
           ],
           "insights": [
             "Felt different from normal sessions - more like contact with something real than just moving tasks",
-            "PROCRASTINATION didn't fire once - one specific small task made the difference"
+            "\"Procrastination\" didn't fire once - one specific small task made the difference"
           ],
           "tensions": [
             "Whether the deep work sessions are real direction or just productive-feeling avoidance of the harder thing"
@@ -215,7 +215,7 @@
             "Asked Old Mentor for advice directly - first time without framing it as casual conversation"
           ],
           "insights": [
-            "SELF-DOUBT reframed asking for help as weakness - noticed it mid-conversation this time"
+            "\"Self-Doubt\" reframed asking for help as weakness - noticed it mid-conversation this time"
           ],
           "tensions": [
             "Constraints are shortening the timeline in ways that might force decisions before they are ready"
@@ -229,7 +229,7 @@
             "Date set for the big attempt - confirmed with Alex, not just a plan anymore"
           ],
           "insights": [
-            "THE PERFECTIONIST tried to delay with one more improvement - noticed it and held the date anyway",
+            "\"The Perfectionist\" tried to delay with one more improvement - noticed it and held the date anyway",
             "This session felt different - building toward something specific, not stockpiling against a vague threat"
           ],
           "tensions": [
@@ -245,7 +245,7 @@
           ],
           "insights": [
             "Rest deficit showed up in the prep session - had to stop early when focus dropped. Not ignoring it this time.",
-            "Saying the date out loud to Alex made PROCRASTINATION audible - it argued against the specific day, not the concept"
+            "Saying the date out loud to Alex made \"Procrastination\" audible - it argued against the specific day, not the concept"
           ],
           "tensions": [
             "Rest is still the real unknown - showing up prepared but depleted is a different kind of under-ready"
@@ -275,7 +275,7 @@
   "bestiary": {
     "bosses": [
       {
-        "name": "THE ENDER DRAGON",
+        "name": "The Ender Dragon",
         "desc": "The central force that frames every setback as evidence of fundamental under-gearing. Feels like a fair difficulty check. It isn't.",
         "whyBoss": "Every other enemy is this one in a different outfit. Procrastination, Self-Doubt, and Comparison all run on the same engine.",
         "hp": 80,
@@ -288,15 +288,15 @@
           { "title": "Starting before ready", "desc": "Main lever is the gap before beginning. Starting small collapses the gap before the pattern can fill it with objections." }
         ],
         "subEnemies": [
-          { "name": "PROCRASTINATION", "type": "compulsion", "hp": 75, "desc": "Masquerades as preparation. Rearranges the to-do list instead of starting the actual thing.", "xpReward": 100, "priority": 4 },
-          { "name": "SELF-DOUBT", "type": "blindspot", "hp": 70, "desc": "Quiet voice that says others are more capable. Speaks in first person so it sounds like truth.", "xpReward": 80, "priority": 5 },
-          { "name": "COMPARISON TRAP", "type": "blindspot", "hp": 65, "desc": "Measures a messy middle against someone else's polished highlight reel.", "xpReward": 60, "priority": 6 }
+          { "name": "Procrastination", "type": "compulsion", "hp": 75, "desc": "Masquerades as preparation. Rearranges the to-do list instead of starting the actual thing.", "xpReward": 100, "priority": 4 },
+          { "name": "Self-Doubt", "type": "blindspot", "hp": 70, "desc": "Quiet voice that says others are more capable. Speaks in first person so it sounds like truth.", "xpReward": 80, "priority": 5 },
+          { "name": "Comparison Trap", "type": "blindspot", "hp": 65, "desc": "Measures a messy middle against someone else's polished highlight reel.", "xpReward": 60, "priority": 6 }
         ]
       }
     ],
     "currentEnemies": [
       {
-        "name": "LATE-NIGHT SCROLL HOARDING",
+        "name": "Late-Night Scroll Hoarding",
         "desc": "Reliably ends worse than it started. Feels like rest but leaves the next day already depleted.",
         "type": "temptation",
         "trigger": "Evening wind-down, especially after a difficult or draining day",
@@ -307,7 +307,7 @@
         "priority": 1
       },
       {
-        "name": "OBLIGATION YES",
+        "name": "Obligation Yes",
         "desc": "Saying yes to avoid the discomfort of declining. Fills time with others' priorities instead of the main quest.",
         "type": "compulsion",
         "trigger": "Any request that feels like it expects a yes by default",
@@ -318,7 +318,7 @@
         "priority": 2
       },
       {
-        "name": "SKIP MOVEMENT WHEN STRESSED",
+        "name": "Skip Movement When Stressed",
         "desc": "Cutting the one habit that would most help at the moments of highest pressure. Always justified in the moment.",
         "type": "compulsion",
         "trigger": "High external pressure, low energy, feeling behind on everything",
@@ -330,9 +330,9 @@
       }
     ],
     "graveyard": [
-      { "name": "SUNDAY DREAD",       "defeatedDate": "Jan 2026", "howDefeated": "Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to." },
-      { "name": "THE HOARDER",        "defeatedDate": "Dec 2025", "howDefeated": "Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover." },
-      { "name": "TWITTER SPIRAL",     "defeatedDate": "Nov 2025", "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session." }
+      { "name": "Sunday Dread",       "defeatedDate": "Jan 2026", "howDefeated": "Lost its footing when the dirt hut was finally demolished. Without the spawn point it was protecting, it had nothing to attach to." },
+      { "name": "The Hoarder",        "defeatedDate": "Dec 2025", "howDefeated": "Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover." },
+      { "name": "Twitter Spiral",     "defeatedDate": "Nov 2025", "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse, every session." }
     ]
   },
   "completedMainQuests": [],
@@ -386,21 +386,21 @@
   "_xpLog": [
     { "date": "7 Apr 2026",  "amount":   8,  "reason": "Morning Routine: 6 of 7 days this week",                                              "totalAfter": 570, "levelup": false },
     { "date": "7 Apr 2026",  "amount":   7,  "reason": "Deep Work: 5h 40m across the week, above target",                                     "totalAfter": 562, "levelup": false },
-    { "date": "7 Apr 2026",  "amount":   5,  "reason": "Named PROCRASTINATION mid-session - caught it arguing against the specific date",      "totalAfter": 555, "levelup": false },
+    { "date": "7 Apr 2026",  "amount":   5,  "reason": "Named \"Procrastination\" mid-session - caught it arguing against the specific date",      "totalAfter": 555, "levelup": false },
     { "date": "1 Apr 2026",  "amount":  10,  "reason": "Full diamond armour set complete - Protection III on chestplate",                      "totalAfter": 550, "levelup": false },
-    { "date": "1 Apr 2026",  "amount":   8,  "reason": "End portal date set despite PERFECTIONIST pushing for another sword enchant",          "totalAfter": 540, "levelup": false },
+    { "date": "1 Apr 2026",  "amount":   8,  "reason": "End portal date set despite \"The Perfectionist\" pushing for another sword enchant",          "totalAfter": 540, "levelup": false },
     { "date": "1 Apr 2026",  "amount":   7,  "reason": "Movement: 2 sessions both days this weekend",                                         "totalAfter": 532, "levelup": false },
     { "date": "25 Mar 2026", "amount":  12,  "reason": "Three Eyes of Ender all tracking same stronghold - End portal located",               "totalAfter": 500, "levelup": false },
     { "date": "25 Mar 2026", "amount":  10,  "reason": "Deep Work: 7h 10m this week, best week since January",                                "totalAfter": 488, "levelup": false },
     { "date": "25 Mar 2026", "amount":   8,  "reason": "Morning Routine: 7 of 7 days - first perfect week",                                   "totalAfter": 478, "levelup": false },
     { "date": "22 Mar 2026", "amount":  15,  "reason": "Two uninterrupted Deep Work hours - first time this year without checking phone",      "totalAfter": 470, "levelup": false },
-    { "date": "22 Mar 2026", "amount":  10,  "reason": "PROCRASTINATION didn't fire - specific small task made the difference",                "totalAfter": 455, "levelup": false },
+    { "date": "22 Mar 2026", "amount":  10,  "reason": "\"Procrastination\" didn't fire - specific small task made the difference",                "totalAfter": 455, "levelup": false },
     { "date": "19 Mar 2026", "amount": null, "reason": "Level 4 reached",                                                                     "totalAfter": 445, "levelup": true  },
     { "date": "19 Mar 2026", "amount":  20,  "reason": "Diamonds Mined: 4 this week, above 3 target for second week running",                 "totalAfter": 445, "levelup": false },
     { "date": "19 Mar 2026", "amount":  15,  "reason": "Movement: consistent 2-per-day for 10 days straight",                                 "totalAfter": 425, "levelup": false },
-    { "date": "19 Mar 2026", "amount":  10,  "reason": "Earth tier advance: beliefs 50-74 (tier 2 to 3) - THE HOARDER in graveyard",         "totalAfter": 410, "levelup": false },
+    { "date": "19 Mar 2026", "amount":  10,  "reason": "Earth tier advance: beliefs 50-74 (tier 2 to 3) - \"The Hoarder\" in graveyard",         "totalAfter": 410, "levelup": false },
     { "date": "15 Mar 2026", "amount":  25,  "reason": "Asked Old Villager for help directly - first time without framing it as a trade",     "totalAfter": 400, "levelup": false },
-    { "date": "15 Mar 2026", "amount":  15,  "reason": "SELF-DOUBT named mid-conversation - caught it speaking in first person",              "totalAfter": 375, "levelup": false },
+    { "date": "15 Mar 2026", "amount":  15,  "reason": "\"Self-Doubt\" named mid-conversation - caught it speaking in first person",              "totalAfter": 375, "levelup": false },
     { "date": "12 Mar 2026", "amount":  20,  "reason": "Deep Work: 6h 20m this week, Morning Routine: 5 of 7",                               "totalAfter": 360, "levelup": false },
     { "date": "12 Mar 2026", "amount":  15,  "reason": "Set Boundaries skill used: declined co-op build that would have taken the week",      "totalAfter": 340, "levelup": false },
     { "date": "8 Mar 2026",  "amount":  15,  "reason": "Deep Work: 5h this week despite high external pressure",                              "totalAfter": 325, "levelup": false },
@@ -412,14 +412,14 @@
     { "date": "19 Feb 2026", "amount":  15,  "reason": "Movement: 2 sessions per day maintained for first full week",                         "totalAfter": 250, "levelup": false },
     { "date": "19 Feb 2026", "amount":  10,  "reason": "Morning Routine: 5 of 7 days - streak rebuilding after skip week",                   "totalAfter": 235, "levelup": false },
     { "date": "14 Feb 2026", "amount":  50,  "reason": "Three months no death run - No Death Run achievement unlocked",                       "totalAfter": 225, "levelup": false },
-    { "date": "12 Feb 2026", "amount": -15,  "reason": "Skipped movement three times when stressed - named it as SKIP MINING WHEN STRESSED",  "totalAfter": 175, "levelup": false },
+    { "date": "12 Feb 2026", "amount": -15,  "reason": "Skipped movement three times when stressed - named it as \"Skip Movement When Stressed\"",  "totalAfter": 175, "levelup": false },
     { "date": "5 Feb 2026",  "amount":  20,  "reason": "Deep Work: 4h 50m this week, Morning Routine: 4 of 7 after restart",                 "totalAfter": 190, "levelup": false },
     { "date": "28 Jan 2026", "amount":  15,  "reason": "Deep Work: 5h this week, Movement: consistent 5 of 7 days",                          "totalAfter": 170, "levelup": false },
     { "date": "28 Jan 2026", "amount":  10,  "reason": "Diamonds Mined: 2 this week - below target but tracked for the first time",          "totalAfter": 155, "levelup": false },
     { "date": "20 Jan 2026", "amount":  40,  "reason": "Organise the Chest Room quest 75% complete - sorted in one session, labels done",    "totalAfter": 145, "levelup": false },
     { "date": "20 Jan 2026", "amount": null, "reason": "Level 2 reached",                                                                     "totalAfter": 105, "levelup": true  },
     { "date": "12 Jan 2026", "amount":  30,  "reason": "Deep Work: 4h 20m this week, best since starting",                                   "totalAfter": 105, "levelup": false },
-    { "date": "12 Jan 2026", "amount":   5,  "reason": "OBLIGATION YES named - said no to one co-op build request",                          "totalAfter":  75, "levelup": false },
+    { "date": "12 Jan 2026", "amount":   5,  "reason": "\"Obligation Yes\" named - said no to one co-op build request",                          "totalAfter":  75, "levelup": false },
     { "date": "5 Jan 2026",  "amount":  25,  "reason": "Deep Work: 3h 10m this week - baseline established",                                  "totalAfter":  70, "levelup": false },
     { "date": "1 Jan 2026",  "amount":  50,  "reason": "Survive First Night quest complete",                                                   "totalAfter":  50, "levelup": false }
   ],
@@ -459,18 +459,18 @@
     ],
     "morning-routine": [
       { "date": "2026-02-02", "value": 1 }, { "date": "2026-02-03", "value": 0 }, { "date": "2026-02-04", "value": 0 },
-      { "date": "2026-02-05", "value": 1 }, { "date": "2026-02-06", "value": 1 }, { "date": "2026-02-07", "value": 0 },
-      { "date": "2026-02-09", "value": 1 }, { "date": "2026-02-10", "value": 1 }, { "date": "2026-02-11", "value": 0 },
-      { "date": "2026-02-12", "value": 0 }, { "date": "2026-02-13", "value": 1 }, { "date": "2026-02-16", "value": 1 },
+      { "date": "2026-02-05", "value": 1 }, { "date": "2026-02-06", "value": 0 }, { "date": "2026-02-07", "value": 0 },
+      { "date": "2026-02-09", "value": 1 }, { "date": "2026-02-10", "value": 0 }, { "date": "2026-02-11", "value": 0 },
+      { "date": "2026-02-12", "value": 0 }, { "date": "2026-02-13", "value": 1 }, { "date": "2026-02-16", "value": 0 },
       { "date": "2026-02-17", "value": 1 }, { "date": "2026-02-18", "value": 0 }, { "date": "2026-02-19", "value": 0 },
-      { "date": "2026-02-20", "value": 1 }, { "date": "2026-02-23", "value": 1 }, { "date": "2026-02-24", "value": 1 },
+      { "date": "2026-02-20", "value": 1 }, { "date": "2026-02-23", "value": 1 }, { "date": "2026-02-24", "value": 0 },
       { "date": "2026-02-25", "value": 1 }, { "date": "2026-02-26", "value": 0 }, { "date": "2026-02-27", "value": 1 },
-      { "date": "2026-03-02", "value": 1 }, { "date": "2026-03-03", "value": 1 }, { "date": "2026-03-04", "value": 0 },
+      { "date": "2026-03-02", "value": 1 }, { "date": "2026-03-03", "value": 0 }, { "date": "2026-03-04", "value": 0 },
       { "date": "2026-03-05", "value": 1 }, { "date": "2026-03-06", "value": 1 }, { "date": "2026-03-09", "value": 1 },
-      { "date": "2026-03-10", "value": 1 }, { "date": "2026-03-11", "value": 1 }, { "date": "2026-03-12", "value": 0 },
-      { "date": "2026-03-13", "value": 1 }, { "date": "2026-03-16", "value": 1 }, { "date": "2026-03-17", "value": 1 },
-      { "date": "2026-03-18", "value": 1 }, { "date": "2026-03-19", "value": 1 }, { "date": "2026-03-20", "value": 1 },
-      { "date": "2026-03-23", "value": 1 }, { "date": "2026-03-24", "value": 1 },
+      { "date": "2026-03-10", "value": 0 }, { "date": "2026-03-11", "value": 1 }, { "date": "2026-03-12", "value": 0 },
+      { "date": "2026-03-13", "value": 1 }, { "date": "2026-03-14", "value": 0 }, { "date": "2026-03-16", "value": 1 },
+      { "date": "2026-03-17", "value": 1 }, { "date": "2026-03-18", "value": 0 }, { "date": "2026-03-19", "value": 1 },
+      { "date": "2026-03-20", "value": 1 }, { "date": "2026-03-23", "value": 1 }, { "date": "2026-03-24", "value": 1 },
       { "date": "2026-03-25", "value": 1 }, { "date": "2026-03-26", "value": 1 },
       { "date": "2026-03-27", "value": 1 }, { "date": "2026-03-30", "value": 1 },
       { "date": "2026-03-31", "value": 1 }, { "date": "2026-04-01", "value": 1 },
@@ -478,24 +478,24 @@
       { "date": "2026-04-06", "value": 1 }
     ],
     "movement": [
-      { "date": "2026-02-03", "value": 1 }, { "date": "2026-02-05", "value": 1 }, { "date": "2026-02-07", "value": 1 },
-      { "date": "2026-02-10", "value": 1 }, { "date": "2026-02-12", "value": 2 }, { "date": "2026-02-14", "value": 1 },
-      { "date": "2026-02-17", "value": 1 }, { "date": "2026-02-19", "value": 1 }, { "date": "2026-02-21", "value": 2 },
-      { "date": "2026-02-24", "value": 2 }, { "date": "2026-02-26", "value": 1 }, { "date": "2026-02-28", "value": 2 },
-      { "date": "2026-03-03", "value": 2 }, { "date": "2026-03-05", "value": 1 }, { "date": "2026-03-07", "value": 2 },
-      { "date": "2026-03-10", "value": 2 }, { "date": "2026-03-12", "value": 2 },
-      { "date": "2026-03-13", "value": 2, "subsDone": ["mining", "crafting"] },
-      { "date": "2026-03-14", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-02-03", "value": 1 }, { "date": "2026-02-07", "value": 1 },
+      { "date": "2026-02-10", "value": 1 }, { "date": "2026-02-14", "value": 1 },
+      { "date": "2026-02-17", "value": 1 }, { "date": "2026-02-19", "value": 1 }, { "date": "2026-02-21", "value": 1 },
+      { "date": "2026-02-24", "value": 2 }, { "date": "2026-02-26", "value": 1 }, { "date": "2026-02-28", "value": 1 },
+      { "date": "2026-03-03", "value": 1 }, { "date": "2026-03-05", "value": 2 }, { "date": "2026-03-07", "value": 1 },
+      { "date": "2026-03-10", "value": 2 }, { "date": "2026-03-12", "value": 1 },
+      { "date": "2026-03-13", "value": 1, "subsDone": ["mining"] },
+      { "date": "2026-03-14", "value": 1, "subsDone": ["crafting"] },
       { "date": "2026-03-16", "value": 2, "subsDone": ["mining", "crafting"] },
-      { "date": "2026-03-17", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-17", "value": 1, "subsDone": ["mining"] },
       { "date": "2026-03-19", "value": 2, "subsDone": ["mining", "crafting"] },
-      { "date": "2026-03-20", "value": 2, "subsDone": ["mining", "crafting"] },
+      { "date": "2026-03-20", "value": 1, "subsDone": ["crafting"] },
       { "date": "2026-03-21", "value": 1, "subsDone": ["mining"] },
       { "date": "2026-03-23", "value": 2, "subsDone": ["mining", "crafting"] },
       { "date": "2026-03-24", "value": 2, "subsDone": ["mining", "crafting"] },
       { "date": "2026-03-25", "value": 2, "subsDone": ["mining", "crafting"] },
       { "date": "2026-03-26", "value": 2, "subsDone": ["mining", "crafting"] },
-      { "date": "2026-03-28", "value": 1, "subsDone": ["crafting"] },
+      { "date": "2026-03-28", "value": 2, "subsDone": ["mining", "crafting"] },
       { "date": "2026-03-30", "value": 2, "subsDone": ["mining", "crafting"] },
       { "date": "2026-03-31", "value": 2, "subsDone": ["mining", "crafting"] },
       { "date": "2026-04-01", "value": 2, "subsDone": ["mining", "crafting"] },

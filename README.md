@@ -98,12 +98,11 @@ It's a conversation, not a vending machine. But it's also a mirror.
 
 ## Privacy and security
 
-- **What you share with an AI is subject to that provider's policies.** When you paste `data.json` into ChatGPT, Claude, or any other cloud AI, that provider may store, review, or use it for training. Check their privacy settings to limit retention or opt out of training use.
-- **`data.json` is the sensitive part.** It contains everything you've journalled - treat it like a private diary. `character-sheet.html` and `instructions.md` are identical for all users and safe to share freely.
-- **Nothing leaves your machine unless you send it.** By default, everything is local. Data only goes anywhere if you paste, upload, or sync it.
-- **Think before syncing `data.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
+- **`data.json` is your private diary.** Nothing leaves your machine unless you send it. Any AI provider you journal with (Claude, ChatGPT, etc.) may store, review, or use what you share for training. Check their privacy settings to opt out.
+- **`data.json` and `migration.json` are the sensitive parts.** They contain everything you've journalled - treat them like a private diary. `character-sheet.html` and `instructions.md` are identical for all users and safe to share freely.
+- **Think before syncing `data.json` or `migration.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
 - **AI is optional.** The app works fully offline as a plain tracker. For full privacy, use a local model like [Ollama](https://ollama.com) and paste its output manually - nothing ever leaves your machine.
-- **Use [Firefox](https://www.firefox.com/) if possible.** In Chrome and Edge, all local HTML files share the same storage origin, so a malicious local file you open could read your data. Firefox isolates each file. If you prefer another browser, run the app from a local server instead: `python3 -m http.server --bind 127.0.0.1`, then open `localhost:8000/character-sheet.html`.
+- **Use [Firefox](https://www.firefox.com/) if possible**, since it isolates each local HTML file's storage. In Chrome and Edge, all local files share the same origin, so a malicious local file you open could read your data.
 
 **[Full journalling threat model](journalling-threat-model.md)** - a detailed breakdown of privacy risks across every journalling approach, and where character-sheet fits in.
 

@@ -164,8 +164,7 @@ Prefer **partial updates** — include only changed top-level keys plus `"_parti
 
 | Category | Max | Category | Max |
 |---|---|---|---|
-| `activities` | 5 | `skills` | 15 |
-| `sideQuests` | 8 | `achievements` | 20 |
+| `skills` | 15 | `achievements` | 20 |
 | `enemies.currentEnemies` | 15 | `allies` | 15 |
 | `limitingBeliefs` | 10 | `values` / `needs` | 10 |
 
@@ -223,7 +222,7 @@ Compulsion = avoidance-driven ("have to escape X"). Temptation = desire-driven (
 
 # Combat (activities)
 
-Up to 5 recurring practices. `type`: `timer` · `checkbox` · `number`. `resetPeriod`: `day` · `week` · `month`. `target`: minutes or count. `xpPerUnit`: per minute or per unit.
+`type`: `timer` · `checkbox` · `number`. `resetPeriod`: `day` · `week` · `month`. `target`: minutes or count. `xpPerUnit`: per minute or per unit.
 
 `{ "id": "deep-work", "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 1, "type": "timer", "resetPeriod": "day", "target": 90, "unit": "minutes", "xpPerUnit": 0.5 }`
 
