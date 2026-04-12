@@ -123,6 +123,12 @@ For reviewing and refining what's about to be written to the JSON. The user want
 
 # Output
 
+## Delivering JSON (especially on mobile)
+
+By default, output JSON as a **downloadable file** rather than inline in chat — this makes it easy to copy or download on any device, especially mobile. Name the file `data.json`.
+
+If the user explicitly asks for it inline (e.g. to copy-paste), output it in a code block as normal.
+
 ## Session tracking
 `sessionCount` — integer, increment by 1 each session. Start at 1.  
 `lastSession` — ISO date string of this session: `"2026-04-08"`.
@@ -178,7 +184,8 @@ Prefer **partial updates** — include only changed top-level keys plus `"_parti
 | `sideQuest.description` / `whyItMatters` / enemy `desc` / `boss.vulnerabilities[].desc` | 30 words |
 | `activity` / `skill` / `achievement` / `class` `.description` / `whyItMatters` | 25 words |
 | `ally.desc` / `why` / `corruption` · `value` / `need` `.description` | 20 words |
-| Most `doneWhen` / `nextStep` / `howResolved` / `shortTermBenefit` / `origin` / `boss.whyBoss` | 20 words |
+| Most `doneWhen` / `nextStep` / `howResolved` / `shortTermBenefit` / `origin` | 20 words |
+| `boss.whyBoss` | 40 words |
 | `limitingBelief.belief` · enemy `trigger` | 15 words |
 | `sliderLabel` | 80 chars |
 | `keyQuestion` | 25 words |
@@ -314,6 +321,7 @@ Does NOT reduce for surface-level naming, venting, or repeated re-describing wit
 
 ## Bosses
 Core root patterns that own a cluster of sub-patterns. No `type` field. SubEnemies are faster-moving manifestations — move to graveyard when defeated.  
+`whyBoss`: explain why this is a root cause rather than a symptom — the underlying need, belief, or wound that generates other patterns. Ground it in evidence from the user's own words or history (e.g. recurring situations, things they said, patterns that collapsed into this one). Not an abstract label; make the case.  
 `vulnerabilities`: up to 3 — specific, actionable moments the pattern can be interrupted. Not abstract virtues.
 
 ## currentEnemies

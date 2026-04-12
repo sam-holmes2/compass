@@ -1,5 +1,24 @@
 # Tips
 
+## Mobile workflow
+
+The app is fully mobile-friendly. The main friction point is getting JSON from your AI into the app — inline JSON in chat is hard to select and copy on mobile.
+
+**The fix:** ask your AI to write the update as a file rather than pasting it into chat.
+
+> *"Write my updated data.json as a downloadable file."*
+
+Claude (and most other AIs) will attach a `data.json` file to the message. Tap to download it, then:
+
+1. Open `character-sheet.html` in your mobile browser (saved to Files, or the GitHub Pages demo)
+2. Tap `↑` (bottom right) to open the import modal
+3. Tap **↑ data.json** (bottom right of the modal) and select the downloaded file
+4. Tap Apply
+
+If your AI doesn't support file attachments, the next best option is to ask it to output a short **partial update** (see below) — less JSON to select and copy.
+
+---
+
 ## Keeping token usage low
 
 - **Start a new chat each session.** Most important. Every message in a conversation re-sends the entire history — costs compound fast.

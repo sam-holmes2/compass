@@ -66,7 +66,7 @@ Mastery: 1 = just starting · 2 = developing · 3 = competent · 4 = strong · 5
 
 ## Enemies
 
-All patterns sorted by AI-assigned priority:
+Bosses are root patterns; minions are symptoms. All patterns sorted by AI-assigned priority:
 
 | Tag | Type | What it captures |
 |-----|------|-----------------|

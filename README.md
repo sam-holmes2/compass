@@ -50,6 +50,8 @@ Once you have a reasonable picture, generate my data.json using the format in in
 4. **Replace `data.json` in project knowledge** - remove the old version, upload the new one.
 5. **Sync the app** - click `↑`, paste the JSON, Import.
 
+**On mobile?** Ask your AI to write the JSON as a file instead of pasting it inline — much easier to handle. *"Write my updated data.json as a downloadable file."* Then download it and use the **↑ data.json** button in the import modal to select the file. See [Mobile workflow](tips.md#mobile-workflow).
+
 You can also edit fields directly in the app and use `↓` Export to get updated JSON to paste back to your AI.
 
 ---
@@ -77,7 +79,7 @@ Stay in **Freeflow** (default) or invoke any mode mid-session just by naming it.
 | **Balance** | The four elements (Air / Fire / Water / Earth), scored, detailed, and charted over time |
 | **Quests** | Main quest, side quests with progress, completed quests |
 | **Skills** | Core skills radar, keystone skill, all skills ranked by priority, XP history |
-| **Enemies** | Active patterns, limiting beliefs, compulsions, distortions, and the graveyard |
+| **Enemies** | Active patterns, limiting beliefs, compulsions, distortions, and the graveyard. Bosses are root patterns; minions are symptoms. |
 | **Allies** | Everything working for you: loot, spells, liberating beliefs, and flow sources |
 | **Achievements** | Titles (insights, deeds, transmutations, surrenders) and character classes |
 | **Journal** | Progression timeline, last session read, session starters, and chapter entries |
@@ -162,3 +164,13 @@ I'm a professional cyber security consultant with real concerns about trusting a
 If social media can use gamification to hold attention and keep people scrolling, I'd rather use the same tools to help people understand and improve themselves.
 
 Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md)
+
+---
+
+## Support
+
+character-sheet is free and always will be. If it's been useful to you, you can [sponsor the project on GitHub](https://github.com/sponsors/sam-holmes2).
+
+I pledge 10% of anything received to the [Center for Humane Technology](https://www.humanetech.com/donate) — a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
+
+*character-sheet is not a replacement for professional mental health support. If you're struggling, please reach out to a qualified professional.*

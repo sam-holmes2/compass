@@ -575,6 +575,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .btn-ghost:hover { border-color:var(--text-dim); color:var(--text); }
 .btn-download { color:var(--help); border-color:var(--help-border); font-size:14px; padding:3px 10px; }
 .btn-download:hover { background:var(--help-dim); border-color:var(--help); color:var(--help); }
+#check-update-btn:hover { background:var(--gold-dim); border-color:var(--gold); color:var(--gold); }
 .modal-status { font-size:17px; color:var(--text-dim); margin-left:4px; }
 .modal-status.ok  { color:#3a8050; }
 .modal-status.err { color:#903030; }
@@ -825,6 +826,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #setup-banner .setup-banner-link:hover { background:rgba(140,180,80,0.12); }
 #setup-banner .setup-banner-dismiss { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
 #setup-banner .setup-banner-dismiss:hover { color:var(--text); }
+
 
 /* ══ IMPORT DIFF TOAST ════════════════════════════════════ */
 #import-toast {
@@ -1348,6 +1350,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   min-width:0;
 }
 .prac-bar-col.is-hardcoded { cursor:default; }
+.prac-bar-col.is-current {
+  background: rgba(200,168,74,0.07);
+  border-radius: 2px 2px 0 0;
+  box-shadow: inset 0 2px 0 rgba(200,168,74,0.4);
+}
 .prac-bar-inner {
   width:100%; border-radius:1px 1px 0 0; transition:opacity 0.15s;
   min-height:2px;
@@ -1626,6 +1633,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   from { opacity:0; transform:translateY(5px); }
   to   { opacity:1; transform:translateY(0); }
 }
+@keyframes import-flash {
+  0%   { box-shadow:none; }
+  20%  { box-shadow:0 0 0 2px rgba(200,168,74,0.7), 0 0 14px rgba(200,168,74,0.35); }
+  60%  { box-shadow:0 0 0 2px rgba(176,128,232,0.5), 0 0 10px rgba(176,128,232,0.2); }
+  100% { box-shadow:none; }
+}
+.import-flash { animation:import-flash 1.1s ease-out; }
 .timer-svg.running-glow        { animation:ring-glow-pulse 2.4s ease-in-out infinite; }
 .timer-svg.running-glow.overflow { animation:ring-glow-pulse-deep 2.4s ease-in-out infinite; }
 .timer-svg.milestone-beat      { animation:ring-milestone-beat 0.5s ease; }
@@ -2006,7 +2020,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ HEADER ══════════════════════════════════════════════ -->
 <div class="hdr">
   <!-- Col 1: Main quest -->
-  <div class="hdr-left" title="Main Quest: your single most important current goal — the one thing that would change everything else if you made real progress on it. Progress and XP are set by your AI based on breakthroughs, identity shifts, and sustained behaviour change.">
+  <div class="hdr-left" title="Main Quest: your single most important current goal. The one thing that would change everything else if you made real progress on it. Progress and XP are set by your AI based on breakthroughs, identity shifts, and sustained behaviour change.">
     <div class="hdr-quest-label">◈ Main Quest</div>
     <div class="hdr-quest-title" id="hdr-mq-title">Sovereignty</div>
     <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:8%"></div></div>
@@ -2119,9 +2133,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ LOCK SCREEN ══════════════════════════════════════ -->
 <div id="lock-screen">
   <div class="lock-title">⬡ CHARACTER-SHEET</div>
-  <div class="lock-subtitle">Enter your PIN to continue</div>
+  <div class="lock-subtitle">Enter your password to continue</div>
   <div class="lock-pin-row">
-    <input class="lock-pin-input" id="lock-pin-input" type="password" inputmode="numeric" maxlength="12" placeholder="PIN" autocomplete="off" onkeydown="if(event.key==='Enter')unlockApp()">
+    <input class="lock-pin-input" id="lock-pin-input" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')unlockApp()">
     <button class="btn-primary" onclick="unlockApp()">Unlock</button>
   </div>
   <div class="lock-error" id="lock-error"></div>
@@ -2129,7 +2143,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ DIRTY BANNER ═══════════════════════════════════════ -->
 <div id="storage-error-banner">
-  <span>⚠ Your data could not be saved — browser storage is full. Export ↓ immediately to avoid losing changes. Clear some browser data and try again.</span>
+  <span>⚠ Your data could not be saved. Browser storage is full. Export ↓ immediately to avoid losing changes. Clear some browser data and try again.</span>
   <button onclick="this.closest('#storage-error-banner').style.display='none'" title="Dismiss">×</button>
 </div>
 
@@ -2150,6 +2164,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <button class="setup-banner-link" onclick="dismissSetupBanner();showWelcome()">First-time setup →</button>
   <button class="setup-banner-dismiss" onclick="dismissSetupBanner()" title="Dismiss">×</button>
 </div>
+
 
 <!-- ══ SLIDER TEMPLATE (reused via JS) ══════════════════════
      Mastery milestones: white=0%, blue=25%, purple=50%, brown=75%, black=100%
@@ -2228,7 +2243,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="balance-harmony-lbl">Now</div>
         </div>
       </div>
-      <div style="font-size:11px;color:rgba(128,144,168,0.65);text-align:center;max-width:120px;line-height:1.4;margin-top:6px;font-style:italic;">Harmony measures balance between the four elements — 100% if all are equal, lower if any are far apart. High total mastery with low harmony means one dimension is dominating.</div>
+      <div style="font-size:11px;color:rgba(128,144,168,0.65);text-align:center;max-width:120px;line-height:1.4;margin-top:6px;font-style:italic;">Harmony measures balance between the four elements: 100% if all are equal, lower if any are far apart. High total mastery with low harmony means one dimension is dominating.</div>
     </div>
   </div>
 </div>
@@ -2479,22 +2494,22 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
-          <input type="range" class="stat-range" id="stat-rest" min="0" max="100" value="50" oninput="updateStat('rest',this.value)" title="Rest — sleep quality, recovery, and downtime. High = well-rested and recharged; low = running on empty.">
+          <input type="range" class="stat-range" id="stat-rest" min="0" max="100" value="50" oninput="updateStat('rest',this.value)" title="Rest: sleep quality, recovery, and downtime. High = well-rested and recharged; low = running on empty.">
           <span class="stat-bar-val" id="stat-rest-val">50</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
-          <input type="range" class="stat-range" id="stat-movement" min="0" max="100" value="50" oninput="updateStat('movement',this.value)" title="Movement — physical activity and exercise. High = regularly active; low = sedentary or fatigued.">
+          <input type="range" class="stat-range" id="stat-movement" min="0" max="100" value="50" oninput="updateStat('movement',this.value)" title="Movement: physical activity and exercise. High = regularly active; low = sedentary or fatigued.">
           <span class="stat-bar-val" id="stat-movement-val">50</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#60a838">Nutrition</span>
-          <input type="range" class="stat-range" id="stat-nutrition" min="0" max="100" value="50" oninput="updateStat('nutrition',this.value)" title="Nutrition — diet quality and eating habits. High = nourishing, intentional eating; low = skipping meals or poor choices.">
+          <input type="range" class="stat-range" id="stat-nutrition" min="0" max="100" value="50" oninput="updateStat('nutrition',this.value)" title="Nutrition: diet quality and eating habits. High = nourishing, intentional eating; low = skipping meals or poor choices.">
           <span class="stat-bar-val" id="stat-nutrition-val">50</span>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
-          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)" title="Connection — quality of social bonds and sense of belonging. High = feeling supported and seen; low = isolated or disconnected.">
+          <input type="range" class="stat-range" id="stat-connection" min="0" max="100" value="50" oninput="updateStat('connection',this.value)" title="Connection: quality of social bonds and sense of belonging. High = feeling supported and seen; low = isolated or disconnected.">
           <span class="stat-bar-val" id="stat-connection-val">50</span>
         </div>
       </div>
@@ -2573,13 +2588,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <span class="stat-bar-val" id="status-focus-val">70</span>
         </div>
         <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#d07830" title="Energy: physical and mental fuel — how much capacity you have to act and engage">Energy</span>
-          <input type="range" class="stat-range stat-range-energy" id="status-energy" min="0" max="100" value="60" oninput="updateStatus('energy',this.value)" title="Energy: physical and mental fuel — how much capacity you have to act and engage">
+          <span class="stat-bar-lbl" style="color:#d07830" title="Energy: physical and mental fuel. How much capacity you have to act and engage.">Energy</span>
+          <input type="range" class="stat-range stat-range-energy" id="status-energy" min="0" max="100" value="60" oninput="updateStatus('energy',this.value)" title="Energy: physical and mental fuel. How much capacity you have to act and engage.">
           <span class="stat-bar-val" id="status-energy-val">60</span>
         </div>
         <div class="stat-bar-row">
-          <span class="stat-bar-lbl" style="color:#3a80c8" title="Interest: genuine curiosity or engagement with what you're doing — not going through the motions">Interest</span>
-          <input type="range" class="stat-range stat-range-interest" id="status-interest" min="0" max="100" value="65" oninput="updateStatus('interest',this.value)" title="Interest: genuine curiosity or engagement with what you're doing — not going through the motions">
+          <span class="stat-bar-lbl" style="color:#3a80c8" title="Interest: genuine curiosity or engagement with what you're doing, not going through the motions.">Interest</span>
+          <input type="range" class="stat-range stat-range-interest" id="status-interest" min="0" max="100" value="65" oninput="updateStatus('interest',this.value)" title="Interest: genuine curiosity or engagement with what you're doing, not going through the motions.">
           <span class="stat-bar-val" id="status-interest-val">65</span>
         </div>
         <div class="stat-bar-row">
@@ -2620,7 +2635,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- ── Recurring Quests ── -->
   <div class="radar-panel-title" style="font-size:18px;color:#c8a84a;letter-spacing:0.2em;padding:18px 0 6px 0;">Regular quests</div>
-  <div class="section-desc" style="margin-bottom:10px;">Recurring things that matter — track consistency and spot trends over time</div>
+  <div class="section-desc" style="margin-bottom:10px;">Recurring things that matter. Track consistency and spot trends over time.</div>
   <div id="rquests-container"></div>
 
 </div>
@@ -2755,11 +2770,31 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="float-bar">
+  <a class="fbar-btn" href="https://github.com/sam-holmes2/character-sheet" target="_blank" rel="noopener" title="View on GitHub" style="text-decoration:none;">⬡<span class="fbar-label"> GitHub</span></a>
+  <button class="fbar-btn" id="support-btn" onclick="openSupportModal()" title="Support this project">♥<span class="fbar-label"> Support</span></button>
   <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
   <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
   <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
   <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export: copy data to your AI">↓<span class="fbar-label"> Export</span></button>
   <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import: paste data from your AI">↑<span class="fbar-label"> Import</span></button>
+</div>
+
+<!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
+<div class="modal-overlay" id="support-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="border-top:3px solid #c87060;max-width:480px;width:96vw;position:relative;">
+    <button class="modal-close" onclick="document.getElementById('support-modal').classList.remove('open')" title="Close">×</button>
+    <div class="modal-title" style="color:#c87060;margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
+    <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist — a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
+    <p style="line-height:1.7;margin:0 0 20px;">If it's been useful to you, a small contribution helps keep it going.</p>
+    <div style="margin-bottom:20px;padding:14px 16px;background:rgba(200,112,96,0.08);border:1px solid rgba(200,112,96,0.2);border-radius:8px;font-size:14px;line-height:1.6;">
+      I pledge <strong>10% of anything received</strong> to the <a href="https://www.humanetech.com/donate" target="_blank" rel="noopener" style="color:#c87060;">Center for Humane Technology</a> — a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+      <a href="https://github.com/sponsors/sam-holmes2" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;background:rgba(200,112,96,0.15);border:1px solid rgba(200,112,96,0.4);color:#c87060;padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;">♥ Sponsor on GitHub</a>
+      <a href="https://github.com/sam-holmes2/character-sheet" target="_blank" rel="noopener" class="btn-ghost" style="text-decoration:none;padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;">⬡ View on GitHub</a>
+    </div>
+    <p style="font-size:12px;color:var(--text-dim);line-height:1.6;margin:0;font-style:italic;">character-sheet is not a replacement for professional mental health support. If you're struggling, please reach out to a qualified professional or a service like <a href="https://www.thecalmzone.net" target="_blank" rel="noopener" style="color:var(--text-dim);">CALM</a> or <a href="https://www.befrienders.org" target="_blank" rel="noopener" style="color:var(--text-dim);">Befrienders Worldwide</a>.</p>
+  </div>
 </div>
 
 <!-- ══ HELP MODAL ══════════════════════════════════════════ -->
@@ -2893,9 +2928,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       </div>
 
     </div>
-    <div id="instructions-version-notice" style="display:none;margin-top:14px;padding:8px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.35);border-radius:4px;font-size:15px;color:var(--gold);">⚠ &nbsp;An app update is available. Re-run the Setup steps above to download the latest character-sheet.html and instructions.md.</div>
-    <div class="modal-row" style="margin-top:14px;">
-      <button class="btn-ghost" onclick="document.getElementById('help-modal').classList.remove('open')">Close</button>
+    <div class="modal-row" style="margin-top:14px;align-items:center;flex-wrap:wrap;gap:10px;">
+      <button class="btn-ghost" id="check-update-btn" onclick="checkForAppUpdateManual(this)" style="font-size:13px;padding:5px 13px;color:var(--gold);border-color:rgba(200,168,74,0.4);">Check for updates</button>
+      <span id="update-check-result" style="font-size:13px;color:var(--text-dim);"></span>
+      <button class="btn-ghost" style="margin-left:auto;" onclick="document.getElementById('help-modal').classList.remove('open')">Close</button>
     </div>
   </div>
 </div>
@@ -2918,25 +2954,27 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);position:relative;">
     <button class="modal-close" onclick="closeSettingsModal()" title="Close">×</button>
     <div class="modal-title" style="color:var(--gold);">⚙ &nbsp;SECURITY</div>
-    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>data.json contains your private journal.</strong> Nothing leaves your machine unless you send it, but any AI provider you journal with may store what you share with them. Use Firefox if possible; Chrome and Edge share storage across local files. A PIN encrypts your data in the browser.</p>
+    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>data.json contains your private journal.</strong> Nothing leaves your machine unless you send it, but any AI provider you journal with may store what you share with them. Use Firefox if possible; Chrome and Edge share storage across local files. A password encrypts your data at rest in the browser.</p>
 
     <div class="settings-section">
-      <div class="settings-label">PIN Protection</div>
+      <div class="settings-label">Password Protection</div>
       <p id="settings-pin-status-text" style="font-size:16px;color:var(--text-dim);margin-bottom:8px;"></p>
-      <p style="font-size:15px;color:var(--text-dim);margin-bottom:8px;">⚠ If you forget your PIN, your data cannot be recovered. Keep an export of your data.json as a backup.</p>
+      <p style="font-size:15px;color:var(--text-dim);margin-bottom:8px;">When set, <strong>all</strong> local data is encrypted with AES-256-GCM. Use a long random password from a password manager for strongest protection.</p>
+      <p style="font-size:15px;color:var(--text-dim);margin-bottom:8px;">⚠ If you forget your password, your data cannot be recovered. Keep an export of your data.json as a backup.</p>
       <div class="settings-pin-row" id="settings-pin-set-row">
-        <input class="settings-pin-input" id="settings-pin-new" type="password" inputmode="numeric" maxlength="12" placeholder="New PIN" autocomplete="new-password">
-        <input class="settings-pin-input" id="settings-pin-confirm" type="password" inputmode="numeric" maxlength="12" placeholder="Confirm" autocomplete="new-password">
-        <button class="btn-primary" onclick="settingsSavePIN()">Set PIN</button>
+        <input class="settings-pin-input" id="settings-pin-new" type="password" placeholder="New password (min 8 chars)" autocomplete="new-password" oninput="updatePwStrength(this.value)">
+        <input class="settings-pin-input" id="settings-pin-confirm" type="password" placeholder="Confirm" autocomplete="new-password">
+        <button class="btn-primary" onclick="settingsSavePIN()">Set password</button>
       </div>
+      <div id="settings-pw-strength" style="display:none;margin:6px 0 4px;font-size:13px;color:var(--text-dim);"></div>
       <div class="settings-pin-row" id="settings-pin-remove-row" style="display:none;">
-        <input class="settings-pin-input" id="settings-pin-current" type="password" inputmode="numeric" maxlength="12" placeholder="Current PIN" autocomplete="current-password">
-        <button class="btn-ghost" onclick="settingsRemovePIN()">Remove PIN</button>
-        <button class="btn-primary" onclick="settingsShowChangePIN()">Change PIN</button>
+        <input class="settings-pin-input" id="settings-pin-current" type="password" placeholder="Current password" autocomplete="current-password">
+        <button class="btn-ghost" onclick="settingsRemovePIN()">Remove password</button>
+        <button class="btn-primary" onclick="settingsShowChangePIN()">Change password</button>
       </div>
       <div class="settings-pin-row" id="settings-pin-change-row" style="display:none;margin-top:8px;">
-        <input class="settings-pin-input" id="settings-pin-change-new" type="password" inputmode="numeric" maxlength="12" placeholder="New PIN" autocomplete="new-password">
-        <input class="settings-pin-input" id="settings-pin-change-confirm" type="password" inputmode="numeric" maxlength="12" placeholder="Confirm" autocomplete="new-password">
+        <input class="settings-pin-input" id="settings-pin-change-new" type="password" placeholder="New password (min 8 chars)" autocomplete="new-password">
+        <input class="settings-pin-input" id="settings-pin-change-confirm" type="password" placeholder="Confirm" autocomplete="new-password">
         <button class="btn-primary" onclick="settingsChangePIN()">Save</button>
         <button class="btn-ghost" onclick="settingsHideChangePIN()">Cancel</button>
       </div>
@@ -2963,6 +3001,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ XP LEVEL-UP OVERLAY ══════════════════════════════════ -->
 <div id="xp-levelup-overlay">
+  <button id="xp-lu-close" onclick="dismissLevelUpOverlay()" title="Close" style="position:absolute;top:18px;right:22px;background:none;border:none;color:rgba(255,255,255,0.35);font-size:22px;cursor:pointer;pointer-events:auto;line-height:1;padding:4px 8px;" onmouseenter="this.style.color='rgba(255,255,255,0.7)'" onmouseleave="this.style.color='rgba(255,255,255,0.35)'">×</button>
   <div class="xp-lu-eyebrow">Level reached</div>
   <div class="xp-lu-num" id="xp-lu-num">5</div>
   <div class="xp-lu-label">Level Up</div>
@@ -3019,7 +3058,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div style="display:flex;flex-direction:column;">
         <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Migrate / backup localstorage (optional)</div>
         <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Exports <em>all</em> app data, including quest and xp history, etc. Use this for moving between devices or browsers.</p>
-        <div id="migration-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;background:rgba(200,168,74,0.08);border:1px solid rgba(200,168,74,0.3);color:var(--gold);">⚠ This file is large — do not paste it into an AI chat. It's for device migration only.</div>
+        <div id="migration-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;background:rgba(200,168,74,0.08);border:1px solid rgba(200,168,74,0.3);color:var(--gold);">⚠ This file is large. Do not paste it into an AI chat. It's for device migration only.</div>
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;overflow:visible;">
           <canvas id="migration-pie" width="110" height="110" style="flex-shrink:0;width:90px;height:90px;"></canvas>
           <div id="migration-pie-legend" style="flex:1;display:flex;flex-direction:column;gap:3px;font-size:12px;font-family:var(--mono);min-width:0;"></div>
@@ -3235,9 +3274,9 @@ function isPeriodExpired(periodStart, resetPeriod) {
 
 // Practice localStorage helpers
 function loadRQCurrent(charName, id){try{const r=localStorage.getItem('cs-rq-cur-'+charName+'-'+id);return r?JSON.parse(r):null;}catch{return null;}}
-function saveRQCurrent(charName, id, data){try{localStorage.setItem('cs-rq-cur-'+charName+'-'+id,JSON.stringify(data));}catch{}}
+function saveRQCurrent(charName, id, data){try{localStorage.setItem('cs-rq-cur-'+charName+'-'+id,JSON.stringify(data));}catch{} _reencryptIfActive();}
 function loadRQHistory(charName, id){try{const r=localStorage.getItem('cs-rq-hist-'+charName+'-'+id);return r?JSON.parse(r):[];}catch{return [];}}
-function saveRQHistory(charName, id, hist){try{localStorage.setItem('cs-rq-hist-'+charName+'-'+id,JSON.stringify(hist));}catch{}}
+function saveRQHistory(charName, id, hist){try{localStorage.setItem('cs-rq-hist-'+charName+'-'+id,JSON.stringify(hist));}catch{} _reencryptIfActive();}
 
 // In-memory state for active practices
 const practiceState = {}; // id -> { seconds, running, interval, milestonesHit, milestoneXP, toastTimeout }
@@ -3339,6 +3378,8 @@ function getRQStats(act, charName) {
 }
 
 migrateCompletedQuests();
+// Migration: rename cs-undo-v1 → cs-undo-v1
+(function(){const old=localStorage.getItem('cs-undo-v1');if(old){localStorage.setItem('cs-undo-v1',old);localStorage.removeItem('cs-undo-v1');}})();
 let appState=loadState(), timerIv={};
 
 // ══ SLIDER BUILDER ══════════════════════════════════════════
@@ -3678,13 +3719,31 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
 
   if (!hist.length) {
     ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.font = '9px monospace'; ctx.textAlign = 'center';
-    ctx.fillText('No data yet — move a slider to begin', padL + plotW / 2, padT + plotH / 2 + 3);
+    ctx.fillText('No data yet. Move a slider to begin.', padL + plotW / 2, padT + plotH / 2 + 3);
     return;
   }
 
   const n = hist.length;
   const xOf = i => padL + (i / Math.max(n - 1, 1)) * plotW;
   const yOf = v => padT + plotH - Math.min(100, Math.max(0, v)) / 100 * plotH;
+
+  // Today highlight: vertical stripe behind all lines
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayIdx = hist.findIndex(e => e.date === todayStr);
+  if (todayIdx >= 0) {
+    const tx = xOf(todayIdx);
+    const barW = n > 1 ? Math.max(6, plotW / (n - 1) * 0.6) : 10;
+    const grad = ctx.createLinearGradient(tx - barW / 2, 0, tx + barW / 2, 0);
+    grad.addColorStop(0,   'rgba(200,168,74,0)');
+    grad.addColorStop(0.5, 'rgba(200,168,74,0.13)');
+    grad.addColorStop(1,   'rgba(200,168,74,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(tx - barW / 2, padT, barW, plotH);
+    // Subtle top tick
+    ctx.strokeStyle = 'rgba(200,168,74,0.45)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(tx, padT); ctx.lineTo(tx, padT + 4); ctx.stroke();
+  }
 
   // Linear regression over [index, value] pairs — returns {slope, intercept}
   const linReg = pts => {
@@ -3923,6 +3982,7 @@ function saveStatsSnapshot(){
     hist.sort((a,b)=>a.date<b.date?-1:1);
     if(hist.length>90) hist.splice(0,hist.length-90);
     localStorage.setItem(STATS_HIST_KEY,JSON.stringify(hist));
+    _reencryptIfActive();
   }catch(e){}
   renderStatsHistoryChart();
 }
@@ -3991,6 +4051,7 @@ function toggleChapter(bodyId,arrowId){
   const b=document.getElementById(bodyId),a=document.getElementById(arrowId);
   if(!b)return;const open=b.classList.toggle('open');
   if(a){a.textContent=open?'▾':'▸';a.classList.toggle('open',open);}
+  if(open){ b.querySelectorAll('textarea.chapter-bullet-input').forEach(ta=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; }); }
 }
 
 // ══ TABS ════════════════════════════════════════════════════
@@ -4200,6 +4261,14 @@ function showLevelUpOverlay(level, subtext){
   }, 2400);
 }
 
+function dismissLevelUpOverlay(){
+  const ov=document.getElementById('xp-levelup-overlay'); if(!ov) return;
+  clearTimeout(_xpLuTimer);
+  ov.classList.remove('in');
+  ov.classList.add('out');
+  setTimeout(()=>{ ov.classList.remove('out'); ov.style.opacity='0'; },450);
+}
+
 function xpParticleBurst(anchorEl){
   if(!anchorEl) return;
   const rect=anchorEl.getBoundingClientRect();
@@ -4315,22 +4384,26 @@ function makeEditable(text, placeholder, onSave, extraClass){
   el.textContent=text||'';
   el.addEventListener('blur',()=>onSave(el.textContent.trim()));
   el.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); el.blur(); }});
-  // Prevent draggable parent from intercepting clicks, which would reset cursor to start
-  el.addEventListener('mousedown',e=>e.stopPropagation());
-  // Place cursor at exact click position (works around browser issues with letter-spacing/text-transform)
-  el.addEventListener('click', e => {
+  // On mousedown: stop propagation to prevent draggable parent interference,
+  // and if not yet focused, place cursor at the exact click position before
+  // the browser's default focus handler runs (avoids visible jump to start).
+  el.addEventListener('mousedown', e => {
     e.stopPropagation();
-    const range = document.caretRangeFromPoint
-      ? document.caretRangeFromPoint(e.clientX, e.clientY)
-      : (document.caretPositionFromPoint
-          ? (() => { const cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (!cp) return null; const r = document.createRange(); r.setStart(cp.offsetNode, cp.offset); r.collapse(true); return r; })()
-          : null);
-    if (range) {
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    }
+    if (document.activeElement === el) return; // already focused — let browser handle
+    const setCaret = () => {
+      const range = document.caretRangeFromPoint
+        ? document.caretRangeFromPoint(e.clientX, e.clientY)
+        : (document.caretPositionFromPoint
+            ? (() => { const cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (!cp) return null; const r = document.createRange(); r.setStart(cp.offsetNode, cp.offset); r.collapse(true); return r; })()
+            : null);
+      if (range) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
+    };
+    // Focus first, then immediately correct the caret position
+    el.focus();
+    setCaret();
+    e.preventDefault(); // prevent browser from re-running its own focus+caret logic
   });
+  el.addEventListener('click', e => e.stopPropagation());
   return el;
 }
 function saveNestedField(path, value){
@@ -4919,8 +4992,10 @@ function renderBestiaryTab(s){
     // Legacy: support single bestiary.boss
     if(!bosses.length && bestiary.boss && bestiary.boss.name) bosses.push(bestiary.boss);
     if(bosses.length){
-      const bossSecHdr=document.createElement('div'); bossSecHdr.className='qt-section-hdr no-prefix'; bossSecHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:10px;'; bossSecHdr.textContent='☠ Bosses';
+      const bossSecHdr=document.createElement('div'); bossSecHdr.className='qt-section-hdr no-prefix'; bossSecHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:4px;'; bossSecHdr.textContent='☠ Bosses';
       enemiesEl.appendChild(bossSecHdr);
+      const bossSecDesc=document.createElement('div'); bossSecDesc.className='section-desc'; bossSecDesc.textContent='Root patterns — minions are their symptoms';
+      enemiesEl.appendChild(bossSecDesc);
       const bossesContainer=document.createElement('div');
       bossesContainer.className='no-drag';
       enemiesEl.appendChild(bossesContainer);
@@ -4981,8 +5056,10 @@ function renderBestiaryTab(s){
     });
     if(!all.length && !bosses.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No patterns recorded yet.'; enemiesEl.appendChild(p); }
     else if(all.length) {
-      const restHdr=document.createElement('div'); restHdr.className='qt-section-hdr no-prefix'; restHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-top:24px;margin-bottom:10px;'; restHdr.textContent='◈ Enemies';
+      const restHdr=document.createElement('div'); restHdr.className='qt-section-hdr no-prefix'; restHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-top:24px;margin-bottom:4px;'; restHdr.textContent='◈ Standalone Enemies';
       enemiesEl.appendChild(restHdr);
+      const restDesc=document.createElement('div'); restDesc.className='section-desc'; restDesc.textContent='Maybe independent, or minions for an existing or future boss?';
+      enemiesEl.appendChild(restDesc);
       all.forEach((e,ci)=>{
         enemiesEl.appendChild(renderEnemyCard(e, ci, false));
       });
@@ -5102,13 +5179,13 @@ function getFeaturedAch(){
   try{ return JSON.parse(localStorage.getItem(FEATURED_ACH_KEY)||'[]'); }
   catch(e){ return []; }
 }
-function setFeaturedAch(ids){ localStorage.setItem(FEATURED_ACH_KEY,JSON.stringify(ids)); }
+function setFeaturedAch(ids){ localStorage.setItem(FEATURED_ACH_KEY,JSON.stringify(ids)); _reencryptIfActive(); }
 
 const ACH_TYPES={
-  insight:       { icon:'☁', label:'Insight',      cls:'att-insight',       colour:'#8090a8', tooltip:'Insight (Air): a moment of clarity — something noticed, understood, or seen differently.' },
-  deed:          { icon:'⚔', label:'Deed',          cls:'att-deed',          colour:'#d07830', tooltip:'Deed (Fire): something done — an action taken, obstacle overcome, or goal reached.' },
+  insight:       { icon:'☁', label:'Insight',      cls:'att-insight',       colour:'#8090a8', tooltip:'Insight (Air): a moment of clarity. Something noticed, understood, or seen differently.' },
+  deed:          { icon:'⚔', label:'Deed',          cls:'att-deed',          colour:'#d07830', tooltip:'Deed (Fire): something done. An action taken, obstacle overcome, or goal reached.' },
   transmutation: { icon:'⬡', label:'Transmutation', cls:'att-transmutation', colour:'#60a838', tooltip:'Transmutation (Earth): a belief or identity that permanently changed.' },
-  surrender:     { icon:'↓', label:'Surrender',     cls:'att-surrender',     colour:'#3a80c8', tooltip:'Surrender (Water): something stopped fighting — a fear released, a grip loosened.' },
+  surrender:     { icon:'↓', label:'Surrender',     cls:'att-surrender',     colour:'#3a80c8', tooltip:'Surrender (Water): something stopped fighting. A fear released, a grip loosened.' },
 };
 const ACH_DEFAULT={ icon:'★', label:'Title', cls:'att-default', colour:'#908a78', tooltip:'' };
 // Legacy icon map kept for getIconPool
@@ -5327,7 +5404,7 @@ function renderAlliesTab(s){
       body.appendChild(whyEl2);
       {
         const corSec=document.createElement('div'); corSec.style.cssText='margin-top:12px;padding-top:10px;border-top:1px solid rgba(200,64,64,0.15);';
-        const corLbl=document.createElement('div'); corLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(200,64,64,0.6);text-transform:uppercase;margin-bottom:5px;cursor:help;'; corLbl.textContent='Corruption'; corLbl.title='How your own patterns or enemies block you from fully enjoying or appreciating this ally — the internal friction that stops you receiving what it offers.';
+        const corLbl=document.createElement('div'); corLbl.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.2em;color:rgba(200,64,64,0.6);text-transform:uppercase;margin-bottom:5px;cursor:help;'; corLbl.textContent='Corruption'; corLbl.title='How your own patterns or enemies block you from fully enjoying or appreciating this ally. The internal friction that stops you receiving what it offers.';
         const corEl=makeEditable(a.corruption||'','How are you blocked from receiving this?…',v=>{
           if(a._srcType==='allies'&&appState.allies?.[a._idx]) appState.allies[a._idx].corruption=v;
           saveState(appState); markDirty();
@@ -6146,6 +6223,11 @@ function applyMigrationBundle(p){
     if(p['cs-featured-cls-v1']) localStorage.setItem('cs-featured-cls-v1',JSON.stringify(p['cs-featured-cls-v1']));
     if(p['cs-stats-hist-v1']) localStorage.setItem('cs-stats-hist-v1',JSON.stringify(p['cs-stats-hist-v1']));
     if(p['cs-status-hist-v1']) localStorage.setItem('cs-status-hist-v1',JSON.stringify(p['cs-status-hist-v1']));
+    if(p['cs-status-v1']) localStorage.setItem('cs-status-v1',JSON.stringify(p['cs-status-v1']));
+    if(p['cs-completed-quests-v1']) localStorage.setItem('cs-completed-quests-v1',JSON.stringify(p['cs-completed-quests-v1']));
+    if(p['cs-hdr-icon-v1']!=null) localStorage.setItem('cs-hdr-icon-v1',p['cs-hdr-icon-v1']);
+    if(p['cs-welcomed-v1']) localStorage.setItem('cs-welcomed-v1','1');
+    if(p['cs-starters-seen-v1']) localStorage.setItem('cs-starters-seen-v1','1');
     if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>localStorage.setItem(k,JSON.stringify(v)));
   }
   const state=p['cs-state-v1'];
@@ -6173,7 +6255,7 @@ function applyUpdate(){
     // Take snapshot before any changes for diff toast + undo
     const prevSnapshot = JSON.parse(JSON.stringify(appState));
     if(!IS_DEMO){
-      localStorage.setItem('liferpg-undo-v7', JSON.stringify({
+      localStorage.setItem('cs-undo-v1', JSON.stringify({
         state: prevSnapshot,
         featuredAch: getFeaturedAch(),
         featuredCls: getFeaturedCls(),
@@ -6238,6 +6320,8 @@ function applyUpdate(){
     // Show diff toast after a short delay (modal close animation)
     const diffMsg = buildImportDiff(prevSnapshot, merged, isPartial, _newCQCount);
     if(diffMsg) setTimeout(()=>showImportToast(diffMsg), 600);
+    // Flash changed UI elements after modal closes
+    setTimeout(()=>flashImportChanges(prevSnapshot, merged), 700);
     // Mark welcomed if real data imported
     if(merged.name && merged.name !== DEMO_NAME && !IS_DEMO){
       localStorage.setItem(WELCOMED_KEY,'1');
@@ -6272,7 +6356,7 @@ function loadXPLog(){
     return [];
   }catch{ return []; }
 }
-function saveXPLog(log){ try{ localStorage.setItem(XP_LOG_KEY,JSON.stringify(log.slice(-500))); }catch{} }
+function saveXPLog(log){ try{ localStorage.setItem(XP_LOG_KEY,JSON.stringify(log.slice(-500))); }catch{} _reencryptIfActive(); }
 
 function logXPChange(prevState, nextState, items){
   const prevXP=prevState?.xp||0, prevLevel=prevState?.level||1;
@@ -6327,7 +6411,7 @@ function renderXPLog(){
         row.innerHTML=`<span class="xp-log-amount">${sign}${entry.amount} XP</span><span class="xp-log-reason">${icon}${esc(entry.reason)}${entry.totalAfter!=null?' <span class="xp-log-total">· '+entry.totalAfter+' total</span>':''}</span>`;
         if(entry.items&&entry.items.length){
           const ul=document.createElement('ul'); ul.className='xp-log-items';
-          entry.items.forEach(it=>{ const li=document.createElement('li'); li.textContent=(it.amount>0?'+':'')+it.amount+' — '+it.label; ul.appendChild(li); });
+          entry.items.forEach(it=>{ const li=document.createElement('li'); li.textContent=(it.amount>0?'+':'')+it.amount+': '+it.label; ul.appendChild(li); });
           row.appendChild(ul);
         }
         body.appendChild(row);
@@ -6363,6 +6447,18 @@ function buildMigrationBundle(){
   // Status slider history (focus/energy/purpose/interest)
   const rawStatusHist=localStorage.getItem('cs-status-hist-v1');
   if(rawStatusHist) try{bundle['cs-status-hist-v1']=JSON.parse(rawStatusHist);}catch{}
+  // Status slider current values mirror
+  const rawStatusLS=localStorage.getItem('cs-status-v1');
+  if(rawStatusLS) try{bundle['cs-status-v1']=JSON.parse(rawStatusLS);}catch{}
+  // Completed quests (dedicated key, separate from main state)
+  const rawCompleted=localStorage.getItem('cs-completed-quests-v1');
+  if(rawCompleted) try{bundle['cs-completed-quests-v1']=JSON.parse(rawCompleted);}catch{}
+  // Header icon preference
+  const rawHdrIcon=localStorage.getItem('cs-hdr-icon-v1');
+  if(rawHdrIcon!=null) bundle['cs-hdr-icon-v1']=rawHdrIcon;
+  // UI flags (welcomed, starters seen)
+  if(localStorage.getItem('cs-welcomed-v1')) bundle['cs-welcomed-v1']='1';
+  if(localStorage.getItem('cs-starters-seen-v1')) bundle['cs-starters-seen-v1']='1';
   // Practice data (cs-rq-cur-* and cs-rq-hist-*)
   const rqKeys={};
   for(let i=0;i<localStorage.length;i++){
@@ -6391,7 +6487,9 @@ function renderMigrationPie(bundle,jsonStr){
     {k:'cs-xplog-v1',label:'XP log'},
     {k:'cs-stats-hist-v1',label:'Core skills hist'},
     {k:'cs-status-hist-v1',label:'Status hist'},
+    {k:'cs-status-v1',label:'Status current'},
     {k:'_practiceData',label:'Practice data'},
+    {k:'cs-completed-quests-v1',label:'Completed quests'},
     {k:'cs-featured-ach-v1',label:'Featured ach'},
     {k:'cs-featured-cls-v1',label:'Featured cls'},
   ].filter(s=>bundle[s.k]!=null).map(s=>({label:s.label,size:JSON.stringify(bundle[s.k]).length}));
@@ -7087,6 +7185,7 @@ function renderRQBarChart(wrap, act, charName) {
         chipsRow.className = 'prac-bar-edit-sub-chips';
 
         const saveSubsToHistory = (newSubsDone) => {
+          const oldCount = dp.subsDone.length;
           if (dp.isCurrent) {
             // Mirror into live practiceState so the widget buttons stay in sync
             const ps = practiceState[act.id];
@@ -7116,6 +7215,7 @@ function renderRQBarChart(wrap, act, charName) {
             hist.splice(idx, 1);
           }
           saveRQHistory(charName, act.id, hist);
+          if (newSubsDone.length > oldCount) awardRQXP(act.id, Math.round(act.xpPerUnit || 20));
           dp.subsDone = [...newSubsDone];
           dp.value    = newSubsDone.length;
           renderRQBarChart(wrap, act, charName);
@@ -7151,6 +7251,7 @@ function renderRQBarChart(wrap, act, charName) {
 
       // ── Checkbox (no subs): instant toggle, no popover ────────
       if (act.type === 'checkbox') {
+        const oldVal = dp.value;
         const newVal = dp.value > 0 ? 0 : 1;
         if (dp.isCurrent) {
           const ps = practiceState[act.id];
@@ -7173,6 +7274,7 @@ function renderRQBarChart(wrap, act, charName) {
           }
           saveRQHistory(charName, act.id, hist);
         }
+        if (newVal > oldVal) awardRQXP(act.id, Math.round(act.xpPerUnit || 20));
         dp.value = newVal;
         closePopovers();
         renderRQBarChart(wrap, act, charName);
@@ -7208,6 +7310,8 @@ function renderRQBarChart(wrap, act, charName) {
         const rawVal = parseInt(inp.value, 10);
         if (isNaN(rawVal) || rawVal < 0) { closePopovers(); return; }
 
+        const oldVal = dp.value || 0;
+
         if (dp.isCurrent) {
           const ps = practiceState[act.id];
           if (ps) {
@@ -7237,6 +7341,20 @@ function renderRQBarChart(wrap, act, charName) {
           if (idx >= 0) hist[idx].value = rawVal;
           else hist.push({ period: dp.period, value: rawVal, target: act.target || 0 });
           saveRQHistory(charName, act.id, hist);
+        }
+
+        // Award XP for any net increase, same as manual tracking
+        if (rawVal > oldVal) {
+          let xp = 0;
+          if (act.type === 'timer') {
+            xp = Math.floor((rawVal - oldVal) * (act.xpPerUnit || 0.5));
+          } else if (act.type === 'number') {
+            xp = Math.round((rawVal - oldVal) * (act.xpPerUnit || 1));
+          } else {
+            // checkbox via numeric popover (shouldn't normally occur, but handle it)
+            xp = Math.round(act.xpPerUnit || 20);
+          }
+          if (xp > 0) awardRQXP(act.id, xp);
         }
 
         dp.value = rawVal;
@@ -7640,7 +7758,7 @@ function renderRecurringQuests(s) {
           <button class="timer-btn start-btn" id="timer-start-btn-${act.id}" onclick="timerStart('${act.id}')">Start</button>
           <button class="timer-btn stop-btn"  id="timer-stop-btn-${act.id}"  onclick="timerStop('${act.id}')"  style="display:none">Pause</button>
           <button class="timer-btn" onclick="timerReset('${act.id}')">Reset</button>
-          <button class="timer-btn" onclick="enterFocusMode('${act.id}')" title="Focus mode — fullscreen timer">Focus</button>
+          <button class="timer-btn" onclick="enterFocusMode('${act.id}')" title="Focus mode: fullscreen timer">Focus</button>
         </div>
         <div class="timer-today" id="timer-today-${act.id}">Today: 0 / ${act.target||90} min</div>
         <div class="timer-xp-earned" id="timer-xp-today-${act.id}"></div>
@@ -8222,7 +8340,7 @@ function renderCombatSkills(s){
 const FEATURED_CLS_KEY='cs-featured-cls-v1';
 
 function getFeaturedCls(){ try{ return JSON.parse(localStorage.getItem(FEATURED_CLS_KEY)||'[]'); }catch(e){return[];} }
-function setFeaturedCls(ids){ localStorage.setItem(FEATURED_CLS_KEY,JSON.stringify(ids)); }
+function setFeaturedCls(ids){ localStorage.setItem(FEATURED_CLS_KEY,JSON.stringify(ids)); _reencryptIfActive(); }
 
 function renderClassesTab(s){
   const classes=s.classes||DEFAULT.classes||[];
@@ -8361,16 +8479,22 @@ function initNameEditable(){
     if(e.key === 'Enter'){ e.preventDefault(); el.blur(); }
     if(e.key === 'Escape'){ el.textContent = appState.name||'Hero'; el.blur(); }
   });
-  el.addEventListener('mousedown', e => e.stopPropagation());
-  el.addEventListener('click', e => {
+  el.addEventListener('mousedown', e => {
     e.stopPropagation();
-    const range = document.caretRangeFromPoint
-      ? document.caretRangeFromPoint(e.clientX, e.clientY)
-      : (document.caretPositionFromPoint
-          ? (() => { const cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (!cp) return null; const r = document.createRange(); r.setStart(cp.offsetNode, cp.offset); r.collapse(true); return r; })()
-          : null);
-    if (range) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
+    if (document.activeElement === el) return;
+    const setCaret = () => {
+      const range = document.caretRangeFromPoint
+        ? document.caretRangeFromPoint(e.clientX, e.clientY)
+        : (document.caretPositionFromPoint
+            ? (() => { const cp = document.caretPositionFromPoint(e.clientX, e.clientY); if (!cp) return null; const r = document.createRange(); r.setStart(cp.offsetNode, cp.offset); r.collapse(true); return r; })()
+            : null);
+      if (range) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
+    };
+    el.focus();
+    setCaret();
+    e.preventDefault();
   });
+  el.addEventListener('click', e => e.stopPropagation());
 }
 
 function setNameColor(color){
@@ -8453,6 +8577,7 @@ function saveStatusSnapshot() {
     hist.sort((a,b) => a.date < b.date ? -1 : 1);
     if (hist.length > 90) hist.splice(0, hist.length - 90);
     localStorage.setItem(STATUS_HIST_KEY, JSON.stringify(hist));
+    _reencryptIfActive();
   } catch(e) {}
   renderStatusHistoryChart();
 }
@@ -8519,6 +8644,7 @@ function updateStatus(name, value) {
     const saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}');
     saved[name] = pct;
     localStorage.setItem(STATUS_LS_KEY, JSON.stringify(saved));
+    _reencryptIfActive();
   } catch(e) {}
   saveStatusSnapshot();
 }
@@ -8602,6 +8728,10 @@ function dismissWelcome(){
   localStorage.setItem(WELCOMED_KEY, '1');
 }
 
+function openSupportModal(){
+  document.getElementById('support-modal').classList.add('open');
+}
+
 function openHelpModal(){
   // Show the "download the .html file" step only when NOT running locally
   const isLocal = location.protocol === 'file:';
@@ -8630,11 +8760,11 @@ const DEEP_DIVE_PROMPT = `I'm setting up character-sheet, a personal life dashbo
 Interview me to fill in my character sheet. Keep it conversational, ask one thing at a time, and never push me to share anything I'm not comfortable with. Start with the most important things and work down. Cover as much of this as you can:
 
 - What to call me, and one honest sentence about where I am in life right now
-- My main quest — the single most important thing I'm working toward
-- 2-4 side quests — active goals with a rough sense of progress
-- The four elements — Air (self-awareness), Fire (drive/direction), Water (what makes me feel alive), Earth (beliefs/groundedness) — a score out of 100 and a one-line status for each
+- My main quest: the single most important thing I'm working toward
+- 2-4 side quests: active goals with a rough sense of progress
+- The four elements: Air (self-awareness), Fire (drive/direction), Water (what makes me feel alive), Earth (beliefs/groundedness) - a score out of 100 and a one-line status for each
 - Skills I'm actively building, and any I'd consider signature strengths
-- Top values and core needs — which I feel most and least aligned with right now
+- Top values and core needs: which I feel most and least aligned with right now
 - People or places that feel genuinely supportive (allies)
 - Activities that reliably restore energy or produce aliveness (sources)
 - Habits that cost more than they give (drains)
@@ -8707,6 +8837,60 @@ function buildImportDiff(prev, next, isPartial, newCQCount){
   return parts.length ? 'Updated: '+parts.join(' · ') : 'Sheet updated';
 }
 
+function flashEl(el){
+  if(!el) return;
+  el.classList.remove('import-flash');
+  void el.offsetWidth;
+  el.classList.add('import-flash');
+  el.addEventListener('animationend', ()=>el.classList.remove('import-flash'), {once:true});
+}
+
+function flashImportChanges(prev, next){
+  // Quest progress changes — main quest card
+  const mq=next.mainQuest, pmq=prev.mainQuest;
+  if(mq && pmq && mq.progress !== pmq.progress){
+    flashEl(document.querySelector('#qt-main .mqcard-wrap'));
+  }
+  // Side quest progress or new quests
+  (next.sideQuests||[]).forEach((sq,i)=>{
+    const psq=(prev.sideQuests||[])[i];
+    const isNew = !psq || psq.title !== sq.title;
+    if(isNew || (psq && psq.progress !== sq.progress)){
+      const cards=document.querySelectorAll('#qt-active .sqcard');
+      if(cards[i]) flashEl(cards[i]);
+    }
+  });
+  // New insight entries — flash the chapter-item for each new entry
+  (next.insights||[]).forEach((ch,ci)=>{
+    const prevCh=(prev.insights||[]).find(p=>p.name===ch.name);
+    const prevLen=prevCh?(prevCh.entries||[]).length:0;
+    const newCount=Math.max(0,(ch.entries||[]).length-prevLen);
+    if(newCount>0){
+      // Flash up to newCount newest entries in this chapter
+      const groupBodies=document.querySelectorAll('.chapter-group-body');
+      if(groupBodies[ci]){
+        const items=groupBodies[ci].querySelectorAll('.chapter-item');
+        // New entries are prepended/at end — flash the last newCount
+        for(let k=Math.max(0,items.length-newCount);k<items.length;k++) flashEl(items[k]);
+      }
+    }
+  });
+  // Enemy HP changes
+  const allNext=[...(next.bestiary?.currentEnemies||[]),...(next.limitingBeliefs||[])];
+  const allPrev=[...(prev.bestiary?.currentEnemies||[]),...(prev.limitingBeliefs||[])];
+  allNext.forEach(ne=>{
+    const pe=allPrev.find(p=>p.name===ne.name);
+    if(pe && pe.hp!=null && ne.hp!=null && ne.hp !== pe.hp){
+      // Find the enemy card by data attributes
+      const cards=document.querySelectorAll('#bt-enemies .enemy-card');
+      cards.forEach(card=>{
+        const nameEl=card.querySelector('[contenteditable]');
+        if(nameEl && nameEl.textContent.trim()===ne.name) flashEl(card);
+      });
+    }
+  });
+}
+
 let _importToastTimer = null;
 function showImportToast(msg){
   const el  = document.getElementById('import-toast');
@@ -8714,7 +8898,7 @@ function showImportToast(msg){
   const undoBtn = document.getElementById('import-toast-undo');
   if(!el||!txt) return;
   txt.textContent = msg;
-  if(undoBtn) undoBtn.style.display = (!IS_DEMO && localStorage.getItem('liferpg-undo-v7')) ? 'block' : 'none';
+  if(undoBtn) undoBtn.style.display = (!IS_DEMO && localStorage.getItem('cs-undo-v1')) ? 'block' : 'none';
   el.classList.add('visible');
   clearTimeout(_importToastTimer);
   _importToastTimer = setTimeout(hideImportToast, 8000);
@@ -8726,10 +8910,10 @@ function hideImportToast(){
 }
 function undoImport(){
   try{
-    const raw = localStorage.getItem('liferpg-undo-v7');
+    const raw = localStorage.getItem('cs-undo-v1');
     if(!raw) return;
     const snap = JSON.parse(raw);
-    localStorage.removeItem('liferpg-undo-v7');
+    localStorage.removeItem('cs-undo-v1');
     if(snap.featuredAch) setFeaturedAch(snap.featuredAch);
     if(snap.featuredCls) setFeaturedCls(snap.featuredCls);
     if(snap.xpLog) saveXPLog(snap.xpLog);
@@ -8767,6 +8951,38 @@ function hideDirtyBanner(){
   if(b) b.style.display = 'none';
 }
 
+// ── Manual version check (user-initiated only — no automatic outbound calls) ──
+// Fired only when the user clicks "Check for updates" in the Help modal.
+function checkForAppUpdateManual(btn){
+  const result=document.getElementById('update-check-result');
+  const orig=btn.textContent;
+  btn.textContent='Checking…'; btn.disabled=true;
+  if(result) result.textContent='';
+  const url='https://raw.githubusercontent.com/sam-holmes2/character-sheet/master/instructions.md';
+  fetch(url,{headers:{'Range':'bytes=0-199'},cache:'no-store'})
+    .then(r=>r.ok||r.status===206?r.text():Promise.reject())
+    .then(text=>{
+      const m=text.match(/LLM Instructions v(\d+\.\d+\.\d+)/);
+      btn.textContent=orig; btn.disabled=false;
+      if(!m){ if(result) result.textContent='Could not read remote version.'; return; }
+      const remote=m[1];
+      const semverNum=v=>{const[a=0,b=0,c=0]=(v||'').split('.').map(Number);return a*10000+b*100+c;};
+      if(semverNum(remote)>semverNum(INSTRUCTIONS_VERSION)){
+        if(result){ result.textContent=`⚠ Update available (v${remote}). Re-run Setup steps above.`; result.style.color='var(--gold)'; }
+        const badge=document.getElementById('help-col-update-badge');
+        if(badge) badge.style.display='block';
+        const col=document.getElementById('help-col-setup');
+        if(col) col.style.background='rgba(200,168,74,0.04)';
+      } else {
+        if(result){ result.textContent=`✓ Up to date (v${INSTRUCTIONS_VERSION})`; result.style.color='#3a8050'; }
+      }
+    })
+    .catch(()=>{
+      btn.textContent=orig; btn.disabled=false;
+      if(result){ result.textContent='Could not connect. Check your network.'; result.style.color=''; }
+    });
+}
+
 function downloadInstructionsMd(btn){
   const url='https://raw.githubusercontent.com/sam-holmes2/character-sheet/master/instructions.md';
   const orig=btn.textContent;
@@ -8779,7 +8995,7 @@ function downloadInstructionsMd(btn){
     btn.textContent='✓ Downloaded'; btn.disabled=false;
     setTimeout(()=>{btn.textContent=orig;},2500);
   }).catch(()=>{
-    btn.textContent='✗ Failed — check connection'; btn.disabled=false;
+    btn.textContent='✗ Failed. Check connection.'; btn.disabled=false;
     setTimeout(()=>{btn.textContent=orig;},3000);
   });
 }
@@ -8858,12 +9074,71 @@ async function _verifyAndDecrypt(pin){
 // Called after successful unlock or when saving with PIN active
 let _currentPIN = null;
 
+// Collect all sensitive localStorage keys into a single blob object.
+// appState is passed explicitly (it may not yet be written to localStorage).
+function _collectBlob(s){
+  const blob = { state: s };
+  // Fixed keys
+  const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1'];
+  for(const k of fixed){
+    const v = localStorage.getItem(k);
+    if(v !== null) blob[k] = v; // store raw JSON string
+  }
+  // Dynamic RQ keys
+  const rq = {};
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-'))){
+      rq[k] = localStorage.getItem(k);
+    }
+  }
+  blob._rq = rq;
+  return blob;
+}
+
+// Restore all sensitive keys from a decrypted blob.
+function _restoreBlob(blob){
+  if(!blob || typeof blob !== 'object') return;
+  if(blob.state) localStorage.setItem('cs-state-v1', JSON.stringify(blob.state));
+  const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1'];
+  for(const k of fixed){
+    if(blob[k] !== undefined) localStorage.setItem(k, blob[k]);
+  }
+  if(blob._rq && typeof blob._rq === 'object'){
+    for(const [k,v] of Object.entries(blob._rq)){
+      if(k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-')){
+        localStorage.setItem(k, v);
+      }
+    }
+  }
+}
+
+// Remove all sensitive keys from localStorage (called when encryption is active).
+function _clearSensitiveKeys(){
+  const fixed = ['cs-state-v1','cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1'];
+  for(const k of fixed) localStorage.removeItem(k);
+  const rqKeys = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-'))) rqKeys.push(k);
+  }
+  for(const k of rqKeys) localStorage.removeItem(k);
+}
+
 async function _encryptAndSave(s, pin){
   if(IS_DEMO) return;
-  const json = JSON.stringify(s);
-  const enc = await _encrypt(pin, json);
+  const blob = _collectBlob(s);
+  const enc = await _encrypt(pin, JSON.stringify(blob));
   localStorage.setItem(ENC_KEY, enc);
-  localStorage.removeItem('cs-state-v1'); // clear plaintext
+  _clearSensitiveKeys(); // remove all plaintext sensitive data
+}
+
+// Fire-and-forget re-encryption after any secondary key write.
+function _reencryptIfActive(){
+  if(_pinActive && _currentPIN) _encryptAndSave(appState, _currentPIN);
 }
 
 // ── Auto-lock ──────────────────────────────────────────────
@@ -8909,11 +9184,11 @@ async function unlockApp(){
   const pin = document.getElementById('lock-pin-input').value;
   const input = document.getElementById('lock-pin-input');
   const errEl = document.getElementById('lock-error');
-  if(!pin){ errEl.textContent='Enter your PIN'; input.classList.add('error'); setTimeout(()=>input.classList.remove('error'),400); return; }
+  if(!pin){ errEl.textContent='Enter your password'; input.classList.add('error'); setTimeout(()=>input.classList.remove('error'),400); return; }
   errEl.textContent='';
   const plain = await _verifyAndDecrypt(pin);
   if(plain===null){
-    errEl.textContent='Incorrect PIN';
+    errEl.textContent='Incorrect password';
     input.classList.add('error');
     setTimeout(()=>input.classList.remove('error'),400);
     input.value='';
@@ -8921,7 +9196,18 @@ async function unlockApp(){
   }
   _currentPIN = pin;
   _pinActive = true;
-  try { appState = JSON.parse(plain); } catch { appState = DEFAULT; }
+  let blob = null;
+  try { blob = JSON.parse(plain); } catch {}
+  // Support old format (plain was just appState JSON) and new blob format
+  if(blob && blob.state){
+    _restoreBlob(blob);
+    try { appState = blob.state; } catch { appState = DEFAULT; }
+  } else if(blob){
+    // Old format: blob is appState directly
+    appState = blob;
+  } else {
+    appState = DEFAULT;
+  }
   render(appState);
   loadStatusSliders();
   loadStatSliders(appState);
@@ -8932,11 +9218,27 @@ async function unlockApp(){
 }
 
 // ── Settings modal ─────────────────────────────────────────
+function updatePwStrength(val){
+  const el = document.getElementById('settings-pw-strength');
+  if(!el) return;
+  if(!val){ el.style.display='none'; el.textContent=''; return; }
+  el.style.display='';
+  const len = val.length;
+  if(len < 8){ el.textContent='Too short (minimum 8 characters)'; el.style.color='#c84040'; return; }
+  // Simple heuristic: length + variety
+  const hasUpper = /[A-Z]/.test(val), hasLower = /[a-z]/.test(val);
+  const hasDigit = /\d/.test(val), hasSymbol = /[^A-Za-z0-9]/.test(val);
+  const variety = [hasUpper,hasLower,hasDigit,hasSymbol].filter(Boolean).length;
+  if(len >= 16 && variety >= 3){ el.textContent='Strong'; el.style.color='#3a8050'; }
+  else if(len >= 12 && variety >= 2){ el.textContent='Good'; el.style.color='#c8a84a'; }
+  else { el.textContent='Weak. Use a longer random password from a password manager.'; el.style.color='#c86040'; }
+}
+
 function openSettingsModal(){
   const hasPIN = _hasPIN();
   document.getElementById('settings-pin-status-text').textContent = hasPIN
-    ? 'PIN protection is enabled. Your data is encrypted in the browser.'
-    : 'No PIN set. Data is stored in plain text.';
+    ? 'Password protection is enabled. All your data is AES-256-GCM encrypted in the browser.'
+    : 'No password set. Data is stored in plain text.';
   document.getElementById('settings-pin-set-row').style.display = hasPIN ? 'none' : '';
   document.getElementById('settings-pin-remove-row').style.display = hasPIN ? '' : 'none';
   document.getElementById('settings-pin-change-row').style.display = 'none';
@@ -8945,6 +9247,8 @@ function openSettingsModal(){
     const el=document.getElementById(id); if(el) el.value='';
   });
   document.getElementById('settings-pin-status').textContent='';
+  const strengthEl = document.getElementById('settings-pw-strength');
+  if(strengthEl){ strengthEl.style.display='none'; strengthEl.textContent=''; }
   // Set timeout dropdown
   const sel = document.getElementById('settings-timeout-select');
   const t = _getLockTimeout();
@@ -8964,19 +9268,22 @@ function _setSettingsStatus(msg, type){
 async function settingsSavePIN(){
   const p1 = document.getElementById('settings-pin-new').value;
   const p2 = document.getElementById('settings-pin-confirm').value;
-  if(!p1){ _setSettingsStatus('Enter a PIN','err'); return; }
-  if(p1!==p2){ _setSettingsStatus('PINs do not match','err'); return; }
+  if(!p1){ _setSettingsStatus('Enter a password','err'); return; }
+  if(p1.length < 8){ _setSettingsStatus('Password must be at least 8 characters','err'); return; }
+  if(p1!==p2){ _setSettingsStatus('Passwords do not match','err'); return; }
   _setSettingsStatus('Encrypting…','');
   // Write sentinel
   const check = await _encrypt(p1, SENTINEL);
   localStorage.setItem(PIN_CHECK, check);
-  // Encrypt current state
+  // Encrypt all state
   await _encryptAndSave(appState, p1);
   _currentPIN = p1;
   _pinActive = true;
+  const strengthEl = document.getElementById('settings-pw-strength');
+  if(strengthEl) strengthEl.style.display='none';
   document.getElementById('lock-btn').style.display='';
-  _setSettingsStatus('PIN set. Data is now encrypted.','ok');
-  document.getElementById('settings-pin-status-text').textContent='PIN protection is enabled. Your data is encrypted in the browser.';
+  _setSettingsStatus('Password set. All data is now AES-256-GCM encrypted.','ok');
+  document.getElementById('settings-pin-status-text').textContent='Password protection is enabled. All your data is AES-256-GCM encrypted in the browser.';
   document.getElementById('settings-pin-set-row').style.display='none';
   document.getElementById('settings-pin-remove-row').style.display='';
   document.getElementById('settings-timeout-section').style.display='';
@@ -8985,21 +9292,29 @@ async function settingsSavePIN(){
 
 async function settingsRemovePIN(){
   const pin = document.getElementById('settings-pin-current').value;
-  if(!pin){ _setSettingsStatus('Enter current PIN to confirm','err'); return; }
+  if(!pin){ _setSettingsStatus('Enter current password to confirm','err'); return; }
   const sentinel = await _decrypt(pin, localStorage.getItem(PIN_CHECK));
-  if(sentinel!==SENTINEL){ _setSettingsStatus('Incorrect PIN','err'); return; }
-  // Decrypt and store as plain
+  if(sentinel!==SENTINEL){ _setSettingsStatus('Incorrect password','err'); return; }
+  // Decrypt blob and restore all keys as plaintext
   const plain = await _decrypt(pin, localStorage.getItem(ENC_KEY));
   localStorage.removeItem(PIN_CHECK);
   localStorage.removeItem(ENC_KEY);
   localStorage.removeItem(PIN_TIMEOUT_KEY);
-  if(plain) localStorage.setItem('cs-state-v1', plain);
+  if(plain){
+    let blob = null;
+    try { blob = JSON.parse(plain); } catch {}
+    if(blob && blob.state){
+      _restoreBlob(blob);
+    } else if(blob){
+      localStorage.setItem('cs-state-v1', JSON.stringify(blob));
+    }
+  }
   _currentPIN = null;
   _pinActive = false;
   if(_lockTimer){ clearTimeout(_lockTimer); _lockTimer=null; }
   document.getElementById('lock-btn').style.display='none';
-  _setSettingsStatus('PIN removed. Data stored in plain text.','ok');
-  document.getElementById('settings-pin-status-text').textContent='No PIN set. Data is stored in plain text.';
+  _setSettingsStatus('Password removed. Data stored in plain text.','ok');
+  document.getElementById('settings-pin-status-text').textContent='No password set. Data is stored in plain text.';
   document.getElementById('settings-pin-set-row').style.display='';
   document.getElementById('settings-pin-remove-row').style.display='none';
   document.getElementById('settings-timeout-section').style.display='none';
@@ -9017,15 +9332,16 @@ async function settingsChangePIN(){
   const newPin = document.getElementById('settings-pin-change-new').value;
   const conf   = document.getElementById('settings-pin-change-confirm').value;
   if(!oldPin||!newPin){ _setSettingsStatus('Fill in all fields','err'); return; }
-  if(newPin!==conf){ _setSettingsStatus('New PINs do not match','err'); return; }
+  if(newPin.length < 8){ _setSettingsStatus('New password must be at least 8 characters','err'); return; }
+  if(newPin!==conf){ _setSettingsStatus('New passwords do not match','err'); return; }
   const sentinel = await _decrypt(oldPin, localStorage.getItem(PIN_CHECK));
-  if(sentinel!==SENTINEL){ _setSettingsStatus('Incorrect current PIN','err'); return; }
+  if(sentinel!==SENTINEL){ _setSettingsStatus('Incorrect current password','err'); return; }
   _setSettingsStatus('Encrypting…','');
   const check = await _encrypt(newPin, SENTINEL);
   localStorage.setItem(PIN_CHECK, check);
   await _encryptAndSave(appState, newPin);
   _currentPIN = newPin;
-  _setSettingsStatus('PIN changed.','ok');
+  _setSettingsStatus('Password changed.','ok');
   settingsHideChangePIN();
   document.getElementById('settings-pin-current').value='';
 }
