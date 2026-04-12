@@ -1935,12 +1935,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .radar-panel-sliders { border-right:none; }
 
   /* ── Prevent horizontal overflow on cards ── */
-  .enemy-card-head { flex-wrap:wrap; gap:6px 8px; }
-  .enemy-type-tag { order:3; }
-  .hp-bar-wrap { order:4; width:52px; flex-shrink:0; }
-  .kill-btn, .move-enemy-btn { order:5; opacity:0.7 !important; }
-  .enemy-card-arrow { order:6; }
-  .enemy-priority-badge { order:1; }
+  .enemy-card-head { flex-wrap:wrap; gap:4px 8px; }
+  /* name stays order:0 (default), fills first line */
+  .enemy-card-name { flex-basis:0; flex-grow:1; min-width:0; }
+  .enemy-priority-badge { order:1; flex-shrink:0; }
+  /* secondary items wrap to second line */
+  .enemy-type-tag { order:10; }
+  .hp-bar-wrap { order:11; width:52px; flex-shrink:0; }
+  .kill-btn, .move-enemy-btn { order:12; opacity:0.7 !important; }
+  .enemy-card-arrow { order:13; margin-left:auto; }
   /* Shrink fixed widths that cause overflow */
   .wheel-domain-name { width:72px; font-size:13px; letter-spacing:0.06em; }
   .wheel-score { min-width:22px; width:22px; }
@@ -2062,11 +2065,34 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .enemy-card-name { font-size:14px; min-width:0; }
 }
 
-/* ── Achievement / class rows: prevent overflow ── */
+/* ── Achievement / class rows: title on own line, badges below ── */
 @media (max-width:600px) {
-  .ach-card-row { gap:6px; }
-  .cls-card-row { gap:6px; }
-  .ach-card-title, .cls-card-name { font-size:14px; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+  .ach-card-row { gap:4px 6px; align-items:flex-start; }
+  .cls-card-row { gap:4px 6px; align-items:flex-start; }
+  /* Delete btn + icon stay left, title fills line then wraps */
+  .ach-card-title { font-size:14px; min-width:0; flex-basis:0; flex-grow:1; }
+  .cls-card-name  { font-size:14px; min-width:0; flex-basis:0; flex-grow:1; }
+  /* Push type badge, date, star, edit to a new wrapped row */
+  .ach-card-type  { order:10; }
+  .ach-card-date  { order:11; font-size:13px; }
+  .ach-feature-btn { order:12; }
+  .ach-card-row .card-edit-btn { order:13; }
+  .cls-card-row .card-edit-btn { order:13; }
+}
+
+/* ── Export modal: single column on mobile ── */
+@media (max-width:600px) {
+  #export-grid { grid-template-columns:1fr; gap:0; }
+  #export-migration-col {
+    border-top:1px solid var(--border);
+    padding-top:18px;
+    margin-top:6px;
+  }
+  #export-migration-col > div:first-child {
+    /* "Migrate / backup" heading: add muted prefix to reinforce it's optional */
+    opacity:0.85;
+  }
+  #export-textarea, #migration-textarea { min-height:120px; }
 }
 
 /* ── Balance tab radar overflow fix ── */
@@ -3111,7 +3137,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal" style="border-top:3px solid var(--help);max-width:1000px;width:95vw;position:relative;">
     <button class="modal-close" onclick="document.getElementById('export-modal').classList.remove('open')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
+    <div id="export-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
       <!-- Left: Summary export (for AI journalling) -->
       <div style="display:flex;flex-direction:column;">
         <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Export data.json</div>
@@ -3129,7 +3155,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
       </div>
       <!-- Right: Full migration export -->
-      <div style="display:flex;flex-direction:column;">
+      <div id="export-migration-col" style="display:flex;flex-direction:column;">
         <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Migrate / backup localstorage (optional)</div>
         <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Exports <em>all</em> app data, including quest and xp history, etc. Use this for moving between devices or browsers.</p>
         <div id="migration-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;background:rgba(200,168,74,0.08);border:1px solid rgba(200,168,74,0.3);color:var(--gold);">⚠ This file is large. Do not paste it into an AI chat. It's for device migration only.</div>
@@ -4466,7 +4492,6 @@ function makeEditable(text, placeholder, onSave, extraClass){
   // the browser's default focus handler runs (avoids visible jump to start).
   el.addEventListener('mousedown', e => {
     e.stopPropagation();
-    if (document.activeElement === el) return; // already focused — let browser handle
     const setCaret = () => {
       const range = document.caretRangeFromPoint
         ? document.caretRangeFromPoint(e.clientX, e.clientY)
@@ -4475,10 +4500,12 @@ function makeEditable(text, placeholder, onSave, extraClass){
             : null);
       if (range) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
     };
-    // Focus first, then immediately correct the caret position
+    // Always set caret at click position and prevent browser default — this is needed
+    // both on first focus (to avoid cursor jumping to start) and on subsequent clicks
+    // within an already-focused field (parent user-select:none otherwise blocks repositioning).
     el.focus();
     setCaret();
-    e.preventDefault(); // prevent browser from re-running its own focus+caret logic
+    e.preventDefault();
   });
   el.addEventListener('click', e => e.stopPropagation());
   return el;
@@ -4600,6 +4627,7 @@ function addSideQuest(){
       {key:'nextStep',     label:'Next Step',       value:'',  type:'textarea', rows:2, hint:'The very next physical action to move this forward'},
       {key:'whyItMatters', label:'Why It Matters',  value:'',  type:'textarea', rows:2, hint:'Why does completing this matter to you?'},
       {key:'doneWhen',     label:'Completed When',  value:'',  type:'text',     placeholder:'Describe the finish line…', hint:'How will you know when this is done?'},
+      {key:'_xp',          label:'XP Reward',       value:'',  type:'xp-info'},
     ],
     onSave:v=>{
       if(!v.title.trim()) return;
@@ -4732,6 +4760,7 @@ function renderQuestsTab(s){
             {key:'nextStep',    label:'Next Step',        value:q.nextStep||'',    type:'textarea', rows:2, hint:'The very next physical action to move this forward'},
             {key:'whyItMatters',label:'Why It Matters',  value:q.whyItMatters||'',type:'textarea', rows:2, hint:'Why does completing this matter to you?'},
             {key:'doneWhen',    label:'Completed When',  value:q.doneWhen||'',    type:'text',     placeholder:'Describe the finish line…', hint:'How will you know when this is done?'},
+            {key:'_xp',         label:'XP Reward',       value:'',                type:'xp-info'},
           ],
           onSave:v=>{
             saveNestedField(['sideQuests',i,'title'],capitalise(v.title));
@@ -6451,6 +6480,17 @@ function showCardEditModal({fields, accentColor, onSave}){
         el.appendChild(b);
       });
       Object.defineProperty(el,'value',{ get:()=>selected, set:v=>{ selected=v; } });
+    } else if(f.type==='xp-info'){
+      el=document.createElement('div');
+      el.style.cssText=`display:flex;align-items:center;gap:8px;margin-bottom:${fi===fields.length-1?16:12}px;`;
+      const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP';
+      pill.title='XP rewards are negotiated with your AI during journalling sessions, based on how difficult or meaningful the quest is.';
+      pill.style.cursor='help';
+      const note=document.createElement('span');
+      note.style.cssText='font-size:13px;color:var(--text-dim);font-style:italic;';
+      note.textContent='Negotiate with your AI during journalling';
+      el.appendChild(pill); el.appendChild(note);
+      Object.defineProperty(el,'value',{ get:()=>'', set:()=>{} });
     } else if(f.type==='textarea'){
       el=document.createElement('textarea'); el.value=f.value||''; el.rows=f.rows||3;
       el.style.cssText=INPUT_BASE+`font-size:17px;color:var(--text-mid);font-family:inherit;resize:vertical;line-height:1.5;margin-bottom:${fi===fields.length-1?16:12}px;`;
@@ -6460,19 +6500,19 @@ function showCardEditModal({fields, accentColor, onSave}){
       const isMono=f.type==='mono'; const isTitle=f.titleFont;
       el.style.cssText=INPUT_BASE+`font-size:${isTitle?17:15}px;color:${isTitle?'var(--text-hi)':'var(--text-mid)'};font-family:${isTitle?'Cinzel,serif':isMono?'var(--mono)':'inherit'};margin-bottom:${fi===fields.length-1?16:12}px;`;
     }
-    if(f.type!=='select'){
+    if(f.type!=='select'&&f.type!=='xp-info'){
       el.addEventListener('focus',()=>{ el.style.borderColor=accentColor; });
       el.addEventListener('blur',()=>{ el.style.borderColor='rgba(255,255,255,0.12)'; });
       if(f.type!=='textarea') el.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); const next=fields[fi+1]; if(next) inputs[next.key].focus(); } });
     }
     inputs[f.key]=el;
     box.appendChild(el);
-    if(!firstInput) firstInput=el;
+    if(!firstInput&&f.type!=='xp-info') firstInput=el;
   });
   const btnRow=document.createElement('div'); btnRow.className='modal-row';
   const saveBtn=document.createElement('button'); saveBtn.className='btn-primary'; saveBtn.textContent='Save';
   saveBtn.style.cssText=`background:${accentColor};border-color:${accentColor};`;
-  saveBtn.addEventListener('click',()=>{ const vals={}; fields.forEach(f=>{ vals[f.key]=inputs[f.key].value.trim(); }); onSave(vals); overlay.remove(); });
+  saveBtn.addEventListener('click',()=>{ const vals={}; fields.forEach(f=>{ if(f.type==='xp-info') return; vals[f.key]=inputs[f.key].value.trim(); }); onSave(vals); overlay.remove(); });
   const cancelBtn=document.createElement('button'); cancelBtn.className='btn-ghost'; cancelBtn.textContent='Cancel';
   cancelBtn.addEventListener('click',()=>overlay.remove());
   // Ctrl/Cmd+Enter saves from textarea
@@ -8796,7 +8836,6 @@ function initNameEditable(){
   });
   el.addEventListener('mousedown', e => {
     e.stopPropagation();
-    if (document.activeElement === el) return;
     const setCaret = () => {
       const range = document.caretRangeFromPoint
         ? document.caretRangeFromPoint(e.clientX, e.clientY)
