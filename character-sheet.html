@@ -2770,7 +2770,6 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="float-bar">
-  <a class="fbar-btn" href="https://github.com/sam-holmes2/character-sheet" target="_blank" rel="noopener" title="View on GitHub" style="text-decoration:none;">⬡<span class="fbar-label"> GitHub</span></a>
   <button class="fbar-btn" id="support-btn" onclick="openSupportModal()" title="Support this project">♥<span class="fbar-label"> Support</span></button>
   <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
   <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
@@ -2781,17 +2780,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
 <div class="modal-overlay" id="support-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid #c87060;max-width:480px;width:96vw;position:relative;">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:480px;width:96vw;position:relative;">
     <button class="modal-close" onclick="document.getElementById('support-modal').classList.remove('open')" title="Close">×</button>
-    <div class="modal-title" style="color:#c87060;margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
-    <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist — a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
+    <div class="modal-title" style="color:var(--help);margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
+    <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist: a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
     <p style="line-height:1.7;margin:0 0 20px;">If it's been useful to you, a small contribution helps keep it going.</p>
-    <div style="margin-bottom:20px;padding:14px 16px;background:rgba(200,112,96,0.08);border:1px solid rgba(200,112,96,0.2);border-radius:8px;font-size:14px;line-height:1.6;">
-      I pledge <strong>10% of anything received</strong> to the <a href="https://www.humanetech.com/donate" target="_blank" rel="noopener" style="color:#c87060;">Center for Humane Technology</a> — a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
+    <div style="margin-bottom:20px;padding:14px 16px;background:var(--help-dim);border:1px solid var(--help-border);border-radius:8px;font-size:14px;line-height:1.6;">
+      I pledge <strong>10% of anything received</strong> to the <a href="https://www.humanetech.com/donate" target="_blank" rel="noopener" style="color:var(--help);">Center for Humane Technology</a>, a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
-      <a href="https://github.com/sponsors/sam-holmes2" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;background:rgba(200,112,96,0.15);border:1px solid rgba(200,112,96,0.4);color:#c87060;padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;">♥ Sponsor on GitHub</a>
-      <a href="https://github.com/sam-holmes2/character-sheet" target="_blank" rel="noopener" class="btn-ghost" style="text-decoration:none;padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;">⬡ View on GitHub</a>
+      <a href="https://github.com/sponsors/sam-holmes2" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;background:rgba(45,168,106,0.15);border:1px solid rgba(45,168,106,0.4);color:var(--help);padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;">♥ Sponsor on GitHub</a>
+      <a href="https://github.com/sam-holmes2/character-sheet" target="_blank" rel="noopener" class="btn-ghost" style="text-decoration:none;padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;display:inline-flex;align-items:center;gap:7px;"><svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
     </div>
     <p style="font-size:12px;color:var(--text-dim);line-height:1.6;margin:0;font-style:italic;">character-sheet is not a replacement for professional mental health support. If you're struggling, please reach out to a qualified professional or a service like <a href="https://www.thecalmzone.net" target="_blank" rel="noopener" style="color:var(--text-dim);">CALM</a> or <a href="https://www.befrienders.org" target="_blank" rel="noopener" style="color:var(--text-dim);">Befrienders Worldwide</a>.</p>
   </div>
