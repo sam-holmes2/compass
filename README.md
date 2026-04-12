@@ -4,9 +4,11 @@
 
 *The real value of character-sheet is the character you build away from it.*
 
-**[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** - no download needed.
+🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** — no download needed.
 
-> Early work in progress - all feedback welcome. [Open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
+> **Private by default.** Your journal data stays on your device — no server, no accounts, no telemetry. If you journal with an AI (Claude, ChatGPT, etc.), that provider may store what you share; check their privacy settings to opt out. A local model like [Ollama](https://ollama.com) keeps everything fully offline. [Full details ↓](#privacy-and-security)
+
+> Early work in progress — all feedback welcome. [Open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
 ---
 
@@ -56,21 +58,6 @@ You can also edit fields directly in the app and use `↓` Export to get updated
 
 ---
 
-## Session modes
-
-Stay in **Freeflow** (default) or invoke any mode mid-session just by naming it.
-
-| Mode | Trigger phrase | Best for |
-|------|----------------|----------|
-| **Freeflow** | *(default)* | Following energy wherever it goes |
-| **Coach** | `"coach mode"` | Specific goal, accountability, clear plan |
-| **Introspection** | `"introspection mode"` | Blindspots, patterns, what you keep avoiding |
-| **Guided** | `"guided mode"` | Not sure where to start - AI leads with prompts |
-| **Catch-up** | `"catch-up mode"` | Been a while - fast, broad sweep |
-| **Debrief** | `"debrief mode"` | Review what's about to be written to JSON |
-
----
-
 ## Tabs at a glance
 
 | Tab | What it shows |
@@ -88,6 +75,21 @@ See [wiki.md](wiki.md) for a detailed breakdown of each tab.
 
 ---
 
+## Session modes
+
+Stay in **Freeflow** (default) or invoke any mode mid-session just by naming it.
+
+| Mode | Trigger phrase | Best for |
+|------|----------------|----------|
+| **Freeflow** | *(default)* | Following energy wherever it goes |
+| **Coach** | `"coach mode"` | Specific goal, accountability, clear plan |
+| **Introspection** | `"introspection mode"` | Blindspots, patterns, what you keep avoiding |
+| **Guided** | `"guided mode"` | Not sure where to start - AI leads with prompts |
+| **Catch-up** | `"catch-up mode"` | Been a while - fast, broad sweep |
+| **Debrief** | `"debrief mode"` | Review what's about to be written to JSON |
+
+---
+
 ## XP and levelling
 
 The AI controls all XP - and the main way to earn it is through journalling. Brain dump what's been happening, what you've worked through, what you've noticed about yourself, and the AI will reflect it back as progress on your sheet: updated quests, new skills, achievements unlocked, enemies named or defeated.
@@ -95,18 +97,6 @@ The AI controls all XP - and the main way to earn it is through journalling. Bra
 The hook is that you have to negotiate your rewards. Made a breakthrough? Call it out and make the case for why it deserves recognition. Think something was undervalued? Push back. This process does two things at once: it forces you to articulate what actually changed (which deepens the insight), and it builds a habit of being genuinely grateful for positive changes rather than glossing over them. You gain XP, new classes, and titles by recognising your own growth - not just by grinding.
 
 It's a conversation, not a vending machine. But it's also a mirror.
-
----
-
-## Privacy and security
-
-- **`data.json` is your private diary.** Nothing leaves your machine unless you send it. Any AI provider you journal with (Claude, ChatGPT, etc.) may store, review, or use what you share for training. Check their privacy settings to opt out.
-- **`data.json` and `migration.json` are the sensitive parts.** They contain everything you've journalled - treat them like a private diary. `character-sheet.html` and `instructions.md` are identical for all users and safe to share freely.
-- **Think before syncing `data.json` or `migration.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
-- **AI is optional.** The app works fully offline as a plain tracker. For full privacy, use a local model like [Ollama](https://ollama.com) and paste its output manually - nothing ever leaves your machine.
-- **Use [Firefox](https://www.firefox.com/) if possible**, since it isolates each local HTML file's storage. In Chrome and Edge, all local files share the same origin, so a malicious local file you open could read your data.
-
-**[Full journalling threat model](journalling-threat-model.md)** - a detailed breakdown of privacy risks across every journalling approach, and where character-sheet fits in.
 
 ---
 
@@ -153,6 +143,28 @@ The immediate focus is getting the app in front of real users, collecting feedba
 
 ---
 
+## Support
+
+character-sheet is free and always will be. If it's been useful to you, you can [sponsor the project on GitHub](https://github.com/sponsors/sam-holmes2).
+
+I pledge 10% of anything received to the [Center for Humane Technology](https://www.humanetech.com/donate) — a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
+
+*character-sheet is not a replacement for professional mental health support. If you're struggling, please reach out to a qualified professional.*
+
+---
+
+## Privacy and security
+
+- **`data.json` is your private diary.** Nothing leaves your machine unless you send it. Any AI provider you journal with (Claude, ChatGPT, etc.) may store, review, or use what you share for training. Check their privacy settings to opt out.
+- **`data.json` and `migration.json` are the sensitive parts.** They contain everything you've journalled - treat them like a private diary. `character-sheet.html` and `instructions.md` are identical for all users and safe to share freely.
+- **Think before syncing `data.json` or `migration.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
+- **AI is optional.** The app works fully offline as a plain tracker. For full privacy, use a local model like [Ollama](https://ollama.com) and paste its output manually - nothing ever leaves your machine.
+- **Use [Firefox](https://www.firefox.com/) if possible**, since it isolates each local HTML file's storage. In Chrome and Edge, all local files share the same origin, so a malicious local file you open could read your data.
+
+**[Full journalling threat model](journalling-threat-model.md)** - a detailed breakdown of privacy risks across every journalling approach, and where character-sheet fits in.
+
+---
+
 ## Why I built this
 
 > *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."* - Northlane
@@ -163,14 +175,4 @@ I'm a professional cyber security consultant with real concerns about trusting a
 
 If social media can use gamification to hold attention and keep people scrolling, I'd rather use the same tools to help people understand and improve themselves.
 
-Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md)
-
----
-
-## Support
-
-character-sheet is free and always will be. If it's been useful to you, you can [sponsor the project on GitHub](https://github.com/sponsors/sam-holmes2).
-
-I pledge 10% of anything received to the [Center for Humane Technology](https://www.humanetech.com/donate) — a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
-
-*character-sheet is not a replacement for professional mental health support. If you're struggling, please reach out to a qualified professional.*
+Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md) — and if you're a designer who finds character-sheet useful and has ideas for a logo or visual identity, [I'd love to hear from you](https://github.com/sam-holmes2/character-sheet/issues).

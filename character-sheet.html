@@ -1633,13 +1633,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   from { opacity:0; transform:translateY(5px); }
   to   { opacity:1; transform:translateY(0); }
 }
-@keyframes import-flash {
+@keyframes import-flash-in {
   0%   { box-shadow:none; }
-  20%  { box-shadow:0 0 0 2px rgba(200,168,74,0.7), 0 0 14px rgba(200,168,74,0.35); }
-  60%  { box-shadow:0 0 0 2px rgba(176,128,232,0.5), 0 0 10px rgba(176,128,232,0.2); }
-  100% { box-shadow:none; }
+  40%  { box-shadow:0 0 0 2px rgba(200,168,74,0.75), 0 0 16px rgba(200,168,74,0.38); }
+  100% { box-shadow:0 0 0 1px rgba(176,128,232,0.55), 0 0 10px rgba(176,128,232,0.22); }
 }
-.import-flash { animation:import-flash 1.1s ease-out; }
+@keyframes import-flash-out {
+  from { box-shadow:0 0 0 1px rgba(176,128,232,0.55), 0 0 10px rgba(176,128,232,0.22); }
+  to   { box-shadow:none; }
+}
+.import-flash     { animation:import-flash-in 0.7s ease-out forwards; }
+.import-flash-out { animation:import-flash-out 0.5s ease-out forwards; }
 .timer-svg.running-glow        { animation:ring-glow-pulse 2.4s ease-in-out infinite; }
 .timer-svg.running-glow.overflow { animation:ring-glow-pulse-deep 2.4s ease-in-out infinite; }
 .timer-svg.milestone-beat      { animation:ring-milestone-beat 0.5s ease; }
@@ -8838,10 +8842,15 @@ function buildImportDiff(prev, next, isPartial, newCQCount){
 
 function flashEl(el){
   if(!el) return;
-  el.classList.remove('import-flash');
+  el.classList.remove('import-flash', 'import-flash-out');
   void el.offsetWidth;
   el.classList.add('import-flash');
-  el.addEventListener('animationend', ()=>el.classList.remove('import-flash'), {once:true});
+  el.addEventListener('mouseenter', ()=>{
+    el.classList.remove('import-flash');
+    void el.offsetWidth;
+    el.classList.add('import-flash-out');
+    el.addEventListener('animationend', ()=>el.classList.remove('import-flash-out'), {once:true});
+  }, {once:true});
 }
 
 function flashImportChanges(prev, next){
