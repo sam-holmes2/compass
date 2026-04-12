@@ -1,22 +1,22 @@
 # character-sheet
 
-**Turn your journal into a living dashboard for your life.**
+**An RPG character sheet for your real life: earn XP and level up through understanding yourself and visualising your progress.**
 
 *The real value of character-sheet is the character you build away from it.*
 
-🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** — no download needed.
+🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
 
-> **Private by default.** Your journal data stays on your device — no server, no accounts, no telemetry. If you journal with an AI (Claude, ChatGPT, etc.), that provider may store what you share; check their privacy settings to opt out. A local model like [Ollama](https://ollama.com) keeps everything fully offline. [Full details ↓](#privacy-and-security)
+🔒 **Private by default.** No server, no accounts, no telemetry. Your data stays on your device. If you use an AI to journal, check that provider's privacy settings; a local model like [Ollama](https://ollama.com) keeps everything fully offline. [Full details ↓](#privacy-and-security)
 
-> Early work in progress — all feedback welcome. [Open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
+🚧 **Early work in progress.** All feedback welcome: [open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
 ---
 
 ## Setup or update
 
-Follow these same steps whether you're setting up for the first time or updating to a new version after significant changes - the app will prompt you when an update is worth doing.
+Follow these same steps whether you're setting up for the first time or updating to a new version after significant changes. To check for updates, go to Help → Check for updates.
 
-You need an AI with persistent project context (e.g. Claude Projects) and the two files below.
+**AI-enhanced workflow:** pair the app with an AI that has persistent project context (e.g. Claude Projects) for the full journalling experience. The app also works fully standalone: edit fields directly without any AI involved.
 
 1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md)** - click each link, then the download icon (top right).
 2. **Create (or open) your AI project** - e.g. [claude.ai](https://claude.ai) → New Project.
@@ -25,8 +25,6 @@ You need an AI with persistent project context (e.g. Claude Projects) and the tw
 5. **At the end of your session, ask:** `"Update my data.json based on our conversation."`
 6. **Add `data.json` to project knowledge** - same as step 3. If you already have one there, remove it first, then upload the new one.
 7. **Import into the app** - open `character-sheet.html`, click `↑` (bottom right), paste the JSON, Import.
-
-[OPTIONAL] Also upload `journalling-prompts.md` to project knowledge for richer session prompts.
 
 ---
 
@@ -42,17 +40,19 @@ Once you have a reasonable picture, generate my data.json using the format in in
 
 [OPTIONAL] Want to populate more of your sheet in one go? Try the **[Deep Dive](deep-dive.md)** - a structured interview covering all main fields. There are also copyable session starter prompts inside the Journal tab of the app itself.
 
+[OPTIONAL] For richer session prompts, upload `journalling-prompts.md` to project knowledge alongside `instructions.md`. This powers **Guided** mode and other structured session types.
+
 ---
 
 ## Each session
 
 1. **Start a new chat** in your AI project. The AI already has your context from project knowledge.
 2. **Journal** - brain dump freely, or pick a mode (see below).
-3. **End the session** - ask: *"Update my data.json based on this chat."* For sessions where only a few things changed, ask for a partial update instead: *"Give me a partial update JSON for what changed this session."* — it's smaller and cheaper. See [Partial updates](tips.md#partial-updates).
+3. **End the session** - ask: *"Update my data.json based on this chat."* For sessions where only a few things changed, ask for a partial update instead: *"Give me a partial update JSON for what changed this session."* It's smaller and cheaper. See [Partial updates](tips.md#partial-updates).
 4. **Replace `data.json` in project knowledge** - remove the old version, upload the new one.
 5. **Sync the app** - click `↑`, paste the JSON, Import.
 
-**On mobile?** Ask your AI to write the JSON as a file instead of pasting it inline — much easier to handle. *"Write my updated data.json as a downloadable file."* Then download it and use the **↑ data.json** button in the import modal to select the file. See [Mobile workflow](tips.md#mobile-workflow).
+**On mobile?** Ask your AI to write the JSON as a file instead of pasting it inline: much easier to handle. *"Write my updated data.json as a downloadable file."* Then download it and use the **↑ data.json** button in the import modal to select the file. See [Mobile workflow](tips.md#mobile-workflow).
 
 You can also edit fields directly in the app and use `↓` Export to get updated JSON to paste back to your AI.
 
@@ -147,7 +147,7 @@ The immediate focus is getting the app in front of real users, collecting feedba
 
 character-sheet is free and always will be. If it's been useful to you, you can [sponsor the project on GitHub](https://github.com/sponsors/sam-holmes2).
 
-I pledge 10% of anything received to the [Center for Humane Technology](https://www.humanetech.com/donate) — a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
+I pledge 10% of anything received to the [Center for Humane Technology](https://www.humanetech.com/donate), a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
 
 *character-sheet is not a replacement for professional mental health support. If you're struggling, please reach out to a qualified professional.*
 
@@ -175,4 +175,4 @@ I'm a professional cyber security consultant with real concerns about trusting a
 
 If social media can use gamification to hold attention and keep people scrolling, I'd rather use the same tools to help people understand and improve themselves.
 
-Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md) — and if you're a designer who finds character-sheet useful and has ideas for a logo or visual identity, [I'd love to hear from you](https://github.com/sam-holmes2/character-sheet/issues).
+Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md). If you're a designer who finds character-sheet useful and has ideas for a logo or visual identity, [I'd love to hear from you](https://github.com/sam-holmes2/character-sheet/issues).
