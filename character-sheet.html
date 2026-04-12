@@ -1358,15 +1358,28 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-stats { display:flex; flex-direction:column; gap:4px; font-family:var(--mono); font-size:13px; margin-top:10px; padding-top:8px; border-top:1px solid rgba(200,168,74,0.1); }
 .practice-trends-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; margin-bottom:3px; }
 .practice-trend-row { display:flex; align-items:center; gap:7px; }
-.practice-trends-hdr-cols { display:flex; gap:0; margin-left:auto; }
-.practice-trends-hdr-cols span { width:36px; text-align:right; font-size:10px; letter-spacing:0.1em; color:var(--text-dim); opacity:0.6; }
-.practice-trend-row-sub .practice-trend-val, .practice-trend-row-agg .practice-trend-val { width:36px; text-align:right; font-size:12px; }
-.practice-trend-lbl-sub { font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:80px; }
-.practice-trend-row-agg { margin-top:3px; border-top:1px solid rgba(200,168,74,0.08); padding-top:3px; }
-.rq-sub-goal-wrap { display:inline-flex; align-items:center; gap:3px; margin-left:4px; font-family:var(--mono); font-size:10px; color:var(--text-dim); opacity:0.7; cursor:default; }
-.rq-sub-goal-wrap:hover { opacity:1; }
-.rq-sub-goal-input { width:26px; background:rgba(255,255,255,0.06); border:1px solid rgba(200,168,74,0.25); border-radius:3px; color:var(--text-mid); font-family:var(--mono); font-size:10px; text-align:center; padding:1px 2px; }
-.rq-sub-goal-input:focus { outline:none; border-color:rgba(200,168,74,0.6); }
+/* Sub-mode: fixed-width table layout so header cols align with data cols */
+.practice-stats-sub { display:grid; grid-template-columns:auto 1fr 42px 42px; align-items:center; gap-row:4px; column-gap:0; row-gap:4px; }
+.practice-stats-sub .ps-col-swatch { width:10px; }
+.practice-stats-sub .ps-col-lbl { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:6px; }
+.practice-stats-sub .ps-col-7d,
+.practice-stats-sub .ps-col-all { width:42px; text-align:right; font-size:12px; font-family:var(--mono); }
+.practice-stats-sub .ps-col-7d  { color:#e05060; }
+.practice-stats-sub .ps-col-all { color:#40c8c0; }
+.practice-stats-sub .ps-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; }
+.practice-stats-sub .ps-hdr-7d,
+.practice-stats-sub .ps-hdr-all { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; text-align:right; opacity:0.6; }
+.practice-stats-sub .ps-hdr-7d  { color:#e05060; }
+.practice-stats-sub .ps-hdr-all { color:#40c8c0; }
+.practice-stats-sub .ps-sep { grid-column:1/-1; height:1px; background:rgba(200,168,74,0.08); margin:1px 0; }
+.practice-stats-sub .ps-agg-lbl { opacity:0.45; }
+.practice-stats-sub .ps-agg-7d  { opacity:0.45; }
+.practice-stats-sub .ps-agg-all { opacity:0.45; }
+.rq-sub-goal-wrap { display:inline-flex; align-items:center; gap:0; margin-left:6px; border:1px solid rgba(200,168,74,0.22); border-radius:4px; overflow:hidden; background:rgba(0,0,0,0.18); flex-shrink:0; }
+.rq-sub-goal-step { background:none; border:none; color:rgba(200,168,74,0.55); font-size:13px; line-height:1; padding:0 5px; cursor:pointer; transition:color 0.12s, background 0.12s; user-select:none; }
+.rq-sub-goal-step:hover { color:rgba(200,168,74,1); background:rgba(200,168,74,0.1); }
+.rq-sub-goal-val { font-family:var(--mono); font-size:11px; color:var(--text-mid); min-width:18px; text-align:center; padding:0 2px; pointer-events:none; }
+.rq-sub-goal-suffix { font-family:var(--mono); font-size:10px; color:var(--text-dim); opacity:0.6; padding:0 5px 0 1px; }
 .practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
 .practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
 .practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
@@ -3292,71 +3305,55 @@ let HARDCODED_XP_LOG = [];
   function dateAt(daysAgo){ return addDays(today, -daysAgo); }
 
   // Status check-in seeds: focus/energy/purpose/interest
-  // Positive trend: energy & purpose start low and climb; focus & interest start mid and improve
+  // Storyline: Steve starts scattered/low, has a bad patch around day 60-70 (pre-attempt jitters),
+  // recovers hard, then last 7 days show daily variation around a strong baseline.
   const statusSeeds = [
-    [97, {focus:55,energy:20,purpose:18,interest:68}],
-    [94, {focus:58,energy:18,purpose:15,interest:70}],
-    [90, {focus:60,energy:22,purpose:17,interest:72}],
-    [87, {focus:57,energy:19,purpose:16,interest:69}],
-    [83, {focus:62,energy:24,purpose:19,interest:74}],
-    [80, {focus:65,energy:21,purpose:18,interest:76}],
-    [76, {focus:63,energy:26,purpose:20,interest:73}],
-    [73, {focus:68,energy:23,purpose:22,interest:78}],
-    [69, {focus:66,energy:20,purpose:19,interest:75}],
-    [66, {focus:70,energy:18,purpose:17,interest:80}],
-    [62, {focus:67,energy:25,purpose:21,interest:77}],
-    [59, {focus:72,energy:22,purpose:20,interest:79}],
-    [55, {focus:74,energy:28,purpose:24,interest:81}],
-    [52, {focus:71,energy:24,purpose:23,interest:78}],
-    [48, {focus:75,energy:30,purpose:27,interest:83}],
-    [45, {focus:73,energy:26,purpose:25,interest:80}],
-    [41, {focus:76,energy:32,purpose:28,interest:84}],
-    [38, {focus:78,energy:28,purpose:30,interest:85}],
-    [34, {focus:74,energy:25,purpose:27,interest:82}],
-    [31, {focus:79,energy:33,purpose:31,interest:86}],
-    [27, {focus:80,energy:35,purpose:33,interest:87}],
-    [24, {focus:77,energy:30,purpose:32,interest:84}],
-    [20, {focus:82,energy:38,purpose:35,interest:88}],
-    [17, {focus:80,energy:34,purpose:34,interest:86}],
-    [13, {focus:83,energy:40,purpose:37,interest:89}],
-    [10, {focus:81,energy:36,purpose:38,interest:87}],
-    [6,  {focus:85,energy:44,purpose:41,interest:91}],
-    [3,  {focus:84,energy:42,purpose:43,interest:90}],
-    [0,  {focus:86,energy:46,purpose:45,interest:92}],
+    [90, {focus:52,energy:28,purpose:22,interest:60}],
+    [84, {focus:58,energy:32,purpose:26,interest:65}],
+    [77, {focus:55,energy:24,purpose:20,interest:62}],
+    [70, {focus:48,energy:18,purpose:14,interest:55}], // dip: pre-attempt anxiety
+    [63, {focus:44,energy:14,purpose:11,interest:50}], // trough
+    [56, {focus:50,energy:20,purpose:16,interest:58}],
+    [49, {focus:62,energy:30,purpose:25,interest:70}], // recovery
+    [42, {focus:70,energy:38,purpose:33,interest:76}],
+    [35, {focus:68,energy:35,purpose:31,interest:74}],
+    [28, {focus:75,energy:44,purpose:38,interest:80}],
+    [21, {focus:72,energy:40,purpose:36,interest:78}],
+    [14, {focus:80,energy:50,purpose:44,interest:84}],
+    // last 7 days: daily, clear variation
+    [6,  {focus:78,energy:46,purpose:42,interest:82}],
+    [5,  {focus:85,energy:55,purpose:50,interest:88}], // good day
+    [4,  {focus:72,energy:38,purpose:40,interest:80}], // dip (poor sleep)
+    [3,  {focus:80,energy:48,purpose:45,interest:85}],
+    [2,  {focus:88,energy:58,purpose:52,interest:90}], // peak
+    [1,  {focus:76,energy:44,purpose:48,interest:83}],
+    [0,  {focus:83,energy:52,purpose:50,interest:87}],
   ];
 
   // Core skills seeds: rest/movement/nutrition/connection
-  // Positive trend: rest & connection start low and rise steadily
+  // Storyline: movement always decent, rest chronically low then improving,
+  // connection dips during crunch, nutrition bounces. Last 7 days daily.
   const statsSeeds = [
-    [97, {rest:20,movement:65,nutrition:55,connection:28}],
-    [94, {rest:18,movement:68,nutrition:52,connection:25}],
-    [90, {rest:22,movement:70,nutrition:57,connection:30}],
-    [87, {rest:19,movement:67,nutrition:54,connection:27}],
-    [83, {rest:24,movement:72,nutrition:59,connection:32}],
-    [80, {rest:21,movement:75,nutrition:61,connection:29}],
-    [76, {rest:25,movement:73,nutrition:63,connection:33}],
-    [73, {rest:22,movement:76,nutrition:65,connection:30}],
-    [69, {rest:20,movement:74,nutrition:62,connection:28}],
-    [66, {rest:18,movement:78,nutrition:64,connection:25}],
-    [62, {rest:23,movement:75,nutrition:66,connection:31}],
-    [59, {rest:21,movement:79,nutrition:68,connection:29}],
-    [55, {rest:26,movement:80,nutrition:70,connection:35}],
-    [52, {rest:24,movement:77,nutrition:67,connection:33}],
-    [48, {rest:28,movement:82,nutrition:71,connection:37}],
-    [45, {rest:25,movement:80,nutrition:69,connection:34}],
-    [41, {rest:30,movement:83,nutrition:72,connection:38}],
-    [38, {rest:27,movement:81,nutrition:70,connection:36}],
-    [34, {rest:25,movement:79,nutrition:68,connection:34}],
-    [31, {rest:32,movement:84,nutrition:73,connection:40}],
-    [27, {rest:35,movement:85,nutrition:75,connection:42}],
-    [24, {rest:30,movement:82,nutrition:72,connection:38}],
-    [20, {rest:38,movement:86,nutrition:76,connection:44}],
-    [17, {rest:34,movement:83,nutrition:74,connection:41}],
-    [13, {rest:40,movement:87,nutrition:77,connection:46}],
-    [10, {rest:37,movement:85,nutrition:75,connection:44}],
-    [6,  {rest:44,movement:88,nutrition:79,connection:50}],
-    [3,  {rest:42,movement:86,nutrition:78,connection:48}],
-    [0,  {rest:46,movement:89,nutrition:80,connection:52}],
+    [90, {rest:22,movement:62,nutrition:50,connection:30}],
+    [84, {rest:18,movement:68,nutrition:55,connection:35}],
+    [77, {rest:25,movement:65,nutrition:52,connection:28}],
+    [70, {rest:15,movement:58,nutrition:45,connection:22}], // crunch dip
+    [63, {rest:12,movement:55,nutrition:40,connection:18}], // trough
+    [56, {rest:20,movement:62,nutrition:48,connection:25}],
+    [49, {rest:30,movement:70,nutrition:58,connection:38}], // recovery
+    [42, {rest:38,movement:75,nutrition:62,connection:45}],
+    [35, {rest:34,movement:72,nutrition:60,connection:42}],
+    [28, {rest:42,movement:78,nutrition:65,connection:50}],
+    [21, {rest:38,movement:76,nutrition:63,connection:46}],
+    [14, {rest:46,movement:82,nutrition:68,connection:54}],
+    // last 7 days: daily, clear variation
+    [6,  {rest:40,movement:80,nutrition:65,connection:52}],
+    [5,  {rest:50,movement:85,nutrition:72,connection:58}], // good day
+    [4,  {rest:32,movement:75,nutrition:60,connection:45}], // poor sleep night before
+    [3,  {rest:44,movement:82,nutrition:68,connection:55}],
+    [2,  {rest:52,movement:88,nutrition:74,connection:60}], // peak
+    [1,  {rest:42,movement:80,nutrition:70,connection:52}],
+    [0,  {rest:46,movement:84,nutrition:72,connection:56}],
   ];
 
   function buildHist(seeds, keys){
@@ -8203,18 +8200,27 @@ function addRegularQuest() {
   const typeGroup = document.createElement('div'); typeGroup.style.cssText = 'display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;';
   let selectedType = 'checkbox';
   const typeOpts = [
-    {value:'checkbox', label:'Checkbox', icon:'☑', color:'#c8a84a'},
-    {value:'timer',    label:'Timer',    icon:'⏱', color:'#3a80c8'},
-    {value:'number',   label:'Number',   icon:'#',  color:'#60a838'},
+    {value:'checkbox',  label:'Checkbox',  icon:'☑', color:'#c8a84a', desc:'Simple done/not-done per period.'},
+    {value:'breakdown', label:'Breakdown', icon:'◈', color:'#c87040', desc:'Track separate variants (e.g. Push / Pull / Legs), each with its own goal.'},
+    {value:'timer',     label:'Timer',     icon:'⏱', color:'#3a80c8', desc:'Track time spent.'},
+    {value:'number',    label:'Number',    icon:'#',  color:'#60a838', desc:'Log a count each period.'},
   ];
   const typeBtns = {};
-  const applyTypeStyle = () => typeOpts.forEach(o => {
-    const b = typeBtns[o.value];
-    const a = o.value === selectedType;
-    b.style.background = a ? o.color+'22' : 'transparent';
-    b.style.color = a ? o.color : 'var(--text-dim)';
-    b.style.borderColor = a ? o.color+'66' : 'rgba(255,255,255,0.12)';
-  });
+  const typeDescEl = document.createElement('p');
+  typeDescEl.style.cssText = 'font-size:12px;color:var(--text-dim);margin:0 0 12px;line-height:1.5;min-height:1.4em;';
+  const applyTypeStyle = () => {
+    typeOpts.forEach(o => {
+      const b = typeBtns[o.value];
+      const a = o.value === selectedType;
+      b.style.background = a ? o.color+'22' : 'transparent';
+      b.style.color = a ? o.color : 'var(--text-dim)';
+      b.style.borderColor = a ? o.color+'66' : 'rgba(255,255,255,0.12)';
+    });
+    typeDescEl.textContent = typeOpts.find(o => o.value === selectedType)?.desc || '';
+    // show/hide target row vs breakdown builder
+    targetSection.style.display = selectedType === 'breakdown' ? 'none' : '';
+    breakdownSection.style.display = selectedType === 'breakdown' ? '' : 'none';
+  };
   typeOpts.forEach(o => {
     const b = document.createElement('button'); b.type = 'button';
     b.style.cssText = 'padding:5px 11px;border-radius:5px;border:1px solid;font-size:14px;cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;font-family:inherit;';
@@ -8222,8 +8228,7 @@ function addRegularQuest() {
     b.addEventListener('click', () => { selectedType = o.value; applyTypeStyle(); });
     typeBtns[o.value] = b; typeGroup.appendChild(b);
   });
-  applyTypeStyle();
-  box.appendChild(typeGroup);
+  box.appendChild(typeGroup); box.appendChild(typeDescEl);
 
   // Recurrence
   const periodLbl = document.createElement('p'); periodLbl.style.cssText = LABEL_CSS; periodLbl.textContent = 'Resets every';
@@ -8254,7 +8259,8 @@ function addRegularQuest() {
   applyPeriodStyle();
   box.appendChild(periodGroup);
 
-  // Target
+  // Target section (hidden when Breakdown selected)
+  const targetSection = document.createElement('div');
   const targetLbl = document.createElement('p'); targetLbl.style.cssText = LABEL_CSS; targetLbl.textContent = 'Target';
   const targetRow = document.createElement('div'); targetRow.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:12px;';
   const targetIn = document.createElement('input'); targetIn.type = 'number'; targetIn.min = '1'; targetIn.value = '1';
@@ -8266,9 +8272,57 @@ function addRegularQuest() {
   unitIn.addEventListener('focus', () => unitIn.style.borderColor = 'var(--gold)');
   unitIn.addEventListener('blur', () => unitIn.style.borderColor = 'rgba(255,255,255,0.12)');
   targetRow.appendChild(targetIn); targetRow.appendChild(unitIn);
-  box.appendChild(targetLbl); box.appendChild(targetRow);
+  targetSection.appendChild(targetLbl); targetSection.appendChild(targetRow);
+  box.appendChild(targetSection);
 
-  // Colour
+  // Breakdown section (shown only when Breakdown selected)
+  const breakdownSection = document.createElement('div'); breakdownSection.style.display = 'none';
+  const bdLbl = document.createElement('p'); bdLbl.style.cssText = LABEL_CSS; bdLbl.textContent = 'Variants';
+  breakdownSection.appendChild(bdLbl);
+  const bdSubPalette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0'];
+  let bdSubs = []; // { name, goal, color }
+  const bdList = document.createElement('div'); bdList.style.cssText = 'display:flex;flex-direction:column;gap:6px;margin-bottom:8px;';
+  const renderBdList = () => {
+    bdList.innerHTML = '';
+    bdSubs.forEach((sub, i) => {
+      const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;align-items:center;';
+      const dot = document.createElement('input'); dot.type = 'color'; dot.value = sub.color;
+      dot.style.cssText = 'width:26px;height:26px;border:none;background:none;cursor:pointer;padding:0;border-radius:50%;flex-shrink:0;';
+      dot.addEventListener('input', () => { bdSubs[i].color = dot.value; });
+      const nameIn2 = document.createElement('input'); nameIn2.type = 'text'; nameIn2.value = sub.name; nameIn2.placeholder = 'Variant name';
+      nameIn2.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);flex:1;padding:6px 9px;';
+      nameIn2.addEventListener('focus', () => nameIn2.style.borderColor = 'var(--gold)');
+      nameIn2.addEventListener('blur', () => { nameIn2.style.borderColor = 'rgba(255,255,255,0.12)'; bdSubs[i].name = nameIn2.value.trim(); });
+      nameIn2.addEventListener('input', () => { bdSubs[i].name = nameIn2.value; });
+      // goal stepper
+      const gWrap = document.createElement('div'); gWrap.style.cssText = 'display:flex;align-items:center;gap:0;border:1px solid rgba(200,168,74,0.25);border-radius:4px;overflow:hidden;flex-shrink:0;';
+      const gMinus = document.createElement('button'); gMinus.type='button'; gMinus.textContent='−'; gMinus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.6);font-size:14px;padding:3px 8px;cursor:pointer;';
+      const gVal   = document.createElement('span'); gVal.textContent = sub.goal; gVal.style.cssText='font-family:var(--mono);font-size:13px;color:var(--text-mid);min-width:20px;text-align:center;padding:0 2px;';
+      const gPlus  = document.createElement('button'); gPlus.type='button'; gPlus.textContent='+'; gPlus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.6);font-size:14px;padding:3px 8px;cursor:pointer;';
+      const gSuffix= document.createElement('span'); gSuffix.textContent='/wk'; gSuffix.style.cssText='font-size:11px;color:var(--text-dim);opacity:0.6;padding:0 6px 0 0;font-family:var(--mono);';
+      gMinus.addEventListener('click', () => { bdSubs[i].goal = Math.max(1, bdSubs[i].goal - 1); gVal.textContent = bdSubs[i].goal; });
+      gPlus.addEventListener('click',  () => { bdSubs[i].goal = Math.min(99, bdSubs[i].goal + 1); gVal.textContent = bdSubs[i].goal; });
+      gWrap.appendChild(gMinus); gWrap.appendChild(gVal); gWrap.appendChild(gPlus); gWrap.appendChild(gSuffix);
+      const delBtn = document.createElement('button'); delBtn.type='button'; delBtn.textContent='×'; delBtn.title='Remove';
+      delBtn.style.cssText='background:none;border:none;color:var(--text-dim);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;';
+      delBtn.addEventListener('click', () => { bdSubs.splice(i,1); renderBdList(); });
+      row.appendChild(dot); row.appendChild(nameIn2); row.appendChild(gWrap); row.appendChild(delBtn);
+      bdList.appendChild(row);
+    });
+  };
+  const bdAddBtn = document.createElement('button'); bdAddBtn.type='button'; bdAddBtn.textContent='+ Add variant';
+  bdAddBtn.style.cssText='background:none;border:1px dashed rgba(200,168,74,0.3);border-radius:5px;color:rgba(200,168,74,0.7);font-size:13px;padding:5px 12px;cursor:pointer;width:100%;margin-bottom:12px;';
+  bdAddBtn.addEventListener('click', () => {
+    bdSubs.push({ name:'', goal:1, color: bdSubPalette[bdSubs.length % bdSubPalette.length] });
+    renderBdList();
+    // focus last name input
+    const inputs = bdList.querySelectorAll('input[type=text]');
+    if (inputs.length) inputs[inputs.length-1].focus();
+  });
+  breakdownSection.appendChild(bdList); breakdownSection.appendChild(bdAddBtn);
+  box.appendChild(breakdownSection);
+
+  // Colour (hidden for Breakdown — each variant has its own colour)
   const colorLbl = document.createElement('p'); colorLbl.style.cssText = LABEL_CSS; colorLbl.textContent = 'Colour';
   const colorRow = document.createElement('div'); colorRow.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:16px;';
   const palette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0','#c05a3a','#5ac03a'];
@@ -8287,9 +8341,23 @@ function addRegularQuest() {
   cpk.style.cssText = 'width:28px;height:28px;border:none;background:none;cursor:pointer;padding:0;border-radius:4px;';
   cpk.addEventListener('input', () => { selectedColor = cpk.value; colorSwatches.forEach(s => s.style.borderColor = 'transparent'); });
   colorRow.appendChild(swatchRow); colorRow.appendChild(cpk);
-  // set initial active swatch
   colorSwatches.forEach(s => s.style.borderColor = s._col === selectedColor ? '#fff' : 'transparent');
-  box.appendChild(colorLbl); box.appendChild(colorRow);
+  // wrap colour in a section so we can hide it for Breakdown
+  const colorSection = document.createElement('div');
+  colorSection.appendChild(colorLbl); colorSection.appendChild(colorRow);
+  box.appendChild(colorSection);
+
+  // wire up applyTypeStyle now that both sections exist
+  // (also toggles colorSection for Breakdown)
+  const _origApplyTypeStyle = applyTypeStyle;
+  const applyTypeStyleFull = () => {
+    _origApplyTypeStyle();
+    colorSection.style.display = selectedType === 'breakdown' ? 'none' : '';
+  };
+  typeOpts.forEach(o => {
+    typeBtns[o.value].addEventListener('click', () => applyTypeStyleFull());
+  });
+  applyTypeStyleFull();
 
   // Buttons
   const btnRow = document.createElement('div'); btnRow.className = 'modal-row';
@@ -8298,20 +8366,35 @@ function addRegularQuest() {
   saveBtn.addEventListener('click', () => {
     const name = nameIn.value.trim();
     if (!name) { nameIn.focus(); return; }
+    if (selectedType === 'breakdown' && bdSubs.filter(s => s.name.trim()).length === 0) {
+      bdAddBtn.focus(); return;
+    }
     if (!appState.activities) appState.activities = [];
     const maxPri = appState.activities.reduce((m, a) => Math.max(m, a.priority || 0), 0);
     const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now();
-    const tgt = parseInt(targetIn.value, 10) || 1;
-    const unit = unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : selectedType === 'number' ? 'times' : 'times');
-    appState.activities.push({
+    const actType = selectedType === 'breakdown' ? 'checkbox' : selectedType;
+    const tgt = selectedType === 'breakdown' ? bdSubs.filter(s => s.name.trim()).length : (parseInt(targetIn.value, 10) || 1);
+    const unit = selectedType === 'breakdown' ? 'activities' : (unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : 'times'));
+    const newAct = {
       id, name: capitalise(name),
-      type: selectedType,
+      type: actType,
       resetPeriod: selectedPeriod,
       target: tgt,
       unit,
-      color: selectedColor,
+      color: selectedType === 'breakdown' ? undefined : selectedColor,
       priority: maxPri + 1,
-    });
+    };
+    if (selectedType === 'breakdown') {
+      newAct.subActivities = bdSubs
+        .filter(s => s.name.trim())
+        .map(s => ({
+          id: s.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now(),
+          name: capitalise(s.name.trim()),
+          color: s.color,
+          goal: s.goal,
+        }));
+    }
+    appState.activities.push(newAct);
     saveState(appState); markDirty(); renderRecurringQuests(appState);
     overlay.remove();
   });
@@ -8420,27 +8503,25 @@ function renderRecurringQuests(s) {
         const chipName = document.createElement('span'); chipName.textContent = sa.name;
         chip.appendChild(chipName);
 
-        // Per-sub goal editor: "x/period" compact input
+        // Per-sub goal editor: stepper − N + /wk
         const goalWrap = document.createElement('span'); goalWrap.className = 'rq-sub-goal-wrap';
-        goalWrap.title = 'Goal: times per ' + (act.resetPeriod === 'week' ? 'week' : act.resetPeriod === 'month' ? 'month' : 'week (7 days)');
-        const goalInp = document.createElement('input'); goalInp.className = 'rq-sub-goal-input';
-        goalInp.type = 'number'; goalInp.min = '1'; goalInp.max = '99';
-        goalInp.value = sa.goal != null ? sa.goal : 1;
-        goalInp.title = 'Goal per 7 days';
-        const goalSuffix = document.createElement('span'); goalSuffix.textContent = '/wk';
-        goalWrap.appendChild(goalInp); goalWrap.appendChild(goalSuffix);
-        goalInp.addEventListener('click', e => e.stopPropagation());
-        goalInp.addEventListener('change', () => {
-          const newGoal = Math.max(1, parseInt(goalInp.value) || 1);
-          goalInp.value = newGoal;
-          sa.goal = newGoal;
+        goalWrap.title = 'Goal per 7 days';
+        let currentGoal = sa.goal != null ? sa.goal : 1;
+        const goalMinus  = document.createElement('button'); goalMinus.className  = 'rq-sub-goal-step'; goalMinus.textContent = '−'; goalMinus.type = 'button';
+        const goalValEl  = document.createElement('span');   goalValEl.className  = 'rq-sub-goal-val';  goalValEl.textContent = currentGoal;
+        const goalPlus   = document.createElement('button'); goalPlus.className   = 'rq-sub-goal-step'; goalPlus.textContent  = '+'; goalPlus.type = 'button';
+        const goalSuffix = document.createElement('span');   goalSuffix.className = 'rq-sub-goal-suffix'; goalSuffix.textContent = '/wk';
+        goalWrap.appendChild(goalMinus); goalWrap.appendChild(goalValEl); goalWrap.appendChild(goalPlus); goalWrap.appendChild(goalSuffix);
+        const applyGoal = (newGoal) => {
+          currentGoal = Math.max(1, Math.min(99, newGoal));
+          goalValEl.textContent = currentGoal;
+          sa.goal = currentGoal;
           const actInState = (appState.activities || []).find(a => a.id === act.id);
           if (actInState) {
             const saInState = (actInState.subActivities || []).find(s => s.id === sa.id);
-            if (saInState) saInState.goal = newGoal;
+            if (saInState) saInState.goal = currentGoal;
           }
           saveState(appState); markDirty();
-          // Refresh stats panel
           const newStats = getRQStats(act, charName);
           const fv = v => v > 0 ? v + '%' : '—';
           if (newStats.perSub) newStats.perSub.forEach(sub => {
@@ -8449,7 +8530,9 @@ function renderRecurringQuests(s) {
             if (el7)   el7.textContent   = fv(sub.pct7);
             if (elAll) elAll.textContent = fv(sub.pctAll);
           });
-        });
+        };
+        goalMinus.addEventListener('click', e => { e.stopPropagation(); applyGoal(currentGoal - 1); });
+        goalPlus.addEventListener('click',  e => { e.stopPropagation(); applyGoal(currentGoal + 1); });
         chip.appendChild(goalWrap);
 
         const swatch = document.createElement('span');
@@ -8546,29 +8629,36 @@ function renderRecurringQuests(s) {
     const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
     statsRow.id = 'stats-row-' + act.id;
     if (stats.perSub && stats.perSub.length > 0) {
-      // Per-sub-activity trend rows
-      const hdr = document.createElement('div'); hdr.className = 'practice-trends-hdr';
-      hdr.innerHTML = 'Trends <span class="practice-trends-hdr-cols"><span>7d</span><span>All</span></span>';
-      statsRow.appendChild(hdr);
+      // Grid table: swatch | name | 7d | all
+      const grid = document.createElement('div'); grid.className = 'practice-stats-sub';
+      // Header row: "Trends" spans cols 1-2, then column labels above data cols
+      const hdrLbl = document.createElement('span'); hdrLbl.className = 'ps-hdr'; hdrLbl.style.gridColumn = '1 / 3'; hdrLbl.textContent = 'Trends';
+      const hdr7d  = document.createElement('span'); hdr7d.className  = 'ps-hdr-7d';  hdr7d.textContent  = '7d';
+      const hdrAll = document.createElement('span'); hdrAll.className = 'ps-hdr-all'; hdrAll.textContent = 'All';
+      grid.appendChild(hdrLbl); grid.appendChild(hdr7d); grid.appendChild(hdrAll);
+      // Per-sub rows
       stats.perSub.forEach(sub => {
-        const row = document.createElement('div'); row.className = 'practice-trend-row practice-trend-row-sub';
-        const dot = document.createElement('span'); dot.className = 'practice-trend-swatch';
-        dot.style.cssText = `background:${sub.color||'rgba(200,168,74,0.5)'};border-radius:50%;width:8px;height:8px;flex-shrink:0;`;
-        const lbl = document.createElement('span'); lbl.className = 'practice-trend-lbl practice-trend-lbl-sub';
-        lbl.textContent = sub.name;
-        const val7 = document.createElement('span'); val7.className = 'practice-trend-val practice-trend-val-7d';
-        val7.id = 'stat-sub7-' + act.id + '-' + sub.id;
-        val7.textContent = formatVal(sub.pct7);
-        const valAll = document.createElement('span'); valAll.className = 'practice-trend-val practice-trend-val-all';
-        valAll.id = 'stat-suball-' + act.id + '-' + sub.id;
-        valAll.textContent = formatVal(sub.pctAll);
-        row.appendChild(dot); row.appendChild(lbl); row.appendChild(val7); row.appendChild(valAll);
-        statsRow.appendChild(row);
+        const dot = document.createElement('span'); dot.className = 'ps-col-swatch';
+        dot.style.cssText = `display:inline-block;width:8px;height:8px;border-radius:50%;background:${sub.color||'rgba(200,168,74,0.5)'};flex-shrink:0;`;
+        const lbl = document.createElement('span'); lbl.className = 'ps-col-lbl'; lbl.textContent = sub.name;
+        const val7 = document.createElement('span'); val7.className = 'ps-col-7d';
+        val7.id = 'stat-sub7-' + act.id + '-' + sub.id; val7.textContent = formatVal(sub.pct7);
+        const valAll = document.createElement('span'); valAll.className = 'ps-col-all';
+        valAll.id = 'stat-suball-' + act.id + '-' + sub.id; valAll.textContent = formatVal(sub.pctAll);
+        grid.appendChild(dot); grid.appendChild(lbl); grid.appendChild(val7); grid.appendChild(valAll);
       });
-      // Combined aggregate row (dimmed)
-      const aggRow = document.createElement('div'); aggRow.className = 'practice-trend-row practice-trend-row-agg';
-      aggRow.innerHTML = `<span class="practice-trend-swatch practice-trend-swatch-7d" style="opacity:0.4"></span><span class="practice-trend-lbl" style="opacity:0.5">Total</span><span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}" style="opacity:0.5">${formatVal(stats.pct7)}</span><span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}" style="opacity:0.5">${formatVal(stats.pctAll)}</span>`;
-      statsRow.appendChild(aggRow);
+      // Separator
+      const sep = document.createElement('div'); sep.className = 'ps-sep'; grid.appendChild(sep);
+      // Aggregate "Any" row (dimmed)
+      const aggDot = document.createElement('span'); aggDot.className = 'ps-col-swatch ps-agg-lbl';
+      aggDot.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(200,168,74,0.3);';
+      const aggLbl = document.createElement('span'); aggLbl.className = 'ps-col-lbl ps-agg-lbl'; aggLbl.textContent = 'Any';
+      const agg7   = document.createElement('span'); agg7.className   = 'ps-col-7d ps-agg-7d';
+      agg7.id = 'stat-avg-' + act.id; agg7.textContent = formatVal(stats.pct7);
+      const aggAll = document.createElement('span'); aggAll.className = 'ps-col-all ps-agg-all';
+      aggAll.id = 'stat-avgall-' + act.id; aggAll.textContent = formatVal(stats.pctAll);
+      grid.appendChild(aggDot); grid.appendChild(aggLbl); grid.appendChild(agg7); grid.appendChild(aggAll);
+      statsRow.appendChild(grid);
     } else {
       statsRow.innerHTML = `
         <div class="practice-trends-hdr">Trends</div>
