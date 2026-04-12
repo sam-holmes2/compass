@@ -1053,12 +1053,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ach-card {
   border:1px solid rgba(200,168,74,0.15); border-radius:6px;
   padding:13px 16px; margin-bottom:8px;
-  transition:border-color 0.2s, background 0.2s;
+  transition:border-color 0.2s, background 0.2s, box-shadow 0.2s;
   background:rgba(200,168,74,0.02);
+  cursor:pointer;
 }
 .ach-card-row:hover .card-head-del { opacity:1; }
 .ach-card:hover { border-color:rgba(200,168,74,0.35); background:rgba(200,168,74,0.06); }
-.ach-card.featured { border-color:rgba(200,168,74,0.55); background:rgba(200,168,74,0.08); border-left:3px solid var(--gold); }
+.ach-card.featured { border-color:rgba(200,168,74,0.6); background:rgba(200,168,74,0.08); box-shadow:0 0 0 1px rgba(200,168,74,0.25), 0 0 16px rgba(200,168,74,0.12); }
 .ach-card-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
 .ach-card-icon { font-size:18px; flex-shrink:0; cursor:pointer; border-radius:4px; padding:1px 3px; transition:background 0.15s; }
 .ach-card-icon:hover { background:rgba(255,255,255,0.08); }
@@ -1073,29 +1074,45 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .ach-card-type.att-default       { color:var(--text-dim); border-color:var(--border-hi); }
 .ach-card-desc { font-size:17px; color:var(--text-mid); line-height:1.55; }
 .ach-feature-btn {
-  flex-shrink:0; width:32px; height:32px; border-radius:50%;
-  border:2px solid rgba(200,168,74,0.3); background:transparent;
+  flex-shrink:0; width:26px; height:26px; border-radius:4px;
+  border:none; background:transparent;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
-  font-size:18px; line-height:1; color:rgba(200,168,74,0.3);
-  transition:border-color 0.15s, background 0.15s, color 0.15s, transform 0.12s;
+  font-size:18px; line-height:1; color:rgba(200,168,74,0.25);
+  transition:color 0.15s, transform 0.12s;
   padding:0;
 }
-.ach-feature-btn:hover { border-color:rgba(200,168,74,0.7); color:rgba(200,168,74,0.7); transform:scale(1.12); }
-.ach-feature-btn.active { border-color:var(--gold); background:rgba(200,168,74,0.15); color:var(--gold); }
-.ach-feature-btn.active:hover { background:rgba(200,168,74,0.25); }
+.ach-feature-btn:hover { color:rgba(200,168,74,0.7); transform:scale(1.15); }
+.ach-feature-btn.active { color:var(--gold); }
+.ach-feature-btn.active:hover { color:#ffe08a; }
 .ach-feature-btn.pop { animation:achPop 0.25s ease; }
-@keyframes achPop { 0%{transform:scale(1)} 50%{transform:scale(1.35)} 100%{transform:scale(1)} }
-.cls-feature-btn {
-  flex-shrink:0; width:32px; height:32px; border-radius:50%;
-  border:2px solid rgba(144,96,192,0.3); background:transparent;
+@keyframes achPop { 0%{transform:scale(1)} 50%{transform:scale(1.45)} 100%{transform:scale(1)} }
+/* Shared pencil edit button — used on all card types */
+.card-edit-btn {
+  flex-shrink:0; width:26px; height:26px; border-radius:4px;
+  border:none; background:transparent;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
-  font-size:18px; line-height:1; color:rgba(144,96,192,0.3);
-  transition:border-color 0.15s, background 0.15s, color 0.15s, transform 0.12s;
+  font-size:14px; line-height:1; color:rgba(255,255,255,0.18);
+  transition:color 0.15s, background 0.15s;
+  padding:0; opacity:0;
+}
+.card-edit-btn:hover { color:rgba(255,255,255,0.7); background:rgba(255,255,255,0.07); }
+/* Show pencil on any card hover */
+.ach-card:hover .card-edit-btn, .ach-card.featured .card-edit-btn,
+.cls-card:hover .card-edit-btn, .cls-card.featured .card-edit-btn,
+.sqcard:hover .card-edit-btn,
+.enemy-card:hover .card-edit-btn,
+.skill-card:hover .card-edit-btn { opacity:1; }
+.cls-feature-btn {
+  flex-shrink:0; width:26px; height:26px; border-radius:4px;
+  border:none; background:transparent;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:18px; line-height:1; color:rgba(144,96,192,0.25);
+  transition:color 0.15s, transform 0.12s;
   padding:0;
 }
-.cls-feature-btn:hover { border-color:rgba(144,96,192,0.7); color:rgba(144,96,192,0.7); transform:scale(1.12); }
-.cls-feature-btn.active { border-color:#9060c0; background:rgba(144,96,192,0.15); color:#b080e8; }
-.cls-feature-btn.active:hover { background:rgba(144,96,192,0.25); }
+.cls-feature-btn:hover { color:rgba(144,96,192,0.8); transform:scale(1.15); }
+.cls-feature-btn.active { color:#b080e8; }
+.cls-feature-btn.active:hover { color:#cca0ff; }
 .cls-feature-btn.pop { animation:achPop 0.25s ease; }
 .hdr-titles { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin-top:4px; }
 /* Shared tag style — used in header, preview section, everywhere */
@@ -1111,12 +1128,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .cls-card {
   border:1px solid rgba(144,96,192,0.18); border-radius:6px;
   padding:13px 16px; margin-bottom:8px;
-  transition:border-color 0.2s, background 0.2s;
+  transition:border-color 0.2s, background 0.2s, box-shadow 0.2s;
   background:rgba(96,64,160,0.03); position:relative;
+  cursor:pointer;
 }
 .cls-card:hover { border-color:rgba(144,96,192,0.35); background:rgba(96,64,160,0.07); }
 .cls-card:hover .ally-delete { opacity:1; }
-.cls-card.featured { border-color:rgba(144,96,192,0.6); background:rgba(96,64,160,0.1); border-left:3px solid #9060c0; }
+.cls-card.featured { border-color:rgba(144,96,192,0.6); background:rgba(96,64,160,0.1); box-shadow:0 0 0 1px rgba(144,96,192,0.25), 0 0 16px rgba(144,96,192,0.12); }
 .cls-card-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
 .cls-card-icon { font-size:18px; flex-shrink:0; cursor:pointer; border-radius:4px; padding:1px 3px; transition:background 0.15s; }
 .cls-card-icon:hover { background:rgba(255,255,255,0.08); }
@@ -1695,6 +1713,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .xp-pill-quest { color:#b080e8; border-color:#b080e840; }
 .xp-pill-bounty { color:#b080e8; border-color:#b080e840; }
 .xp-pill-earned { color:#60a838; border-color:#60a83840; }
+.xp-pill-tbd { color:rgba(176,128,232,0.35); border-color:rgba(176,128,232,0.15); cursor:help; }
 .skill-card-arrow { font-size:14px; color:var(--text-dim); flex-shrink:0; }
 .skill-card-body { display:none; padding:12px 14px; background:var(--card); border-top:1px solid var(--border); }
 .skill-card-body.open { display:block; }
@@ -1831,8 +1850,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-mobile-row { display:none; }
 .hdr-mobile-level { font-family:'Cinzel Decorative',serif; font-size:15px; font-weight:700; color:#b080e8; }
 .hdr-mobile-quest { font-family:'Cinzel',serif; font-size:13px; color:var(--gold); letter-spacing:0.05em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.hdr-mobile-vitals { display:none; flex-direction:column; gap:5px; padding-top:6px; margin-top:4px; border-top:1px solid var(--border); width:100%; }
-.hdr-mobile-vital-row { display:flex; align-items:center; gap:8px; }
+.hdr-mobile-vitals { display:none; flex-direction:row; gap:10px; padding-top:6px; margin-top:4px; border-top:1px solid var(--border); width:100%; }
+.hdr-mobile-vital-row { display:flex; align-items:center; gap:6px; flex:1; min-width:0; }
 .hdr-mobile-vital-icon { font-size:13px; flex-shrink:0; width:14px; text-align:center; }
 
 @media (max-width:820px) {
@@ -1977,6 +1996,98 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .fbar-btn { font-size:14px; padding:0 6px; }
 }
 
+/* ══ MOBILE POLISH ══════════════════════════════════════════ */
+
+/* ── Banners: stack on small screens ── */
+@media (max-width:600px) {
+  #demo-banner, #setup-banner, #dirty-banner, #storage-error-banner {
+    flex-wrap:wrap; gap:8px 10px; padding:10px 14px;
+  }
+  #demo-banner .demo-banner-text,
+  #setup-banner .setup-banner-text,
+  #dirty-banner .dirty-banner-text { flex-basis:100%; margin-bottom:0; }
+  #demo-banner .demo-banner-dl,
+  #setup-banner .setup-banner-link { align-self:flex-start; }
+  #demo-banner .demo-banner-dismiss,
+  #setup-banner .setup-banner-dismiss,
+  #dirty-banner .dirty-banner-dismiss { margin-left:auto; }
+}
+
+/* ── Header: fix achievements/classes overflow ── */
+@media (max-width:820px) {
+  .hdr-centre { min-width:0; overflow:hidden; max-width:100%; }
+  .hdr-titles { justify-content:center; max-width:100%; overflow:hidden; }
+  /* Allow feat-tags to wrap and slightly smaller */
+  .feat-tag { font-size:10px; padding:2px 7px; }
+}
+
+/* ── Mobile vitals: side-by-side slim bars ── */
+@media (max-width:600px) {
+  .hdr-mobile-vitals { gap:10px; padding-top:5px; margin-top:3px; }
+  .hdr-mobile-vital-row .vital-track { height:8px; border-radius:4px; }
+  .hdr-mobile-vital-row .vital-fill { border-radius:4px; }
+  .hdr-mobile-vital-row .vital-baseline { height:14px; width:1px; }
+}
+
+/* ── Radar panels: fix left/right clipping of SVG labels ── */
+/* SVG viewBox uses overflow:visible; radar-panel has overflow:hidden which clips labels */
+.radar-panel-radar { padding-left:14px; padding-right:14px; }
+@media (max-width:600px) {
+  /* When stacked, give the radar enough room and let SVG labels breathe */
+  .radar-panel { overflow:visible; }
+  .radar-panel-radar { padding:12px 18px; justify-content:center; }
+  .radar-panel-sliders { padding:12px 14px 12px 14px; }
+  /* Ensure canvases don't overflow their column */
+  .radar-panel-charts { padding:8px 14px; }
+  .radar-chart-canvas, .hist-chart-canvas { max-width:100%; }
+}
+
+/* ── Quest cards: give title room to breathe ── */
+@media (max-width:600px) {
+  .sqcard-name { font-size:14px; letter-spacing:0.03em; min-width:0; }
+  .sqcard-track { width:32px; flex-shrink:0; }
+  .sqcard-pct { width:24px; font-size:13px; }
+  /* Recurring/combat quest cards too */
+  .cqcard-name { font-size:14px; min-width:0; }
+}
+@media (max-width:480px) {
+  .sqcard-head { padding:9px 10px; gap:8px; }
+  .sqcard-name { font-size:13px; }
+  .cqcard-head { padding:9px 10px; gap:8px; }
+}
+
+/* ── Ally / bestiary card heads: give name room ── */
+@media (max-width:600px) {
+  .ally-card-name { font-size:14px; min-width:0; letter-spacing:0.03em; }
+  .enemy-card-name { font-size:14px; min-width:0; }
+}
+
+/* ── Achievement / class rows: prevent overflow ── */
+@media (max-width:600px) {
+  .ach-card-row { gap:6px; }
+  .cls-card-row { gap:6px; }
+  .ach-card-title, .cls-card-name { font-size:14px; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+}
+
+/* ── Balance tab radar overflow fix ── */
+@media (max-width:600px) {
+  .balance-el-card { overflow:visible; }
+  .balance-el-radar-row { padding-left:4px; padding-right:4px; }
+  #radar-svg { width:100%; height:auto; overflow:visible; }
+}
+
+/* ── Journal / lore tab ── */
+@media (max-width:600px) {
+  .lore-card { padding:12px 12px; }
+  .lore-card-body { font-size:15px; }
+}
+
+/* ── Welcome modal setup steps: keep download button inline ── */
+@media (max-width:600px) {
+  .welcome-step-text { font-size:15px; }
+  .welcome-step-text .btn-ghost { font-size:13px; padding:3px 8px; }
+}
+
 /* Touch drag state */
 [draggable=true].touch-dragging { opacity:0.6; background:rgba(200,168,74,0.1) !important; }
 
@@ -2115,18 +2226,29 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div class="modal-overlay" id="welcome-modal">
   <div class="modal">
     <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
-    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with your AI of choice: it updates your data, you import it here.</p>
-    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>Privacy note:</strong> data.json contains your private journal. Treat it like a diary. Any AI provider you journal with (Claude, ChatGPT, etc.) may store what you share with them. Use Firefox if possible; Chrome and Edge share local file storage across all sites.</p>
+    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Edit fields directly in the app, or journal with an AI that updates your data for you.</p>
+    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>Privacy note:</strong> your data is stored only in this browser. Keep a regular export as a backup. If you journal with an AI (Claude, ChatGPT, etc.), that provider may store what you share with them.</p>
     <div class="welcome-options">
-      <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup()">Set up my own sheet</button>
+      <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup('manual')">Fill in manually</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">Set up with AI</button>
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data: Import it</button>
     </div>
-    <div id="welcome-setup-steps">
-      <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
-      <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at, then just talk.</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
-      <div class="welcome-step"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>Click ↑ Import</strong> (bottom-right), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+    <div id="welcome-setup-steps" data-mode="">
+      <!-- Manual path -->
+      <div class="welcome-path" id="welcome-path-manual">
+        <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Click any field to edit it.</strong> Start with your name and main quest at the top. Most text in the app is editable in place.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Fill in the tabs</strong> at your own pace: Quests, Skills, Enemies, Allies, Achievements. You don't need to fill everything out at once.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Export regularly.</strong> Use the Export ↓ button to save a backup of your data.json. Store it somewhere safe.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:var(--text-dim);">✦</div><div class="welcome-step-text" style="font-size:15px;color:var(--text-dim);">You can add AI journalling at any time. Download instructions.md from the Help screen and upload it to a Claude, ChatGPT, or Gemini project.</div></div>
+      </div>
+      <!-- AI path -->
+      <div class="welcome-path" id="welcome-path-ai" style="display:none;">
+        <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
+        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at, then just talk.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>Click ↑ Import</strong> (bottom-right), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+      </div>
     </div>
     <div class="modal-row" style="margin-top:14px;">
       <button class="btn-ghost" onclick="dismissWelcome()">Close</button>
@@ -2152,7 +2274,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="dirty-banner">
-  <span class="dirty-banner-text">You have unsaved local edits. Export ↓ and paste your data.json into your AI project to keep them.</span>
+  <span class="dirty-banner-text">Edits saved locally. Export ↓ to back up or share with AI.</span>
   <button class="dirty-banner-never" onclick="neverShowDirtyBanner()">Never show</button>
   <button class="dirty-banner-dismiss" onclick="dismissDirtyBanner()" title="Dismiss">×</button>
 </div>
@@ -2266,7 +2388,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
             <div class="el-question"><span class="el-question-keyword" style="color:#8090a8">Awareness:</span>"What can you notice now?"</div>
           </div>
         </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="air-label">Mostly Dirty Air - self-monitoring mistaken for awareness</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Set manually or inferred by your AI from journalling sessions">✦</span><span id="air-label">Mostly Dirty Air - self-monitoring mistaken for awareness</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="air-slider-col"></div>
@@ -2314,7 +2436,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-question"><span class="el-question-keyword" style="color:#d07830">Action:</span>"What do you feel called to do?"</div>
         </div>
       </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="fire-label">Depleted - running on fear and obligation, not values</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Set manually or inferred by your AI from journalling sessions">✦</span><span id="fire-label">Depleted - running on fear and obligation, not values</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="fire-slider-col"></div>
@@ -2375,7 +2497,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-question"><span class="el-question-keyword" style="color:#60a838">Beliefs:</span>"What story are you telling yourself?"</div>
         </div>
       </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="earth-label">Controller dominant - narrating experience as failure</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Set manually or inferred by your AI from journalling sessions">✦</span><span id="earth-label">Controller dominant - narrating experience as failure</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="earth-slider-col"></div>
@@ -2414,7 +2536,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="el-question"><span class="el-question-keyword" style="color:#3a80c8">Flow:</span>"What are you resisting right now?"</div>
         </div>
       </div>
-        <div class="el-head-status"><span class="el-ai-glyph" title="Inferred by your AI from your journal sessions">✦</span><span id="water-label">Real aliveness scarce - compulsive exits filling the gap</span></div>
+        <div class="el-head-status"><span class="el-ai-glyph" title="Set manually or inferred by your AI from journalling sessions">✦</span><span id="water-label">Real aliveness scarce - compulsive exits filling the gap</span></div>
       </div>
     </div>
     <div class="el-head-slider" id="water-slider-col"></div>
@@ -2779,7 +2901,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
   <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
   <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export: copy data to your AI">↓<span class="fbar-label"> Export</span></button>
-  <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import: paste data from your AI">↑<span class="fbar-label"> Import</span></button>
+  <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import data.json">↑<span class="fbar-label"> Import</span></button>
 </div>
 
 <!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
@@ -2790,7 +2912,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist: a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
     <p style="line-height:1.7;margin:0 0 20px;">If it's been useful to you, a small contribution helps keep it going.</p>
     <div style="margin-bottom:20px;padding:14px 16px;background:var(--help-dim);border:1px solid var(--help-border);border-radius:8px;font-size:14px;line-height:1.6;">
-      I pledge <strong>10% of anything received</strong> to the <a href="https://www.humanetech.com/donate" target="_blank" rel="noopener" style="color:var(--help);">Center for Humane Technology</a>, a nonprofit working to ensure AI and social media serve human wellbeing rather than exploit it.
+      <strong>10% of any donations</strong> support the <a href="https://www.humanetech.com/donate" target="_blank" rel="noopener" style="color:var(--help);">Center for Humane Technology</a>, a nonprofit working to ensure AI and social media serve human wellbeing, rather than exploit it.
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
       <a href="https://github.com/sponsors/sam-holmes2" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;background:rgba(45,168,106,0.15);border:1px solid rgba(45,168,106,0.4);color:var(--help);padding:8px 18px;border-radius:6px;font-family:var(--mono);font-size:13px;letter-spacing:0.08em;">♥ Sponsor on GitHub</a>
@@ -2828,106 +2950,55 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
             <span style="display:block;font-size:14px;color:var(--text-dim);font-style:italic;margin-top:5px;">Open it in your browser (Firefox, Chrome, etc.)</span>
           </div>
         </div>
-        <div class="help-step">
-          <div class="help-step-num">2</div>
-          <div class="help-step-text">
-            <strong>Download instructions.md</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-ghost btn-download" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></span>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">3</div>
-          <div class="help-step-text"><strong>Create an AI project:</strong> <a href="https://claude.ai" target="_blank" rel="noopener">Claude Project</a>, ChatGPT Project, or Gemini Gem.
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">4</div>
-          <div class="help-step-text"><strong>Upload instructions.md</strong> to the project knowledge. If you've done this before, replace the existing file with the new one.</div>
-        </div>
+        <p class="help-note" style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">
+          <strong style="color:var(--text-mid);">Using AI journalling?</strong> Download instructions.md and upload it to a Claude, ChatGPT, or Gemini project. <button class="btn-ghost btn-download" style="margin-left:4px;font-size:12px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button>
+        </p>
       </div>
 
-      <!-- Column 2: Journal with AI -->
+      <!-- Column 2: Import -->
       <div class="help-col">
         <div class="help-col-hdr">
-          ✦ &nbsp;Journal with AI
-          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Each session</div>
+          ↑ &nbsp;Import
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Load data into the app</div>
         </div>
-        <!-- Flow diagram: AI → App (import) -->
-        <svg viewBox="0 0 200 52" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px;display:block;margin:0 auto 12px;opacity:0.85;">
-          <defs>
-            <marker id="arr2b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="rgba(45,168,106,0.55)"/></marker>
-          </defs>
-          <!-- App box -->
-          <rect x="4" y="8" width="60" height="28" rx="4" fill="none" stroke="rgba(45,168,106,0.5)" stroke-width="1.2"/>
-          <text x="34" y="24" text-anchor="middle" font-size="9" fill="#c8c4b8" font-family="monospace">App</text>
-          <!-- AI box (highlighted) -->
-          <rect x="136" y="8" width="60" height="28" rx="4" fill="rgba(45,168,106,0.1)" stroke="rgba(45,168,106,0.7)" stroke-width="1.4"/>
-          <text x="166" y="20" text-anchor="middle" font-size="9" fill="#c8c4b8" font-family="monospace">AI Chat</text>
-          <text x="166" y="31" text-anchor="middle" font-size="7" fill="rgba(45,168,106,0.8)" font-family="monospace">✎ journal</text>
-          <!-- Arrow: AI left edge → App right edge, centred vertically -->
-          <line x1="134" y1="22" x2="66" y2="22" stroke="rgba(45,168,106,0.55)" stroke-width="1.3" marker-end="url(#arr2b)"/>
-          <text x="100" y="44" text-anchor="middle" font-size="7.5" fill="rgba(45,168,106,0.7)" font-family="monospace">↑ import JSON</text>
-        </svg>
+        <span style="display:block;font-size:14px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;">Use Import to restore a backup, migrate from another device, or load an update from AI journalling.</span>
         <div class="help-step">
           <div class="help-step-num">1</div>
-          <div class="help-step-text"><strong>Start a new chat</strong> in the AI project you made during setup.</div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">2</div>
-          <div class="help-step-text"><strong>Talk about anything:</strong> your goals, challenges, wins or just brain dump what's on your mind.</div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">3</div>
-          <div class="help-step-text"><strong>When you're done,</strong> ask your AI to: <em>"Update my data.json"</em> and copy the JSON it outputs.</div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">4</div>
-          <div class="help-step-text"><strong>Import your updated data:</strong>
+          <div class="help-step-text"><strong>Open Import:</strong>
             <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:13px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');openModal()">↑ Import</button></span>
-            <span style="display:block;font-size:14px;color:var(--text-dim);font-style:italic;margin-top:5px;">Paste the JSON and hit Apply.</span>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="help-step-num">5</div>
-          <div class="help-step-text"><strong>Update your project attachment:</strong> paste the same JSON into your AI project to replace the old data.json, so your AI has your latest state next session.</div>
-        </div>
-      </div>
-
-      <!-- Column 3: Edit in app -->
-      <div class="help-col">
-        <div class="help-col-hdr">
-          ◈ &nbsp;Edit in app
-          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Optional</div>
-        </div>
-        <!-- Flow diagram: App → AI (export) -->
-        <svg viewBox="0 0 200 52" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px;display:block;margin:0 auto 12px;opacity:0.85;">
-          <defs>
-            <marker id="arr3a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="rgba(45,168,106,0.7)"/></marker>
-          </defs>
-          <!-- App box (highlighted) -->
-          <rect x="4" y="8" width="60" height="28" rx="4" fill="rgba(45,168,106,0.1)" stroke="rgba(45,168,106,0.7)" stroke-width="1.4"/>
-          <text x="34" y="20" text-anchor="middle" font-size="9" fill="#c8c4b8" font-family="monospace">App</text>
-          <text x="34" y="31" text-anchor="middle" font-size="7" fill="rgba(45,168,106,0.8)" font-family="monospace">✎ edit</text>
-          <!-- AI box -->
-          <rect x="136" y="8" width="60" height="28" rx="4" fill="none" stroke="rgba(45,168,106,0.4)" stroke-width="1.2"/>
-          <text x="166" y="24" text-anchor="middle" font-size="9" fill="#c8c4b8" font-family="monospace">AI Chat</text>
-          <!-- Arrow: App right edge → AI left edge, centred vertically -->
-          <line x1="66" y1="22" x2="134" y2="22" stroke="rgba(45,168,106,0.7)" stroke-width="1.3" marker-end="url(#arr3a)"/>
-          <text x="100" y="44" text-anchor="middle" font-size="7.5" fill="rgba(45,168,106,0.8)" font-family="monospace">↓ export JSON</text>
-        </svg>
-        <span style="display:block;font-size:14px;color:var(--text-dim);font-style:italic;margin-bottom:4px;">Most fields are editable directly. Click any text in the app to edit it in place.</span>
-        <div class="help-step">
-          <div class="help-step-num">1</div>
-          <div class="help-step-text"><strong>Export your updated data:</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:13px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');exportState()">↓ Export</button></span>
-            <span style="display:block;font-size:14px;color:var(--text-dim);font-style:italic;margin-top:5px;">Copy the JSON.</span>
           </div>
         </div>
         <div class="help-step">
           <div class="help-step-num">2</div>
-          <div class="help-step-text"><strong>Paste the JSON into your AI project</strong> to replace the old data.json, so your AI has your latest state next session.</div>
+          <div class="help-step-text"><strong>Paste your data.json</strong> into the text area and hit Apply. Or use the file picker to load directly from disk.</div>
         </div>
-        <p class="help-note">A warning banner will appear at the top of character-sheet when you have edits that haven't been exported yet.</p>
+        <p class="help-note" style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">
+          <strong style="color:var(--text-mid);">Using AI journalling?</strong> After a session, ask your AI: <em>"Update my data.json"</em>. Copy the JSON it outputs and paste it here.
+        </p>
+      </div>
+
+      <!-- Column 3: Export -->
+      <div class="help-col">
+        <div class="help-col-hdr">
+          ↓ &nbsp;Export
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Back up or share your data</div>
+        </div>
+        <span style="display:block;font-size:14px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;">Your data lives in browser storage. Export regularly so you have a backup. Store it somewhere safe.</span>
+        <div class="help-step">
+          <div class="help-step-num">1</div>
+          <div class="help-step-text"><strong>Export your data:</strong>
+            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:13px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');exportState()">↓ Export</button></span>
+            <span style="display:block;font-size:14px;color:var(--text-dim);font-style:italic;margin-top:5px;">Copy or download the JSON.</span>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="help-step-num">2</div>
+          <div class="help-step-text"><strong>Store it securely.</strong> data.json contains your private notes. Treat it like a diary.</div>
+        </div>
+        <p class="help-note" style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">
+          <strong style="color:var(--text-mid);">Using AI journalling?</strong> Paste this JSON into your AI project to replace the old data.json, so your AI has your latest state next session.
+        </p>
+        <p class="help-note">A banner appears at the top when you have edits not yet exported.</p>
       </div>
 
     </div>
@@ -2944,7 +3015,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);position:relative;">
     <button class="modal-close" onclick="closeSyncModal()" title="Close">×</button>
     <div class="modal-title" style="color:var(--gold);">HOW SYNC WORKS</div>
-    <p>Changes you make here are saved locally in your browser. To keep them, use the Export button (↓) and paste the JSON into your AI project to replace your old data.json. This keeps your AI and the app in sync.</p>
+    <p>Changes are saved locally in your browser. Export ↓ to create a backup or to keep an AI up to date with your latest state.</p>
     <div class="modal-row">
       <button class="btn-primary" onclick="closeSyncModal()">Got it</button>
       <button class="btn-ghost" onclick="closeSyncModal(true)">Never show again</button>
@@ -2957,7 +3028,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);position:relative;">
     <button class="modal-close" onclick="closeSettingsModal()" title="Close">×</button>
     <div class="modal-title" style="color:var(--gold);">⚙ &nbsp;SECURITY</div>
-    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>data.json contains your private journal.</strong> Nothing leaves your machine unless you send it, but any AI provider you journal with may store what you share with them. Use Firefox if possible; Chrome and Edge share storage across local files. A password encrypts your data at rest in the browser.</p>
+    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>Your data is stored only in this browser.</strong> Nothing leaves your machine unless you send it. If you journal with an AI, that provider may store what you share with them. Use Firefox if possible; Chrome and Edge share storage across local files. A password encrypts your data at rest in the browser.</p>
 
     <div class="settings-section">
       <div class="settings-label">Password Protection</div>
@@ -3021,8 +3092,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div class="modal-overlay" id="modal">
   <div class="modal" style="border-top:3px solid var(--help);position:relative;">
     <button class="modal-close" onclick="closeModal()" title="Close">×</button>
-    <div class="modal-title" style="color:var(--help);">↑ &nbsp;IMPORT &nbsp;/ PASTE FROM AI</div>
-    <p>After a journalling session, ask your AI to output the JSON update. Paste it below and hit Apply.</p>
+    <div class="modal-title" style="color:var(--help);">↑ &nbsp;IMPORT</div>
+    <p>Paste a data.json here and hit Apply. Use this to restore a backup, migrate from another device, or import an update from your AI after a journalling session.</p>
     <textarea id="json-input" placeholder='{ "name": "Alex", "mainQuest": { ... }, ... }'></textarea>
     <div class="modal-row">
       <button class="btn-primary" onclick="applyUpdate()">Apply</button>
@@ -3031,7 +3102,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="btn-ghost" style="margin-left:auto;font-size:13px;opacity:0.7;" onclick="document.getElementById('import-file-input').click()">↑ data.json</button>
       <input type="file" id="import-file-input" accept=".json,application/json" style="display:none" onchange="importFromFile(event)">
     </div>
-    <p style="font-size:12px;color:#c84040;margin-top:8px;margin-bottom:0;">⚠ data.json contains your private journal. Treat it like a diary and don't share it casually.</p>
+    <p style="font-size:12px;color:#c84040;margin-top:8px;margin-bottom:0;">⚠ data.json contains your private data. Treat it like a diary and don't share it casually.</p>
   </div>
 </div>
 
@@ -3043,8 +3114,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
       <!-- Left: Summary export (for AI journalling) -->
       <div style="display:flex;flex-direction:column;">
-        <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">AI Journal Export</div>
-        <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Copy this JSON and paste it into your AI project as <code>data.json</code>. This keeps your AI up to date with your latest state.</p>
+        <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Export data.json</div>
+        <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Your portable data snapshot. Use for backup, device migration, or to share your latest state with your AI project.</p>
         <div id="export-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;"></div>
         <div id="export-context-note" style="margin-bottom:10px;font-size:12px;color:var(--text-dim);font-family:var(--mono);"></div>
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;overflow:visible;">
@@ -3073,7 +3144,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         </div>
       </div>
     </div>
-    <p style="font-size:12px;color:#c84040;margin-top:14px;margin-bottom:0;text-align:center;">⚠ Both files contain your private journal. Treat them like a diary. Uploading to an AI service or cloud storage means trusting that provider with your data.</p>
+    <p style="font-size:12px;color:#c84040;margin-top:14px;margin-bottom:0;text-align:center;">⚠ Both files contain your private data. Treat them like a diary. Uploading to an AI service or cloud storage means trusting that provider with your data.</p>
   </div>
 </div>
 
@@ -3348,12 +3419,13 @@ function getHardcodedValue(act, date) {
 }
 
 function getRQStats(act, charName) {
-  // Returns { avg7, avgAll, lastDone } — no streak, no best
+  // Returns { pct7, pctAll, lastDone } — success % over last 7 and all tracked periods
   const hardHist = HARDCODED_HISTORY[act.id] || [];
   const lsHist   = loadRQHistory(charName, act.id);
   const periods = []; // { period, value } objects in descending order
   const now = new Date();
   const numPeriods = act.resetPeriod === 'week' ? 52 : 90;
+  const target = act.target || 1;
   for (let i = 1; i <= numPeriods; i++) {
     const d = new Date(now);
     if (act.resetPeriod === 'day') d.setDate(d.getDate() - i);
@@ -3370,14 +3442,16 @@ function getRQStats(act, charName) {
     if (val != null) periods.push({ period: periodKey, value: val });
     else periods.push({ period: periodKey, value: 0 });
   }
+  const last7 = periods.slice(0, 7);
+  const pct7 = last7.length ? Math.round(last7.filter(p => p.value >= target).length / last7.length * 100) : 0;
+  // All-time: only count up to the most recent recorded period to avoid inflating with all-zero tail
+  const lastRecordedIdx = periods.reduce((acc, p, i) => p.value > 0 ? i : acc, -1);
+  const activeAll = lastRecordedIdx >= 0 ? periods.slice(0, lastRecordedIdx + 1) : [];
+  const pctAll = activeAll.length ? Math.round(activeAll.filter(p => p.value >= target).length / activeAll.length * 100) : 0;
   const nonZero = periods.filter(p => p.value > 0);
-  const avg7vals = periods.slice(0, 7).map(p => p.value);
-  const avg7 = avg7vals.length ? Math.round(avg7vals.reduce((a,b)=>a+b,0) / avg7vals.length) : 0;
-  const avg7done = avg7vals.filter(v => v > 0).length;
-  const avgAll = nonZero.length ? Math.round(nonZero.reduce((a,b)=>a+b.value,0) / nonZero.length) : 0;
   const lastDoneEntry = nonZero[0];
   const lastDone = lastDoneEntry ? lastDoneEntry.period : null;
-  return { avg7, avg7done, avgAll, lastDone };
+  return { pct7, pctAll, lastDone };
 }
 
 migrateCompletedQuests();
@@ -4519,10 +4593,20 @@ function showXpToast(questTitle,xp,onUndo){
 
 function addSideQuest(){
   if(!appState.sideQuests) appState.sideQuests=[];
-  appState.sideQuests.push({title:'',nextStep:'',whyItMatters:'',progress:0});
-  saveState(appState); markDirty(); renderQuestsTab(appState);
-  const cards=document.querySelectorAll('#qt-active .sq-title-edit');
-  if(cards.length) cards[cards.length-1].focus();
+  showCardEditModal({
+    accentColor:'var(--gold)',
+    fields:[
+      {key:'title',        label:'Quest Name',     value:'',  type:'text',     titleFont:true},
+      {key:'nextStep',     label:'Next Step',       value:'',  type:'textarea', rows:2, hint:'The very next physical action to move this forward'},
+      {key:'whyItMatters', label:'Why It Matters',  value:'',  type:'textarea', rows:2, hint:'Why does completing this matter to you?'},
+      {key:'doneWhen',     label:'Completed When',  value:'',  type:'text',     placeholder:'Describe the finish line…', hint:'How will you know when this is done?'},
+    ],
+    onSave:v=>{
+      if(!v.title.trim()) return;
+      appState.sideQuests.push({title:capitalise(v.title),nextStep:v.nextStep,whyItMatters:v.whyItMatters,doneWhen:v.doneWhen,progress:0});
+      saveState(appState); markDirty(); renderQuestsTab(appState);
+    }
+  });
 }
 function addCompletedQuest(){
   const arr=loadCompletedQuests();
@@ -4560,6 +4644,7 @@ function renderQuestsTab(s){
     const arrowEl=document.createElement('div'); arrowEl.className='mqcard-trigger-arrow'; arrowEl.id='mq-arrow'; arrowEl.textContent='▾';
     trigger.appendChild(titleEl); trigger.appendChild(tr); trigger.appendChild(ps);
     if(mq.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+mq.xpReward+' XP'; trigger.appendChild(pill); }
+    else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal about this quest, negotiate the reward with your AI based on how difficult or meaningful it is.'; trigger.appendChild(pill); }
     const mqDlInfo=deadlineInfo(mq.deadline);
     if(mqDlInfo){ const badge=document.createElement('span'); badge.className='quest-deadline-badge '+mqDlInfo.cls; badge.textContent='⏱ '+mqDlInfo.label; badge.title='Due '+mq.deadline; trigger.appendChild(badge); }
     trigger.appendChild(arrowEl);
@@ -4635,9 +4720,29 @@ function renderQuestsTab(s){
       });
       head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(tr); head.appendChild(ps);
       if(q.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+q.xpReward+' XP'; head.appendChild(pill); }
+      else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal about this quest, negotiate the reward with your AI based on how difficult or meaningful it is.'; head.appendChild(pill); }
       const dlInfo=deadlineInfo(q.deadline);
       if(dlInfo){ const badge=document.createElement('span'); badge.className='quest-deadline-badge '+dlInfo.cls; badge.textContent='⏱ '+dlInfo.label; badge.title='Due '+q.deadline; head.appendChild(badge); }
-      head.appendChild(completeBtn); head.appendChild(arrowEl);
+      const sqEditBtn=document.createElement('button'); sqEditBtn.className='card-edit-btn'; sqEditBtn.textContent='✎'; sqEditBtn.title='Edit quest details';
+      sqEditBtn.addEventListener('click',e=>{ e.stopPropagation();
+        showCardEditModal({
+          accentColor:'var(--gold)',
+          fields:[
+            {key:'title',       label:'Quest Name',      value:q.title||'',       type:'text',     titleFont:true},
+            {key:'nextStep',    label:'Next Step',        value:q.nextStep||'',    type:'textarea', rows:2, hint:'The very next physical action to move this forward'},
+            {key:'whyItMatters',label:'Why It Matters',  value:q.whyItMatters||'',type:'textarea', rows:2, hint:'Why does completing this matter to you?'},
+            {key:'doneWhen',    label:'Completed When',  value:q.doneWhen||'',    type:'text',     placeholder:'Describe the finish line…', hint:'How will you know when this is done?'},
+          ],
+          onSave:v=>{
+            saveNestedField(['sideQuests',i,'title'],capitalise(v.title));
+            saveNestedField(['sideQuests',i,'nextStep'],v.nextStep);
+            saveNestedField(['sideQuests',i,'whyItMatters'],v.whyItMatters);
+            saveNestedField(['sideQuests',i,'doneWhen'],v.doneWhen);
+            renderQuestsTab(appState);
+          }
+        });
+      });
+      head.appendChild(sqEditBtn); head.appendChild(completeBtn); head.appendChild(arrowEl);
       head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl||e.target===mark) toggleChapter(bodyId,arrowId); });
       const body=document.createElement('div'); body.className='sqcard-body open'; body.id=bodyId;
       body.appendChild(makeEditable(q.nextStep,'What needs doing…',v=>saveNestedField(['sideQuests',i,'nextStep'],v),'sqcard-next'));
@@ -4903,7 +5008,7 @@ function renderBestiaryTab(s){
       const tag=document.createElement('span');
       if(isBoss){
         tag.className='enemy-type-tag'; tag.style.cssText='background:rgba(200,64,64,0.12);color:#c84040;border-color:rgba(200,64,64,0.3);'; tag.textContent='☠ Boss';
-        tag.title='Boss: the root pattern driving most of your other enemies. Has sub-enemies (fast-moving expressions) and key vulnerabilities (moments it can be interrupted).';
+        tag.title='Boss: an underlying pattern and root cause. Minions are its fast-moving symptoms. Key vulnerabilities are moments it can be interrupted.';
       } else {
         tag.className='enemy-type-tag '+tc.cls; tag.textContent=tc.icon+' '+tc.label;
         const tooltip=TYPE_TOOLTIPS[e.type]||TYPE_TOOLTIPS[e.type==='distortion'?'blindspot':e.type==='drain'?'temptation':e.type];
@@ -4926,6 +5031,43 @@ function renderBestiaryTab(s){
       hpWrap.appendChild(hpFill);
       head.appendChild(nameEl); head.appendChild(tag); head.appendChild(hpWrap);
       if(e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
+      else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='☠ ? XP'; pill.title='Bounty not set. When you journal about defeating this enemy, negotiate the XP reward with your AI based on how significant overcoming it would be.'; head.appendChild(pill); }
+      const enemyEditBtn=document.createElement('button'); enemyEditBtn.className='card-edit-btn'; enemyEditBtn.textContent='✎'; enemyEditBtn.title='Edit details';
+      enemyEditBtn.addEventListener('click',ev=>{ ev.stopPropagation();
+        const fields=[
+          {key:'name',  label:'Name',        value:e.name||'',              type:'text',     titleFont:true},
+        ];
+        if(!isBoss){
+          fields.push({key:'enemyType', label:'Type', value:e.type||'blindspot', type:'select',
+            options:[
+              {value:'blindspot',  icon:'◈', label:'Blindspot',       color:'#c83060'},
+              {value:'compulsion', icon:'⚡', label:'Compulsion',      color:'#c83030'},
+              {value:'belief',     icon:'⬡', label:'Limiting Belief', color:'#8b5e3c'},
+              {value:'temptation', icon:'↓', label:'Temptation',      color:'#7848c0'},
+            ]
+          });
+        }
+        fields.push({key:'desc',  label:'Description', value:e.desc||'',              type:'textarea', rows:3});
+        if(isBoss){
+          fields.push({key:'whyBoss',         label:'Why is this a boss?',         value:e.whyBoss||'',         type:'textarea', rows:2, hint:'What underlying pattern or root cause does it represent?'});
+          fields.push({key:'shortTermBenefit',label:'Short-term benefit',          value:e.shortTermBenefit||'',type:'textarea', rows:2, hint:'What does this pattern give you in the short term?'});
+          fields.push({key:'origin',          label:'Origin',                      value:e.origin||'',          type:'textarea', rows:2, hint:'Where did this pattern come from?'});
+        } else {
+          fields.push({key:'trigger',         label:'Triggered by',                value:e.trigger||'',         type:'text',               hint:'What situations or cues activate this pattern?'});
+          fields.push({key:'shortTermBenefit',label:'Short-term benefit',          value:e.shortTermBenefit||'',type:'textarea', rows:2, hint:'What does this pattern give you in the short term?'});
+          fields.push({key:'origin',          label:'Origin',                      value:e.origin||'',          type:'textarea', rows:2, hint:'Where did this pattern come from?'});
+        }
+        showCardEditModal({
+          accentColor: isBoss?'#c84040':(TYPES[e.type]||DEFAULT_TC).nameColor,
+          fields,
+          onSave:v=>{
+            const {enemyType, ...rest}=v;
+            Object.entries(rest).forEach(([k,val])=>saveEnemyField(k,val));
+            if(!isBoss&&enemyType) saveEnemyField('type',enemyType);
+            renderBestiaryTab(appState);
+          }
+        });
+      });
       if(!isBoss){
         const moveBtn=document.createElement('button'); moveBtn.className='move-enemy-btn'; moveBtn.title='Move to boss / detach'; moveBtn.textContent='⇄';
         moveBtn.addEventListener('click',ev=>{ ev.stopPropagation(); showMoveEnemyDropdown(moveBtn,e); });
@@ -4934,6 +5076,7 @@ function renderBestiaryTab(s){
         killBtn.addEventListener('click',ev=>{ ev.stopPropagation(); killEnemy(e); });
         head.appendChild(killBtn);
       }
+      head.appendChild(enemyEditBtn);
       head.appendChild(arrowEl);
       if(isBossSubEnemy){
         // Minions: uncollapsed by default, show desc
@@ -4949,7 +5092,7 @@ function renderBestiaryTab(s){
         descEl.style.whiteSpace='pre-wrap';
         body.appendChild(descEl);
         if(isBoss){
-          const wyEl=makeEditable(e.whyBoss||'','Why is this the root boss?…',v=>saveEnemyField('whyBoss',v));
+          const wyEl=makeEditable(e.whyBoss||'','Why is this a boss? (underlying pattern)…',v=>saveEnemyField('whyBoss',v));
           wyEl.style.cssText='margin-top:8px;font-size:16px;color:rgba(200,64,64,0.7);font-style:italic;';
           body.appendChild(wyEl);
         }
@@ -4997,7 +5140,7 @@ function renderBestiaryTab(s){
     if(bosses.length){
       const bossSecHdr=document.createElement('div'); bossSecHdr.className='qt-section-hdr no-prefix'; bossSecHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:4px;'; bossSecHdr.textContent='☠ Bosses';
       enemiesEl.appendChild(bossSecHdr);
-      const bossSecDesc=document.createElement('div'); bossSecDesc.className='section-desc'; bossSecDesc.textContent='Root patterns — minions are their symptoms';
+      const bossSecDesc=document.createElement('div'); bossSecDesc.className='section-desc'; bossSecDesc.textContent='Bosses are underlying patterns and root causes, minions are examples of their symptoms';
       enemiesEl.appendChild(bossSecDesc);
       const bossesContainer=document.createElement('div');
       bossesContainer.className='no-drag';
@@ -5143,7 +5286,7 @@ function renderBestiaryTab(s){
       const t=e.type||'blindspot';
       counts[t]=(counts[t]||0)+1;
     });
-    const TYPES_BT_BOSS={boss:{label:'Boss',colour:'#c84040',tooltip:'Boss: the root pattern driving most of your other enemies. Has sub-enemies (fast-moving expressions) and key vulnerabilities (moments it can be interrupted).'}};
+    const TYPES_BT_BOSS={boss:{label:'Boss',colour:'#c84040',tooltip:'Boss: an underlying pattern and root cause. Minions are its fast-moving symptoms. Key vulnerabilities are moments it can be interrupted.'}};
     const allTypeDefs={...TYPES_BT_BOSS,...TYPES_BT};
     const entries=Object.entries(counts).map(([t,count],i)=>({
       label: (allTypeDefs[t]||{label:t}).label,
@@ -5221,7 +5364,7 @@ function renderAchievementsTab(s){
   const listEl=document.getElementById('ach-list');
   if(!listEl) return;
   if(!achievements.length){
-    listEl.innerHTML='<p style="color:var(--text-dim);font-size:17px;font-style:italic;">No titles yet. Keep journalling!</p>';
+    listEl.innerHTML='<p style="color:var(--text-dim);font-size:17px;font-style:italic;">No titles yet.</p>';
     return;
   }
   listEl.innerHTML='';
@@ -5230,6 +5373,23 @@ function renderAchievementsTab(s){
     const isFeatured=featured.includes(a.id);
     const card=document.createElement('div');
     card.className='ach-card'+(isFeatured?' featured':'');
+    // Whole-card click toggles featured
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.ally-delete,.card-edit-btn,.ach-card-icon,.ach-card-type')) return;
+      const f=getFeaturedAch();
+      const idx=f.indexOf(a.id);
+      if(idx>=0){ f.splice(idx,1); }
+      else if(f.length<3){ f.push(a.id); }
+      else{ return; }
+      setFeaturedAch(f);
+      card.classList.toggle('featured', f.includes(a.id));
+      achFeatBtn.classList.toggle('active', f.includes(a.id));
+      achFeatBtn.title=f.includes(a.id)?'Remove from featured':'Pin to featured (max 3)';
+      achFeatBtn.classList.add('pop');
+      achFeatBtn.addEventListener('animationend',()=>achFeatBtn.classList.remove('pop'),{once:true});
+      renderAchievementsTab(s);
+      renderHdrTitles(s);
+    });
     const row=document.createElement('div'); row.className='ach-card-row'; row.dataset.handleInject='1';
     const achDelBtn=document.createElement('button'); achDelBtn.className='ally-delete card-head-del'; achDelBtn.textContent='×'; achDelBtn.title='Delete title';
     achDelBtn.addEventListener('click',e=>{ e.stopPropagation();
@@ -5249,8 +5409,7 @@ function renderAchievementsTab(s){
           saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
       });
     });
-    const achTitle=makeEditable(a.title||'','Title',v=>{ if(ai2>=0){appState.achievements[ai2].title=v; saveState(appState); markDirty(); renderHdrTitles(appState);} },'ach-card-title');
-    achTitle.addEventListener('click',e=>e.stopPropagation());
+    const achTitle=document.createElement('div'); achTitle.className='ach-card-title'; achTitle.textContent=a.title||'';
     const achType=document.createElement('div'); achType.className='ach-card-type '+tc.cls;
     achType.textContent=tc.icon+' '+tc.label; if(tc.tooltip) achType.title='Click to change type';
     achType.style.cursor='pointer';
@@ -5259,28 +5418,33 @@ function renderAchievementsTab(s){
       const ni=(types.indexOf(cur)+1)%types.length;
       if(ai2>=0){ appState.achievements[ai2].type=types[ni]; saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState); }
     });
-    const achDate=makeEditable(a.dateUnlocked||'','Date unlocked',v=>{ if(ai2>=0){appState.achievements[ai2].dateUnlocked=v; saveState(appState); markDirty();} },'ach-card-date');
-    achDate.addEventListener('click',e=>e.stopPropagation());
+    const achDate=document.createElement('div'); achDate.className='ach-card-date'; achDate.textContent=a.dateUnlocked||'';
     const achFeatBtn=document.createElement('button');
     achFeatBtn.className='ach-feature-btn'+(isFeatured?' active':'');
     achFeatBtn.title=isFeatured?'Remove from featured':'Pin to featured (max 3)';
-    achFeatBtn.textContent='✓';
-    achFeatBtn.addEventListener('click',e=>{
-      e.stopPropagation();
-      const f=getFeaturedAch();
-      const idx=f.indexOf(a.id);
-      if(idx>=0){ f.splice(idx,1); }
-      else if(f.length<3){ f.push(a.id); }
-      else{ return; }
-      setFeaturedAch(f);
-      achFeatBtn.classList.add('pop');
-      achFeatBtn.addEventListener('animationend',()=>achFeatBtn.classList.remove('pop'),{once:true});
-      renderAchievementsTab(s);
-      renderHdrTitles(s);
+    achFeatBtn.textContent=isFeatured?'★':'☆';
+    const achEditBtn=document.createElement('button');
+    achEditBtn.className='card-edit-btn'; achEditBtn.textContent='✎'; achEditBtn.title='Edit title and description';
+    achEditBtn.addEventListener('click',e=>{ e.stopPropagation();
+      showCardEditModal({
+        accentColor: 'var(--gold)',
+        fields:[
+          {key:'title',       label:'Title',        value:a.title||'',        type:'text',     titleFont:true},
+          {key:'dateUnlocked',label:'Date Unlocked', value:a.dateUnlocked||'', type:'mono',     placeholder:'e.g. Jan 2025'},
+          {key:'description', label:'Description',  value:a.description||'',  type:'textarea', rows:4},
+        ],
+        onSave: v=>{
+          if(ai2>=0){
+            appState.achievements[ai2].title=v.title;
+            appState.achievements[ai2].description=v.description;
+            appState.achievements[ai2].dateUnlocked=v.dateUnlocked;
+            saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState);
+          }
+        }
+      });
     });
-    row.appendChild(achIcon); row.appendChild(achTitle); row.appendChild(achType); row.appendChild(achDate); row.appendChild(achFeatBtn);
-    const desc=makeEditable(a.description||'','Description',v=>{ if(ai2>=0){appState.achievements[ai2].description=v; saveState(appState); markDirty();} },'ach-card-desc');
-    desc.addEventListener('click',e=>e.stopPropagation());
+    row.appendChild(achIcon); row.appendChild(achTitle); row.appendChild(achType); row.appendChild(achDate); row.appendChild(achEditBtn); row.appendChild(achFeatBtn);
+    const desc=document.createElement('div'); desc.className='ach-card-desc'; desc.textContent=a.description||'';
     card.appendChild(row); card.appendChild(desc);
     listEl.appendChild(card);
   });
@@ -5387,7 +5551,37 @@ function renderAlliesTab(s){
           ()=>{ appState.allies=snapA; appState.liberatingBeliefs=snapL; saveState(appState); markDirty(); renderAlliesTab(appState); }
         );
       });
-      head.appendChild(delBtn); head.appendChild(rankBadge); head.appendChild(nameEl); head.appendChild(tag); head.appendChild(arrowEl);
+      const allyEditBtn=document.createElement('button'); allyEditBtn.className='card-edit-btn'; allyEditBtn.textContent='✎'; allyEditBtn.title='Edit details';
+      allyEditBtn.addEventListener('click',ev=>{ ev.stopPropagation();
+        showCardEditModal({
+          accentColor: tc.nameColor,
+          fields:[
+            {key:'name',       label:'Name',            value:a.name||'',       type:'text',     titleFont:true},
+            {key:'allyType',   label:'Type',            value:a.type||'loot',   type:'select',
+              options:[
+                {value:'loot',       icon:'☁', label:'Loot',              color:'#4aaa72'},
+                {value:'spell',      icon:'✦', label:'Spell',             color:'#c87828'},
+                {value:'liberation', icon:'⬡', label:'Liberating Belief', color:'#2d9050'},
+                {value:'source',     icon:'↑', label:'Source',            color:'#2a9090'},
+              ]
+            },
+            {key:'desc',       label:'Description',     value:a.desc||'',       type:'textarea', rows:3},
+            {key:'why',        label:'Why it matters to you',  value:a.why||'', type:'textarea', rows:2},
+            {key:'corruption', label:'Corruption',      value:a.corruption||'', type:'textarea', rows:2, hint:'What holds you back from fully appreciating it?'},
+          ],
+          onSave:v=>{
+            if(a._srcType==='allies'&&appState.allies?.[a._idx]){
+              const ally=appState.allies[a._idx];
+              ally.name=v.name; ally.type=v.allyType; ally.desc=v.desc; ally.why=v.why; ally.corruption=v.corruption;
+            } else if(a._srcType==='liberatingBeliefs'&&appState.liberatingBeliefs?.[a._idx]){
+              const b=appState.liberatingBeliefs[a._idx];
+              if(typeof b==='object'){ b.title=v.name; b.type=v.allyType; b.desc=v.desc; } else appState.liberatingBeliefs[a._idx]={belief:v.name,type:v.allyType,desc:v.desc};
+            }
+            saveState(appState); markDirty(); renderAlliesTab(appState);
+          }
+        });
+      });
+      head.appendChild(delBtn); head.appendChild(rankBadge); head.appendChild(nameEl); head.appendChild(tag); head.appendChild(allyEditBtn); head.appendChild(arrowEl);
       head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
       const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
       const descEl=makeEditable(a.desc||'','Description',v=>{
@@ -6197,6 +6391,98 @@ function closeEmojiPicker(){
   if(_emojiPickerClose){ document.removeEventListener('click',_emojiPickerClose,{capture:true}); _emojiPickerClose=null; }
 }
 // ═══════════════════════════════════════════════════════════
+
+// Generic edit modal. fields: [{key, label, value, type:'text'|'textarea'|'mono', rows, placeholder, titleFont}]
+// onSave called with object {key: value} for all fields.
+function showCardEditModal({fields, accentColor, onSave}){
+  // Legacy call-site compat: {title, description, dateUnlocked, accentColor, onSave}
+  if(!fields){
+    const args=arguments[0];
+    fields=[
+      {key:'title',      label:'Title',        value:args.title||'',        type:'text',     titleFont:true},
+      {key:'dateUnlocked',label:'Date Unlocked',value:args.dateUnlocked||'', type:'mono',     placeholder:'e.g. Jan 2025'},
+      {key:'description',label:'Description',  value:args.description||'',  type:'textarea', rows:4},
+    ];
+    const origOnSave=args.onSave;
+    onSave=v=>origOnSave(v.title, v.description, v.dateUnlocked);
+  }
+  const existing=document.getElementById('card-edit-modal');
+  if(existing) existing.remove();
+  const overlay=document.createElement('div');
+  overlay.id='card-edit-modal'; overlay.className='modal-overlay open';
+  overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
+  const box=document.createElement('div');
+  box.className='modal'; box.style.cssText=`border-top:3px solid ${accentColor};position:relative;max-width:480px;`;
+  const closeBtn=document.createElement('button'); closeBtn.className='modal-close'; closeBtn.textContent='×'; closeBtn.title='Close';
+  closeBtn.addEventListener('click',()=>overlay.remove());
+  const modalTitleEl=document.createElement('div'); modalTitleEl.className='modal-title'; modalTitleEl.style.color=accentColor; modalTitleEl.textContent='EDIT';
+  box.appendChild(closeBtn); box.appendChild(modalTitleEl);
+  const LABEL_CSS='font-size:13px;color:var(--text-dim);margin-bottom:4px;margin-top:0;letter-spacing:0.08em;text-transform:uppercase;font-family:Cinzel,serif;';
+  const INPUT_BASE=`width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:8px 10px;outline:none;transition:border-color 0.15s;`;
+  const inputs={};
+  let firstInput=null;
+  fields.forEach((f,fi)=>{
+    const lbl=document.createElement('p'); lbl.style.cssText=LABEL_CSS; lbl.textContent=f.label;
+    box.appendChild(lbl);
+    if(f.hint){ const hint=document.createElement('p'); hint.style.cssText='font-size:14px;color:var(--text-dim);margin:-2px 0 6px;font-style:italic;'; hint.textContent=f.hint; box.appendChild(hint); }
+    let el;
+    if(f.type==='select'){
+      // Segmented button group — value getter/setter via synthetic .value property
+      el=document.createElement('div');
+      el.style.cssText=`display:flex;flex-wrap:wrap;gap:6px;margin-bottom:${fi===fields.length-1?16:12}px;`;
+      let selected=f.value||'';
+      const btns={};
+      f.options.forEach(opt=>{
+        const b=document.createElement('button');
+        b.type='button';
+        b.style.cssText=`padding:5px 11px;border-radius:5px;border:1px solid;font-size:14px;cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;font-family:inherit;`;
+        const setActive=active=>{
+          b.style.background=active?`${opt.color}22`:'transparent';
+          b.style.color=active?opt.color:'var(--text-dim)';
+          b.style.borderColor=active?`${opt.color}66`:'rgba(255,255,255,0.12)';
+        };
+        setActive(opt.value===selected);
+        b.textContent=(opt.icon?opt.icon+' ':'')+opt.label;
+        b.addEventListener('click',()=>{
+          selected=opt.value;
+          Object.entries(btns).forEach(([v,btn])=>{ const o=f.options.find(o=>o.value===v); if(o) { const a=v===selected; btn.style.background=a?`${o.color}22`:'transparent'; btn.style.color=a?o.color:'var(--text-dim)'; btn.style.borderColor=a?`${o.color}66`:'rgba(255,255,255,0.12)'; } });
+        });
+        btns[opt.value]=b;
+        el.appendChild(b);
+      });
+      Object.defineProperty(el,'value',{ get:()=>selected, set:v=>{ selected=v; } });
+    } else if(f.type==='textarea'){
+      el=document.createElement('textarea'); el.value=f.value||''; el.rows=f.rows||3;
+      el.style.cssText=INPUT_BASE+`font-size:17px;color:var(--text-mid);font-family:inherit;resize:vertical;line-height:1.5;margin-bottom:${fi===fields.length-1?16:12}px;`;
+    } else {
+      el=document.createElement('input'); el.type='text'; el.value=f.value||'';
+      if(f.placeholder) el.placeholder=f.placeholder;
+      const isMono=f.type==='mono'; const isTitle=f.titleFont;
+      el.style.cssText=INPUT_BASE+`font-size:${isTitle?17:15}px;color:${isTitle?'var(--text-hi)':'var(--text-mid)'};font-family:${isTitle?'Cinzel,serif':isMono?'var(--mono)':'inherit'};margin-bottom:${fi===fields.length-1?16:12}px;`;
+    }
+    if(f.type!=='select'){
+      el.addEventListener('focus',()=>{ el.style.borderColor=accentColor; });
+      el.addEventListener('blur',()=>{ el.style.borderColor='rgba(255,255,255,0.12)'; });
+      if(f.type!=='textarea') el.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); const next=fields[fi+1]; if(next) inputs[next.key].focus(); } });
+    }
+    inputs[f.key]=el;
+    box.appendChild(el);
+    if(!firstInput) firstInput=el;
+  });
+  const btnRow=document.createElement('div'); btnRow.className='modal-row';
+  const saveBtn=document.createElement('button'); saveBtn.className='btn-primary'; saveBtn.textContent='Save';
+  saveBtn.style.cssText=`background:${accentColor};border-color:${accentColor};`;
+  saveBtn.addEventListener('click',()=>{ const vals={}; fields.forEach(f=>{ vals[f.key]=inputs[f.key].value.trim(); }); onSave(vals); overlay.remove(); });
+  const cancelBtn=document.createElement('button'); cancelBtn.className='btn-ghost'; cancelBtn.textContent='Cancel';
+  cancelBtn.addEventListener('click',()=>overlay.remove());
+  // Ctrl/Cmd+Enter saves from textarea
+  box.addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){ e.preventDefault(); saveBtn.click(); } });
+  btnRow.appendChild(saveBtn); btnRow.appendChild(cancelBtn);
+  box.appendChild(btnRow);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  if(firstInput){ firstInput.focus(); firstInput.select(); }
+}
 
 function showConfirmDelete(name, onConfirm, onUndo){
   const msg=document.getElementById('confirm-delete-msg');
@@ -7156,15 +7442,11 @@ function renderRQBarChart(wrap, act, charName) {
   // Shared: update stats display after any save
   const refreshStats = () => {
     const newStats = getRQStats(act, charName);
-    const fv = (v, isAvg7) => {
-      if (act.type === 'checkbox' && isAvg7) return newStats.avg7done + '/7';
-      if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
-      return v >= 0 ? (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '0') : '—';
-    };
+    const fv = v => v > 0 ? v + '%' : '—';
     const avgEl    = document.getElementById('stat-avg-'    + act.id);
     const avgAllEl = document.getElementById('stat-avgall-' + act.id);
-    if (avgEl)    avgEl.textContent    = fv(newStats.avg7, true);
-    if (avgAllEl) avgAllEl.textContent = fv(newStats.avgAll, false);
+    if (avgEl)    avgEl.textContent    = fv(newStats.pct7);
+    if (avgAllEl) avgAllEl.textContent = fv(newStats.pctAll);
   };
 
   const attachPopover = (col, dp) => {
@@ -7694,14 +7976,7 @@ function renderRecurringQuests(s) {
     infoText.appendChild(descEl);
     infoText.appendChild(whyEl);
     info.appendChild(infoText);
-    const formatVal = (v, isAvg7) => {
-      if (act.type === 'checkbox' && isAvg7) {
-        // Show days done / 7 for checkbox 7-period trend
-        return stats.avg7done + '/7';
-      }
-      if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
-      return v >= 0 ? (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '0') : '—';
-    };
+    const formatVal = (v) => v > 0 ? v + '%' : '—';
     const fmtLastDone = period => {
       if (!period) return '—';
       if (act.resetPeriod === 'day') {
@@ -7715,13 +7990,13 @@ function renderRecurringQuests(s) {
       <div class="practice-trends-hdr">Trends</div>
       <div class="practice-trend-row">
         <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
-        <span class="practice-trend-lbl">7-${act.resetPeriod} trend</span>
-        <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.avg7, true)}</span>
+        <span class="practice-trend-lbl">Last 7</span>
+        <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.pct7)}</span>
       </div>
       <div class="practice-trend-row">
         <span class="practice-trend-swatch practice-trend-swatch-all"></span>
-        <span class="practice-trend-lbl">All-time trend</span>
-        <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.avgAll)}</span>
+        <span class="practice-trend-lbl">All-time</span>
+        <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.pctAll)}</span>
       </div>
     `;
     info.appendChild(statsRow);
@@ -7905,11 +8180,7 @@ function handleBackfill(id) {
   const chartWrap = document.getElementById('rq-chart-' + id);
   if (chartWrap) renderRQBarChart(chartWrap, act, charName);
   const newStats = getRQStats(act, charName);
-  const formatV = (v, isAvg7) => {
-    if (act.type === 'checkbox' && isAvg7) return newStats.avg7done + '/7';
-    if (act.type === 'timer') return v > 0 ? v + ' min' : '—';
-    return v >= 0 ? (v > 0 ? v + (act.unit ? ' ' + act.unit : '') : '0') : '—';
-  };
+  const formatV = v => v > 0 ? v + '%' : '—';
   const fmtLastDoneB = period => {
     if (!period) return '—';
     if (act.resetPeriod === 'day') {
@@ -7920,8 +8191,8 @@ function handleBackfill(id) {
   };
   const avgEl    = document.getElementById('stat-avg-'    + id);
   const avgAllEl = document.getElementById('stat-avgall-' + id);
-  if (avgEl)    avgEl.textContent    = formatV(newStats.avg7, true);
-  if (avgAllEl) avgAllEl.textContent = formatV(newStats.avgAll, false);
+  if (avgEl)    avgEl.textContent    = formatV(newStats.pct7);
+  if (avgAllEl) avgAllEl.textContent = formatV(newStats.pctAll);
 
   // Flash feedback on the save button
   const btn = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
@@ -8287,7 +8558,7 @@ function renderCombatSkills(s){
   const allSkills=s.skills||DEFAULT.skills||[];
   const skills=allSkills.slice().sort((a,b)=>(a.priority||99)-(b.priority||99));
   el.innerHTML='';
-  if(!skills.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No skills yet. Keep journalling!'; el.appendChild(p); }
+  if(!skills.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No skills yet.'; el.appendChild(p); }
   const BELT_COLS=['#dedad0','#1e4898','#6030a0','#703818','#c8a84a'];
   const MASTERY_LABELS=['','I: Beginner','II: Novice','III: Adept','IV: Expert','V: Master'];
   skills.forEach((sk,i)=>{
@@ -8320,8 +8591,27 @@ function renderCombatSkills(s){
         ()=>{ appState.skills=snap; saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState); }
       );
     });
+    const skillEditBtn=document.createElement('button'); skillEditBtn.className='card-edit-btn'; skillEditBtn.textContent='✎'; skillEditBtn.title='Edit skill details';
+    skillEditBtn.addEventListener('click',e=>{ e.stopPropagation();
+      showCardEditModal({
+        accentColor: col,
+        fields:[
+          {key:'name',          label:'Skill Name',      value:sk.name||'',          type:'text',     titleFont:true},
+          {key:'description',   label:'Description',     value:sk.description||'',   type:'textarea', rows:3},
+          {key:'whyItMatters',  label:'Why It Matters',  value:sk.whyItMatters||'',  type:'textarea', rows:2, hint:'Why is developing this skill important to you?'},
+        ],
+        onSave:v=>{
+          saveNestedField(['skills',realIdx,'name'],capitalise(v.name));
+          saveNestedField(['skills',realIdx,'description'],v.description);
+          saveNestedField(['skills',realIdx,'whyItMatters'],v.whyItMatters);
+          renderCombatSkills(appState); renderSkillsTopRow(appState);
+        }
+      });
+    });
     head.appendChild(delBtn); head.appendChild(pri); head.appendChild(nameEl); head.appendChild(mastery); head.appendChild(roleBadge);
     if(sk.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-skill'; pill.textContent='+'+sk.xpReward+' XP'; head.appendChild(pill); }
+    else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal, negotiate the reward with your AI based on how much effort levelling this skill requires.'; head.appendChild(pill); }
+    head.appendChild(skillEditBtn);
     head.appendChild(arrowEl);
     head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl||e.target===pri) toggleChapter(bodyId,arrowId); });
     const body=document.createElement('div'); body.className='skill-card-body open'; body.id=bodyId;
@@ -8363,6 +8653,24 @@ function renderClassesTab(s){
     const isFeatured=featured.includes(c.id);
     const card=document.createElement('div');
     card.className='cls-card'+(isFeatured?' featured':'');
+    // Whole-card click toggles featured
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.ally-delete,.card-edit-btn,.cls-card-icon,.cls-role-select')) return;
+      const f=getFeaturedCls();
+      const idx=f.indexOf(c.id);
+      if(idx>=0){f.splice(idx,1);}
+      else if(f.length<3){f.push(c.id);}
+      else{return;}
+      setFeaturedCls(f);
+      card.classList.toggle('featured', f.includes(c.id));
+      clsFeatBtn.classList.toggle('active', f.includes(c.id));
+      clsFeatBtn.textContent=f.includes(c.id)?'★':'☆';
+      clsFeatBtn.title=f.includes(c.id)?'Remove from featured':'Pin to featured (max 3)';
+      clsFeatBtn.classList.add('pop');
+      clsFeatBtn.addEventListener('animationend',()=>clsFeatBtn.classList.remove('pop'),{once:true});
+      renderClassesTab(s);
+      renderHdrClasses(s);
+    });
     const row=document.createElement('div'); row.className='cls-card-row'; row.dataset.handleInject='1';
     const clsDelBtn=document.createElement('button'); clsDelBtn.className='ally-delete card-head-del'; clsDelBtn.textContent='×'; clsDelBtn.title='Delete class';
     clsDelBtn.addEventListener('click',e=>{ e.stopPropagation();
@@ -8381,10 +8689,8 @@ function renderClassesTab(s){
           saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState); }
       });
     });
-    const clsTitle=makeEditable(c.title||c.name||'','Title',v=>{ if(ci2>=0){appState.classes[ci2].title=v; saveState(appState); markDirty(); renderHdrClasses(appState);} },'cls-card-title');
-    clsTitle.addEventListener('click',e=>e.stopPropagation());
-    const clsDate=makeEditable(c.dateUnlocked||'','Date unlocked',v=>{ if(ci2>=0){appState.classes[ci2].dateUnlocked=v; saveState(appState); markDirty();} },'cls-card-date');
-    clsDate.addEventListener('click',e=>e.stopPropagation());
+    const clsTitle=document.createElement('div'); clsTitle.className='cls-card-title'; clsTitle.textContent=c.title||c.name||'';
+    const clsDate=document.createElement('div'); clsDate.className='cls-card-date'; clsDate.textContent=c.dateUnlocked||'';
     // Role dropdown
     const roleSelect=document.createElement('select');
     roleSelect.className='cls-role-select '+(c.role?c.role.toLowerCase():'');
@@ -8403,23 +8709,29 @@ function renderClassesTab(s){
     const clsFeatBtn=document.createElement('button');
     clsFeatBtn.className='cls-feature-btn'+(isFeatured?' active':'');
     clsFeatBtn.title=isFeatured?'Remove from featured':'Pin to featured (max 3)';
-    clsFeatBtn.textContent='✓';
-    clsFeatBtn.addEventListener('click',e=>{
-      e.stopPropagation();
-      const f=getFeaturedCls();
-      const idx=f.indexOf(c.id);
-      if(idx>=0){f.splice(idx,1);}
-      else if(f.length<3){f.push(c.id);}
-      else{return;}
-      setFeaturedCls(f);
-      clsFeatBtn.classList.add('pop');
-      clsFeatBtn.addEventListener('animationend',()=>clsFeatBtn.classList.remove('pop'),{once:true});
-      renderClassesTab(s);
-      renderHdrClasses(s);
+    clsFeatBtn.textContent=isFeatured?'★':'☆';
+    const clsEditBtn=document.createElement('button');
+    clsEditBtn.className='card-edit-btn'; clsEditBtn.textContent='✎'; clsEditBtn.title='Edit title and description';
+    clsEditBtn.addEventListener('click',e=>{ e.stopPropagation();
+      showCardEditModal({
+        accentColor: '#b080e8',
+        fields:[
+          {key:'title',       label:'Title',        value:c.title||c.name||'', type:'text',     titleFont:true},
+          {key:'dateUnlocked',label:'Date Unlocked', value:c.dateUnlocked||'',  type:'mono',     placeholder:'e.g. Jan 2025'},
+          {key:'description', label:'Description',  value:c.description||'',   type:'textarea', rows:4},
+        ],
+        onSave: v=>{
+          if(ci2>=0){
+            appState.classes[ci2].title=v.title;
+            appState.classes[ci2].description=v.description;
+            appState.classes[ci2].dateUnlocked=v.dateUnlocked;
+            saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState);
+          }
+        }
+      });
     });
-    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsDate); row.appendChild(roleSelect); row.appendChild(clsFeatBtn);
-    const desc=makeEditable(c.description||'','Description',v=>{ if(ci2>=0){appState.classes[ci2].description=v; saveState(appState); markDirty();} },'cls-card-desc');
-    desc.addEventListener('click',e=>e.stopPropagation());
+    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsDate); row.appendChild(roleSelect); row.appendChild(clsEditBtn); row.appendChild(clsFeatBtn);
+    const desc=document.createElement('div'); desc.className='cls-card-desc'; desc.textContent=c.description||'';
     card.appendChild(row); card.appendChild(desc);
     listEl.appendChild(card);
   });
@@ -8748,13 +9060,28 @@ function showWelcome(){
   document.getElementById('welcome-modal').classList.add('open');
 }
 
-function toggleWelcomeSetup(){
-  const steps = document.getElementById('welcome-setup-steps');
-  const btn   = document.getElementById('welcome-setup-btn');
+function toggleWelcomeSetup(mode){
+  const steps      = document.getElementById('welcome-setup-steps');
+  const manualBtn  = document.getElementById('welcome-setup-btn');
+  const aiBtn      = document.getElementById('welcome-ai-btn');
+  const manualPath = document.getElementById('welcome-path-manual');
+  const aiPath     = document.getElementById('welcome-path-ai');
   if(!steps) return;
-  const open = steps.style.display === 'block';
-  steps.style.display = open ? 'none' : 'block';
-  if(btn) btn.classList.toggle('active', !open);
+  const currentMode = steps.dataset.mode;
+  // Clicking the active mode toggles it off
+  if(currentMode === mode){
+    steps.style.display = 'none';
+    steps.dataset.mode  = '';
+    if(manualBtn) manualBtn.classList.remove('active');
+    if(aiBtn)     aiBtn.classList.remove('active');
+    return;
+  }
+  steps.style.display   = 'block';
+  steps.dataset.mode    = mode;
+  if(manualPath) manualPath.style.display = mode === 'manual' ? 'block' : 'none';
+  if(aiPath)     aiPath.style.display     = mode === 'ai'     ? 'block' : 'none';
+  if(manualBtn)  manualBtn.classList.toggle('active', mode === 'manual');
+  if(aiBtn)      aiBtn.classList.toggle('active',     mode === 'ai');
 }
 
 // ══ SESSION STARTERS ════════════════════════════════════════
