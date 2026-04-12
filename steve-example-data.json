@@ -12,7 +12,7 @@
   "xp": 570,
   "xpToNext": 1000,
   "sessionCount": 12,
-  "lastSession": "2026-04-07",
+  "lastSession": "2026-04-12",
   "health": 68,
   "healthAvg": 74,
   "mana": 55,
@@ -183,6 +183,14 @@
       "water": 68,
       "earth": 65,
       "harmony": 88
+    },
+    {
+      "date": "2026-04-12",
+      "air": 72,
+      "fire": 55,
+      "water": 68,
+      "earth": 65,
+      "harmony": 65
     }
   ],
   "allies": [
@@ -686,32 +694,32 @@
   },
   "coreSkills": {
     "sleep": {
-      "score": 50,
-      "trend": "flat"
+      "score": 45,
+      "trend": "down-slight"
     },
     "rest": {
-      "score": 35,
-      "trend": "down-slight"
+      "score": 46,
+      "trend": "up"
     },
     "movement": {
-      "score": 65,
-      "trend": "up-slight"
+      "score": 89,
+      "trend": "up"
     },
     "nutrition": {
-      "score": 60,
-      "trend": "flat"
-    },
-    "connection": {
-      "score": 45,
-      "trend": "down-slight"
-    },
-    "career": {
-      "score": 30,
+      "score": 80,
       "trend": "up-slight"
     },
+    "connection": {
+      "score": 52,
+      "trend": "up-slight"
+    },
+    "career": {
+      "score": 48,
+      "trend": "up"
+    },
     "finances": {
-      "score": 45,
-      "trend": "flat"
+      "score": 50,
+      "trend": "up-slight"
     }
   },
   "achievements": [
@@ -1468,6 +1476,30 @@
       {
         "date": "2026-04-06",
         "value": 115
+      },
+      {
+        "date": "2026-04-07",
+        "value": 90
+      },
+      {
+        "date": "2026-04-08",
+        "value": 105
+      },
+      {
+        "date": "2026-04-09",
+        "value": 80
+      },
+      {
+        "date": "2026-04-10",
+        "value": 120
+      },
+      {
+        "date": "2026-04-11",
+        "value": 110
+      },
+      {
+        "date": "2026-04-12",
+        "value": 95
       }
     ],
     "morning-routine": [
@@ -1661,6 +1693,30 @@
       },
       {
         "date": "2026-04-06",
+        "value": 1
+      },
+      {
+        "date": "2026-04-07",
+        "value": 1
+      },
+      {
+        "date": "2026-04-08",
+        "value": 1
+      },
+      {
+        "date": "2026-04-09",
+        "value": 1
+      },
+      {
+        "date": "2026-04-10",
+        "value": 1
+      },
+      {
+        "date": "2026-04-11",
+        "value": 1
+      },
+      {
+        "date": "2026-04-12",
         "value": 1
       }
     ],
@@ -1858,6 +1914,53 @@
       },
       {
         "date": "2026-04-06",
+        "value": 2,
+        "subsDone": [
+          "mining",
+          "crafting"
+        ]
+      },
+      {
+        "date": "2026-04-07",
+        "value": 2,
+        "subsDone": [
+          "mining",
+          "crafting"
+        ]
+      },
+      {
+        "date": "2026-04-08",
+        "value": 2,
+        "subsDone": [
+          "mining",
+          "crafting"
+        ]
+      },
+      {
+        "date": "2026-04-09",
+        "value": 1,
+        "subsDone": [
+          "mining"
+        ]
+      },
+      {
+        "date": "2026-04-10",
+        "value": 2,
+        "subsDone": [
+          "mining",
+          "crafting"
+        ]
+      },
+      {
+        "date": "2026-04-11",
+        "value": 2,
+        "subsDone": [
+          "mining",
+          "crafting"
+        ]
+      },
+      {
+        "date": "2026-04-12",
         "value": 2,
         "subsDone": [
           "mining",

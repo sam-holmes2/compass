@@ -1358,6 +1358,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-stats { display:flex; flex-direction:column; gap:4px; font-family:var(--mono); font-size:13px; margin-top:10px; padding-top:8px; border-top:1px solid rgba(200,168,74,0.1); }
 .practice-trends-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; margin-bottom:3px; }
 .practice-trend-row { display:flex; align-items:center; gap:7px; }
+.practice-trends-hdr-cols { display:flex; gap:0; margin-left:auto; }
+.practice-trends-hdr-cols span { width:36px; text-align:right; font-size:10px; letter-spacing:0.1em; color:var(--text-dim); opacity:0.6; }
+.practice-trend-row-sub .practice-trend-val, .practice-trend-row-agg .practice-trend-val { width:36px; text-align:right; font-size:12px; }
+.practice-trend-lbl-sub { font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:80px; }
+.practice-trend-row-agg { margin-top:3px; border-top:1px solid rgba(200,168,74,0.08); padding-top:3px; }
+.rq-sub-goal-wrap { display:inline-flex; align-items:center; gap:3px; margin-left:4px; font-family:var(--mono); font-size:10px; color:var(--text-dim); opacity:0.7; cursor:default; }
+.rq-sub-goal-wrap:hover { opacity:1; }
+.rq-sub-goal-input { width:26px; background:rgba(255,255,255,0.06); border:1px solid rgba(200,168,74,0.25); border-radius:3px; color:var(--text-mid); font-family:var(--mono); font-size:10px; text-align:center; padding:1px 2px; }
+.rq-sub-goal-input:focus { outline:none; border-color:rgba(200,168,74,0.6); }
 .practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
 .practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
 .practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
@@ -3507,10 +3516,11 @@ function getHardcodedValue(act, date) {
 }
 
 function getRQStats(act, charName) {
-  // Returns { pct7, pctAll, lastDone } — success % over last 7 and all tracked periods
+  // Returns { pct7, pctAll, lastDone, perSub? } — success % over last 7 and all tracked periods.
+  // When subActivities exist, also returns perSub: [{ id, name, color, goal, pct7, pctAll }]
   const hardHist = HARDCODED_HISTORY[act.id] || [];
   const lsHist   = loadRQHistory(charName, act.id);
-  const periods = []; // { period, value, hasEntry } objects in descending order
+  const periods = []; // { period, value, subsDone, hasEntry } objects in descending order
   const now = new Date();
   const numPeriods = act.resetPeriod === 'week' ? 52 : 90;
   const target = act.target || 1;
@@ -3525,10 +3535,10 @@ function getRQStats(act, charName) {
       ? hardHist.find(h => h.date === dateKey)
       : hardHist.find(h => h.period === periodKey);
     const le = lsHist.find(h => h.period === periodKey);
-    let val = null, hasEntry = false, isVoid = false;
-    if (hard != null) { val = hard.value; hasEntry = true; }
-    else if (le != null) { val = le.value; hasEntry = true; isVoid = !!le.void; }
-    periods.push({ period: periodKey, value: val ?? 0, hasEntry, void: isVoid });
+    let val = null, subsDone = [], hasEntry = false, isVoid = false;
+    if (hard != null) { val = hard.value; subsDone = hard.subsDone || []; hasEntry = true; }
+    else if (le != null) { val = le.value; subsDone = le.subsDone || []; hasEntry = true; isVoid = !!le.void; }
+    periods.push({ period: periodKey, value: val ?? 0, subsDone, hasEntry, void: isVoid });
   }
   let pct7, pctAll;
   if (isCheck) {
@@ -3548,7 +3558,31 @@ function getRQStats(act, charName) {
     pctAll = activeAll.length ? Math.round(activeAll.filter(p => p.value >= target).length / activeAll.length * 100) : 0;
   }
   const lastDone = periods.find(p => p.value > 0)?.period || null;
-  return { pct7, pctAll, lastDone };
+
+  // Per-sub-activity stats (checkbox with subActivities only)
+  const subActs = (act.subActivities || []);
+  let perSub = null;
+  if (isCheck && subActs.length > 0) {
+    perSub = subActs.map(sa => {
+      const saGoal = sa.goal != null ? sa.goal : 1; // periods per window that goal applies to
+      // last 7: count entries that include this sub; denominator = entries with any data
+      const last7entries = periods.slice(0, 7).filter(p => p.hasEntry);
+      const sa7hits = last7entries.filter(p => p.subsDone.includes(sa.id)).length;
+      // per-sub goal: user wants this sub done `saGoal` times per 7 periods
+      const sa7denom = Math.min(7, last7entries.length);
+      const sa7pct = sa7denom > 0 ? Math.round(Math.min(sa7hits / (saGoal > 0 ? saGoal : 1), 1) * 100) : 0;
+      // all-time: same window as aggregate all-time
+      const lastEntryIdx = periods.reduce((acc, p, i) => p.hasEntry ? i : acc, -1);
+      const activeEntries = lastEntryIdx >= 0 ? periods.slice(0, lastEntryIdx + 1).filter(p => p.hasEntry) : [];
+      const saAllHits = activeEntries.filter(p => p.subsDone.includes(sa.id)).length;
+      // scale goal proportionally across the active window
+      const expectedHits = activeEntries.length > 0 ? (saGoal / 7) * activeEntries.length : 0;
+      const saAllPct = expectedHits > 0 ? Math.round(Math.min(saAllHits / expectedHits, 1) * 100) : 0;
+      return { id: sa.id, name: sa.name, color: sa.color, goal: saGoal, pct7: sa7pct, pctAll: saAllPct };
+    });
+  }
+
+  return { pct7, pctAll, lastDone, perSub };
 }
 
 migrateCompletedQuests();
@@ -7716,6 +7750,15 @@ function renderRQBarChart(wrap, act, charName) {
     const avgAllEl = document.getElementById('stat-avgall-' + act.id);
     if (avgEl)    avgEl.textContent    = fv(newStats.pct7);
     if (avgAllEl) avgAllEl.textContent = fv(newStats.pctAll);
+    // Per-sub stat elements
+    if (newStats.perSub) {
+      newStats.perSub.forEach(sub => {
+        const el7   = document.getElementById('stat-sub7-'   + act.id + '-' + sub.id);
+        const elAll = document.getElementById('stat-suball-' + act.id + '-' + sub.id);
+        if (el7)   el7.textContent   = fv(sub.pct7);
+        if (elAll) elAll.textContent = fv(sub.pctAll);
+      });
+    }
   };
 
   const attachPopover = (col, dp) => {
@@ -8377,6 +8420,38 @@ function renderRecurringQuests(s) {
         const chipName = document.createElement('span'); chipName.textContent = sa.name;
         chip.appendChild(chipName);
 
+        // Per-sub goal editor: "x/period" compact input
+        const goalWrap = document.createElement('span'); goalWrap.className = 'rq-sub-goal-wrap';
+        goalWrap.title = 'Goal: times per ' + (act.resetPeriod === 'week' ? 'week' : act.resetPeriod === 'month' ? 'month' : 'week (7 days)');
+        const goalInp = document.createElement('input'); goalInp.className = 'rq-sub-goal-input';
+        goalInp.type = 'number'; goalInp.min = '1'; goalInp.max = '99';
+        goalInp.value = sa.goal != null ? sa.goal : 1;
+        goalInp.title = 'Goal per 7 days';
+        const goalSuffix = document.createElement('span'); goalSuffix.textContent = '/wk';
+        goalWrap.appendChild(goalInp); goalWrap.appendChild(goalSuffix);
+        goalInp.addEventListener('click', e => e.stopPropagation());
+        goalInp.addEventListener('change', () => {
+          const newGoal = Math.max(1, parseInt(goalInp.value) || 1);
+          goalInp.value = newGoal;
+          sa.goal = newGoal;
+          const actInState = (appState.activities || []).find(a => a.id === act.id);
+          if (actInState) {
+            const saInState = (actInState.subActivities || []).find(s => s.id === sa.id);
+            if (saInState) saInState.goal = newGoal;
+          }
+          saveState(appState); markDirty();
+          // Refresh stats panel
+          const newStats = getRQStats(act, charName);
+          const fv = v => v > 0 ? v + '%' : '—';
+          if (newStats.perSub) newStats.perSub.forEach(sub => {
+            const el7   = document.getElementById('stat-sub7-'   + act.id + '-' + sub.id);
+            const elAll = document.getElementById('stat-suball-' + act.id + '-' + sub.id);
+            if (el7)   el7.textContent   = fv(sub.pct7);
+            if (elAll) elAll.textContent = fv(sub.pctAll);
+          });
+        });
+        chip.appendChild(goalWrap);
+
         const swatch = document.createElement('span');
         swatch.className = 'rq-color-swatch rq-color-swatch-sm';
         swatch.title = 'Set colour';
@@ -8469,19 +8544,46 @@ function renderRecurringQuests(s) {
       return period;
     };
     const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
-    statsRow.innerHTML = `
-      <div class="practice-trends-hdr">Trends</div>
-      <div class="practice-trend-row">
-        <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
-        <span class="practice-trend-lbl">Last 7</span>
-        <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.pct7)}</span>
-      </div>
-      <div class="practice-trend-row">
-        <span class="practice-trend-swatch practice-trend-swatch-all"></span>
-        <span class="practice-trend-lbl">All-time</span>
-        <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.pctAll)}</span>
-      </div>
-    `;
+    statsRow.id = 'stats-row-' + act.id;
+    if (stats.perSub && stats.perSub.length > 0) {
+      // Per-sub-activity trend rows
+      const hdr = document.createElement('div'); hdr.className = 'practice-trends-hdr';
+      hdr.innerHTML = 'Trends <span class="practice-trends-hdr-cols"><span>7d</span><span>All</span></span>';
+      statsRow.appendChild(hdr);
+      stats.perSub.forEach(sub => {
+        const row = document.createElement('div'); row.className = 'practice-trend-row practice-trend-row-sub';
+        const dot = document.createElement('span'); dot.className = 'practice-trend-swatch';
+        dot.style.cssText = `background:${sub.color||'rgba(200,168,74,0.5)'};border-radius:50%;width:8px;height:8px;flex-shrink:0;`;
+        const lbl = document.createElement('span'); lbl.className = 'practice-trend-lbl practice-trend-lbl-sub';
+        lbl.textContent = sub.name;
+        const val7 = document.createElement('span'); val7.className = 'practice-trend-val practice-trend-val-7d';
+        val7.id = 'stat-sub7-' + act.id + '-' + sub.id;
+        val7.textContent = formatVal(sub.pct7);
+        const valAll = document.createElement('span'); valAll.className = 'practice-trend-val practice-trend-val-all';
+        valAll.id = 'stat-suball-' + act.id + '-' + sub.id;
+        valAll.textContent = formatVal(sub.pctAll);
+        row.appendChild(dot); row.appendChild(lbl); row.appendChild(val7); row.appendChild(valAll);
+        statsRow.appendChild(row);
+      });
+      // Combined aggregate row (dimmed)
+      const aggRow = document.createElement('div'); aggRow.className = 'practice-trend-row practice-trend-row-agg';
+      aggRow.innerHTML = `<span class="practice-trend-swatch practice-trend-swatch-7d" style="opacity:0.4"></span><span class="practice-trend-lbl" style="opacity:0.5">Total</span><span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}" style="opacity:0.5">${formatVal(stats.pct7)}</span><span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}" style="opacity:0.5">${formatVal(stats.pctAll)}</span>`;
+      statsRow.appendChild(aggRow);
+    } else {
+      statsRow.innerHTML = `
+        <div class="practice-trends-hdr">Trends</div>
+        <div class="practice-trend-row">
+          <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
+          <span class="practice-trend-lbl">Last 7</span>
+          <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.pct7)}</span>
+        </div>
+        <div class="practice-trend-row">
+          <span class="practice-trend-swatch practice-trend-swatch-all"></span>
+          <span class="practice-trend-lbl">All-time</span>
+          <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.pctAll)}</span>
+        </div>
+      `;
+    }
     info.appendChild(statsRow);
     body.appendChild(info);
 
