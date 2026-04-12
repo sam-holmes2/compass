@@ -130,7 +130,7 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 `{ "_partial": true, "_instructionsVersion": "1.5.0", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
 
-**Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution` · `_xpLog` · practice history · pinned achievements/classes
+**Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution` · practice history · pinned achievements/classes
 
 **Writing rules for all fields:** No markdown or em dashes in JSON strings. Every field must pass the stranger test — a reader with no prior context should understand what specifically happened, shifted, or is meant, without needing to know the user. Vague labels like "named the pattern" or "had a breakthrough" do not pass. Be specific.
 
@@ -214,6 +214,18 @@ Always include all four keys in both blocks if including either block.
 
 Award for: quest completion, skill level-ups, elemental tier advances, named breakthroughs.
 Deduct for: significantly negative or unhealthy pattern relapse, mastery dropping, acting against users stated values. Report all changes in chat first.
+
+**Always include `_xpLog` in every partial update that changes `xp`.** This gives the user a detailed breakdown in their XP history rather than a generic "Session update" entry. Include one entry per distinct source of XP awarded or deducted this session. The app prepends these to the existing log — do not include prior sessions.
+
+```json
+"_xpLog": [
+  { "date": "12/04/2026", "type": "session", "amount": 150, "reason": "Side quest complete: Ship the MVP", "totalAfter": 1250 },
+  { "date": "12/04/2026", "type": "session", "amount": 80, "reason": "Skill level-up: Ask For What I Need", "totalAfter": 1100 },
+  { "date": "12/04/2026", "type": "session", "amount": -50, "reason": "Relapse: avoided conflict three times", "totalAfter": 1020 }
+]
+```
+
+`date`: DD/MM/YYYY format. `amount`: positive for gains, negative for losses. `reason`: plain label naming the source specifically (quest title, skill name, enemy name, pattern). `totalAfter`: running `xp` total after this entry (list entries in reverse order: highest totalAfter first).
 
 **Level-up:** if `xp >= xpToNext` → subtract `xpToNext`, increment `level`, set `xpToNext = round(old * 1.2)`. Repeat until `xp < xpToNext`.
 

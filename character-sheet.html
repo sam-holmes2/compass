@@ -1359,9 +1359,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-trends-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; margin-bottom:3px; }
 .practice-trend-row { display:flex; align-items:center; gap:7px; }
 /* Sub-mode: fixed-width table layout so header cols align with data cols */
-.practice-stats-sub { display:grid; grid-template-columns:auto 1fr 42px 42px; align-items:center; gap-row:4px; column-gap:0; row-gap:4px; }
-.practice-stats-sub .ps-col-swatch { width:10px; }
-.practice-stats-sub .ps-col-lbl { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:6px; }
+.practice-stats-sub { display:grid; grid-template-columns:1fr 42px 42px; align-items:center; gap-row:4px; column-gap:0; row-gap:4px; }
+.practice-stats-sub .ps-col-lbl { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:6px; }
 .practice-stats-sub .ps-col-7d,
 .practice-stats-sub .ps-col-all { width:42px; text-align:right; font-size:12px; font-family:var(--mono); }
 .practice-stats-sub .ps-col-7d  { color:#e05060; }
@@ -1375,11 +1374,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-stats-sub .ps-agg-lbl { opacity:0.45; }
 .practice-stats-sub .ps-agg-7d  { opacity:0.45; }
 .practice-stats-sub .ps-agg-all { opacity:0.45; }
-.rq-sub-goal-wrap { display:inline-flex; align-items:center; gap:0; margin-left:6px; border:1px solid rgba(200,168,74,0.22); border-radius:4px; overflow:hidden; background:rgba(0,0,0,0.18); flex-shrink:0; }
-.rq-sub-goal-step { background:none; border:none; color:rgba(200,168,74,0.55); font-size:13px; line-height:1; padding:0 5px; cursor:pointer; transition:color 0.12s, background 0.12s; user-select:none; }
+.rq-sub-goal-wrap { display:inline-flex; align-items:center; gap:0; margin-left:2px; border:1px solid rgba(200,168,74,0.35); border-radius:4px; overflow:hidden; background:rgba(0,0,0,0.45); flex-shrink:0; }
+.rq-sub-goal-step { background:none; border:none; color:rgba(200,168,74,0.7); font-size:13px; line-height:1; padding:0 5px; cursor:pointer; transition:color 0.12s, background 0.12s; user-select:none; }
 .rq-sub-goal-step:hover { color:rgba(200,168,74,1); background:rgba(200,168,74,0.1); }
-.rq-sub-goal-val { font-family:var(--mono); font-size:11px; color:var(--text-mid); min-width:18px; text-align:center; padding:0 2px; pointer-events:none; }
-.rq-sub-goal-suffix { font-family:var(--mono); font-size:10px; color:var(--text-dim); opacity:0.6; padding:0 5px 0 1px; }
+.rq-sub-goal-val { font-family:var(--mono); font-size:11px; color:#e4dec8; min-width:18px; text-align:center; padding:0 2px; pointer-events:none; font-weight:500; }
+.rq-sub-goal-suffix { font-family:var(--mono); font-size:10px; color:rgba(200,168,74,0.7); padding:0 5px 0 4px; }
 .practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
 .practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
 .practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
@@ -1524,7 +1523,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .rq-sub-chip {
   font-family:var(--mono); font-size:10px; letter-spacing:0.08em;
   padding:2px 7px; border-radius:10px; border:1px solid transparent;
-  text-transform:uppercase; opacity:0.85; display:inline-flex; align-items:center; gap:4px;
+  text-transform:uppercase; opacity:0.85; display:inline-flex; align-items:center; gap:8px;
+}
+.rq-sub-chip-dot {
+  display:inline-block; width:8px; height:8px; border-radius:50%; flex-shrink:0;
 }
 .rq-color-swatch {
   display:inline-flex; align-items:center; gap:5px; flex-shrink:0;
@@ -2808,8 +2810,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="radar-panel-body">
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
-          <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Status check-in</div>
-          <div class="radar-panel-desc">Log how you feel right now in relation to what you <em>should</em> be doing. Useful for spotting which factor most often holds you back.</div>
+          <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Current State</div>
+          <div class="radar-panel-desc">A daily snapshot of your inner conditions. Track these over time to spot patterns in what lifts or drains you.</div>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#c0cad4" title="Focus: how well you can direct and sustain attention on what matters right now">Focus</span>
@@ -2854,7 +2856,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="radar-panel-charts">
         <div class="hist-chart-header">
           <div class="radar-chart-lbl">History</div>
-          <button class="hist-reset-btn" onclick="confirmResetHistory('status')" title="Reset Status check-in history">Reset</button>
+          <button class="hist-reset-btn" onclick="confirmResetHistory('status')" title="Reset Current State history">Reset</button>
         </div>
         <canvas id="status-hist-canvas" class="radar-chart-canvas hist-chart-canvas"></canvas>
         <div class="hist-chart-legend" id="status-hist-legend"></div>
@@ -3966,47 +3968,21 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
     const col = cols[k];
     const pts = hist.map((e, i) => ({ x: xOf(i), y: yOf(e[k] ?? 0), v: e[k] ?? 0 }));
 
-    // Draw line — break on date gaps > 1 day so missing data shows as visual gaps
-    ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
+    // Draw smooth connected line — always connect all points (sparse seeds are still real data)
+    ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.75;
+    ctx.setLineDash([]);
     ctx.beginPath();
-    pts.forEach((p, i) => {
-      if (i === 0) { ctx.moveTo(p.x, p.y); return; }
-      const prevDate = hist[i - 1]?.date, curDate = hist[i]?.date;
-      const isGap = prevDate && curDate &&
-        (new Date(curDate) - new Date(prevDate)) > 86400000 * 1.5;
-      if (isGap) { ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
-      else ctx.lineTo(p.x, p.y);
-    });
+    pts.forEach((p, i) => { if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
     ctx.stroke(); ctx.globalAlpha = 1;
 
-    // Dots for each data point
-    pts.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
-      ctx.fillStyle = col; ctx.globalAlpha = 0.85; ctx.fill(); ctx.globalAlpha = 1;
-    });
-
-    // All-time trend line (dashed, teal)
+    // All-time trend line (dashed, same colour but dimmer)
     const regAll = linReg(pts.map((p, i) => [i, p.v]));
     if (regAll) {
       const y1 = yOf(regAll.intercept);
       const y2 = yOf(regAll.slope * (n-1) + regAll.intercept);
-      ctx.beginPath(); ctx.setLineDash([5, 3]); ctx.lineWidth = 1;
-      ctx.strokeStyle = '#40c8c0'; ctx.globalAlpha = 0.55;
+      ctx.beginPath(); ctx.setLineDash([5, 4]); ctx.lineWidth = 1;
+      ctx.strokeStyle = col; ctx.globalAlpha = 0.28;
       ctx.moveTo(xOf(0), y1); ctx.lineTo(xOf(n-1), y2);
-      ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
-    }
-
-    // 7-period trend line (dotted, coral)
-    const last7 = pts.slice(-7);
-    const reg7 = linReg(last7.map((p, i) => [i, p.v]));
-    if (reg7 && last7.length >= 2) {
-      const startX = xOf(n - last7.length);
-      const endX   = xOf(n - 1);
-      const y1 = yOf(reg7.intercept);
-      const y2 = yOf(reg7.slope * (last7.length-1) + reg7.intercept);
-      ctx.beginPath(); ctx.setLineDash([1.5, 4]); ctx.lineWidth = 1.2;
-      ctx.strokeStyle = '#e05060'; ctx.globalAlpha = 0.7;
-      ctx.moveTo(startX, y1); ctx.lineTo(endX, y2);
       ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
     }
   });
@@ -4035,12 +4011,10 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
       item.appendChild(sw); item.appendChild(lbl);
       legendEl.appendChild(item);
     });
-    // Trend line legend entries
+    // Trend line legend entry
     const allTimeLi = document.createElement('div'); allTimeLi.className = 'hist-legend-item';
-    allTimeLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="#40c8c0" stroke-width="1" stroke-dasharray="5 3" stroke-opacity="0.7"/></svg><span>all-time trend</span>';
-    const wk7Li = document.createElement('div'); wk7Li.className = 'hist-legend-item';
-    wk7Li.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="#e05060" stroke-width="1.2" stroke-dasharray="1.5 4" stroke-opacity="0.85"/></svg><span>7-day trend</span>';
-    legendEl.appendChild(allTimeLi); legendEl.appendChild(wk7Li);
+    allTimeLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="5 4"/></svg><span>trend</span>';
+    legendEl.appendChild(allTimeLi);
   }
 }
 
@@ -6836,7 +6810,11 @@ function applyUpdate(){
     else if(merged.achievements) setFeaturedAch((merged.achievements).filter(a=>a.featured&&a.id).map(a=>a.id));
     if(merged._featuredCls) setFeaturedCls(merged._featuredCls);
     else if(merged.classes) setFeaturedCls((merged.classes).filter(c=>c.featured&&c.id).map(c=>c.id));
-    if(merged._xpLog&&Array.isArray(merged._xpLog)){ saveXPLog(merged._xpLog); }
+    if(merged._xpLog&&Array.isArray(merged._xpLog)){
+      const existing=loadXPLog();
+      saveXPLog([...merged._xpLog,...existing]);
+      merged._xpLogProvided=true;
+    }
     else if(!isPartial){ saveXPLog([]); }
     if(merged._hardcodedHistory&&typeof merged._hardcodedHistory==='object'){ Object.assign(HARDCODED_HISTORY, merged._hardcodedHistory); }
     // completedMainQuests: flatten into completedQuests
@@ -6850,7 +6828,8 @@ function applyUpdate(){
       // Will be set into appState below; just track count for toast
       _newCQCount=(merged.completedQuests||[]).length-before;
     }
-    delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._hardcodedHistory;
+    const _xpLogProvided=!!merged._xpLogProvided;
+    delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._xpLogProvided; delete merged._hardcodedHistory;
     if(merged.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(merged.dailyDistribution));
     // Migrate old insights format: {chapterKey: entries[]} → [{name, entries}]
     if(merged.insights && !Array.isArray(merged.insights)){
@@ -6885,7 +6864,7 @@ function applyUpdate(){
     // Restore locked fields from pre-import snapshot (honour _locked contract)
     applyLockedFields(merged, prevSnapshot);
     const _impOldXp=prevSnapshot.xp||0; const _impOldLevel=prevSnapshot.level||1;
-    logXPChange(appState, merged);
+    logXPChange(appState, merged, null, _xpLogProvided);
     snapshotHarmony(merged);
     saveState(merged);appState=merged;render(merged);
     // Reload sliders from new appState so Claude-set values appear immediately
@@ -6941,7 +6920,7 @@ function loadXPLog(){
 }
 function saveXPLog(log){ try{ localStorage.setItem(XP_LOG_KEY,JSON.stringify(log.slice(-500))); }catch{} _reencryptIfActive(); }
 
-function logXPChange(prevState, nextState, items){
+function logXPChange(prevState, nextState, items, skipGeneric){
   const prevXP=prevState?.xp||0, prevLevel=prevState?.level||1;
   const nextXP=nextState?.xp||0, nextLevel=nextState?.level||1;
   const diff=nextXP-prevXP;
@@ -6951,7 +6930,7 @@ function logXPChange(prevState, nextState, items){
   if(nextLevel>prevLevel){
     log.unshift({date,type:'levelup',amount:null,reason:'Level '+nextLevel+' reached',totalAfter:nextXP});
   }
-  if(diff!==0){
+  if(diff!==0&&!skipGeneric){
     const entry={date,type:'session',amount:diff,reason:diff>0?'Session update':'Correction',totalAfter:nextXP};
     if(items&&items.length) entry.items=items;
     log.unshift(entry);
@@ -7635,7 +7614,7 @@ function renderRQBarChart(wrap, act, charName) {
   wrap.innerHTML = '';
 
   const stats = getRQStats(act, charName);
-  const subActs    = act.subActivities || [];
+  const subActs    = act.type === 'checkbox' ? (act.subActivities || []) : [];
   const hasSubs    = subActs.length > 0;
   // GitHub-style: fixed row height per sub-activity lane (or single bar if no subs)
   const LANE_H     = 10; // px per sub-activity lane
@@ -7809,7 +7788,7 @@ function renderRQBarChart(wrap, act, charName) {
             hist.splice(idx, 1);
           }
           saveRQHistory(charName, act.id, hist);
-          if (newSubsDone.length > oldCount) awardRQXP(act.id, Math.round(act.xpPerUnit || 20));
+          if (newSubsDone.length > oldCount && act.xpPerUnit) awardRQXP(act.id, Math.round(act.xpPerUnit));
           dp.subsDone = [...newSubsDone];
           dp.value    = newSubsDone.length;
           renderRQBarChart(wrap, act, charName);
@@ -7875,7 +7854,7 @@ function renderRQBarChart(wrap, act, charName) {
           }
           saveRQHistory(charName, act.id, hist);
         }
-        if (newVal > oldVal) awardRQXP(act.id, Math.round(act.xpPerUnit || 20));
+        if (newVal > oldVal && act.xpPerUnit) awardRQXP(act.id, Math.round(act.xpPerUnit));
         dp.value    = newVal;
         dp.hasEntry = keepEntry;
         closePopovers();
@@ -7982,7 +7961,7 @@ function renderRQBarChart(wrap, act, charName) {
             xp = Math.round((rawVal - oldVal) * (act.xpPerUnit || 1));
           } else {
             // checkbox via numeric popover (shouldn't normally occur, but handle it)
-            xp = Math.round(act.xpPerUnit || 20);
+            xp = act.xpPerUnit ? Math.round(act.xpPerUnit) : 0;
           }
           if (xp > 0) awardRQXP(act.id, xp);
         }
@@ -8027,11 +8006,12 @@ function renderRQBarChart(wrap, act, charName) {
         const cell = document.createElement('div');
         cell.className = 'prac-bar-lane-cell';
         const done = subsDone.includes(sa.id);
+        const cellColor = sa.color || 'rgba(200,168,74,0.75)';
         cell.style.cssText = `background:${
           done
-            ? (sa.color || 'rgba(200,168,74,0.75)')
-            : (dp.isCurrent ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)')
-        };${done && dp.isCurrent ? `box-shadow:0 0 4px ${sa.color || 'rgba(200,168,74,0.4)'};` : ''}`;
+            ? (dp.isCurrent ? cellColor : cellColor + 'bb')
+            : (dp.isCurrent ? 'rgba(200,168,74,0.12)' : 'rgba(255,255,255,0.07)')
+        };${dp.isCurrent ? `outline:1px solid rgba(200,168,74,0.18);outline-offset:-1px;` : ''}${done && dp.isCurrent ? `box-shadow:0 0 4px ${cellColor + '66'};` : ''}`;
         col.appendChild(cell);
       });
     } else {
@@ -8253,7 +8233,7 @@ function addRegularQuest() {
     const b = document.createElement('button'); b.type = 'button';
     b.style.cssText = 'padding:5px 11px;border-radius:5px;border:1px solid;font-size:14px;cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;font-family:inherit;';
     b.textContent = o.label;
-    b.addEventListener('click', () => { selectedPeriod = o.value; applyPeriodStyle(); });
+    b.addEventListener('click', () => { selectedPeriod = o.value; applyPeriodStyle(); if (selectedType === 'breakdown') renderBdList(); });
     periodBtns[o.value] = b; periodGroup.appendChild(b);
   });
   applyPeriodStyle();
@@ -8277,7 +8257,7 @@ function addRegularQuest() {
 
   // Breakdown section (shown only when Breakdown selected)
   const breakdownSection = document.createElement('div'); breakdownSection.style.display = 'none';
-  const bdLbl = document.createElement('p'); bdLbl.style.cssText = LABEL_CSS; bdLbl.textContent = 'Variants';
+  const bdLbl = document.createElement('p'); bdLbl.style.cssText = LABEL_CSS; bdLbl.textContent = 'Subquests';
   breakdownSection.appendChild(bdLbl);
   const bdSubPalette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0'];
   let bdSubs = []; // { name, goal, color }
@@ -8295,14 +8275,16 @@ function addRegularQuest() {
       nameIn2.addEventListener('blur', () => { nameIn2.style.borderColor = 'rgba(255,255,255,0.12)'; bdSubs[i].name = nameIn2.value.trim(); });
       nameIn2.addEventListener('input', () => { bdSubs[i].name = nameIn2.value; });
       // goal stepper
-      const gWrap = document.createElement('div'); gWrap.style.cssText = 'display:flex;align-items:center;gap:0;border:1px solid rgba(200,168,74,0.25);border-radius:4px;overflow:hidden;flex-shrink:0;';
-      const gMinus = document.createElement('button'); gMinus.type='button'; gMinus.textContent='−'; gMinus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.6);font-size:14px;padding:3px 8px;cursor:pointer;';
-      const gVal   = document.createElement('span'); gVal.textContent = sub.goal; gVal.style.cssText='font-family:var(--mono);font-size:13px;color:var(--text-mid);min-width:20px;text-align:center;padding:0 2px;';
-      const gPlus  = document.createElement('button'); gPlus.type='button'; gPlus.textContent='+'; gPlus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.6);font-size:14px;padding:3px 8px;cursor:pointer;';
-      const gSuffix= document.createElement('span'); gSuffix.textContent='/wk'; gSuffix.style.cssText='font-size:11px;color:var(--text-dim);opacity:0.6;padding:0 6px 0 0;font-family:var(--mono);';
+      const bdPeriodSuffix = { day:'/wk', week:'/mo', month:'/yr', year:'/yr' }[selectedPeriod] || '/wk';
+      const gWrap = document.createElement('div'); gWrap.style.cssText = 'display:flex;align-items:center;gap:0;border:1px solid rgba(200,168,74,0.35);border-radius:4px;overflow:hidden;flex-shrink:0;background:rgba(0,0,0,0.35);';
+      const gPfx   = document.createElement('span'); gPfx.textContent='goal:'; gPfx.style.cssText='font-size:11px;color:rgba(200,168,74,0.7);padding:0 4px 0 7px;font-family:var(--mono);pointer-events:none;';
+      const gMinus = document.createElement('button'); gMinus.type='button'; gMinus.textContent='−'; gMinus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
+      const gVal   = document.createElement('span'); gVal.textContent = sub.goal; gVal.style.cssText='font-family:var(--mono);font-size:13px;color:#e4dec8;font-weight:500;min-width:20px;text-align:center;padding:0 2px;';
+      const gPlus  = document.createElement('button'); gPlus.type='button'; gPlus.textContent='+'; gPlus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
+      const gSuffix= document.createElement('span'); gSuffix.textContent=bdPeriodSuffix; gSuffix.style.cssText='font-size:11px;color:rgba(200,168,74,0.7);padding:0 7px 0 0;font-family:var(--mono);';
       gMinus.addEventListener('click', () => { bdSubs[i].goal = Math.max(1, bdSubs[i].goal - 1); gVal.textContent = bdSubs[i].goal; });
       gPlus.addEventListener('click',  () => { bdSubs[i].goal = Math.min(99, bdSubs[i].goal + 1); gVal.textContent = bdSubs[i].goal; });
-      gWrap.appendChild(gMinus); gWrap.appendChild(gVal); gWrap.appendChild(gPlus); gWrap.appendChild(gSuffix);
+      gWrap.appendChild(gPfx); gWrap.appendChild(gMinus); gWrap.appendChild(gVal); gWrap.appendChild(gPlus); gWrap.appendChild(gSuffix);
       const delBtn = document.createElement('button'); delBtn.type='button'; delBtn.textContent='×'; delBtn.title='Remove';
       delBtn.style.cssText='background:none;border:none;color:var(--text-dim);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;';
       delBtn.addEventListener('click', () => { bdSubs.splice(i,1); renderBdList(); });
@@ -8310,7 +8292,7 @@ function addRegularQuest() {
       bdList.appendChild(row);
     });
   };
-  const bdAddBtn = document.createElement('button'); bdAddBtn.type='button'; bdAddBtn.textContent='+ Add variant';
+  const bdAddBtn = document.createElement('button'); bdAddBtn.type='button'; bdAddBtn.textContent='+ Add subquest';
   bdAddBtn.style.cssText='background:none;border:1px dashed rgba(200,168,74,0.3);border-radius:5px;color:rgba(200,168,74,0.7);font-size:13px;padding:5px 12px;cursor:pointer;width:100%;margin-bottom:12px;';
   bdAddBtn.addEventListener('click', () => {
     bdSubs.push({ name:'', goal:1, color: bdSubPalette[bdSubs.length % bdSubPalette.length] });
@@ -8463,7 +8445,7 @@ function renderRecurringQuests(s) {
       saveState(appState);
     }
 
-    if (subActs.length === 0) {
+    if (subActs.length === 0 || act.type !== 'checkbox') {
       // Colour picker button
       const swatch = document.createElement('span');
       swatch.className = 'rq-color-swatch';
@@ -8497,20 +8479,26 @@ function renderRecurringQuests(s) {
       subActs.forEach(sa => {
         const chip = document.createElement('span');
         chip.className = 'rq-sub-chip';
-        chip.style.background = sa.color || 'rgba(200,168,74,0.15)';
-        chip.style.borderColor = sa.color || 'rgba(200,168,74,0.4)';
+        const chipColor = sa.color || '#c8a84a';
+        // Use a very faint tint so the goal text remains readable
+        chip.style.background = chipColor + '1a';
+        chip.style.borderColor = chipColor + '55';
 
         const chipName = document.createElement('span'); chipName.textContent = sa.name;
+        chipName.style.color = chipColor;
         chip.appendChild(chipName);
 
-        // Per-sub goal editor: stepper − N + /wk
+        // Per-sub goal editor: goal: − N + /wk
+        const periodSuffix = { day:'/wk', week:'/mo', month:'/yr', year:'/yr' }[act.resetPeriod] || '/wk';
         const goalWrap = document.createElement('span'); goalWrap.className = 'rq-sub-goal-wrap';
-        goalWrap.title = 'Goal per 7 days';
+        goalWrap.title = 'Goal per period';
         let currentGoal = sa.goal != null ? sa.goal : 1;
+        const goalPfx   = document.createElement('span');   goalPfx.className   = 'rq-sub-goal-suffix'; goalPfx.textContent = 'goal:';
         const goalMinus  = document.createElement('button'); goalMinus.className  = 'rq-sub-goal-step'; goalMinus.textContent = '−'; goalMinus.type = 'button';
         const goalValEl  = document.createElement('span');   goalValEl.className  = 'rq-sub-goal-val';  goalValEl.textContent = currentGoal;
         const goalPlus   = document.createElement('button'); goalPlus.className   = 'rq-sub-goal-step'; goalPlus.textContent  = '+'; goalPlus.type = 'button';
-        const goalSuffix = document.createElement('span');   goalSuffix.className = 'rq-sub-goal-suffix'; goalSuffix.textContent = '/wk';
+        const goalSuffix = document.createElement('span');   goalSuffix.className = 'rq-sub-goal-suffix'; goalSuffix.textContent = periodSuffix;
+        goalWrap.appendChild(goalPfx);
         goalWrap.appendChild(goalMinus); goalWrap.appendChild(goalValEl); goalWrap.appendChild(goalPlus); goalWrap.appendChild(goalSuffix);
         const applyGoal = (newGoal) => {
           currentGoal = Math.max(1, Math.min(99, newGoal));
@@ -8558,6 +8546,8 @@ function renderRecurringQuests(s) {
           document.querySelectorAll(`.rq-sub-btn[data-sub-id="${sa.id}"]`).forEach(b => {
             b.style.setProperty('--sub-color', v);
           });
+          const trendLbl = document.getElementById('stat-sublbl-' + act.id + '-' + sa.id);
+          if (trendLbl) trendLbl.style.color = v;
         };
         cpk.addEventListener('input', e => applySubColor(e.target.value));
         cpk.addEventListener('change', () => { saveState(appState); markDirty(); });
@@ -8569,15 +8559,20 @@ function renderRecurringQuests(s) {
     }
 
     const typeSelect = document.createElement('select'); typeSelect.className = 'practice-type-badge practice-type-select';
-    [['timer','TIMER'],['checkbox','CHECK'],['number','NUMBER']].forEach(([v,l]) => {
+    const isBreakdown = act.type === 'checkbox' && (act.subActivities || []).length > 0;
+    const editTypeOpts = isBreakdown
+      ? [['breakdown','BREAKDOWN'],['timer','TIMER'],['checkbox','CHECK'],['number','NUMBER']]
+      : [['timer','TIMER'],['checkbox','CHECK'],['number','NUMBER']];
+    editTypeOpts.forEach(([v,l]) => {
       const o = document.createElement('option'); o.value = v; o.textContent = l;
-      if (act.type === v) o.selected = true;
+      const selected = v === 'breakdown' ? isBreakdown : (!isBreakdown && act.type === v);
+      if (selected) o.selected = true;
       typeSelect.appendChild(o);
     });
     typeSelect.addEventListener('change', e => {
       e.stopPropagation();
       const actInState = (appState.activities || []).find(a => a.id === act.id);
-      if (actInState) actInState.type = e.target.value;
+      if (actInState) actInState.type = e.target.value === 'breakdown' ? 'checkbox' : e.target.value;
       saveState(appState); markDirty(); renderRecurringQuests(appState);
     });
 
@@ -8629,35 +8624,33 @@ function renderRecurringQuests(s) {
     const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
     statsRow.id = 'stats-row-' + act.id;
     if (stats.perSub && stats.perSub.length > 0) {
-      // Grid table: swatch | name | 7d | all
+      // Grid table: name | 7d | all
       const grid = document.createElement('div'); grid.className = 'practice-stats-sub';
-      // Header row: "Trends" spans cols 1-2, then column labels above data cols
-      const hdrLbl = document.createElement('span'); hdrLbl.className = 'ps-hdr'; hdrLbl.style.gridColumn = '1 / 3'; hdrLbl.textContent = 'Trends';
+      // Header row
+      const hdrLbl = document.createElement('span'); hdrLbl.className = 'ps-hdr'; hdrLbl.textContent = 'Trends';
       const hdr7d  = document.createElement('span'); hdr7d.className  = 'ps-hdr-7d';  hdr7d.textContent  = '7d';
       const hdrAll = document.createElement('span'); hdrAll.className = 'ps-hdr-all'; hdrAll.textContent = 'All';
       grid.appendChild(hdrLbl); grid.appendChild(hdr7d); grid.appendChild(hdrAll);
       // Per-sub rows
       stats.perSub.forEach(sub => {
-        const dot = document.createElement('span'); dot.className = 'ps-col-swatch';
-        dot.style.cssText = `display:inline-block;width:8px;height:8px;border-radius:50%;background:${sub.color||'rgba(200,168,74,0.5)'};flex-shrink:0;`;
         const lbl = document.createElement('span'); lbl.className = 'ps-col-lbl'; lbl.textContent = sub.name;
+        lbl.id = 'stat-sublbl-' + act.id + '-' + sub.id;
+        lbl.style.color = sub.color || 'rgba(200,168,74,0.5)';
         const val7 = document.createElement('span'); val7.className = 'ps-col-7d';
         val7.id = 'stat-sub7-' + act.id + '-' + sub.id; val7.textContent = formatVal(sub.pct7);
         const valAll = document.createElement('span'); valAll.className = 'ps-col-all';
         valAll.id = 'stat-suball-' + act.id + '-' + sub.id; valAll.textContent = formatVal(sub.pctAll);
-        grid.appendChild(dot); grid.appendChild(lbl); grid.appendChild(val7); grid.appendChild(valAll);
+        grid.appendChild(lbl); grid.appendChild(val7); grid.appendChild(valAll);
       });
       // Separator
       const sep = document.createElement('div'); sep.className = 'ps-sep'; grid.appendChild(sep);
       // Aggregate "Any" row (dimmed)
-      const aggDot = document.createElement('span'); aggDot.className = 'ps-col-swatch ps-agg-lbl';
-      aggDot.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(200,168,74,0.3);';
       const aggLbl = document.createElement('span'); aggLbl.className = 'ps-col-lbl ps-agg-lbl'; aggLbl.textContent = 'Any';
       const agg7   = document.createElement('span'); agg7.className   = 'ps-col-7d ps-agg-7d';
       agg7.id = 'stat-avg-' + act.id; agg7.textContent = formatVal(stats.pct7);
       const aggAll = document.createElement('span'); aggAll.className = 'ps-col-all ps-agg-all';
       aggAll.id = 'stat-avgall-' + act.id; aggAll.textContent = formatVal(stats.pctAll);
-      grid.appendChild(aggDot); grid.appendChild(aggLbl); grid.appendChild(agg7); grid.appendChild(aggAll);
+      grid.appendChild(aggLbl); grid.appendChild(agg7); grid.appendChild(aggAll);
       statsRow.appendChild(grid);
     } else {
       statsRow.innerHTML = `
@@ -8903,9 +8896,9 @@ function handleCheckboxDot(id, dotIndex, btn) {
   const lbl = document.getElementById('checkbox-lbl-' + id);
   if (lbl) lbl.textContent = ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
 
-  // XP
-  if (ps.value > oldVal) {
-    const xp = Math.round(act.xpPerUnit || 20);
+  // XP (only if explicitly configured via journalling)
+  if (ps.value > oldVal && act.xpPerUnit) {
+    const xp = Math.round(act.xpPerUnit);
     awardRQXP(id, xp);
     const xpEl = document.getElementById('checkbox-xp-' + id);
     if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
@@ -8962,9 +8955,9 @@ function handleSubActivity(actId, subId, btn) {
   }
   saveRQHistory(charName, actId, hist);
 
-  // XP for new addition
-  if (ps.value > oldVal) {
-    const xp = Math.round(act.xpPerUnit || 20);
+  // XP (only if explicitly configured via journalling)
+  if (ps.value > oldVal && act.xpPerUnit) {
+    const xp = Math.round(act.xpPerUnit);
     awardRQXP(actId, xp);
     const xpEl = document.getElementById('checkbox-xp-' + actId);
     if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
@@ -9618,7 +9611,7 @@ function renderStatusHistoryChart() {
 
 function confirmResetHistory(type) {
   // type: 'stats' or 'status'
-  const label = type === 'stats' ? 'Core Skills' : 'Status check-in';
+  const label = type === 'stats' ? 'Core Skills' : 'Current State';
   const key   = type === 'stats' ? STATS_HIST_KEY : STATUS_HIST_KEY;
   const msg   = document.getElementById('confirm-delete-msg');
   const ok    = document.getElementById('confirm-delete-ok');
@@ -10015,13 +10008,21 @@ function checkForAppUpdateManual(btn){
       const remote=m[1];
       const semverNum=v=>{const[a=0,b=0,c=0]=(v||'').split('.').map(Number);return a*10000+b*100+c;};
       if(semverNum(remote)>semverNum(INSTRUCTIONS_VERSION)){
-        if(result){ result.textContent=`⚠ Update available (v${remote}). Re-run Setup steps above.`; result.style.color='var(--gold)'; }
+        if(result){ result.textContent=`⚠ App update available (v${remote}). Reload the page.`; result.style.color='var(--gold)'; }
         const badge=document.getElementById('help-col-update-badge');
         if(badge) badge.style.display='block';
         const col=document.getElementById('help-col-setup');
         if(col) col.style.background='rgba(200,168,74,0.04)';
       } else {
-        if(result){ result.textContent=`✓ Up to date (v${INSTRUCTIONS_VERSION})`; result.style.color='#3a8050'; }
+        // App is current -- also check if Claude's instructions copy is outdated
+        const raw=(typeof _pinActive!=='undefined'&&_pinActive)?null:localStorage.getItem('cs-state-v1');
+        const state=raw?JSON.parse(raw):(typeof appState!=='undefined'?appState:null);
+        const iv=state&&state._instructionsVersion||'';
+        if(iv && semverNum(iv)<semverNum(INSTRUCTIONS_VERSION)){
+          if(result){ result.textContent=`Latest is v${INSTRUCTIONS_VERSION}, but your Claude instructions are v${iv}. Re-run Setup steps above.`; result.style.color='var(--gold)'; }
+        } else {
+          if(result){ result.textContent=`✓ Up to date (v${INSTRUCTIONS_VERSION})`; result.style.color='#3a8050'; }
+        }
       }
     })
     .catch(()=>{
