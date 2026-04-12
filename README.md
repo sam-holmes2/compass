@@ -62,14 +62,14 @@ You can also edit fields directly in the app and use `↓` Export to get updated
 
 | Tab | What it shows |
 |-----|---------------|
-| **Combat** | Status check-in (Focus / Energy / Interest / Purpose) and recurring practice trackers |
-| **Balance** | The four elements (Air / Fire / Water / Earth), scored, detailed, and charted over time |
-| **Quests** | Main quest, side quests with progress, completed quests |
-| **Skills** | Core skills radar, keystone skill, all skills ranked by priority, XP history |
-| **Enemies** | Active patterns, limiting beliefs, compulsions, distortions, and the graveyard. Bosses are root patterns; minions are symptoms. |
-| **Allies** | Everything working for you: loot, spells, liberating beliefs, and flow sources |
-| **Achievements** | Titles (insights, deeds, transmutations, surrenders) and character classes |
-| **Journal** | Progression timeline, last session read, session starters, and chapter entries |
+| <span style="color:#b07838">**Combat**</span> | Status check-in (Focus / Energy / Interest / Purpose) and recurring practice trackers |
+| <span style="color:#8090a8">**Balance**</span> | The four elements (Air / Fire / Water / Earth), scored, detailed, and charted over time |
+| <span style="color:#c8a84a">**Quests**</span> | Main quest, side quests with progress, completed quests |
+| <span style="color:#9060c0">**Skills**</span> | Core skills radar, keystone skill, all skills ranked by priority, XP history |
+| <span style="color:#c84040">**Enemies**</span> | Active patterns, limiting beliefs, compulsions, distortions, and the graveyard. Bosses are root patterns; minions are symptoms. |
+| <span style="color:#2a9050">**Allies**</span> | Everything working for you: loot, spells, liberating beliefs, and flow sources |
+| <span style="color:#d07830">**Achievements**</span> | Titles (insights, deeds, transmutations, surrenders) and character classes |
+| <span style="color:#2a9090">**Journal**</span> | Progression timeline, last session read, session starters, and chapter entries |
 
 See [wiki.md](wiki.md) for a detailed breakdown of each tab.
 
@@ -81,12 +81,12 @@ Stay in **Freeflow** (default) or invoke any mode mid-session just by naming it.
 
 | Mode | Trigger phrase | Best for |
 |------|----------------|----------|
-| **Freeflow** | *(default)* | Following energy wherever it goes |
-| **Coach** | `"coach mode"` | Specific goal, accountability, clear plan |
-| **Introspection** | `"introspection mode"` | Blindspots, patterns, what you keep avoiding |
-| **Guided** | `"guided mode"` | Not sure where to start - AI leads with prompts |
-| **Catch-up** | `"catch-up mode"` | Been a while - fast, broad sweep |
-| **Debrief** | `"debrief mode"` | Review what's about to be written to JSON |
+| 💧 **Freeflow** | *(default)* | Following energy wherever it goes |
+| 🔥 **Coach** | `"coach mode"` | Specific goal, accountability, clear plan |
+| 🌬️ **Introspection** | `"introspection mode"` | Blindspots, patterns, what you keep avoiding |
+| 🌍 **Guided** | `"guided mode"` | Not sure where to start - AI leads with prompts |
+| ⏩ **Catch-up** | `"catch-up mode"` | Been a while - fast, broad sweep |
+| 🪞 **Debrief** | `"debrief mode"` | Review what's about to be written to JSON |
 
 ---
 

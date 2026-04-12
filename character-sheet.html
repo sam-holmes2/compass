@@ -117,6 +117,19 @@ body {
 
 /* AI-inferred indicator glyph */
 .el-ai-glyph { font-size:11px; opacity:0.35; margin-right:6px; cursor:help; flex-shrink:0; }
+/* Harmony scores — tooltip on hover */
+.bht-cell .bht-tooltip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1a1a24; border:1px solid var(--border); border-radius:5px; padding:7px 10px; font-size:11px; color:var(--text-dim); line-height:1.5; white-space:nowrap; pointer-events:none; z-index:10; font-style:italic; font-family:inherit; }
+.bht-cell:hover .bht-tooltip { display:block; }
+/* AI-lock icon inline with XP pill */
+.xp-ai-lock { font-size:10px; opacity:0.5; margin-left:3px; cursor:help; vertical-align:middle; }
+/* Balance tab AI banner — matches dirty-banner sizing */
+.balance-ai-banner { display:none; align-items:center; gap:12px; padding:9px 16px; background:rgba(58,128,200,0.07); border:1px solid rgba(58,128,200,0.22); border-radius:6px; margin-bottom:14px; font-size:16px; color:#6090c8; }
+.balance-ai-banner-text { flex:1; }
+.balance-ai-banner-text a { color:#6090c8; text-underline-offset:2px; }
+.balance-ai-banner-never { background:none; border:none; color:var(--text-dim); font-size:15px; cursor:pointer; text-decoration:underline; text-underline-offset:2px; flex-shrink:0; font-family:inherit; }
+.balance-ai-banner-never:hover { color:var(--text-mid); }
+.balance-ai-banner-dismiss { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; }
+.balance-ai-banner-dismiss:hover { color:var(--text); }
 
 .el-glyph { font-size:22px; line-height:1; justify-self:center; }
 
@@ -370,6 +383,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .editable:hover { background:rgba(255,255,255,0.04); }
 .editable:focus { background:rgba(255,255,255,0.06); box-shadow:0 0 0 1px var(--border-hi); }
 .editable[data-placeholder]:empty::before { content:attr(data-placeholder); color:var(--text-dim); font-style:italic; pointer-events:none; }
+/* ── Field lock ── */
+.lock-btn { display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; padding:2px 3px; border-radius:3px; font-size:13px; line-height:1; opacity:0; transition:opacity 0.15s, color 0.15s; flex-shrink:0; color:var(--text-dim); vertical-align:middle; }
+.lock-btn:hover { opacity:1 !important; color:var(--gold); }
+.lock-btn.locked { opacity:0.75; color:#c8a84a; }
+.lock-wrap { display:inline-flex; align-items:center; gap:4px; }
+.lock-wrap:hover .lock-btn:not(.locked) { opacity:0.4; }
+/* card-level lock wrap (block layout) */
+.lock-wrap-block { display:flex; align-items:flex-start; gap:6px; }
+.lock-wrap-block .lock-btn { margin-top:2px; }
 .add-item-btn { display:flex; align-items:center; gap:6px; margin-top:10px; font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-dim); cursor:pointer; background:none; border:1px dashed var(--border-hi); border-radius:4px; padding:7px 12px; width:100%; transition:all 0.15s; }
 .inline-tab-link { background:none; border:none; padding:0; font-family:inherit; font-size:inherit; font-style:inherit; color:#5a9898; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
 .inline-tab-link:hover { color:#7ab8b8; }
@@ -447,8 +469,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chapter-group-head:hover .card-head-del { opacity:1; }
 .chapter-group-name { font-family:'Cinzel',serif; font-size:17px; font-weight:600; letter-spacing:0.1em; color:#3aacac; flex:1; }
 .chapter-group-count { font-family:var(--mono); font-size:15px; color:var(--text-dim); }
-.chapter-group-arrow { font-size:15px; color:var(--text-dim); transition:transform 0.2s; }
-.chapter-group-arrow.open { transform:rotate(90deg); }
+.chapter-group-arrow { font-size:15px; color:var(--text-dim); }
 .chapter-group-body { display:none; border-top:1px solid var(--border-hi); }
 .chapter-group-body.open { display:block; }
 .chapter-item { border-bottom:1px solid var(--border); overflow:hidden; }
@@ -461,8 +482,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chapter-head:hover .card-head-del { opacity:1; }
 .chapter-date  { font-family:var(--mono); font-size:15px; color:var(--text-dim); flex-shrink:0; }
 .chapter-title { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.08em; color:var(--text-mid); flex:1; }
-.chapter-arrow { font-size:15px; color:var(--text-dim); transition:transform 0.2s; flex-shrink:0; }
-.chapter-arrow.open { transform:rotate(90deg); }
+.chapter-arrow { font-size:15px; color:var(--text-dim); flex-shrink:0; }
 .chapter-body  { display:none; padding:14px 20px 16px; background:var(--bg); border-top:1px solid var(--border); }
 .chapter-body.open { display:block; }
 .chapter-row   { margin-bottom:14px; }
@@ -869,7 +889,21 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .lore-card--session .lore-card-hdr { color:#3aacac; }
 .lore-card--keyq { border-left:3px solid var(--gold); }
 .lore-card--keyq .lore-card-hdr { color:var(--gold); opacity:0.85; }
-.lore-card--keyq .lore-card-body { font-size:18px; font-style:italic; }
+.lore-card--keyqs { border-left:3px solid var(--gold); }
+.lore-card--keyqs .lore-card-hdr { color:var(--gold); opacity:0.85; }
+.lore-keyq-list { display:flex; flex-direction:column; gap:14px; }
+.lore-keyq-item { display:flex; align-items:flex-start; gap:14px; }
+.lore-keyq-icon { font-size:28px; line-height:1; flex-shrink:0; opacity:0.7; color:var(--gold); margin-top:2px; }
+.lore-keyq-text { font-size:18px; font-style:italic; color:var(--text-b); line-height:1.6; flex:1; }
+.lore-keyq-meta { font-size:13px; color:var(--text-dim); font-family:var(--mono); margin-top:4px; }
+.lore-card--threads { border-left:3px solid #3a80c8; }
+.lore-card--threads .lore-card-hdr { color:#5aa8e8; opacity:0.9; }
+.lore-thread-list { display:flex; flex-direction:column; gap:14px; }
+.lore-thread-item { display:flex; align-items:flex-start; gap:14px; }
+.lore-thread-icon { font-size:22px; line-height:1; flex-shrink:0; opacity:0.6; color:#3a80c8; margin-top:3px; }
+.lore-thread-text { flex:1; }
+.lore-thread-thread { font-size:17px; color:var(--text-b); line-height:1.6; }
+.lore-thread-why { font-size:15px; color:var(--text-mid); font-style:italic; margin-top:3px; line-height:1.5; }
 
 /* ══ SESSION STARTERS ════════════════════════════════════ */
 .starters-section { margin-bottom:20px; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
@@ -1414,6 +1448,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   color:var(--gold); cursor:pointer; padding:3px 8px; transition:background 0.15s;
 }
 .prac-bar-edit-save:hover { background:rgba(200,168,74,0.22); }
+.prac-bar-edit-void {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+  border:1px solid rgba(180,60,60,0.4); border-radius:3px; background:rgba(180,60,60,0.08);
+  color:rgba(200,80,80,0.8); cursor:pointer; padding:3px 7px; transition:background 0.15s;
+}
+.prac-bar-edit-void:hover { background:rgba(180,60,60,0.22); }
+.prac-bar-edit-void.active { background:rgba(180,60,60,0.25); color:#e07070; border-color:rgba(200,80,80,0.6); }
 
 /* Checkbox practice widget */
 .checkbox-dots { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
@@ -1662,6 +1703,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .import-flash     { animation:import-flash-in 0.7s ease-out forwards; }
 .import-flash-out { animation:import-flash-out 0.5s ease-out forwards; }
+@keyframes status-needs-update {
+  0%,100% { box-shadow:0 0 0 1px rgba(200,168,74,0.18); }
+  50%      { box-shadow:0 0 0 2px rgba(200,168,74,0.42), 0 0 8px rgba(200,168,74,0.18); }
+}
+.status-needs-checkin input.stat-range { animation:status-needs-update 2.8s ease-in-out infinite; border-radius:4px; }
+.status-needs-checkin .stat-bar-lbl    { opacity:0.6; }
 .timer-svg.running-glow        { animation:ring-glow-pulse 2.4s ease-in-out infinite; }
 .timer-svg.running-glow.overflow { animation:ring-glow-pulse-deep 2.4s ease-in-out infinite; }
 .timer-svg.milestone-beat      { animation:ring-milestone-beat 0.5s ease; }
@@ -1772,7 +1819,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* Harmony scores — right flank */
 .balance-harmony-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.12em; color:#8090a8; text-transform:uppercase; margin-top:2px; }
 .balance-harmony-trio { display:flex; flex-direction:column; gap:8px; flex-shrink:0; }
-.bht-cell { display:flex; flex-direction:column; }
+.bht-cell { display:flex; flex-direction:column; position:relative; }
 .bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:16px; }
 .bht-now { font-size:18px; color:#c8d0d8; }
 /* Left cell: Over Time chart + its legend to the right */
@@ -2059,7 +2106,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .cqcard-head { padding:9px 10px; gap:8px; }
 }
 
-/* ── Ally / bestiary card heads: give name room ── */
+/* ── Ally / enemies card heads: give name room ── */
 @media (max-width:600px) {
   .ally-card-name { font-size:14px; min-width:0; letter-spacing:0.03em; }
   .enemy-card-name { font-size:14px; min-width:0; }
@@ -2328,19 +2375,26 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')" title="Life balance across four dimensions"><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
   <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')" title="Active goals and direction"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
   <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')" title="Skills and habits ranked by mastery"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills</button>
-  <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('bestiary')" title="Problems and negative patterns working against you"><span class="tab-nav-count" id="nav-bestiary" style="color:#c84040">0</span>Enemies</button>
+  <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('enemies')" title="Problems and negative patterns working against you"><span class="tab-nav-count" id="nav-enemies" style="color:#c84040">0</span>Enemies</button>
   <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Resources and positive patterns working for you"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
-  <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Specific moments worth recognising"><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
+  <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Achievements: specific moments worth recognising (insights, deeds, transmutations, surrenders). Classes: roles and identities that shape how you operate."><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
   <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
 </nav>
 
 <div id="tab-balance" class="tab-panel">
 
+<!-- ══ AI JOURNALLING BANNER ══ -->
+<div class="balance-ai-banner" id="balance-ai-banner">
+  <span class="balance-ai-banner-text">Element scores and harmony are updated by your LLM of choice during journalling sessions. <a href="#" onclick="event.preventDefault();openHelpModal()">See Help for details →</a></span>
+  <button class="balance-ai-banner-never" onclick="dismissBalanceBanner()">Never show</button>
+  <button class="balance-ai-banner-dismiss" onclick="document.getElementById('balance-ai-banner').style.display='none'" title="Dismiss">×</button>
+</div>
+
 <!-- ══ ELEMENTAL MASTERY ══ -->
 <!-- ══ HARMONY CARD ══ -->
 <div class="balance-el-card" style="margin-bottom:14px">
   <div class="balance-el-card-hdr">Harmony</div>
-  <div class="balance-el-card-desc">Balance between the four elements, inferred from each session</div>
+  <div class="balance-el-card-desc">Balance between your mastery over awareness, actions, beliefs and desires.</div>
   <div class="balance-el-card-body">
     <!-- Col 1: Over Time chart + legend to the right -->
     <div class="harmony-chart-col">
@@ -2356,7 +2410,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
       </div>
     </div>
-    <!-- Col 2: [line legend] [radar] [harmony scores] -->
+    <!-- Col 2: [hint] [line legend] [radar] [harmony scores] -->
     <div class="balance-el-radar-row">
       <div class="balance-el-radar-meta">
         <div class="balance-radar-legend">
@@ -2386,16 +2440,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
       </svg>
       <div class="balance-harmony-trio">
-        <div class="bht-cell" title="Harmony when you first started using character-sheet">
+        <div class="bht-cell">
+          <span class="bht-tooltip">Your harmony score when you<br>first started journalling.</span>
           <div class="bht-num" id="balance-harmony-initial">—</div>
           <div class="balance-harmony-lbl">Initial</div>
         </div>
-        <div class="bht-cell" title="Harmony right now">
+        <div class="bht-cell">
+          <span class="bht-tooltip">100% when all four elements are equal.<br>Drops when one dimension is overpowering others.</span>
           <div class="bht-num bht-now" id="balance-harmony-now">—</div>
           <div class="balance-harmony-lbl">Now</div>
         </div>
       </div>
-      <div style="font-size:11px;color:rgba(128,144,168,0.65);text-align:center;max-width:120px;line-height:1.4;margin-top:6px;font-style:italic;">Harmony measures balance between the four elements: 100% if all are equal, lower if any are far apart. High total mastery with low harmony means one dimension is dominating.</div>
     </div>
   </div>
 </div>
@@ -2435,7 +2490,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">How situations or evidence are being filtered right now</div>
         <div id="air-enemies"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c83060;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
+          <span class="enemies-link" onclick="switchTab('enemies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c83060;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
         </div>
       </div>
       <div>
@@ -2443,7 +2498,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">Resources, tools, and advantages working for you</div>
         <div id="air-allies"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#4aaa72;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
+          <span class="enemies-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#4aaa72;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
         </div>
       </div>
     </div>
@@ -2470,7 +2525,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="el-body open">
     <div id="fire-quests" style="margin-bottom:6px;display:flex;flex-direction:column;gap:8px;"></div>
     <div style="margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px;text-align:right;">
-      <span class="bestiary-link" onclick="switchTab('quests')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:var(--gold);cursor:pointer;opacity:0.6;text-transform:uppercase;">View all in Quests →</span>
+      <span class="enemies-link" onclick="switchTab('quests')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:var(--gold);cursor:pointer;opacity:0.6;text-transform:uppercase;">View all in Quests →</span>
     </div>
     <div class="grid-2">
       <div>
@@ -2478,7 +2533,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">Action-level patterns driven by urgency or avoidance</div>
         <div id="fire-compulsions"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c83030;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
+          <span class="enemies-link" onclick="switchTab('enemies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c83030;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
         </div>
       </div>
       <div>
@@ -2486,7 +2541,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">Reliable actions that shift your state or create momentum</div>
         <div id="fire-spells"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c87828;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
+          <span class="enemies-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c87828;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
         </div>
       </div>
     </div>
@@ -2496,7 +2551,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">High-priority skills still at beginner or novice level</div>
         <div id="fire-skills-left"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#d07830;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
+          <span class="enemies-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#d07830;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
         </div>
       </div>
       <div>
@@ -2504,7 +2559,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">High-priority skills at adept level or above</div>
         <div id="fire-skills-right"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c8a84a;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
+          <span class="enemies-link" onclick="switchTab('skills')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#c8a84a;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Skills →</span>
         </div>
       </div>
     </div>
@@ -2534,13 +2589,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="lbl" style="color:#8b5e3c">⬡ Limiting Beliefs</div>
         <div class="section-desc">Harmful narratives that constrain how you act</div>
         <div id="limiting-list"></div>
-        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#8b5e3c;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
+        <div style="margin-top:10px;text-align:right"><span class="enemies-link" onclick="switchTab('enemies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#8b5e3c;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span></div>
       </div>
       <div>
         <div class="lbl" style="color:#2d6e40">⬡ Liberating Beliefs</div>
         <div class="section-desc">Useful reframes that open up what's possible</div>
         <div id="empowering-list"></div>
-        <div style="margin-top:10px;text-align:right"><span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2d6e40;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span></div>
+        <div style="margin-top:10px;text-align:right"><span class="enemies-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2d6e40;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span></div>
       </div>
     </div>
     <div style="border-top:1px solid var(--border);padding-top:12px;">
@@ -2575,7 +2630,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">Desire-driven patterns that cost more than they give</div>
         <div id="water-drains"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('bestiary')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#6040a0;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
+          <span class="enemies-link" onclick="switchTab('enemies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#6040a0;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Enemies →</span>
         </div>
       </div>
       <div>
@@ -2583,7 +2638,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="section-desc">Activities that reliably produce aliveness</div>
         <div id="flow-sources"></div>
         <div style="margin-top:10px;text-align:right">
-          <span class="bestiary-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2a9090;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
+          <span class="enemies-link" onclick="switchTab('allies')" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:#2a9090;cursor:pointer;opacity:0.7;text-transform:uppercase;">View all in Allies →</span>
         </div>
       </div>
     </div>
@@ -2789,6 +2844,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="radar-panel-title" style="font-size:18px;color:#c8a84a;letter-spacing:0.2em;padding:18px 0 6px 0;">Regular quests</div>
   <div class="section-desc" style="margin-bottom:10px;">Recurring things that matter. Track consistency and spot trends over time.</div>
   <div id="rquests-container"></div>
+  <button class="add-item-btn" onclick="addRegularQuest()" style="margin-top:10px;">+ New Regular Quest</button>
 
 </div>
 
@@ -2805,7 +2861,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div id="lore-last-session-text" class="lore-card-body"></div>
   </div>
 
-  <div id="lore-key-q" class="lore-card lore-card--keyq" style="display:none;"></div>
+  <div id="lore-key-questions" class="lore-card lore-card--keyqs" style="display:none;"></div>
+
+  <div id="lore-open-threads" class="lore-card lore-card--threads" style="display:none;"></div>
 
   <!-- ── Session starters ── -->
   <div class="starters-section" id="starters-section">
@@ -2868,7 +2926,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
-<div id="tab-bestiary" class="tab-panel">
+<div id="tab-enemies" class="tab-panel">
   <div class="bt-top-row">
     <div class="qt-section" style="margin-bottom:0">
       <div id="bt-enemies"></div>
@@ -2891,23 +2949,24 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <div id="tab-achievements" class="tab-panel">
   <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">★ Active Classes</div>
+    <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);" title="Classes are roles or identities that shape how you operate: your strengths, tendencies, and the cost of being who you are. Not achievements to unlock, just honest labels.">★ Active Classes</div>
     <p style="font-size:17px;color:var(--text-dim);font-style:italic;margin-bottom:14px;">Select up to 3 classes to display in your header. Click a class card to toggle it.</p>
     <div id="cls-featured-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;min-height:24px;"></div>
   </div>
   <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">✦ All Classes</div>
+    <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);" title="Classes are roles or identities that shape how you operate: your strengths, tendencies, and the cost of being who you are. Not achievements to unlock, just honest labels.">✦ All Classes</div>
+    <div class="section-desc">Roles and identities that shape how you operate. Use the role badge to mark your function in each area</div>
     <div id="cls-list"></div>
   </div>
   <div class="qt-section">
-    <div class="qt-section-hdr no-prefix" style="color:var(--gold);border-color:rgba(200,168,74,0.3);">★ Featured Titles</div>
+    <div class="qt-section-hdr no-prefix" style="color:var(--gold);border-color:rgba(200,168,74,0.3);" title="Achievements (Titles) mark specific moments: insights realised, deeds done, beliefs transmuted, or things surrendered. Each one is a moment that changed something.">★ Featured Titles</div>
     <p style="font-size:17px;color:var(--text-dim);font-style:italic;margin-bottom:14px;">Select up to 3 titles to display in your header. Click a title card to toggle it.</p>
     <div id="ach-featured-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;min-height:24px;"></div>
   </div>
   <div class="ach-top-row">
     <div class="qt-section" style="margin-bottom:0">
-      <div class="qt-section-hdr no-prefix" style="color:var(--gold);border-color:rgba(200,168,74,0.3);">◈ All Titles</div>
-      <div class="section-desc">Insights, deeds, transmutations, and surrenders: moments that marked you</div>
+      <div class="qt-section-hdr no-prefix" style="color:var(--gold);border-color:rgba(200,168,74,0.3);" title="Achievements (Titles) mark specific moments: insights realised, deeds done, beliefs transmuted, or things surrendered. Each one is a moment that changed something.">◈ All Titles</div>
+      <div class="section-desc">Insights, deeds, transmutations, and surrenders: moments that marked you. Click a type badge to change it</div>
       <div id="ach-list"></div>
     </div>
     <div class="ach-pie-col">
@@ -2985,7 +3044,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="help-col">
         <div class="help-col-hdr">
           ↑ &nbsp;Import
-          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Load data into the app</div>
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Load your data into the character-sheet</div>
         </div>
         <span style="display:block;font-size:14px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;">Use Import to restore a backup, migrate from another device, or load an update from AI journalling.</span>
         <div class="help-step">
@@ -2999,7 +3058,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
           <div class="help-step-text"><strong>Paste your data.json</strong> into the text area and hit Apply. Or use the file picker to load directly from disk.</div>
         </div>
         <p class="help-note" style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">
-          <strong style="color:var(--text-mid);">Using AI journalling?</strong> After a session, ask your AI: <em>"Update my data.json"</em>. Copy the JSON it outputs and paste it here.
+          <strong style="color:var(--text-mid);">Using AI journalling?</strong> After a session, ask your AI: <em>"Update my data.json"</em>. Copy the JSON data it outputs and paste into the <a href="#" onclick="event.preventDefault();document.getElementById('help-modal').classList.remove('open');openModal()" style="color:var(--help);">Import</a> tab.
         </p>
       </div>
 
@@ -3007,7 +3066,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="help-col">
         <div class="help-col-hdr">
           ↓ &nbsp;Export
-          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Back up or share your data</div>
+          <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">Download or back up your data</div>
         </div>
         <span style="display:block;font-size:14px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;">Your data lives in browser storage. Export regularly so you have a backup. Store it somewhere safe.</span>
         <div class="help-step">
@@ -3024,7 +3083,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <p class="help-note" style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">
           <strong style="color:var(--text-mid);">Using AI journalling?</strong> Paste this JSON into your AI project to replace the old data.json, so your AI has your latest state next session.
         </p>
-        <p class="help-note">A banner appears at the top when you have edits not yet exported.</p>
+        <p class="help-note">A warning banner will appear when you have made edits in the app that are not yet exported.</p>
       </div>
 
     </div>
@@ -3210,7 +3269,7 @@ function getAlignment(item){
 
 // ══ DEFAULT STATE ═══════════════════════════════════════════
 // Steve's demo data — inlined so it works on file:// and github.io alike.
-let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], bestiary:{boss:{},currentEnemies:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, wheelOfLife:{}, statusSliders:{focus:70,energy:60,interest:65,purpose:55} };
+let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, coreSkills:{}, statusSliders:{focus:70,energy:60,interest:65,purpose:55} };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
 // Generate demo history anchored to today so charts always fill to current date.
@@ -3316,7 +3375,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '1.4.0';
+const INSTRUCTIONS_VERSION = '1.5.0';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -3324,6 +3383,7 @@ const FEATURED_ACH_KEY='cs-featured-ach-v1';
 const COMPLETED_QUESTS_KEY='cs-completed-quests-v1';
 const HDR_ICON_KEY='cs-hdr-icon-v1';
 const WELCOMED_KEY='cs-welcomed-v1';
+const BALANCE_BANNER_KEY='cs-balance-banner-v1';
 const SYNC_EXPLAINED_KEY='cs-sync-explained-v1';
 const HIDE_DIRTY_BANNER_KEY='cs-hide-dirty-banner-v1';
 const IS_DEMO=location.hostname.endsWith('github.io');
@@ -3412,10 +3472,12 @@ function initRQState(act, charName) {
     if (saved && !isPeriodExpired(saved.periodStart, act.resetPeriod)) {
       ps.value = saved.value || 0;
       ps.subsDone = saved.subsDone || [];
+      ps.hasEntry = saved.hasEntry !== undefined ? saved.hasEntry : (ps.value > 0);
     } else {
       if (saved && saved.value > 0) archiveRQValue(act, charName, saved.periodStart, saved.value);
       ps.value = 0;
       ps.subsDone = [];
+      ps.hasEntry = false;
     }
   }
 }
@@ -3448,10 +3510,11 @@ function getRQStats(act, charName) {
   // Returns { pct7, pctAll, lastDone } — success % over last 7 and all tracked periods
   const hardHist = HARDCODED_HISTORY[act.id] || [];
   const lsHist   = loadRQHistory(charName, act.id);
-  const periods = []; // { period, value } objects in descending order
+  const periods = []; // { period, value, hasEntry } objects in descending order
   const now = new Date();
   const numPeriods = act.resetPeriod === 'week' ? 52 : 90;
   const target = act.target || 1;
+  const isCheck = act.type === 'checkbox';
   for (let i = 1; i <= numPeriods; i++) {
     const d = new Date(now);
     if (act.resetPeriod === 'day') d.setDate(d.getDate() - i);
@@ -3462,21 +3525,29 @@ function getRQStats(act, charName) {
       ? hardHist.find(h => h.date === dateKey)
       : hardHist.find(h => h.period === periodKey);
     const le = lsHist.find(h => h.period === periodKey);
-    let val = null;
-    if (hard != null) val = hard.value;
-    else if (le != null) val = le.value;
-    if (val != null) periods.push({ period: periodKey, value: val });
-    else periods.push({ period: periodKey, value: 0 });
+    let val = null, hasEntry = false, isVoid = false;
+    if (hard != null) { val = hard.value; hasEntry = true; }
+    else if (le != null) { val = le.value; hasEntry = true; isVoid = !!le.void; }
+    periods.push({ period: periodKey, value: val ?? 0, hasEntry, void: isVoid });
   }
-  const last7 = periods.slice(0, 7);
-  const pct7 = last7.length ? Math.round(last7.filter(p => p.value >= target).length / last7.length * 100) : 0;
-  // All-time: only count up to the most recent recorded period to avoid inflating with all-zero tail
-  const lastRecordedIdx = periods.reduce((acc, p, i) => p.value > 0 ? i : acc, -1);
-  const activeAll = lastRecordedIdx >= 0 ? periods.slice(0, lastRecordedIdx + 1) : [];
-  const pctAll = activeAll.length ? Math.round(activeAll.filter(p => p.value >= target).length / activeAll.length * 100) : 0;
-  const nonZero = periods.filter(p => p.value > 0);
-  const lastDoneEntry = nonZero[0];
-  const lastDone = lastDoneEntry ? lastDoneEntry.period : null;
+  let pct7, pctAll;
+  if (isCheck) {
+    // For checkboxes: only count periods with explicit history entries in denominator
+    const last7entries = periods.slice(0, 7).filter(p => p.hasEntry);
+    pct7 = last7entries.length ? Math.round(last7entries.filter(p => p.value >= target).length / last7entries.length * 100) : 0;
+    const lastEntryIdx = periods.reduce((acc, p, i) => p.hasEntry ? i : acc, -1);
+    const activeEntries = lastEntryIdx >= 0 ? periods.slice(0, lastEntryIdx + 1).filter(p => p.hasEntry) : [];
+    pctAll = activeEntries.length ? Math.round(activeEntries.filter(p => p.value >= target).length / activeEntries.length * 100) : 0;
+  } else {
+    // For other types: count all periods up to the last recorded one; skip voided entries
+    const last7 = periods.slice(0, 7).filter(p => !p.void);
+    pct7 = last7.length ? Math.round(last7.filter(p => p.value >= target).length / last7.length * 100) : 0;
+    // All-time: only count up to the most recent recorded period to avoid inflating with all-zero tail
+    const lastRecordedIdx = periods.reduce((acc, p, i) => (p.value > 0 && !p.void) ? i : acc, -1);
+    const activeAll = lastRecordedIdx >= 0 ? periods.slice(0, lastRecordedIdx + 1).filter(p => !p.void) : [];
+    pctAll = activeAll.length ? Math.round(activeAll.filter(p => p.value >= target).length / activeAll.length * 100) : 0;
+  }
+  const lastDone = periods.find(p => p.value > 0)?.period || null;
   return { pct7, pctAll, lastDone };
 }
 
@@ -3535,12 +3606,14 @@ function buildSliderCol(elName, labelId, sliderId, rangeClass, value, labelText,
     // XP pill row (above bar) — skip tier I (null) and tier V
     if (!isLevelUp && xpVal) {
       let pill = '';
+      const lockTip = 'title="XP rewards are set by your LLM during journalling sessions, not manually"';
+      const lock = `<span class="xp-ai-lock" ${lockTip}>🔒</span>`;
       if (isPast) {
-        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;opacity:0.45;text-decoration:line-through;">✓ +${xpVal} XP</span>`;
+        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;opacity:0.45;text-decoration:line-through;">✓ +${xpVal} XP</span>${lock}`;
       } else if (isNext) {
-        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;">+${xpVal} XP</span>`;
+        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;">+${xpVal} XP</span>${lock}`;
       } else {
-        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;opacity:0.2;">+${xpVal} XP</span>`;
+        pill = `<span class="xp-pill xp-pill-skill" style="font-size:12px;padding:1px 5px;opacity:0.2;">+${xpVal} XP</span>${lock}`;
       }
       xpRowHtml += `<div style="position:absolute;left:${t.pct}%;transform:${offset};display:flex;align-items:center;">${pill}</div>`;
     }
@@ -3862,9 +3935,17 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
     const col = cols[k];
     const pts = hist.map((e, i) => ({ x: xOf(i), y: yOf(e[k] ?? 0), v: e[k] ?? 0 }));
 
-    // Draw line
-    ctx.beginPath(); ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
-    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    // Draw line — break on date gaps > 1 day so missing data shows as visual gaps
+    ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.7;
+    ctx.beginPath();
+    pts.forEach((p, i) => {
+      if (i === 0) { ctx.moveTo(p.x, p.y); return; }
+      const prevDate = hist[i - 1]?.date, curDate = hist[i]?.date;
+      const isGap = prevDate && curDate &&
+        (new Date(curDate) - new Date(prevDate)) > 86400000 * 1.5;
+      if (isGap) { ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+      else ctx.lineTo(p.x, p.y);
+    });
     ctx.stroke(); ctx.globalAlpha = 1;
 
     // Dots for each data point
@@ -4099,15 +4180,15 @@ function updateStat(name, value){
   if(valEl) valEl.textContent=pct;
   updateStatsRadar();
   // Write back to appState so export reflects manual adjustments
-  if(!appState.wheelOfLife) appState.wheelOfLife={};
-  if(!appState.wheelOfLife[name]) appState.wheelOfLife[name]={};
-  appState.wheelOfLife[name].score=pct;
+  if(!appState.coreSkills) appState.coreSkills={};
+  if(!appState.coreSkills[name]) appState.coreSkills[name]={};
+  appState.coreSkills[name].score=pct;
   saveState(appState); markDirty();
   saveStatsSnapshot();
 }
 
 function loadStatSliders(s){
-  const wol=(s||appState).wheelOfLife||{};
+  const wol=(s||appState).coreSkills||{};
   Object.entries(STAT_COLORS).forEach(([name,col])=>{
     const el=document.getElementById('stat-'+name);
     const valEl=document.getElementById('stat-'+name+'-val');
@@ -4190,6 +4271,7 @@ function switchTab(name){
   if(name==='balance'){
     // Force harmony chart redraw after layout is visible (fixes Firefox stretch on initial load)
     requestAnimationFrame(()=>requestAnimationFrame(()=>renderHarmonyChart(appState)));
+    showBalanceBanner();
   }
 }
 function initTabColours(){
@@ -4261,7 +4343,7 @@ function openSkill(skillName){
 }
 
 function openEnemy(name){
-  switchTab('bestiary');
+  switchTab('enemies');
   setTimeout(()=>{
     document.querySelectorAll('.enemy-card').forEach(card=>{
       const nameEl=card.querySelector('[style*="Cinzel"]');
@@ -4478,6 +4560,59 @@ function renderSkillsList(id, skills){
     el.appendChild(d);
   });
 }
+// ══ FIELD LOCKING ════════════════════════════════════════════
+// _locked: array of dot-path strings, e.g. ["sideQuests.0.title", "enemies.bosses.0.name"]
+// These paths are written to appState._locked and included in export JSON.
+// Claude reads this array and treats those paths as read-only.
+// On import, applyUpdate restores locked field values from the pre-import snapshot.
+
+function getLocked(){ return appState._locked||[]; }
+function isLocked(dotPath){ return getLocked().includes(dotPath); }
+function toggleLock(dotPath){
+  if(!appState._locked) appState._locked=[];
+  const i=appState._locked.indexOf(dotPath);
+  if(i>=0) appState._locked.splice(i,1);
+  else appState._locked.push(dotPath);
+  saveState(appState);
+  // Update all lock buttons for this path
+  document.querySelectorAll(`.lock-btn[data-lock-path="${CSS.escape(dotPath)}"]`).forEach(btn=>{
+    const locked=isLocked(dotPath);
+    btn.classList.toggle('locked',locked);
+    btn.title=locked?'Locked: Claude will not overwrite this field. Click to unlock.':'Lock this field so Claude cannot overwrite it.';
+    btn.textContent=locked?'🔒':'🔓';
+  });
+}
+function makeLockBtn(dotPath){
+  const locked=isLocked(dotPath);
+  const btn=document.createElement('button');
+  btn.className='lock-btn'+(locked?' locked':'');
+  btn.dataset.lockPath=dotPath;
+  btn.title=locked?'Locked: Claude will not overwrite this field. Click to unlock.':'Lock this field so Claude cannot overwrite it.';
+  btn.textContent=locked?'🔒':'🔓';
+  btn.addEventListener('click',e=>{ e.stopPropagation(); e.preventDefault(); toggleLock(dotPath); });
+  return btn;
+}
+// Restore locked field values from a snapshot after a merge.
+// Walks each dot-path in _locked, reads from snapshot, writes back to merged.
+function applyLockedFields(merged, snapshot){
+  const locked=merged._locked||[];
+  locked.forEach(dotPath=>{
+    const parts=dotPath.split('.');
+    // Read from snapshot
+    let sv=snapshot;
+    for(const p of parts){ if(sv==null) break; sv=sv[typeof sv==='object'?p:null]; }
+    // Write to merged (only if snapshot had the value)
+    if(sv!==undefined){
+      let mv=merged;
+      for(let i=0;i<parts.length-1;i++){
+        if(mv==null||typeof mv!=='object') break;
+        mv=mv[parts[i]];
+      }
+      if(mv!=null&&typeof mv==='object') mv[parts[parts.length-1]]=sv;
+    }
+  });
+}
+
 // ── Shared editable helpers ──────────────────────────────────
 function makeEditable(text, placeholder, onSave, extraClass){
   const el=document.createElement('div');
@@ -4511,7 +4646,7 @@ function makeEditable(text, placeholder, onSave, extraClass){
   return el;
 }
 function saveNestedField(path, value){
-  // path like ['bestiary','boss','name'] or ['sideQuests',0,'title']
+  // path like ['enemies','boss','name'] or ['sideQuests',0,'title']
   let obj=appState;
   for(let i=0;i<path.length-1;i++){
     if(obj[path[i]]===undefined||obj[path[i]]===null) obj[path[i]]=typeof path[i+1]==='number'?[]:{};
@@ -4670,7 +4805,9 @@ function renderQuestsTab(s){
     const ps=document.createElement('div'); ps.className='mqcard-trigger-pct'; ps.textContent=pct+'%';
 
     const arrowEl=document.createElement('div'); arrowEl.className='mqcard-trigger-arrow'; arrowEl.id='mq-arrow'; arrowEl.textContent='▾';
-    trigger.appendChild(titleEl); trigger.appendChild(tr); trigger.appendChild(ps);
+    const mqMark=document.createElement('span'); mqMark.className='quest-mark quest-rank'; mqMark.textContent='1';
+    const mqLockBtn=makeLockBtn('mainQuest.title');
+    trigger.appendChild(mqMark); trigger.appendChild(titleEl); trigger.appendChild(mqLockBtn); trigger.appendChild(tr); trigger.appendChild(ps);
     if(mq.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+mq.xpReward+' XP'; trigger.appendChild(pill); }
     else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal about this quest, negotiate the reward with your AI based on how difficult or meaningful it is.'; trigger.appendChild(pill); }
     const mqDlInfo=deadlineInfo(mq.deadline);
@@ -4723,7 +4860,7 @@ function renderQuestsTab(s){
       const bodyId=`sq-body-${i}`,arrowId=`sq-arrow-${i}`;
       const d=document.createElement('div'); d.className='sqcard';
       const head=document.createElement('div'); head.className='sqcard-head'; head.dataset.handleInject='1';
-      const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=i+1;
+      const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=i+2;
       const titleEl=makeEditable(q.title,'Quest name',v=>saveNestedField(['sideQuests',i,'title'],capitalise(v)),'sq-title-edit');
       titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
@@ -4746,7 +4883,8 @@ function renderQuestsTab(s){
           ()=>{ appState.sideQuests=snap; saveState(appState); markDirty(); renderQuestsTab(appState); }
         );
       });
-      head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(tr); head.appendChild(ps);
+      const sqLockBtn=makeLockBtn(`sideQuests.${i}.title`);
+      head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(sqLockBtn); head.appendChild(tr); head.appendChild(ps);
       if(q.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+q.xpReward+' XP'; head.appendChild(pill); }
       else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal about this quest, negotiate the reward with your AI based on how difficult or meaningful it is.'; head.appendChild(pill); }
       const dlInfo=deadlineInfo(q.deadline);
@@ -4804,7 +4942,6 @@ function renderQuestsTab(s){
         const bodyId=`cq-body-${i}`,arrowId=`cq-arrow-${i}`;
         const d=document.createElement('div'); d.className='cqcard';
         const head=document.createElement('div'); head.className='cqcard-head'; head.dataset.handleInject='1';
-        const mark=document.createElement('span'); mark.className='quest-mark'; mark.textContent='!';
         const titleEl=makeEditable(q.title,'Quest name',v=>{ const arr=loadCompletedQuests(); arr[i].title=capitalise(v); saveCQ(arr); },'cq-title-edit');
         titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;';
         const dateEl=makeEditable(q.completedDate,'Date completed',v=>{ const arr=loadCompletedQuests(); arr[i].completedDate=v; saveCQ(arr); },'cqcard-date');
@@ -4826,10 +4963,10 @@ function renderQuestsTab(s){
             ()=>{ saveCQ(snap); renderQuestsTab(appState); }
           );
         });
-        head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(dateEl);
+        head.appendChild(delBtn); head.appendChild(titleEl); head.appendChild(dateEl);
         if(q.xpEarned){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-earned'; pill.textContent='+'+q.xpEarned+' XP'; head.appendChild(pill); }
         head.appendChild(reopenBtn); head.appendChild(arrowEl);
-        head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl||e.target===mark) toggleChapter(bodyId,arrowId); });
+        head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='cqcard-body open'; body.id=bodyId;
         body.appendChild(makeEditable(q.howResolved,'How was this resolved?',v=>{ const arr=loadCompletedQuests(); arr[i].howResolved=v; saveCQ(arr); },'cqcard-how'));
         d.appendChild(head); d.appendChild(body); cqEl.appendChild(d);
@@ -4847,7 +4984,7 @@ function renderLifeWheel(s){
   const el=document.getElementById('life-wheel-bars');
   const el2=document.getElementById('life-wheel-bars-combat');
   if(!el&&!el2) return;
-  const wol=s.wheelOfLife||{};
+  const wol=s.coreSkills||{};
   const domains=[
     {key:'rest',      label:'Rest',       color:'#8090a8'},
     {key:'movement',  label:'Movement',   color:'#d07830'},
@@ -4885,19 +5022,19 @@ function renderLifeWheel(s){
 
 // ══ BESTIARY ════════════════════════════════════════════════
 function addEnemy(){
-  if(!appState.bestiary) appState.bestiary={};
-  if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
-  const maxP=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.bestiary.currentEnemies.push({name:'',desc:'',trigger:'',type:'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
-  saveState(appState); markDirty(); renderBestiaryTab(appState);
+  if(!appState.enemies) appState.enemies={};
+  if(!appState.enemies.current) appState.enemies.current=[];
+  const maxP=appState.enemies.current.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
+  appState.enemies.current.push({name:'',desc:'',trigger:'',type:'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
+  saveState(appState); markDirty(); renderEnemiesTab(appState);
 }
 function killEnemy(e){
   // e has _srcType, _idx, _bossIdx
   const todayStr=new Date().toISOString().slice(0,10);
-  if(!appState.bestiary) appState.bestiary={};
-  if(!appState.bestiary.graveyard) appState.bestiary.graveyard=[];
+  if(!appState.enemies) appState.enemies={};
+  if(!appState.enemies.graveyard) appState.enemies.graveyard=[];
   const graveEntry={name:e.name||'',defeatedDate:todayStr,howDefeated:'',type:e.type||'',desc:e.desc||''};
-  appState.bestiary.graveyard.unshift(graveEntry);
+  appState.enemies.graveyard.unshift(graveEntry);
   // Award XP if enemy has xpReward
   if(e.xpReward && e.xpReward>0){
     const _oldXp=appState.xp||0; const _oldLevel=appState.level||1;
@@ -4911,76 +5048,76 @@ function killEnemy(e){
     renderXPLog();
   }
   // Remove from source
-  if(e._srcType==='bestiary'){
-    (appState.bestiary.currentEnemies||[]).splice(e._idx,1);
+  if(e._srcType==='enemies'){
+    (appState.enemies.current||[]).splice(e._idx,1);
   } else if(e._srcType==='belief'){
     (appState.limitingBeliefs||[]).splice(e._idx,1);
   } else if(e._srcType==='boss-sub'){
-    const boss=(appState.bestiary.bosses||[])[e._bossIdx];
-    if(boss&&boss.subEnemies) boss.subEnemies.splice(e._idx,1);
+    const boss=(appState.enemies.bosses||[])[e._bossIdx];
+    if(boss&&boss.minions) boss.minions.splice(e._idx,1);
   }
-  saveState(appState); markDirty(); renderBestiaryTab(appState);
+  saveState(appState); markDirty(); renderEnemiesTab(appState);
   // Focus the howDefeated field of the new graveyard entry
   setTimeout(()=>{ const fields=document.querySelectorAll('#bt-graveyard .grave-card-how'); if(fields.length) fields[0].focus(); },80);
 }
 
 function resurrectEnemy(i){
-  if(!appState.bestiary) return;
-  const g=(appState.bestiary.graveyard||[])[i]; if(!g) return;
-  if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
-  const maxPri=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.bestiary.currentEnemies.push({name:g.name||'',desc:g.desc||'',type:g.type||'temptation',hp:100,priority:maxPri+1,shortTermBenefit:'',origin:''});
-  appState.bestiary.graveyard.splice(i,1);
-  saveState(appState); markDirty(); renderBestiaryTab(appState);
+  if(!appState.enemies) return;
+  const g=(appState.enemies.graveyard||[])[i]; if(!g) return;
+  if(!appState.enemies.current) appState.enemies.current=[];
+  const maxPri=appState.enemies.current.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
+  appState.enemies.current.push({name:g.name||'',desc:g.desc||'',type:g.type||'temptation',hp:100,priority:maxPri+1,shortTermBenefit:'',origin:''});
+  appState.enemies.graveyard.splice(i,1);
+  saveState(appState); markDirty(); renderEnemiesTab(appState);
 }
 
 function showMoveEnemyDropdown(anchorEl, e){
   // e has _srcType, _idx, _bossIdx
-  const bosses=(appState.bestiary&&appState.bestiary.bosses)||[];
+  const bosses=(appState.enemies&&appState.enemies.bosses)||[];
   const opts=[{value:'standalone',label:'◈ Standalone (no boss)',color:'#b0a898'}];
   bosses.forEach((b,bi)=>{ opts.push({value:'boss:'+bi,label:'☠ '+( b.name||'Boss '+(bi+1)),color:'#c84040'}); });
   showTypeDropdown(anchorEl,opts,null,choice=>{
     // Remove from current location
-    if(e._srcType==='bestiary'){
-      const en=(appState.bestiary.currentEnemies||[]).splice(e._idx,1)[0];
+    if(e._srcType==='enemies'){
+      const en=(appState.enemies.current||[]).splice(e._idx,1)[0];
       if(choice.startsWith('boss:')){
         const bi=parseInt(choice.split(':')[1]);
-        if(!appState.bestiary.bosses[bi].subEnemies) appState.bestiary.bosses[bi].subEnemies=[];
-        appState.bestiary.bosses[bi].subEnemies.push({name:en.name,desc:en.desc||'',type:en.type||'temptation'});
+        if(!appState.enemies.bosses[bi].minions) appState.enemies.bosses[bi].minions=[];
+        appState.enemies.bosses[bi].minions.push({name:en.name,desc:en.desc||'',type:en.type||'temptation'});
       }
-      // else: nothing, already removed from currentEnemies — add back if standalone
-      else { appState.bestiary.currentEnemies.splice(e._idx,0,en); return; }
+      // else: nothing, already removed from enemies.current — add back if standalone
+      else { appState.enemies.current.splice(e._idx,0,en); return; }
     } else if(e._srcType==='boss-sub'){
-      const boss=(appState.bestiary.bosses||[])[e._bossIdx];
+      const boss=(appState.enemies.bosses||[])[e._bossIdx];
       if(!boss) return;
-      const sub=boss.subEnemies.splice(e._idx,1)[0];
+      const sub=boss.minions.splice(e._idx,1)[0];
       if(choice==='standalone'){
-        if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
-        const maxPri=appState.bestiary.currentEnemies.reduce((m,en)=>typeof en.priority==='number'?Math.max(m,en.priority):m,0);
-        appState.bestiary.currentEnemies.push({name:sub.name,desc:sub.desc||'',type:sub.type||'temptation',hp:100,priority:maxPri+1,shortTermBenefit:'',origin:''});
+        if(!appState.enemies.current) appState.enemies.current=[];
+        const maxPri=appState.enemies.current.reduce((m,en)=>typeof en.priority==='number'?Math.max(m,en.priority):m,0);
+        appState.enemies.current.push({name:sub.name,desc:sub.desc||'',type:sub.type||'temptation',hp:100,priority:maxPri+1,shortTermBenefit:'',origin:''});
       } else {
         const bi=parseInt(choice.split(':')[1]);
-        if(!appState.bestiary.bosses[bi].subEnemies) appState.bestiary.bosses[bi].subEnemies=[];
-        appState.bestiary.bosses[bi].subEnemies.push({name:sub.name,desc:sub.desc||''});
+        if(!appState.enemies.bosses[bi].minions) appState.enemies.bosses[bi].minions=[];
+        appState.enemies.bosses[bi].minions.push({name:sub.name,desc:sub.desc||''});
       }
     }
-    saveState(appState); markDirty(); renderBestiaryTab(appState);
+    saveState(appState); markDirty(); renderEnemiesTab(appState);
   });
 }
 
 function addGraveyard(){
-  if(!appState.bestiary) appState.bestiary={};
-  if(!appState.bestiary.graveyard) appState.bestiary.graveyard=[];
-  appState.bestiary.graveyard.push({name:'',defeatedDate:'',howDefeated:''});
-  saveState(appState); markDirty(); renderBestiaryTab(appState);
+  if(!appState.enemies) appState.enemies={};
+  if(!appState.enemies.graveyard) appState.enemies.graveyard=[];
+  appState.enemies.graveyard.push({name:'',defeatedDate:'',howDefeated:''});
+  saveState(appState); markDirty(); renderEnemiesTab(appState);
   const cards=document.querySelectorAll('#bt-graveyard .grave-name-edit');
   if(cards.length) cards[cards.length-1].focus();
 }
 
-function renderBestiaryTab(s){
-  const bestiary=s.bestiary||{};
+function renderEnemiesTab(s){
+  const enemies=s.enemies||{};
 
-  // All patterns: boss (always #1) + currentEnemies + limitingBeliefs, sorted by priority
+  // All patterns: boss (always #1) + enemies.current + limitingBeliefs, sorted by priority
   const enemiesEl=document.getElementById('bt-enemies');
   if(enemiesEl){
     enemiesEl.innerHTML='';
@@ -5025,14 +5162,19 @@ function renderBestiaryTab(s){
       }
       const nameColor=isBoss?'#c84040':tc.nameColor;
       function saveEnemyField(field,val){
-        if(e._srcType==='boss'){ if(appState.bestiary?.bosses?.[e._idx]) appState.bestiary.bosses[e._idx][field]=val; }
-        else if(e._srcType==='boss-sub'){ if(appState.bestiary?.bosses?.[e._bossIdx]?.subEnemies?.[e._idx]) appState.bestiary.bosses[e._bossIdx].subEnemies[e._idx][field]=val; }
-        else if(e._srcType==='bestiary'){ if(appState.bestiary?.currentEnemies?.[e._idx]) appState.bestiary.currentEnemies[e._idx][field]=val; }
+        if(e._srcType==='boss'){ if(appState.enemies?.bosses?.[e._idx]) appState.enemies.bosses[e._idx][field]=val; }
+        else if(e._srcType==='boss-sub'){ if(appState.enemies?.bosses?.[e._bossIdx]?.minions?.[e._idx]) appState.enemies.bosses[e._bossIdx].minions[e._idx][field]=val; }
+        else if(e._srcType==='enemies'){ if(appState.enemies?.current?.[e._idx]) appState.enemies.current[e._idx][field]=val; }
         else if(e._srcType==='belief'){ if(appState.limitingBeliefs?.[e._idx]) appState.limitingBeliefs[e._idx][field]=val; }
         saveState(appState); markDirty();
       }
       const nameEl=makeEditable(e.name||'','Enemy name',v=>saveEnemyField('name',v));
       nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:'+(isBossSubEnemy?'14':'16')+'px;font-weight:600;color:'+nameColor+';outline:none;cursor:text;';
+      // Compute lock path for this enemy's name
+      const _enemyLockPath=e._srcType==='boss'?`enemies.bosses.${e._idx}.name`
+        :e._srcType==='boss-sub'?`enemies.bosses.${e._bossIdx}.minions.${e._idx}.name`
+        :e._srcType==='enemies'?`enemies.current.${e._idx}.name`:null;
+      const _enemyLockBtn=_enemyLockPath?makeLockBtn(_enemyLockPath):null;
       // Boss gets a "Boss" tag; others get element type tag
       const tag=document.createElement('span');
       if(isBoss){
@@ -5046,9 +5188,9 @@ function renderBestiaryTab(s){
         tag.addEventListener('click',ev=>{ ev.stopPropagation();
           const enemyTypeOpts=[{value:'blindspot',icon:'◈',label:'Blindspot',color:'#c83060'},{value:'compulsion',icon:'⚡',label:'Compulsion',color:'#c83030'},{value:'belief',icon:'⬡',label:'Limiting Belief',color:'#8b5e3c'},{value:'temptation',icon:'↓',label:'Temptation',color:'#7848c0'}];
           showTypeDropdown(tag,enemyTypeOpts,e.type,newType=>{
-            if(e._srcType==='bestiary'){ if(appState.bestiary?.currentEnemies?.[e._idx]) appState.bestiary.currentEnemies[e._idx].type=newType; }
+            if(e._srcType==='enemies'){ if(appState.enemies?.current?.[e._idx]) appState.enemies.current[e._idx].type=newType; }
             else if(e._srcType==='belief'){ if(appState.limitingBeliefs?.[e._idx]) appState.limitingBeliefs[e._idx].type=newType; }
-            saveState(appState); markDirty(); renderBestiaryTab(appState);
+            saveState(appState); markDirty(); renderEnemiesTab(appState);
           });
         });
       }
@@ -5058,7 +5200,7 @@ function renderBestiaryTab(s){
       const hpFill=document.createElement('div'); hpFill.className='hp-bar-fill';
       hpFill.style.cssText=`width:${hp}%;background:${hpColor(hp)};`;
       hpWrap.appendChild(hpFill);
-      head.appendChild(nameEl); head.appendChild(tag); head.appendChild(hpWrap);
+      head.appendChild(nameEl); if(_enemyLockBtn) head.appendChild(_enemyLockBtn); head.appendChild(tag); head.appendChild(hpWrap);
       if(e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
       else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='☠ ? XP'; pill.title='Bounty not set. When you journal about defeating this enemy, negotiate the XP reward with your AI based on how significant overcoming it would be.'; head.appendChild(pill); }
       const enemyEditBtn=document.createElement('button'); enemyEditBtn.className='card-edit-btn'; enemyEditBtn.textContent='✎'; enemyEditBtn.title='Edit details';
@@ -5093,7 +5235,7 @@ function renderBestiaryTab(s){
             const {enemyType, ...rest}=v;
             Object.entries(rest).forEach(([k,val])=>saveEnemyField(k,val));
             if(!isBoss&&enemyType) saveEnemyField('type',enemyType);
-            renderBestiaryTab(appState);
+            renderEnemiesTab(appState);
           }
         });
       });
@@ -5151,8 +5293,8 @@ function renderBestiaryTab(s){
             const row=document.createElement('div'); row.className='boss-vuln';
             const num=document.createElement('div'); num.className='boss-vuln-num'; num.textContent=vi+1;
             const vBody=document.createElement('div'); vBody.style.flex='1';
-            const titleEl=makeEditable(v.title||'','Vulnerability title',t=>{ if(e._srcType==='boss'&&appState.bestiary?.bosses?.[e._idx]?.vulnerabilities?.[vi]) appState.bestiary.bosses[e._idx].vulnerabilities[vi].title=t; saveState(appState); markDirty(); },'boss-vuln-title');
-            const descEl2=makeEditable(v.desc||'','Description',t=>{ if(e._srcType==='boss'&&appState.bestiary?.bosses?.[e._idx]?.vulnerabilities?.[vi]) appState.bestiary.bosses[e._idx].vulnerabilities[vi].desc=t; saveState(appState); markDirty(); },'boss-vuln-desc');
+            const titleEl=makeEditable(v.title||'','Vulnerability title',t=>{ if(e._srcType==='boss'&&appState.enemies?.bosses?.[e._idx]?.vulnerabilities?.[vi]) appState.enemies.bosses[e._idx].vulnerabilities[vi].title=t; saveState(appState); markDirty(); },'boss-vuln-title');
+            const descEl2=makeEditable(v.desc||'','Description',t=>{ if(e._srcType==='boss'&&appState.enemies?.bosses?.[e._idx]?.vulnerabilities?.[vi]) appState.enemies.bosses[e._idx].vulnerabilities[vi].desc=t; saveState(appState); markDirty(); },'boss-vuln-desc');
             vBody.appendChild(titleEl); vBody.appendChild(descEl2);
             row.appendChild(num); row.appendChild(vBody); body.appendChild(row);
           });
@@ -5163,9 +5305,9 @@ function renderBestiaryTab(s){
     }
 
     // Render bosses section
-    const bosses=(bestiary.bosses||[]).filter(b=>b&&b.name);
-    // Legacy: support single bestiary.boss
-    if(!bosses.length && bestiary.boss && bestiary.boss.name) bosses.push(bestiary.boss);
+    const bosses=(enemies.bosses||[]).filter(b=>b&&b.name);
+    // Legacy: support single enemies.boss
+    if(!bosses.length && enemies.boss && enemies.boss.name) bosses.push(enemies.boss);
     if(bosses.length){
       const bossSecHdr=document.createElement('div'); bossSecHdr.className='qt-section-hdr no-prefix'; bossSecHdr.style.cssText='color:#c84040;border-color:rgba(200,64,64,0.3);margin-bottom:4px;'; bossSecHdr.textContent='☠ Bosses';
       enemiesEl.appendChild(bossSecHdr);
@@ -5179,7 +5321,7 @@ function renderBestiaryTab(s){
         const bossCard=renderEnemyCard({...boss, _srcType:'boss', _idx:bi}, bi, false);
         bossGroup.appendChild(bossCard);
         // Sub-enemies
-        const subs=(boss.subEnemies||[]);
+        const subs=(boss.minions||[]);
         if(subs.length){
           const subHdr=document.createElement('div'); subHdr.className='no-drag'; subHdr.style.cssText='font-family:"Cinzel",serif;font-size:12px;letter-spacing:0.18em;color:rgba(200,64,64,0.45);text-transform:uppercase;margin:10px 0 6px 20px;'; subHdr.textContent='Minions';
           bossGroup.appendChild(subHdr);
@@ -5191,8 +5333,8 @@ function renderBestiaryTab(s){
             subsContainer.appendChild(subCard);
           });
           makeSortable(subsContainer, (from, to) => {
-            reorderArray(appState.bestiary.bosses[bi].subEnemies, from, to);
-            saveState(appState); markDirty(); renderBestiaryTab(appState);
+            reorderArray(appState.enemies.bosses[bi].minions, from, to);
+            saveState(appState); markDirty(); renderEnemiesTab(appState);
           });
           // Collapsing the boss also collapses its minions. This listener is registered
           // after the one in renderEnemyCard, so it fires second and reads the already-
@@ -5211,13 +5353,13 @@ function renderBestiaryTab(s){
         bossesContainer.appendChild(bossGroup);
       });
       makeSortable(bossesContainer, (from, to) => {
-        reorderArray(appState.bestiary.bosses, from, to);
-        saveState(appState); markDirty(); renderBestiaryTab(appState);
+        reorderArray(appState.enemies.bosses, from, to);
+        saveState(appState); markDirty(); renderEnemiesTab(appState);
       });
     }
 
     // Other enemies
-    const fromBestiary=(bestiary.currentEnemies||[]).map((e,i)=>({...e, _srcType:'bestiary', _idx:i}));
+    const fromBestiary=(enemies.current||[]).map((e,i)=>({...e, _srcType:'enemies', _idx:i}));
     const fromBeliefs=(s.limitingBeliefs||[]).map((b,i)=>({
       name:b.title, desc:(b.belief?b.belief+'\n':'')+(b.desc||''),
       shortTermBenefit:b.shortTermBenefit||'', origin:b.origin||'', hp:b.hp,
@@ -5246,10 +5388,10 @@ function renderBestiaryTab(s){
       reorderArray(all, from, to);
       all.forEach((item, idx)=>{
         const newPri=idx+1;
-        if(item._srcType==='bestiary'){ const en=(appState.bestiary.currentEnemies||[])[item._idx]; if(en) en.priority=newPri; }
+        if(item._srcType==='enemies'){ const en=(appState.enemies.current||[])[item._idx]; if(en) en.priority=newPri; }
         else if(item._srcType==='belief'){ const bl=(appState.limitingBeliefs||[])[item._idx]; if(bl) bl.priority=newPri; }
       });
-      saveState(appState); markDirty(); renderBestiaryTab(appState);
+      saveState(appState); markDirty(); renderEnemiesTab(appState);
     });
   }
 
@@ -5257,23 +5399,23 @@ function renderBestiaryTab(s){
   const graveyardEl=document.getElementById('bt-graveyard');
   if(graveyardEl){
     graveyardEl.innerHTML='';
-    const graveyard=bestiary.graveyard||[];
+    const graveyard=enemies.graveyard||[];
     if(!graveyard.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No defeated enemies yet.'; graveyardEl.appendChild(p); }
     else {
       graveyard.forEach((e,i)=>{
         const bodyId=`bg-body-${i}`,arrowId=`bg-arrow-${i}`;
         const d=document.createElement('div'); d.className='grave-card';
         const head=document.createElement('div'); head.className='grave-card-head'; head.dataset.handleInject='1';
-        const nameEl=makeEditable(e.name,'Enemy name',v=>saveNestedField(['bestiary','graveyard',i,'name'],v),'grave-name-edit');
+        const nameEl=makeEditable(e.name,'Enemy name',v=>saveNestedField(['enemies','graveyard',i,'name'],v),'grave-name-edit');
         nameEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:16px;font-weight:600;';
-        const dateEl=makeEditable(e.defeatedDate,'Date defeated',v=>saveNestedField(['bestiary','graveyard',i,'defeatedDate'],v),'grave-card-date');
+        const dateEl=makeEditable(e.defeatedDate,'Date defeated',v=>saveNestedField(['enemies','graveyard',i,'defeatedDate'],v),'grave-card-date');
         const arrowEl=document.createElement('div'); arrowEl.className='grave-card-arrow open'; arrowEl.id=arrowId; arrowEl.textContent='▾';
         const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.textContent='×';
         delBtn.addEventListener('click',ev=>{ ev.stopPropagation();
-          const snap=JSON.parse(JSON.stringify(appState.bestiary.graveyard));
+          const snap=JSON.parse(JSON.stringify(appState.enemies.graveyard));
           showConfirmDelete(e.name||'this graveyard entry',
-            ()=>{ appState.bestiary.graveyard.splice(i,1); saveState(appState); markDirty(); renderBestiaryTab(appState); },
-            ()=>{ appState.bestiary.graveyard=snap; saveState(appState); markDirty(); renderBestiaryTab(appState); }
+            ()=>{ appState.enemies.graveyard.splice(i,1); saveState(appState); markDirty(); renderEnemiesTab(appState); },
+            ()=>{ appState.enemies.graveyard=snap; saveState(appState); markDirty(); renderEnemiesTab(appState); }
           );
         });
         const resurrectBtn=document.createElement('button'); resurrectBtn.className='resurrect-btn'; resurrectBtn.title='Resurrect: move back to active enemies'; resurrectBtn.textContent='↑';
@@ -5282,15 +5424,15 @@ function renderBestiaryTab(s){
         head.appendChild(resurrectBtn); head.appendChild(arrowEl);
         head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl) toggleChapter(bodyId,arrowId); });
         const body=document.createElement('div'); body.className='grave-card-body open'; body.id=bodyId;
-        body.appendChild(makeEditable(e.howDefeated,'How was this defeated?',v=>saveNestedField(['bestiary','graveyard',i,'howDefeated'],v),'grave-card-how'));
+        body.appendChild(makeEditable(e.howDefeated,'How was this defeated?',v=>saveNestedField(['enemies','graveyard',i,'howDefeated'],v),'grave-card-how'));
         d.appendChild(head); d.appendChild(body); graveyardEl.appendChild(d);
       });
     }
     const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add to Graveyard'; addBtn.onclick=addGraveyard; graveyardEl.appendChild(addBtn);
     makeSortable(graveyardEl, (from, to) => {
-      if (!appState.bestiary) return;
-      reorderArray(appState.bestiary.graveyard, from, to);
-      saveState(appState); markDirty(); renderBestiaryTab(appState);
+      if (!appState.enemies) return;
+      reorderArray(appState.enemies.graveyard, from, to);
+      saveState(appState); markDirty(); renderEnemiesTab(appState);
     });
   }
 
@@ -5307,11 +5449,11 @@ function renderBestiaryTab(s){
       limitingBelief:{label:'Limiting Belief', colour:'#8b5e3c', tooltip:'Belief (Earth) - a false or limiting story treated as true, driving behaviour from below'},
     };
     const counts={};
-    const bossEntries=(bestiary.bosses||[]).filter(b=>b&&b.name);
-    if(!bossEntries.length && bestiary.boss && bestiary.boss.name) bossEntries.push(bestiary.boss);
+    const bossEntries=(enemies.bosses||[]).filter(b=>b&&b.name);
+    if(!bossEntries.length && enemies.boss && enemies.boss.name) bossEntries.push(enemies.boss);
     bossEntries.forEach(()=>{ counts['boss']=(counts['boss']||0)+1; });
-    const subEnemies=bossEntries.flatMap(b=>b.subEnemies||[]);
-    [...(bestiary.currentEnemies||[]),...subEnemies,...(s.limitingBeliefs||[]).map(b=>({...b,type:'limitingBelief'}))].forEach(e=>{
+    const minions=bossEntries.flatMap(b=>b.minions||[]);
+    [...(enemies.current||[]),...minions,...(s.limitingBeliefs||[]).map(b=>({...b,type:'limitingBelief'}))].forEach(e=>{
       const t=e.type||'blindspot';
       counts[t]=(counts[t]||0)+1;
     });
@@ -5327,8 +5469,8 @@ function renderBestiaryTab(s){
   }
 
   // Update nav count
-  const navEl=document.getElementById('nav-bestiary');
-  if(navEl) navEl.textContent=(bestiary.bosses||[]).length+(bestiary.currentEnemies||[]).length;
+  const navEl=document.getElementById('nav-enemies');
+  if(navEl) navEl.textContent=(enemies.bosses||[]).length+(enemies.current||[]).length;
 }
 
 // ══ COMPLETED QUESTS (appState) ═════════════════════════════
@@ -5366,6 +5508,38 @@ const ACH_DEFAULT={ icon:'★', label:'Title', cls:'att-default', colour:'#908a7
 // Legacy icon map kept for getIconPool
 const ACH_ICONS={ insight:'☁', deed:'⚔', transmutation:'⬡', surrender:'↓', quest:'⚔', boss:'☠', skill:'✦', milestone:'◈', breakthrough:'⚡', streak:'🔥', default:'★' };
 
+function addAchievement(){
+  if(!appState.achievements) appState.achievements=[];
+  showCardEditModal({
+    accentColor:'var(--gold)',
+    fields:[
+      {key:'title',       label:'Title',        value:'', type:'text',     titleFont:true, hint:'A short name for this moment, e.g. "First public talk" or "Quit the job"'},
+      {key:'dateUnlocked',label:'Date Unlocked', value:'', type:'mono',     placeholder:'e.g. Jan 2025', hint:'When did this happen? Approximate is fine'},
+      {key:'description', label:'Description',  value:'', type:'textarea', rows:4, hint:'What happened and why it matters to you. One or two sentences is enough'},
+    ],
+    onSave:v=>{
+      if(!v.title.trim()) return;
+      appState.achievements.push({id:Date.now().toString(36),title:capitalise(v.title),description:v.description,dateUnlocked:v.dateUnlocked,type:'deed'});
+      saveState(appState); markDirty(); renderAchievementsTab(appState); renderHdrTitles(appState);
+    }
+  });
+}
+function addClass(){
+  if(!appState.classes) appState.classes=[];
+  showCardEditModal({
+    accentColor:'#b080e8',
+    fields:[
+      {key:'title',       label:'Title',        value:'', type:'text',     titleFont:true, hint:'A role or identity that fits you, e.g. "Builder", "Caretaker", "Night Owl"'},
+      {key:'dateUnlocked',label:'Date Unlocked', value:'', type:'mono',     placeholder:'e.g. Jan 2025', hint:'When did you recognise or accept this part of yourself?'},
+      {key:'description', label:'Description',  value:'', type:'textarea', rows:4, hint:'What this class means for how you operate. Strengths, tendencies, what it costs you'},
+    ],
+    onSave:v=>{
+      if(!v.title.trim()) return;
+      appState.classes.push({id:Date.now().toString(36),title:capitalise(v.title),description:v.description,dateUnlocked:v.dateUnlocked});
+      saveState(appState); markDirty(); renderClassesTab(appState); renderHdrClasses(appState);
+    }
+  });
+}
 function renderAchievementsTab(s){
   const achievements=s.achievements||DEFAULT.achievements||[];
   const featured=getFeaturedAch();
@@ -5392,11 +5566,11 @@ function renderAchievementsTab(s){
   // List all
   const listEl=document.getElementById('ach-list');
   if(!listEl) return;
-  if(!achievements.length){
-    listEl.innerHTML='<p style="color:var(--text-dim);font-size:17px;font-style:italic;">No titles yet.</p>';
-    return;
-  }
   listEl.innerHTML='';
+  if(!achievements.length){
+    const empty=document.createElement('p'); empty.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; empty.textContent='No titles yet.';
+    listEl.appendChild(empty);
+  }
   achievements.forEach(a=>{
     const tc=ACH_TYPES[a.type]||ACH_DEFAULT;
     const isFeatured=featured.includes(a.id);
@@ -5458,9 +5632,9 @@ function renderAchievementsTab(s){
       showCardEditModal({
         accentColor: 'var(--gold)',
         fields:[
-          {key:'title',       label:'Title',        value:a.title||'',        type:'text',     titleFont:true},
-          {key:'dateUnlocked',label:'Date Unlocked', value:a.dateUnlocked||'', type:'mono',     placeholder:'e.g. Jan 2025'},
-          {key:'description', label:'Description',  value:a.description||'',  type:'textarea', rows:4},
+          {key:'title',       label:'Title',        value:a.title||'',        type:'text',     titleFont:true, hint:'A short name for this moment, e.g. "First public talk" or "Quit the job"'},
+          {key:'dateUnlocked',label:'Date Unlocked', value:a.dateUnlocked||'', type:'mono',     placeholder:'e.g. Jan 2025', hint:'When did this happen? Approximate is fine'},
+          {key:'description', label:'Description',  value:a.description||'',  type:'textarea', rows:4, hint:'What happened and why it matters to you. One or two sentences is enough'},
         ],
         onSave: v=>{
           if(ai2>=0){
@@ -5481,6 +5655,7 @@ function renderAchievementsTab(s){
     reorderArray(appState.achievements, from, to);
     saveState(appState); markDirty(); renderAchievementsTab(appState);
   });
+  const achAddBtn=document.createElement('button'); achAddBtn.className='add-item-btn'; achAddBtn.textContent='+ Add Achievement'; achAddBtn.onclick=addAchievement; listEl.appendChild(achAddBtn);
 }
 
 function renderHdrTitles(s){
@@ -5610,7 +5785,9 @@ function renderAlliesTab(s){
           }
         });
       });
-      head.appendChild(delBtn); head.appendChild(rankBadge); head.appendChild(nameEl); head.appendChild(tag); head.appendChild(allyEditBtn); head.appendChild(arrowEl);
+      const allyLockPath=a._srcType==='allies'?`allies.${a._idx}.name`:a._srcType==='liberatingBeliefs'?`liberatingBeliefs.${a._idx}.title`:null;
+      const allyLockBtn=allyLockPath?makeLockBtn(allyLockPath):null;
+      head.appendChild(delBtn); head.appendChild(rankBadge); head.appendChild(nameEl); if(allyLockBtn) head.appendChild(allyLockBtn); head.appendChild(tag); head.appendChild(allyEditBtn); head.appendChild(arrowEl);
       head.addEventListener('click',ev=>{ if(ev.target===head||ev.target===arrowEl) toggleChapter(bodyId,arrowId); });
       const body=document.createElement('div'); body.className='enemy-card-body open'; body.id=bodyId;
       const descEl=makeEditable(a.desc||'','Description',v=>{
@@ -5705,11 +5882,11 @@ function saveField(listKey, idx, field, value){
 }
 
 function addDrainToBestiary(){
-  if(!appState.bestiary) appState.bestiary={};
-  if(!appState.bestiary.currentEnemies) appState.bestiary.currentEnemies=[];
-  const maxP=appState.bestiary.currentEnemies.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.bestiary.currentEnemies.push({name:'',desc:'',type:'temptation',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
-  saveState(appState); markDirty(); renderBestiaryTab(appState);
+  if(!appState.enemies) appState.enemies={};
+  if(!appState.enemies.current) appState.enemies.current=[];
+  const maxP=appState.enemies.current.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
+  appState.enemies.current.push({name:'',desc:'',type:'temptation',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
+  saveState(appState); markDirty(); renderEnemiesTab(appState);
 }
 
 function addAllyOfType(type){
@@ -5928,7 +6105,29 @@ function render(s){
   const mq=document.getElementById('hdr-mobile-quest'); if(mq) mq.textContent=s.mainQuest?.title||'Main Quest';
   const hdrFill=document.getElementById('hdr-mq-fill');
   if(hdrFill) hdrFill.style.width=(s.mainQuest?.progress||0)+'%';
-  const kq=document.getElementById('lore-key-q'); if(kq){ const txt=s.keyQuestion||''; kq.innerHTML=txt?`<div class="lore-card-hdr">Key Question</div><div class="lore-card-body">${esc(txt)}</div>`:''; kq.style.display=txt?'block':'none'; }
+  // keyQuestions (new array format) — also falls back to legacy keyQuestion string
+  const kqEl=document.getElementById('lore-key-questions');
+  if(kqEl){
+    const kqs=Array.isArray(s.keyQuestions)&&s.keyQuestions.length?s.keyQuestions
+      :(s.keyQuestion?[{question:s.keyQuestion}]:[]);
+    if(kqs.length){
+      kqEl.innerHTML=`<div class="lore-card-hdr">Key Questions</div><div class="lore-keyq-list">`+
+        kqs.map(q=>`<div class="lore-keyq-item"><div class="lore-keyq-icon">?</div><div><div class="lore-keyq-text">${esc(q.question||q)}</div>${q.updated?`<div class="lore-keyq-meta">updated ${esc(q.updated)}</div>`:''}</div></div>`).join('')+
+        `</div>`;
+      kqEl.style.display='block';
+    } else { kqEl.innerHTML=''; kqEl.style.display='none'; }
+  }
+  // openThreads
+  const otEl=document.getElementById('lore-open-threads');
+  if(otEl){
+    const threads=Array.isArray(s.openThreads)&&s.openThreads.length?s.openThreads:[];
+    if(threads.length){
+      otEl.innerHTML=`<div class="lore-card-hdr">Open Threads</div><div class="lore-thread-list">`+
+        threads.map(t=>`<div class="lore-thread-item"><div class="lore-thread-icon">⟳</div><div class="lore-thread-text"><div class="lore-thread-thread">${esc(t.thread||t)}</div>${t.whyItMatters?`<div class="lore-thread-why">${esc(t.whyItMatters)}</div>`:''}</div></div>`).join('')+
+        `</div>`;
+      otEl.style.display='block';
+    } else { otEl.innerHTML=''; otEl.style.display='none'; }
+  }
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
   updateVitalBars(s);
 
@@ -5957,9 +6156,9 @@ function render(s){
   renderHarmonyChart(s);
 
   // Air — distortions only (syncs to Enemies tab)
-  const curEnemies=(s.bestiary||{}).currentEnemies||[];
-  const subEnemiesFlat=((s.bestiary||{}).bosses||[]).flatMap(b=>b.subEnemies||[]);
-  const allEnemies=[...curEnemies,...subEnemiesFlat];
+  const curEnemies=(s.enemies||{}).current||[];
+  const minionsFlat=((s.enemies||{}).bosses||[]).flatMap(b=>b.minions||[]);
+  const allEnemies=[...curEnemies,...minionsFlat];
   const airDistortions=allEnemies.filter(e=>!e.type||e.type==='blindspot'||e.type==='distortion');
   const eEl=document.getElementById('air-enemies'); if(eEl){ eEl.innerHTML='';
     if(!airDistortions.length){ const p=document.createElement('p'); p.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; p.textContent='No blindspots recorded yet.'; eEl.appendChild(p); }
@@ -6041,6 +6240,9 @@ function render(s){
     if(mq.whyItMatters){ const mqWhy=document.createElement('div'); mqWhy.className='sqcard-why'; mqWhy.textContent=mq.whyItMatters; mqBody.appendChild(mqWhy); }
     if(mq.doneWhen){ const mqDW=document.createElement('div'); mqDW.style.cssText='font-size:16px;color:var(--text-dim);font-style:italic;'; mqDW.innerHTML='<span style="color:#60a838;font-style:normal;">✓</span> '+esc(mq.doneWhen); mqBody.appendChild(mqDW); }
     if(mq.nextSteps&&mq.nextSteps.length){ const ns=mq.nextSteps[0]; const mqNS=document.createElement('div'); mqNS.style.cssText='margin-top:7px;font-size:17px;color:var(--text-mid);border-left:2px solid var(--gold);padding-left:8px;'; mqNS.textContent='Next: '+(ns.text||''); mqBody.appendChild(mqNS); }
+    const mqFoot=document.createElement('div'); mqFoot.style.cssText='display:flex;justify-content:flex-end;align-items:center;margin-top:8px;';
+    const mqLink=document.createElement('span'); mqLink.style.cssText='font-family:"Cinzel",serif;font-size:13px;letter-spacing:0.12em;color:var(--gold);cursor:pointer;opacity:0.6;text-transform:uppercase;'; mqLink.textContent='View in Quests →'; mqLink.onclick=()=>switchTab('quests'); mqFoot.appendChild(mqLink);
+    mqBody.appendChild(mqFoot);
     mqWrap.appendChild(mqTrigger); mqWrap.appendChild(mqBody); fqEl.appendChild(mqWrap);
 
     // Top 2 side quests by priority (lowest priority number = highest priority)
@@ -6049,7 +6251,8 @@ function render(s){
       const pct=Math.min(100,Math.max(0,q.progress||0));
       const d=document.createElement('div'); d.className='sqcard';
       const head=document.createElement('div'); head.className='sqcard-head';
-      const mark=document.createElement('span'); mark.className='quest-mark'; mark.textContent='!';
+      const rank=(s.sideQuests||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).indexOf(q)+2;
+      const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=rank;
       const titleEl=document.createElement('div'); titleEl.className='sq-title-edit'; titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);'; titleEl.textContent=q.title||'';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
       const fi=document.createElement('div'); fi.className='sqcard-fill'; fi.style.width=pct+'%'; tr.appendChild(fi);
@@ -6076,7 +6279,7 @@ function render(s){
   renderCompactStats(s);
 
   // Bestiary tab
-  renderBestiaryTab(s);
+  renderEnemiesTab(s);
 
   // Achievements tab
   renderAchievementsTab(s);
@@ -6137,11 +6340,11 @@ function render(s){
     saveState(appState); markDirty(); render(appState);
   }); }
 
-  // Limiting beliefs — sourced from bestiary.currentEnemies + boss subEnemies (type limitingBelief) + legacy limitingBeliefs array
+  // Limiting beliefs — sourced from enemies.current + boss minions (type limitingBelief) + legacy limitingBeliefs array
   const antEl=document.getElementById('limiting-list'); if(antEl){ antEl.innerHTML='';
-  const fromCurrentEnemies=(s.bestiary?.currentEnemies||[]).filter(e=>e.type==='limitingBelief'||e.type==='belief');
-  const fromSubEnemies=(s.bestiary?.bosses||[]).flatMap(b=>b.subEnemies||[]).filter(e=>e.type==='limitingBelief'||e.type==='belief');
-  const limitingSource=[...fromCurrentEnemies,...fromSubEnemies,...(s.limitingBeliefs||[])].sort((a,b)=>(a.priority??99)-(b.priority??99));
+  const fromCurrentEnemies=(s.enemies?.current||[]).filter(e=>e.type==='limitingBelief'||e.type==='belief');
+  const fromMinions=(s.enemies?.bosses||[]).flatMap(b=>b.minions||[]).filter(e=>e.type==='limitingBelief'||e.type==='belief');
+  const limitingSource=[...fromCurrentEnemies,...fromMinions,...(s.limitingBeliefs||[])].sort((a,b)=>(a.priority??99)-(b.priority??99));
   limitingSource.slice(0,3).forEach((b,i)=>{
     const d=document.createElement('div'); d.className='limiting';
     const title=typeof b==='object'?b.title||b.name:'BELIEF TO DISSOLVE';
@@ -6236,7 +6439,7 @@ function render(s){
       const gnameEl=makeEditable(ch.name,'Chapter name',v=>{ saveNestedField(['insights',ci,'name'],v); },'chapter-group-name');
       const gcountEl=document.createElement('span'); gcountEl.className='chapter-group-count';
       gcountEl.textContent=(ch.entries||[]).length+' entries';
-      const garrEl=document.createElement('div'); garrEl.className='chapter-group-arrow'+(isFirst?' open':''); garrEl.id=garrId; garrEl.textContent='▾';
+      const garrEl=document.createElement('div'); garrEl.className='chapter-group-arrow'+(isFirst?' open':''); garrEl.id=garrId; garrEl.textContent=isFirst?'▾':'▸';
       const gdelBtn=document.createElement('button'); gdelBtn.className='ally-delete card-head-del'; gdelBtn.textContent='×'; gdelBtn.title='Delete chapter';
       gdelBtn.onclick=ev=>{ ev.stopPropagation();
         const snap=JSON.parse(JSON.stringify(appState.insights));
@@ -6260,7 +6463,7 @@ function render(s){
         const ehead=document.createElement('div'); ehead.className='chapter-head'; ehead.dataset.handleInject='1';
         const edateEl=makeEditable(entry.date,'Date',v=>saveNestedField(['insights',ci,'entries',ei,'date'],v),'chapter-date');
         const etitleEl=makeEditable(entry.title,'Entry title',v=>saveNestedField(['insights',ci,'entries',ei,'title'],v),'chapter-title');
-        const earrEl=document.createElement('div'); earrEl.className='chapter-arrow'+(isFirstEntry?' open':''); earrEl.id=earrId; earrEl.textContent='▾';
+        const earrEl=document.createElement('div'); earrEl.className='chapter-arrow'+(isFirstEntry?' open':''); earrEl.id=earrId; earrEl.textContent=isFirstEntry?'▾':'▸';
         const edelBtn=document.createElement('button'); edelBtn.className='ally-delete card-head-del'; edelBtn.textContent='×'; edelBtn.title='Delete entry';
         edelBtn.onclick=ev=>{ ev.stopPropagation();
           const snap=JSON.parse(JSON.stringify(appState.insights));
@@ -6622,6 +6825,24 @@ function applyUpdate(){
     if(merged.insights && !Array.isArray(merged.insights)){
       merged.insights = Object.entries(merged.insights).map(([k,v])=>({name:k,entries:Array.isArray(v)?v:[]}));
     }
+    // Migrate old schema: bestiary → enemies, currentEnemies → current, subEnemies → minions, wheelOfLife → coreSkills
+    if(merged.bestiary && !merged.enemies){
+      merged.enemies = merged.bestiary;
+      delete merged.bestiary;
+    }
+    if(merged.enemies){
+      if(merged.enemies.currentEnemies && !merged.enemies.current){
+        merged.enemies.current = merged.enemies.currentEnemies;
+        delete merged.enemies.currentEnemies;
+      }
+      (merged.enemies.bosses||[]).forEach(b=>{
+        if(b.subEnemies && !b.minions){ b.minions = b.subEnemies; delete b.subEnemies; }
+      });
+    }
+    if(merged.wheelOfLife && !merged.coreSkills){
+      merged.coreSkills = merged.wheelOfLife;
+      delete merged.wheelOfLife;
+    }
     // Auto-level-up: resolve XP overflow so the ring never shows >100%
     if(merged.xp!=null && merged.xpToNext!=null){
       while(merged.xp>=merged.xpToNext){
@@ -6630,13 +6851,15 @@ function applyUpdate(){
         merged.xpToNext=Math.round(merged.xpToNext*1.2);
       }
     }
+    // Restore locked fields from pre-import snapshot (honour _locked contract)
+    applyLockedFields(merged, prevSnapshot);
     const _impOldXp=prevSnapshot.xp||0; const _impOldLevel=prevSnapshot.level||1;
     logXPChange(appState, merged);
     snapshotHarmony(merged);
     saveState(merged);appState=merged;render(merged);
     // Reload sliders from new appState so Claude-set values appear immediately
     if(merged.statusSliders) { loadStatusSliders(merged); saveStatusSnapshot(); }
-    if(merged.wheelOfLife) saveStatsSnapshot();
+    if(merged.coreSkills) saveStatsSnapshot();
     setModalStatus('✓ Sheet updated','ok');
     document.getElementById('json-input').value='';
     setTimeout(closeModal,1200);
@@ -6908,7 +7131,7 @@ function copyMigration(){
 }
 function renderExportPie(state,jsonStr){
   const COLORS=['#5cb85c','#c8a84a','#7b68ee','#e07070','#60a8c8','#e09050','#a060c0','#60c0a0','#c06080','#8090b0','#b0a060'];
-  const KEY_LABELS={bestiary:'enemies'};
+  const KEY_LABELS={enemies:'enemies'};
   const WARN_AMBER=40000;
   const WARN_RED=80000;
   const keys=Object.keys(state);
@@ -7143,10 +7366,15 @@ function timerReset(id) {
   timerStop(id);
   const ps = practiceState[id];
   if (!ps) return;
-  ps.seconds = 0; ps.milestonesHit = new Set(); ps.milestoneXP = 0;
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
   const charName = (window._lastState || appState).name;
+  // Archive current seconds before clearing so period rollover doesn't lose data
+  if (act && charName && ps.seconds > 0) {
+    const cur = loadRQCurrent(charName, id);
+    archiveRQValue(act, charName, cur?.periodStart || currentPeriod(act.resetPeriod), Math.floor(ps.seconds / 60));
+  }
+  ps.seconds = 0; ps.milestonesHit = new Set(); ps.milestoneXP = 0;
   if (act) saveRQCurrent(charName, id, { value: 0, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   renderTimerRing(id, act);
   updateTimerToday(id, act);
@@ -7398,18 +7626,19 @@ function renderRQBarChart(wrap, act, charName) {
       const ds = d.toISOString().slice(0,10);
       const hard = hardHist.find(h => h.date === ds);
       const le   = lsHist.find(h => h.period === ds);
-      let value = 0, subsDone = [], isHard = false;
-      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; }
-      else if (le != null) { value = le.value; subsDone = le.subsDone || []; }
+      let value = 0, subsDone = [], isHard = false, hasEntry = false, isVoid = false;
+      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; hasEntry = true; }
+      else if (le != null) { value = le.value; subsDone = le.subsDone || []; hasEntry = true; isVoid = !!le.void; }
       else if (ds === curPeriod) {
         const ps = practiceState[act.id];
         if (ps) {
           value = act.type === 'timer' ? Math.floor(ps.seconds / 60) : (ps.value || 0);
           subsDone = ps.subsDone || [];
+          hasEntry = act.type === 'checkbox' ? (ps.hasEntry !== undefined ? ps.hasEntry : value > 0) : value > 0;
         }
       }
       const lbl = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
-      dataPoints.push({ period: ds, label: lbl, value, subsDone, isCurrent: ds === curPeriod, isHard });
+      dataPoints.push({ period: ds, label: lbl, value, subsDone, isCurrent: ds === curPeriod, isHard, hasEntry, void: isVoid });
     }
   } else if (act.resetPeriod === 'week') {
     for (let i = numBars - 1; i >= 0; i--) {
@@ -7417,20 +7646,20 @@ function renderRQBarChart(wrap, act, charName) {
       const wp = getPeriodKey(d, 'week');
       const hard = hardHist.find(h => h.period === wp);
       const le   = lsHist.find(h => h.period === wp);
-      let value = 0, subsDone = [], isHard = false;
-      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; }
-      else if (le != null) { value = le.value; subsDone = le.subsDone || []; }
+      let value = 0, subsDone = [], isHard = false, hasEntry = false, isVoid = false;
+      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; hasEntry = true; }
+      else if (le != null) { value = le.value; subsDone = le.subsDone || []; hasEntry = true; isVoid = !!le.void; }
       else if (wp === curPeriod) {
         const ps = practiceState[act.id];
-        if (ps) { value = ps.value || 0; subsDone = ps.subsDone || []; }
+        if (ps) { value = ps.value || 0; subsDone = ps.subsDone || []; hasEntry = act.type === 'checkbox' ? (ps.hasEntry !== undefined ? ps.hasEntry : value > 0) : value > 0; }
       }
       const lbl = 'W' + wp.slice(5);
-      dataPoints.push({ period: wp, label: lbl, value, subsDone, isCurrent: wp === curPeriod, isHard });
+      dataPoints.push({ period: wp, label: lbl, value, subsDone, isCurrent: wp === curPeriod, isHard, hasEntry, void: isVoid });
     }
   }
 
-  // Trim leading zero entries so graph starts from first real data point
-  const firstDataIdx = dataPoints.findIndex(d => d.value > 0);
+  // Trim leading empty entries so graph starts from first real data point
+  const firstDataIdx = dataPoints.findIndex(d => act.type === 'checkbox' ? d.hasEntry : d.value > 0);
   const trimmedPoints = firstDataIdx > 0 ? dataPoints.slice(firstDataIdx) : dataPoints;
   // Always show current period even if it's zero (it may still be in progress)
   const displayPoints = trimmedPoints.length > 0 ? trimmedPoints : dataPoints.slice(-1);
@@ -7574,24 +7803,31 @@ function renderRQBarChart(wrap, act, charName) {
         return; // no Set button needed
       }
 
-      // ── Checkbox (no subs): instant toggle, no popover ────────
+      // ── Checkbox (no subs): 3-state cycle (no entry → yes → no → no entry) ──
       if (act.type === 'checkbox') {
-        const oldVal = dp.value;
-        const newVal = dp.value > 0 ? 0 : 1;
+        const oldVal  = dp.value;
+        const wasEntry = dp.hasEntry;
+        // Cycle: no-entry → yes(1) → no(0) → no-entry(delete)
+        let newVal, keepEntry;
+        if (!wasEntry)       { newVal = 1; keepEntry = true; }   // no entry → yes
+        else if (oldVal > 0) { newVal = 0; keepEntry = true; }   // yes → no
+        else                 { newVal = 0; keepEntry = false; }  // no → remove entry
+
         if (dp.isCurrent) {
           const ps = practiceState[act.id];
           if (ps) {
             ps.value = newVal;
+            ps.hasEntry = keepEntry;
             const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
             if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
             const lblEl = document.getElementById('checkbox-lbl-' + act.id);
             if (lblEl) lblEl.textContent = `${ps.value} / ${act.target||1} ${act.unit||''}`;
-            saveRQCurrent(charName, act.id, { value: ps.value, periodStart: curPeriod });
+            saveRQCurrent(charName, act.id, { value: ps.value, periodStart: curPeriod, hasEntry: keepEntry });
           }
         } else {
           const hist = loadRQHistory(charName, act.id);
           const idx  = hist.findIndex(h => h.period === dp.period);
-          if (newVal > 0) {
+          if (keepEntry) {
             if (idx >= 0) hist[idx].value = newVal;
             else hist.push({ period: dp.period, value: newVal, target: act.target || 1 });
           } else if (idx >= 0) {
@@ -7600,7 +7836,8 @@ function renderRQBarChart(wrap, act, charName) {
           saveRQHistory(charName, act.id, hist);
         }
         if (newVal > oldVal) awardRQXP(act.id, Math.round(act.xpPerUnit || 20));
-        dp.value = newVal;
+        dp.value    = newVal;
+        dp.hasEntry = keepEntry;
         closePopovers();
         renderRQBarChart(wrap, act, charName);
         refreshStats();
@@ -7629,6 +7866,34 @@ function renderRQBarChart(wrap, act, charName) {
       saveBtn.className = 'prac-bar-edit-save';
       saveBtn.textContent = 'Set';
       row.appendChild(saveBtn);
+
+      // Void toggle — only for past non-hardcoded entries (not current period)
+      if (!dp.isCurrent) {
+        const voidBtn = document.createElement('button');
+        voidBtn.className = 'prac-bar-edit-void' + (dp.void ? ' active' : '');
+        voidBtn.title = dp.void ? 'Un-exclude: restore to averages' : 'Exclude: remove from averages';
+        voidBtn.textContent = dp.void ? 'Restore' : 'Exclude';
+        voidBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          const newVoid = !dp.void;
+          const hist = loadRQHistory(charName, act.id);
+          const idx  = hist.findIndex(h => h.period === dp.period);
+          if (idx >= 0) {
+            if (newVoid) hist[idx].void = true;
+            else delete hist[idx].void;
+          } else if (newVoid) {
+            // Create a stub entry just to carry the void flag
+            hist.push({ period: dp.period, value: dp.value, target: act.target || 0, void: true });
+          }
+          saveRQHistory(charName, act.id, hist);
+          dp.void = newVoid;
+          closePopovers();
+          renderRQBarChart(wrap, act, charName);
+          refreshStats();
+        });
+        row.appendChild(voidBtn);
+      }
+
       popover.appendChild(row);
 
       const doSave = () => {
@@ -7658,7 +7923,7 @@ function renderRQBarChart(wrap, act, charName) {
               const lblEl = document.getElementById('number-lbl-' + act.id);
               if (lblEl) lblEl.textContent = `This ${act.resetPeriod}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
             }
-            saveRQCurrent(charName, act.id, { value: ps.value ?? rawVal, seconds: ps.seconds, periodStart: curPeriod });
+            saveRQCurrent(charName, act.id, { value: act.type === 'timer' ? ps.seconds : (ps.value ?? rawVal), seconds: ps.seconds, periodStart: curPeriod });
           }
         } else {
           const hist = loadRQHistory(charName, act.id);
@@ -7731,16 +7996,37 @@ function renderRQBarChart(wrap, act, charName) {
       });
     } else {
       // Classic bar
-      col.title = dp.label + (dp.value ? ': ' + dp.value + (unit ? ' ' + unit : '') : '') + (dp.isCurrent ? ' (today)' : '');
       const bar = document.createElement('div');
       bar.className = 'prac-bar-inner';
-      const heightPct = dp.value > 0 ? Math.max(4, (dp.value / maxV) * 100) : 2;
       const barBase = act.color || '#c8a84a';
-      bar.style.cssText = `height:${heightPct}%;background:${
-        dp.isCurrent ? barBase + 'cc' :
-        dp.value > 0 ? barBase + '52' :
-                       'rgba(255,255,255,0.04)'
-      };`;
+      if (act.type === 'checkbox') {
+        // 3-state: no entry (ghost), yes (gold), no (red)
+        const isYes = dp.value > 0;
+        const isNo  = dp.hasEntry && !isYes;
+        const titleSuffix = isYes ? ': yes' : (isNo ? ': no' : '');
+        col.title = dp.label + titleSuffix + (dp.isCurrent ? ' (today)' : '');
+        bar.style.cssText = `height:80%;background:${
+          dp.isCurrent && !dp.hasEntry ? 'rgba(255,255,255,0.08)' :
+          isYes && dp.isCurrent        ? barBase + 'cc' :
+          isYes                        ? barBase + '70' :
+          isNo                         ? 'rgba(180,60,60,0.55)' :
+                                         'rgba(255,255,255,0.04)'
+        };border-top:2px solid ${
+          isYes ? (dp.isCurrent ? barBase : barBase + 'aa') :
+          isNo  ? 'rgba(200,80,80,0.7)' :
+                  'rgba(255,255,255,0.08)'
+        };`;
+      } else {
+        const voidSuffix = dp.void ? ' (excluded)' : '';
+        col.title = dp.label + (dp.value ? ': ' + dp.value + (unit ? ' ' + unit : '') : '') + voidSuffix + (dp.isCurrent ? ' (today)' : '');
+        const heightPct = dp.value > 0 ? Math.max(4, (dp.value / maxV) * 100) : 2;
+        bar.style.cssText = `height:${heightPct}%;background:${
+          dp.void                        ? 'rgba(180,60,60,0.55)' :
+          dp.isCurrent                   ? barBase + 'cc' :
+          dp.value > 0                   ? barBase + '52' :
+                                           'rgba(255,255,255,0.04)'
+        };${dp.void ? 'border-top:2px solid rgba(200,80,80,0.7);' : ''}`;
+      }
       col.appendChild(bar);
     }
 
@@ -7769,8 +8055,8 @@ function renderRQBarChart(wrap, act, charName) {
       return { slope, intercept };
     };
 
-    // 7-period trend line of best fit (coral, dotted) — last 7 display points
-    const pts7 = displayPoints.slice(-7).map((dp, i) => [i, dp.value]);
+    // 7-period trend line of best fit (coral, dotted) — last 7 display points, skip voided
+    const pts7 = displayPoints.slice(-7).flatMap((dp, i) => dp.void ? [] : [[i, dp.value]]);
     const reg7 = linReg(pts7);
     if (reg7) {
       const n7 = pts7.length;
@@ -7791,8 +8077,8 @@ function renderRQBarChart(wrap, act, charName) {
       svg.appendChild(avg7Line);
     }
 
-    // All-time trend line of best fit (cyan, dashed) — all display points
-    const ptsAll = displayPoints.map((dp, i) => [i, dp.value]);
+    // All-time trend line of best fit (cyan, dashed) — all display points, skip voided
+    const ptsAll = displayPoints.flatMap((dp, i) => dp.void ? [] : [[i, dp.value]]);
     const regAll = linReg(ptsAll);
     if (regAll) {
       const nAll = ptsAll.length;
@@ -7843,6 +8129,159 @@ function renderRQBarChart(wrap, act, charName) {
   document.addEventListener('click', outsideHandler, true);
 }
 
+// ══ ADD REGULAR QUEST ════════════════════════════════════════
+function addRegularQuest() {
+  const existing = document.getElementById('card-edit-modal');
+  if (existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.id = 'card-edit-modal'; overlay.className = 'modal-overlay open';
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  const box = document.createElement('div');
+  box.className = 'modal'; box.style.cssText = 'border-top:3px solid var(--gold);position:relative;max-width:480px;';
+  const closeBtn = document.createElement('button'); closeBtn.className = 'modal-close'; closeBtn.textContent = '×';
+  closeBtn.addEventListener('click', () => overlay.remove());
+  const titleEl = document.createElement('div'); titleEl.className = 'modal-title'; titleEl.style.color = 'var(--gold)'; titleEl.textContent = 'NEW REGULAR QUEST';
+  box.appendChild(closeBtn); box.appendChild(titleEl);
+
+  const LABEL_CSS = 'font-size:13px;color:var(--text-dim);margin-bottom:4px;margin-top:0;letter-spacing:0.08em;text-transform:uppercase;font-family:Cinzel,serif;';
+  const INPUT_BASE = 'width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:8px 10px;outline:none;transition:border-color 0.15s;';
+
+  // Name
+  const nameLbl = document.createElement('p'); nameLbl.style.cssText = LABEL_CSS; nameLbl.textContent = 'Name';
+  const nameIn = document.createElement('input'); nameIn.type = 'text'; nameIn.placeholder = 'Quest name';
+  nameIn.style.cssText = INPUT_BASE + 'font-size:17px;color:var(--text-hi);font-family:Cinzel,serif;margin-bottom:12px;';
+  nameIn.addEventListener('focus', () => nameIn.style.borderColor = 'var(--gold)');
+  nameIn.addEventListener('blur', () => nameIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  box.appendChild(nameLbl); box.appendChild(nameIn);
+
+  // Type
+  const typeLbl = document.createElement('p'); typeLbl.style.cssText = LABEL_CSS; typeLbl.textContent = 'Type';
+  box.appendChild(typeLbl);
+  const typeGroup = document.createElement('div'); typeGroup.style.cssText = 'display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;';
+  let selectedType = 'checkbox';
+  const typeOpts = [
+    {value:'checkbox', label:'Checkbox', icon:'☑', color:'#c8a84a'},
+    {value:'timer',    label:'Timer',    icon:'⏱', color:'#3a80c8'},
+    {value:'number',   label:'Number',   icon:'#',  color:'#60a838'},
+  ];
+  const typeBtns = {};
+  const applyTypeStyle = () => typeOpts.forEach(o => {
+    const b = typeBtns[o.value];
+    const a = o.value === selectedType;
+    b.style.background = a ? o.color+'22' : 'transparent';
+    b.style.color = a ? o.color : 'var(--text-dim)';
+    b.style.borderColor = a ? o.color+'66' : 'rgba(255,255,255,0.12)';
+  });
+  typeOpts.forEach(o => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.style.cssText = 'padding:5px 11px;border-radius:5px;border:1px solid;font-size:14px;cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;font-family:inherit;';
+    b.textContent = o.icon + ' ' + o.label;
+    b.addEventListener('click', () => { selectedType = o.value; applyTypeStyle(); });
+    typeBtns[o.value] = b; typeGroup.appendChild(b);
+  });
+  applyTypeStyle();
+  box.appendChild(typeGroup);
+
+  // Recurrence
+  const periodLbl = document.createElement('p'); periodLbl.style.cssText = LABEL_CSS; periodLbl.textContent = 'Resets every';
+  box.appendChild(periodLbl);
+  const periodGroup = document.createElement('div'); periodGroup.style.cssText = 'display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;';
+  let selectedPeriod = 'day';
+  const periodOpts = [
+    {value:'day',   label:'Day'},
+    {value:'week',  label:'Week'},
+    {value:'month', label:'Month'},
+    {value:'year',  label:'Year'},
+  ];
+  const periodBtns = {};
+  const applyPeriodStyle = () => periodOpts.forEach(o => {
+    const b = periodBtns[o.value];
+    const a = o.value === selectedPeriod;
+    b.style.background = a ? 'rgba(200,168,74,0.15)' : 'transparent';
+    b.style.color = a ? 'var(--gold)' : 'var(--text-dim)';
+    b.style.borderColor = a ? 'rgba(200,168,74,0.5)' : 'rgba(255,255,255,0.12)';
+  });
+  periodOpts.forEach(o => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.style.cssText = 'padding:5px 11px;border-radius:5px;border:1px solid;font-size:14px;cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;font-family:inherit;';
+    b.textContent = o.label;
+    b.addEventListener('click', () => { selectedPeriod = o.value; applyPeriodStyle(); });
+    periodBtns[o.value] = b; periodGroup.appendChild(b);
+  });
+  applyPeriodStyle();
+  box.appendChild(periodGroup);
+
+  // Target
+  const targetLbl = document.createElement('p'); targetLbl.style.cssText = LABEL_CSS; targetLbl.textContent = 'Target';
+  const targetRow = document.createElement('div'); targetRow.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:12px;';
+  const targetIn = document.createElement('input'); targetIn.type = 'number'; targetIn.min = '1'; targetIn.value = '1';
+  targetIn.style.cssText = INPUT_BASE + 'font-size:15px;color:var(--text-mid);width:80px;flex-shrink:0;';
+  targetIn.addEventListener('focus', () => targetIn.style.borderColor = 'var(--gold)');
+  targetIn.addEventListener('blur', () => targetIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  const unitIn = document.createElement('input'); unitIn.type = 'text'; unitIn.placeholder = 'unit (e.g. minutes, sessions)';
+  unitIn.style.cssText = INPUT_BASE + 'font-size:15px;color:var(--text-mid);flex:1;';
+  unitIn.addEventListener('focus', () => unitIn.style.borderColor = 'var(--gold)');
+  unitIn.addEventListener('blur', () => unitIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  targetRow.appendChild(targetIn); targetRow.appendChild(unitIn);
+  box.appendChild(targetLbl); box.appendChild(targetRow);
+
+  // Colour
+  const colorLbl = document.createElement('p'); colorLbl.style.cssText = LABEL_CSS; colorLbl.textContent = 'Colour';
+  const colorRow = document.createElement('div'); colorRow.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:16px;';
+  const palette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0','#c05a3a','#5ac03a'];
+  let selectedColor = palette[Math.floor(Math.random() * palette.length)];
+  const swatchRow = document.createElement('div'); swatchRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;';
+  const colorSwatches = [];
+  palette.forEach(col => {
+    const sw = document.createElement('button'); sw.type = 'button';
+    sw.style.cssText = `width:22px;height:22px;border-radius:50%;background:${col};border:2px solid transparent;cursor:pointer;transition:border-color 0.12s;flex-shrink:0;`;
+    const setActive = () => colorSwatches.forEach(s => s.style.borderColor = s._col === selectedColor ? '#fff' : 'transparent');
+    sw._col = col;
+    sw.addEventListener('click', () => { selectedColor = col; setActive(); cpk.value = col; });
+    colorSwatches.push(sw); swatchRow.appendChild(sw);
+  });
+  const cpk = document.createElement('input'); cpk.type = 'color'; cpk.value = selectedColor;
+  cpk.style.cssText = 'width:28px;height:28px;border:none;background:none;cursor:pointer;padding:0;border-radius:4px;';
+  cpk.addEventListener('input', () => { selectedColor = cpk.value; colorSwatches.forEach(s => s.style.borderColor = 'transparent'); });
+  colorRow.appendChild(swatchRow); colorRow.appendChild(cpk);
+  // set initial active swatch
+  colorSwatches.forEach(s => s.style.borderColor = s._col === selectedColor ? '#fff' : 'transparent');
+  box.appendChild(colorLbl); box.appendChild(colorRow);
+
+  // Buttons
+  const btnRow = document.createElement('div'); btnRow.className = 'modal-row';
+  const saveBtn = document.createElement('button'); saveBtn.className = 'btn-primary'; saveBtn.textContent = 'Save';
+  saveBtn.style.cssText = 'background:var(--gold);border-color:var(--gold);';
+  saveBtn.addEventListener('click', () => {
+    const name = nameIn.value.trim();
+    if (!name) { nameIn.focus(); return; }
+    if (!appState.activities) appState.activities = [];
+    const maxPri = appState.activities.reduce((m, a) => Math.max(m, a.priority || 0), 0);
+    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now();
+    const tgt = parseInt(targetIn.value, 10) || 1;
+    const unit = unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : selectedType === 'number' ? 'times' : 'times');
+    appState.activities.push({
+      id, name: capitalise(name),
+      type: selectedType,
+      resetPeriod: selectedPeriod,
+      target: tgt,
+      unit,
+      color: selectedColor,
+      priority: maxPri + 1,
+    });
+    saveState(appState); markDirty(); renderRecurringQuests(appState);
+    overlay.remove();
+  });
+  const cancelBtn = document.createElement('button'); cancelBtn.className = 'btn-ghost'; cancelBtn.textContent = 'Cancel';
+  cancelBtn.addEventListener('click', () => overlay.remove());
+  box.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); saveBtn.click(); } });
+  btnRow.appendChild(saveBtn); btnRow.appendChild(cancelBtn);
+  box.appendChild(btnRow);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  nameIn.focus();
+}
+
 // ══ RENDER PRACTICES ═════════════════════════════════════════
 function renderRecurringQuests(s) {
   const container = document.getElementById('rquests-container');
@@ -7852,7 +8291,7 @@ function renderRecurringQuests(s) {
     .slice().sort((a,b) => (a.priority||99) - (b.priority||99));
   const charName = s.name || 'default';
 
-  activities.forEach(act => {
+  activities.forEach((act, actIdx) => {
     initRQState(act, charName);
     const stats = getRQStats(act, charName);
     const card = document.createElement('div');
@@ -7863,6 +8302,10 @@ function renderRecurringQuests(s) {
     const periodLabel = act.resetPeriod ? act.resetPeriod.toUpperCase() : '';
     const hdr = document.createElement('div'); hdr.className = 'practice-card-hdr'; hdr.dataset.handleInject = '1';
     const subActs = act.subActivities || [];
+
+    // Rank badge
+    const rqRank = document.createElement('span'); rqRank.className = 'quest-mark quest-rank'; rqRank.textContent = actIdx + 1;
+    hdr.appendChild(rqRank);
 
     // Delete button
     const rqDelBtn = document.createElement('button'); rqDelBtn.className = 'ally-delete card-head-del'; rqDelBtn.textContent = '×'; rqDelBtn.title = 'Delete recurring quest';
@@ -8255,7 +8698,8 @@ function handleCheckboxDot(id, dotIndex, btn) {
   } else {
     ps.value = newVal;
   }
-  saveRQCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
+  ps.hasEntry = true;
+  saveRQCurrent(charName, id, { value: ps.value, hasEntry: true, periodStart: currentPeriod(act.resetPeriod) });
 
   // Update dots UI
   const container = btn.closest('.checkbox-dots');
@@ -8342,10 +8786,24 @@ function handleSubActivity(actId, subId, btn) {
 
 function awardRQXP(actId, xp) {
   if (!xp || IS_DEMO) return;
-  appState.xp = (appState.xp || 0) + xp;
+  const oldXp = appState.xp || 0;
+  const oldLevel = appState.level || 1;
+  appState.xp = oldXp + xp;
+  // Level-up loop: same logic as import path
+  if (appState.xpToNext != null) {
+    while (appState.xp >= appState.xpToNext) {
+      appState.xp -= appState.xpToNext;
+      appState.level = (appState.level || 1) + 1;
+      appState.xpToNext = Math.round(appState.xpToNext * 1.2);
+    }
+  }
   saveState(appState);
   markDirty();
-  updateXpRing(appState.level, appState.xp, appState.xpToNext);
+  if (appState.level > oldLevel) {
+    animateXpGain(oldXp, appState.xp, oldLevel, appState.level, appState.xpToNext, '+' + xp + ' XP');
+  } else {
+    updateXpRing(appState.level, appState.xp, appState.xpToNext);
+  }
 }
 
 function stepNumberInput(id, delta) {
@@ -8648,7 +9106,8 @@ function renderCombatSkills(s){
         }
       });
     });
-    head.appendChild(delBtn); head.appendChild(pri); head.appendChild(nameEl); head.appendChild(mastery); head.appendChild(roleBadge);
+    const skillLockBtn=makeLockBtn(`skills.${realIdx}.name`);
+    head.appendChild(delBtn); head.appendChild(pri); head.appendChild(nameEl); head.appendChild(skillLockBtn); head.appendChild(mastery); head.appendChild(roleBadge);
     if(sk.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-skill'; pill.textContent='+'+sk.xpReward+' XP'; head.appendChild(pill); }
     else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal, negotiate the reward with your AI based on how much effort levelling this skill requires.'; head.appendChild(pill); }
     head.appendChild(skillEditBtn);
@@ -8687,8 +9146,11 @@ function renderClassesTab(s){
   }
   const listEl=document.getElementById('cls-list');
   if(!listEl) return;
-  if(!classes.length){listEl.innerHTML='<p style="color:var(--text-dim);font-size:17px;font-style:italic;">No classes yet.</p>';return;}
   listEl.innerHTML='';
+  if(!classes.length){
+    const empty=document.createElement('p'); empty.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; empty.textContent='No classes yet.';
+    listEl.appendChild(empty);
+  }
   classes.forEach(c=>{
     const isFeatured=featured.includes(c.id);
     const card=document.createElement('div');
@@ -8756,9 +9218,9 @@ function renderClassesTab(s){
       showCardEditModal({
         accentColor: '#b080e8',
         fields:[
-          {key:'title',       label:'Title',        value:c.title||c.name||'', type:'text',     titleFont:true},
-          {key:'dateUnlocked',label:'Date Unlocked', value:c.dateUnlocked||'',  type:'mono',     placeholder:'e.g. Jan 2025'},
-          {key:'description', label:'Description',  value:c.description||'',   type:'textarea', rows:4},
+          {key:'title',       label:'Title',        value:c.title||c.name||'', type:'text',     titleFont:true, hint:'A role or identity that fits you, e.g. "Builder", "Caretaker", "Night Owl"'},
+          {key:'dateUnlocked',label:'Date Unlocked', value:c.dateUnlocked||'',  type:'mono',     placeholder:'e.g. Jan 2025', hint:'When did you recognise or accept this part of yourself?'},
+          {key:'description', label:'Description',  value:c.description||'',   type:'textarea', rows:4, hint:'What this class means for how you operate. Strengths, tendencies, what it costs you'},
         ],
         onSave: v=>{
           if(ci2>=0){
@@ -8779,6 +9241,7 @@ function renderClassesTab(s){
     reorderArray(appState.classes, from, to);
     saveState(appState); markDirty(); renderClassesTab(appState);
   });
+  const clsAddBtn=document.createElement('button'); clsAddBtn.className='add-item-btn'; clsAddBtn.textContent='+ Add Class'; clsAddBtn.onclick=addClass; listEl.appendChild(clsAddBtn);
 }
 
 function renderHdrClasses(s){
@@ -8917,6 +9380,23 @@ function updateStatusRadar() {
 
 const STATUS_HIST_KEY = 'cs-status-hist-v1';
 
+function markStatusCheckInNeeded() {
+  // Add pulsing indicator to status sliders if no check-in recorded for today
+  const today = new Date().toISOString().slice(0, 10);
+  let hist = [];
+  try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
+  const hasToday = hist.some(e => e.date === today);
+  document.querySelectorAll('.stat-bar-row').forEach(row => {
+    row.classList.toggle('status-needs-checkin', !hasToday);
+  });
+}
+
+function clearStatusCheckInNeeded() {
+  document.querySelectorAll('.stat-bar-row.status-needs-checkin').forEach(row => {
+    row.classList.remove('status-needs-checkin');
+  });
+}
+
 function saveStatusSnapshot() {
   // Call once when user has finished adjusting sliders (on first change of a session day)
   try {
@@ -8982,6 +9462,7 @@ function confirmResetHistory(type) {
 
 
 function updateStatus(name, value) {
+  clearStatusCheckInNeeded();
   const pct = parseInt(value);
   const col = STATUS_COLORS[name];
   const el = document.getElementById('status-' + name);
@@ -9186,8 +9667,8 @@ function buildImportDiff(prev, next, isPartial, newCQCount){
   });
   if(newEntries > 0) parts.push(newEntries+' new insight'+(newEntries>1?'s':''));
   // Enemy HP changes
-  const allNextEnemies = [...(next.bestiary?.currentEnemies||[]), ...(next.limitingBeliefs||[])];
-  const allPrevEnemies = [...(prev.bestiary?.currentEnemies||[]), ...(prev.limitingBeliefs||[])];
+  const allNextEnemies = [...(next.enemies?.current||[]), ...(next.limitingBeliefs||[])];
+  const allPrevEnemies = [...(prev.enemies?.current||[]), ...(prev.limitingBeliefs||[])];
   allNextEnemies.forEach(ne=>{
     const pe = allPrevEnemies.find(p=>p.name===ne.name);
     if(pe && pe.hp != null && ne.hp != null && ne.hp < pe.hp){
@@ -9250,8 +9731,8 @@ function flashImportChanges(prev, next){
     }
   });
   // Enemy HP changes
-  const allNext=[...(next.bestiary?.currentEnemies||[]),...(next.limitingBeliefs||[])];
-  const allPrev=[...(prev.bestiary?.currentEnemies||[]),...(prev.limitingBeliefs||[])];
+  const allNext=[...(next.enemies?.current||[]),...(next.limitingBeliefs||[])];
+  const allPrev=[...(prev.enemies?.current||[]),...(prev.limitingBeliefs||[])];
   allNext.forEach(ne=>{
     const pe=allPrev.find(p=>p.name===ne.name);
     if(pe && pe.hp!=null && ne.hp!=null && ne.hp !== pe.hp){
@@ -9386,6 +9867,18 @@ function dismissDirtyBanner(){
 function neverShowDirtyBanner(){
   hideDirtyBanner();
   localStorage.setItem(HIDE_DIRTY_BANNER_KEY, '1');
+}
+
+function showBalanceBanner(){
+  if(IS_DEMO) return;
+  if(localStorage.getItem(BALANCE_BANNER_KEY)) return;
+  const b=document.getElementById('balance-ai-banner');
+  if(b) b.style.display='flex';
+}
+function dismissBalanceBanner(){
+  const b=document.getElementById('balance-ai-banner');
+  if(b) b.style.display='none';
+  if(!IS_DEMO) localStorage.setItem(BALANCE_BANNER_KEY,'1');
 }
 
 function closeSyncModal(never){
@@ -9584,6 +10077,7 @@ async function unlockApp(){
   }
   render(appState);
   loadStatusSliders();
+  markStatusCheckInNeeded();
   loadStatSliders(appState);
   (appState.activities||DEFAULT.activities||[]).forEach(act=>initRQState(act, appState.name));
   updateCombatNavArc();
@@ -9742,6 +10236,7 @@ function _init(){
   initTabColours();
   initStatBars();
   loadStatusSliders();
+  markStatusCheckInNeeded();
   loadStatSliders(appState);
   (appState.activities || DEFAULT.activities || []).forEach(act => {
     initRQState(act, appState.name);
