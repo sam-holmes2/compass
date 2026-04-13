@@ -74,115 +74,115 @@
   "harmonyHistory": [
     {
       "date": "2026-01-05",
-      "air": 38,
-      "fire": 14,
-      "water": 28,
-      "earth": 52,
-      "harmony": 36
+      "air": 36,
+      "fire": 4,
+      "water": 10,
+      "earth": 82,
+      "harmony": 39
     },
     {
       "date": "2026-01-12",
-      "air": 44,
-      "fire": 12,
-      "water": 25,
-      "earth": 48,
-      "harmony": 34
+      "air": 40,
+      "fire": 5,
+      "water": 14,
+      "earth": 78,
+      "harmony": 43
     },
     {
       "date": "2026-01-20",
-      "air": 50,
-      "fire": 10,
-      "water": 29,
-      "earth": 44,
-      "harmony": 35
-    },
-    {
-      "date": "2026-01-28",
-      "air": 55,
-      "fire": 11,
-      "water": 34,
-      "earth": 50,
-      "harmony": 40
-    },
-    {
-      "date": "2026-02-05",
-      "air": 58,
-      "fire": 13,
-      "water": 38,
-      "earth": 58,
-      "harmony": 45
-    },
-    {
-      "date": "2026-02-12",
-      "air": 54,
-      "fire": 10,
-      "water": 36,
-      "earth": 61,
-      "harmony": 42
-    },
-    {
-      "date": "2026-02-19",
-      "air": 60,
-      "fire": 15,
-      "water": 42,
-      "earth": 64,
+      "air": 44,
+      "fire": 7,
+      "water": 19,
+      "earth": 74,
       "harmony": 49
     },
     {
-      "date": "2026-02-26",
-      "air": 65,
-      "fire": 16,
-      "water": 48,
-      "earth": 66,
+      "date": "2026-01-28",
+      "air": 48,
+      "fire": 9,
+      "water": 26,
+      "earth": 70,
       "harmony": 54
+    },
+    {
+      "date": "2026-02-05",
+      "air": 52,
+      "fire": 12,
+      "water": 34,
+      "earth": 66,
+      "harmony": 60
+    },
+    {
+      "date": "2026-02-12",
+      "air": 46,
+      "fire": 8,
+      "water": 28,
+      "earth": 68,
+      "harmony": 56
+    },
+    {
+      "date": "2026-02-19",
+      "air": 58,
+      "fire": 15,
+      "water": 40,
+      "earth": 64,
+      "harmony": 62
+    },
+    {
+      "date": "2026-02-26",
+      "air": 62,
+      "fire": 19,
+      "water": 50,
+      "earth": 64,
+      "harmony": 64
     },
     {
       "date": "2026-03-05",
       "air": 68,
-      "fire": 22,
-      "water": 52,
-      "earth": 62,
-      "harmony": 60
-    },
-    {
-      "date": "2026-03-12",
-      "air": 70,
-      "fire": 28,
-      "water": 55,
-      "earth": 60,
+      "fire": 24,
+      "water": 54,
+      "earth": 61,
       "harmony": 66
     },
     {
-      "date": "2026-03-19",
-      "air": 72,
-      "fire": 33,
-      "water": 60,
+      "date": "2026-03-10",
+      "air": 64,
+      "fire": 18,
+      "water": 46,
+      "earth": 60,
+      "harmony": 64
+    },
+    {
+      "date": "2026-03-16",
+      "air": 71,
+      "fire": 30,
+      "water": 57,
       "earth": 62,
+      "harmony": 69
+    },
+    {
+      "date": "2026-03-23",
+      "air": 73,
+      "fire": 36,
+      "water": 63,
+      "earth": 65,
       "harmony": 72
     },
     {
-      "date": "2026-03-25",
-      "air": 74,
-      "fire": 38,
-      "water": 62,
-      "earth": 64,
-      "harmony": 77
-    },
-    {
       "date": "2026-04-01",
-      "air": 73,
-      "fire": 44,
-      "water": 64,
-      "earth": 65,
-      "harmony": 81
+      "air": 74,
+      "fire": 46,
+      "water": 65,
+      "earth": 63,
+      "harmony": 80
     },
     {
       "date": "2026-04-07",
-      "air": 72,
-      "fire": 50,
-      "water": 66,
-      "earth": 65,
-      "harmony": 85
+      "air": 70,
+      "fire": 48,
+      "water": 62,
+      "earth": 61,
+      "harmony": 84
     },
     {
       "date": "2026-04-12",
@@ -1680,7 +1680,7 @@
       },
       {
         "date": "2026-03-26",
-        "value": 1
+        "value": 0
       },
       {
         "date": "2026-03-27",
@@ -1692,7 +1692,7 @@
       },
       {
         "date": "2026-03-31",
-        "value": 1
+        "value": 0
       },
       {
         "date": "2026-04-01",
@@ -1704,7 +1704,7 @@
       },
       {
         "date": "2026-04-03",
-        "value": 1
+        "value": 0
       },
       {
         "date": "2026-04-06",
@@ -1716,7 +1716,7 @@
       },
       {
         "date": "2026-04-08",
-        "value": 1
+        "value": 0
       },
       {
         "date": "2026-04-09",
@@ -1857,9 +1857,8 @@
       },
       {
         "date": "2026-03-24",
-        "value": 2,
+        "value": 1,
         "subsDone": [
-          "mining",
           "crafting"
         ]
       },
@@ -1873,10 +1872,9 @@
       },
       {
         "date": "2026-03-26",
-        "value": 2,
+        "value": 1,
         "subsDone": [
-          "mining",
-          "crafting"
+          "mining"
         ]
       },
       {
@@ -1889,9 +1887,8 @@
       },
       {
         "date": "2026-03-30",
-        "value": 2,
+        "value": 1,
         "subsDone": [
-          "mining",
           "crafting"
         ]
       },
@@ -1913,10 +1910,9 @@
       },
       {
         "date": "2026-04-02",
-        "value": 2,
+        "value": 1,
         "subsDone": [
-          "mining",
-          "crafting"
+          "mining"
         ]
       },
       {
@@ -1928,18 +1924,9 @@
         ]
       },
       {
-        "date": "2026-04-06",
-        "value": 2,
-        "subsDone": [
-          "mining",
-          "crafting"
-        ]
-      },
-      {
         "date": "2026-04-07",
-        "value": 2,
+        "value": 1,
         "subsDone": [
-          "mining",
           "crafting"
         ]
       },
@@ -1968,9 +1955,8 @@
       },
       {
         "date": "2026-04-11",
-        "value": 2,
+        "value": 1,
         "subsDone": [
-          "mining",
           "crafting"
         ]
       },

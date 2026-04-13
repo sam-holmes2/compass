@@ -1717,13 +1717,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes import-flash-in {
-  0%   { box-shadow:none; }
-  40%  { box-shadow:0 0 0 2px rgba(200,168,74,0.75), 0 0 16px rgba(200,168,74,0.38); }
-  100% { box-shadow:0 0 0 1px rgba(176,128,232,0.55), 0 0 10px rgba(176,128,232,0.22); }
+  0%   { outline:2px solid transparent; outline-offset:0; }
+  40%  { outline:2px solid rgba(200,168,74,0.85); outline-offset:0; }
+  100% { outline:2px solid rgba(176,128,232,0.65); outline-offset:0; }
 }
 @keyframes import-flash-out {
-  from { box-shadow:0 0 0 1px rgba(176,128,232,0.55), 0 0 10px rgba(176,128,232,0.22); }
-  to   { box-shadow:none; }
+  from { outline:2px solid rgba(176,128,232,0.65); outline-offset:0; }
+  to   { outline:2px solid transparent; outline-offset:0; }
 }
 .import-flash     { animation:import-flash-in 0.7s ease-out forwards; }
 .import-flash-out { animation:import-flash-out 0.5s ease-out forwards; }
