@@ -2,11 +2,23 @@
 
 **An RPG character sheet for your real life: earn XP and level up through understanding yourself and visualising your progress.**
 
-*The real value of character-sheet is the character you build away from it.*
+
+<screenshot todo>
 
 🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
 
-🔒 **Private by default.** No server, no accounts, no telemetry. Your data stays on your device. If you use an AI to journal, check that provider's privacy settings; a local model like [Ollama](https://ollama.com) keeps everything fully offline. [Full details ↓](#privacy-and-security)
+*The real value of character-sheet is the character you build away from it.*
+
+---
+
+Most journalling disappears into a void. Insights get forgotten, negative patterns repeat and any progress feels invisible and underappreciated. 
+character-sheet turns self-reflection into an RPG. Earn XP for understanding yourself - skills developed, patterns named and achievements unlocked. 
+Simply chat with your AI, paste back the JSON, watch your character sheet update and feel yourself level up. 
+
+
+🔒 **Private by default.** Essentially just a single .html file and some JSON with no server, no accounts, no telemetry. You retain control over all of your data. If you use an AI to journal, check your provider's privacy settings. Local models like [Ollama](https://ollama.com) can be used for offline AI journalling. [Full security details ↓](#privacy-and-security)
+
+🤖 Works with any AI — Claude, ChatGPT, Gemini, or any local model. Prefer no AI? Edit fields directly in the app and export your data. 
 
 🚧 **Early work in progress.** All feedback welcome: [open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
@@ -14,24 +26,25 @@
 
 ## Setup or update
 
-Follow these same steps whether you're setting up for the first time or updating to a new version after significant changes. To check for updates, go to Help → Check for updates.
+Follow these same steps whether you're setting up for the first time or updating to a new version after significant changes. To check for updates, go to Help → Check for updates within the app. 
 
-**AI-enhanced workflow:** pair the app with an AI that has persistent project context (e.g. Claude Projects) for the full journalling experience. The app also works fully standalone: edit fields directly without any AI involved.
+[OPTIONAL] **AI-enhanced workflow:** pair the app with an AI that has persistent project context (e.g. Claude Projects) for the full journalling experience. 
+The app also works fully standalone: edit fields directly without any AI involved.
 
-1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md)** - click each link, then the download icon (top right).
-2. **Create (or open) your AI project** - e.g. [claude.ai](https://claude.ai) → New Project.
-3. **Upload `instructions.md` to project knowledge** - Project sidebar → Add content → Add files. Replace the old version if updating.
+1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md):**  click each link, then the download icon (top right).
+2. **Create (or open) your AI project:** e.g. [claude.ai](https://claude.ai) → New Project.
+3. **Upload `instructions.md` to project knowledge:** Project sidebar → Add content → Add files. Replace the old version if updating.
 4. **Paste the quickstart prompt** below and start talking.
 5. **At the end of your session, ask:** `"Update my data.json based on our conversation."`
-6. **Add `data.json` to project knowledge** - same as step 3. (If updating: remove the old version first, then upload the new one.)
-7. **Import into the app** - open `character-sheet.html`, click `↑` (bottom right), paste the JSON, Import.
+6. **Add `data.json` to project knowledge:** same as step 3. (If updating: remove the old version first, then upload the new one.)
+7. **Import into the app:** open `character-sheet.html`, click `↑` (bottom right), paste the JSON, Import.
 
 ---
 
 ## Quickstart prompt
 
 ```
-I'm setting up character-sheet, a personal life dashboard. I've attached instructions.md which explains the data format.
+I'm setting up character-sheet, a gamified personal life dashboard. I've attached instructions.md which explains the data format.
 
 Start by asking me what's going on in my life right now - what I'm working on, what's on my mind, what I'm trying to change. Keep it conversational, ask one thing at a time, and follow the thread. Never push me to share more than I want to.
 
@@ -46,15 +59,15 @@ Once you have a reasonable picture, generate my data.json using the format in in
 
 ## Each session
 
-1. **Start a new chat** in your AI project. The AI already has your context from project knowledge.
-2. **Journal** - brain dump freely, or pick a mode (see below).
-3. **End the session** - ask: *"Update my data.json based on this chat."* For sessions where only a few things changed, ask for a partial update instead: *"Give me a partial update JSON for what changed this session."* It's smaller and cheaper. See [Partial updates](tips.md#partial-updates).
-4. **Replace `data.json` in project knowledge** - remove the old version, upload the new one.
-5. **Sync the app** - click `↑`, paste the JSON, Import.
+1. **Start a new chat:** in your AI project. The AI already has your context from project knowledge.
+2. **Journal:** brain dump freely, or pick a mode (see below).
+3. **End the session:** Ask your AI to *"Update my data."*. For smaller sessions this produces a [Partial update](tips.md#partial-updates) to keep token usage low.
+4. **Replace `data.json` in project knowledge:**  remove the old version, upload the new one.
+5. **Sync the app:** click `↑`, paste the JSON, Import.
 
 **On mobile?** Ask your AI to write the JSON as a file instead of pasting it inline: much easier to handle. *"Write my updated data.json as a downloadable file."* Then download it and use the **↑ data.json** button in the import modal to select the file. See [Mobile workflow](tips.md#mobile-workflow).
 
-You can also edit fields directly in the app and use `↓` Export to get updated JSON to paste back to your AI.
+You can also edit fields directly in the app and use `↓` Export to get updated JSON to paste back to your AI, to ensure it has your latest data. 
 
 ---
 
@@ -62,11 +75,11 @@ You can also edit fields directly in the app and use `↓` Export to get updated
 
 | Tab | What it shows |
 |-----|---------------|
-| <span style="color:#b07838">**Combat**</span> | Status check-in (Focus / Energy / Interest / Purpose) and recurring practice trackers |
+| <span style="color:#b07838">**Combat**</span> | Status check-in (Focus / Energy / Interest / Purpose) and regular quest trackers |
 | <span style="color:#8090a8">**Balance**</span> | The four elements (Air / Fire / Water / Earth), scored, detailed, and charted over time |
 | <span style="color:#c8a84a">**Quests**</span> | Main quest, side quests with progress, completed quests |
-| <span style="color:#9060c0">**Skills**</span> | Core skills radar, keystone skill, all skills ranked by priority, XP history |
-| <span style="color:#c84040">**Enemies**</span> | Active patterns, limiting beliefs, compulsions, distortions, and the graveyard. Bosses are root patterns; minions are symptoms. |
+| <span style="color:#9060c0">**Skills**</span> | Core skills radar (Rest, Movement, Nutrition, Connection), all skills ranked by priority, XP history |
+| <span style="color:#c84040">**Enemies**</span> | Active negative patterns, limiting beliefs, compulsions, distortions, and the graveyard. Bosses are root patterns; minions are symptoms. |
 | <span style="color:#2a9050">**Allies**</span> | Everything working for you: loot, spells, liberating beliefs, and flow sources |
 | <span style="color:#d07830">**Achievements**</span> | Titles (insights, deeds, transmutations, surrenders) and character classes |
 | <span style="color:#2a9090">**Journal**</span> | Progression timeline, last session read, session starters, and chapter entries |
@@ -94,9 +107,9 @@ Stay in **Freeflow** (default) or invoke any mode mid-session just by naming it.
 
 The AI controls all XP - and the main way to earn it is through journalling. Brain dump what's been happening, what you've worked through, what you've noticed about yourself, and the AI will reflect it back as progress on your sheet: updated quests, new skills, achievements unlocked, enemies named or defeated.
 
-The hook is that you have to negotiate your rewards. Made a breakthrough? Call it out and make the case for why it deserves recognition. Think something was undervalued? Push back. This process does two things at once: it forces you to articulate what actually changed (which deepens the insight), and it builds a habit of being genuinely grateful for positive changes rather than glossing over them. You gain XP, new classes, and titles by recognising your own growth - not just by grinding.
+Made a breakthrough? Call it out and make the case for why it deserves recognition. Think something was undervalued? Push back. This process does two things at once: it forces you to articulate what actually changed (which deepens the insight), and it builds a habit of being genuinely grateful for positive changes rather than glossing over them. You gain XP, new classes, and titles just by recognising your own growth in freeflow journalling sessions. 
 
-It's a conversation, not a vending machine. But it's also a mirror.
+It's a conversational mirror, not a vending machine. You could of course easily cheat this system and defeat yourself in the process! 
 
 ---
 
@@ -124,20 +137,13 @@ It's a conversation, not a vending machine. But it's also a mirror.
 ---
 
 ## Roadmap
-
-Completed recently: mobile support, recurring quests, health and mana bars.
-
-Up next, in rough priority order:
-
-- **User onboarding** - smoother first-run experience, guided setup flow
-- **Multiple character sheets** - support for more than one profile in a single browser
-- **Export to PDF / shareable snapshot** - a read-only view of your sheet
-- **Expanded practice types** - habits, streaks, linked quests
-- **Quest dependencies** - unlock side quests when others complete
+- **User onboarding** - Improved (less overwhelming) new user experience 
+- **Diagramming relationships** - between quests, skills, enemies, etc
 - **Skill trees** - structured skill progression with branching paths
-- **Relationships graph** - visual map of allies and enemies
+- **Export to PDF** - a read-only view of your sheet
+- **Quest dependencies** - unlock side quests when others complete
 - **Themes / skins** - alternate visual styles beyond the default dark RPG look
-- **Sync / backup** - optional encrypted export or cloud sync (without compromising local-first principles)
+- **Sync / backup** - optional encrypted export or cloud sync (without compromising local-first principles)?
 
 The immediate focus is getting the app in front of real users, collecting feedback, and fixing bugs. Feature requests and bug reports welcome - [open an issue](https://github.com/sam-holmes2/character-sheet/issues).
 
@@ -156,7 +162,7 @@ I pledge 10% of anything received to the [Center for Humane Technology](https://
 ## Privacy and security
 
 - **`data.json` is your private diary.** Nothing leaves your machine unless you send it. Any AI provider you journal with (Claude, ChatGPT, etc.) may store, review, or use what you share for training. Check their privacy settings to opt out.
-- **`data.json` and `migration.json` are the sensitive parts.** They contain everything you've journalled - treat them like a private diary. `character-sheet.html` and `instructions.md` are identical for all users and safe to share freely.
+- **Your `data.json` and `migration.json` are the sensitive parts.** They contain any sensitive data you've journalled - treat them like a private diary. `character-sheet.html` and `instructions.md` are identical for all users and safe to share freely.
 - **Think before syncing `data.json` or `migration.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
 - **AI is optional.** The app works fully offline as a plain tracker. For full privacy, use a local model like [Ollama](https://ollama.com) and paste its output manually - nothing ever leaves your machine.
 - **Use [Firefox](https://www.firefox.com/) if possible**, since it isolates each local HTML file's storage. In Chrome and Edge, all local files share the same origin, so a malicious local file you open could read your data.
@@ -169,10 +175,13 @@ I pledge 10% of anything received to the [Center for Humane Technology](https://
 
 > *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."* - Northlane
 
-AI made journalling and self-reflection genuinely useful for me, but every conversation started mostly from scratch. The real insights lived in chat logs I'd never reread. I wanted somewhere to see that reflection clearly, own it, and build on it over time.
+AI supercharged journalling and made self-reflection genuinely useful for me, but every conversation started mostly from scratch. The real insights lived in chat logs I'd never reread. I wanted somewhere to see that reflection clearly, own it, and build on it over time.
 
 I'm a professional cyber security consultant with real concerns about trusting any company with deep personal data. character-sheet was inspired by [Obsidian.md](https://obsidian.md/) and the principle that users should own their knowledge on their own devices. The app is a single HTML file with no server, no telemetry, and no accounts, and if you want to go further, pair it with a local LLM like [Ollama](https://ollama.com) so no journal content ever leaves your machine.
 
 If social media can use gamification to hold attention and keep people scrolling, I'd rather use the same tools to help people understand and improve themselves.
 
-Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md). If you're a designer who finds character-sheet useful and has ideas for a logo or visual identity, [I'd love to hear from you](https://github.com/sam-holmes2/character-sheet/issues).
+Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md). 
+
+## Digital artists wanted!
+If you're a designer who finds character-sheet useful and has ideas for a logo or visual identity, [I'd love to hear from you](https://github.com/sam-holmes2/character-sheet/issues). 
