@@ -2377,7 +2377,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 </div>
 
 <div id="demo-banner">
-  <span class="demo-banner-text">You're viewing <strong>Example Steve's data</strong>. Nothing you do here is saved. Download the app to create your own character sheet.</span>
+  <span class="demo-banner-text">You're viewing <strong>Steve's demo data</strong>. Nothing you do here is saved. Download the app to create your own character sheet.</span>
   <button class="demo-banner-dl" onclick="downloadApp()">↓ Download character-sheet.html</button>
   <button class="demo-banner-dismiss" onclick="this.closest('#demo-banner').style.display='none'" title="Dismiss">×</button>
 </div>
@@ -3042,7 +3042,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="help-col" id="help-col-setup">
         <div class="help-col-hdr">
           ⬡ &nbsp;Setup / Update
-          <div id="help-col-update-badge" style="display:none;margin-top:6px;font-size:11px;letter-spacing:0.08em;color:var(--gold);font-family:var(--mono);text-transform:none;opacity:1;">⚠ Update available: repeat these steps</div>
+          <div id="help-col-update-badge" style="display:none;margin-top:6px;font-size:11px;letter-spacing:0.08em;color:var(--gold);font-family:var(--mono);text-transform:none;opacity:1;">⚠ Re-upload instructions.md to Claude -- clears after next journal session</div>
           <div style="font-size:11px;opacity:0.6;letter-spacing:0.08em;font-family:var(--mono);text-transform:none;margin-top:4px;">First time &amp; when updated</div>
         </div>
         <div id="help-download-step" style="display:none">
@@ -3307,55 +3307,99 @@ let HARDCODED_XP_LOG = [];
   function dateAt(daysAgo){ return addDays(today, -daysAgo); }
 
   // Status check-in seeds: focus/energy/purpose/interest
-  // Storyline: Steve starts scattered/low, has a bad patch around day 60-70 (pre-attempt jitters),
-  // recovers hard, then last 7 days show daily variation around a strong baseline.
+  // Storyline: focus/purpose/interest all trend upward with independent daily noise.
+  // energy is the lagging element — starts OK, slowly drifts down over the 3 months
+  // (chronic overwork pattern). Demo point: one line clearly diverges from the rest.
   const statusSeeds = [
-    [90, {focus:52,energy:28,purpose:22,interest:60}],
-    [84, {focus:58,energy:32,purpose:26,interest:65}],
-    [77, {focus:55,energy:24,purpose:20,interest:62}],
-    [70, {focus:48,energy:18,purpose:14,interest:55}], // dip: pre-attempt anxiety
-    [63, {focus:44,energy:14,purpose:11,interest:50}], // trough
-    [56, {focus:50,energy:20,purpose:16,interest:58}],
-    [49, {focus:62,energy:30,purpose:25,interest:70}], // recovery
-    [42, {focus:70,energy:38,purpose:33,interest:76}],
-    [35, {focus:68,energy:35,purpose:31,interest:74}],
-    [28, {focus:75,energy:44,purpose:38,interest:80}],
-    [21, {focus:72,energy:40,purpose:36,interest:78}],
-    [14, {focus:80,energy:50,purpose:44,interest:84}],
-    // last 7 days: daily, clear variation
-    [6,  {focus:78,energy:46,purpose:42,interest:82}],
-    [5,  {focus:85,energy:55,purpose:50,interest:88}], // good day
-    [4,  {focus:72,energy:38,purpose:40,interest:80}], // dip (poor sleep)
-    [3,  {focus:80,energy:48,purpose:45,interest:85}],
-    [2,  {focus:88,energy:58,purpose:52,interest:90}], // peak
-    [1,  {focus:76,energy:44,purpose:48,interest:83}],
-    [0,  {focus:83,energy:52,purpose:50,interest:87}],
+    // ~90 days ago — starting baseline
+    [90, {focus:48,energy:62,purpose:30,interest:55}],
+    [87, {focus:53,energy:58,purpose:26,interest:60}],
+    [84, {focus:45,energy:64,purpose:33,interest:52}],
+    [81, {focus:57,energy:60,purpose:28,interest:63}],
+    [78, {focus:50,energy:55,purpose:35,interest:58}],
+    [75, {focus:60,energy:52,purpose:40,interest:66}],
+    [72, {focus:54,energy:57,purpose:37,interest:61}],
+    [69, {focus:62,energy:50,purpose:44,interest:70}],
+    [66, {focus:58,energy:48,purpose:41,interest:65}],
+    [63, {focus:66,energy:44,purpose:48,interest:73}],
+    [60, {focus:61,energy:50,purpose:45,interest:68}],
+    [57, {focus:70,energy:42,purpose:52,interest:76}],
+    [54, {focus:65,energy:46,purpose:50,interest:72}],
+    [51, {focus:74,energy:38,purpose:57,interest:80}],
+    [48, {focus:68,energy:43,purpose:54,interest:75}],
+    [45, {focus:78,energy:36,purpose:61,interest:82}],
+    [42, {focus:72,energy:40,purpose:58,interest:78}],
+    [39, {focus:80,energy:34,purpose:64,interest:86}],
+    [36, {focus:75,energy:38,purpose:62,interest:81}],
+    [33, {focus:83,energy:31,purpose:68,interest:88}],
+    [30, {focus:78,energy:35,purpose:65,interest:84}],
+    [27, {focus:86,energy:28,purpose:72,interest:90}],
+    [24, {focus:80,energy:33,purpose:68,interest:86}],
+    [21, {focus:88,energy:26,purpose:75,interest:92}],
+    [18, {focus:83,energy:30,purpose:72,interest:88}],
+    [15, {focus:90,energy:24,purpose:78,interest:94}],
+    [12, {focus:85,energy:28,purpose:75,interest:89}],
+    // last 2 weeks: daily entries — clear divergence visible
+    [11, {focus:82,energy:32,purpose:70,interest:86}],
+    [10, {focus:88,energy:25,purpose:76,interest:91}],
+    [9,  {focus:78,energy:30,purpose:73,interest:85}],
+    [8,  {focus:91,energy:22,purpose:79,interest:93}],
+    [7,  {focus:85,energy:27,purpose:76,interest:88}],
+    [6,  {focus:80,energy:34,purpose:72,interest:84}],
+    [5,  {focus:93,energy:20,purpose:81,interest:95}],
+    [4,  {focus:76,energy:38,purpose:68,interest:80}],
+    [3,  {focus:89,energy:24,purpose:78,interest:92}],
+    [2,  {focus:84,energy:29,purpose:74,interest:87}],
+    [1,  {focus:91,energy:21,purpose:80,interest:93}],
+    [0,  {focus:87,energy:26,purpose:77,interest:90}],
   ];
 
   // Core skills seeds: rest/movement/nutrition/connection
-  // Storyline: movement always decent, rest chronically low then improving,
-  // connection dips during crunch, nutrition bounces. Last 7 days daily.
+  // Storyline: movement/nutrition/connection all trend up with independent noise.
+  // rest is the lagging element — starts reasonable, trends downward (poor sleep pattern
+  // worsening over time). Demo point: the one line going the wrong way stands out clearly.
   const statsSeeds = [
-    [90, {rest:22,movement:62,nutrition:50,connection:30}],
-    [84, {rest:18,movement:68,nutrition:55,connection:35}],
-    [77, {rest:25,movement:65,nutrition:52,connection:28}],
-    [70, {rest:15,movement:58,nutrition:45,connection:22}], // crunch dip
-    [63, {rest:12,movement:55,nutrition:40,connection:18}], // trough
-    [56, {rest:20,movement:62,nutrition:48,connection:25}],
-    [49, {rest:30,movement:70,nutrition:58,connection:38}], // recovery
-    [42, {rest:38,movement:75,nutrition:62,connection:45}],
-    [35, {rest:34,movement:72,nutrition:60,connection:42}],
-    [28, {rest:42,movement:78,nutrition:65,connection:50}],
-    [21, {rest:38,movement:76,nutrition:63,connection:46}],
-    [14, {rest:46,movement:82,nutrition:68,connection:54}],
-    // last 7 days: daily, clear variation
-    [6,  {rest:40,movement:80,nutrition:65,connection:52}],
-    [5,  {rest:50,movement:85,nutrition:72,connection:58}], // good day
-    [4,  {rest:32,movement:75,nutrition:60,connection:45}], // poor sleep night before
-    [3,  {rest:44,movement:82,nutrition:68,connection:55}],
-    [2,  {rest:52,movement:88,nutrition:74,connection:60}], // peak
-    [1,  {rest:42,movement:80,nutrition:70,connection:52}],
-    [0,  {rest:46,movement:84,nutrition:72,connection:56}],
+    // ~90 days ago
+    [90, {rest:62,movement:45,nutrition:38,connection:28}],
+    [87, {rest:58,movement:50,nutrition:42,connection:32}],
+    [84, {rest:64,movement:48,nutrition:36,connection:25}],
+    [81, {rest:55,movement:54,nutrition:45,connection:35}],
+    [78, {rest:60,movement:52,nutrition:40,connection:30}],
+    [75, {rest:52,movement:58,nutrition:48,connection:38}],
+    [72, {rest:57,movement:55,nutrition:44,connection:34}],
+    [69, {rest:48,movement:62,nutrition:52,connection:42}],
+    [66, {rest:53,movement:60,nutrition:48,connection:38}],
+    [63, {rest:44,movement:66,nutrition:56,connection:46}],
+    [60, {rest:50,movement:63,nutrition:52,connection:42}],
+    [57, {rest:42,movement:70,nutrition:60,connection:50}],
+    [54, {rest:46,movement:67,nutrition:56,connection:46}],
+    [51, {rest:38,movement:74,nutrition:64,connection:55}],
+    [48, {rest:43,movement:70,nutrition:60,connection:50}],
+    [45, {rest:35,movement:78,nutrition:68,connection:58}],
+    [42, {rest:40,movement:74,nutrition:64,connection:54}],
+    [39, {rest:32,movement:80,nutrition:72,connection:62}],
+    [36, {rest:37,movement:77,nutrition:68,connection:58}],
+    [33, {rest:28,movement:83,nutrition:75,connection:66}],
+    [30, {rest:34,movement:80,nutrition:72,connection:62}],
+    [27, {rest:26,movement:86,nutrition:78,connection:70}],
+    [24, {rest:31,movement:82,nutrition:74,connection:66}],
+    [21, {rest:24,movement:88,nutrition:80,connection:73}],
+    [18, {rest:29,movement:85,nutrition:76,connection:69}],
+    [15, {rest:22,movement:90,nutrition:82,connection:76}],
+    [12, {rest:27,movement:87,nutrition:78,connection:72}],
+    // last 2 weeks: daily
+    [11, {rest:32,movement:84,nutrition:75,connection:69}],
+    [10, {rest:24,movement:89,nutrition:80,connection:74}],
+    [9,  {rest:29,movement:86,nutrition:77,connection:70}],
+    [8,  {rest:20,movement:91,nutrition:82,connection:76}],
+    [7,  {rest:26,movement:88,nutrition:78,connection:72}],
+    [6,  {rest:34,movement:84,nutrition:74,connection:68}],
+    [5,  {rest:21,movement:92,nutrition:83,connection:77}],
+    [4,  {rest:36,movement:86,nutrition:76,connection:70}],
+    [3,  {rest:23,movement:90,nutrition:81,connection:75}],
+    [2,  {rest:28,movement:87,nutrition:78,connection:72}],
+    [1,  {rest:19,movement:92,nutrition:82,connection:76}],
+    [0,  {rest:25,movement:89,nutrition:80,connection:74}],
   ];
 
   function buildHist(seeds, keys){
@@ -10019,7 +10063,7 @@ function checkForAppUpdateManual(btn){
         const state=raw?JSON.parse(raw):(typeof appState!=='undefined'?appState:null);
         const iv=state&&state._instructionsVersion||'';
         if(iv && semverNum(iv)<semverNum(INSTRUCTIONS_VERSION)){
-          if(result){ result.textContent=`Latest is v${INSTRUCTIONS_VERSION}, but your Claude instructions are v${iv}. Re-run Setup steps above.`; result.style.color='var(--gold)'; }
+          if(result){ result.textContent=`Latest is v${INSTRUCTIONS_VERSION}, but your Claude instructions are v${iv}. Re-upload instructions.md to Claude -- warning clears after your next journal session.`; result.style.color='var(--gold)'; }
         } else {
           if(result){ result.textContent=`✓ Up to date (v${INSTRUCTIONS_VERSION})`; result.style.color='#3a8050'; }
         }
