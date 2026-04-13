@@ -3742,7 +3742,14 @@ const pad=n=>n.toString().padStart(2,'0');
 
 // ══ HARMONY SCORE ═══════════════════════════════════════════
 // Resolve element scores from either {sliderValues:{air:74}} or {air:{score:74}} format
+// Prefer object-format {air:{score:N}} when present; fall back to sliderValues for legacy state.
 function resolveElementScores(state){
+  const hasObjectFormat=['air','fire','water','earth'].some(e=>typeof state[e]==='object'&&state[e]!==null&&'score' in state[e]);
+  if(hasObjectFormat){
+    const sv={};
+    ['air','fire','water','earth'].forEach(e=>{ sv[e]=typeof state[e]==='object'?state[e].score||0:state[e]||0; });
+    return sv;
+  }
   if(state.sliderValues) return state.sliderValues;
   const sv={};
   ['air','fire','water','earth'].forEach(e=>{ sv[e]=typeof state[e]==='object'?state[e].score||0:state[e]||0; });
