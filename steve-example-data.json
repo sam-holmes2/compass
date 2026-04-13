@@ -139,45 +139,53 @@
     {
       "date": "2026-03-05",
       "air": 68,
-      "fire": 18,
+      "fire": 22,
       "water": 52,
       "earth": 62,
-      "harmony": 56
+      "harmony": 60
     },
     {
       "date": "2026-03-12",
-      "air": 72,
-      "fire": 20,
+      "air": 70,
+      "fire": 28,
       "water": 55,
-      "earth": 58,
-      "harmony": 58
+      "earth": 60,
+      "harmony": 66
     },
     {
       "date": "2026-03-19",
-      "air": 74,
-      "fire": 19,
+      "air": 72,
+      "fire": 33,
       "water": 60,
       "earth": 62,
-      "harmony": 59
+      "harmony": 72
     },
     {
       "date": "2026-03-25",
-      "air": 76,
-      "fire": 22,
-      "water": 63,
-      "earth": 65,
-      "harmony": 62
+      "air": 74,
+      "fire": 38,
+      "water": 62,
+      "earth": 64,
+      "harmony": 77
     },
     {
       "date": "2026-04-01",
-      "air": 75,
-      "fire": 24,
-      "water": 62,
-      "earth": 66,
-      "harmony": 63
+      "air": 73,
+      "fire": 44,
+      "water": 64,
+      "earth": 65,
+      "harmony": 81
     },
     {
       "date": "2026-04-07",
+      "air": 72,
+      "fire": 50,
+      "water": 66,
+      "earth": 65,
+      "harmony": 85
+    },
+    {
+      "date": "2026-04-12",
       "air": 72,
       "fire": 55,
       "water": 68,
@@ -637,13 +645,13 @@
         {
           "id": "mining",
           "name": "Mining",
-          "color": "rgba(100,160,220,0.25)",
+          "color": "rgba(80,140,210,0.7)",
           "description": "Cave runs, strip mining, or resource gathering. Moving through the world to collect what's needed."
         },
         {
           "id": "crafting",
           "name": "Crafting",
-          "color": "rgba(200,140,60,0.25)",
+          "color": "rgba(160,100,40,0.7)",
           "description": "Building, organising, or creating at the workbench. Turning raw materials into something useful."
         }
       ]

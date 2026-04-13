@@ -2451,7 +2451,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="balance-el-radar-row">
       <div class="balance-el-radar-meta">
         <div class="balance-radar-legend">
-          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Now</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Latest</div>
           <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>7-day avg</div>
           <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>All-time avg</div>
         </div>
@@ -2485,7 +2485,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="bht-cell">
           <span class="bht-tooltip">100% when all four elements are equal.<br>Drops when one dimension is overpowering others.</span>
           <div class="bht-num bht-now" id="balance-harmony-now">—</div>
-          <div class="balance-harmony-lbl">Now</div>
+          <div class="balance-harmony-lbl">Latest</div>
         </div>
       </div>
     </div>
@@ -7843,7 +7843,7 @@ function renderRQBarChart(wrap, act, charName) {
                   b.classList.toggle('done', ps.subsDone.includes(b.dataset.subId));
                 });
                 const lblEl = document.getElementById('checkbox-lbl-' + act.id);
-                if (lblEl) lblEl.textContent = ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
+                if (lblEl) lblEl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
               }
             }
           }
@@ -7908,7 +7908,7 @@ function renderRQBarChart(wrap, act, charName) {
             const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
             if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
             const lblEl = document.getElementById('checkbox-lbl-' + act.id);
-            if (lblEl) lblEl.textContent = `${ps.value} / ${act.target||1} ${act.unit||''}`;
+            if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps.value} / ${act.target||1} ${act.unit||''}`;
             saveRQCurrent(charName, act.id, { value: ps.value, periodStart: curPeriod, hasEntry: keepEntry });
           }
         } else {
@@ -8002,13 +8002,13 @@ function renderRQBarChart(wrap, act, charName) {
               const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
               if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
               const lblEl = document.getElementById('checkbox-lbl-' + act.id);
-              if (lblEl) lblEl.textContent = `${ps.value} / ${act.target||1} ${act.unit||''}`;
+              if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps.value} / ${act.target||1} ${act.unit||''}`;
             } else if (act.type === 'number') {
               ps.value = rawVal;
               const inpEl = document.getElementById('number-input-' + act.id);
               if (inpEl) inpEl.value = rawVal;
               const lblEl = document.getElementById('number-lbl-' + act.id);
-              if (lblEl) lblEl.textContent = `This ${act.resetPeriod}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
+              if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
             }
             saveRQCurrent(charName, act.id, { value: act.type === 'timer' ? ps.seconds : (ps.value ?? rawVal), seconds: ps.seconds, periodStart: curPeriod });
           }
@@ -8802,7 +8802,7 @@ function renderRecurringQuests(s) {
         widget.innerHTML = `
           <div class="rq-sub-btns">${subBtnsHtml}</div>
           ${xpLbl}
-          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${todayDone.length} / ${tgt} ${esc(act.unit||'')}</div>
+          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${todayDone.length} / ${tgt} ${esc(act.unit||'')}</div>
           <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
         `;
       } else {
@@ -8813,7 +8813,7 @@ function renderRecurringQuests(s) {
         widget.innerHTML = `
           <div class="checkbox-dots">${dotsHtml}</div>
           ${xpLbl}
-          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${curVal} / ${tgt} ${esc(act.unit||'')}</div>
+          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${tgt} ${esc(act.unit||'')}</div>
           <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
         `;
       }
@@ -8832,7 +8832,7 @@ function renderRecurringQuests(s) {
           <button class="number-save-btn" onclick="handleNumberSave('${act.id}')">Save</button>
         </div>
         ${xpLbl}
-        <div class="practice-period-lbl" id="number-lbl-${act.id}">This ${act.resetPeriod}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}</div>
+        <div class="practice-period-lbl" id="number-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}</div>
         <div class="practice-xp-earned" id="number-xp-${act.id}"></div>
       `;
     }
@@ -8962,7 +8962,7 @@ function handleCheckboxDot(id, dotIndex, btn) {
     });
   }
   const lbl = document.getElementById('checkbox-lbl-' + id);
-  if (lbl) lbl.textContent = ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
+  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
 
   // XP (only if explicitly configured via journalling)
   if (ps.value > oldVal && act.xpPerUnit) {
@@ -9004,7 +9004,7 @@ function handleSubActivity(actId, subId, btn) {
     });
   }
   const lbl = document.getElementById('checkbox-lbl-' + actId);
-  if (lbl) lbl.textContent = ps.value + ' / ' + tgt + ' ' + (act.unit||'');
+  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + tgt + ' ' + (act.unit||'');
 
   // Archive / remove history entry for current period
   const period = currentPeriod(act.resetPeriod);
@@ -9059,6 +9059,10 @@ function awardRQXP(actId, xp) {
   }
 }
 
+function rqPeriodPrefix(period) {
+  return { day:'Today', week:'This week', month:'This month', year:'This year' }[period] || ('This ' + (period||'period'));
+}
+
 function stepNumberInput(id, delta) {
   const input = document.getElementById('number-input-' + id);
   if (!input) return;
@@ -9081,7 +9085,7 @@ function handleNumberSave(id) {
   ps.value = newVal;
   saveRQCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
   const lbl = document.getElementById('number-lbl-' + id);
-  if (lbl) lbl.textContent = 'This ' + act.resetPeriod + ': ' + ps.value + ' / ' + (act.target||4) + ' ' + (act.unit||'');
+  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||4) + ' ' + (act.unit||'');
   if (newVal > oldVal) {
     const xp = Math.round(act.xpPerUnit * (newVal - oldVal));
     awardRQXP(id, xp);
