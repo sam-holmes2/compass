@@ -2005,28 +2005,63 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .radar-panel-radar { border-right:none; border-bottom:1px solid rgba(255,255,255,0.05); justify-content:flex-start; }
   .radar-panel-sliders { border-right:none; }
 
-  /* ── Prevent horizontal overflow on cards ── */
+  /* ── Main quest trigger: mark+title on line 1, progress row below ── */
+  .mqcard-trigger { flex-wrap:wrap; gap:4px 8px; padding:10px 14px; align-items:center; }
+  .mqcard-trigger .quest-mark { order:-1; flex-shrink:0; }
+  .mqcard-trigger-title { order:0; flex:1 1 0; min-width:0; font-size:16px; }
+  .mqcard-trigger .lock-btn { order:1; flex-shrink:0; }
+  .mqcard-trigger-arrow { order:2; flex-shrink:0; }
+  /* force progress + badges to their own line */
+  .mqcard-trigger-track { order:10; flex:1 1 100% !important; min-width:0; height:6px; }
+  .mqcard-trigger-pct { order:11; }
+  .mqcard-trigger .xp-pill { order:12; }
+  .mqcard-trigger .quest-deadline-badge { order:13; }
+
+  /* ── Side quest heads: del+mark+title on line 1, progress+badges line 2 ── */
+  .sqcard-head { flex-wrap:wrap; gap:4px 8px; align-items:center; }
+  .sqcard-head .card-head-del { order:-2; flex-shrink:0; }
+  .sqcard-head .quest-mark { order:-1; flex-shrink:0; }
+  .sqcard-head .sqcard-name { order:0; flex:1 1 0; min-width:0; }
+  .sqcard-head .lock-btn { order:1; flex-shrink:0; }
+  .sqcard-head .quest-complete-btn { order:2; flex-shrink:0; }
+  .sqcard-head .sqcard-arrow { order:3; flex-shrink:0; }
+  /* force progress row to its own line */
+  .sqcard-head .sqcard-track { order:10; flex:1 1 100%; min-width:0; width:auto !important; height:6px; }
+  .sqcard-head .sqcard-pct { order:11; }
+  .sqcard-head .xp-pill { order:12; }
+  .sqcard-head .quest-deadline-badge { order:13; }
+  .sqcard-head .card-edit-btn { order:14; }
+
+  /* ── Enemy/ally/boss heads: badge+name on line 1, rest wrap below ── */
   .enemy-card-head { flex-wrap:wrap; gap:4px 8px; }
-  /* name stays order:0 (default), fills first line */
-  .enemy-card-name { flex-basis:0; flex-grow:1; min-width:0; }
-  .enemy-priority-badge { order:1; flex-shrink:0; }
-  /* secondary items wrap to second line */
+  .enemy-priority-badge { order:0; flex-shrink:0; }
+  .enemy-card-name { order:1; flex:1 1 0; min-width:0; font-size:15px; }
+  /* secondary items wrap to next line */
   .enemy-type-tag { order:10; }
   .hp-bar-wrap { order:11; width:52px; flex-shrink:0; }
   .kill-btn, .move-enemy-btn { order:12; opacity:0.7 !important; }
   .enemy-card-arrow { order:13; margin-left:auto; }
+
+  /* ── Achievement / class rows: title on own line ── */
+  .ach-card-row, .cls-card-row { flex-wrap:wrap; gap:4px 6px; }
+  .ach-card-title { flex-basis:100%; order:0; font-size:15px; min-width:0; }
+  .cls-card-name  { flex-basis:100%; order:0; font-size:15px; min-width:0; }
+  .ach-card-type  { order:10; }
+  .ach-card-date  { order:11; font-size:13px; }
+  .ach-feature-btn { order:12; }
+  .ach-card-row .card-edit-btn { order:13; }
+  .cls-card-row .card-edit-btn { order:13; }
+  .cls-card-date { order:11; font-size:13px; }
+
+  /* ── Grave card heads ── */
+  .grave-card-head { flex-wrap:wrap; gap:4px; }
+  .grave-card-date { font-size:13px; }
+
   /* Shrink fixed widths that cause overflow */
   .wheel-domain-name { width:72px; font-size:13px; letter-spacing:0.06em; }
   .wheel-score { min-width:22px; width:22px; }
   /* Help cols: collapse to single column */
   .help-cols { grid-template-columns:1fr; }
-  /* Quest/ally/achievement heads: allow wrapping */
-  .sqcard-head { flex-wrap:wrap; gap:4px; }
-  .sqcard-track { width:40px; }
-  .ally-card-head { flex-wrap:wrap; gap:4px; }
-  .ach-card-row, .cls-card-row { flex-wrap:wrap; }
-  .grave-card-head { flex-wrap:wrap; gap:4px; }
-  .grave-card-date { font-size:13px; }
   /* Ensure no child element forces the page wider */
   .tab-panel > * { max-width:100%; }
 }
@@ -2119,36 +2154,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* ── Quest cards: give title room to breathe ── */
 @media (max-width:600px) {
   .sqcard-name { font-size:14px; letter-spacing:0.03em; min-width:0; }
-  .sqcard-track { width:32px; flex-shrink:0; }
-  .sqcard-pct { width:24px; font-size:13px; }
   /* Recurring/combat quest cards too */
   .cqcard-name { font-size:14px; min-width:0; }
 }
 @media (max-width:480px) {
-  .sqcard-head { padding:9px 10px; gap:8px; }
+  .sqcard-head { padding:9px 10px; }
   .sqcard-name { font-size:13px; }
   .cqcard-head { padding:9px 10px; gap:8px; }
-}
-
-/* ── Ally / enemies card heads: give name room ── */
-@media (max-width:600px) {
-  .ally-card-name { font-size:14px; min-width:0; letter-spacing:0.03em; }
-  .enemy-card-name { font-size:14px; min-width:0; }
-}
-
-/* ── Achievement / class rows: title on own line, badges below ── */
-@media (max-width:600px) {
-  .ach-card-row { gap:4px 6px; align-items:flex-start; }
-  .cls-card-row { gap:4px 6px; align-items:flex-start; }
-  /* Delete btn + icon stay left, title fills line then wraps */
-  .ach-card-title { font-size:14px; min-width:0; flex-basis:0; flex-grow:1; }
-  .cls-card-name  { font-size:14px; min-width:0; flex-basis:0; flex-grow:1; }
-  /* Push type badge, date, star, edit to a new wrapped row */
-  .ach-card-type  { order:10; }
-  .ach-card-date  { order:11; font-size:13px; }
-  .ach-feature-btn { order:12; }
-  .ach-card-row .card-edit-btn { order:13; }
-  .cls-card-row .card-edit-btn { order:13; }
+  .mqcard-trigger { padding:9px 10px; }
 }
 
 /* ── Export modal: single column on mobile ── */
@@ -2342,7 +2355,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="welcome-path" id="welcome-path-ai" style="display:none;">
         <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
         <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Paste in your current data.json so your AI knows where you're at, then just talk.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Chat about whatever you'd like.</div></div>
         <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
         <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>Click ↑ Import</strong> (bottom-right), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
       </div>
@@ -3312,45 +3325,45 @@ let HARDCODED_XP_LOG = [];
   // (chronic overwork pattern). Demo point: one line clearly diverges from the rest.
   const statusSeeds = [
     // ~90 days ago — starting baseline
-    [90, {focus:48,energy:62,purpose:30,interest:55}],
-    [87, {focus:53,energy:58,purpose:26,interest:60}],
-    [84, {focus:45,energy:64,purpose:33,interest:52}],
-    [81, {focus:57,energy:60,purpose:28,interest:63}],
-    [78, {focus:50,energy:55,purpose:35,interest:58}],
-    [75, {focus:60,energy:52,purpose:40,interest:66}],
-    [72, {focus:54,energy:57,purpose:37,interest:61}],
-    [69, {focus:62,energy:50,purpose:44,interest:70}],
-    [66, {focus:58,energy:48,purpose:41,interest:65}],
-    [63, {focus:66,energy:44,purpose:48,interest:73}],
-    [60, {focus:61,energy:50,purpose:45,interest:68}],
-    [57, {focus:70,energy:42,purpose:52,interest:76}],
-    [54, {focus:65,energy:46,purpose:50,interest:72}],
-    [51, {focus:74,energy:38,purpose:57,interest:80}],
-    [48, {focus:68,energy:43,purpose:54,interest:75}],
-    [45, {focus:78,energy:36,purpose:61,interest:82}],
-    [42, {focus:72,energy:40,purpose:58,interest:78}],
-    [39, {focus:80,energy:34,purpose:64,interest:86}],
-    [36, {focus:75,energy:38,purpose:62,interest:81}],
-    [33, {focus:83,energy:31,purpose:68,interest:88}],
-    [30, {focus:78,energy:35,purpose:65,interest:84}],
-    [27, {focus:86,energy:28,purpose:72,interest:90}],
-    [24, {focus:80,energy:33,purpose:68,interest:86}],
-    [21, {focus:88,energy:26,purpose:75,interest:92}],
-    [18, {focus:83,energy:30,purpose:72,interest:88}],
-    [15, {focus:90,energy:24,purpose:78,interest:94}],
-    [12, {focus:85,energy:28,purpose:75,interest:89}],
+    [90, {focus:45,energy:64,purpose:28,interest:52}],
+    [87, {focus:62,energy:55,purpose:38,interest:70}],
+    [84, {focus:40,energy:68,purpose:22,interest:45}],
+    [81, {focus:71,energy:49,purpose:45,interest:63}],
+    [78, {focus:52,energy:61,purpose:31,interest:58}],
+    [75, {focus:68,energy:44,purpose:50,interest:75}],
+    [72, {focus:44,energy:58,purpose:36,interest:48}],
+    [69, {focus:77,energy:52,purpose:55,interest:82}],
+    [66, {focus:58,energy:40,purpose:42,interest:65}],
+    [63, {focus:65,energy:47,purpose:60,interest:56}],
+    [60, {focus:83,energy:35,purpose:48,interest:88}],
+    [57, {focus:55,energy:53,purpose:66,interest:72}],
+    [54, {focus:74,energy:29,purpose:57,interest:61}],
+    [51, {focus:61,energy:44,purpose:74,interest:84}],
+    [48, {focus:88,energy:38,purpose:62,interest:55}],
+    [45, {focus:69,energy:32,purpose:70,interest:79}],
+    [42, {focus:76,energy:48,purpose:58,interest:90}],
+    [39, {focus:55,energy:26,purpose:80,interest:67}],
+    [36, {focus:84,energy:41,purpose:68,interest:82}],
+    [33, {focus:70,energy:33,purpose:76,interest:74}],
+    [30, {focus:60,energy:22,purpose:84,interest:88}],
+    [27, {focus:89,energy:38,purpose:72,interest:62}],
+    [24, {focus:73,energy:28,purpose:79,interest:93}],
+    [21, {focus:62,energy:19,purpose:88,interest:80}],
+    [18, {focus:85,energy:35,purpose:76,interest:70}],
+    [15, {focus:78,energy:24,purpose:83,interest:91}],
+    [12, {focus:66,energy:30,purpose:91,interest:78}],
     // last 2 weeks: daily entries — clear divergence visible
-    [11, {focus:82,energy:32,purpose:70,interest:86}],
-    [10, {focus:88,energy:25,purpose:76,interest:91}],
-    [9,  {focus:78,energy:30,purpose:73,interest:85}],
-    [8,  {focus:91,energy:22,purpose:79,interest:93}],
-    [7,  {focus:85,energy:27,purpose:76,interest:88}],
-    [6,  {focus:80,energy:34,purpose:72,interest:84}],
-    [5,  {focus:93,energy:20,purpose:81,interest:95}],
-    [4,  {focus:76,energy:38,purpose:68,interest:80}],
-    [3,  {focus:89,energy:24,purpose:78,interest:92}],
-    [2,  {focus:84,energy:29,purpose:74,interest:87}],
-    [1,  {focus:91,energy:21,purpose:80,interest:93}],
+    [11, {focus:90,energy:18,purpose:80,interest:84}],
+    [10, {focus:74,energy:34,purpose:74,interest:95}],
+    [9,  {focus:59,energy:22,purpose:88,interest:76}],
+    [8,  {focus:83,energy:14,purpose:82,interest:89}],
+    [7,  {focus:92,energy:29,purpose:70,interest:82}],
+    [6,  {focus:68,energy:38,purpose:85,interest:91}],
+    [5,  {focus:77,energy:16,purpose:91,interest:78}],
+    [4,  {focus:95,energy:24,purpose:78,interest:86}],
+    [3,  {focus:62,energy:32,purpose:83,interest:93}],
+    [2,  {focus:84,energy:19,purpose:88,interest:80}],
+    [1,  {focus:78,energy:27,purpose:79,interest:88}],
     [0,  {focus:87,energy:26,purpose:77,interest:90}],
   ];
 
@@ -3360,45 +3373,45 @@ let HARDCODED_XP_LOG = [];
   // worsening over time). Demo point: the one line going the wrong way stands out clearly.
   const statsSeeds = [
     // ~90 days ago
-    [90, {rest:62,movement:45,nutrition:38,connection:28}],
-    [87, {rest:58,movement:50,nutrition:42,connection:32}],
-    [84, {rest:64,movement:48,nutrition:36,connection:25}],
-    [81, {rest:55,movement:54,nutrition:45,connection:35}],
-    [78, {rest:60,movement:52,nutrition:40,connection:30}],
-    [75, {rest:52,movement:58,nutrition:48,connection:38}],
-    [72, {rest:57,movement:55,nutrition:44,connection:34}],
-    [69, {rest:48,movement:62,nutrition:52,connection:42}],
-    [66, {rest:53,movement:60,nutrition:48,connection:38}],
-    [63, {rest:44,movement:66,nutrition:56,connection:46}],
-    [60, {rest:50,movement:63,nutrition:52,connection:42}],
-    [57, {rest:42,movement:70,nutrition:60,connection:50}],
-    [54, {rest:46,movement:67,nutrition:56,connection:46}],
-    [51, {rest:38,movement:74,nutrition:64,connection:55}],
-    [48, {rest:43,movement:70,nutrition:60,connection:50}],
-    [45, {rest:35,movement:78,nutrition:68,connection:58}],
-    [42, {rest:40,movement:74,nutrition:64,connection:54}],
-    [39, {rest:32,movement:80,nutrition:72,connection:62}],
-    [36, {rest:37,movement:77,nutrition:68,connection:58}],
-    [33, {rest:28,movement:83,nutrition:75,connection:66}],
-    [30, {rest:34,movement:80,nutrition:72,connection:62}],
-    [27, {rest:26,movement:86,nutrition:78,connection:70}],
-    [24, {rest:31,movement:82,nutrition:74,connection:66}],
-    [21, {rest:24,movement:88,nutrition:80,connection:73}],
-    [18, {rest:29,movement:85,nutrition:76,connection:69}],
-    [15, {rest:22,movement:90,nutrition:82,connection:76}],
-    [12, {rest:27,movement:87,nutrition:78,connection:72}],
+    [90, {rest:64,movement:42,nutrition:35,connection:22}],
+    [87, {rest:52,movement:58,nutrition:48,connection:38}],
+    [84, {rest:70,movement:35,nutrition:28,connection:15}],
+    [81, {rest:45,movement:65,nutrition:54,connection:42}],
+    [78, {rest:61,movement:48,nutrition:38,connection:28}],
+    [75, {rest:38,movement:72,nutrition:62,connection:50}],
+    [72, {rest:55,movement:54,nutrition:44,connection:32}],
+    [69, {rest:42,movement:80,nutrition:55,connection:58}],
+    [66, {rest:66,movement:62,nutrition:48,connection:40}],
+    [63, {rest:30,movement:70,nutrition:65,connection:62}],
+    [60, {rest:50,movement:58,nutrition:52,connection:46}],
+    [57, {rest:44,movement:76,nutrition:70,connection:55}],
+    [54, {rest:62,movement:66,nutrition:58,connection:48}],
+    [51, {rest:35,movement:84,nutrition:62,connection:68}],
+    [48, {rest:48,movement:72,nutrition:74,connection:54}],
+    [45, {rest:28,movement:88,nutrition:66,connection:72}],
+    [42, {rest:55,movement:76,nutrition:80,connection:60}],
+    [39, {rest:38,movement:65,nutrition:70,connection:78}],
+    [36, {rest:44,movement:82,nutrition:76,connection:65}],
+    [33, {rest:22,movement:90,nutrition:72,connection:82}],
+    [30, {rest:52,movement:78,nutrition:82,connection:68}],
+    [27, {rest:30,movement:86,nutrition:68,connection:75}],
+    [24, {rest:42,movement:74,nutrition:88,connection:82}],
+    [21, {rest:18,movement:92,nutrition:78,connection:70}],
+    [18, {rest:36,movement:80,nutrition:84,connection:85}],
+    [15, {rest:28,movement:88,nutrition:74,connection:72}],
+    [12, {rest:45,movement:82,nutrition:82,connection:78}],
     // last 2 weeks: daily
-    [11, {rest:32,movement:84,nutrition:75,connection:69}],
-    [10, {rest:24,movement:89,nutrition:80,connection:74}],
-    [9,  {rest:29,movement:86,nutrition:77,connection:70}],
-    [8,  {rest:20,movement:91,nutrition:82,connection:76}],
-    [7,  {rest:26,movement:88,nutrition:78,connection:72}],
-    [6,  {rest:34,movement:84,nutrition:74,connection:68}],
-    [5,  {rest:21,movement:92,nutrition:83,connection:77}],
-    [4,  {rest:36,movement:86,nutrition:76,connection:70}],
-    [3,  {rest:23,movement:90,nutrition:81,connection:75}],
-    [2,  {rest:28,movement:87,nutrition:78,connection:72}],
-    [1,  {rest:19,movement:92,nutrition:82,connection:76}],
+    [11, {rest:22,movement:90,nutrition:88,connection:65}],
+    [10, {rest:38,movement:76,nutrition:76,connection:80}],
+    [9,  {rest:30,movement:86,nutrition:82,connection:72}],
+    [8,  {rest:15,movement:94,nutrition:70,connection:86}],
+    [7,  {rest:44,movement:80,nutrition:86,connection:68}],
+    [6,  {rest:28,movement:88,nutrition:78,connection:78}],
+    [5,  {rest:20,movement:78,nutrition:84,connection:88}],
+    [4,  {rest:35,movement:92,nutrition:74,connection:70}],
+    [3,  {rest:24,movement:84,nutrition:88,connection:82}],
+    [2,  {rest:40,movement:86,nutrition:80,connection:76}],
+    [1,  {rest:18,movement:92,nutrition:84,connection:80}],
     [0,  {rest:25,movement:89,nutrition:80,connection:74}],
   ];
 
@@ -4911,7 +4924,7 @@ function renderQuestsTab(s){
       const head=document.createElement('div'); head.className='sqcard-head'; head.dataset.handleInject='1';
       const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=i+2;
       const titleEl=makeEditable(q.title,'Quest name',v=>saveNestedField(['sideQuests',i,'title'],capitalise(v)),'sq-title-edit');
-      titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);';
+      titleEl.className+=' sqcard-name'; titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
       const fi=document.createElement('div'); fi.className='sqcard-fill'; fi.style.width=pct+'%'; tr.appendChild(fi);
       const ps=document.createElement('div'); ps.className='sqcard-pct'; ps.textContent=pct+'%';
@@ -5968,12 +5981,23 @@ function renderProgressionCard(el, s) {
   }
   // Journal tab + Air tab: whole-journey arc
   const progColor = s.nameColor || '#5cb85c';
-  [['lore-progression','lore-progression-text'],['air-progression','air-progression-text']].forEach(([wrapId,txtId])=>{
-    const wrap=document.getElementById(wrapId), txt=document.getElementById(txtId);
-    if(!wrap||!txt) return;
-    if(s.progression){ txt.textContent=s.progression; wrap.style.display='block'; }
-    else { wrap.style.display='none'; }
-  });
+  if(s.progression){
+    // Journal tab: split into act paragraphs on double newlines
+    const loreWrap=document.getElementById('lore-progression'), loreTxt=document.getElementById('lore-progression-text');
+    if(loreWrap&&loreTxt){
+      loreTxt.innerHTML='';
+      s.progression.split(/\n\n+/).forEach(act=>{
+        if(!act.trim()) return;
+        const p=document.createElement('p'); p.textContent=act.trim(); p.style.margin='0 0 1em 0'; loreTxt.appendChild(p);
+      });
+      loreWrap.style.display='block';
+    }
+    // Balance tab air panel: single block (compact)
+    const airWrap=document.getElementById('air-progression'), airTxt=document.getElementById('air-progression-text');
+    if(airWrap&&airTxt){ airTxt.textContent=s.progression; airWrap.style.display='block'; }
+  } else {
+    ['lore-progression','air-progression'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+  }
   // Apply nameColor to progression headers and border
   const loreCard = document.getElementById('lore-progression');
   if(loreCard) loreCard.style.borderLeftColor = progColor;
@@ -6157,8 +6181,8 @@ function render(s){
   // keyQuestions (new array format) — also falls back to legacy keyQuestion string
   const kqEl=document.getElementById('lore-key-questions');
   if(kqEl){
-    const kqs=Array.isArray(s.keyQuestions)&&s.keyQuestions.length?s.keyQuestions
-      :(s.keyQuestion?[{question:s.keyQuestion}]:[]);
+    const kqs=(Array.isArray(s.keyQuestions)&&s.keyQuestions.length?s.keyQuestions
+      :(s.keyQuestion?[{question:s.keyQuestion}]:[])).slice(0,3);
     if(kqs.length){
       kqEl.innerHTML=`<div class="lore-card-hdr">Key Questions</div><div class="lore-keyq-list">`+
         kqs.map(q=>`<div class="lore-keyq-item"><div class="lore-keyq-icon">?</div><div><div class="lore-keyq-text">${esc(q.question||q)}</div>${q.updated?`<div class="lore-keyq-meta">updated ${esc(q.updated)}</div>`:''}</div></div>`).join('')+
@@ -6302,7 +6326,7 @@ function render(s){
       const head=document.createElement('div'); head.className='sqcard-head';
       const rank=(s.sideQuests||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).indexOf(q)+2;
       const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=rank;
-      const titleEl=document.createElement('div'); titleEl.className='sq-title-edit'; titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);'; titleEl.textContent=q.title||'';
+      const titleEl=document.createElement('div'); titleEl.className='sq-title-edit sqcard-name'; titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);'; titleEl.textContent=q.title||'';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
       const fi=document.createElement('div'); fi.className='sqcard-fill'; fi.style.width=pct+'%'; tr.appendChild(fi);
       const ps=document.createElement('div'); ps.className='sqcard-pct'; ps.textContent=pct+'%';
@@ -7161,7 +7185,7 @@ function updateInstructionsNotice(state){
   const iv=state._instructionsVersion||'';
   // Compare semver strings numerically (major.minor.patch)
   const semverNum = v => { const [a=0,b=0,c=0]=(v||'').split('.').map(Number); return a*10000+b*100+c; };
-  const outdated=(iv && semverNum(iv) < semverNum(INSTRUCTIONS_VERSION));
+  const outdated=(iv && semverNum(iv) < semverNum(INSTRUCTIONS_VERSION) && !IS_DEMO);
   const notice=document.getElementById('instructions-version-notice');
   if(notice) notice.style.display=outdated?'block':'none';
   const dot=document.getElementById('help-dot');
@@ -10062,7 +10086,7 @@ function checkForAppUpdateManual(btn){
         const raw=(typeof _pinActive!=='undefined'&&_pinActive)?null:localStorage.getItem('cs-state-v1');
         const state=raw?JSON.parse(raw):(typeof appState!=='undefined'?appState:null);
         const iv=state&&state._instructionsVersion||'';
-        if(iv && semverNum(iv)<semverNum(INSTRUCTIONS_VERSION)){
+        if(iv && semverNum(iv)<semverNum(INSTRUCTIONS_VERSION) && !IS_DEMO){
           if(result){ result.textContent=`Latest is v${INSTRUCTIONS_VERSION}, but your Claude instructions are v${iv}. Re-upload instructions.md to Claude -- warning clears after your next journal session.`; result.style.color='var(--gold)'; }
         } else {
           if(result){ result.textContent=`✓ Up to date (v${INSTRUCTIONS_VERSION})`; result.style.color='#3a8050'; }

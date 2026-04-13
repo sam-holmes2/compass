@@ -23,7 +23,7 @@ Follow these same steps whether you're setting up for the first time or updating
 3. **Upload `instructions.md` to project knowledge** - Project sidebar → Add content → Add files. Replace the old version if updating.
 4. **Paste the quickstart prompt** below and start talking.
 5. **At the end of your session, ask:** `"Update my data.json based on our conversation."`
-6. **Add `data.json` to project knowledge** - same as step 3. If you already have one there, remove it first, then upload the new one.
+6. **Add `data.json` to project knowledge** - same as step 3. (If updating: remove the old version first, then upload the new one.)
 7. **Import into the app** - open `character-sheet.html`, click `↑` (bottom right), paste the JSON, Import.
 
 ---

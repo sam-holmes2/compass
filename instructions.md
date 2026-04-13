@@ -429,7 +429,7 @@ Size limit: 20 achievements.
 What is this person avoiding, repeating, or not yet seeing — including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
 
 ## progression
-The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice — vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Update each session — this is the most important cold-start context for a future Claude reading the file.
+The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
 
 ## keyQuestions
 The top questions the user most needs to sit with, especially ones they seem to be avoiding. Store up to 3. Continually update as questions evolve or are resolved — replace resolved questions, refine active ones. Each has `asked` (date first raised) and `updated` (date last meaningfully refined).

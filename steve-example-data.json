@@ -6,7 +6,7 @@
     "the-organiser",
     "not-just-a-noob"
   ],
-  "_instructionsVersion": "1.4.0",
+  "_instructionsVersion": "1.5.0",
   "name": "Steve",
   "level": 4,
   "xp": 570,
@@ -18,7 +18,7 @@
   "mana": 55,
   "manaAvg": 61,
   "claudeRead": "Steve is one session away from the big attempt - preparation is done, date is set, Alex is in. The main risk has shifted from readiness to rest: showing up depleted for something that has been building all year. \"The Perfectionist\" made a last attempt to delay - it got named and the date held. That's new. The unresolved thing is sleep.",
-  "progression": "Started the year with nothing in place and no clear direction. Left the temporary setup behind in January. Began clearing the backlog - and something deeper too. By March the destination is identified and the first serious preparation has happened. By April everything is ready and the big attempt is being threatened for the first time - louder now, because the excuses are running out of room.",
+  "progression": "Steve started 2026 with very little in place: a temporary setup, no clear direction, and a backlog of unfinished things he had been carrying longer than he wanted to admit. The early sessions were about establishing a baseline - showing up, building the habits, not dying in the first month. Deep work, movement, and morning routine became the three anchors. They held. The graveyard began filling: Sunday Dread, The Hoarder, Twitter Spiral. Things that had run quietly in the background for years lost their cover once they had names.\n\nBy March, the destination was no longer vague. The End Portal was located. Preparation shifted from diffuse effort into something specific: gear sorted, bookshelves placed, date confirmed with Alex. The sessions started feeling different - more like contact with a real target than stockpiling against a formless threat. The Perfectionist made its move in early April, arguing for one more enchantment, one more delay. It got named and the date held. That was new.\n\nWhat is live now is less about readiness than rest. Everything is in place. The main unknown going into the attempt is whether Steve will show up to it depleted. Sleep is the deficit that has run under the surface all year - compensated for by motivation, masked by consistency, but still there. The attempt is in days. The pattern to watch is not avoidance but the quiet erosion that happens when pressure is high and recovery is last in line.",
   "statusSliders": {
     "focus": 72,
     "energy": 50,
@@ -74,107 +74,107 @@
   "harmonyHistory": [
     {
       "date": "2026-01-05",
-      "air": 42,
-      "fire": 12,
-      "water": 30,
-      "earth": 45,
-      "harmony": 40
+      "air": 38,
+      "fire": 14,
+      "water": 28,
+      "earth": 52,
+      "harmony": 36
     },
     {
       "date": "2026-01-12",
-      "air": 45,
-      "fire": 14,
-      "water": 32,
-      "earth": 47,
-      "harmony": 43
+      "air": 44,
+      "fire": 12,
+      "water": 25,
+      "earth": 48,
+      "harmony": 34
     },
     {
       "date": "2026-01-20",
-      "air": 48,
-      "fire": 13,
-      "water": 34,
-      "earth": 50,
-      "harmony": 44
+      "air": 50,
+      "fire": 10,
+      "water": 29,
+      "earth": 44,
+      "harmony": 35
     },
     {
       "date": "2026-01-28",
-      "air": 50,
-      "fire": 15,
-      "water": 36,
-      "earth": 52,
-      "harmony": 47
+      "air": 55,
+      "fire": 11,
+      "water": 34,
+      "earth": 50,
+      "harmony": 40
     },
     {
       "date": "2026-02-05",
-      "air": 46,
-      "fire": 11,
-      "water": 33,
-      "earth": 49,
-      "harmony": 41
+      "air": 58,
+      "fire": 13,
+      "water": 38,
+      "earth": 58,
+      "harmony": 45
     },
     {
       "date": "2026-02-12",
-      "air": 44,
+      "air": 54,
       "fire": 10,
-      "water": 30,
-      "earth": 47,
-      "harmony": 38
+      "water": 36,
+      "earth": 61,
+      "harmony": 42
     },
     {
       "date": "2026-02-19",
-      "air": 52,
-      "fire": 14,
-      "water": 38,
-      "earth": 53,
-      "harmony": 46
+      "air": 60,
+      "fire": 15,
+      "water": 42,
+      "earth": 64,
+      "harmony": 49
     },
     {
       "date": "2026-02-26",
-      "air": 58,
-      "fire": 17,
-      "water": 42,
-      "earth": 57,
-      "harmony": 51
+      "air": 65,
+      "fire": 16,
+      "water": 48,
+      "earth": 66,
+      "harmony": 54
     },
     {
       "date": "2026-03-05",
-      "air": 62,
+      "air": 68,
       "fire": 18,
-      "water": 46,
-      "earth": 60,
-      "harmony": 55
+      "water": 52,
+      "earth": 62,
+      "harmony": 56
     },
     {
       "date": "2026-03-12",
-      "air": 66,
+      "air": 72,
       "fire": 20,
-      "water": 50,
+      "water": 55,
+      "earth": 58,
+      "harmony": 58
+    },
+    {
+      "date": "2026-03-19",
+      "air": 74,
+      "fire": 19,
+      "water": 60,
       "earth": 62,
       "harmony": 59
     },
     {
-      "date": "2026-03-19",
-      "air": 70,
-      "fire": 21,
-      "water": 55,
-      "earth": 63,
+      "date": "2026-03-25",
+      "air": 76,
+      "fire": 22,
+      "water": 63,
+      "earth": 65,
       "harmony": 62
     },
     {
-      "date": "2026-03-25",
-      "air": 72,
-      "fire": 22,
-      "water": 58,
-      "earth": 64,
-      "harmony": 64
-    },
-    {
       "date": "2026-04-01",
-      "air": 74,
+      "air": 75,
       "fire": 24,
-      "water": 60,
-      "earth": 65,
-      "harmony": 66
+      "water": 62,
+      "earth": 66,
+      "harmony": 63
     },
     {
       "date": "2026-04-07",
@@ -182,15 +182,7 @@
       "fire": 55,
       "water": 68,
       "earth": 65,
-      "harmony": 88
-    },
-    {
-      "date": "2026-04-12",
-      "air": 72,
-      "fire": 55,
-      "water": 68,
-      "earth": 65,
-      "harmony": 65
+      "harmony": 87
     }
   ],
   "allies": [
@@ -697,13 +689,9 @@
       "score": 45,
       "trend": "down-slight"
     },
-    "rest": {
-      "score": 46,
-      "trend": "up"
-    },
     "movement": {
       "score": 89,
-      "trend": "up"
+      "trend": "up-strong"
     },
     "nutrition": {
       "score": 80,
@@ -711,14 +699,6 @@
     },
     "connection": {
       "score": 52,
-      "trend": "up-slight"
-    },
-    "career": {
-      "score": 48,
-      "trend": "up"
-    },
-    "finances": {
-      "score": 50,
       "trend": "up-slight"
     }
   },
@@ -767,7 +747,7 @@
   "classes": [
     {
       "id": "builder",
-      "title": "Builder",
+      "name": "Builder",
       "icon": "✦",
       "description": "Drawn to making structures. Finds meaning in the act of construction itself, not just the finished build.",
       "dateUnlocked": "Feb 2026",
@@ -775,11 +755,38 @@
     },
     {
       "id": "explorer",
-      "title": "Explorer",
+      "name": "Explorer",
       "icon": "◈",
       "description": "Biome-oriented and persistent when the biome actually matters. Learning to tell the difference between exploration and avoidance.",
       "dateUnlocked": "Jan 2026",
       "role": "Support"
+    }
+  ],
+  "keyQuestions": [
+    {
+      "question": "If the attempt goes badly, what story will you tell yourself - and is that story already written?",
+      "asked": "2026-04-06",
+      "updated": "2026-04-06"
+    },
+    {
+      "question": "What would it mean to show up rested rather than just prepared?",
+      "asked": "2026-04-06",
+      "updated": "2026-04-06"
+    },
+    {
+      "question": "When the obligation to others feels automatic, what is the cost you are not counting?",
+      "asked": "2026-03-12",
+      "updated": "2026-04-01"
+    }
+  ],
+  "openThreads": [
+    {
+      "thread": "Whether sleep deficit going into the attempt is being minimised or genuinely managed",
+      "whyItMatters": "Showing up depleted is a different kind of under-ready that preparation cannot fix"
+    },
+    {
+      "thread": "Whether Obligation Yes will resurface once the main quest pressure lifts",
+      "whyItMatters": "It stayed quiet during the prep phase - high focus may have masked it, not resolved it"
     }
   ],
   "insights": [
@@ -2022,12 +2029,5 @@
         "value": 6
       }
     ]
-  },
-  "keyQuestions": [
-    {
-      "question": "What would I attempt if I knew the fear of failure couldn't stop me?",
-      "asked": "",
-      "updated": ""
-    }
-  ]
+  }
 }
