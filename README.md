@@ -12,10 +12,10 @@ Chat with your AI, paste back the JSON, watch your character sheet update. No AI
 
 ---
 
+🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
+
 <img width="1642" height="1116" alt="image" src="https://github.com/user-attachments/assets/7a3d1196-b1cf-49fd-b1b4-be3e9d98f2d5" />
 
-
-🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
 
 ---
 
