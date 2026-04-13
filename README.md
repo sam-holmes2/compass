@@ -1,31 +1,33 @@
 # character-sheet
 
-**An RPG character sheet for your real life: earn XP and level up through understanding yourself and visualising your progress.**
-
-
-<screenshot todo>
-
-🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
-
 *The real value of character-sheet is the character you build away from it.*
 
 ---
 
-Most journalling disappears into a void. Insights get forgotten, negative patterns repeat and any progress feels invisible and underappreciated. 
-character-sheet turns self-reflection into an RPG. Earn XP for understanding yourself - skills developed, patterns named and achievements unlocked. 
-Simply chat with your AI, paste back the JSON, watch your character sheet update and feel yourself level up. 
+Most journalling disappears into a void. Insights get forgotten, negative patterns repeat, and any progress feels invisible.
+
+character-sheet turns self-reflection into an RPG. Earn XP for understanding yourself — skills developed, patterns named, and achievements unlocked.
+
+Chat with your AI, paste back the JSON, watch your character sheet update. No AI? Edit fields directly — it works fully standalone too.
+
+---
+
+<img width="1642" height="1116" alt="image" src="https://github.com/user-attachments/assets/7a3d1196-b1cf-49fd-b1b4-be3e9d98f2d5" />
 
 
-🔒 **Private by default.** Essentially just a single .html file and some JSON with no server, no accounts, no telemetry. You retain control over all of your data. If you use an AI to journal, check your provider's privacy settings. Local models like [Ollama](https://ollama.com) can be used for offline AI journalling. [Full security details ↓](#privacy-and-security)
+🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
 
-🤖 Works with any AI — Claude, ChatGPT, Gemini, or any local model. Prefer no AI? Edit fields directly in the app and export your data. 
+---
+
+🔒 **Private by default.** A single `.html` file and some JSON — no server, no accounts, no telemetry. Your data stays on your machine. If you use an AI to journal, check your provider's privacy settings. Local models like [Ollama](https://ollama.com) work for fully offline journalling. [Full security details ↓](#privacy-and-security)
+
+🤖 **Works with any AI** — Claude, ChatGPT, Gemini, or any local model. Prefer no AI? Edit fields directly in the app and export your data.
 
 🚧 **Early work in progress.** All feedback welcome: [open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
 ---
 
 ## Setup or update
-
 Follow these same steps whether you're setting up for the first time or updating to a new version after significant changes. To check for updates, go to Help → Check for updates within the app. 
 
 [OPTIONAL] **AI-enhanced workflow:** pair the app with an AI that has persistent project context (e.g. Claude Projects) for the full journalling experience. 
