@@ -544,6 +544,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .settings-status { font-size:15px; color:var(--text-dim); margin-top:6px; min-height:18px; }
 .settings-status.ok  { color:#3a8050; }
 .settings-status.err { color:#903030; }
+.settings-danger-zone { border-top:1px solid rgba(200,60,60,0.25); padding-top:16px; margin-top:4px; }
+.settings-danger-label { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; color:#c84040; text-transform:uppercase; margin-bottom:8px; }
+#reset-confirm-row { display:none; margin-top:10px; padding:12px 14px; background:rgba(200,60,60,0.08); border:1px solid rgba(200,60,60,0.3); border-radius:8px; }
+#reset-undo-banner { display:none; position:fixed; top:0; left:0; right:0; z-index:500; background:rgba(180,60,30,0.95); color:#fff; font-size:14px; padding:10px 16px; text-align:center; align-items:center; justify-content:center; gap:12px; }
+#reset-undo-banner.visible { display:flex; }
+#reset-undo-banner button { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.4); color:#fff; border-radius:5px; cursor:pointer; font-size:13px; padding:3px 12px; white-space:nowrap; }
+#reset-undo-banner button:hover { background:rgba(255,255,255,0.25); }
 
 /* ══ FLOAT + MODAL ═══════════════════════════════════════ */
 .float-btn {
@@ -1070,6 +1077,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .enemy-priority-badge {
   font-family:var(--mono); font-size:14px; font-weight:700; color:var(--text-dim); flex-shrink:0;
   min-width:24px; text-align:center; opacity:0.5; letter-spacing:0.02em;
+}
+.enemy-rank {
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:'Cinzel',serif; font-weight:900; font-size:14px; line-height:1;
+  color:#f0c0c0;
+  background:linear-gradient(135deg, #8b1a1a 0%, #6b0f0f 50%, #3d0808 100%);
+  width:22px; height:22px; flex-shrink:0; margin-right:8px;
+  clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow:0 2px 6px rgba(0,0,0,0.55), 0 0 8px rgba(180,30,30,0.3), inset 0 1px 1px rgba(255,255,255,0.1);
+  text-shadow:0 1px 2px rgba(0,0,0,0.6);
+  vertical-align:middle;
 }
 .grave-card { border:1px solid var(--border); border-radius:5px; overflow:hidden; margin-bottom:5px; }
 .grave-card-head { display:flex; align-items:center; gap:12px; padding:9px 14px; cursor:pointer; user-select:none; position:relative; }
@@ -2046,7 +2064,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   /* ── Enemy/ally/boss heads: badge+name on line 1, rest wrap below ── */
   .enemy-card-head { flex-wrap:wrap; gap:4px 8px; }
-  .enemy-priority-badge { order:0; flex-shrink:0; }
+  .enemy-priority-badge, .enemy-rank { order:0; flex-shrink:0; }
   .enemy-card-name { order:1; flex:1 1 0; min-width:0; font-size:15px; }
   /* secondary items wrap to next line */
   .enemy-type-tag { order:10; }
@@ -3165,6 +3183,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 </div>
 
+<!-- ══ RESET UNDO BANNER ════════════════════════════════════ -->
+<div id="reset-undo-banner">
+  <span>All data was reset.</span>
+  <button onclick="undoReset()">Undo reset</button>
+  <button onclick="document.getElementById('reset-undo-banner').classList.remove('visible');localStorage.removeItem('cs-reset-undo-v1')" style="background:none;border:none;opacity:0.6;font-size:18px;padding:0 4px;">×</button>
+</div>
+
 <!-- ══ SETTINGS MODAL ══════════════════════════════════════ -->
 <div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettingsModal()">
   <div class="modal" style="border-top:3px solid rgba(200,168,74,0.4);position:relative;">
@@ -3207,6 +3232,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <option value="30">30 minutes</option>
         <option value="60">1 hour</option>
       </select>
+    </div>
+
+    <div class="settings-danger-zone">
+      <div class="settings-danger-label">Danger Zone</div>
+      <button class="btn-ghost" style="color:#c84040;border-color:rgba(200,60,60,0.4);" onclick="showResetConfirm()">Reset all data...</button>
+      <div id="reset-confirm-row">
+        <p style="font-size:14px;color:#e07070;margin:0 0 10px;line-height:1.5;">This deletes everything: your character, quests, skills, history, and settings. An undo option will appear for 60 seconds after reset.</p>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <button class="btn-ghost" style="color:#c84040;border-color:rgba(200,60,60,0.6);font-size:13px;" onclick="confirmResetAllData()">Yes, delete everything</button>
+          <button class="btn-ghost" style="font-size:13px;" onclick="hideResetConfirm()">Cancel</button>
+        </div>
+      </div>
     </div>
 
     <div class="modal-row" style="margin-top:6px;">
@@ -4697,7 +4734,7 @@ function toggleLock(dotPath){
   document.querySelectorAll(`.lock-btn[data-lock-path="${CSS.escape(dotPath)}"]`).forEach(btn=>{
     const locked=isLocked(dotPath);
     btn.classList.toggle('locked',locked);
-    btn.title=locked?'Protected: Claude will not overwrite this field on import. Click to unprotect.':'Protect this field so Claude cannot overwrite it during journalling.';
+    btn.title=locked?'Protected: your AI will not overwrite this field on import. Click to unprotect.':'Protect this field so your AI cannot overwrite it during journalling.';
     btn.textContent=locked?'🛡':'⊙';
   });
 }
@@ -4706,7 +4743,7 @@ function makeLockBtn(dotPath){
   const btn=document.createElement('button');
   btn.className='lock-btn'+(locked?' locked':'');
   btn.dataset.lockPath=dotPath;
-  btn.title=locked?'Protected: Claude will not overwrite this field on import. Click to unprotect.':'Protect this field so Claude cannot overwrite it during journalling.';
+  btn.title=locked?'Protected: your AI will not overwrite this field on import. Click to unprotect.':'Protect this field so your AI cannot overwrite it during journalling.';
   btn.textContent=locked?'🛡':'⊙';
   btn.addEventListener('click',e=>{ e.stopPropagation(); e.preventDefault(); toggleLock(dotPath); });
   return btn;
@@ -5260,7 +5297,7 @@ function renderEnemiesTab(s){
     };
 
     // Helper: render a single enemy card
-    function renderEnemyCard(e, ci, isBossSubEnemy){
+    function renderEnemyCard(e, ci, isBossSubEnemy, rankNum){
       const isBoss=e._srcType==='boss';
       const tc=TYPES[e.type]||DEFAULT_TC;
       const bodyId=`be-body-${ci}`,arrowId=`be-arrow-${ci}`;
@@ -5274,9 +5311,9 @@ function renderEnemiesTab(s){
       head.style.background=`rgba(${borderRgb},0.04)`;
       head.addEventListener('mouseenter',()=>{ head.style.background=`rgba(${borderRgb},0.08)`; });
       head.addEventListener('mouseleave',()=>{ head.style.background=`rgba(${borderRgb},0.04)`; });
-      if(!isBossSubEnemy && !isBoss){
-        const rankBadge=document.createElement('span'); rankBadge.className='enemy-priority-badge';
-        rankBadge.textContent=ci+1;
+      if(rankNum != null){
+        const rankBadge=document.createElement('span'); rankBadge.className='enemy-rank';
+        rankBadge.textContent=rankNum;
         head.appendChild(rankBadge);
       }
       const nameColor=isBoss?'#c84040':tc.nameColor;
@@ -5428,7 +5465,7 @@ function renderEnemiesTab(s){
       enemiesEl.appendChild(bossesContainer);
       bosses.forEach((boss,bi)=>{
         const bossGroup=document.createElement('div'); bossGroup.className='boss-group';
-        const bossCard=renderEnemyCard({...boss, _srcType:'boss', _idx:bi}, bi, false);
+        const bossCard=renderEnemyCard({...boss, _srcType:'boss', _idx:bi}, bi, false, typeof boss.priority==='number'?boss.priority:bi+1);
         bossGroup.appendChild(bossCard);
         // Sub-enemies
         const subs=(boss.minions||[]);
@@ -5439,7 +5476,7 @@ function renderEnemiesTab(s){
           subsContainer.className='no-drag';
           bossGroup.appendChild(subsContainer);
           subs.forEach((sub,si)=>{
-            const subCard=renderEnemyCard({...sub, _srcType:'boss-sub', _bossIdx:bi, _idx:si}, bi*100+si+1000, true);
+            const subCard=renderEnemyCard({...sub, _srcType:'boss-sub', _bossIdx:bi, _idx:si}, bi*100+si+1000, true, si+1);
             subsContainer.appendChild(subCard);
           });
           makeSortable(subsContainer, (from, to) => {
@@ -5488,7 +5525,7 @@ function renderEnemiesTab(s){
       const restDesc=document.createElement('div'); restDesc.className='section-desc'; restDesc.textContent='Maybe independent, or minions for an existing or future boss?';
       enemiesEl.appendChild(restDesc);
       all.forEach((e,ci)=>{
-        enemiesEl.appendChild(renderEnemyCard(e, ci, false));
+        enemiesEl.appendChild(renderEnemyCard(e, ci, false, typeof e.priority==='number'?e.priority:ci+1));
       });
     }
     const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Enemy'; addBtn.onclick=addEnemy;
@@ -10457,11 +10494,102 @@ function openSettingsModal(){
   const sel = document.getElementById('settings-timeout-select');
   const t = _getLockTimeout();
   [...sel.options].forEach(o=>o.selected=(parseInt(o.value)===t));
+  hideResetConfirm();
   document.getElementById('settings-modal').classList.add('open');
 }
 
 function closeSettingsModal(){
+  hideResetConfirm();
   document.getElementById('settings-modal').classList.remove('open');
+}
+
+function showResetConfirm(){
+  document.getElementById('reset-confirm-row').style.display='';
+}
+function hideResetConfirm(){
+  document.getElementById('reset-confirm-row').style.display='none';
+}
+
+function confirmResetAllData(){
+  if(IS_DEMO) return;
+  // Save full snapshot for undo
+  try{
+    const snap = {
+      state: appState,
+      _ts: Date.now()
+    };
+    // Include all secondary keys
+    const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
+                   'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1',
+                   'cs-hdr-icon-v1','cs-welcomed-v1','cs-starters-seen-v1'];
+    for(const k of fixed){
+      const v = localStorage.getItem(k);
+      if(v !== null) snap[k] = v;
+    }
+    const rq = {};
+    for(let i = 0; i < localStorage.length; i++){
+      const k = localStorage.key(i);
+      if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-'))) rq[k] = localStorage.getItem(k);
+    }
+    snap._rq = rq;
+    if(_hasPIN()){
+      const encVal = localStorage.getItem('cs-enc-v1');
+      if(encVal) snap['cs-enc-v1'] = encVal;
+      snap['cs-pin-check-v1'] = localStorage.getItem('cs-pin-check-v1');
+      snap['cs-pin-timeout-v1'] = localStorage.getItem('cs-pin-timeout-v1');
+    }
+    localStorage.setItem('cs-reset-undo-v1', JSON.stringify(snap));
+  } catch(e){ console.error('Reset snapshot failed', e); }
+
+  // Clear everything except the undo snapshot
+  const keysToRemove = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k !== 'cs-reset-undo-v1') keysToRemove.push(k);
+  }
+  for(const k of keysToRemove) localStorage.removeItem(k);
+
+  location.reload();
+}
+
+function undoReset(){
+  try{
+    const raw = localStorage.getItem('cs-reset-undo-v1');
+    if(!raw) return;
+    const snap = JSON.parse(raw);
+    localStorage.removeItem('cs-reset-undo-v1');
+    if(snap.state) localStorage.setItem('cs-state-v1', JSON.stringify(snap.state));
+    const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
+                   'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1',
+                   'cs-hdr-icon-v1','cs-welcomed-v1','cs-starters-seen-v1',
+                   'cs-enc-v1','cs-pin-check-v1','cs-pin-timeout-v1'];
+    for(const k of fixed){
+      if(snap[k] != null) localStorage.setItem(k, snap[k]);
+    }
+    if(snap._rq){
+      for(const [k,v] of Object.entries(snap._rq)){
+        if(k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-')) localStorage.setItem(k, v);
+      }
+    }
+    location.reload();
+  } catch(e){ console.error('Undo reset failed', e); }
+}
+
+let _resetUndoBannerTimer = null;
+function maybeShowResetUndoBanner(){
+  const raw = localStorage.getItem('cs-reset-undo-v1');
+  if(!raw) return;
+  let snap;
+  try{ snap = JSON.parse(raw); } catch{ return; }
+  const age = Date.now() - (snap._ts || 0);
+  const remaining = 60000 - age;
+  if(remaining <= 0){ localStorage.removeItem('cs-reset-undo-v1'); return; }
+  const banner = document.getElementById('reset-undo-banner');
+  if(banner) banner.classList.add('visible');
+  _resetUndoBannerTimer = setTimeout(()=>{
+    if(banner) banner.classList.remove('visible');
+    localStorage.removeItem('cs-reset-undo-v1');
+  }, remaining);
 }
 
 function _setSettingsStatus(msg, type){
@@ -10580,6 +10708,7 @@ function _init(){
   updateCombatNavArc();
   window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
   _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
+  maybeShowResetUndoBanner();
 }
 
 // Steve demo data is fetched on github.io; local opens start blank.
