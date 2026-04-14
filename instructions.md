@@ -168,11 +168,14 @@ Always include all four in every partial update once first set.
 
 # Elements (Balance tab)
 
-Score each element 0–100 each session based on what was discussed. Write a `sliderLabel` (max 80 chars) naming both what is working and what is not. A high score should still name the shadow; a low score should still name what is holding.
+Score each element 0–100 each session based on what was discussed. Treat each session as a fresh read — do not anchor to prior scores. A session with clear breakthroughs in awareness scores high Air regardless of what Air was last time. Write a `sliderLabel` (max 80 chars) naming both what is working and what is not. A high score should still name the shadow; a low score should still name what is holding.
+
+Also output `airAvg`, `fireAvg`, `waterAvg`, `earthAvg` — all-time running averages nudged slightly toward the current session score. Formula: `newAvg = round((oldAvg + (current - oldAvg) / sessionCount) * 10) / 10`. If no prior avg exists, seed it from the current score. These move slowly and reflect sustained baseline, not a single session.
 
 Tiers: 0-24=1 · 25-49=2 · 50-74=3 · 75-99=4 · 100=5
 
 `"air": { "score": 76, "sliderLabel": "..." }`
+`"airAvg": 68.4`
 
 | Element | Theme | Enemy type | Ally type |
 |---|---|---|---|
@@ -329,7 +332,7 @@ Negative patterns, beliefs, habits, and reflexes working against the user. Four 
     }
   ],
   "current": [
-    { "name": "PRODUCTIVE AVOIDANCE", "type": "compulsion", "desc": "...", "trigger": "...", "shortTermBenefit": "...", "origin": "...", "hp": 70, "priority": 1, "xpReward": 150 }
+    { "name": "PRODUCTIVE AVOIDANCE", "type": "compulsion", "desc": "...", "shortTermBenefit": "...", "origin": "...", "hp": 70, "priority": 1, "xpReward": 150 }
   ],
   "graveyard": [
     { "name": "SUNDAY DREAD", "defeatedDate": "Jan 2026", "howDefeated": "..." }
@@ -432,7 +435,7 @@ What is this person avoiding, repeating, or not yet seeing — including what th
 The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
 
 ## keyQuestions
-The top questions the user most needs to sit with, especially ones they seem to be avoiding. Store up to 3. Continually update as questions evolve or are resolved — replace resolved questions, refine active ones. Each has `asked` (date first raised) and `updated` (date last meaningfully refined).
+The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture — patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has `asked` (date first raised) and `updated` (date last meaningfully refined).
 
 ```json
 "keyQuestions": [
@@ -496,7 +499,7 @@ All bullets must pass the stranger test — a reader with no prior context must 
 | `activity` / `skill` / `achievement` / `class` `.description` | 25 words |
 | `ally.desc` / `why` / `corruption` / `value` / `need` `.description` | 20 words |
 | `doneWhen` / `nextStep` / `howResolved` / `shortTermBenefit` / `origin` | 20 words |
-| `limitingBelief.belief` / enemy `trigger` | 15 words |
+| `limitingBelief.belief` | 15 words |
 | `sliderLabel` | 80 chars |
 | `keyQuestions[].question` | 30 words |
 | `openThreads[].thread` / `whyItMatters` | 25 words each |

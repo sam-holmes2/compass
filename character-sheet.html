@@ -61,6 +61,9 @@ body {
 
 /* ══ TAB NAV ══════════════════════════════════════════════ */
 .tab-nav { display:flex; justify-content:center; border-bottom:1px solid var(--border-hi); margin-bottom:24px; }
+.app-footer { text-align:center; padding:18px 16px; margin-top:32px; border-top:1px solid var(--border); font-size:13px; color:var(--text-dim); opacity:0.65; }
+.app-footer a { color:var(--text-dim); text-decoration:underline; text-underline-offset:3px; }
+.app-footer a:hover { opacity:1; color:#a0a8c0; }
 .tab-btn {
   background:none; border:none; border-bottom:2px solid transparent;
   color:var(--text-dim); font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.16em;
@@ -384,9 +387,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .editable:focus { background:rgba(255,255,255,0.06); box-shadow:0 0 0 1px var(--border-hi); }
 .editable[data-placeholder]:empty::before { content:attr(data-placeholder); color:var(--text-dim); font-style:italic; pointer-events:none; }
 /* ── Field lock ── */
-.lock-btn { display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; padding:2px 3px; border-radius:3px; font-size:13px; line-height:1; opacity:0; transition:opacity 0.15s, color 0.15s; flex-shrink:0; color:var(--text-dim); vertical-align:middle; }
-.lock-btn:hover { opacity:1 !important; color:var(--gold); }
-.lock-btn.locked { opacity:0.75; color:#c8a84a; }
+.lock-btn { display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; padding:2px 3px; border-radius:3px; font-size:11px; line-height:1; opacity:0; transition:opacity 0.15s, color 0.15s; flex-shrink:0; color:var(--text-dim); vertical-align:middle; }
+.lock-btn:hover { opacity:1 !important; color:#5ab8a0; }
+.lock-btn.locked { opacity:0.8; color:#4aaa8a; font-size:13px; }
 .lock-wrap { display:inline-flex; align-items:center; gap:4px; }
 .lock-wrap:hover .lock-btn:not(.locked) { opacity:0.4; }
 /* card-level lock wrap (block layout) */
@@ -429,6 +432,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* ══ RANKED ITEMS (values / needs) ══════════════════════ */
 .ranked-item { display:flex; align-items:flex-start; gap:10px; padding:5px 0; border-bottom:1px solid var(--border); }
 .ranked-item:last-child { border-bottom:none; }
+.ranked-item:hover .lock-btn:not(.locked) { opacity:0.4; }
 .ranked-num  { font-family:var(--mono); font-size:15px; color:var(--text-dim); padding-top:2px; flex-shrink:0; width:22px; }
 .ranked-name { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.08em; color:var(--text-b); margin-bottom:1px; }
 .ranked-desc { font-size:17px; color:var(--text-mid); line-height:1.4; }
@@ -639,6 +643,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .skill-card-head:hover .card-head-del,
 .enemy-card-head:hover .card-head-del,
 .practice-card-hdr:hover .card-head-del { opacity:1; }
+.mqcard-trigger:hover .lock-btn:not(.locked),
+.sqcard-head:hover .lock-btn:not(.locked),
+.skill-card-head:hover .lock-btn:not(.locked),
+.enemy-card-head:hover .lock-btn:not(.locked),
+.practice-card-hdr:hover .lock-btn:not(.locked),
+.chapter-group-head:hover .lock-btn:not(.locked) { opacity:0.4; }
 .quest-reopen-btn { background:none; border:none; cursor:pointer; padding:3px 4px; color:var(--text-dim); opacity:0; transition:opacity 0.15s,color 0.15s; flex-shrink:0; display:flex; align-items:center; }
 .quest-reopen-btn:hover { color:#4aaa72; opacity:1 !important; }
 .cqcard-head:hover .quest-reopen-btn { opacity:0.55; }
@@ -1092,6 +1102,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   cursor:pointer;
 }
 .ach-card-row:hover .card-head-del { opacity:1; }
+.ach-card-row:hover .lock-btn:not(.locked) { opacity:0.4; }
 .ach-card:hover { border-color:rgba(200,168,74,0.35); background:rgba(200,168,74,0.06); }
 .ach-card.featured { border-color:rgba(200,168,74,0.6); background:rgba(200,168,74,0.08); box-shadow:0 0 0 1px rgba(200,168,74,0.25), 0 0 16px rgba(200,168,74,0.12); }
 .ach-card-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
@@ -1170,6 +1181,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .cls-card:hover .ally-delete { opacity:1; }
 .cls-card.featured { border-color:rgba(144,96,192,0.6); background:rgba(96,64,160,0.1); box-shadow:0 0 0 1px rgba(144,96,192,0.25), 0 0 16px rgba(144,96,192,0.12); }
 .cls-card-row { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.cls-card-row:hover .lock-btn:not(.locked) { opacity:0.4; }
 .cls-card-icon { font-size:18px; flex-shrink:0; cursor:pointer; border-radius:4px; padding:1px 3px; transition:background 0.15s; }
 .cls-card-icon:hover { background:rgba(255,255,255,0.08); }
 .cls-card-title { font-family:'Cinzel',serif; font-size:17px; color:#b080e8; letter-spacing:0.06em; flex:1; }
@@ -2337,7 +2349,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div class="modal">
     <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
     <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Edit fields directly in the app, or journal with an AI that updates your data for you.</p>
-    <p style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>Privacy note:</strong> your data is stored only in this browser. Keep a regular export as a backup. If you journal with an AI (Claude, ChatGPT, etc.), that provider may store what you share with them.</p>
+    <div style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">
+      <strong>⚠ Privacy note:</strong>
+      <ul style="margin:6px 0 0 0;padding-left:18px;list-style:disc;">
+        <li>Your data is stored only in this browser. No server, no accounts, no telemetry.</li>
+        <li>Export regularly and store your <code style="font-size:12px;">data.json</code> somewhere safe (encrypted folder, password manager attachment, or offline drive). It's your private diary.</li>
+        <li>If you journal with an AI (Claude, ChatGPT, etc.), your provider may store, review, or use what you share for training. Check your provider's privacy settings and turn off data retention / training opt-in if available.</li>
+        <li>For full privacy, use a local model like <a href="https://ollama.com" target="_blank" style="color:#c84040;">Ollama</a> and paste its output manually. Nothing leaves your machine.</li>
+      </ul>
+    </div>
     <div class="welcome-options">
       <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup('manual')">Fill in manually</button>
       <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">Set up with AI</button>
@@ -2431,7 +2451,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ HARMONY CARD ══ -->
 <div class="balance-el-card" style="margin-bottom:14px">
   <div class="balance-el-card-hdr">Harmony</div>
-  <div class="balance-el-card-desc">Balance between your mastery over awareness, actions, beliefs and desires.</div>
+  <div class="balance-el-card-desc">All-time average mastery across awareness, actions, beliefs and desires. Each session adds a fresh read; the bars and radar show the running average.</div>
   <div class="balance-el-card-body">
     <!-- Col 1: Over Time chart + legend to the right -->
     <div class="harmony-chart-col">
@@ -2451,9 +2471,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="balance-el-radar-row">
       <div class="balance-el-radar-meta">
         <div class="balance-radar-legend">
-          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Latest</div>
-          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>7-day avg</div>
-          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>All-time avg</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Current avg</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-week"></span>Previous session</div>
+          <div class="balance-radar-legend-item"><span class="brl-line brl-month"></span>Starting point</div>
         </div>
       </div>
       <svg id="radar-svg" viewBox="-90 -94 180 196" xmlns="http://www.w3.org/2000/svg" class="balance-el-radar-svg">
@@ -2478,14 +2498,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       </svg>
       <div class="balance-harmony-trio">
         <div class="bht-cell">
-          <span class="bht-tooltip">Your harmony score when you<br>first started journalling.</span>
+          <span class="bht-tooltip">Your average total mastery when you first started journalling. Max 400.</span>
           <div class="bht-num" id="balance-harmony-initial">—</div>
           <div class="balance-harmony-lbl">Initial</div>
         </div>
         <div class="bht-cell">
-          <span class="bht-tooltip">100% when all four elements are equal.<br>Drops when one dimension is overpowering others.</span>
+          <span class="bht-tooltip">Your current all-time average total mastery across all four elements. Max 400.</span>
           <div class="bht-num bht-now" id="balance-harmony-now">—</div>
-          <div class="balance-harmony-lbl">Latest</div>
+          <div class="balance-harmony-lbl">Avg Total</div>
         </div>
       </div>
     </div>
@@ -2513,11 +2533,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <div class="el-body open">
     <div style="margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:12px;">
-      <div class="lbl" id="balance-progression-lbl">Progression Timeline</div>
-      <div class="section-desc">Summary of your entire progression so far since you started journalling with character-sheet</div>
+      <div class="lbl">Last Session</div>
+      <div class="section-desc">Summary of the latest events, insights and unresolved tensions from your latest journalling session</div>
       <div class="claude-read-card" id="air-claude-read">No read yet.</div>
       <div id="air-progression" style="display:none;margin-top:12px;">
-        <div id="air-progression-hdr" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:#3aacac;text-transform:uppercase;margin-bottom:7px;">Last Session</div>
+        <div id="air-progression-hdr" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:#3aacac;text-transform:uppercase;margin-bottom:7px;">Progression Timeline</div>
         <div id="air-progression-text" style="font-size:17px;color:var(--text-mid);line-height:1.65;"></div>
       </div>
     </div>
@@ -2898,7 +2918,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div id="lore-last-session-text" class="lore-card-body"></div>
   </div>
 
-  <div id="lore-key-questions" class="lore-card lore-card--keyqs" style="display:none;"></div>
+  <div id="lore-key-questions" class="lore-card lore-card--keyqs"></div>
 
   <div id="lore-open-threads" class="lore-card lore-card--threads" style="display:none;"></div>
 
@@ -3765,15 +3785,37 @@ function calcHarmony(sv){
 }
 
 // Append a snapshot to harmonyHistory on import (called from applyUpdate)
+// Also updates airAvg/fireAvg/waterAvg/earthAvg via Bayesian nudge.
 function snapshotHarmony(state){
   const sv=resolveElementScores(state);
-  const entry={date:todayStr(),air:sv.air||0,fire:sv.fire||0,water:sv.water||0,earth:sv.earth||0,harmony:calcHarmony(sv)};
+  const entry={date:todayStr(),air:sv.air||0,fire:sv.fire||0,water:sv.water||0,earth:sv.earth||0};
   if(!state.harmonyHistory) state.harmonyHistory=[];
   // Don't duplicate same-day entry — replace instead
   const idx=state.harmonyHistory.findIndex(h=>h.date===entry.date);
   if(idx>=0) state.harmonyHistory[idx]=entry; else state.harmonyHistory.push(entry);
   // Cap at 200 entries
   if(state.harmonyHistory.length>200) state.harmonyHistory=state.harmonyHistory.slice(-200);
+
+  // Update all-time averages via Bayesian nudge: avg += (current - avg) / n
+  // n = total sessions recorded (min 1). Weight shrinks as history grows, never abrupt.
+  const n=Math.max(1, state.harmonyHistory.length);
+  const ELEMS=['air','fire','water','earth'];
+  ELEMS.forEach(el=>{
+    const key=el+'Avg';
+    const prev=state[key];
+    if(prev==null){
+      state[key]=sv[el]||0;
+    } else {
+      state[key]=Math.round((prev+(((sv[el]||0)-prev)/n))*10)/10;
+    }
+  });
+
+  // Snapshot the updated averages into avgHistory for radar ghost polygons (app-managed, never output by Claude)
+  if(!state.avgHistory) state.avgHistory=[];
+  const avgEntry={date:todayStr(),air:state.airAvg||0,fire:state.fireAvg||0,water:state.waterAvg||0,earth:state.earthAvg||0};
+  const avgIdx=state.avgHistory.findIndex(h=>h.date===avgEntry.date);
+  if(avgIdx>=0) state.avgHistory[avgIdx]=avgEntry; else state.avgHistory.push(avgEntry);
+  if(state.avgHistory.length>200) state.avgHistory=state.avgHistory.slice(-200);
 }
 
 // ══ BALANCE RADAR (with ghosts) ══════════════════════════════
@@ -3785,45 +3827,53 @@ function radarPts(sv, R){
 
 function updateRadarWithGhosts(state){
   const R=60;
-  const sv=resolveElementScores(state);
-  // Current
-  const pts=radarPts(sv,R);
+  // Radar shows all-time averages, not session scores
+  const cur={
+    air:  state.airAvg  != null ? state.airAvg  : (resolveElementScores(state).air  || 0),
+    fire: state.fireAvg != null ? state.fireAvg : (resolveElementScores(state).fire || 0),
+    water:state.waterAvg!= null ? state.waterAvg: (resolveElementScores(state).water|| 0),
+    earth:state.earthAvg!= null ? state.earthAvg: (resolveElementScores(state).earth|| 0),
+  };
+  const pts=radarPts(cur,R);
   const fill=document.getElementById('radar-fill'); if(fill) fill.setAttribute('points',pts);
   const stroke=document.getElementById('radar-stroke'); if(stroke) stroke.setAttribute('points',pts);
-  document.getElementById('r-air')  ?.setAttribute('cy', (-R*(sv.air||0)/100).toFixed(1));
-  document.getElementById('r-fire') ?.setAttribute('cx', ( R*(sv.fire||0)/100).toFixed(1));
-  document.getElementById('r-water')?.setAttribute('cy', ( R*(sv.water||0)/100).toFixed(1));
-  document.getElementById('r-earth')?.setAttribute('cx', (-R*(sv.earth||0)/100).toFixed(1));
+  document.getElementById('r-air')  ?.setAttribute('cy', (-R*(cur.air  /100)).toFixed(1));
+  document.getElementById('r-fire') ?.setAttribute('cx', ( R*(cur.fire /100)).toFixed(1));
+  document.getElementById('r-water')?.setAttribute('cy', ( R*(cur.water/100)).toFixed(1));
+  document.getElementById('r-earth')?.setAttribute('cx', (-R*(cur.earth/100)).toFixed(1));
 
-  // Ghosts from harmonyHistory: 7-day avg and all-time avg
-  const hist=state.harmonyHistory||[];
-  const now=new Date(todayStr());
-  function avgSnapshot(entries){ // average a set of snapshots into one pseudo-snapshot
-    if(!entries.length) return null;
-    const keys=['air','fire','water','earth'];
-    const out={};
-    keys.forEach(k=>{ out[k]=entries.reduce((s,h)=>s+(h[k]||0),0)/entries.length; });
-    return out;
-  }
-  const cutoff7=new Date(now); cutoff7.setDate(cutoff7.getDate()-7);
-  const last7=hist.filter(h=>new Date(h.date)>=cutoff7);
-  const weekAvg=avgSnapshot(last7.length?last7:hist.slice(-1)); // fallback to latest if <7d data
-  const allAvg=avgSnapshot(hist);
+  // Ghost polygons from avgHistory (snapshots of the running average at each import)
+  // ghost-week = previous session avg (second-to-last entry)
+  // ghost-month = earliest avg entry (shows where you started)
+  const avgHist=(state.avgHistory||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
   const gw=document.getElementById('radar-ghost-week');
   const gm=document.getElementById('radar-ghost-month');
-  if(gw) gw.setAttribute('points', weekAvg ? radarPts(weekAvg, R) : '');
-  if(gm) gm.setAttribute('points', allAvg  ? radarPts(allAvg, R)  : '');
+  if(avgHist.length>=2){
+    const prev=avgHist[avgHist.length-2]; // last session's avg
+    if(gw) gw.setAttribute('points', radarPts(prev,R));
+  } else {
+    if(gw) gw.setAttribute('points','');
+  }
+  if(avgHist.length>=1){
+    const earliest=avgHist[0]; // all-time starting point
+    if(gm) gm.setAttribute('points', radarPts(earliest,R));
+  } else {
+    if(gm) gm.setAttribute('points','');
+  }
 
-  // Harmony: initial / now
-  const nowScore=calcHarmony(sv);
+  // Avg mastery display: current avg total and initial avg total
   const harmNow=document.getElementById('balance-harmony-now');
-  if(harmNow) harmNow.textContent=nowScore+'%';
-
-  const sorted=hist.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  if(harmNow){
+    const total=Math.round(cur.air+cur.fire+cur.water+cur.earth);
+    harmNow.textContent=total;
+  }
   const harmInit=document.getElementById('balance-harmony-initial');
-  if(harmInit) harmInit.textContent=sorted.length ? sorted[0].harmony+'%' : '—';
-
-
+  if(harmInit){
+    if(avgHist.length){
+      const e=avgHist[0];
+      harmInit.textContent=Math.round((e.air||0)+(e.fire||0)+(e.water||0)+(e.earth||0));
+    } else { harmInit.textContent='—'; }
+  }
 }
 
 // ══ HARMONY STACKED BAR CHART ═══════════════════════════════
@@ -4294,7 +4344,7 @@ function buildBalanceIcon(sv){
 function updateNavCounts(s){
   const sv=resolveElementScores(s);
   const biEl=document.getElementById('nav-balance-icon'); if(biEl) biEl.innerHTML=buildBalanceIcon(sv);
-  const qEl=document.getElementById('nav-quests'); if(qEl) qEl.textContent=(s.sideQuests||DEFAULT.sideQuests).length;
+  const qEl=document.getElementById('nav-quests'); if(qEl) qEl.textContent=(s.mainQuest?1:0)+(s.sideQuests||DEFAULT.sideQuests).length;
   const cEl=document.getElementById('nav-lore'); if(cEl){ const chs=s.insights||DEFAULT.insights||[]; cEl.textContent=s.sessionCount!=null?s.sessionCount:chs.reduce((n,c)=>n+(c.entries||[]).length,0); }
   const skEl=document.getElementById('nav-skills'); if(skEl) skEl.textContent=(s.skills||DEFAULT.skills||[]).length;
   const alEl=document.getElementById('nav-allies'); if(alEl) alEl.textContent=(s.allies||DEFAULT.allies||[]).length;
@@ -4647,8 +4697,8 @@ function toggleLock(dotPath){
   document.querySelectorAll(`.lock-btn[data-lock-path="${CSS.escape(dotPath)}"]`).forEach(btn=>{
     const locked=isLocked(dotPath);
     btn.classList.toggle('locked',locked);
-    btn.title=locked?'Locked: Claude will not overwrite this field. Click to unlock.':'Lock this field so Claude cannot overwrite it.';
-    btn.textContent=locked?'🔒':'🔓';
+    btn.title=locked?'Protected: Claude will not overwrite this field on import. Click to unprotect.':'Protect this field so Claude cannot overwrite it during journalling.';
+    btn.textContent=locked?'🛡':'⊙';
   });
 }
 function makeLockBtn(dotPath){
@@ -4656,8 +4706,8 @@ function makeLockBtn(dotPath){
   const btn=document.createElement('button');
   btn.className='lock-btn'+(locked?' locked':'');
   btn.dataset.lockPath=dotPath;
-  btn.title=locked?'Locked: Claude will not overwrite this field. Click to unlock.':'Lock this field so Claude cannot overwrite it.';
-  btn.textContent=locked?'🔒':'🔓';
+  btn.title=locked?'Protected: Claude will not overwrite this field on import. Click to unprotect.':'Protect this field so Claude cannot overwrite it during journalling.';
+  btn.textContent=locked?'🛡':'⊙';
   btn.addEventListener('click',e=>{ e.stopPropagation(); e.preventDefault(); toggleLock(dotPath); });
   return btn;
 }
@@ -5293,7 +5343,6 @@ function renderEnemiesTab(s){
           fields.push({key:'shortTermBenefit',label:'Short-term benefit',          value:e.shortTermBenefit||'',type:'textarea', rows:2, hint:'What does this pattern give you in the short term?'});
           fields.push({key:'origin',          label:'Origin',                      value:e.origin||'',          type:'textarea', rows:2, hint:'Where did this pattern come from?'});
         } else {
-          fields.push({key:'trigger',         label:'Triggered by',                value:e.trigger||'',         type:'text',               hint:'What situations or cues activate this pattern?'});
           fields.push({key:'shortTermBenefit',label:'Short-term benefit',          value:e.shortTermBenefit||'',type:'textarea', rows:2, hint:'What does this pattern give you in the short term?'});
           fields.push({key:'origin',          label:'Origin',                      value:e.origin||'',          type:'textarea', rows:2, hint:'Where did this pattern come from?'});
         }
@@ -5335,14 +5384,6 @@ function renderEnemiesTab(s){
           const wyEl=makeEditable(e.whyBoss||'','Why is this a boss? (underlying pattern)…',v=>saveEnemyField('whyBoss',v));
           wyEl.style.cssText='margin-top:8px;font-size:16px;color:rgba(200,64,64,0.7);font-style:italic;';
           body.appendChild(wyEl);
-        }
-        if(e._srcType!=='belief'){
-          const trigWrap=document.createElement('div'); trigWrap.style.cssText='margin-top:8px;font-size:16px;color:var(--text-dim);font-style:italic;display:flex;align-items:baseline;gap:4px;';
-          const trigLbl=document.createElement('span'); trigLbl.textContent='Triggered by: ';
-          const trigEl=makeEditable(e.trigger||'','trigger…',v=>saveEnemyField('trigger',v));
-          trigEl.style.cssText='flex:1;';
-          trigWrap.appendChild(trigLbl); trigWrap.appendChild(trigEl);
-          body.appendChild(trigWrap);
         }
         {
           const posHdr=document.createElement('div'); posHdr.style.cssText='margin-top:12px;padding-top:10px;border-top:1px solid rgba(76,175,125,0.15);';
@@ -5715,7 +5756,8 @@ function renderAchievementsTab(s){
         }
       });
     });
-    row.appendChild(achIcon); row.appendChild(achTitle); row.appendChild(achType); row.appendChild(achDate); row.appendChild(achEditBtn); row.appendChild(achFeatBtn);
+    const achLockBtn=makeLockBtn(`achievements.${ai2}.title`);
+    row.appendChild(achIcon); row.appendChild(achTitle); row.appendChild(achLockBtn); row.appendChild(achType); row.appendChild(achDate); row.appendChild(achEditBtn); row.appendChild(achFeatBtn);
     const desc=document.createElement('div'); desc.className='ach-card-desc'; desc.textContent=a.description||'';
     card.appendChild(row); card.appendChild(desc);
     listEl.appendChild(card);
@@ -5999,9 +6041,16 @@ function renderProgressionCard(el, s) {
       });
       loreWrap.style.display='block';
     }
-    // Balance tab air panel: single block (compact)
+    // Balance tab air panel: same paragraph splitting as Journal tab
     const airWrap=document.getElementById('air-progression'), airTxt=document.getElementById('air-progression-text');
-    if(airWrap&&airTxt){ airTxt.textContent=s.progression; airWrap.style.display='block'; }
+    if(airWrap&&airTxt){
+      airTxt.innerHTML='';
+      s.progression.split(/\n\n+/).forEach(act=>{
+        if(!act.trim()) return;
+        const p=document.createElement('p'); p.textContent=act.trim(); p.style.margin='0 0 1em 0'; airTxt.appendChild(p);
+      });
+      airWrap.style.display='block';
+    }
   } else {
     ['lore-progression','air-progression'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
   }
@@ -6012,8 +6061,6 @@ function renderProgressionCard(el, s) {
   if(loreHdr) loreHdr.style.color = progColor;
   const airHdr = document.getElementById('air-progression-hdr');
   if(airHdr) airHdr.style.color = progColor;
-  const balLbl = document.getElementById('balance-progression-lbl');
-  if(balLbl) balLbl.style.color = progColor;
   // Journal tab: last session (claudeRead)
   const lsWrap=document.getElementById('lore-last-session'), lsTxt=document.getElementById('lore-last-session-text');
   if(lsWrap&&lsTxt){
@@ -6190,12 +6237,14 @@ function render(s){
   if(kqEl){
     const kqs=(Array.isArray(s.keyQuestions)&&s.keyQuestions.length?s.keyQuestions
       :(s.keyQuestion?[{question:s.keyQuestion}]:[])).slice(0,3);
+    kqEl.style.display='block';
     if(kqs.length){
       kqEl.innerHTML=`<div class="lore-card-hdr">Key Questions</div><div class="lore-keyq-list">`+
         kqs.map(q=>`<div class="lore-keyq-item"><div class="lore-keyq-icon">?</div><div><div class="lore-keyq-text">${esc(q.question||q)}</div>${q.updated?`<div class="lore-keyq-meta">updated ${esc(q.updated)}</div>`:''}</div></div>`).join('')+
         `</div>`;
-      kqEl.style.display='block';
-    } else { kqEl.innerHTML=''; kqEl.style.display='none'; }
+    } else {
+      kqEl.innerHTML=`<div class="lore-card-hdr">Key Questions</div><div class="lore-keyq-list"><div class="lore-keyq-item"><div class="lore-keyq-icon">?</div><div><div class="lore-keyq-text" style="color:var(--text-dim);font-style:italic;">No key questions yet. Claude will infer these from your journalling sessions.</div></div></div></div>`;
+    }
   }
   // openThreads
   const otEl=document.getElementById('lore-open-threads');
@@ -6211,13 +6260,14 @@ function render(s){
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
   updateVitalBars(s);
 
-  // Sliders
+  // Sliders — show all-time averages (*Avg fields), fall back to session score if no avg yet
   const sv = resolveElementScores(s);
   const sl = s.sliderLabels||DEFAULT.sliderLabels;
   ['air','fire','water','earth'].forEach(el=>{
     // Also support {air:{sliderLabel:...}} format from legacy data
     const label = sl[el] || (typeof s[el]==='object' ? s[el].sliderLabel||'' : '') || '';
-    buildSliderCol(el, el+'-label', el+'-slider', el+'-range', sv[el], label, (s.sliderXpRewards||{})[el]||null);
+    const avgVal = s[el+'Avg'] != null ? Math.round(s[el+'Avg']) : sv[el];
+    buildSliderCol(el, el+'-label', el+'-slider', el+'-range', avgVal, label, (s.sliderXpRewards||{})[el]||null);
     // make status label editable
     const statusEl=document.getElementById(el+'-label');
     if(statusEl&&!statusEl.dataset.editInit){
@@ -6411,9 +6461,11 @@ function render(s){
     const num=document.createElement('div'); num.className='ranked-num'; num.textContent='0'+(i+1);
     const dot=document.createElement('div'); dot.className='threat-dot'; dot.style.background=aCol;
     const inner=document.createElement('div');
-    inner.appendChild(makeEditable(n.name,'Need name',v=>saveNestedField(['needs',realIdx,'name'],capitalise(v)),'ranked-name'));
+    const needNameEl=makeEditable(n.name,'Need name',v=>saveNestedField(['needs',realIdx,'name'],capitalise(v)),'ranked-name');
+    const needLockBtn=makeLockBtn(`needs.${realIdx}.name`);
+    inner.appendChild(needNameEl);
     inner.appendChild(makeEditable(n.description,'Description',v=>saveNestedField(['needs',realIdx,'description'],capitalise(v)),'ranked-desc'));
-    d.appendChild(num); d.appendChild(dot); d.appendChild(inner); nEl.appendChild(d);
+    d.appendChild(num); d.appendChild(dot); d.appendChild(inner); d.appendChild(needLockBtn); nEl.appendChild(d);
   });
   makeSortable(nEl, (from, to) => {
     reorderArray(appState.needs, from, to);
@@ -6528,7 +6580,8 @@ function render(s){
           ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
         );
       };
-      ghead.appendChild(gdelBtn); ghead.appendChild(gnameEl); ghead.appendChild(gcountEl); ghead.appendChild(garrEl);
+      const gLockBtn=makeLockBtn(`insights.${ci}.name`);
+      ghead.appendChild(gdelBtn); ghead.appendChild(gnameEl); ghead.appendChild(gLockBtn); ghead.appendChild(gcountEl); ghead.appendChild(garrEl);
       ghead.addEventListener('click',e=>{ if(e.target===ghead||e.target===garrEl||e.target===gcountEl) toggleChapter(gbodyId,garrId); });
 
       // Chapter body (entries)
@@ -6876,8 +6929,18 @@ function applyUpdate(){
     }
     let merged;
     if(isPartial){
-      // Merge only provided top-level keys into existing state
-      merged = Object.assign({}, appState, p);
+      // Merge scalars/objects shallowly, but merge arrays by id to avoid wiping existing entries
+      merged = Object.assign({}, appState);
+      for(const [k, v] of Object.entries(p)){
+        if(Array.isArray(v) && Array.isArray(merged[k]) && v.length && v[0]?.id !== undefined){
+          // Merge by id: update matching entries, append new ones
+          const map = new Map(merged[k].map(x=>[x.id, x]));
+          v.forEach(x => map.set(x.id, Object.assign({}, map.get(x.id)||{}, x)));
+          merged[k] = [...map.values()];
+        } else {
+          merged[k] = v;
+        }
+      }
     } else {
       merged = p;
     }
@@ -8508,7 +8571,9 @@ function renderRecurringQuests(s) {
       if (actInState) { actInState.name = v; act.name = v; }
       saveState(appState); markDirty();
     }, 'rq-hdr-name');
+    const rqRealIdx = (appState.activities || []).findIndex(a => a.id === act.id);
     hdr.appendChild(nameSpan);
+    if (rqRealIdx >= 0) hdr.appendChild(makeLockBtn(`activities.${rqRealIdx}.name`));
 
     // Assign a random colour if none set
     if (!act.color) {
@@ -9496,7 +9561,8 @@ function renderClassesTab(s){
         }
       });
     });
-    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsDate); row.appendChild(roleSelect); row.appendChild(clsEditBtn); row.appendChild(clsFeatBtn);
+    const clsLockBtn=makeLockBtn(`classes.${ci2}.title`);
+    row.appendChild(clsIcon); row.appendChild(clsTitle); row.appendChild(clsLockBtn); row.appendChild(clsDate); row.appendChild(roleSelect); row.appendChild(clsEditBtn); row.appendChild(clsFeatBtn);
     const desc=document.createElement('div'); desc.className='cls-card-desc'; desc.textContent=c.description||'';
     card.appendChild(row); card.appendChild(desc);
     listEl.appendChild(card);
@@ -9588,8 +9654,6 @@ function setNameColor(color){
   if(loreHdr) loreHdr.style.color = color;
   const airHdr = document.getElementById('air-progression-hdr');
   if(airHdr) airHdr.style.color = color;
-  const balLbl = document.getElementById('balance-progression-lbl');
-  if(balLbl) balLbl.style.color = color;
   saveState(appState);
   markDirty();
 }
@@ -10629,6 +10693,11 @@ function _init(){
     <div class="timer-today" id="focus-timer-today"></div>
     <div class="timer-xp-earned" id="focus-timer-xp-today"></div>
   </div>
+</div>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<div class="app-footer">
+  Finding this useful? Share it with a friend or <a href="https://github.com/sam-holmes2/character-sheet" target="_blank" rel="noopener">star it on GitHub</a> to help others find it.
 </div>
 </body>
 </html>
