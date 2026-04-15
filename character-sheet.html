@@ -2277,9 +2277,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <!-- Col 1: Main quest -->
   <div class="hdr-left" title="Main Quest: your single most important current goal. The one thing that would change everything else if you made real progress on it. Progress and XP are set by your AI based on breakthroughs, identity shifts, and sustained behaviour change.">
     <div class="hdr-quest-label">◈ Main Quest</div>
-    <div class="hdr-quest-title" id="hdr-mq-title">Sovereignty</div>
-    <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:8%"></div></div>
-    <div class="hdr-quest-desc" id="hdr-mq-desc">Building autonomous selfhood not as escape from others, but as solid ground to actually meet them from</div>
+    <div class="hdr-quest-title" id="hdr-mq-title">TBC</div>
+    <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:0%"></div></div>
+    <div class="hdr-quest-desc" id="hdr-mq-desc"></div>
   </div>
 
   <!-- Col 2: Character name + subtitle + achievement tags -->
@@ -2287,7 +2287,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="hdr-name-row">
       <span class="hdr-icon" id="hdr-icon" onclick="cycleHdrIcon()" title="Click to cycle icon">★</span>
       <input type="color" id="hdr-name-color" title="Name colour" value="#5cb85c" oninput="setNameColor(this.value)">
-      <div class="hdr-name" id="hdr-name" contenteditable="true" spellcheck="false" title="Click to edit name">Hero</div>
+      <div class="hdr-name" id="hdr-name" contenteditable="true" spellcheck="false" title="Click to edit name">TBC</div>
     </div>
     <div class="hdr-sub" id="hdr-sub"></div>
   </div>
@@ -2392,10 +2392,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <!-- AI path -->
       <div class="welcome-path" id="welcome-path-ai" style="display:none;">
         <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
-        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md so it's always attached.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open your project</strong> and start a new chat. Chat about whatever you'd like.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Generate my data.json"</em> and copy the JSON it outputs.</div></div>
-        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong>Click ↑ Import</strong> (bottom-right), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project in your AI of choice.</strong> Claude Projects, ChatGPT Projects, or Gemini Gems all work. Upload instructions.md to the project's knowledge so it's always attached.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Start a new chat</strong> and tell your AI: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life right now."</em></div></div>
+        <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Update my data"</em> and copy the output.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;" onclick="dismissWelcome();openModal()">↑ Import</button></strong> your data (bottom-right of the app), paste the output, and hit Apply. Your sheet updates instantly.</div></div>
       </div>
     </div>
     <div class="modal-row" style="margin-top:14px;">
@@ -3363,7 +3363,7 @@ function getAlignment(item){
 
 // ══ DEFAULT STATE ═══════════════════════════════════════════
 // Steve's demo data — inlined so it works on file:// and github.io alike.
-let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{'Unknown':24}, coreSkills:{}, statusSliders:{focus:70,energy:60,interest:65,purpose:55} };
+let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{}, coreSkills:{}, statusSliders:{focus:50,energy:50,interest:50,purpose:50} };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
 // Generate demo history anchored to today so charts always fill to current date.
@@ -6257,14 +6257,14 @@ function reorderArray(arr, from, to) {
 // ══ RENDER ══════════════════════════════════════════════════
 function render(s){
   const hdrNameEl = document.getElementById('hdr-name');
-  if(document.activeElement !== hdrNameEl) hdrNameEl.textContent = s.name||'Hero';
+  if(document.activeElement !== hdrNameEl) hdrNameEl.textContent = s.name||'TBC';
   const nameColor = s.nameColor||'#5cb85c';
   hdrNameEl.style.color = nameColor;
   const nameColorPicker = document.getElementById('hdr-name-color');
   if(nameColorPicker) nameColorPicker.value = nameColor;
   updateHdrIcon(s);
   document.getElementById('hdr-sub').textContent  = s.subtitle||'';
-  document.getElementById('hdr-mq-title').textContent = s.mainQuest?.title||'Sovereignty';
+  document.getElementById('hdr-mq-title').textContent = s.mainQuest?.title||'TBC';
   document.getElementById('hdr-mq-desc').textContent  = s.mainQuest?.description||'';
   const mq=document.getElementById('hdr-mobile-quest'); if(mq) mq.textContent=s.mainQuest?.title||'Main Quest';
   const hdrFill=document.getElementById('hdr-mq-fill');
