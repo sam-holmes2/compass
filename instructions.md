@@ -403,7 +403,7 @@ Personality archetypes the user is growing into. `icon` = single emoji.
 
 `role` (optional): `Tank` · `DPS` · `Support` · `Lead` — infer from what the class represents.
 
-`{ "id": "the-architect", "name": "The Architect", "icon": "🏗️", "description": "...", "dateUnlocked": "Feb 2026", "role": "Lead" }`
+`{ "id": "architect", "name": "Architect", "icon": "🏗️", "description": "...", "dateUnlocked": "Feb 2026", "role": "Lead" }`
 
 ---
 

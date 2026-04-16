@@ -1242,6 +1242,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .xp-log-group-hdr:hover { background:rgba(255,255,255,0.055); }
 .xp-log-group-date { font-family:var(--mono); color:var(--text-dim); flex:1; }
+.xp-log-group-srcs { font-size:11px; color:var(--text-dim); opacity:0.6; flex-shrink:0; }
 .xp-log-group-total { font-family:var(--mono); color:#a070d8; font-size:13px; }
 .xp-log-group-total b { color:#b080e8; }
 .xp-log-chevron { color:var(--text-dim); font-size:11px; transition:transform 0.15s; }
@@ -1257,14 +1258,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   background:rgba(176,128,232,0.08); border-color:rgba(176,128,232,0.25);
 }
 .xp-log-entry.kill { background:rgba(200,64,64,0.06); border-color:rgba(200,64,64,0.2); }
+.xp-log-entry.deduct { background:rgba(200,100,64,0.05); border-color:rgba(200,100,64,0.15); }
 .xp-log-amount {
   font-family:var(--mono); font-size:14px; font-weight:700;
   color:#b080e8; flex-shrink:0; min-width:56px;
 }
 .xp-log-entry.kill .xp-log-amount { color:#e07070; }
+.xp-log-entry.deduct .xp-log-amount { color:#e09060; }
 .xp-log-entry.levelup .xp-log-amount { color:#d4a0ff; }
 .xp-log-reason { font-size:14px; color:var(--text-mid); flex:1; }
 .xp-log-reason .xp-log-total { color:var(--text-dim); font-size:12px; }
+.xp-log-icon { display:inline-block; width:18px; text-align:center; opacity:0.6; font-size:12px; margin-right:2px; }
 .xp-log-entry.levelup .xp-log-reason { color:#d4a0ff; font-weight:600; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.1em; }
 .xp-log-items { margin:4px 0 2px 56px; padding:0; list-style:none; width:100%; }
 .xp-log-items li { font-size:12px; color:var(--text-dim); padding:1px 0; }
@@ -1389,21 +1393,26 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-trends-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; margin-bottom:3px; }
 .practice-trend-row { display:flex; align-items:center; gap:7px; }
 /* Sub-mode: fixed-width table layout so header cols align with data cols */
-.practice-stats-sub { display:grid; grid-template-columns:1fr 42px 42px; align-items:center; gap-row:4px; column-gap:0; row-gap:4px; }
+.practice-stats-sub { display:grid; grid-template-columns:1fr 42px 42px 80px; align-items:center; gap-row:4px; column-gap:0; row-gap:4px; }
 .practice-stats-sub .ps-col-lbl { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-right:6px; }
 .practice-stats-sub .ps-col-7d,
-.practice-stats-sub .ps-col-all { width:42px; text-align:right; font-size:12px; font-family:var(--mono); }
+.practice-stats-sub .ps-col-all,
+.practice-stats-sub .ps-col-avg { width:42px; text-align:right; font-size:12px; font-family:var(--mono); }
 .practice-stats-sub .ps-col-7d  { color:#e05060; }
 .practice-stats-sub .ps-col-all { color:#40c8c0; }
+.practice-stats-sub .ps-col-avg { color:var(--gold); width:80px; }
 .practice-stats-sub .ps-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); opacity:0.6; }
 .practice-stats-sub .ps-hdr-7d,
-.practice-stats-sub .ps-hdr-all { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; text-align:right; opacity:0.6; }
+.practice-stats-sub .ps-hdr-all,
+.practice-stats-sub .ps-hdr-avg { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; text-align:right; opacity:0.6; }
 .practice-stats-sub .ps-hdr-7d  { color:#e05060; }
 .practice-stats-sub .ps-hdr-all { color:#40c8c0; }
+.practice-stats-sub .ps-hdr-avg { color:var(--gold); }
 .practice-stats-sub .ps-sep { grid-column:1/-1; height:1px; background:rgba(200,168,74,0.08); margin:1px 0; }
 .practice-stats-sub .ps-agg-lbl { opacity:0.45; }
 .practice-stats-sub .ps-agg-7d  { opacity:0.45; }
 .practice-stats-sub .ps-agg-all { opacity:0.45; }
+.practice-stats-sub .ps-agg-avg { opacity:0.45; }
 .rq-sub-goal-wrap { display:inline-flex; align-items:center; gap:0; margin-left:2px; border:1px solid rgba(200,168,74,0.35); border-radius:4px; overflow:hidden; background:rgba(0,0,0,0.45); flex-shrink:0; }
 .rq-sub-goal-step { background:none; border:none; color:rgba(200,168,74,0.7); font-size:13px; line-height:1; padding:0 5px; cursor:pointer; transition:color 0.12s, background 0.12s; user-select:none; }
 .rq-sub-goal-step:hover { color:rgba(200,168,74,1); background:rgba(200,168,74,0.1); }
@@ -1805,7 +1814,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .skill-card { border:1px solid rgba(144,96,192,0.18); border-radius:6px; overflow:hidden; margin-bottom:8px; }
 .skill-card-head { display:flex; align-items:center; gap:12px; padding:10px 14px; background:rgba(96,64,160,0.03); cursor:pointer; user-select:none; position:relative; }
 .skill-card-head:hover { background:rgba(96,64,160,0.07); }
-.skill-card-priority { font-family:var(--mono); font-size:14px; color:var(--text-dim); flex-shrink:0; width:16px; }
+.skill-card-priority { font-family:var(--mono); font-size:13px; color:#c080f0; background:rgba(144,96,240,0.15); border:1px solid rgba(144,96,240,0.35); border-radius:50%; flex-shrink:0; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-weight:700; }
 .skill-card-name { font-family:'Cinzel',serif; font-size:16px; color:#b080e8; flex:1; letter-spacing:0.05em; }
 .skill-card-mastery { font-family:var(--mono); font-size:15px; flex-shrink:0; padding:1px 8px; border-radius:10px; border:1px solid; }
 .skill-card-xp { font-family:var(--mono); font-size:14px; color:#9060c0; flex-shrink:0; }
@@ -1849,46 +1858,37 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   border-left:3px solid var(--water); padding:14px 18px;
   background:rgba(58,128,200,0.05); border-radius:0 5px 5px 0;
 }
-/* ══ HARMONY CARD ════════════════════════════════════════ */
-.balance-el-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:14px; display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: auto auto 1fr; }
-.balance-el-card-hdr { font-family:'Cinzel',serif; font-size:18px; letter-spacing:0.2em; color:#8090a8; text-transform:uppercase; padding:14px 18px 0; grid-column:1; }
-.balance-el-card-desc { font-size:13px; color:var(--text-dim); font-style:italic; padding:3px 18px 0; line-height:1.4; grid-column:1; }
-.balance-el-card-body {
-  display:contents;
-}
-/* Right cell: legend | radar (capped) | scores — all centred, no dead space */
-.balance-el-radar-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px; min-width:0; border-left:1px solid var(--border); padding-left:16px; grid-column:2; grid-row:1 / -1; padding-right:16px; }
-.balance-el-radar-svg { display:block; flex:1; max-width:240px; min-width:80px; aspect-ratio:1; overflow:visible; flex-shrink:1; }
-/* Radar legend — left flank */
-.balance-el-radar-meta {
-  display:flex; flex-direction:row; align-items:flex-start;
-  gap:14px; flex-shrink:0;
-}
+/* ══ HARMONY + MASTERY CARDS ════════════════════════════ */
+.balance-hm-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.balance-hm-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; display:flex; flex-direction:column; }
+.balance-hm-hdr { font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.2em; color:#8090a8; text-transform:uppercase; padding:12px 16px 0; flex-shrink:0; }
+.balance-hm-desc { font-size:12px; color:var(--text-dim); font-style:italic; padding:3px 16px 0; line-height:1.4; flex-shrink:0; }
+.balance-hm-body { flex:1; display:flex; flex-direction:row; align-items:center; justify-content:center; gap:20px; padding:12px 16px 14px; min-height:0; }
+/* Radar side */
+.balance-el-radar-svg { display:block; flex:1; max-width:200px; min-width:70px; aspect-ratio:1; overflow:visible; flex-shrink:1; }
+.balance-el-radar-meta { display:flex; flex-direction:column; gap:14px; flex-shrink:0; align-items:flex-start; margin-right:8px; }
 .balance-radar-legend { display:flex; flex-direction:column; gap:6px; }
 .balance-radar-legend-item { display:flex; align-items:center; gap:5px; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.06em; color:#8090a8; text-transform:uppercase; }
 .brl-line { display:inline-block; width:14px; height:1.5px; flex-shrink:0; }
 .brl-current { background:var(--gold); opacity:0.9; }
 .brl-week    { background:rgba(224,80,96,0.7);  border-top:1px dotted rgba(224,80,96,0.8);  height:0; }
 .brl-month   { background:rgba(64,200,192,0.65); border-top:1px dashed rgba(64,200,192,0.8); height:0; }
-/* Harmony scores — right flank */
-.balance-harmony-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.12em; color:#8090a8; text-transform:uppercase; margin-top:2px; }
-.balance-harmony-trio { display:flex; flex-direction:column; gap:8px; flex-shrink:0; }
-.bht-cell { display:flex; flex-direction:column; position:relative; }
-.bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:16px; }
-.bht-now { font-size:18px; color:#c8d0d8; }
-/* Left cell: Over Time chart + its legend to the right */
-.harmony-chart-col { display:flex; flex-direction:row; align-items:stretch; gap:0; min-width:0; grid-column:1; grid-row:3; padding:10px 16px 14px; }
-.harmony-chart-canvas-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
-.harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em; color:#8090a8; text-transform:uppercase; margin-bottom:6px; }
+/* Chart side */
+.harmony-chart-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
+.harmony-chart-col-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.22em; color:#8090a8; text-transform:uppercase; margin-bottom:5px; }
 .harmony-chart-legend { display:flex; flex-direction:column; gap:5px; justify-content:center; font-size:10px; letter-spacing:0.08em; color:#8090a8; opacity:0.8; flex-shrink:0; padding-left:10px; border-left:1px solid var(--border); }
 .hcl-swatch { display:inline-block; width:7px; height:7px; border-radius:1px; opacity:0.9; margin-right:4px; }
-/* Narrow window: stack */
-@media (max-width: 600px) {
-  .balance-el-card { grid-template-columns: 1fr; grid-template-rows: auto; }
-  .balance-el-card-hdr { grid-column:1; }
-  .balance-el-card-desc { grid-column:1; }
-  .harmony-chart-col { grid-column:1; grid-row:auto; padding:10px 16px 12px; border-bottom:1px solid var(--border); flex-direction:row; }
-  .balance-el-radar-row { grid-column:1; grid-row:auto; border-left:none; padding-left:16px; padding-right:16px; border-top:1px solid var(--border); padding-top:12px; }
+/* Stats column — shared by both cards */
+.bht-stats { display:flex; flex-direction:column; gap:8px; flex-shrink:0; border-left:1px solid var(--border); padding-left:14px; }
+.bht-section-hdr { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.18em; color:rgba(128,144,168,0.55); text-transform:uppercase; border-bottom:1px solid rgba(128,144,168,0.15); padding-bottom:3px; margin-bottom:4px; }
+.bht-cell { display:flex; flex-direction:column; position:relative; }
+.bht-num { font-family:'Cinzel Decorative',serif; line-height:1.1; color:rgba(200,168,74,0.45); font-size:15px; }
+.bht-now { font-size:17px; color:#c8d0d8; }
+.balance-harmony-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.12em; color:#8090a8; text-transform:uppercase; margin-top:2px; }
+/* Narrow: stack cards */
+@media (max-width: 640px) {
+  .balance-hm-row { grid-template-columns:1fr; }
+  .balance-hm-body { flex-wrap:wrap; }
 }
 /* ══ STATS panel — uses radar-panel; keep for margin override ══ */
 .stats-card { margin-bottom:18px; }
@@ -2210,9 +2210,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 
 /* ── Balance tab radar overflow fix ── */
-@media (max-width:600px) {
-  .balance-el-card { overflow:visible; }
-  .balance-el-radar-row { padding-left:4px; padding-right:4px; }
+@media (max-width:640px) {
+  .balance-hm-card { overflow:visible; }
   #radar-svg { width:100%; height:auto; overflow:visible; }
 }
 
@@ -2460,33 +2459,19 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 <!-- ══ AI JOURNALLING BANNER ══ -->
 <div class="balance-ai-banner" id="balance-ai-banner">
-  <span class="balance-ai-banner-text">Element scores and harmony are updated by your LLM of choice during journalling sessions. <a href="#" onclick="event.preventDefault();openHelpModal()">See Help for details →</a></span>
+  <span class="balance-ai-banner-text">Elemental mastery and harmony scores are updated by your AI during journalling sessions. <a href="#" onclick="event.preventDefault();openHelpModal()">See Help for details →</a></span>
   <button class="balance-ai-banner-never" onclick="dismissBalanceBanner()">Never show</button>
   <button class="balance-ai-banner-dismiss" onclick="document.getElementById('balance-ai-banner').style.display='none'" title="Dismiss">×</button>
 </div>
 
 <!-- ══ ELEMENTAL MASTERY ══ -->
-<!-- ══ HARMONY CARD ══ -->
-<div class="balance-el-card" style="margin-bottom:14px">
-  <div class="balance-el-card-hdr">Harmony</div>
-  <div class="balance-el-card-desc">All-time average mastery across awareness, actions, beliefs and desires. Each session adds a fresh read; the bars and radar show the running average.</div>
-  <div class="balance-el-card-body">
-    <!-- Col 1: Over Time chart + legend to the right -->
-    <div class="harmony-chart-col">
-      <div class="harmony-chart-canvas-wrap">
-        <div class="harmony-chart-col-hdr">Over Time</div>
-        <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:120px"></canvas>
-      </div>
-      <div class="harmony-chart-legend">
-        <span><span class="hcl-swatch" style="background:#b0b8c8;height:2px;border-radius:1px;vertical-align:middle;margin-bottom:1px"></span>Total Mastery</span>
-        <span><span class="hcl-swatch" style="background:#8090a8"></span>Air</span>
-        <span><span class="hcl-swatch" style="background:#d07830"></span>Fire</span>
-        <span><span class="hcl-swatch" style="background:#60a838"></span>Earth</span>
-        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
-      </div>
-    </div>
-    <!-- Col 2: [hint] [line legend] [radar] [harmony scores] -->
-    <div class="balance-el-radar-row">
+<!-- ══ HARMONY + MASTERY CARDS ══ -->
+<div class="balance-hm-row">
+  <!-- LEFT: Harmony (radar + balance % stats) -->
+  <div class="balance-hm-card">
+    <div class="balance-hm-hdr">Harmony</div>
+    <div class="balance-hm-desc">Balance between elements. 100% means all equal, lower means divergence.</div>
+    <div class="balance-hm-body">
       <div class="balance-el-radar-meta">
         <div class="balance-radar-legend">
           <div class="balance-radar-legend-item"><span class="brl-line brl-current"></span>Current avg</div>
@@ -2514,16 +2499,57 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <text x="0"   y="85"  text-anchor="middle" font-family="'Cinzel',serif" font-size="10" fill="#3a80c8" letter-spacing="0.12em">WATER</text>
         <text x="-74" y="3"   text-anchor="end"    font-family="'Cinzel',serif" font-size="10" fill="#60a838" letter-spacing="0.12em">EARTH</text>
       </svg>
-      <div class="balance-harmony-trio">
+      <div class="bht-stats">
         <div class="bht-cell">
-          <span class="bht-tooltip">Your average total mastery when you first started journalling. Max 400.</span>
+          <span class="bht-tooltip">Balance at your first recorded session. 100% means all four elements were equal.</span>
           <div class="bht-num" id="balance-harmony-initial">—</div>
           <div class="balance-harmony-lbl">Initial</div>
         </div>
         <div class="bht-cell">
-          <span class="bht-tooltip">Your current all-time average total mastery across all four elements. Max 400.</span>
-          <div class="bht-num bht-now" id="balance-harmony-now">—</div>
-          <div class="balance-harmony-lbl">Avg Total</div>
+          <span class="bht-tooltip">Average balance across all recorded sessions.</span>
+          <div class="bht-num" id="balance-harmony-avg">—</div>
+          <div class="balance-harmony-lbl">Average</div>
+        </div>
+        <div class="bht-cell">
+          <span class="bht-tooltip">Balance at your most recent session.</span>
+          <div class="bht-num bht-now" id="balance-harmony-latest">—</div>
+          <div class="balance-harmony-lbl">Latest</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- RIGHT: Mastery (bar chart + /400 stats) -->
+  <div class="balance-hm-card">
+    <div class="balance-hm-hdr">Mastery</div>
+    <div class="balance-hm-desc">Average mastery across all four elements. 100% means full mastery in all areas.</div>
+    <div class="balance-hm-body">
+      <div class="harmony-chart-wrap">
+        <div class="harmony-chart-col-hdr">Over Time</div>
+        <canvas id="harmony-chart" style="width:100%;display:block;flex:1;min-height:120px"></canvas>
+      </div>
+      <div class="harmony-chart-legend">
+        <span><span class="hcl-swatch" style="background:#b0b8c8;height:2px;border-radius:1px;vertical-align:middle;margin-bottom:1px"></span>Total</span>
+        <span><span class="hcl-swatch" style="background:#8090a8"></span>Air</span>
+        <span><span class="hcl-swatch" style="background:#d07830"></span>Fire</span>
+        <span><span class="hcl-swatch" style="background:#60a838"></span>Earth</span>
+        <span><span class="hcl-swatch" style="background:#3a80c8"></span>Water</span>
+      </div>
+      <div class="bht-stats">
+        <div class="bht-section-hdr">Total Mastery</div>
+        <div class="bht-cell">
+          <span class="bht-tooltip">Total mastery (average of all four elements) at your first recorded session.</span>
+          <div class="bht-num" id="balance-mastery-initial">—</div>
+          <div class="balance-harmony-lbl">Initial</div>
+        </div>
+        <div class="bht-cell">
+          <span class="bht-tooltip">Average total mastery across all recorded sessions.</span>
+          <div class="bht-num" id="balance-mastery-avg">—</div>
+          <div class="balance-harmony-lbl">Average</div>
+        </div>
+        <div class="bht-cell">
+          <span class="bht-tooltip">Total mastery at your most recent session.</span>
+          <div class="bht-num bht-now" id="balance-mastery-latest">—</div>
+          <div class="balance-harmony-lbl">Latest</div>
         </div>
       </div>
     </div>
@@ -3511,6 +3537,39 @@ const HIDE_DIRTY_BANNER_KEY='cs-hide-dirty-banner-v1';
 const IS_DEMO=location.hostname.endsWith('github.io');
 function loadState(){if(IS_DEMO)return DEFAULT;if(typeof _hasPIN==='function'&&_hasPIN())return DEFAULT;try{const r=localStorage.getItem('cs-state-v1');return r?JSON.parse(r):DEFAULT;}catch{return DEFAULT;}}
 function saveState(s){if(IS_DEMO)return;if(typeof _pinActive!=='undefined'&&_pinActive&&_currentPIN){_encryptAndSave(s,_currentPIN);return;}try{localStorage.setItem('cs-state-v1',JSON.stringify(s));}catch(e){showStorageError();}}
+// Stable character ID — decoupled from display name so renaming never orphans history.
+// On first call: if no id stored yet, seed from current appState.name (preserves existing
+// cs-rq-* keys written under the old name-based scheme). Subsequent name changes are safe.
+const CHAR_ID_KEY = 'cs-char-id-v1';
+function getCharId() {
+  if (IS_DEMO) return 'demo';
+  let id = localStorage.getItem(CHAR_ID_KEY);
+  if (!id) {
+    // Prefer the name embedded in existing cs-rq-hist-* keys — this handles the case where
+    // the user renamed their character before this key existed. The key format is
+    // cs-rq-hist-{charName}-{activityId}, so we extract the segment after 'cs-rq-hist-'.
+    // Activity IDs are short alphanumeric slugs; charNames come first and may contain letters/numbers.
+    // We just want the first token between 'cs-rq-hist-' and the last '-{activityId}' chunk.
+    // Since activity IDs don't contain '-' and names might, we look for any cs-rq-hist- key
+    // and extract everything up to (but not including) the final '-' segment.
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('cs-rq-hist-')) {
+        const rest = k.slice('cs-rq-hist-'.length); // "{name}-{activityId}"
+        const lastDash = rest.lastIndexOf('-');
+        if (lastDash > 0) { id = rest.slice(0, lastDash); break; }
+      }
+    }
+    // Fall back to current name if no history keys exist yet.
+    if (!id) {
+      const s = loadState();
+      id = (s.name || 'default').trim() || 'default';
+    }
+    localStorage.setItem(CHAR_ID_KEY, id);
+  }
+  return id;
+}
+
 // Migration: move completedQuests from dedicated localStorage key back into appState
 function migrateCompletedQuests(){
   if(IS_DEMO) return;
@@ -3576,8 +3635,10 @@ function initRQState(act, charName) {
   const id = act.id;
   if (!practiceState[id]) practiceState[id] = { seconds:0, running:false, interval:null, milestonesHit:new Set(), milestoneXP:0, toastTimeout:null };
   const ps = practiceState[id];
-  const saved = loadRQCurrent(charName, id);
   if (act.type === 'timer') {
+    // If timer is already running in memory, don't clobber it from stale localStorage
+    if (ps.running) return;
+    const saved = loadRQCurrent(charName, id);
     if (saved && !isPeriodExpired(saved.periodStart, act.resetPeriod)) {
       let secs = saved.value || 0;
       if (saved.timerRunning && saved.timerStartedAt) {
@@ -3591,6 +3652,7 @@ function initRQState(act, charName) {
     }
     ps.running = false;
   } else {
+    const saved = loadRQCurrent(charName, id);
     if (saved && !isPeriodExpired(saved.periodStart, act.resetPeriod)) {
       ps.value = saved.value || 0;
       ps.subsDone = saved.subsDone || [];
@@ -3672,30 +3734,67 @@ function getRQStats(act, charName) {
   }
   const lastDone = periods.find(p => p.value > 0)?.period || null;
 
+  // Avg frequency helper: expressed as "every N days" (or "every N weeks" for weekly quests)
+  const fmtAvgFreq = (hits, windowSize) => {
+    if (!windowSize || hits <= 0) return null;
+    // periodsPerHit = how many periods between each occurrence on average
+    const periodsPerHit = windowSize / hits;
+    // convert to days (daily period = 1 day, weekly = 7 days)
+    const periodDays = act.resetPeriod === 'week' ? 7 : 1;
+    const daysPerHit = periodsPerHit * periodDays;
+    if (act.resetPeriod === 'week') {
+      const weeks = Math.round(daysPerHit / 7 * 10) / 10;
+      return weeks + ' wks';
+    }
+    const days = Math.round(daysPerHit * 10) / 10;
+    return days + ' days';
+  };
+
+  // Aggregate avg frequency (all tracked periods up to most recent, non-voided)
+  const lastRecordedIdxAll = periods.reduce((acc, p, i) => (p.value > 0 && !p.void) ? i : acc, -1);
+  const activePeriodsAll = lastRecordedIdxAll >= 0 ? periods.slice(0, lastRecordedIdxAll + 1).filter(p => !p.void) : [];
+  // For breakdown (checkbox+subs): empty period = not done, so denominator = all periods since first entry.
+  // For plain checkbox: only logged periods count.
+  const isBreakdown = isCheck && (act.subActivities || []).length > 0;
+  const firstEntryIdxForAvg = periods.slice().reverse().findIndex(p => p.hasEntry);
+  const activeWindowForAvg  = firstEntryIdxForAvg >= 0 ? periods.slice(0, periods.length - firstEntryIdxForAvg) : [];
+  const totalHitsAll = isBreakdown
+    ? activeWindowForAvg.filter(p => p.value > 0).length
+    : isCheck
+      ? activeWindowForAvg.filter(p => p.hasEntry && p.value > 0).length
+      : activePeriodsAll.filter(p => p.value > 0).length;
+  const activeWindowAll = isBreakdown
+    ? activeWindowForAvg.length
+    : isCheck
+      ? activeWindowForAvg.filter(p => p.hasEntry).length
+      : activePeriodsAll.length;
+  const avgFreq = fmtAvgFreq(totalHitsAll, activeWindowAll);
+
   // Per-sub-activity stats (checkbox with subActivities only)
   const subActs = (act.subActivities || []);
   let perSub = null;
   if (isCheck && subActs.length > 0) {
+    // Breakdown quests: any period without a sub ticked = implicit "no".
+    // Denominator is all periods from the first recorded entry to now (no hasEntry filter).
+    const firstEntryIdx = periods.slice().reverse().findIndex(p => p.hasEntry);
+    const activePeriodCount = firstEntryIdx >= 0 ? periods.length - firstEntryIdx : 0;
+    const activeWindow = activePeriodCount > 0 ? periods.slice(0, activePeriodCount) : [];
     perSub = subActs.map(sa => {
-      const saGoal = sa.goal != null ? sa.goal : 1; // periods per window that goal applies to
-      // last 7: count entries that include this sub; denominator = entries with any data
-      const last7entries = periods.slice(0, 7).filter(p => p.hasEntry);
-      const sa7hits = last7entries.filter(p => p.subsDone.includes(sa.id)).length;
-      // per-sub goal: user wants this sub done `saGoal` times per 7 periods
-      const sa7denom = Math.min(7, last7entries.length);
-      const sa7pct = sa7denom > 0 ? Math.round(Math.min(sa7hits / (saGoal > 0 ? saGoal : 1), 1) * 100) : 0;
-      // all-time: same window as aggregate all-time
-      const lastEntryIdx = periods.reduce((acc, p, i) => p.hasEntry ? i : acc, -1);
-      const activeEntries = lastEntryIdx >= 0 ? periods.slice(0, lastEntryIdx + 1).filter(p => p.hasEntry) : [];
-      const saAllHits = activeEntries.filter(p => p.subsDone.includes(sa.id)).length;
-      // scale goal proportionally across the active window
-      const expectedHits = activeEntries.length > 0 ? (saGoal / 7) * activeEntries.length : 0;
+      const saGoal = sa.goal != null ? sa.goal : 1;
+      // last 7: all 7 periods count (empty = not done)
+      const last7 = periods.slice(0, 7);
+      const sa7hits = last7.filter(p => p.subsDone.includes(sa.id)).length;
+      const sa7pct = last7.length > 0 ? Math.round(Math.min(sa7hits / (saGoal > 0 ? saGoal : 1), 1) * 100) : 0;
+      // all-time: full active window, empty periods = not done
+      const saAllHits = activeWindow.filter(p => p.subsDone.includes(sa.id)).length;
+      const expectedHits = activeWindow.length > 0 ? (saGoal / 7) * activeWindow.length : 0;
       const saAllPct = expectedHits > 0 ? Math.round(Math.min(saAllHits / expectedHits, 1) * 100) : 0;
-      return { id: sa.id, name: sa.name, color: sa.color, goal: saGoal, pct7: sa7pct, pctAll: saAllPct };
+      const saAvgFreq = fmtAvgFreq(saAllHits, activeWindow.length);
+      return { id: sa.id, name: sa.name, color: sa.color, goal: saGoal, pct7: sa7pct, pctAll: saAllPct, avgFreq: saAvgFreq };
     });
   }
 
-  return { pct7, pctAll, lastDone, perSub };
+  return { pct7, pctAll, lastDone, perSub, avgFreq };
 }
 
 migrateCompletedQuests();
@@ -3898,18 +3997,23 @@ function updateRadarWithGhosts(state){
     if(gm) gm.setAttribute('points','');
   }
 
-  // Avg mastery display: current avg total and initial avg total
-  const harmNow=document.getElementById('balance-harmony-now');
-  if(harmNow){
-    const total=Math.round(cur.air+cur.fire+cur.water+cur.earth);
-    harmNow.textContent=total;
-  }
-  const harmInit=document.getElementById('balance-harmony-initial');
-  if(harmInit){
-    if(avgHist.length){
-      const e=avgHist[0];
-      harmInit.textContent=Math.round((e.air||0)+(e.fire||0)+(e.water||0)+(e.earth||0));
-    } else { harmInit.textContent='—'; }
+  // Mastery + Balance stats from per-session harmonyHistory
+  const harmHist=(state.harmonyHistory||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const setEl=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  if(harmHist.length){
+    const totals=harmHist.map(h=>(h.air||0)+(h.fire||0)+(h.water||0)+(h.earth||0));
+    const harmonies=harmHist.map(h=>calcHarmony({air:h.air||0,fire:h.fire||0,water:h.water||0,earth:h.earth||0}));
+    const avg=arr=>Math.round(arr.reduce((a,b)=>a+b,0)/arr.length);
+    const pct=t=>Math.round(t/4);
+    setEl('balance-mastery-initial', pct(totals[0])+'%');
+    setEl('balance-mastery-avg',     pct(avg(totals))+'%');
+    setEl('balance-mastery-latest',  pct(totals[totals.length-1])+'%');
+    setEl('balance-harmony-initial', harmonies[0]+'%');
+    setEl('balance-harmony-avg',     avg(harmonies)+'%');
+    setEl('balance-harmony-latest',  harmonies[harmonies.length-1]+'%');
+  } else {
+    ['balance-mastery-initial','balance-mastery-avg','balance-mastery-latest',
+     'balance-harmony-initial','balance-harmony-avg','balance-harmony-latest'].forEach(id=>setEl(id,'—'));
   }
 }
 
@@ -3977,28 +4081,46 @@ function renderHarmonyChart(state){
     });
   });
 
-  // Total mastery line of best fit (silver)
-  // Compute bar-centre x and total-top y for each entry
+  // Total mastery: connected line through bar tops + regression trend
+  // Use index as x for regression so evenly-spaced bars don't compress slope
   const pts=hist.map((h,i)=>{
     const cx=padL+i*(barW+gap)+barW/2;
     const total=(h.air||0)+(h.fire||0)+(h.water||0)+(h.earth||0);
     const cy=padT+pH-(total/maxTotal)*pH;
-    return {cx,cy,total};
+    return {cx,cy,total,i};
   });
   if(pts.length>=2){
-    // Linear regression
-    let sx=0,sy=0,sxx=0,sxy=0,nn=pts.length;
-    pts.forEach(p=>{sx+=p.cx;sy+=p.cy;sxx+=p.cx*p.cx;sxy+=p.cx*p.cy;});
-    const slope=(nn*sxy-sx*sy)/(nn*sxx-sx*sx);
-    const intercept=(sy-slope*sx)/nn;
-    const x0=padL, x1=W-padR;
-    const y0=slope*x0+intercept, y1=slope*x1+intercept;
+    // Connected polyline through each bar top (shows session-to-session variation)
     ctx.save();
-    ctx.strokeStyle='rgba(176,184,200,0.9)';
-    ctx.lineWidth=1.5;
-    ctx.setLineDash([3,3]);
-    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    ctx.strokeStyle='rgba(176,184,200,0.55)';
+    ctx.lineWidth=1;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    pts.forEach((p,idx)=>{ if(idx===0) ctx.moveTo(p.cx,p.cy); else ctx.lineTo(p.cx,p.cy); });
+    ctx.stroke();
+    // Dots at each bar top
+    pts.forEach(p=>{
+      ctx.beginPath(); ctx.arc(p.cx,p.cy,2,0,Math.PI*2);
+      ctx.fillStyle='rgba(176,184,200,0.7)'; ctx.fill();
+    });
     ctx.restore();
+
+    // Linear regression using index (0..n-1) as x to avoid pixel-scale compression
+    let sx=0,sy=0,sxx=0,sxy=0,nn=pts.length;
+    pts.forEach(p=>{sx+=p.i;sy+=p.cy;sxx+=p.i*p.i;sxy+=p.i*p.cy;});
+    const denom=nn*sxx-sx*sx;
+    if(Math.abs(denom)>1e-9){
+      const slope=(nn*sxy-sx*sy)/denom;
+      const intercept=(sy-slope*sx)/nn;
+      // Clamp line endpoints to chart area
+      const y0=slope*0+intercept, y1=slope*(nn-1)+intercept;
+      ctx.save();
+      ctx.strokeStyle='rgba(176,184,200,0.9)';
+      ctx.lineWidth=1.5;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(pts[0].cx,y0); ctx.lineTo(pts[nn-1].cx,y1); ctx.stroke();
+      ctx.restore();
+    }
   } else if(pts.length===1){
     // Single point — draw a horizontal dashed line
     ctx.save();
@@ -7130,22 +7252,38 @@ function renderXPLog(){
     if(last&&last.date===d) last.entries.push(entry);
     else groups.push({date:d,entries:[entry]});
   });
-  groups.forEach(group=>{
+  function _xpEntryIcon(entry){
+    if(entry.type==='kill') return '☠';
+    const r=(entry.reason||'').toLowerCase();
+    if(/quest complete|side quest|main quest/.test(r)) return '⚔';
+    if(/skill level.?up|skill:/.test(r)) return '◈';
+    if(/achievement|milestone/.test(r)) return '★';
+    if(/relapse|avoided|dropped|deduct|negative/.test(r)) return '↓';
+    if(/level.?up/.test(r)) return '▲';
+    if(/breakthrough|insight/.test(r)) return '✦';
+    if(/practice|habit/.test(r)) return '↺';
+    if(/elemental|element/.test(r)) return '◆';
+    return '⟳';
+  }
+  groups.forEach((group,gi)=>{
     const sec=document.createElement('div'); sec.className='xp-log-group';
     const hdr=document.createElement('div'); hdr.className='xp-log-group-hdr';
-    const groupTotal=group.entries.filter(e=>e.type!=='levelup'&&!e.levelup).reduce((s,e)=>s+(e.amount||0),0);
-    hdr.innerHTML=`<span class="xp-log-group-date">${esc(group.date)}</span><span class="xp-log-group-total">${groupTotal>0?'+':''}<b>${groupTotal}</b> XP</span><span class="xp-log-chevron">▾</span>`;
-    const body=document.createElement('div'); body.className='xp-log-group-body';
+    const xpEntries=group.entries.filter(e=>e.type!=='levelup'&&!e.levelup);
+    const groupTotal=xpEntries.reduce((s,e)=>s+(e.amount||0),0);
+    const srcCount=xpEntries.length;
+    const srcLabel=srcCount===1?'1 source':`${srcCount} sources`;
+    hdr.innerHTML=`<span class="xp-log-group-date">${esc(group.date)}</span><span class="xp-log-group-srcs">${srcLabel}</span><span class="xp-log-group-total">${groupTotal>0?'+':''}<b>${groupTotal}</b> XP</span><span class="xp-log-chevron">${gi===0?'▾':'▸'}</span>`;
+    const body=document.createElement('div'); body.className='xp-log-group-body'+(gi===0?'':' collapsed');
     group.entries.forEach(entry=>{
       if(entry.type==='levelup'||entry.levelup){
         const row=document.createElement('div'); row.className='xp-log-entry levelup';
         row.innerHTML=`<span class="xp-log-amount">▲ LEVEL UP</span><span class="xp-log-reason">${esc(entry.reason)}</span>`;
         body.appendChild(row);
       } else {
-        const row=document.createElement('div'); row.className='xp-log-entry'+(entry.type==='kill'?' kill':'');
+        const row=document.createElement('div'); row.className='xp-log-entry'+(entry.type==='kill'?' kill':entry.amount<0?' deduct':'');
         const sign=entry.amount>0?'+':'';
-        const icon=entry.type==='kill'?'☠ ':'⟳ ';
-        row.innerHTML=`<span class="xp-log-amount">${sign}${entry.amount} XP</span><span class="xp-log-reason">${icon}${esc(entry.reason)}${entry.totalAfter!=null?' <span class="xp-log-total">· '+entry.totalAfter+' total</span>':''}</span>`;
+        const icon=_xpEntryIcon(entry);
+        row.innerHTML=`<span class="xp-log-amount">${sign}${entry.amount} XP</span><span class="xp-log-reason"><span class="xp-log-icon">${icon}</span>${esc(entry.reason)}${entry.totalAfter!=null?' <span class="xp-log-total">· '+entry.totalAfter+' total</span>':''}</span>`;
         if(entry.items&&entry.items.length){
           const ul=document.createElement('ul'); ul.className='xp-log-items';
           entry.items.forEach(it=>{ const li=document.createElement('li'); li.textContent=(it.amount>0?'+':'')+it.amount+': '+it.label; ul.appendChild(li); });
@@ -7460,7 +7598,7 @@ function timerStart(id) {
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
   if (!act) return;
-  const charName = (window._lastState || appState).name;
+  const charName = getCharId();
   saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true, timerStartedAt: ps.startedAt });
   const startBtn = document.getElementById('timer-start-btn-' + id);
   const stopBtn  = document.getElementById('timer-stop-btn-'  + id);
@@ -7491,7 +7629,7 @@ function timerStop(id) {
   ps.interval = null;
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
-  const charName = (window._lastState || appState).name;
+  const charName = getCharId();
   const startBtn = document.getElementById('timer-start-btn-' + id);
   const stopBtn  = document.getElementById('timer-stop-btn-'  + id);
   const svgEl    = document.getElementById('timer-svg-' + id);
@@ -7553,7 +7691,7 @@ function timerReset(id) {
   if (!ps) return;
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
-  const charName = (window._lastState || appState).name;
+  const charName = getCharId();
   // Archive current seconds before clearing so period rollover doesn't lose data
   if (act && charName && ps.seconds > 0) {
     const cur = loadRQCurrent(charName, id);
@@ -7736,7 +7874,7 @@ window.addEventListener('beforeunload', (e) => {
     const ps = practiceState[id];
     if (ps.running) {
       const act = (window._lastState || appState).activities?.find(a => a.id === id);
-      const charName = (window._lastState || appState).name;
+      const charName = getCharId();
       if (act && charName) {
         saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true, timerStartedAt: ps.startedAt });
       }
@@ -7897,17 +8035,21 @@ function renderRQBarChart(wrap, act, charName) {
   const refreshStats = () => {
     const newStats = getRQStats(act, charName);
     const fv = v => v > 0 ? v + '%' : '—';
-    const avgEl    = document.getElementById('stat-avg-'    + act.id);
-    const avgAllEl = document.getElementById('stat-avgall-' + act.id);
+    const avgEl    = document.getElementById('stat-avg-'     + act.id);
+    const avgAllEl = document.getElementById('stat-avgall-'  + act.id);
+    const avgFreqEl = document.getElementById('stat-avgfreq-' + act.id);
     if (avgEl)    avgEl.textContent    = fv(newStats.pct7);
     if (avgAllEl) avgAllEl.textContent = fv(newStats.pctAll);
+    if (avgFreqEl) avgFreqEl.textContent = newStats.avgFreq || '—';
     // Per-sub stat elements
     if (newStats.perSub) {
       newStats.perSub.forEach(sub => {
         const el7   = document.getElementById('stat-sub7-'   + act.id + '-' + sub.id);
         const elAll = document.getElementById('stat-suball-' + act.id + '-' + sub.id);
+        const elAvg = document.getElementById('stat-subavg-' + act.id + '-' + sub.id);
         if (el7)   el7.textContent   = fv(sub.pct7);
         if (elAll) elAll.textContent = fv(sub.pctAll);
+        if (elAvg) elAvg.textContent = sub.avgFreq || '—';
       });
     }
   };
@@ -8291,6 +8433,28 @@ function renderRQBarChart(wrap, act, charName) {
       svg.appendChild(avgAllLine);
     }
 
+    // Goal line for timer quests
+    if (act.type === 'timer' && act.target > 0) {
+      const goalYPct = toYPct(act.target);
+      const goalLine = document.createElementNS(svgNS, 'line');
+      goalLine.setAttribute('x1', '0%'); goalLine.setAttribute('y1', goalYPct + '%');
+      goalLine.setAttribute('x2', '100%'); goalLine.setAttribute('y2', goalYPct + '%');
+      goalLine.setAttribute('stroke', 'rgba(200,168,74,0.45)');
+      goalLine.setAttribute('stroke-width', '1');
+      goalLine.setAttribute('stroke-dasharray', '3 4');
+      svg.appendChild(goalLine);
+      // Small label at right edge
+      const goalLbl = document.createElementNS(svgNS, 'text');
+      goalLbl.setAttribute('x', '100%');
+      goalLbl.setAttribute('y', (goalYPct - 1.5) + '%');
+      goalLbl.setAttribute('text-anchor', 'end');
+      goalLbl.setAttribute('fill', 'rgba(200,168,74,0.55)');
+      goalLbl.setAttribute('font-size', '8');
+      goalLbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+      goalLbl.textContent = act.target + ' min';
+      svg.appendChild(goalLbl);
+    }
+
     colsWrap.appendChild(svg);
   }
 
@@ -8572,7 +8736,7 @@ function renderRecurringQuests(s) {
   container.innerHTML = '';
   const activities = (s.activities || DEFAULT.activities || [])
     .slice().sort((a,b) => (a.priority||99) - (b.priority||99));
-  const charName = s.name || 'default';
+  const charName = getCharId();
 
   activities.forEach((act, actIdx) => {
     initRQState(act, charName);
@@ -8692,8 +8856,10 @@ function renderRecurringQuests(s) {
           if (newStats.perSub) newStats.perSub.forEach(sub => {
             const el7   = document.getElementById('stat-sub7-'   + act.id + '-' + sub.id);
             const elAll = document.getElementById('stat-suball-' + act.id + '-' + sub.id);
+            const elAvg = document.getElementById('stat-subavg-' + act.id + '-' + sub.id);
             if (el7)   el7.textContent   = fv(sub.pct7);
             if (elAll) elAll.textContent = fv(sub.pctAll);
+            if (elAvg) elAvg.textContent = sub.avgFreq || '—';
           });
         };
         goalMinus.addEventListener('click', e => { e.stopPropagation(); applyGoal(currentGoal - 1); });
@@ -8801,13 +8967,14 @@ function renderRecurringQuests(s) {
     const statsRow = document.createElement('div'); statsRow.className = 'practice-stats';
     statsRow.id = 'stats-row-' + act.id;
     if (stats.perSub && stats.perSub.length > 0) {
-      // Grid table: name | 7d | all
+      // Grid table: name | 7d | all | avg
       const grid = document.createElement('div'); grid.className = 'practice-stats-sub';
       // Header row
       const hdrLbl = document.createElement('span'); hdrLbl.className = 'ps-hdr'; hdrLbl.textContent = 'Trends';
       const hdr7d  = document.createElement('span'); hdr7d.className  = 'ps-hdr-7d';  hdr7d.textContent  = '7d';
       const hdrAll = document.createElement('span'); hdrAll.className = 'ps-hdr-all'; hdrAll.textContent = 'All';
-      grid.appendChild(hdrLbl); grid.appendChild(hdr7d); grid.appendChild(hdrAll);
+      const hdrAvg = document.createElement('span'); hdrAvg.className = 'ps-hdr-avg'; hdrAvg.textContent = 'Avg';
+      grid.appendChild(hdrLbl); grid.appendChild(hdr7d); grid.appendChild(hdrAll); grid.appendChild(hdrAvg);
       // Per-sub rows
       stats.perSub.forEach(sub => {
         const lbl = document.createElement('span'); lbl.className = 'ps-col-lbl'; lbl.textContent = sub.name;
@@ -8817,7 +8984,9 @@ function renderRecurringQuests(s) {
         val7.id = 'stat-sub7-' + act.id + '-' + sub.id; val7.textContent = formatVal(sub.pct7);
         const valAll = document.createElement('span'); valAll.className = 'ps-col-all';
         valAll.id = 'stat-suball-' + act.id + '-' + sub.id; valAll.textContent = formatVal(sub.pctAll);
-        grid.appendChild(lbl); grid.appendChild(val7); grid.appendChild(valAll);
+        const valAvg = document.createElement('span'); valAvg.className = 'ps-col-avg';
+        valAvg.id = 'stat-subavg-' + act.id + '-' + sub.id; valAvg.textContent = sub.avgFreq || '—';
+        grid.appendChild(lbl); grid.appendChild(val7); grid.appendChild(valAll); grid.appendChild(valAvg);
       });
       // Separator
       const sep = document.createElement('div'); sep.className = 'ps-sep'; grid.appendChild(sep);
@@ -8827,7 +8996,9 @@ function renderRecurringQuests(s) {
       agg7.id = 'stat-avg-' + act.id; agg7.textContent = formatVal(stats.pct7);
       const aggAll = document.createElement('span'); aggAll.className = 'ps-col-all ps-agg-all';
       aggAll.id = 'stat-avgall-' + act.id; aggAll.textContent = formatVal(stats.pctAll);
-      grid.appendChild(aggLbl); grid.appendChild(agg7); grid.appendChild(aggAll);
+      const aggAvg = document.createElement('span'); aggAvg.className = 'ps-col-avg ps-agg-avg';
+      aggAvg.id = 'stat-avgfreq-' + act.id; aggAvg.textContent = stats.avgFreq || '—';
+      grid.appendChild(aggLbl); grid.appendChild(agg7); grid.appendChild(aggAll); grid.appendChild(aggAvg);
       statsRow.appendChild(grid);
     } else {
       statsRow.innerHTML = `
@@ -8944,6 +9115,9 @@ function renderRecurringQuests(s) {
         <div class="practice-period-lbl" id="number-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}</div>
         <div class="practice-xp-earned" id="number-xp-${act.id}"></div>
       `;
+      // Save on blur/change so typing a value and tabbing away (or tab-switching) persists it
+      const numInp = widget.querySelector('#number-input-' + act.id);
+      if (numInp) numInp.addEventListener('change', () => handleNumberSave(act.id));
     }
 
     body.appendChild(widget);
@@ -8987,7 +9161,7 @@ function handleBackfill(id) {
   const s = window._lastState || appState;
   const act = (s.activities || DEFAULT.activities || []).find(a => a.id === id);
   if (!act) return;
-  const charName = s.name || 'default';
+  const charName = getCharId();
 
   const dateEl = document.getElementById('bf-date-' + id);
   const valEl  = document.getElementById('bf-val-'  + id);
@@ -9009,8 +9183,34 @@ function handleBackfill(id) {
     period = rawDate.slice(0, 10);
   }
 
-  // Don't allow backfilling the current period (use the live widget for that)
-  if (period === currentPeriod(act.resetPeriod)) return;
+  // If backfilling the current period, update practiceState + saveRQCurrent instead of history
+  if (period === currentPeriod(act.resetPeriod)) {
+    const ps = practiceState[id];
+    if (!ps) return;
+    if (act.type === 'timer') {
+      ps.seconds = rawVal * 60;
+      renderTimerRing(id, act);
+      const todayEl = document.getElementById('timer-today-' + id);
+      if (todayEl) todayEl.textContent = `Today: ${rawVal} / ${act.target||90} min`;
+      saveRQCurrent(charName, id, { value: ps.seconds, periodStart: period, timerRunning: false });
+    } else if (act.type === 'number') {
+      ps.value = rawVal;
+      const inpEl = document.getElementById('number-input-' + id);
+      if (inpEl) inpEl.value = rawVal;
+      const lblEl = document.getElementById('number-lbl-' + id);
+      if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
+      saveRQCurrent(charName, id, { value: rawVal, periodStart: period });
+    } else if (act.type === 'checkbox') {
+      ps.value = Math.min(rawVal, act.target || 1);
+      ps.hasEntry = true;
+      saveRQCurrent(charName, id, { value: ps.value, hasEntry: true, periodStart: period });
+    }
+    const chartWrap2 = document.getElementById('rq-chart-' + id);
+    if (chartWrap2) renderRQBarChart(chartWrap2, act, charName);
+    const btn2 = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
+    if (btn2) { btn2.textContent = 'Saved ✓'; setTimeout(() => btn2.textContent = 'Save', 1500); }
+    return;
+  }
 
   const hist = loadRQHistory(charName, id);
   const existing = hist.findIndex(h => h.period === period);
@@ -9034,10 +9234,16 @@ function handleBackfill(id) {
     }
     return period;
   };
-  const avgEl    = document.getElementById('stat-avg-'    + id);
-  const avgAllEl = document.getElementById('stat-avgall-' + id);
-  if (avgEl)    avgEl.textContent    = formatV(newStats.pct7);
-  if (avgAllEl) avgAllEl.textContent = formatV(newStats.pctAll);
+  const avgEl     = document.getElementById('stat-avg-'     + id);
+  const avgAllEl  = document.getElementById('stat-avgall-'  + id);
+  const avgFreqEl = document.getElementById('stat-avgfreq-' + id);
+  if (avgEl)     avgEl.textContent     = formatV(newStats.pct7);
+  if (avgAllEl)  avgAllEl.textContent  = formatV(newStats.pctAll);
+  if (avgFreqEl) avgFreqEl.textContent = newStats.avgFreq || '—';
+  if (newStats.perSub) newStats.perSub.forEach(sub => {
+    const elAvg = document.getElementById('stat-subavg-' + id + '-' + sub.id);
+    if (elAvg) elAvg.textContent = sub.avgFreq || '—';
+  });
 
   // Flash feedback on the save button
   const btn = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
@@ -9048,7 +9254,7 @@ function handleCheckboxDot(id, dotIndex, btn) {
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
   if (!act) return;
-  const charName = (window._lastState || appState).name;
+  const charName = getCharId();
   const ps = practiceState[id];
   if (!ps) return;
 
@@ -9087,7 +9293,7 @@ function handleSubActivity(actId, subId, btn) {
   const act = (window._lastState || appState).activities?.find(a => a.id === actId) ||
               DEFAULT.activities?.find(a => a.id === actId);
   if (!act) return;
-  const charName = (window._lastState || appState).name;
+  const charName = getCharId();
   const ps = practiceState[actId];
   if (!ps) return;
 
@@ -9177,13 +9383,14 @@ function stepNumberInput(id, delta) {
   if (!input) return;
   const cur = parseInt(input.value, 10) || 0;
   input.value = Math.max(0, Math.min(999, cur + delta));
+  handleNumberSave(id);
 }
 
 function handleNumberSave(id) {
   const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
               DEFAULT.activities?.find(a => a.id === id);
   if (!act) return;
-  const charName = (window._lastState || appState).name;
+  const charName = getCharId();
   const ps = practiceState[id];
   if (!ps) return;
   const input = document.getElementById('number-input-' + id);
@@ -9376,8 +9583,11 @@ function renderSkillsTopRow(s){
     const col=BELT_COLS[m-1];
     const realIdx=(appState.skills||[]).indexOf(sk);
     const wrap=document.createElement('div'); wrap.className='sk-keystone-card';
+    const nameRow=document.createElement('div'); nameRow.style.cssText='display:flex;align-items:center;gap:10px;';
+    const priEl=document.createElement('div'); priEl.className='skill-card-priority'; priEl.textContent='1'; priEl.style.cssText='flex-shrink:0;';
     const nameEl=makeEditable(sk.name||'','Skill name',v=>{ saveNestedField(['skills',realIdx,'name'],capitalise(v)); renderCombatSkills(appState); renderSkillsTopRow(appState); },'sk-keystone-name');
-    wrap.appendChild(nameEl);
+    nameRow.appendChild(priEl); nameRow.appendChild(nameEl);
+    wrap.appendChild(nameRow);
     const meta=document.createElement('div'); meta.className='sk-keystone-meta';
     const mastEl=document.createElement('div'); mastEl.className='skill-card-mastery'; mastEl.style.cssText=`color:${col};border-color:${col}40`; mastEl.textContent=MASTERY_LABELS[m];
     meta.appendChild(mastEl);
@@ -9420,9 +9630,13 @@ function addSkill(){
 function renderCombatSkills(s){
   const el=document.getElementById('combat-skills-list'); if(!el) return;
   const allSkills=s.skills||DEFAULT.skills||[];
-  const skills=allSkills.slice().sort((a,b)=>(a.priority||99)-(b.priority||99));
+  const sorted=allSkills.slice().sort((a,b)=>(a.priority||99)-(b.priority||99));
+  // Keystone = top underlevelled skill (shown separately above); exclude from list
+  const underlevelled=sorted.filter(sk=>(sk.mastery||1)<=2);
+  const keystoneSkill=underlevelled.length?underlevelled[0]:null;
+  const skills=sorted.filter(sk=>sk!==keystoneSkill);
   el.innerHTML='';
-  if(!skills.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No skills yet.'; el.appendChild(p); }
+  if(!sorted.length){ const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:17px;font-style:italic;'; p.textContent='No skills yet.'; el.appendChild(p); }
   const BELT_COLS=['#dedad0','#1e4898','#6030a0','#703818','#c8a84a'];
   const MASTERY_LABELS=['','I: Beginner','II: Novice','III: Adept','IV: Expert','V: Master'];
   skills.forEach((sk,i)=>{
@@ -9432,7 +9646,9 @@ function renderCombatSkills(s){
     const bodyId=`csk-body-${i}`,arrowId=`csk-arrow-${i}`;
     const card=document.createElement('div'); card.className='skill-card';
     const head=document.createElement('div'); head.className='skill-card-head'; head.dataset.handleInject='1';
-    const pri=document.createElement('div'); pri.className='skill-card-priority'; pri.textContent=sk.priority||'—';
+    // Display number: if keystone exists it holds slot 1, remaining start at 2; otherwise start at 1
+    const displayNum=keystoneSkill?i+2:i+1;
+    const pri=document.createElement('div'); pri.className='skill-card-priority'; pri.textContent=displayNum;
     const nameEl=makeEditable(sk.name,'Skill name',v=>{ saveNestedField(['skills',realIdx,'name'],capitalise(v)); const upd=appState.skills||[]; renderEditableSkillsList('fire-skills-left',upd.filter(s=>(s.mastery||1)<=2).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,2),appState); renderEditableSkillsList('fire-skills-right',upd.filter(s=>(s.mastery||1)>=3).sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,2),appState); },'sk-name-edit skill-card-name');
     const mastery=document.createElement('div'); mastery.className='skill-card-mastery'; mastery.style.cssText=`color:${col};border-color:${col}40`; mastery.textContent=MASTERY_LABELS[m];
     // Role badge — click cycles through DPS → Tank → Support → none
@@ -9488,8 +9704,12 @@ function renderCombatSkills(s){
   makeSortable(el, (from, to) => {
     const allSkills = appState.skills || [];
     const sorted = allSkills.slice().sort((a, b) => (a.priority||99) - (b.priority||99));
-    reorderArray(sorted, from, to);
-    sorted.forEach((sk, i) => { sk.priority = i + 1; });
+    const underlevelled2 = sorted.filter(sk2 => (sk2.mastery||1) <= 2);
+    const keystone2 = underlevelled2.length ? underlevelled2[0] : null;
+    // DOM indices map to sorted positions offset by 1 (keystone occupies position 0)
+    const offset = keystone2 ? 1 : 0;
+    reorderArray(sorted, from + offset, to + offset);
+    sorted.forEach((sk2, i) => { sk2.priority = i + 1; });
     saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState);
   });
 }
@@ -10452,7 +10672,7 @@ async function unlockApp(){
   loadStatusSliders();
   markStatusCheckInNeeded();
   loadStatSliders(appState);
-  (appState.activities||DEFAULT.activities||[]).forEach(act=>initRQState(act, appState.name));
+  (appState.activities||DEFAULT.activities||[]).forEach(act=>initRQState(act, getCharId()));
   updateCombatNavArc();
   _showApp();
   _resetLockTimer();
@@ -10703,7 +10923,7 @@ function _init(){
   markStatusCheckInNeeded();
   loadStatSliders(appState);
   (appState.activities || DEFAULT.activities || []).forEach(act => {
-    initRQState(act, appState.name);
+    initRQState(act, getCharId());
   });
   updateCombatNavArc();
   window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
