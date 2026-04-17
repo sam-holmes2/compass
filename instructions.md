@@ -1,4 +1,4 @@
-# character-sheet — LLM Instructions v1.5.0
+# character-sheet — LLM Instructions v1.6.0
 This file lives in project knowledge alongside `data.json` (source of truth).
 
 ---
@@ -126,9 +126,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 # Output format
 
-**Prefer partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.5.0"`, `sessionCount`, and `lastSession`.
+**Prefer partial updates** — include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.6.0"`, `sessionCount`, and `lastSession`.
 
-`{ "_partial": true, "_instructionsVersion": "1.5.0", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
+`{ "_partial": true, "_instructionsVersion": "1.6.0", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution` · practice history · pinned achievements/classes
 
@@ -232,15 +232,21 @@ Deduct for: significantly negative or unhealthy pattern relapse, mastery droppin
 
 **Level-up:** if `xp >= xpToNext` → subtract `xpToNext`, increment `level`, set `xpToNext = round(old * 1.2)`. Repeat until `xp < xpToNext`.
 
-**Calibrate all rewards to this user's perceived difficulty.** Revise upward when something proves harder than expected; downward when it becomes routine.
+**XP values are living estimates, not fixed contracts.** The app shows them as rough guidelines. Revise them each session based on what you observe: if something proved harder than the user expected, increase the reward; if it became routine or easier than thought, decrease it. Mention any revision in chat before outputting JSON.
 
-- Skills: 40-150
-- Side quests: 40-200. Main quest: 300-600.
-- Enemies (minions): 40-120. Standalone enemies: 80-200. Bosses: 300-500.
+**Calibrate all rewards to this user's perceived difficulty:**
+
+- Skills: 40-150. Default for new skills: 50.
+- Side quests: 40-200. Main quest: 300-600. Default for new quests: 75 (side), 400 (main).
+- Enemies (minions): 40-120. Standalone enemies: 80-200. Bosses: 300-500. Default for new enemies: 60 (minion), 120 (standalone), 350 (boss).
 - `sliderXpRewards` per element: `[null, tier-II, tier-III, tier-IV, tier-V]`
-- `xpPerUnit` for daily activities: target ~20-50 XP/day when hit consistently.
+- `xpPerUnit` for daily activities: target ~20-50 XP/day when hit consistently. Default: 1 XP/min for timers, 10 XP/completion for checkbox/number.
 
-Every boss, enemy, and quest must have an `xpReward`. Backfill any that are missing.
+**Backfill missing XP values every session:** Every boss, enemy, quest, and skill must have an `xpReward`. If any are missing, set them now using the defaults above, calibrated to what you know about this user.
+
+**When to revise upward:** the user has been stuck on something longer than expected, keeps failing or relapsing, or describes genuine struggle. Significant upward revision (20-50%) signals respect for the difficulty.
+
+**When to revise downward:** the user describes something as now easy, automatic, or no longer a real challenge. Downward revision (10-30%) keeps the system honest and prevents XP inflation.
 
 ---
 

@@ -1452,6 +1452,19 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   display:flex; align-items:flex-end; gap:2px;
   flex:1; height:100%; padding-left:30px; box-sizing:border-box; position:relative;
 }
+.rq-align-btn {
+  font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+  padding:3px 8px; border-radius:3px; cursor:pointer;
+  border:1px solid rgba(200,168,74,0.25); background:transparent; color:rgba(200,168,74,0.45);
+  transition:all 0.15s;
+}
+.rq-align-btn:hover { border-color:rgba(200,168,74,0.5); color:rgba(200,168,74,0.8); }
+.rq-align-btn.active { border-color:rgba(200,168,74,0.6); background:rgba(200,168,74,0.1); color:var(--gold); }
+.prac-bar-period-divider {
+  width:1px; align-self:stretch; flex-shrink:0;
+  background:rgba(255,255,255,0.1);
+  margin:0 1px; pointer-events:none;
+}
 .prac-bar-target-line {
   position:absolute; left:0; right:0; border-top:1px dashed rgba(200,168,74,0.35);
   pointer-events:none;
@@ -2274,7 +2287,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <!-- ══ HEADER ══════════════════════════════════════════════ -->
 <div class="hdr">
   <!-- Col 1: Main quest -->
-  <div class="hdr-left" title="Main Quest: your single most important current goal. The one thing that would change everything else if you made real progress on it. Progress and XP are set by your AI based on breakthroughs, identity shifts, and sustained behaviour change.">
+  <div class="hdr-left" title="Main Quest: your single most important current goal. The one thing that would change everything else if you made real progress on it. Progress and XP are set here or during journalling sessions.">
     <div class="hdr-quest-label">◈ Main Quest</div>
     <div class="hdr-quest-title" id="hdr-mq-title">TBC</div>
     <div class="hdr-mq-bar"><div class="hdr-mq-fill" id="hdr-mq-fill" style="width:0%"></div></div>
@@ -2314,7 +2327,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 
   <!-- Full-width XP bar (spans all columns) -->
-  <div class="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Awarded by your AI during journalling sessions.">
+  <div class="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Set XP rewards on each item directly in the UI.">
     <div class="hdr-xp-level-badge">
       <span class="xp-bar-lbl">Level</span>
       <span id="xp-level">4</span>
@@ -2445,7 +2458,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 -->
 
 <nav class="tab-nav">
-  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Combat: daily practices and check-in. The circle arc shows progress towards your top-priority regular quest today."><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat</button>
+  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Combat: daily practices and check-in. The circle arc shows progress towards your top-priority regular quest today." style="position:relative;"><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat<span id="combat-nav-checkin-badge" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c8a84a;box-shadow:0 0 5px rgba(200,168,74,0.7);"></span></button>
   <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')" title="Life balance across four dimensions"><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
   <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')" title="Active goals and direction"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
   <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')" title="Skills and habits ranked by mastery"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills</button>
@@ -2797,8 +2810,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="radar-panel-body">
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
-          <div class="radar-panel-title" style="font-size:18px;color:#9060c0;letter-spacing:0.2em;">Core Skills</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div class="radar-panel-title" style="font-size:18px;color:#9060c0;letter-spacing:0.2em;">Core Skills</div>
+            <button id="stats-checkin-reset-btn" class="hist-reset-btn" onclick="resetStatsCheckin()" title="Reset today's check-in: move all sliders back to middle and re-arm the glow">Reset today</button>
+          </div>
           <div class="radar-panel-desc">Foundational cornerstone skills that reliably improve physical and mental wellbeing</div>
+          <div id="stats-checkin-prompt" style="display:none;margin-top:6px;font-size:12px;color:#c8a84a;font-family:var(--mono);letter-spacing:0.05em;">Update your core skills for today</div>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
@@ -2887,8 +2904,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div class="radar-panel-body">
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
-          <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Current State</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Current State</div>
+            <button id="status-checkin-reset-btn" class="hist-reset-btn" onclick="resetStatusCheckin()" title="Reset today's check-in: move all sliders back to middle and re-arm the glow">Reset today</button>
+          </div>
           <div class="radar-panel-desc">A daily snapshot of your inner conditions. Track these over time to spot patterns in what lifts or drains you.</div>
+          <div id="status-checkin-prompt" style="display:none;margin-top:6px;font-size:12px;color:#c8a84a;font-family:var(--mono);letter-spacing:0.05em;">Update your current state for today</div>
         </div>
         <div class="stat-bar-row">
           <span class="stat-bar-lbl" style="color:#c0cad4" title="Focus: how well you can direct and sustain attention on what matters right now">Focus</span>
@@ -2942,7 +2963,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
 
   <!-- ── Recurring Quests ── -->
-  <div class="radar-panel-title" style="font-size:18px;color:#c8a84a;letter-spacing:0.2em;padding:18px 0 6px 0;">Regular quests</div>
+  <div style="display:flex;align-items:baseline;gap:12px;padding:18px 0 6px 0;">
+    <div class="radar-panel-title" style="font-size:18px;color:#c8a84a;letter-spacing:0.2em;">Regular quests</div>
+    <div id="rq-align-toggle-slot"></div>
+  </div>
   <div class="section-desc" style="margin-bottom:10px;">Recurring things that matter. Track consistency and spot trends over time.</div>
   <div id="rquests-container"></div>
   <button class="add-item-btn" onclick="addRegularQuest()" style="margin-top:10px;">+ New Regular Quest</button>
@@ -3523,7 +3547,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '1.5.0';
+const INSTRUCTIONS_VERSION = '1.6.0';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -3759,12 +3783,12 @@ function getRQStats(act, charName) {
   const firstEntryIdxForAvg = periods.slice().reverse().findIndex(p => p.hasEntry);
   const activeWindowForAvg  = firstEntryIdxForAvg >= 0 ? periods.slice(0, periods.length - firstEntryIdxForAvg) : [];
   const totalHitsAll = isBreakdown
-    ? activeWindowForAvg.filter(p => p.value > 0).length
+    ? activeWindowForAvg.filter(p => !p.void && p.value > 0).length
     : isCheck
       ? activeWindowForAvg.filter(p => p.hasEntry && p.value > 0).length
       : activePeriodsAll.filter(p => p.value > 0).length;
   const activeWindowAll = isBreakdown
-    ? activeWindowForAvg.length
+    ? activeWindowForAvg.filter(p => !p.void).length
     : isCheck
       ? activeWindowForAvg.filter(p => p.hasEntry).length
       : activePeriodsAll.length;
@@ -3775,17 +3799,17 @@ function getRQStats(act, charName) {
   let perSub = null;
   if (isCheck && subActs.length > 0) {
     // Breakdown quests: any period without a sub ticked = implicit "no".
-    // Denominator is all periods from the first recorded entry to now (no hasEntry filter).
+    // Denominator is all non-voided periods from the first recorded entry to now.
     const firstEntryIdx = periods.slice().reverse().findIndex(p => p.hasEntry);
     const activePeriodCount = firstEntryIdx >= 0 ? periods.length - firstEntryIdx : 0;
-    const activeWindow = activePeriodCount > 0 ? periods.slice(0, activePeriodCount) : [];
+    const activeWindow = activePeriodCount > 0 ? periods.slice(0, activePeriodCount).filter(p => !p.void) : [];
     perSub = subActs.map(sa => {
       const saGoal = sa.goal != null ? sa.goal : 1;
-      // last 7: all 7 periods count (empty = not done)
-      const last7 = periods.slice(0, 7);
+      // last 7: non-voided periods count (empty = not done)
+      const last7 = periods.slice(0, 7).filter(p => !p.void);
       const sa7hits = last7.filter(p => p.subsDone.includes(sa.id)).length;
       const sa7pct = last7.length > 0 ? Math.round(Math.min(sa7hits / (saGoal > 0 ? saGoal : 1), 1) * 100) : 0;
-      // all-time: full active window, empty periods = not done
+      // all-time: full active non-voided window, empty periods = not done
       const saAllHits = activeWindow.filter(p => p.subsDone.includes(sa.id)).length;
       const expectedHits = activeWindow.length > 0 ? (saGoal / 7) * activeWindow.length : 0;
       const saAllPct = expectedHits > 0 ? Math.round(Math.min(saAllHits / expectedHits, 1) * 100) : 0;
@@ -4161,6 +4185,7 @@ function updateRadar(vals){
 
 const STAT_COLORS = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
 const STATS_HIST_KEY = 'cs-stats-hist-v1';
+const STATS_CHECKIN_KEY = 'cs-stats-checkin-v1';
 
 function updateStatsRadar(){
   const R=38;
@@ -4449,7 +4474,23 @@ function saveStatsSnapshot(){
   renderStatsHistoryChart();
 }
 
+function resetStatsCheckin() {
+  _clearCheckinDone(STATS_CHECKIN_KEY);
+  Object.entries(STAT_COLORS).forEach(([name, col]) => {
+    const el = document.getElementById('stat-'+name);
+    const valEl = document.getElementById('stat-'+name+'-val');
+    if (!el) return;
+    el.value = 50;
+    if (valEl) valEl.textContent = 50;
+    setStatusGradient(el, col, 50);
+  });
+  updateStatsRadar();
+  _applyStatsCheckinState(true);
+}
+
 function updateStat(name, value){
+  _markCheckinDone(STATS_CHECKIN_KEY);
+  _applyStatsCheckinState(false);
   const pct=parseInt(value);
   const col=STAT_COLORS[name];
   const el=document.getElementById('stat-'+name);
@@ -4465,18 +4506,29 @@ function updateStat(name, value){
   saveStatsSnapshot();
 }
 
+function _applyStatsCheckinState(needsCheckin) {
+  document.querySelectorAll('#tab-skills .stat-bar-row').forEach(row => {
+    row.classList.toggle('status-needs-checkin', needsCheckin);
+  });
+  const prompt = document.getElementById('stats-checkin-prompt');
+  if (prompt) prompt.style.display = needsCheckin ? '' : 'none';
+}
+
 function loadStatSliders(s){
+  const doneToday = _checkinDoneToday(STATS_CHECKIN_KEY);
   const wol=(s||appState).coreSkills||{};
   Object.entries(STAT_COLORS).forEach(([name,col])=>{
     const el=document.getElementById('stat-'+name);
     const valEl=document.getElementById('stat-'+name+'-val');
     if(!el) return;
-    const pct=Math.min(100,Math.max(0,(wol[name]||{}).score||0));
+    // If no check-in today, reset to 50 so sliders are in neutral/pending state
+    const pct = doneToday ? Math.min(100,Math.max(0,(wol[name]||{}).score||0)) : 50;
     el.value=pct;
     if(valEl) valEl.textContent=pct;
     setStatusGradient(el,col,pct);
   });
   updateStatsRadar();
+  _applyStatsCheckinState(!doneToday);
   requestAnimationFrame(()=>requestAnimationFrame(renderStatsHistoryChart));
 }
 
@@ -4923,6 +4975,33 @@ function makeEditable(text, placeholder, onSave, extraClass){
   el.addEventListener('click', e => e.stopPropagation());
   return el;
 }
+function makeXpPill(value, prefix, pillClass, onSave){
+  let _cur=value;
+  const pill=document.createElement('span');
+  const update=v=>{ _cur=v; pill.className='xp-pill '+(v?pillClass:'xp-pill-tbd'); pill.textContent=v?(prefix+v+' XP'):(prefix==='☠ '?'☠ ? XP':'+? XP'); };
+  update(value);
+  pill.style.cursor='pointer';
+  pill.title='Click to set XP reward';
+  pill.addEventListener('click',e=>{
+    e.stopPropagation();
+    const existing=pill.parentNode.querySelector('.xp-inline-edit');
+    if(existing){ existing.remove(); return; }
+    const wrap=document.createElement('span'); wrap.className='xp-inline-edit';
+    wrap.style.cssText='display:inline-flex;align-items:center;gap:4px;margin-left:4px;';
+    const inp=document.createElement('input'); inp.type='number'; inp.min='0'; inp.step='5';
+    inp.value=_cur||''; inp.placeholder='XP';
+    inp.style.cssText='width:64px;padding:2px 6px;font-size:13px;background:rgba(0,0,0,0.6);border:1px solid rgba(200,168,74,0.5);border-radius:4px;color:#e4dec8;font-family:inherit;';
+    const ok=document.createElement('button'); ok.textContent='✓'; ok.type='button';
+    ok.style.cssText='padding:1px 7px;font-size:13px;background:rgba(200,168,74,0.18);border:1px solid rgba(200,168,74,0.4);border-radius:4px;color:var(--gold);cursor:pointer;';
+    const save=()=>{ const n=inp.value===''?undefined:parseInt(inp.value,10)||0; onSave(n); update(n); wrap.remove(); };
+    ok.addEventListener('click',e=>{ e.stopPropagation(); save(); });
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); save(); } if(e.key==='Escape'){ wrap.remove(); } });
+    wrap.appendChild(inp); wrap.appendChild(ok);
+    pill.insertAdjacentElement('afterend',wrap);
+    inp.focus(); inp.select();
+  });
+  return pill;
+}
 function saveNestedField(path, value){
   // path like ['enemies','boss','name'] or ['sideQuests',0,'title']
   let obj=appState;
@@ -5040,11 +5119,11 @@ function addSideQuest(){
       {key:'nextStep',     label:'Next Step',       value:'',  type:'textarea', rows:2, hint:'The very next physical action to move this forward'},
       {key:'whyItMatters', label:'Why It Matters',  value:'',  type:'textarea', rows:2, hint:'Why does completing this matter to you?'},
       {key:'doneWhen',     label:'Completed When',  value:'',  type:'text',     placeholder:'Describe the finish line…', hint:'How will you know when this is done?'},
-      {key:'_xp',          label:'XP Reward',       value:'',  type:'xp-info'},
+      {key:'xpReward',      label:'XP Reward',       value:'50', type:'xp',       placeholder:'e.g. 50'},
     ],
     onSave:v=>{
       if(!v.title.trim()) return;
-      appState.sideQuests.push({title:capitalise(v.title),nextStep:v.nextStep,whyItMatters:v.whyItMatters,doneWhen:v.doneWhen,progress:0});
+      appState.sideQuests.push({title:capitalise(v.title),nextStep:v.nextStep,whyItMatters:v.whyItMatters,doneWhen:v.doneWhen,progress:0,xpReward:v.xpReward||50});
       saveState(appState); markDirty(); renderQuestsTab(appState);
     }
   });
@@ -5086,8 +5165,7 @@ function renderQuestsTab(s){
     const mqMark=document.createElement('span'); mqMark.className='quest-mark quest-rank'; mqMark.textContent='1';
     const mqLockBtn=makeLockBtn('mainQuest.title');
     trigger.appendChild(mqMark); trigger.appendChild(titleEl); trigger.appendChild(mqLockBtn); trigger.appendChild(tr); trigger.appendChild(ps);
-    if(mq.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+mq.xpReward+' XP'; trigger.appendChild(pill); }
-    else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal about this quest, negotiate the reward with your AI based on how difficult or meaningful it is.'; trigger.appendChild(pill); }
+    trigger.appendChild(makeXpPill(mq.xpReward,'+','xp-pill-quest',v=>{ saveMQField('xpReward',v); }));
     const mqDlInfo=deadlineInfo(mq.deadline);
     if(mqDlInfo){ const badge=document.createElement('span'); badge.className='quest-deadline-badge '+mqDlInfo.cls; badge.textContent='⏱ '+mqDlInfo.label; badge.title='Due '+mq.deadline; trigger.appendChild(badge); }
     trigger.appendChild(arrowEl);
@@ -5163,8 +5241,7 @@ function renderQuestsTab(s){
       });
       const sqLockBtn=makeLockBtn(`sideQuests.${i}.title`);
       head.appendChild(delBtn); head.appendChild(mark); head.appendChild(titleEl); head.appendChild(sqLockBtn); head.appendChild(tr); head.appendChild(ps);
-      if(q.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-quest'; pill.textContent='+'+q.xpReward+' XP'; head.appendChild(pill); }
-      else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal about this quest, negotiate the reward with your AI based on how difficult or meaningful it is.'; head.appendChild(pill); }
+      head.appendChild(makeXpPill(q.xpReward,'+','xp-pill-quest',v=>{ saveNestedField(['sideQuests',i,'xpReward'],v); }));
       const dlInfo=deadlineInfo(q.deadline);
       if(dlInfo){ const badge=document.createElement('span'); badge.className='quest-deadline-badge '+dlInfo.cls; badge.textContent='⏱ '+dlInfo.label; badge.title='Due '+q.deadline; head.appendChild(badge); }
       const sqEditBtn=document.createElement('button'); sqEditBtn.className='card-edit-btn'; sqEditBtn.textContent='✎'; sqEditBtn.title='Edit quest details';
@@ -5176,13 +5253,14 @@ function renderQuestsTab(s){
             {key:'nextStep',    label:'Next Step',        value:q.nextStep||'',    type:'textarea', rows:2, hint:'The very next physical action to move this forward'},
             {key:'whyItMatters',label:'Why It Matters',  value:q.whyItMatters||'',type:'textarea', rows:2, hint:'Why does completing this matter to you?'},
             {key:'doneWhen',    label:'Completed When',  value:q.doneWhen||'',    type:'text',     placeholder:'Describe the finish line…', hint:'How will you know when this is done?'},
-            {key:'_xp',         label:'XP Reward',       value:'',                type:'xp-info'},
+            {key:'xpReward',    label:'XP Reward',       value:q.xpReward||50,    type:'xp',       placeholder:'e.g. 50'},
           ],
           onSave:v=>{
             saveNestedField(['sideQuests',i,'title'],capitalise(v.title));
             saveNestedField(['sideQuests',i,'nextStep'],v.nextStep);
             saveNestedField(['sideQuests',i,'whyItMatters'],v.whyItMatters);
             saveNestedField(['sideQuests',i,'doneWhen'],v.doneWhen);
+            saveNestedField(['sideQuests',i,'xpReward'],v.xpReward||50);
             renderQuestsTab(appState);
           }
         });
@@ -5303,7 +5381,7 @@ function addEnemy(){
   if(!appState.enemies) appState.enemies={};
   if(!appState.enemies.current) appState.enemies.current=[];
   const maxP=appState.enemies.current.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.enemies.current.push({name:'',desc:'',trigger:'',type:'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:''});
+  appState.enemies.current.push({name:'',desc:'',trigger:'',type:'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:'',bounty:50});
   saveState(appState); markDirty(); renderEnemiesTab(appState);
 }
 function killEnemy(e){
@@ -5313,16 +5391,17 @@ function killEnemy(e){
   if(!appState.enemies.graveyard) appState.enemies.graveyard=[];
   const graveEntry={name:e.name||'',defeatedDate:todayStr,howDefeated:'',type:e.type||'',desc:e.desc||''};
   appState.enemies.graveyard.unshift(graveEntry);
-  // Award XP if enemy has xpReward
-  if(e.xpReward && e.xpReward>0){
+  // Award XP bounty on kill
+  const _killXp=e.bounty||e.xpReward||0;
+  if(_killXp>0){
     const _oldXp=appState.xp||0; const _oldLevel=appState.level||1;
-    appState.xp=(_oldXp+e.xpReward);
+    appState.xp=(_oldXp+_killXp);
     const log=loadXPLog();
     const _d=new Date(); const date=String(_d.getDate()).padStart(2,'0')+'/'+String(_d.getMonth()+1).padStart(2,'0')+'/'+_d.getFullYear();
-    log.unshift({date,type:'kill',amount:e.xpReward,reason:(e.name||'Enemy')+' defeated',totalAfter:appState.xp});
+    log.unshift({date,type:'kill',amount:_killXp,reason:(e.name||'Enemy')+' defeated',totalAfter:appState.xp});
     saveXPLog(log);
     updateXpRing(appState.level,appState.xp,appState.xpToNext);
-    animateXpGain(_oldXp,appState.xp,_oldLevel,appState.level||1,appState.xpToNext,'+'+e.xpReward+' XP');
+    animateXpGain(_oldXp,appState.xp,_oldLevel,appState.level||1,appState.xpToNext,'+'+_killXp+' XP');
     renderXPLog();
   }
   // Remove from source
@@ -5479,8 +5558,7 @@ function renderEnemiesTab(s){
       hpFill.style.cssText=`width:${hp}%;background:${hpColor(hp)};`;
       hpWrap.appendChild(hpFill);
       head.appendChild(nameEl); if(_enemyLockBtn) head.appendChild(_enemyLockBtn); head.appendChild(tag); head.appendChild(hpWrap);
-      if(e.bounty){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-bounty'; pill.textContent='☠ '+e.bounty+' XP'; head.appendChild(pill); }
-      else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='☠ ? XP'; pill.title='Bounty not set. When you journal about defeating this enemy, negotiate the XP reward with your AI based on how significant overcoming it would be.'; head.appendChild(pill); }
+      head.appendChild(makeXpPill(e.bounty,'☠ ','xp-pill-bounty',v=>{ saveEnemyField('bounty',v); }));
       const enemyEditBtn=document.createElement('button'); enemyEditBtn.className='card-edit-btn'; enemyEditBtn.textContent='✎'; enemyEditBtn.title='Edit details';
       enemyEditBtn.addEventListener('click',ev=>{ ev.stopPropagation();
         const fields=[
@@ -5497,6 +5575,7 @@ function renderEnemiesTab(s){
           });
         }
         fields.push({key:'desc',  label:'Description', value:e.desc||'',              type:'textarea', rows:3});
+        fields.push({key:'bounty',label:'XP Bounty',   value:e.bounty||50,           type:'xp',       placeholder:'e.g. 50'});
         if(isBoss){
           fields.push({key:'whyBoss',         label:'Why is this a boss?',         value:e.whyBoss||'',         type:'textarea', rows:2, hint:'What underlying pattern or root cause does it represent?'});
           fields.push({key:'shortTermBenefit',label:'Short-term benefit',          value:e.shortTermBenefit||'',type:'textarea', rows:2, hint:'What does this pattern give you in the short term?'});
@@ -6975,17 +7054,10 @@ function showCardEditModal({fields, accentColor, onSave}){
         el.appendChild(b);
       });
       Object.defineProperty(el,'value',{ get:()=>selected, set:v=>{ selected=v; } });
-    } else if(f.type==='xp-info'){
-      el=document.createElement('div');
-      el.style.cssText=`display:flex;align-items:center;gap:8px;margin-bottom:${fi===fields.length-1?16:12}px;`;
-      const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP';
-      pill.title='XP rewards are negotiated with your AI during journalling sessions, based on how difficult or meaningful the quest is.';
-      pill.style.cursor='help';
-      const note=document.createElement('span');
-      note.style.cssText='font-size:13px;color:var(--text-dim);font-style:italic;';
-      note.textContent='Negotiate with your AI during journalling';
-      el.appendChild(pill); el.appendChild(note);
-      Object.defineProperty(el,'value',{ get:()=>'', set:()=>{} });
+    } else if(f.type==='xp'){
+      el=document.createElement('input'); el.type='number'; el.min='0'; el.step='5'; el.value=f.value||'';
+      el.placeholder=f.placeholder||'e.g. 50';
+      el.style.cssText=INPUT_BASE+`font-size:15px;color:var(--text-mid);width:120px;margin-bottom:${fi===fields.length-1?16:12}px;`;
     } else if(f.type==='textarea'){
       el=document.createElement('textarea'); el.value=f.value||''; el.rows=f.rows||3;
       el.style.cssText=INPUT_BASE+`font-size:17px;color:var(--text-mid);font-family:inherit;resize:vertical;line-height:1.5;margin-bottom:${fi===fields.length-1?16:12}px;`;
@@ -6995,19 +7067,19 @@ function showCardEditModal({fields, accentColor, onSave}){
       const isMono=f.type==='mono'; const isTitle=f.titleFont;
       el.style.cssText=INPUT_BASE+`font-size:${isTitle?17:15}px;color:${isTitle?'var(--text-hi)':'var(--text-mid)'};font-family:${isTitle?'Cinzel,serif':isMono?'var(--mono)':'inherit'};margin-bottom:${fi===fields.length-1?16:12}px;`;
     }
-    if(f.type!=='select'&&f.type!=='xp-info'){
+    if(f.type!=='select'){
       el.addEventListener('focus',()=>{ el.style.borderColor=accentColor; });
       el.addEventListener('blur',()=>{ el.style.borderColor='rgba(255,255,255,0.12)'; });
       if(f.type!=='textarea') el.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); const next=fields[fi+1]; if(next) inputs[next.key].focus(); } });
     }
     inputs[f.key]=el;
     box.appendChild(el);
-    if(!firstInput&&f.type!=='xp-info') firstInput=el;
+    if(!firstInput) firstInput=el;
   });
   const btnRow=document.createElement('div'); btnRow.className='modal-row';
   const saveBtn=document.createElement('button'); saveBtn.className='btn-primary'; saveBtn.textContent='Save';
   saveBtn.style.cssText=`background:${accentColor};border-color:${accentColor};`;
-  saveBtn.addEventListener('click',()=>{ const vals={}; fields.forEach(f=>{ if(f.type==='xp-info') return; vals[f.key]=inputs[f.key].value.trim(); }); onSave(vals); overlay.remove(); });
+  saveBtn.addEventListener('click',()=>{ const vals={}; fields.forEach(f=>{ const raw=inputs[f.key].value; vals[f.key]=f.type==='xp'?(raw===''?undefined:parseInt(raw,10)||0):raw.trim(); }); onSave(vals); overlay.remove(); });
   const cancelBtn=document.createElement('button'); cancelBtn.className='btn-ghost'; cancelBtn.textContent='Cancel';
   cancelBtn.addEventListener('click',()=>overlay.remove());
   // Ctrl/Cmd+Enter saves from textarea
@@ -7922,7 +7994,7 @@ function renderPracticeMiniChart(canvas, act, charName) {
   // legacy no-op — new chart uses renderPracticeBarChart on a div
 }
 
-function renderRQBarChart(wrap, act, charName) {
+function renderRQBarChart(wrap, act, charName, _alignStart) {
   if (!wrap) return;
   wrap.innerHTML = '';
 
@@ -7939,14 +8011,17 @@ function renderRQBarChart(wrap, act, charName) {
   const hardHist  = HARDCODED_HISTORY[act.id] || [];
   const lsHist    = loadRQHistory(charName, act.id);
   const now       = new Date();
-  const numBars   = act.resetPeriod === 'week' ? 13 : 28;
   const curPeriod = currentPeriod(act.resetPeriod);
   const dataPoints = [];
 
   if (act.resetPeriod === 'day') {
-    for (let i = numBars - 1; i >= 0; i--) {
-      const d  = new Date(now); d.setDate(d.getDate() - i);
-      const ds = d.toISOString().slice(0,10);
+    // When aligned, iterate from the shared start date to today; otherwise show last 28 days
+    const todayStr = now.toISOString().slice(0, 10);
+    const startStr = _alignStart || (() => { const d = new Date(now); d.setUTCDate(d.getUTCDate() - 27); return d.toISOString().slice(0,10); })();
+    let _ds = startStr;
+    while (_ds <= todayStr) {
+      const ds = _ds;
+      const d = new Date(ds + 'T00:00:00Z');
       const hard = hardHist.find(h => h.date === ds);
       const le   = lsHist.find(h => h.period === ds);
       let value = 0, subsDone = [], isHard = false, hasEntry = false, isVoid = false;
@@ -7962,9 +8037,11 @@ function renderRQBarChart(wrap, act, charName) {
       }
       const lbl = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
       dataPoints.push({ period: ds, label: lbl, value, subsDone, isCurrent: ds === curPeriod, isHard, hasEntry, void: isVoid });
+      d.setUTCDate(d.getUTCDate() + 1);
+      _ds = d.toISOString().slice(0, 10);
     }
   } else if (act.resetPeriod === 'week') {
-    for (let i = numBars - 1; i >= 0; i--) {
+    for (let i = 12; i >= 0; i--) {
       const d  = new Date(now); d.setDate(d.getDate() - i * 7);
       const wp = getPeriodKey(d, 'week');
       const hard = hardHist.find(h => h.period === wp);
@@ -7977,15 +8054,19 @@ function renderRQBarChart(wrap, act, charName) {
         if (ps) { value = ps.value || 0; subsDone = ps.subsDone || []; hasEntry = act.type === 'checkbox' ? (ps.hasEntry !== undefined ? ps.hasEntry : value > 0) : value > 0; }
       }
       const lbl = 'W' + wp.slice(5);
-      dataPoints.push({ period: wp, label: lbl, value, subsDone, isCurrent: wp === curPeriod, isHard, hasEntry, void: isVoid });
+      dataPoints.push({ period: wp, label: lbl, value, subsDone, isCurrent: wp === curPeriod, isHard, hasEntry, void: isVoid, month: d.getMonth() });
     }
   }
 
-  // Trim leading empty entries so graph starts from first real data point
-  const firstDataIdx = dataPoints.findIndex(d => act.type === 'checkbox' ? d.hasEntry : d.value > 0);
-  const trimmedPoints = firstDataIdx > 0 ? dataPoints.slice(firstDataIdx) : dataPoints;
-  // Always show current period even if it's zero (it may still be in progress)
-  const displayPoints = trimmedPoints.length > 0 ? trimmedPoints : dataPoints.slice(-1);
+  // When aligned, keep full window so all charts share the same x-axis. Otherwise trim leading empties.
+  let displayPoints;
+  if (_alignStart) {
+    displayPoints = dataPoints.length > 0 ? dataPoints : dataPoints.slice(-1);
+  } else {
+    const firstDataIdx = dataPoints.findIndex(d => act.type === 'checkbox' ? d.hasEntry : d.value > 0);
+    const trimmedPoints = firstDataIdx > 0 ? dataPoints.slice(firstDataIdx) : dataPoints;
+    displayPoints = trimmedPoints.length > 0 ? trimmedPoints : dataPoints.slice(-1);
+  }
 
   const maxV = Math.max(...displayPoints.map(d => d.value), act.target || 1, 1);
   const unit = act.type === 'timer' ? 'min' : (act.unit || '');
@@ -8108,7 +8189,7 @@ function renderRQBarChart(wrap, act, charName) {
           if (newSubsDone.length > oldCount && act.xpPerUnit) awardRQXP(act.id, Math.round(act.xpPerUnit));
           dp.subsDone = [...newSubsDone];
           dp.value    = newSubsDone.length;
-          renderRQBarChart(wrap, act, charName);
+          renderRQBarChart(wrap, act, charName, _alignStart);
           refreshStats();
         };
 
@@ -8130,6 +8211,33 @@ function renderRQBarChart(wrap, act, charName) {
         });
 
         popover.appendChild(chipsRow);
+
+        // Exclude toggle for past non-hardcoded breakdown entries
+        if (!dp.isCurrent && !dp.isHard) {
+          const voidBtn = document.createElement('button');
+          voidBtn.className = 'prac-bar-edit-void' + (dp.void ? ' active' : '');
+          voidBtn.title = dp.void ? 'Restore: count this day in averages' : 'Exclude: remove from averages and trend lines';
+          voidBtn.textContent = dp.void ? 'Restore day' : 'Exclude day';
+          voidBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            const newVoid = !dp.void;
+            const hist = loadRQHistory(charName, act.id);
+            const idx  = hist.findIndex(h => h.period === dp.period);
+            if (idx >= 0) {
+              if (newVoid) hist[idx].void = true;
+              else delete hist[idx].void;
+            } else if (newVoid) {
+              hist.push({ period: dp.period, value: dp.value, subsDone: [...(dp.subsDone||[])], target: act.target || 0, void: true });
+            }
+            saveRQHistory(charName, act.id, hist);
+            dp.void = newVoid;
+            closePopovers();
+            renderRQBarChart(wrap, act, charName, _alignStart);
+            refreshStats();
+          });
+          popover.appendChild(voidBtn);
+        }
+
         document.body.appendChild(popover);
         requestAnimationFrame(() => {
           const cr = col.getBoundingClientRect();
@@ -8175,7 +8283,7 @@ function renderRQBarChart(wrap, act, charName) {
         dp.value    = newVal;
         dp.hasEntry = keepEntry;
         closePopovers();
-        renderRQBarChart(wrap, act, charName);
+        renderRQBarChart(wrap, act, charName, _alignStart);
         refreshStats();
         return;
       }
@@ -8224,7 +8332,7 @@ function renderRQBarChart(wrap, act, charName) {
           saveRQHistory(charName, act.id, hist);
           dp.void = newVoid;
           closePopovers();
-          renderRQBarChart(wrap, act, charName);
+          renderRQBarChart(wrap, act, charName, _alignStart);
           refreshStats();
         });
         row.appendChild(voidBtn);
@@ -8285,7 +8393,7 @@ function renderRQBarChart(wrap, act, charName) {
 
         dp.value = rawVal;
         closePopovers();
-        renderRQBarChart(wrap, act, charName);
+        renderRQBarChart(wrap, act, charName, _alignStart);
         refreshStats();
       };
 
@@ -8302,7 +8410,25 @@ function renderRQBarChart(wrap, act, charName) {
     });
   };
 
-  displayPoints.forEach(dp => {
+  displayPoints.forEach((dp, dpIdx) => {
+    // Insert a week/month boundary divider before columns that start a new period group
+    if (dpIdx > 0) {
+      let isDivider = false;
+      if (act.resetPeriod === 'day') {
+        // Divider at each Monday
+        const d = new Date(dp.period);
+        isDivider = d.getUTCDay() === 1;
+      } else if (act.resetPeriod === 'week') {
+        // Divider when the calendar month changes between consecutive weeks
+        isDivider = dp.month !== displayPoints[dpIdx - 1].month;
+      }
+      if (isDivider) {
+        const div = document.createElement('div');
+        div.className = 'prac-bar-period-divider';
+        colsWrap.appendChild(div);
+      }
+    }
+
     const col = document.createElement('div');
     col.className = 'prac-bar-col' +
       (dp.isCurrent ? ' is-current' : '') +
@@ -8314,21 +8440,25 @@ function renderRQBarChart(wrap, act, charName) {
       col.style.height = '100%';
       const subsDone = dp.subsDone || [];
       const doneSubs = subActs.filter(sa => subsDone.includes(sa.id));
+      const voidSuffix = dp.void ? ' (excluded)' : '';
       const titleStr = doneSubs.length
-        ? dp.label + ': ' + doneSubs.map(s => s.name).join(', ') + (dp.isCurrent ? ' (today)' : '')
-        : dp.label + (dp.isCurrent ? ' (today)' : '');
+        ? dp.label + ': ' + doneSubs.map(s => s.name).join(', ') + voidSuffix + (dp.isCurrent ? ' (today)' : '')
+        : dp.label + voidSuffix + (dp.isCurrent ? ' (today)' : '');
       col.title = titleStr;
+      if (dp.void) col.style.opacity = '0.35';
 
       subActs.forEach(sa => {
         const cell = document.createElement('div');
         cell.className = 'prac-bar-lane-cell';
         const done = subsDone.includes(sa.id);
         const cellColor = sa.color || 'rgba(200,168,74,0.75)';
-        cell.style.cssText = `background:${
-          done
-            ? (dp.isCurrent ? cellColor : cellColor + 'bb')
-            : (dp.isCurrent ? 'rgba(200,168,74,0.12)' : 'rgba(255,255,255,0.07)')
-        };${dp.isCurrent ? `outline:1px solid rgba(200,168,74,0.18);outline-offset:-1px;` : ''}${done && dp.isCurrent ? `box-shadow:0 0 4px ${cellColor + '66'};` : ''}`;
+        cell.style.cssText = dp.void
+          ? `background:rgba(180,60,60,0.45);border-top:1px solid rgba(200,80,80,0.5);`
+          : `background:${
+              done
+                ? (dp.isCurrent ? cellColor : cellColor + 'bb')
+                : (dp.isCurrent ? 'rgba(200,168,74,0.12)' : 'rgba(255,255,255,0.07)')
+            };${dp.isCurrent ? `outline:1px solid rgba(200,168,74,0.18);outline-offset:-1px;` : ''}${done && dp.isCurrent ? `box-shadow:0 0 4px ${cellColor + '66'};` : ''}`;
         col.appendChild(cell);
       });
     } else {
@@ -8680,6 +8810,24 @@ function addRegularQuest() {
   });
   applyTypeStyleFull();
 
+  // XP per unit
+  const xpLbl2 = document.createElement('p'); xpLbl2.style.cssText = LABEL_CSS; xpLbl2.textContent = 'XP per completion';
+  box.appendChild(xpLbl2);
+  const xpRow2 = document.createElement('div'); xpRow2.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:12px;';
+  const xpIn = document.createElement('input'); xpIn.type = 'number'; xpIn.min = '0'; xpIn.step = '1'; xpIn.value = '10'; xpIn.placeholder = 'e.g. 10';
+  xpIn.style.cssText = INPUT_BASE + 'font-size:15px;color:var(--text-mid);width:100px;flex-shrink:0;';
+  xpIn.addEventListener('focus', () => xpIn.style.borderColor = 'var(--gold)');
+  xpIn.addEventListener('blur', () => xpIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  const xpNote2 = document.createElement('span'); xpNote2.style.cssText = 'font-size:13px;color:var(--text-dim);'; xpNote2.textContent = 'awarded each time you hit your target';
+  const updateXpNote = () => {
+    if (selectedType === 'timer') { xpLbl2.textContent = 'XP per minute'; xpNote2.textContent = 'plus milestone bonuses at 25/50/75/100%'; if (!xpIn._userEdited) xpIn.value = '1'; }
+    else { xpLbl2.textContent = 'XP per completion'; xpNote2.textContent = 'awarded each time you hit your target'; if (!xpIn._userEdited) xpIn.value = '10'; }
+  };
+  xpIn.addEventListener('input', () => { xpIn._userEdited = true; });
+  typeOpts.forEach(o => typeBtns[o.value].addEventListener('click', updateXpNote));
+  xpRow2.appendChild(xpIn); xpRow2.appendChild(xpNote2);
+  box.appendChild(xpRow2);
+
   // Buttons
   const btnRow = document.createElement('div'); btnRow.className = 'modal-row';
   const saveBtn = document.createElement('button'); saveBtn.className = 'btn-primary'; saveBtn.textContent = 'Save';
@@ -8696,6 +8844,7 @@ function addRegularQuest() {
     const actType = selectedType === 'breakdown' ? 'checkbox' : selectedType;
     const tgt = selectedType === 'breakdown' ? bdSubs.filter(s => s.name.trim()).length : (parseInt(targetIn.value, 10) || 1);
     const unit = selectedType === 'breakdown' ? 'activities' : (unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : 'times'));
+    const xpPerUnit = parseInt(xpIn.value, 10) || 10;
     const newAct = {
       id, name: capitalise(name),
       type: actType,
@@ -8704,6 +8853,7 @@ function addRegularQuest() {
       unit,
       color: selectedType === 'breakdown' ? undefined : selectedColor,
       priority: maxPri + 1,
+      xpPerUnit,
     };
     if (selectedType === 'breakdown') {
       newAct.subActivities = bdSubs
@@ -8738,7 +8888,48 @@ function renderRecurringQuests(s) {
     .slice().sort((a,b) => (a.priority||99) - (b.priority||99));
   const charName = getCharId();
 
+  // Compute aligned start date: earliest first data point across all day-period activities
+  const aligned = !!s.rqAlignTimelines;
+  let alignStartDate = null;
+  if (aligned) {
+    const now = new Date();
+    activities.filter(a => a.resetPeriod === 'day').forEach(a => {
+      const hardHist = HARDCODED_HISTORY[a.id] || [];
+      const lsHist   = loadRQHistory(charName, a.id);
+      // Find earliest entry date in hardcoded history
+      hardHist.forEach(h => { if (h.date && h.value > 0) { const cmp = h.date; if (!alignStartDate || cmp < alignStartDate) alignStartDate = cmp; } });
+      // Find earliest entry in localStorage history
+      lsHist.forEach(h => { if (h.period && h.value > 0) { const cmp = h.period; if (!alignStartDate || cmp < alignStartDate) alignStartDate = cmp; } });
+    });
+    // Cap at 90 days back to avoid giant charts
+    const ninetyAgo = new Date(now); ninetyAgo.setDate(ninetyAgo.getDate() - 89);
+    const ninetyStr = ninetyAgo.toISOString().slice(0, 10);
+    if (!alignStartDate || alignStartDate < ninetyStr) alignStartDate = ninetyStr;
+  }
+
+  // Toggle button — render above the container using a sibling slot
+  const toggleSlot = document.getElementById('rq-align-toggle-slot');
+  if (toggleSlot) {
+    toggleSlot.innerHTML = '';
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'rq-align-btn' + (aligned ? ' active' : '');
+    toggleBtn.title = aligned ? 'Showing aligned timelines. Click to show each quest independently.' : 'Align all quest timelines to the same start date for easy comparison.';
+    toggleBtn.textContent = aligned ? 'Timelines: aligned' : 'Timelines: independent';
+    toggleBtn.addEventListener('click', () => {
+      s.rqAlignTimelines = !s.rqAlignTimelines;
+      saveState(s); renderRecurringQuests(s);
+    });
+    toggleSlot.appendChild(toggleBtn);
+  }
+
   activities.forEach((act, actIdx) => {
+    // Ensure every activity has an id (backfill for pre-id data)
+    if (!act.id) {
+      act.id = (act.name||'act').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now() + '-' + actIdx;
+      const actInState = (appState.activities||[]).find(a => a === act || (!a.id && a.name === act.name));
+      if (actInState) actInState.id = act.id;
+      saveState(appState);
+    }
     initRQState(act, charName);
     const stats = getRQStats(act, charName);
     const card = document.createElement('div');
@@ -8934,6 +9125,12 @@ function renderRecurringQuests(s) {
 
     hdr.appendChild(typeSelect);
     hdr.appendChild(periodSelect);
+    hdr.appendChild(makeXpPill(act.xpPerUnit,'+','xp-pill-quest',v=>{
+      const rqIdx=rqRealIdx>=0?rqRealIdx:(appState.activities||[]).findIndex(a=>a.id===act.id);
+      if(rqIdx>=0){ appState.activities[rqIdx].xpPerUnit=v??0; }
+      act.xpPerUnit=v??0;
+      saveState(appState); markDirty();
+    }));
     card.appendChild(hdr);
 
     // Body: info + widget
@@ -9140,7 +9337,7 @@ function renderRecurringQuests(s) {
         const ps = practiceState[act.id];
         if (ps && ps._resumeTimer) { ps._resumeTimer = false; timerStart(act.id); }
       }
-      renderRQBarChart(graphWrap, act, charName);
+      renderRQBarChart(graphWrap, act, charName, act.resetPeriod === 'day' ? alignStartDate : null);
     });
   });
 
@@ -9598,7 +9795,7 @@ function renderSkillsTopRow(s){
       roleBadge.title=SKILL_ROLE_DESCS[sk.role]||'';
       meta.appendChild(roleBadge);
     }
-    if(sk.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-skill'; pill.textContent='+'+sk.xpReward+' XP'; meta.appendChild(pill); }
+    meta.appendChild(makeXpPill(sk.xpReward,'+','xp-pill-skill',v=>{ saveNestedField(['skills',realIdx,'xpReward'],v); renderCombatSkills(appState); }));
     wrap.appendChild(meta);
     const descEl=makeEditable(sk.description||'','Describe this skill…',v=>saveNestedField(['skills',realIdx,'description'],v),'sk-keystone-desc');
     wrap.appendChild(descEl);
@@ -9621,7 +9818,7 @@ function renderSkillsTopRow(s){
 function addSkill(){
   if(!appState.skills) appState.skills=[];
   const nextPriority=(appState.skills.length?Math.max(...appState.skills.map(sk=>sk.priority||0))+1:1);
-  appState.skills.push({name:'',description:'',whyItMatters:'',mastery:1,priority:nextPriority});
+  appState.skills.push({name:'',description:'',whyItMatters:'',mastery:1,priority:nextPriority,xpReward:25});
   saveState(appState); markDirty(); renderCombatSkills(appState); renderSkillsTopRow(appState);
   const cards=document.querySelectorAll('#combat-skills-list .sk-name-edit');
   if(cards.length) cards[cards.length-1].focus();
@@ -9679,19 +9876,20 @@ function renderCombatSkills(s){
           {key:'name',          label:'Skill Name',      value:sk.name||'',          type:'text',     titleFont:true},
           {key:'description',   label:'Description',     value:sk.description||'',   type:'textarea', rows:3},
           {key:'whyItMatters',  label:'Why It Matters',  value:sk.whyItMatters||'',  type:'textarea', rows:2, hint:'Why is developing this skill important to you?'},
+          {key:'xpReward',      label:'XP Reward',       value:sk.xpReward||25,      type:'xp',       placeholder:'e.g. 25'},
         ],
         onSave:v=>{
           saveNestedField(['skills',realIdx,'name'],capitalise(v.name));
           saveNestedField(['skills',realIdx,'description'],v.description);
           saveNestedField(['skills',realIdx,'whyItMatters'],v.whyItMatters);
+          saveNestedField(['skills',realIdx,'xpReward'],v.xpReward||25);
           renderCombatSkills(appState); renderSkillsTopRow(appState);
         }
       });
     });
     const skillLockBtn=makeLockBtn(`skills.${realIdx}.name`);
     head.appendChild(delBtn); head.appendChild(pri); head.appendChild(nameEl); head.appendChild(skillLockBtn); head.appendChild(mastery); head.appendChild(roleBadge);
-    if(sk.xpReward){ const pill=document.createElement('span'); pill.className='xp-pill xp-pill-skill'; pill.textContent='+'+sk.xpReward+' XP'; head.appendChild(pill); }
-    else { const pill=document.createElement('span'); pill.className='xp-pill xp-pill-tbd'; pill.textContent='+? XP'; pill.title='XP reward not set. When you journal, negotiate the reward with your AI based on how much effort levelling this skill requires.'; head.appendChild(pill); }
+    head.appendChild(makeXpPill(sk.xpReward,'+','xp-pill-skill',v=>{ saveNestedField(['skills',realIdx,'xpReward'],v); }));
     head.appendChild(skillEditBtn);
     head.appendChild(arrowEl);
     head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl||e.target===pri) toggleChapter(bodyId,arrowId); });
@@ -9927,6 +10125,17 @@ function cycleHdrIcon(){
 // ══ STATUS SLIDERS ════════════════════════════════════════════
 const STATUS_COLORS = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
 const STATUS_LS_KEY = 'cs-status-v1';
+const STATUS_CHECKIN_KEY = 'cs-status-checkin-v1';
+
+function _checkinDoneToday(key) {
+  try { const d = JSON.parse(localStorage.getItem(key)||'{}'); return d.date === new Date().toISOString().slice(0,10); } catch(e) { return false; }
+}
+function _markCheckinDone(key) {
+  try { localStorage.setItem(key, JSON.stringify({date: new Date().toISOString().slice(0,10)})); } catch(e) {}
+}
+function _clearCheckinDone(key) {
+  try { localStorage.removeItem(key); } catch(e) {}
+}
 
 function setStatusGradient(el, col, pct) {
   el.style.background = `linear-gradient(to right,${col} ${pct}%,#232332 ${pct}%)`;
@@ -9965,21 +10174,23 @@ function updateStatusRadar() {
 
 const STATUS_HIST_KEY = 'cs-status-hist-v1';
 
-function markStatusCheckInNeeded() {
-  // Add pulsing indicator to status sliders if no check-in recorded for today
-  const today = new Date().toISOString().slice(0, 10);
-  let hist = [];
-  try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
-  const hasToday = hist.some(e => e.date === today);
-  document.querySelectorAll('.stat-bar-row').forEach(row => {
-    row.classList.toggle('status-needs-checkin', !hasToday);
+function _applyStatusCheckinState(needsCheckin) {
+  document.querySelectorAll('#tab-combat .stat-bar-row').forEach(row => {
+    row.classList.toggle('status-needs-checkin', needsCheckin);
   });
+  const prompt = document.getElementById('status-checkin-prompt');
+  if (prompt) prompt.style.display = needsCheckin ? '' : 'none';
+  const badge = document.getElementById('combat-nav-checkin-badge');
+  if (badge) badge.style.display = needsCheckin ? '' : 'none';
+}
+
+function markStatusCheckInNeeded() {
+  _applyStatusCheckinState(!_checkinDoneToday(STATUS_CHECKIN_KEY));
 }
 
 function clearStatusCheckInNeeded() {
-  document.querySelectorAll('.stat-bar-row.status-needs-checkin').forEach(row => {
-    row.classList.remove('status-needs-checkin');
-  });
+  _markCheckinDone(STATUS_CHECKIN_KEY);
+  _applyStatusCheckinState(false);
 }
 
 function saveStatusSnapshot() {
@@ -10046,6 +10257,20 @@ function confirmResetHistory(type) {
 }
 
 
+function resetStatusCheckin() {
+  _clearCheckinDone(STATUS_CHECKIN_KEY);
+  Object.entries(STATUS_COLORS).forEach(([name, col]) => {
+    const el = document.getElementById('status-' + name);
+    const valEl = document.getElementById('status-' + name + '-val');
+    if (!el) return;
+    el.value = 50;
+    if (valEl) valEl.textContent = 50;
+    setStatusGradient(el, col, 50);
+  });
+  updateStatusRadar();
+  _applyStatusCheckinState(true);
+}
+
 function updateStatus(name, value) {
   clearStatusCheckInNeeded();
   const pct = parseInt(value);
@@ -10070,6 +10295,7 @@ function updateStatus(name, value) {
 }
 
 function loadStatusSliders(s) {
+  const doneToday = _checkinDoneToday(STATUS_CHECKIN_KEY);
   // Prefer appState.statusSliders (round-trips through JSON), fall back to localStorage
   const fromState = (s || appState).statusSliders || {};
   let fromLS = {};
@@ -10078,12 +10304,17 @@ function loadStatusSliders(s) {
     const el = document.getElementById('status-' + name);
     const valEl = document.getElementById('status-' + name + '-val');
     if (!el) return;
-    // appState takes priority (Claude may have set it); LS is fallback
-    const pct = fromState[name] !== undefined ? fromState[name] : (fromLS[name] !== undefined ? fromLS[name] : parseInt(el.value));
+    // If no check-in today, reset to 50 (middle) so sliders are in neutral/pending state
+    let pct;
+    if (!doneToday) {
+      pct = 50;
+    } else {
+      // appState takes priority (Claude may have set it); LS is fallback
+      pct = fromState[name] !== undefined ? fromState[name] : (fromLS[name] !== undefined ? fromLS[name] : parseInt(el.value));
+    }
     el.value = pct;
     if (valEl) valEl.textContent = pct;
     setStatusGradient(el, col, pct);
-    // Keep LS mirror in sync
     fromLS[name] = pct;
   });
   try { localStorage.setItem(STATUS_LS_KEY, JSON.stringify(fromLS)); } catch(e) {}
