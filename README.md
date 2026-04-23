@@ -151,6 +151,17 @@ The immediate focus is getting the app in front of real users, collecting feedba
 
 ---
 
+## Customising
+
+character-sheet is free and open source. The app and instructions are both designed to be modified — there is no one-size-fits-all approach to what you track, how you score it, or how your AI talks to you.
+
+- **Edit `instructions.md`** to change how your AI communicates, what it focuses on, which fields it populates, how it scores progress, or what counts as an achievement. All changes stay in your own copy of the file.
+- **Edit `character-sheet.html`** directly to rename fields, adjust visual styles, add new data sections, or remove parts you don't use. It's a single file with no build step.
+
+Contributions welcome: if you build something useful, [open a pull request](https://github.com/sam-holmes2/character-sheet/pulls) or [share it in discussions](https://github.com/sam-holmes2/character-sheet/discussions).
+
+---
+
 ## Support
 
 character-sheet is free and always will be. If it's been useful to you, you can [sponsor the project on GitHub](https://github.com/sponsors/sam-holmes2).
