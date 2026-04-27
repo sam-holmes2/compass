@@ -1,0 +1,11 @@
+team-sheet/
+backups/
+lentil-data/
+CLAUDE.md
+.DS_Store
+
+# local-only planning files
+dev-plan.md
+marketing-plan.md
+launch-checklist.md
+context.md

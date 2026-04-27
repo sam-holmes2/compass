@@ -6,9 +6,9 @@
 
 Most journalling disappears into a void. Insights get forgotten, negative patterns repeat, and any progress feels invisible.
 
-character-sheet turns self-reflection into an RPG. Earn XP for understanding yourself — skills developed, patterns named, and achievements unlocked.
+character-sheet turns self-reflection into an RPG. Earn XP for understanding yourself: skills developed, patterns named, and achievements unlocked.
 
-Chat with your AI, paste back the JSON, watch your character sheet update. No AI? Edit fields directly — it works fully standalone too.
+Chat with your AI, paste back the JSON, watch your character sheet update. No AI? Edit fields directly. It works fully standalone too.
 
 ---
 
@@ -19,9 +19,9 @@ Chat with your AI, paste back the JSON, watch your character sheet update. No AI
 
 ---
 
-🔒 **Private by default.** A single `.html` file and some JSON — no server, no accounts, no telemetry. Your data stays on your machine. If you use an AI to journal, check your provider's privacy settings. Local models like [Ollama](https://ollama.com) work for fully offline journalling. [Full security details ↓](#privacy-and-security)
+🔒 **Private by default.** A single `.html` file and some JSON. No server, no accounts, no telemetry. Your data stays on your machine. If you use an AI to journal, check your provider's privacy settings. Local models like [Ollama](https://ollama.com) work for fully offline journalling. [Full security details ↓](#privacy-and-security)
 
-🤖 **Works with any AI** — Claude, ChatGPT, Gemini, or any local model. Prefer no AI? Edit fields directly in the app and export your data.
+🤖 **Works with any AI.** Claude, ChatGPT, Gemini, or any local model. Prefer no AI? Edit fields directly in the app and export your data.
 
 🚧 **Early work in progress.** All feedback welcome: [open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
@@ -153,7 +153,7 @@ The immediate focus is getting the app in front of real users, collecting feedba
 
 ## Customising
 
-character-sheet is free and open source. The app and instructions are both designed to be modified — there is no one-size-fits-all approach to what you track, how you score it, or how your AI talks to you.
+character-sheet is free and open source. The app and instructions are both designed to be modified. There is no one-size-fits-all approach to what you track, how you score it, or how your AI talks to you.
 
 - **Edit `instructions.md`** to change how your AI communicates, what it focuses on, which fields it populates, how it scores progress, or what counts as an achievement. All changes stay in your own copy of the file.
 - **Edit `character-sheet.html`** directly to rename fields, adjust visual styles, add new data sections, or remove parts you don't use. It's a single file with no build step.

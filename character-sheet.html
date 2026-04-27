@@ -5253,6 +5253,8 @@ function xpFloatLabel(text, anchorEl){
   lbl.textContent=text;
   lbl.style.cssText=`left:${rect.left+rect.width*0.6}px;top:${rect.top-4}px;font-size:${text.length>8?17:21}px;`;
   document.body.appendChild(lbl);
+  const lblW=lbl.offsetWidth;
+  if(parseFloat(lbl.style.left)+lblW+8>window.innerWidth) lbl.style.left=Math.max(4,window.innerWidth-lblW-8)+'px';
   setTimeout(()=>lbl.remove(), 1200);
 }
 
@@ -8757,7 +8759,11 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
           }
           saveRQHistory(charName, act.id, hist);
         }
-        if (newVal > oldVal && act.xpPerUnit) awardRQXP(act.id, Math.round(act.xpPerUnit));
+        if (newVal > oldVal && act.xpPerUnit) {
+          const xpCb = Math.round(act.xpPerUnit);
+          awardRQXP(act.id, xpCb);
+          xpFloatLabel('+' + xpCb + ' XP', col);
+        }
         dp.value    = newVal;
         dp.hasEntry = keepEntry;
         closePopovers();
@@ -8866,7 +8872,10 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
             // checkbox via numeric popover (shouldn't normally occur, but handle it)
             xp = act.xpPerUnit ? Math.round(act.xpPerUnit) : 0;
           }
-          if (xp > 0) awardRQXP(act.id, xp);
+          if (xp > 0) {
+            awardRQXP(act.id, xp);
+            xpFloatLabel('+' + xp + ' XP', saveBtn);
+          }
         }
 
         dp.value = rawVal;
@@ -8881,7 +8890,8 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
       document.body.appendChild(popover);
       requestAnimationFrame(() => {
         const cr = col.getBoundingClientRect();
-        popover.style.left = Math.max(4, cr.left + cr.width/2 - popover.offsetWidth/2) + 'px';
+        const pw = popover.offsetWidth;
+        popover.style.left = Math.min(window.innerWidth-pw-4, Math.max(4, cr.left + cr.width/2 - pw/2)) + 'px';
         popover.style.top  = (cr.top - popover.offsetHeight - 6) + 'px';
         inp.focus();
       });
@@ -9603,6 +9613,13 @@ function renderRecurringQuests(s) {
 
     hdr.appendChild(typeSelect);
     hdr.appendChild(periodSelect);
+    // Initialise timer XP rate to 1/min if never configured
+    if (act.type === 'timer' && act.xpPerUnit == null) {
+      act.xpPerUnit = 1;
+      const actInState = (appState.activities||[]).find(a=>a.id===act.id);
+      if (actInState) actInState.xpPerUnit = 1;
+      saveState(appState);
+    }
     hdr.appendChild(makeXpPill(act.xpPerUnit,'+','xp-pill-quest',v=>{
       const rqIdx=rqRealIdx>=0?rqRealIdx:(appState.activities||[]).findIndex(a=>a.id===act.id);
       if(rqIdx>=0){ appState.activities[rqIdx].xpPerUnit=v??0; }
@@ -9896,6 +9913,7 @@ function handleBackfill(id) {
 
   const hist = loadRQHistory(charName, id);
   const existing = hist.findIndex(h => h.period === period);
+  const oldHistVal = existing >= 0 ? (hist[existing].value || 0) : 0;
   if (existing >= 0) {
     hist[existing].value = rawVal;
   } else {
@@ -9927,9 +9945,14 @@ function handleBackfill(id) {
     if (elAvg) elAvg.textContent = sub.avgFreq || '—';
   });
 
-  // Flash feedback on the save button
+  // Flash feedback on the save button + XP float for net increase
   const btn = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
   if (btn) { btn.textContent = 'Saved ✓'; setTimeout(() => btn.textContent = 'Save', 1500); }
+  if (act.xpPerUnit && rawVal > oldHistVal) {
+    const xpBf = Math.round(act.xpPerUnit * (rawVal - oldHistVal));
+    awardRQXP(id, xpBf);
+    if (btn) xpFloatLabel('+' + xpBf + ' XP', btn);
+  }
 }
 
 function handleCheckboxDot(id, dotIndex, btn) {
@@ -11640,6 +11663,18 @@ function _init(){
   });
   updateCombatNavArc();
   window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); });
+  // Re-arm check-in if the day rolls over while the tab is open
+  let _checkinInitDate = new Date().toISOString().slice(0,10);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    const today = new Date().toISOString().slice(0,10);
+    if (today !== _checkinInitDate) {
+      _checkinInitDate = today;
+      loadStatusSliders();
+      markStatusCheckInNeeded();
+      loadStatSliders(appState);
+    }
+  });
   _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
   maybeShowResetUndoBanner();
 }
