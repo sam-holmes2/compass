@@ -1,0 +1,1215 @@
+{
+  "_featuredCls": [
+    "explorer"
+  ],
+  "_featuredAch": [
+    "the-organiser",
+    "not-just-a-noob"
+  ],
+  "_instructionsVersion": "1.5.0",
+  "name": "Steve",
+  "level": 4,
+  "xp": 570,
+  "xpToNext": 1000,
+  "sessionCount": 12,
+  "lastSession": "2026-04-12",
+  "health": 68,
+  "healthAvg": 74,
+  "mana": 55,
+  "manaAvg": 61,
+  "claudeRead": "Steve is one session from the attempt. The portfolio is live, the financial runway is confirmed, and the first pitch is drafted. Alex knows the plan. The main risk has shifted from preparation to nerve: everything that can be done in advance is done. 'The Perfectionist' made its last stand - argued for one more revision before sending. It got named. The date held. That's new. The unresolved thing is sleep, and what story Steve will tell himself if the first response is silence.",
+  "progression": "Steve started 2026 with very little in place beyond a vague intention: stop drifting and actually make the move to work that fits. Years in a stable corporate job that paid well but left him hollow had produced a familiar loop - endure the week, spend the weekend recovering, repeat. The early sessions were about establishing a baseline. Deep work, movement, and morning routine became the three anchors. They held. The graveyard began filling: Sunday Dread, The Hoarder, Twitter Spiral. Things that had run quietly for years lost their cover once they had names.\n\nBy March, the destination was no longer vague. A real first target had been identified - a specific potential client, a specific kind of work, a specific next step that was not just planning to plan. Preparation shifted from diffuse effort into something concrete: portfolio updated and live, financial runway confirmed, pitch drafted. The sessions started feeling different - more like contact with something real than stockpiling against a formless threat. 'The Perfectionist' made its move in early April, arguing for one more revision before sending. It got named. The date held. That was new.\n\nWhat is live now is less about readiness than nerve. Everything is in place. The main unknown going into the attempt is whether Steve will show up to it depleted. Sleep is the deficit that has run under the surface all year - compensated for by motivation, masked by consistency, but still there. The attempt is in days. The pattern to watch is not avoidance but the quiet erosion that happens when pressure is high and recovery is last in line.",
+  "statusSliders": {
+    "focus": 72,
+    "energy": 50,
+    "interest": 78,
+    "purpose": 65
+  },
+  "air": {
+    "score": 72,
+    "sliderLabel": "More aware than acting - noticing patterns without changing habits yet"
+  },
+  "fire": {
+    "score": 55,
+    "sliderLabel": "Motivation building - purpose clearer but still running on obligation more than drive"
+  },
+  "water": {
+    "score": 68,
+    "sliderLabel": "Some aliveness - deep work and movement reliable, rest of life still muted"
+  },
+  "earth": {
+    "score": 65,
+    "sliderLabel": "Reasonably grounded - anxiety present but not dominating the decisions"
+  },
+  "sliderXpRewards": {
+    "air": [null, 100, 200, 350, 500],
+    "fire": [null, 150, 300, 500, 750],
+    "water": [null, 100, 220, 380, 550],
+    "earth": [null, 120, 260, 440, 650]
+  },
+  "harmonyHistory": [
+    {"date": "2026-01-05", "air": 36, "fire": 4, "water": 10, "earth": 82, "harmony": 39},
+    {"date": "2026-01-12", "air": 40, "fire": 5, "water": 14, "earth": 78, "harmony": 43},
+    {"date": "2026-01-20", "air": 44, "fire": 7, "water": 19, "earth": 74, "harmony": 49},
+    {"date": "2026-01-28", "air": 48, "fire": 9, "water": 26, "earth": 70, "harmony": 54},
+    {"date": "2026-02-05", "air": 52, "fire": 12, "water": 34, "earth": 66, "harmony": 60},
+    {"date": "2026-02-12", "air": 46, "fire": 8, "water": 28, "earth": 68, "harmony": 56},
+    {"date": "2026-02-19", "air": 58, "fire": 15, "water": 40, "earth": 64, "harmony": 62},
+    {"date": "2026-02-26", "air": 62, "fire": 19, "water": 50, "earth": 64, "harmony": 64},
+    {"date": "2026-03-05", "air": 68, "fire": 24, "water": 54, "earth": 61, "harmony": 66},
+    {"date": "2026-03-10", "air": 64, "fire": 18, "water": 46, "earth": 60, "harmony": 64},
+    {"date": "2026-03-16", "air": 71, "fire": 30, "water": 57, "earth": 62, "harmony": 69},
+    {"date": "2026-03-23", "air": 73, "fire": 36, "water": 63, "earth": 65, "harmony": 72},
+    {"date": "2026-04-01", "air": 74, "fire": 46, "water": 65, "earth": 63, "harmony": 80},
+    {"date": "2026-04-07", "air": 70, "fire": 48, "water": 62, "earth": 61, "harmony": 84},
+    {"date": "2026-04-12", "air": 72, "fire": 55, "water": 68, "earth": 65, "harmony": 87}
+  ],
+  "allies": [
+    {
+      "name": "Alex",
+      "type": "loot",
+      "desc": "Close friend since the early days. Reliable, honest, shows up when it actually matters.",
+      "why": "Knows the full story - not just the highlight reel.",
+      "priority": 1
+    },
+    {
+      "name": "Old Mentor",
+      "type": "loot",
+      "desc": "Someone who made a similar leap a decade ago and navigated harder seasons. Gives perspective without making it about himself.",
+      "why": "Cuts through the noise and finds what actually matters.",
+      "priority": 2,
+      "corruption": "Only reached out when the situation gets bad enough - waits too long."
+    },
+    {
+      "name": "Focused Work Block",
+      "type": "spell",
+      "desc": "90 minutes with a specific intention, phone in another room, nothing else open.",
+      "why": "Reliable reset. Costs only time and attention.",
+      "priority": 3
+    },
+    {
+      "name": "Solo Walk",
+      "type": "spell",
+      "desc": "One hour with no agenda, no phone. Returns with more energy than it started with.",
+      "why": "Works even when motivation is near zero.",
+      "priority": 4,
+      "corruption": "Gets cut exactly when pressure is highest - the moment it would help most."
+    },
+    {
+      "name": "Music",
+      "type": "sources",
+      "desc": "Headphones on, no performance, no audience. Just sound and whatever is in front of me.",
+      "why": "Quiets the mental noise that planning cannot reach.",
+      "priority": 5
+    },
+    {
+      "name": "Low-Stakes Conversations",
+      "type": "sources",
+      "desc": "Time with people where nothing critical is on the line. Easy rhythm, no pressure.",
+      "why": "Restorative in a way that productive sessions are not.",
+      "priority": 6
+    },
+    {
+      "name": "The Problem Solver",
+      "type": "liberatingBelief",
+      "desc": "Track record of figuring things out under uncertainty is real.",
+      "why": "Counters the imposter voice with evidence rather than reassurance.",
+      "priority": 7
+    },
+    {
+      "name": "The Long Game",
+      "type": "liberatingBelief",
+      "desc": "Slow progress toward the right thing beats fast progress toward the wrong one.",
+      "why": "Useful counter to urgency and comparison spirals.",
+      "priority": 8
+    },
+    {
+      "name": "The Body Knows",
+      "type": "liberatingBelief",
+      "desc": "The aliveness felt doing the right work is data, not coincidence.",
+      "why": "The qualitative difference between right work and wrong is the clearest signal available.",
+      "priority": 9
+    }
+  ],
+  "mainQuest": {
+    "title": "Defeat the Ender Dragon",
+    "description": "Leave the job that no longer fits and make the leap to work that actually matters. The dragon is the career move that has been circling for two years - the one that gets named and delayed every time it gets close. The prep is done. What's left is going.",
+    "whyItMatters": "Every year stayed in the wrong place is another year the right one gets harder to find. The drift is not neutral - it compounds. If the dragon keeps circling, everything else feels provisional.",
+    "doneWhen": "First client signed, notice handed in, or the project live. Standing on the other side having actually done it - not planned it, not prepared for it. Done.",
+    "nextSteps": [
+      {
+        "text": "Send the first pitch to the identified target - the prep is done, this is the step",
+        "doneWhen": "Pitch sent to a real person, not saved as a draft"
+      },
+      {
+        "text": "Confirm the financial runway covers at least three months without the current income",
+        "doneWhen": "Number checked, not estimated - actual runway confirmed"
+      },
+      {
+        "text": "Tell one more person about the plan - someone whose reaction will matter",
+        "doneWhen": "Said out loud to someone other than Alex"
+      }
+    ],
+    "xpReward": 500,
+    "progress": 15,
+    "deadline": "20/04/2026"
+  },
+  "sideQuests": [
+    {
+      "id": "build-base",
+      "title": "Get Settled and Stable",
+      "priority": 1,
+      "progress": 40,
+      "description": "Moved to a new flat at the start of the year. It is functional but not yet a working environment - workspace improvised, storage chaotic, nothing quite where it should be.",
+      "whyItMatters": "Hard to build anything serious from an unstable base. The environment shapes the thinking.",
+      "doneWhen": "Dedicated workspace sorted, storage working, the flat feels like a home rather than a temporary situation.",
+      "nextStep": "Sort the overflow area this week - it has been sitting there since the move.",
+      "xpReward": 150,
+      "deadline": "30/04/2026"
+    },
+    {
+      "id": "enchanting-setup",
+      "title": "Get Properly Equipped for the Leap",
+      "priority": 2,
+      "progress": 80,
+      "description": "Portfolio updated and live. Financial runway confirmed. First pitch drafted and ready to send. The groundwork before the big attempt.",
+      "whyItMatters": "Showing up to the attempt underprepared is a different kind of failure. The leap needs the right gear.",
+      "doneWhen": "All three: portfolio live, runway confirmed, one real pitch actually sent - not drafted, sent.",
+      "nextStep": "Send the pitch - the preparation is at 80%, the last 20% is doing the thing.",
+      "xpReward": 200,
+      "deadline": "13/04/2026"
+    },
+    {
+      "id": "explore-biomes",
+      "title": "Explore 12 New Things This Year",
+      "priority": 3,
+      "progress": 33,
+      "description": "One genuinely new thing per month - a place, a skill, a conversation, an environment outside the usual radius. Variety and curiosity over efficiency.",
+      "whyItMatters": "Exploration generates unexpected insight and breaks tunnel vision about what is possible.",
+      "doneWhen": "12 different experiences with at least one reflection note from each.",
+      "nextStep": "Find one genuinely new thing this month before moving to the next.",
+      "xpReward": 150,
+      "deadline": "31/12/2026"
+    },
+    {
+      "id": "organise-storage",
+      "title": "Organise the Whole Setup",
+      "priority": 4,
+      "progress": 75,
+      "description": "Every part of life running in background chaos - digital files, physical space, finances - gets a clear place and a working system.",
+      "whyItMatters": "Chaos in the environment creates chaos in decision-making. The two are not separate.",
+      "doneWhen": "Every category has a place. Overflow pile gone. Nothing is lost in the mess.",
+      "nextStep": "Clear the overflow pile - it has been sitting there for a month.",
+      "xpReward": 100,
+      "deadline": "18/04/2026"
+    },
+    {
+      "id": "learn-automation",
+      "title": "Build Three Time-Saving Systems",
+      "priority": 5,
+      "progress": 20,
+      "description": "Finance tracking, email management, and one more. Three systems that run without constant manual effort - set up once, save time indefinitely.",
+      "whyItMatters": "Automation creates leverage. Effort compounds instead of repeating.",
+      "doneWhen": "Three systems running reliably without manual intervention every week.",
+      "nextStep": "Map out the first system this week - not build it, just design what it needs to do.",
+      "xpReward": 200,
+      "deadline": "30/06/2026"
+    }
+  ],
+  "completedQuests": [
+    {
+      "title": "Survive the First Month",
+      "completedDate": "Jan 2026",
+      "xpEarned": 300,
+      "howResolved": "Built the foundation with very little in place. Made it through with no major setbacks. The three-month consistency run started there."
+    }
+  ],
+  "needs": [
+    {
+      "name": "Connection",
+      "priority": 1,
+      "threat": "amber",
+      "alignment": 45,
+      "description": "Real relationships where the full picture is known. Good with a few, absent with most."
+    },
+    {
+      "name": "Rest",
+      "priority": 2,
+      "threat": "red",
+      "alignment": 30,
+      "description": "Recovery time not immediately colonised by tasks or noise. Significant deficit."
+    },
+    {
+      "name": "Autonomy",
+      "priority": 3,
+      "threat": "none",
+      "alignment": 60,
+      "description": "Control over what to work on and when. Better than it was."
+    },
+    {
+      "name": "Recognition",
+      "priority": 4,
+      "threat": "amber",
+      "alignment": 40,
+      "description": "Feeling that the work and effort are seen. The current environment is neutral at best."
+    }
+  ],
+  "values": [
+    {
+      "name": "Authenticity",
+      "priority": 1,
+      "threat": "amber",
+      "alignment": 45,
+      "description": "Living in the way that actually fits, not the version others expect or the one that felt safe to settle into."
+    },
+    {
+      "name": "Family",
+      "priority": 2,
+      "threat": "none",
+      "alignment": 70,
+      "description": "Being present and reliable for the people who matter most."
+    },
+    {
+      "name": "Health",
+      "priority": 3,
+      "threat": "amber",
+      "alignment": 55,
+      "description": "Physical and mental baseline as a non-negotiable foundation, not the last thing on the list."
+    },
+    {
+      "name": "Growth",
+      "priority": 4,
+      "threat": "none",
+      "alignment": 65,
+      "description": "Getting better at the things that actually matter."
+    },
+    {
+      "name": "Financial Security",
+      "priority": 5,
+      "threat": "amber",
+      "alignment": 50,
+      "description": "Enough stability to make genuine choices without anxiety driving the decision."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Set Boundaries",
+      "role": "Tank",
+      "mastery": 1,
+      "priority": 1,
+      "xpReward": 80,
+      "description": "Decline requests that conflict with the main quest without over-explaining or apologising.",
+      "whyItMatters": "Without this, time and energy get consumed by everyone else's priorities."
+    },
+    {
+      "name": "Ask For Help",
+      "role": "Support",
+      "mastery": 1,
+      "priority": 2,
+      "xpReward": 80,
+      "description": "Reach out before getting lost in a problem alone. State the actual need, not a softened version of it.",
+      "whyItMatters": "Directly determines how fast the main quest actually progresses."
+    },
+    {
+      "name": "Stay Consistent",
+      "role": "DPS",
+      "mastery": 2,
+      "priority": 3,
+      "xpReward": 80,
+      "description": "Show up even when motivation is absent. The anchor habits hold regardless of how the week feels.",
+      "whyItMatters": "Deep work, movement, and morning routine all depend on this."
+    },
+    {
+      "name": "Deep Focus",
+      "role": "DPS",
+      "mastery": 4,
+      "priority": null,
+      "xpReward": 200,
+      "description": "Sustain attention on one thing long enough for real progress to happen. No phone, no tabs, one thing.",
+      "whyItMatters": "The capability that produces meaningful output."
+    },
+    {
+      "name": "Planning",
+      "role": "Lead",
+      "mastery": 3,
+      "priority": null,
+      "xpReward": 150,
+      "description": "Break big goals into clear next steps without over-engineering the system.",
+      "whyItMatters": "In high-uncertainty territory, clear direction is the primary signal."
+    },
+    {
+      "name": "Adaptability",
+      "role": "DPS",
+      "mastery": 4,
+      "priority": null,
+      "xpReward": 150,
+      "description": "Read the situation, adjust the approach, keep moving forward.",
+      "whyItMatters": "Foundation of making progress when conditions are not ideal."
+    }
+  ],
+  "enemies": {
+    "bosses": [
+      {
+        "name": "The Ender Dragon",
+        "desc": "The central force that frames every shortcoming as evidence of fundamental under-readiness for the leap. Feels like an accurate read of the situation. It isn't.",
+        "whyBoss": "Every other enemy is this one in a different form. Procrastination, Self-Doubt, and Comparison all run on the same engine: the belief that the jump to better work isn't possible yet, or not for someone like Steve.",
+        "hp": 80,
+        "xpReward": 500,
+        "shortTermBenefit": "Keeps standards high. Feels like appropriate caution before a high-stakes commitment.",
+        "origin": "Formed in an environment where being under-prepared was the primary risk. Caution treated as virtue long after the context changed.",
+        "vulnerabilities": [
+          {
+            "title": "Named in real time",
+            "desc": "Loses power the moment it is caught mid-loop. Calling it out loud creates enough distance to choose differently."
+          },
+          {
+            "title": "Evidence on the table",
+            "desc": "Thrives on selective memory. A written list of what has actually gone well - just facts - starves it of its operating data."
+          },
+          {
+            "title": "Starting before ready",
+            "desc": "Main lever is the gap before beginning. Starting small collapses the gap before the pattern can fill it with objections."
+          }
+        ],
+        "minions": [
+          {
+            "name": "PROCRASTINATION",
+            "type": "compulsion",
+            "hp": 75,
+            "desc": "Masquerades as preparation. Rearranges the to-do list instead of starting the actual thing. Feels like productivity.",
+            "xpReward": 100,
+            "priority": 4
+          },
+          {
+            "name": "SELF-DOUBT",
+            "type": "blindspot",
+            "hp": 70,
+            "desc": "Quiet voice that says others are more capable, more ready, more legitimate. Speaks in first person so it sounds like truth.",
+            "xpReward": 80,
+            "priority": 5
+          },
+          {
+            "name": "COMPARISON TRAP",
+            "type": "blindspot",
+            "hp": 65,
+            "desc": "Measures a messy middle against someone else's polished highlight reel. Always finds the comparison unflattering.",
+            "xpReward": 60,
+            "priority": 6
+          }
+        ]
+      }
+    ],
+    "current": [
+      {
+        "name": "LATE-NIGHT SCROLL HOARDING",
+        "desc": "Reliably ends worse than it started. Feels like rest but leaves the next day already depleted before it begins.",
+        "type": "temptation",
+        "trigger": "Evening wind-down, especially after a difficult or draining day",
+        "shortTermBenefit": "Decompression that asks nothing. Feels like a reward without any vulnerability.",
+        "origin": "Avoidance of the quiet where unprocessed feelings from the day tend to surface.",
+        "hp": 85,
+        "xpReward": 130,
+        "priority": 1
+      },
+      {
+        "name": "OBLIGATION YES",
+        "desc": "Saying yes to avoid the discomfort of declining. Fills time with others' priorities instead of the main quest.",
+        "type": "compulsion",
+        "trigger": "Any request that feels like it expects a yes by default",
+        "shortTermBenefit": "Avoids conflict and the guilt of letting someone down. Feels like being a good person.",
+        "origin": "Keeping others comfortable felt safer than asserting what actually matters.",
+        "hp": 90,
+        "xpReward": 150,
+        "priority": 2
+      },
+      {
+        "name": "SKIP MOVEMENT WHEN STRESSED",
+        "desc": "Cutting the one habit that would most help at the moments of highest pressure. Always justified in the moment.",
+        "type": "compulsion",
+        "trigger": "High external pressure, low energy, feeling behind on everything",
+        "shortTermBenefit": "Creates the illusion of more work time. Feels like a sensible trade-off.",
+        "origin": "Anxiety framing physical recovery as optional when output feels most urgent.",
+        "hp": 80,
+        "xpReward": 110,
+        "priority": 3
+      },
+      {
+        "name": "I AM NOT CAPABLE ENOUGH",
+        "type": "limitingBelief",
+        "belief": "\"I'm not capable enough to go after the things I actually want.\"",
+        "desc": "Shows up before high-stakes attempts. Reframes the learning curve as permanent evidence of inadequacy.",
+        "shortTermBenefit": "Keeps ambition small and safe from the humiliation of public failure.",
+        "origin": "Environments where being underprepared was the primary risk. Performance over presence.",
+        "hp": 75,
+        "priority": 7,
+        "xpReward": 120
+      },
+      {
+        "name": "IF I CAN'T DO IT PERFECTLY THERE IS NO POINT",
+        "type": "limitingBelief",
+        "belief": "\"If I can't do it perfectly, there's no point starting.\"",
+        "desc": "Main engine of procrastination. Creates an impossible standard that ensures nothing gets finished on time.",
+        "shortTermBenefit": "The unstarted thing can always be imagined as flawless. Starting would reveal the gaps.",
+        "origin": "Environments where only exceptional output was noticed. Ordinary effort was invisible.",
+        "hp": 70,
+        "priority": 8,
+        "xpReward": 100
+      },
+      {
+        "name": "I ALWAYS FALL SHORT BEFORE THE GOOD STUFF",
+        "type": "limitingBelief",
+        "belief": "\"I always fall short right before the good stuff happens.\"",
+        "desc": "Selective memory that catalogues every failure and dismisses successful runs as luck or a fluke.",
+        "shortTermBenefit": "Low expectations mean any progress feels like a win. Feels like protection against disappointment.",
+        "origin": "Reinforced by a period where several genuine attempts ended just before the payoff.",
+        "hp": 60,
+        "priority": 9,
+        "xpReward": 80
+      }
+    ],
+    "graveyard": [
+      {
+        "name": "SUNDAY DREAD",
+        "defeatedDate": "Jan 2026",
+        "howDefeated": "Lost its footing once Steve stopped pretending the corporate job was the permanent plan. Without the fiction to protect, there was nothing to dread waiting for Monday."
+      },
+      {
+        "name": "THE HOARDER",
+        "defeatedDate": "Dec 2025",
+        "howDefeated": "Named it properly for the first time. Hoarding disguised as being organised. Once it had a name it stopped working as cover."
+      },
+      {
+        "name": "TWITTER SPIRAL",
+        "defeatedDate": "Nov 2025",
+        "howDefeated": "Deleted the app after noticing the pattern: open it feeling okay, close it feeling worse. Every time."
+      }
+    ]
+  },
+  "completedMainQuests": [],
+  "activities": [
+    {
+      "id": "deep-work",
+      "name": "Deep Work",
+      "description": "Focused work sessions with no distractions. Phone elsewhere, one thing at a time, no multitasking.",
+      "whyItMatters": "The meaningful progress only happens here.",
+      "startDate": "2026-01-01",
+      "priority": 1,
+      "type": "timer",
+      "resetPeriod": "day",
+      "target": 90,
+      "unit": "minutes",
+      "xpPerUnit": 0.5
+    },
+    {
+      "id": "movement",
+      "name": "Movement",
+      "description": "Any intentional physical activity. Running, lifting, walking with purpose.",
+      "whyItMatters": "Body and mind are not separate. Energy levels follow this.",
+      "startDate": "2026-02-01",
+      "priority": 2,
+      "type": "checkbox",
+      "resetPeriod": "day",
+      "target": 2,
+      "unit": "activities",
+      "xpPerUnit": 25,
+      "subActivities": [
+        {
+          "id": "mining",
+          "name": "Running",
+          "color": "rgba(80,140,210,0.7)",
+          "description": "Any sustained cardio - running, cycling, brisk walking. Gets the body moving and clears the head."
+        },
+        {
+          "id": "crafting",
+          "name": "Strength",
+          "color": "rgba(160,100,40,0.7)",
+          "description": "Resistance training, weights, or bodyweight work. Effort that builds rather than just burns."
+        }
+      ]
+    },
+    {
+      "id": "morning-routine",
+      "name": "Morning Routine",
+      "description": "Consistent start to the day before the world gets loud.",
+      "whyItMatters": "Sets the tone. Everything downstream is easier.",
+      "startDate": "2026-02-01",
+      "priority": 3,
+      "type": "checkbox",
+      "resetPeriod": "day",
+      "target": 1,
+      "unit": "mornings",
+      "xpPerUnit": 20
+    },
+    {
+      "id": "diamonds-mined",
+      "name": "Weekly Actions",
+      "description": "Concrete steps toward the career leap this week: outreach sent, conversations had, portfolio updated, applications submitted. The actual moves, not the preparation for the moves.",
+      "whyItMatters": "Weekly consistency on the real thing matters more than any individual breakthrough.",
+      "startDate": "2026-02-01",
+      "priority": 4,
+      "type": "number",
+      "resetPeriod": "week",
+      "target": 3,
+      "unit": "actions",
+      "xpPerUnit": 15
+    }
+  ],
+  "dailyDistribution": {
+    "Sleep": 7.5,
+    "Deep Work": 1.5,
+    "Movement": 0.75,
+    "Social": 1,
+    "Admin / Commute": 2,
+    "Rest / Leisure": 3.5,
+    "Unknown": 7.75
+  },
+  "coreSkills": {
+    "sleep": {"score": 45, "trend": "down-slight"},
+    "movement": {"score": 89, "trend": "up-strong"},
+    "nutrition": {"score": 80, "trend": "up-slight"},
+    "connection": {"score": 52, "trend": "up-slight"}
+  },
+  "achievements": [
+    {
+      "id": "no-death-run",
+      "title": "No Setbacks Run",
+      "description": "Three months without a major setback - the first time maintaining this for this long. Feb 14, 2026.",
+      "type": "deed",
+      "dateUnlocked": "Feb 2026",
+      "xpReward": 50
+    },
+    {
+      "id": "the-organiser",
+      "title": "The Organiser",
+      "description": "Sorted every category of the workspace backlog in a single sustained session. Labels and all. Jan 20, 2026.",
+      "type": "deed",
+      "dateUnlocked": "Jan 2026",
+      "xpReward": 40
+    },
+    {
+      "id": "signal-over-noise",
+      "title": "Signal Over Noise",
+      "description": "Noticed the pattern: open it feeling okay, close it feeling worse. Every time. Deleted the app. Nov 2025.",
+      "type": "insight",
+      "dateUnlocked": "Nov 2025",
+      "xpReward": 30
+    },
+    {
+      "id": "borrowed-axe",
+      "title": "The Borrowed Axe",
+      "description": "Asked Old Mentor for advice on the career move directly - first time without pretending it was a casual catch-up. Mar 2026.",
+      "type": "surrender",
+      "dateUnlocked": "Mar 2026",
+      "xpReward": 35
+    },
+    {
+      "id": "not-just-a-noob",
+      "title": "Failure Is Data",
+      "description": "Stopped seeing setbacks as proof of incompetence. They are information, not verdicts. Feb 2026.",
+      "type": "transmutation",
+      "dateUnlocked": "Feb 2026",
+      "xpReward": 40
+    }
+  ],
+  "classes": [
+    {
+      "id": "builder",
+      "name": "Builder",
+      "icon": "✦",
+      "description": "Drawn to making things. Finds meaning in the act of building itself, not just the finished result.",
+      "dateUnlocked": "Feb 2026",
+      "role": "DPS"
+    },
+    {
+      "id": "explorer",
+      "name": "Explorer",
+      "icon": "◈",
+      "description": "Curious about new territory and persistent when the destination actually matters. Learning to tell the difference between exploration and avoidance.",
+      "dateUnlocked": "Jan 2026",
+      "role": "Support"
+    }
+  ],
+  "keyQuestions": [
+    {
+      "question": "If the first attempt goes badly, what story will you tell yourself - and is that story already written?",
+      "asked": "2026-04-06",
+      "updated": "2026-04-06"
+    },
+    {
+      "question": "What would it mean to show up rested rather than just prepared?",
+      "asked": "2026-04-06",
+      "updated": "2026-04-06"
+    },
+    {
+      "question": "When the obligation to others feels automatic, what is the cost you are not counting?",
+      "asked": "2026-03-12",
+      "updated": "2026-04-01"
+    }
+  ],
+  "openThreads": [
+    {
+      "thread": "Whether sleep deficit going into the attempt is being minimised or genuinely managed",
+      "whyItMatters": "Showing up depleted is a different kind of under-ready that preparation cannot fix"
+    },
+    {
+      "thread": "Whether Obligation Yes will resurface once the main quest pressure lifts",
+      "whyItMatters": "It stayed quiet during the prep phase - high focus may have masked it, not resolved it"
+    }
+  ],
+  "insights": [
+    {
+      "name": "The End Portal",
+      "entries": [
+        {
+          "date": "6 April 2026",
+          "title": "One Session Before the Attempt",
+          "events": [
+            "Portfolio went live - every piece of work visible in one place for the first time",
+            "Alex knows about the plan - first time saying it out loud to someone whose opinion actually matters"
+          ],
+          "insights": [
+            "Rest deficit showed up in the prep session - had to stop early when focus dropped. Not ignoring it this time.",
+            "Naming the date out loud to Alex made 'Procrastination' audible - it argued against the specific deadline, not the concept"
+          ],
+          "tensions": [
+            "Rest is still the real unknown - showing up prepared but depleted is a different kind of under-ready"
+          ]
+        },
+        {
+          "date": "1 April 2026",
+          "title": "Everything Ready, Date Set",
+          "events": [
+            "Completed the full preparation phase - portfolio live, runway confirmed, pitch drafted",
+            "Date set for the first outreach - told Alex, not just a plan anymore"
+          ],
+          "insights": [
+            "'The Perfectionist' tried to delay with one more revision - noticed it and held the date anyway",
+            "This session felt different - building toward something specific rather than staying busy to feel less anxious about standing still"
+          ],
+          "tensions": [
+            "Whether the date will hold or become another thing that moves when the week gets hard"
+          ]
+        },
+        {
+          "date": "22 March 2026",
+          "title": "Two Hours That Actually Landed",
+          "events": [
+            "Two uninterrupted hours on the main project - first time this year without the phone interrupting"
+          ],
+          "insights": [
+            "Felt different from normal sessions - more like contact with something real than ticking boxes"
+          ],
+          "tensions": [
+            "Whether the deep work sessions are real direction or just productive-feeling avoidance of the actual step"
+          ]
+        },
+        {
+          "date": "15 March 2026",
+          "title": "Asked for Help Instead of Grinding Alone",
+          "events": [
+            "Asked Old Mentor for advice directly - first time without framing it as a casual catch-up"
+          ],
+          "insights": [
+            "'Self-Doubt' reframed asking for help as weakness - noticed it mid-conversation this time instead of only in retrospect"
+          ],
+          "tensions": [
+            "Constraints shortening the timeline in ways that might force decisions before they feel ready"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Clearing the Inventory",
+      "entries": [
+        {
+          "date": "14 February 2026",
+          "title": "Three Months Without a Setback",
+          "events": [
+            "Three months without a major setback - marked it quietly, told Alex"
+          ],
+          "insights": [
+            "Staying consistent required a quiet decision to stop fighting battles that did not need fighting"
+          ],
+          "tensions": [
+            "Rest still a deficit - sessions feel productive but not restorative"
+          ]
+        }
+      ]
+    }
+  ],
+  "_xpLog": [
+    {
+      "date": "7 Apr 2026",
+      "amount": 8,
+      "reason": "Morning Routine: 6 of 7 days this week",
+      "totalAfter": 570,
+      "levelup": false
+    },
+    {
+      "date": "7 Apr 2026",
+      "amount": 7,
+      "reason": "Deep Work: 5h 40m across the week, above target",
+      "totalAfter": 562,
+      "levelup": false
+    },
+    {
+      "date": "7 Apr 2026",
+      "amount": 5,
+      "reason": "Named 'Procrastination' mid-session - caught it arguing against sending the pitch on the specific date",
+      "totalAfter": 555,
+      "levelup": false
+    },
+    {
+      "date": "1 Apr 2026",
+      "amount": 10,
+      "reason": "Portfolio updated and live - every piece of work visible in one place",
+      "totalAfter": 550,
+      "levelup": false
+    },
+    {
+      "date": "1 Apr 2026",
+      "amount": 8,
+      "reason": "Date set for first outreach despite 'The Perfectionist' pushing for one more revision",
+      "totalAfter": 540,
+      "levelup": false
+    },
+    {
+      "date": "1 Apr 2026",
+      "amount": 7,
+      "reason": "Movement: 2 sessions both days this weekend",
+      "totalAfter": 532,
+      "levelup": false
+    },
+    {
+      "date": "25 Mar 2026",
+      "amount": 12,
+      "reason": "First real target identified - specific potential client, specific need, specific opening to pursue",
+      "totalAfter": 500,
+      "levelup": false
+    },
+    {
+      "date": "25 Mar 2026",
+      "amount": 10,
+      "reason": "Deep Work: 7h 10m this week, best since January",
+      "totalAfter": 488,
+      "levelup": false
+    },
+    {
+      "date": "25 Mar 2026",
+      "amount": 8,
+      "reason": "Morning Routine: 7 of 7 days - first perfect week",
+      "totalAfter": 478,
+      "levelup": false
+    },
+    {
+      "date": "22 Mar 2026",
+      "amount": 15,
+      "reason": "Two uninterrupted deep work hours - first time this year without checking phone mid-session",
+      "totalAfter": 470,
+      "levelup": false
+    },
+    {
+      "date": "22 Mar 2026",
+      "amount": 10,
+      "reason": "'Procrastination' didn't fire - specific small task made the difference",
+      "totalAfter": 455,
+      "levelup": false
+    },
+    {
+      "date": "19 Mar 2026",
+      "amount": null,
+      "reason": "Level 4 reached",
+      "totalAfter": 445,
+      "levelup": true
+    },
+    {
+      "date": "19 Mar 2026",
+      "amount": 20,
+      "reason": "Weekly Actions: 4 meaningful career steps this week, above 3 target for second week running",
+      "totalAfter": 445,
+      "levelup": false
+    },
+    {
+      "date": "19 Mar 2026",
+      "amount": 15,
+      "reason": "Movement: consistent 2-per-day for 10 days straight",
+      "totalAfter": 425,
+      "levelup": false
+    },
+    {
+      "date": "19 Mar 2026",
+      "amount": 10,
+      "reason": "Earth tier advance: beliefs 50-74 (tier 2 to 3) - 'The Hoarder' in graveyard",
+      "totalAfter": 410,
+      "levelup": false
+    },
+    {
+      "date": "15 Mar 2026",
+      "amount": 25,
+      "reason": "Asked Old Mentor for advice directly - first time without framing it as a casual catch-up",
+      "totalAfter": 400,
+      "levelup": false
+    },
+    {
+      "date": "15 Mar 2026",
+      "amount": 15,
+      "reason": "'Self-Doubt' named mid-conversation - caught it speaking in first person",
+      "totalAfter": 375,
+      "levelup": false
+    },
+    {
+      "date": "12 Mar 2026",
+      "amount": 20,
+      "reason": "Deep Work: 6h 20m this week, Morning Routine: 5 of 7",
+      "totalAfter": 360,
+      "levelup": false
+    },
+    {
+      "date": "12 Mar 2026",
+      "amount": 15,
+      "reason": "Set Boundaries: declined a side project that would have consumed the next month",
+      "totalAfter": 340,
+      "levelup": false
+    },
+    {
+      "date": "8 Mar 2026",
+      "amount": 15,
+      "reason": "Deep Work: 5h this week despite high external pressure",
+      "totalAfter": 325,
+      "levelup": false
+    },
+    {
+      "date": "8 Mar 2026",
+      "amount": 10,
+      "reason": "Morning Routine: 6 of 7 days",
+      "totalAfter": 310,
+      "levelup": false
+    },
+    {
+      "date": "5 Mar 2026",
+      "amount": 20,
+      "reason": "Weekly Actions: 3 meaningful steps this week, hit target for the first time",
+      "totalAfter": 300,
+      "levelup": false
+    },
+    {
+      "date": "26 Feb 2026",
+      "amount": null,
+      "reason": "Level 3 reached",
+      "totalAfter": 280,
+      "levelup": true
+    },
+    {
+      "date": "26 Feb 2026",
+      "amount": 15,
+      "reason": "Deep Work: 5h 30m this week, above 90min/day average",
+      "totalAfter": 280,
+      "levelup": false
+    },
+    {
+      "date": "26 Feb 2026",
+      "amount": 15,
+      "reason": "Morning Routine: 6 of 7 days for second week running",
+      "totalAfter": 265,
+      "levelup": false
+    },
+    {
+      "date": "19 Feb 2026",
+      "amount": 15,
+      "reason": "Movement: 2 sessions per day maintained for first full week",
+      "totalAfter": 250,
+      "levelup": false
+    },
+    {
+      "date": "19 Feb 2026",
+      "amount": 10,
+      "reason": "Morning Routine: 5 of 7 days - streak rebuilding after skip week",
+      "totalAfter": 235,
+      "levelup": false
+    },
+    {
+      "date": "14 Feb 2026",
+      "amount": 50,
+      "reason": "Three months of consistency - No Setbacks Run achievement unlocked",
+      "totalAfter": 225,
+      "levelup": false
+    },
+    {
+      "date": "12 Feb 2026",
+      "amount": -15,
+      "reason": "Skipped movement three times when stressed - named it as 'Skip Movement When Stressed'",
+      "totalAfter": 175,
+      "levelup": false
+    },
+    {
+      "date": "5 Feb 2026",
+      "amount": 20,
+      "reason": "Deep Work: 4h 50m this week, Morning Routine: 4 of 7 after restart",
+      "totalAfter": 190,
+      "levelup": false
+    },
+    {
+      "date": "28 Jan 2026",
+      "amount": 15,
+      "reason": "Deep Work: 5h this week, Movement: consistent 5 of 7 days",
+      "totalAfter": 170,
+      "levelup": false
+    },
+    {
+      "date": "28 Jan 2026",
+      "amount": 10,
+      "reason": "Weekly Actions: 2 meaningful steps this week - below target but tracked for the first time",
+      "totalAfter": 155,
+      "levelup": false
+    },
+    {
+      "date": "20 Jan 2026",
+      "amount": 40,
+      "reason": "Organised entire workspace backlog in one sustained session - every category has a place",
+      "totalAfter": 145,
+      "levelup": false
+    },
+    {
+      "date": "20 Jan 2026",
+      "amount": null,
+      "reason": "Level 2 reached",
+      "totalAfter": 105,
+      "levelup": true
+    },
+    {
+      "date": "12 Jan 2026",
+      "amount": 30,
+      "reason": "Deep Work: 4h 20m this week, best since starting",
+      "totalAfter": 105,
+      "levelup": false
+    },
+    {
+      "date": "12 Jan 2026",
+      "amount": 5,
+      "reason": "'Obligation Yes' named - said no to one low-value request for the first time",
+      "totalAfter": 75,
+      "levelup": false
+    },
+    {
+      "date": "5 Jan 2026",
+      "amount": 25,
+      "reason": "Deep Work: 3h 10m this week - baseline established",
+      "totalAfter": 70,
+      "levelup": false
+    },
+    {
+      "date": "1 Jan 2026",
+      "amount": 50,
+      "reason": "Survive First Month quest complete",
+      "totalAfter": 50,
+      "levelup": false
+    }
+  ],
+  "_hardcodedHistory": {
+    "deep-work": [
+      {"date": "2026-01-01", "value": 10},
+      {"date": "2026-01-02", "value": 20},
+      {"date": "2026-01-04", "value": 5},
+      {"date": "2026-01-05", "value": 25},
+      {"date": "2026-01-06", "value": 30},
+      {"date": "2026-01-07", "value": 15},
+      {"date": "2026-01-08", "value": 20},
+      {"date": "2026-01-09", "value": 10},
+      {"date": "2026-01-12", "value": 30},
+      {"date": "2026-01-13", "value": 35},
+      {"date": "2026-01-14", "value": 20},
+      {"date": "2026-01-15", "value": 15},
+      {"date": "2026-01-16", "value": 30},
+      {"date": "2026-01-17", "value": 10},
+      {"date": "2026-01-19", "value": 40},
+      {"date": "2026-01-20", "value": 50},
+      {"date": "2026-01-21", "value": 35},
+      {"date": "2026-01-22", "value": 15},
+      {"date": "2026-01-23", "value": 30},
+      {"date": "2026-01-25", "value": 10},
+      {"date": "2026-01-26", "value": 45},
+      {"date": "2026-01-27", "value": 50},
+      {"date": "2026-01-28", "value": 40},
+      {"date": "2026-01-29", "value": 35},
+      {"date": "2026-01-30", "value": 20},
+      {"date": "2026-02-01", "value": 15},
+      {"date": "2026-02-02", "value": 50},
+      {"date": "2026-02-03", "value": 60},
+      {"date": "2026-02-04", "value": 40},
+      {"date": "2026-02-05", "value": 45},
+      {"date": "2026-02-06", "value": 35},
+      {"date": "2026-02-07", "value": 15},
+      {"date": "2026-02-09", "value": 55},
+      {"date": "2026-02-10", "value": 70},
+      {"date": "2026-02-11", "value": 50},
+      {"date": "2026-02-12", "value": 10},
+      {"date": "2026-02-13", "value": 15},
+      {"date": "2026-02-14", "value": 20},
+      {"date": "2026-02-15", "value": 30},
+      {"date": "2026-02-16", "value": 65},
+      {"date": "2026-02-17", "value": 70},
+      {"date": "2026-02-18", "value": 55},
+      {"date": "2026-02-19", "value": 80},
+      {"date": "2026-02-20", "value": 50},
+      {"date": "2026-02-21", "value": 35},
+      {"date": "2026-02-23", "value": 80},
+      {"date": "2026-02-24", "value": 85},
+      {"date": "2026-02-25", "value": 70},
+      {"date": "2026-02-26", "value": 60},
+      {"date": "2026-02-27", "value": 55},
+      {"date": "2026-02-28", "value": 30},
+      {"date": "2026-03-01", "value": 45},
+      {"date": "2026-03-02", "value": 80},
+      {"date": "2026-03-03", "value": 85},
+      {"date": "2026-03-04", "value": 70},
+      {"date": "2026-03-05", "value": 85},
+      {"date": "2026-03-06", "value": 60},
+      {"date": "2026-03-07", "value": 45},
+      {"date": "2026-03-08", "value": 35},
+      {"date": "2026-03-09", "value": 75},
+      {"date": "2026-03-10", "value": 90},
+      {"date": "2026-03-11", "value": 80},
+      {"date": "2026-03-13", "value": 50},
+      {"date": "2026-03-14", "value": 45},
+      {"date": "2026-03-15", "value": 40},
+      {"date": "2026-03-16", "value": 70},
+      {"date": "2026-03-17", "value": 75},
+      {"date": "2026-03-18", "value": 65},
+      {"date": "2026-03-19", "value": 80},
+      {"date": "2026-03-20", "value": 70},
+      {"date": "2026-03-21", "value": 55},
+      {"date": "2026-03-22", "value": 100},
+      {"date": "2026-03-23", "value": 75},
+      {"date": "2026-03-24", "value": 85},
+      {"date": "2026-03-25", "value": 95},
+      {"date": "2026-03-26", "value": 65},
+      {"date": "2026-03-27", "value": 80},
+      {"date": "2026-03-28", "value": 55},
+      {"date": "2026-03-30", "value": 95},
+      {"date": "2026-03-31", "value": 105},
+      {"date": "2026-04-01", "value": 80},
+      {"date": "2026-04-02", "value": 95},
+      {"date": "2026-04-03", "value": 100},
+      {"date": "2026-04-04", "value": 65},
+      {"date": "2026-04-05", "value": 60},
+      {"date": "2026-04-06", "value": 115},
+      {"date": "2026-04-07", "value": 90},
+      {"date": "2026-04-08", "value": 105},
+      {"date": "2026-04-09", "value": 80},
+      {"date": "2026-04-10", "value": 120},
+      {"date": "2026-04-11", "value": 110},
+      {"date": "2026-04-12", "value": 95}
+    ],
+    "morning-routine": [
+      {"date": "2026-02-02", "value": 1},
+      {"date": "2026-02-03", "value": 0},
+      {"date": "2026-02-04", "value": 0},
+      {"date": "2026-02-05", "value": 1},
+      {"date": "2026-02-06", "value": 0},
+      {"date": "2026-02-07", "value": 0},
+      {"date": "2026-02-09", "value": 1},
+      {"date": "2026-02-10", "value": 0},
+      {"date": "2026-02-11", "value": 0},
+      {"date": "2026-02-12", "value": 0},
+      {"date": "2026-02-13", "value": 1},
+      {"date": "2026-02-16", "value": 0},
+      {"date": "2026-02-17", "value": 1},
+      {"date": "2026-02-18", "value": 0},
+      {"date": "2026-02-19", "value": 0},
+      {"date": "2026-02-20", "value": 1},
+      {"date": "2026-02-23", "value": 1},
+      {"date": "2026-02-24", "value": 0},
+      {"date": "2026-02-25", "value": 1},
+      {"date": "2026-02-26", "value": 0},
+      {"date": "2026-02-27", "value": 1},
+      {"date": "2026-03-02", "value": 1},
+      {"date": "2026-03-03", "value": 0},
+      {"date": "2026-03-04", "value": 0},
+      {"date": "2026-03-05", "value": 1},
+      {"date": "2026-03-06", "value": 1},
+      {"date": "2026-03-09", "value": 1},
+      {"date": "2026-03-10", "value": 0},
+      {"date": "2026-03-11", "value": 1},
+      {"date": "2026-03-12", "value": 0},
+      {"date": "2026-03-13", "value": 1},
+      {"date": "2026-03-14", "value": 0},
+      {"date": "2026-03-16", "value": 1},
+      {"date": "2026-03-17", "value": 1},
+      {"date": "2026-03-18", "value": 0},
+      {"date": "2026-03-19", "value": 1},
+      {"date": "2026-03-20", "value": 1},
+      {"date": "2026-03-23", "value": 1},
+      {"date": "2026-03-24", "value": 1},
+      {"date": "2026-03-25", "value": 1},
+      {"date": "2026-03-26", "value": 0},
+      {"date": "2026-03-27", "value": 1},
+      {"date": "2026-03-30", "value": 1},
+      {"date": "2026-03-31", "value": 0},
+      {"date": "2026-04-01", "value": 1},
+      {"date": "2026-04-02", "value": 1},
+      {"date": "2026-04-03", "value": 0},
+      {"date": "2026-04-06", "value": 1},
+      {"date": "2026-04-07", "value": 1},
+      {"date": "2026-04-08", "value": 0},
+      {"date": "2026-04-09", "value": 1},
+      {"date": "2026-04-10", "value": 1},
+      {"date": "2026-04-11", "value": 1},
+      {"date": "2026-04-12", "value": 1}
+    ],
+    "movement": [
+      {"date": "2026-02-03", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-02-07", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-02-10", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-02-14", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-02-17", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-02-19", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-02-21", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-02-24", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-02-26", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-02-28", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-03-03", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-03-05", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-07", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-03-10", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-12", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-03-13", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-03-14", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-03-16", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-17", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-03-19", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-20", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-03-21", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-03-23", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-24", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-03-25", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-26", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-03-28", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-03-30", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-03-31", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-04-01", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-04-02", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-04-04", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-04-07", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-04-08", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-04-09", "value": 1, "subsDone": ["mining"]},
+      {"date": "2026-04-10", "value": 2, "subsDone": ["mining", "crafting"]},
+      {"date": "2026-04-11", "value": 1, "subsDone": ["crafting"]},
+      {"date": "2026-04-12", "value": 2, "subsDone": ["mining", "crafting"]}
+    ],
+    "diamonds-mined": [
+      {"period": "2026-02", "value": 1},
+      {"period": "2026-03", "value": 1},
+      {"period": "2026-04", "value": 2},
+      {"period": "2026-05", "value": 2},
+      {"period": "2026-06", "value": 2},
+      {"period": "2026-07", "value": 3},
+      {"period": "2026-08", "value": 3},
+      {"period": "2026-09", "value": 3},
+      {"period": "2026-10", "value": 4},
+      {"period": "2026-11", "value": 4},
+      {"period": "2026-12", "value": 4},
+      {"period": "2026-13", "value": 5},
+      {"period": "2026-14", "value": 6}
+    ]
+  }
+}

@@ -1589,6 +1589,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .xp-log-items { margin:4px 0 2px 56px; padding:0; list-style:none; width:100%; }
 .xp-log-items li { font-size:12px; color:var(--text-dim); padding:1px 0; }
 .xp-log-empty { font-size:15px; color:var(--text-dim); font-style:italic; }
+.xp-log-levelup-badge { font-family:'Cinzel',serif; font-size:11px; font-weight:700; letter-spacing:0.08em; color:#d4a0ff; background:rgba(176,128,232,0.15); border:1px solid rgba(176,128,232,0.35); border-radius:4px; padding:1px 6px; flex-shrink:0; }
 @keyframes xp-entry-in {
   from { opacity:0; transform:translateY(-4px); }
   to   { opacity:1; transform:translateY(0); }
@@ -3176,7 +3177,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="radar-panel-charts">
         <div class="hist-chart-header">
           <div class="radar-chart-lbl">History</div>
-          <button class="hist-reset-btn" onclick="confirmResetHistory('stats')" title="Reset Core Skills history">Reset</button>
+          <div style="display:flex;gap:4px;">
+            <button id="stats-hist-add-btn" class="hist-reset-btn" onclick="openHistNewEntry('stats',this)" title="Add entry for a past date">+ Date</button>
+            <button class="hist-reset-btn" onclick="confirmResetHistory('stats')" title="Reset Core Skills history">Reset</button>
+          </div>
         </div>
         <canvas id="stats-hist-canvas" class="radar-chart-canvas hist-chart-canvas"></canvas>
         <div class="hist-chart-legend" id="stats-hist-legend"></div>
@@ -3270,7 +3274,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <div class="radar-panel-charts">
         <div class="hist-chart-header">
           <div class="radar-chart-lbl">History</div>
-          <button class="hist-reset-btn" onclick="confirmResetHistory('status')" title="Reset Current State history">Reset</button>
+          <div style="display:flex;gap:4px;">
+            <button id="status-hist-add-btn" class="hist-reset-btn" onclick="openHistNewEntry('status',this)" title="Add entry for a past date">+ Date</button>
+            <button class="hist-reset-btn" onclick="confirmResetHistory('status')" title="Reset Current State history">Reset</button>
+          </div>
         </div>
         <canvas id="status-hist-canvas" class="radar-chart-canvas hist-chart-canvas"></canvas>
         <div class="hist-chart-legend" id="status-hist-legend"></div>
@@ -4766,6 +4773,129 @@ function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave
   c.addEventListener('click', handler);
 }
 
+function openHistNewEntry(type, anchorEl) {
+  document.querySelectorAll('.hist-backfill-pop').forEach(p => p.remove());
+
+  var isStats  = type === 'stats';
+  var keys     = isStats ? ['rest','movement','nutrition','connection'] : ['focus','energy','purpose','interest'];
+  var cols     = isStats ? STAT_COLORS : STATUS_COLORS;
+  var storageKey = isStats ? STATS_HIST_KEY : STATUS_HIST_KEY;
+  var onSave   = isStats ? renderStatsHistoryChart : renderStatusHistoryChart;
+
+  var hist = (function(){ try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch(e) { return []; } })();
+  var existingDates = new Set(hist.map(function(e){ return e.date; }));
+  var today = new Date().toISOString().slice(0, 10);
+  var defaultDate = today;
+  for (var i = 1; i <= 30; i++) {
+    var d = new Date(); d.setDate(d.getDate() - i);
+    var ds = d.toISOString().slice(0, 10);
+    if (!existingDates.has(ds)) { defaultDate = ds; break; }
+  }
+
+  var pop = document.createElement('div');
+  pop.className = 'prac-bar-edit hist-backfill-pop';
+
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;';
+  var lbl = document.createElement('div');
+  lbl.className = 'prac-bar-edit-lbl';
+  lbl.style.flex = '1';
+  lbl.textContent = 'Add / Edit Entry';
+  var closeBtn = document.createElement('button');
+  closeBtn.style.cssText = 'background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;line-height:1;padding:0;flex-shrink:0;';
+  closeBtn.textContent = '\u2715';
+  closeBtn.addEventListener('click', function(e){ e.stopPropagation(); pop.remove(); });
+  hdr.appendChild(lbl); hdr.appendChild(closeBtn);
+  pop.appendChild(hdr);
+
+  var dateRow = document.createElement('div');
+  dateRow.style.cssText = 'display:flex;align-items:center;gap:6px;';
+  var dateLbl = document.createElement('span');
+  dateLbl.style.cssText = "font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.08em;color:var(--text-dim);width:70px;flex-shrink:0;text-transform:uppercase;";
+  dateLbl.textContent = 'Date';
+  var dateInput = document.createElement('input');
+  dateInput.type = 'date';
+  dateInput.value = defaultDate;
+  dateInput.max = today;
+  dateInput.style.cssText = 'background:var(--bg);border:1px solid rgba(200,168,74,0.35);border-radius:3px;color:var(--text-b);font-family:var(--mono);font-size:12px;padding:2px 4px;flex:1;min-width:0;';
+  dateRow.appendChild(dateLbl); dateRow.appendChild(dateInput);
+  pop.appendChild(dateRow);
+
+  var sliders = {}, valSpans = {};
+  var prefill = function(date) {
+    var e = hist.find(function(h){ return h.date === date; });
+    keys.forEach(function(k) {
+      var sl = sliders[k]; if (!sl) return;
+      sl.value = e ? (e[k] != null ? e[k] : 50) : 50;
+      setStatusGradient(sl, cols[k], parseInt(sl.value));
+      valSpans[k].textContent = sl.value;
+    });
+  };
+
+  var existing0 = hist.find(function(h){ return h.date === defaultDate; });
+  keys.forEach(function(k) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:6px;';
+    var nameLbl = document.createElement('span');
+    nameLbl.style.cssText = 'font-family:\'Cinzel\',serif;font-size:10px;letter-spacing:0.08em;color:' + cols[k] + ';width:70px;flex-shrink:0;text-transform:uppercase;';
+    nameLbl.textContent = k;
+    var sl = document.createElement('input');
+    sl.type = 'range'; sl.min = '0'; sl.max = '100';
+    sl.value = existing0 ? (existing0[k] != null ? existing0[k] : 50) : 50;
+    sl.className = 'stat-range';
+    sl.style.cssText = 'width:110px;flex-shrink:0;';
+    setStatusGradient(sl, cols[k], parseInt(sl.value));
+    sliders[k] = sl;
+    var valSpan = document.createElement('span');
+    valSpan.style.cssText = 'font-family:var(--mono);font-size:12px;color:var(--text-b);width:24px;text-align:right;flex-shrink:0;';
+    valSpan.textContent = sl.value;
+    valSpans[k] = valSpan;
+    sl.addEventListener('input', (function(key, span){ return function(){ setStatusGradient(sl, cols[key], parseInt(sl.value)); span.textContent = sl.value; }; })(k, valSpan));
+    row.appendChild(nameLbl); row.appendChild(sl); row.appendChild(valSpan);
+    pop.appendChild(row);
+  });
+
+  dateInput.addEventListener('change', function(){ prefill(dateInput.value); });
+
+  var saveBtn = document.createElement('button');
+  saveBtn.className = 'prac-bar-edit-save';
+  saveBtn.textContent = 'Set';
+  saveBtn.style.cssText = 'align-self:flex-end;margin-top:2px;';
+  pop.appendChild(saveBtn);
+
+  var doSave = function() {
+    var date = dateInput.value;
+    if (!date) return;
+    try {
+      var storedHist = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      var newEntry = { date: date };
+      keys.forEach(function(k){ newEntry[k] = parseInt(sliders[k].value); });
+      var idx = storedHist.findIndex(function(e){ return e.date === date; });
+      if (idx >= 0) { storedHist[idx] = Object.assign({}, storedHist[idx], newEntry); }
+      else { storedHist.push(newEntry); storedHist.sort(function(a,b){ return a.date < b.date ? -1 : 1; }); }
+      if (storedHist.length > 90) storedHist.splice(0, storedHist.length - 90);
+      localStorage.setItem(storageKey, JSON.stringify(storedHist));
+    } catch(ex) {}
+    pop.remove();
+    onSave();
+  };
+
+  saveBtn.addEventListener('click', function(e){ e.stopPropagation(); doSave(); });
+  pop.addEventListener('keydown', function(e){ if (e.key === 'Enter') doSave(); if (e.key === 'Escape') pop.remove(); });
+
+  document.body.appendChild(pop);
+  requestAnimationFrame(function() {
+    var rect = anchorEl ? anchorEl.getBoundingClientRect() : { left: window.innerWidth/2, right: window.innerWidth/2, top: window.innerHeight/2, bottom: window.innerHeight/2 };
+    var popW = pop.offsetWidth, popH = pop.offsetHeight;
+    var left = Math.max(6, Math.min(rect.right - popW, window.innerWidth - popW - 6));
+    var top = rect.bottom + 8;
+    if (top + popH > window.innerHeight - 6) top = rect.top - popH - 8;
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+    dateInput.focus();
+  });
+}
+
 function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
@@ -5392,6 +5522,7 @@ function completeQuest(i){
   const _td=new Date(); const today=String(_td.getDate()).padStart(2,'0')+'/'+String(_td.getMonth()+1).padStart(2,'0')+'/'+_td.getFullYear();
   // Snapshot for undo
   const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuests:JSON.parse(JSON.stringify(appState.completedQuests||[])), xp:appState.xp, level:appState.level };
+  const _logSnapshot=loadXPLog();
   const cqArr=loadCompletedQuests();
   cqArr.unshift({title:q.title,completedDate:today,xpEarned:xp,howResolved:q.doneWhen||''});
   saveCompletedQuests(cqArr);
@@ -5403,6 +5534,10 @@ function completeQuest(i){
   if(xp){
     updateXpRing(appState.level,appState.xp,appState.xpToNext);
     animateXpGain(_oldXp, appState.xp, _oldLevel, appState.level||1, appState.xpToNext, '+'+xp+' XP');
+    const _xlog=loadXPLog();
+    _xlog.unshift({date:today,type:'quest',amount:xp,reason:'Quest: '+(q.title||'completed'),totalAfter:appState.xp});
+    saveXPLog(_xlog);
+    renderXPLog();
   }
   showXpToast(q.title,xp,()=>{
     // Undo
@@ -5412,6 +5547,8 @@ function completeQuest(i){
     saveState(appState); markDirty();
     renderQuestsTab(appState);
     updateXpRing(appState.level,appState.xp,appState.xpToNext);
+    saveXPLog(_logSnapshot);
+    renderXPLog();
   });
 }
 
@@ -7438,6 +7575,7 @@ function applyMigrationBundle(p){
     if(p['cs-status-v1']) localStorage.setItem('cs-status-v1',JSON.stringify(p['cs-status-v1']));
     if(p['cs-completed-quests-v1']) localStorage.setItem('cs-completed-quests-v1',JSON.stringify(p['cs-completed-quests-v1']));
     if(p['cs-hdr-icon-v1']!=null) localStorage.setItem('cs-hdr-icon-v1',p['cs-hdr-icon-v1']);
+    if(p['cs-char-id-v1']!=null) localStorage.setItem('cs-char-id-v1',p['cs-char-id-v1']);
     if(p['cs-welcomed-v1']) localStorage.setItem('cs-welcomed-v1','1');
     if(p['cs-starters-seen-v1']) localStorage.setItem('cs-starters-seen-v1','1');
     if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>localStorage.setItem(k,JSON.stringify(v)));
@@ -7515,6 +7653,23 @@ function applyUpdate(){
     }
     const _xpLogProvided=!!merged._xpLogProvided;
     delete merged._featuredAch; delete merged._featuredCls; delete merged._xpLog; delete merged._xpLogProvided; delete merged._hardcodedHistory;
+    // Build context items for the XP log entry by diffing states
+    const _importItems=[];
+    if(!_xpLogProvided){
+      // Newly completed quests
+      const prevTitles=new Set((prevSnapshot.completedQuests||[]).map(q=>q.title));
+      (merged.completedQuests||[]).forEach(q=>{ if(!prevTitles.has(q.title)) _importItems.push({amount:null,label:'Quest: '+(q.title||'completed')}); });
+      // Main quest progress change
+      const _mq=merged.mainQuest, _pmq=prevSnapshot.mainQuest;
+      if(_mq&&_pmq&&_mq.progress!=null&&_pmq.progress!=null&&_mq.progress!==_pmq.progress) _importItems.push({amount:null,label:'Main quest: '+_pmq.progress+'% → '+_mq.progress+'%'});
+      // Enemy HP changes
+      const _allNext=[...(merged.enemies?.current||[]),...(merged.limitingBeliefs||[])];
+      const _allPrev=[...(prevSnapshot.enemies?.current||[]),...(prevSnapshot.limitingBeliefs||[])];
+      _allNext.forEach(ne=>{ const pe=_allPrev.find(p=>p.name===ne.name); if(pe&&pe.hp!=null&&ne.hp!=null&&ne.hp!==pe.hp) _importItems.push({amount:null,label:(ne.name||'Enemy')+': HP '+pe.hp+' → '+ne.hp}); });
+      // New achievements
+      const _prevAchIds=new Set((prevSnapshot.achievements||[]).map(a=>a.id||a.name));
+      (merged.achievements||[]).forEach(a=>{ const _k=a.id||a.name; if(_k&&!_prevAchIds.has(_k)) _importItems.push({amount:null,label:'Achievement: '+(a.name||_k)}); });
+    }
     if(merged.dailyDistribution) window._lastImportedDist=JSON.parse(JSON.stringify(merged.dailyDistribution));
     // Migrate old insights format: {chapterKey: entries[]} → [{name, entries}]
     if(merged.insights && !Array.isArray(merged.insights)){
@@ -7549,7 +7704,7 @@ function applyUpdate(){
     // Restore locked fields from pre-import snapshot (honour _locked contract)
     applyLockedFields(merged, prevSnapshot);
     const _impOldXp=prevSnapshot.xp||0; const _impOldLevel=prevSnapshot.level||1;
-    logXPChange(appState, merged, null, _xpLogProvided);
+    logXPChange(appState, merged, _importItems.length?_importItems:null, _xpLogProvided);
     snapshotHarmony(merged);
     saveState(merged);appState=merged;render(merged);
     // Reload sliders from new appState so Claude-set values appear immediately
@@ -7642,8 +7797,9 @@ function renderXPLog(){
   });
   function _xpEntryIcon(entry){
     if(entry.type==='kill') return '☠';
+    if(entry.type==='quest') return '⚔';
     const r=(entry.reason||'').toLowerCase();
-    if(/quest complete|side quest|main quest/.test(r)) return '⚔';
+    if(/^quest:|quest complete|side quest|main quest/.test(r)) return '⚔';
     if(/skill level.?up|skill:/.test(r)) return '◈';
     if(/achievement|milestone/.test(r)) return '★';
     if(/relapse|avoided|dropped|deduct|negative/.test(r)) return '↓';
@@ -7660,7 +7816,10 @@ function renderXPLog(){
     const groupTotal=xpEntries.reduce((s,e)=>s+(e.amount||0),0);
     const srcCount=xpEntries.length;
     const srcLabel=srcCount===1?'1 source':`${srcCount} sources`;
-    hdr.innerHTML=`<span class="xp-log-group-date">${esc(group.date)}</span><span class="xp-log-group-srcs">${srcLabel}</span><span class="xp-log-group-total">${groupTotal>0?'+':''}<b>${groupTotal}</b> XP</span><span class="xp-log-chevron">${gi===0?'▾':'▸'}</span>`;
+    const lvlEntry=group.entries.find(e=>e.type==='levelup'||e.levelup);
+    const lvlNum=lvlEntry?((lvlEntry.reason||'').match(/\d+/)||[''])[0]:'';
+    const lvlBadge=lvlEntry?`<span class="xp-log-levelup-badge">▲ LVL ${lvlNum}</span>`:'';
+    hdr.innerHTML=`<span class="xp-log-group-date">${esc(group.date)}</span><span class="xp-log-group-srcs">${srcLabel}</span>${lvlBadge}<span class="xp-log-group-total">${groupTotal>0?'+':''}<b>${groupTotal}</b> XP</span><span class="xp-log-chevron">${gi===0?'▾':'▸'}</span>`;
     const body=document.createElement('div'); body.className='xp-log-group-body'+(gi===0?'':' collapsed');
     group.entries.forEach(entry=>{
       if(entry.type==='levelup'||entry.levelup){
@@ -7674,7 +7833,7 @@ function renderXPLog(){
         row.innerHTML=`<span class="xp-log-amount">${sign}${entry.amount} XP</span><span class="xp-log-reason"><span class="xp-log-icon">${icon}</span>${esc(entry.reason)}${entry.totalAfter!=null?' <span class="xp-log-total">· '+entry.totalAfter+' total</span>':''}</span>`;
         if(entry.items&&entry.items.length){
           const ul=document.createElement('ul'); ul.className='xp-log-items';
-          entry.items.forEach(it=>{ const li=document.createElement('li'); li.textContent=(it.amount>0?'+':'')+it.amount+': '+it.label; ul.appendChild(li); });
+          entry.items.forEach(it=>{ const li=document.createElement('li'); li.textContent=it.amount!=null?(it.amount>0?'+':'')+it.amount+' '+it.label:it.label; ul.appendChild(li); });
           row.appendChild(ul);
         }
         body.appendChild(row);
@@ -7719,6 +7878,9 @@ function buildMigrationBundle(){
   // Header icon preference
   const rawHdrIcon=localStorage.getItem('cs-hdr-icon-v1');
   if(rawHdrIcon!=null) bundle['cs-hdr-icon-v1']=rawHdrIcon;
+  // Stable character ID (used as prefix for cs-rq-* practice keys)
+  const rawCharId=localStorage.getItem('cs-char-id-v1');
+  if(rawCharId!=null) bundle['cs-char-id-v1']=rawCharId;
   // UI flags (welcomed, starters seen)
   if(localStorage.getItem('cs-welcomed-v1')) bundle['cs-welcomed-v1']='1';
   if(localStorage.getItem('cs-starters-seen-v1')) bundle['cs-starters-seen-v1']='1';
@@ -9596,7 +9758,6 @@ function renderRecurringQuests(s) {
           <div class="rq-sub-btns">${subBtnsHtml}</div>
           ${xpLbl}
           <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${todayDone.length} / ${tgt} ${esc(act.unit||'')}</div>
-          <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
         `;
       } else {
         const dotsHtml = Array.from({length: tgt}, (_,i) =>
@@ -9607,7 +9768,6 @@ function renderRecurringQuests(s) {
           <div class="checkbox-dots">${dotsHtml}</div>
           ${xpLbl}
           <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${tgt} ${esc(act.unit||'')}</div>
-          <div class="practice-xp-earned" id="checkbox-xp-${act.id}"></div>
         `;
       }
 
@@ -9700,6 +9860,8 @@ function handleBackfill(id) {
   if (period === currentPeriod(act.resetPeriod)) {
     const ps = practiceState[id];
     if (!ps) return;
+    let oldValBf = ps.value || 0;
+    let newValBf = oldValBf;
     if (act.type === 'timer') {
       ps.seconds = rawVal * 60;
       renderTimerRing(id, act);
@@ -9707,14 +9869,16 @@ function handleBackfill(id) {
       if (todayEl) todayEl.textContent = `Today: ${rawVal} / ${act.target||90} min`;
       saveRQCurrent(charName, id, { value: ps.seconds, periodStart: period, timerRunning: false });
     } else if (act.type === 'number') {
-      ps.value = rawVal;
+      oldValBf = ps.value || 0;
+      ps.value = rawVal; newValBf = rawVal;
       const inpEl = document.getElementById('number-input-' + id);
       if (inpEl) inpEl.value = rawVal;
       const lblEl = document.getElementById('number-lbl-' + id);
       if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
       saveRQCurrent(charName, id, { value: rawVal, periodStart: period });
     } else if (act.type === 'checkbox') {
-      ps.value = Math.min(rawVal, act.target || 1);
+      oldValBf = ps.value || 0;
+      ps.value = Math.min(rawVal, act.target || 1); newValBf = ps.value;
       ps.hasEntry = true;
       saveRQCurrent(charName, id, { value: ps.value, hasEntry: true, periodStart: period });
     }
@@ -9722,6 +9886,11 @@ function handleBackfill(id) {
     if (chartWrap2) renderRQBarChart(chartWrap2, act, charName);
     const btn2 = document.querySelector(`button[onclick="handleBackfill('${id}')"]`);
     if (btn2) { btn2.textContent = 'Saved ✓'; setTimeout(() => btn2.textContent = 'Save', 1500); }
+    if (act.xpPerUnit && newValBf > oldValBf) {
+      const xpBf = Math.round(act.xpPerUnit * (newValBf - oldValBf));
+      awardRQXP(id, xpBf);
+      if (btn2) xpFloatLabel('+' + xpBf + ' XP', btn2);
+    }
     return;
   }
 
@@ -9796,8 +9965,7 @@ function handleCheckboxDot(id, dotIndex, btn) {
   if (ps.value > oldVal && act.xpPerUnit) {
     const xp = Math.round(act.xpPerUnit);
     awardRQXP(id, xp);
-    const xpEl = document.getElementById('checkbox-xp-' + id);
-    if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
+    xpFloatLabel('+' + xp + ' XP', btn);
   }
   updateCombatNavArc();
 }
@@ -9855,8 +10023,7 @@ function handleSubActivity(actId, subId, btn) {
   if (ps.value > oldVal && act.xpPerUnit) {
     const xp = Math.round(act.xpPerUnit);
     awardRQXP(actId, xp);
-    const xpEl = document.getElementById('checkbox-xp-' + actId);
-    if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
+    xpFloatLabel('+' + xp + ' XP', btn);
   }
 
   // Re-render chart
@@ -9918,8 +10085,7 @@ function handleNumberSave(id) {
   if (newVal > oldVal) {
     const xp = Math.round(act.xpPerUnit * (newVal - oldVal));
     awardRQXP(id, xp);
-    const xpEl = document.getElementById('number-xp-' + id);
-    if (xpEl) { xpEl.textContent = '+' + xp + ' XP'; setTimeout(() => { if(xpEl) xpEl.textContent = ''; }, 2500); }
+    xpFloatLabel('+' + xp + ' XP', document.getElementById('number-xp-' + id) || document.getElementById('number-input-' + id));
   }
   updateCombatNavArc();
 }
