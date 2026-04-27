@@ -196,5 +196,9 @@ If social media can use gamification to hold attention and keep people scrolling
 
 Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md). 
 
+---
+
+*companion to [team-sheet](https://sam-holmes2.github.io/team-sheet/team-sheet.html), an IFS inner parts mapping app built on the same local-first, AI-optional architecture. If character-sheet is Skyrim where you are the main character, team-sheet is Animal Crossing for understanding and befriending your inner world.*
+
 ## Digital artists wanted!
 If you're a designer who finds character-sheet useful and has ideas for a logo or visual identity, [I'd love to hear from you](https://github.com/sam-holmes2/character-sheet/issues). 
