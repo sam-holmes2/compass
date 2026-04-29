@@ -2211,6 +2211,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   border-left:3px solid var(--water); padding:14px 18px;
   background:rgba(58,128,200,0.05); border-radius:0 5px 5px 0;
 }
+.claude-read-textarea {
+  width:100%; box-sizing:border-box; resize:none; overflow:hidden; min-height:60px;
+  font-size:16px; color:var(--text-mid); line-height:1.7; font-family:inherit;
+  background:none; border:none; outline:none; padding:0;
+}
 /* ══ HARMONY + MASTERY CARDS ════════════════════════════ */
 .balance-hm-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
 .balance-hm-card { border:1px solid var(--border-hi); border-radius:8px; background:rgba(255,255,255,0.015); overflow:hidden; display:flex; flex-direction:column; }
@@ -2929,9 +2934,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <div class="el-body open">
     <div style="margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:12px;">
-      <div class="lbl">Last Session</div>
-      <div class="section-desc">Summary of the latest events, insights and unresolved tensions from your latest journalling session</div>
-      <div class="claude-read-card" id="air-claude-read">No read yet.</div>
+      <div class="lbl">Latest note</div>
+      <div class="section-desc">Your own note or the latest read from your AI. Click to edit.</div>
+      <div class="claude-read-card" id="air-claude-read"></div>
       <div id="air-progression" style="display:none;margin-top:12px;">
         <div id="air-progression-hdr" style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:#3aacac;text-transform:uppercase;margin-bottom:7px;">Progression Timeline</div>
         <div id="air-progression-text" style="font-size:16px;color:var(--text-mid);line-height:1.65;"></div>
@@ -3328,9 +3333,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
     <div id="lore-progression-text" class="lore-card-body"></div>
   </div>
 
-  <div id="lore-last-session" class="lore-card lore-card--session" style="display:none;">
-    <div class="lore-card-hdr">Last Session</div>
-    <div class="lore-card-desc">Summary of the latest events, insights and unresolved tensions from your latest journalling session</div>
+  <div id="lore-last-session" class="lore-card lore-card--session">
+    <div class="lore-card-hdr">Latest note</div>
+    <div class="lore-card-desc">Your own note or the latest read from your AI. Click to edit.</div>
     <div id="lore-last-session-text" class="lore-card-body"></div>
   </div>
 
@@ -6858,9 +6863,21 @@ function addAllyOfType(type){
 function renderProgressionCard(el, s) {
   if (!el) return;
   el.innerHTML = '';
-  const txt = document.createElement('div');
-  txt.textContent = s.claudeRead || 'No read yet.';
-  el.appendChild(txt);
+  const ta = document.createElement('textarea');
+  ta.className = 'claude-read-textarea';
+  ta.value = s.claudeRead || '';
+  ta.placeholder = 'Add a note about your latest session...';
+  ta.rows = 3;
+  ta.addEventListener('input', () => {
+    ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
+    appState.claudeRead = ta.value;
+  });
+  ta.addEventListener('blur', () => {
+    const v = ta.value.trim();
+    if (appState.claudeRead !== v) { appState.claudeRead = v; saveState(appState); markDirty(); }
+  });
+  setTimeout(() => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }, 0);
+  el.appendChild(ta);
   // Link to most recent journal chapter
   const chapters = s.insights || [];
   if (chapters.length) {
@@ -6909,11 +6926,19 @@ function renderProgressionCard(el, s) {
   if(loreHdr) loreHdr.style.color = progColor;
   const airHdr = document.getElementById('air-progression-hdr');
   if(airHdr) airHdr.style.color = progColor;
-  // Journal tab: last session (claudeRead)
+  // Journal tab: last session (claudeRead) — always shown, always editable
   const lsWrap=document.getElementById('lore-last-session'), lsTxt=document.getElementById('lore-last-session-text');
   if(lsWrap&&lsTxt){
-    if(s.claudeRead){ lsTxt.textContent=s.claudeRead; lsWrap.style.display='block'; }
-    else { lsWrap.style.display='none'; }
+    lsTxt.innerHTML='';
+    const lsTa=document.createElement('textarea');
+    lsTa.className='claude-read-textarea';
+    lsTa.value=s.claudeRead||'';
+    lsTa.placeholder='Add a note about your latest session...';
+    lsTa.rows=3;
+    lsTa.addEventListener('input',()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; appState.claudeRead=lsTa.value; });
+    lsTa.addEventListener('blur',()=>{ const v=lsTa.value.trim(); if(appState.claudeRead!==v){appState.claudeRead=v;saveState(appState);markDirty();} });
+    setTimeout(()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; },0);
+    lsTxt.appendChild(lsTa);
   }
 }
 
@@ -7496,6 +7521,7 @@ function render(s){
   renderRecurringQuests(s);
   renderProgressionCard(document.getElementById('combat-claude-read'), s);
   renderProgressionCard(document.getElementById('air-claude-read'), s);
+  renderStartersSection(s);
   renderPieChart(s);
   renderCombatSkills(s);
   renderSkillsTopRow(s);
@@ -7930,10 +7956,10 @@ function applyUpdate(){
       localStorage.setItem(WELCOMED_KEY,'1');
       document.getElementById('welcome-modal')?.classList.remove('open');
       dismissSetupBanner();
-      // Expand starters on first real import
+      // Expand starters on first real import, but only if the user has sessions to reference
       const startersBody = document.getElementById('starters-body');
       const startersSection = document.getElementById('starters-section');
-      if(startersBody && !localStorage.getItem('cs-starters-seen-v1')){
+      if(startersBody && !localStorage.getItem('cs-starters-seen-v1') && (merged.sessionCount||0) > 0){
         startersBody.classList.add('open');
         startersSection?.classList.add('expanded');
         localStorage.setItem('cs-starters-seen-v1','1');
@@ -11310,6 +11336,23 @@ function toggleStarters(){
   if(!body) return;
   const open = body.classList.toggle('open');
   if(arrow) arrow.classList.toggle('open', open);
+}
+
+function renderStartersSection(s) {
+  const toggle = document.getElementById('starters-toggle');
+  const body   = document.getElementById('starters-body');
+  const desc   = body?.querySelector('.starters-desc');
+  if (!toggle || !body) return;
+  const hasSession = (s.sessionCount || 0) > 0;
+  for (const node of toggle.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+      node.textContent = hasSession ? ' New session prompt ideas' : ' Start your first session';
+      break;
+    }
+  }
+  if (desc) desc.textContent = hasSession
+    ? 'Some optional inspiration for what you might want to start journalling about'
+    : 'First session? Copy one of these prompts into your AI to get started:';
 }
 
 // ══ IMPORT DIFF TOAST ═══════════════════════════════════════
