@@ -130,6 +130,24 @@ Mistral is a French company. Data is stored in the EU under GDPR. EU residents h
 
 ---
 
+## Backing up your data
+
+`data.json` is the only file that contains your personal history. If you lose your device or clear browser storage, it is gone. Back it up.
+
+| Approach | How | Privacy tradeoff | Best for |
+|----------|-----|-----------------|----------|
+| **AI project knowledge** | Keep the file in your AI project as part of the normal workflow | Sent to your AI provider (same exposure as your sessions) | Most users, already part of the workflow |
+| **Local folder** | Copy `data.json` to a folder on your machine after each session | No exposure beyond your device | Maximum privacy, manual effort |
+| **Encrypted cloud** | Upload to zero-knowledge cloud storage (e.g. Proton Drive, Tresorit) | Encrypted before leaving your device; provider cannot read it | Good balance of safety and convenience |
+| **Standard cloud** | Upload to Google Drive, Dropbox, iCloud | Provider has access to plaintext content | Convenient, but exposes your journal to that provider |
+| **PIN-locked export** | Enable PIN in the app, then back up the browser's localStorage via a browser profile backup | Encrypted on disk (AES-256-GCM) | Combined approach: cloud sync of browser profile stays encrypted |
+
+**Practical recommendation:** the simplest safe approach is to keep a copy of `data.json` in a folder that is backed up by your chosen cloud provider, and to use the PIN lock if that provider's access to your journal content is a concern. If you use Proton Drive or Tresorit, the file is encrypted client-side before upload. If you use Google Drive or iCloud, the file is readable by the provider.
+
+**What does not need to be backed up:** `character-sheet.html` and `instructions.md` are identical for all users and can be re-downloaded from the GitHub repo at any time.
+
+---
+
 ## Local models (Ollama, LM Studio)
 
 No conversation data leaves your device. Model weights are downloaded once from provider servers; the provider can see which models you downloaded but not conversation content. All inference runs offline after download.
