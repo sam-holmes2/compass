@@ -1281,7 +1281,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-vitals { display:flex; flex-direction:column; gap:5px; align-items:stretch; justify-content:center; padding-right:0; width:100%; }
 .vital-row { display:flex; align-items:center; gap:9px; }
 .vital-icon { font-size:22px; line-height:1; width:24px; text-align:center; flex-shrink:0; }
-.vital-track-wrap { position:relative; flex:1; display:flex; flex-direction:column; justify-content:center; }
+.vital-track-wrap { position:relative; flex:1; display:flex; flex-direction:column; justify-content:center; cursor:ew-resize; user-select:none; }
+.vital-fill.dragging { transition:none !important; }
 .vital-track { height:20px; border-radius:10px; overflow:hidden; position:relative; }
 .vital-track.hp  { background:rgba(200,60,60,0.12); }
 .vital-track.mana{ background:rgba(48,100,220,0.12); }
@@ -1304,14 +1305,30 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   0%,100% { box-shadow:0 0 6px rgba(60,110,230,0.35), inset 0 1px 0 rgba(255,255,255,0.1); }
   50%      { box-shadow:0 0 16px rgba(80,140,255,0.65), inset 0 1px 0 rgba(255,255,255,0.18); }
 }
-/* Baseline marker — vertical tick at all-time average */
+/* Baseline markers — vertical ticks. Blue = all-time avg, red/pink = 7-day avg */
 .vital-baseline {
   position:absolute; top:50%; width:2px; height:28px; border-radius:1px;
   transform:translate(-50%,-50%); pointer-events:none; z-index:2;
   transition:left 0.9s cubic-bezier(0.4,0,0.2,1);
+  background:#5090d8; box-shadow:0 0 4px rgba(80,144,216,0.5);
 }
-.vital-baseline.hp   { background:rgba(255,160,160,0.75); box-shadow:0 0 4px rgba(255,100,100,0.5); }
-.vital-baseline.mana { background:rgba(140,190,255,0.75); box-shadow:0 0 4px rgba(100,160,255,0.5); }
+.vital-baseline-7d {
+  position:absolute; top:50%; width:2px; height:28px; border-radius:1px;
+  transform:translate(-50%,-50%); pointer-events:none; z-index:2;
+  transition:left 0.9s cubic-bezier(0.4,0,0.2,1);
+  background:#e05060; box-shadow:0 0 4px rgba(224,80,96,0.5);
+}
+/* New-day glow: bar pulses in its own colour until today's value is logged */
+@keyframes vital-hp-needs-update {
+  0%,100% { box-shadow:0 0 0 1px rgba(220,60,60,0.15); }
+  50%      { box-shadow:0 0 0 2px rgba(220,60,60,0.45), 0 0 10px rgba(220,60,60,0.2); }
+}
+@keyframes vital-mana-needs-update {
+  0%,100% { box-shadow:0 0 0 1px rgba(60,110,220,0.15); }
+  50%      { box-shadow:0 0 0 2px rgba(60,110,220,0.45), 0 0 10px rgba(60,110,220,0.2); }
+}
+.vital-track.hp.vital-needs-checkin   { animation:vital-hp-needs-update   2.8s ease-in-out infinite; }
+.vital-track.mana.vital-needs-checkin { animation:vital-mana-needs-update 2.8s ease-in-out infinite; }
 
 /* ══ FULL-WIDTH XP BAR ROW ════════════════════════════════ */
 /* Single-row layout: ████████░░░░ · 500/1000 XP · → Lv5 */
@@ -1856,6 +1873,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .checkbox-dot.filled { background:var(--gold); border-color:var(--gold); box-shadow:0 0 7px rgba(200,168,74,0.4); }
 .checkbox-dot.filled::after { content:'✓'; color:#fff; font-size:15px; font-weight:700; }
 .checkbox-dot:hover:not(.filled) { border-color:var(--gold); background:rgba(200,168,74,0.12); transform:scale(1.08); }
+.checkbox-dot.voided { border-color:rgba(180,60,60,0.45) !important; background:rgba(180,60,60,0.07) !important; box-shadow:none !important; }
+.checkbox-dot.voided.filled { background:rgba(180,60,60,0.35) !important; border-color:rgba(180,60,60,0.6) !important; }
+.checkbox-dot.voided.filled::after { content:''; }
+.rq-exclude-btn { font-family:var(--mono); font-size:11px; letter-spacing:0.06em; border:1px solid rgba(180,60,60,0.3); border-radius:3px; background:none; color:rgba(200,100,100,0.65); cursor:pointer; padding:3px 9px; margin-top:4px; transition:all 0.15s; }
+.rq-exclude-btn:hover { background:rgba(180,60,60,0.1); border-color:rgba(180,60,60,0.5); color:rgba(200,100,100,0.9); }
+.rq-exclude-btn.active { background:rgba(180,60,60,0.15); border-color:rgba(180,60,60,0.55); color:rgba(210,110,110,0.95); }
 .practice-count-lbl { font-family:var(--mono); font-size:14px; color:var(--text-dim); }
 
 /* Number practice widget */
@@ -2495,7 +2518,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .hdr-mobile-vitals { gap:10px; padding-top:5px; margin-top:3px; }
   .hdr-mobile-vital-row .vital-track { height:8px; border-radius:4px; }
   .hdr-mobile-vital-row .vital-fill { border-radius:4px; }
-  .hdr-mobile-vital-row .vital-baseline { height:14px; width:1px; }
+  .hdr-mobile-vital-row .vital-baseline,
+  .hdr-mobile-vital-row .vital-baseline-7d { height:14px; width:1px; }
 }
 
 /* ── Radar panels: fix left/right clipping of SVG labels ── */
@@ -2623,22 +2647,24 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
   <!-- Col 3: HP + Mana vitals -->
   <div class="hdr-vitals">
-    <div class="vital-row" title="HP: Physical health (0–100). Inferred by your AI from sleep, nutrition, movement, stress, and physical symptoms. The vertical line shows your all-time average.">
+    <div class="vital-row" title="HP: Physical health (0–100). Drag to log today's value. Teal line: all-time average. Coral line: last 7 days.">
       <span class="vital-icon" style="color:#ff6060">♥</span>
-      <div class="vital-track-wrap">
+      <div class="vital-track-wrap" onmousedown="vitalBarDrag('hp',this,event)" ontouchstart="vitalBarDrag('hp',this,event)">
         <div class="vital-track hp">
           <div class="vital-fill hp" id="hp-bar-fill" style="width:0%"></div>
         </div>
         <div class="vital-baseline hp" id="hp-baseline" style="left:0%;display:none"></div>
+        <div class="vital-baseline-7d" id="hp-baseline-7d" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by your AI from your energy, optimism, motivation, sense of meaning, and emotional resilience. The vertical line shows your all-time average.">
+    <div class="vital-row" title="Mana: Mental and spiritual health (0–100). Drag to log today's value. Teal line: all-time average. Coral line: last 7 days.">
       <span class="vital-icon" style="color:#60a0ff">✦</span>
-      <div class="vital-track-wrap">
+      <div class="vital-track-wrap" onmousedown="vitalBarDrag('mana',this,event)" ontouchstart="vitalBarDrag('mana',this,event)">
         <div class="vital-track mana">
           <div class="vital-fill mana" id="mana-bar-fill" style="width:0%"></div>
         </div>
         <div class="vital-baseline mana" id="mana-baseline" style="left:0%;display:none"></div>
+        <div class="vital-baseline-7d" id="mana-baseline-7d" style="left:0%;display:none"></div>
       </div>
     </div>
   </div>
@@ -2670,22 +2696,24 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <!-- Mobile-only vitals row (hidden on desktop via CSS) -->
   <div class="hdr-mobile-vitals" id="hdr-mobile-vitals">
-    <div class="hdr-mobile-vital-row" title="HP: Physical health (0–100). Inferred by your AI from sleep, nutrition, movement, stress, and physical symptoms.">
+    <div class="hdr-mobile-vital-row" title="HP: Physical health (0–100). Drag to log today's value. Teal line: all-time average. Coral line: last 7 days.">
       <span class="hdr-mobile-vital-icon" style="color:#ff6060">♥</span>
-      <div class="vital-track-wrap">
+      <div class="vital-track-wrap" onmousedown="vitalBarDrag('hp',this,event)" ontouchstart="vitalBarDrag('hp',this,event)">
         <div class="vital-track hp">
           <div class="vital-fill hp" id="hp-bar-fill-m" style="width:0%"></div>
         </div>
         <div class="vital-baseline hp" id="hp-baseline-m" style="left:0%;display:none"></div>
+        <div class="vital-baseline-7d" id="hp-baseline-7d-m" style="left:0%;display:none"></div>
       </div>
     </div>
-    <div class="hdr-mobile-vital-row" title="Mana: Mental and spiritual health (0–100). Inferred by your AI from your energy, optimism, motivation, and emotional resilience.">
+    <div class="hdr-mobile-vital-row" title="Mana: Mental and spiritual health (0–100). Drag to log today's value. Teal line: all-time average. Coral line: last 7 days.">
       <span class="hdr-mobile-vital-icon" style="color:#60a0ff">✦</span>
-      <div class="vital-track-wrap">
+      <div class="vital-track-wrap" onmousedown="vitalBarDrag('mana',this,event)" ontouchstart="vitalBarDrag('mana',this,event)">
         <div class="vital-track mana">
           <div class="vital-fill mana" id="mana-bar-fill-m" style="width:0%"></div>
         </div>
         <div class="vital-baseline mana" id="mana-baseline-m" style="left:0%;display:none"></div>
+        <div class="vital-baseline-7d" id="mana-baseline-7d-m" style="left:0%;display:none"></div>
       </div>
     </div>
   </div>
@@ -2695,16 +2723,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 <div class="modal-overlay" id="welcome-modal">
   <div class="modal">
     <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
-    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Edit fields directly in the app, or journal with an AI that updates your data for you.</p>
-    <div style="font-size:13px;color:#c84040;line-height:1.6;margin-bottom:14px;">
-      <strong>⚠ Privacy note:</strong>
-      <ul style="margin:6px 0 0 0;padding-left:18px;list-style:disc;">
-        <li>Your data is stored only in this browser. No server, no accounts, no telemetry.</li>
-        <li>Export regularly and store your <code style="font-size:12px;">data.json</code> somewhere safe (encrypted folder, password manager attachment, or offline drive). It's your private diary.</li>
-        <li>If you journal with an AI (Claude, ChatGPT, etc.), your provider may store, review, or use what you share for training. Check your provider's privacy settings and turn off data retention / training opt-in if available.</li>
-        <li>For full privacy, use a local model like <a href="https://ollama.com" target="_blank" style="color:#c84040;">Ollama</a> and paste its output manually. Nothing leaves your machine.</li>
-      </ul>
-    </div>
+    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with an AI that keeps your sheet updated, or edit everything directly yourself.</p>
     <div class="welcome-options">
       <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup('manual')">Fill in manually</button>
       <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">Set up with AI</button>
@@ -2726,6 +2745,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>When you're done,</strong> ask your AI: <em>"Update my data"</em> and copy the output.</div></div>
         <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;" onclick="dismissWelcome();openModal()">↑ Import</button></strong> your data (bottom-right of the app), paste the output, and hit Apply. Your sheet updates instantly.</div></div>
       </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
+      <strong style="color:var(--text-mid);">Privacy:</strong> Your data is stored only in this browser — no server, no accounts, no telemetry. Export regularly and keep your <code style="font-size:12px;">data.json</code> somewhere safe; treat it like a private diary. If you journal with an AI, your provider may store what you share — check their privacy settings. For full privacy, pair with a local model like <a href="https://ollama.com" target="_blank" style="color:var(--text-mid);">Ollama</a>.
     </div>
     <div class="modal-row" style="margin-top:14px;">
       <button class="btn-ghost" onclick="dismissWelcome()">Close</button>
@@ -3210,7 +3232,10 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   </div>
   <div class="practice-record" style="border-color:rgba(144,96,192,0.3);background:rgba(144,96,192,0.02);">
     <div class="practice-record-section">
-      <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">◈ XP History</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">◈ XP History</div>
+        <button class="hist-reset-btn" onclick="addManualXP()" title="Award yourself XP for something outside the app">+ Add XP</button>
+      </div>
       <div class="section-desc">Gains, losses, and level-ups</div>
       <div class="xp-log-feed" id="xp-log-feed"></div>
     </div>
@@ -3798,51 +3823,51 @@ let HARDCODED_XP_LOG = [];
   ];
 
   // Core skills seeds: rest/movement/nutrition/connection
-  // Storyline: movement/nutrition/connection all trend up with independent noise.
-  // rest is the lagging element — starts reasonable, trends downward (poor sleep pattern
-  // worsening over time). Demo point: the one line going the wrong way stands out clearly.
+  // Storyline: movement builds steadily as anchor habit; nutrition improves with it;
+  // rest was ok early but erodes under pressure — the one line drifting the wrong way;
+  // connection is the most volatile, spiking on social weeks and crashing during heads-down stretches.
   const statsSeeds = [
-    // ~90 days ago
-    [90, {rest:64,movement:42,nutrition:35,connection:22}],
-    [87, {rest:52,movement:58,nutrition:48,connection:38}],
-    [84, {rest:70,movement:35,nutrition:28,connection:15}],
-    [81, {rest:45,movement:65,nutrition:54,connection:42}],
-    [78, {rest:61,movement:48,nutrition:38,connection:28}],
-    [75, {rest:38,movement:72,nutrition:62,connection:50}],
-    [72, {rest:55,movement:54,nutrition:44,connection:32}],
-    [69, {rest:42,movement:80,nutrition:55,connection:58}],
-    [66, {rest:66,movement:62,nutrition:48,connection:40}],
-    [63, {rest:30,movement:70,nutrition:65,connection:62}],
-    [60, {rest:50,movement:58,nutrition:52,connection:46}],
-    [57, {rest:44,movement:76,nutrition:70,connection:55}],
-    [54, {rest:62,movement:66,nutrition:58,connection:48}],
-    [51, {rest:35,movement:84,nutrition:62,connection:68}],
-    [48, {rest:48,movement:72,nutrition:74,connection:54}],
-    [45, {rest:28,movement:88,nutrition:66,connection:72}],
-    [42, {rest:55,movement:76,nutrition:80,connection:60}],
-    [39, {rest:38,movement:65,nutrition:70,connection:78}],
-    [36, {rest:44,movement:82,nutrition:76,connection:65}],
-    [33, {rest:22,movement:90,nutrition:72,connection:82}],
-    [30, {rest:52,movement:78,nutrition:82,connection:68}],
-    [27, {rest:30,movement:86,nutrition:68,connection:75}],
-    [24, {rest:42,movement:74,nutrition:88,connection:82}],
-    [21, {rest:18,movement:92,nutrition:78,connection:70}],
-    [18, {rest:36,movement:80,nutrition:84,connection:85}],
-    [15, {rest:28,movement:88,nutrition:74,connection:72}],
-    [12, {rest:45,movement:82,nutrition:82,connection:78}],
+    // ~90 days ago — habits just forming, baselines low
+    [90, {rest:57,movement:39,nutrition:33,connection:27}],
+    [87, {rest:43,movement:55,nutrition:47,connection:41}],
+    [84, {rest:62,movement:28,nutrition:26,connection:14}],  // rough week — movement collapses, connection bottoms
+    [81, {rest:37,movement:66,nutrition:59,connection:53}],
+    [78, {rest:53,movement:44,nutrition:32,connection:19}],  // work stress eats into nutrition and connection
+    [75, {rest:29,movement:73,nutrition:64,connection:41}],
+    [72, {rest:51,movement:58,nutrition:39,connection:67}],  // good social week lifts connection
+    [69, {rest:36,movement:81,nutrition:57,connection:28}],  // heads-down after social high
+    [66, {rest:63,movement:64,nutrition:51,connection:46}],
+    [63, {rest:24,movement:69,nutrition:71,connection:62}],  // nutrition and connection solid, sleep suffers
+    [60, {rest:47,movement:53,nutrition:54,connection:33}],
+    [57, {rest:40,movement:83,nutrition:74,connection:57}],  // habits starting to click
+    [54, {rest:58,movement:67,nutrition:59,connection:22}],  // isolated week
+    [51, {rest:31,movement:87,nutrition:65,connection:71}],  // saw Alex — connection spikes
+    [48, {rest:51,movement:75,nutrition:77,connection:46}],
+    [45, {rest:22,movement:91,nutrition:59,connection:67}],  // social momentum, sleep crashes
+    [42, {rest:55,movement:73,nutrition:83,connection:29}],  // heads-down, nutrition rebounds, connection tanks
+    [39, {rest:33,movement:57,nutrition:64,connection:77}],  // connection peak — tired week (movement dips)
+    [36, {rest:46,movement:86,nutrition:71,connection:44}],  // back in rhythm
+    [33, {rest:19,movement:93,nutrition:65,connection:17}],  // fully isolated high-output week — worst sleep
+    [30, {rest:53,movement:79,nutrition:85,connection:57}],  // brief recovery — nutrition peak
+    [27, {rest:27,movement:91,nutrition:61,connection:36}],
+    [24, {rest:44,movement:76,nutrition:88,connection:64}],  // nutrition high, social day
+    [21, {rest:16,movement:95,nutrition:73,connection:25}],  // peak output, worst sleep so far
+    [18, {rest:35,movement:84,nutrition:86,connection:79}],  // best connection stretch of the year
+    [15, {rest:25,movement:93,nutrition:68,connection:55}],
+    [12, {rest:46,movement:86,nutrition:79,connection:49}],
     // last 2 weeks: daily
-    [11, {rest:22,movement:90,nutrition:88,connection:65}],
-    [10, {rest:38,movement:76,nutrition:76,connection:80}],
-    [9,  {rest:30,movement:86,nutrition:82,connection:72}],
-    [8,  {rest:15,movement:94,nutrition:70,connection:86}],
-    [7,  {rest:44,movement:80,nutrition:86,connection:68}],
-    [6,  {rest:28,movement:88,nutrition:78,connection:78}],
-    [5,  {rest:20,movement:78,nutrition:84,connection:88}],
-    [4,  {rest:35,movement:92,nutrition:74,connection:70}],
-    [3,  {rest:24,movement:84,nutrition:88,connection:82}],
-    [2,  {rest:40,movement:86,nutrition:80,connection:76}],
-    [1,  {rest:18,movement:92,nutrition:84,connection:80}],
-    [0,  {rest:25,movement:89,nutrition:80,connection:74}],
+    [11, {rest:19,movement:93,nutrition:85,connection:33}],
+    [10, {rest:38,movement:79,nutrition:73,connection:65}],  // brief reprieve
+    [9,  {rest:29,movement:89,nutrition:82,connection:47}],
+    [8,  {rest:14,movement:97,nutrition:62,connection:23}],  // peak movement, terrible sleep, isolated
+    [7,  {rest:42,movement:83,nutrition:89,connection:57}],
+    [6,  {rest:22,movement:92,nutrition:75,connection:71}],  // brief social high
+    [5,  {rest:31,movement:76,nutrition:88,connection:43}],
+    [4,  {rest:38,movement:94,nutrition:68,connection:29}],
+    [3,  {rest:23,movement:88,nutrition:91,connection:63}],  // nutrition peak
+    [2,  {rest:41,movement:93,nutrition:75,connection:47}],
+    [1,  {rest:16,movement:95,nutrition:83,connection:43}],
+    [0,  {rest:28,movement:89,nutrition:80,connection:52}],  // current state
   ];
 
   function buildHist(seeds, keys){
@@ -3871,6 +3896,7 @@ function hpColor(hp){
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
 const INSTRUCTIONS_VERSION = '1.7.0';
+const INSTRUCTIONS_MD_SHA256 = '9552d97f0be5a6d7f99c21ce7d54b94ab571f38fe9b27562b5ee98d38d18810c';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -3993,9 +4019,11 @@ function initRQState(act, charName) {
       }
       ps.seconds = secs;
       ps._resumeTimer = saved.timerRunning && !!saved.timerStartedAt;
+      ps.void = !!saved.void;
     } else {
       if (saved && saved.value > 0) archiveRQValue(act, charName, saved.periodStart, Math.floor(saved.value / 60));
       ps.seconds = 0;
+      ps.void = false;
     }
     ps.running = false;
   } else {
@@ -4004,11 +4032,13 @@ function initRQState(act, charName) {
       ps.value = saved.value || 0;
       ps.subsDone = saved.subsDone || [];
       ps.hasEntry = saved.hasEntry !== undefined ? saved.hasEntry : (ps.value > 0);
+      ps.void = !!saved.void;
     } else {
       if (saved && saved.value > 0) archiveRQValue(act, charName, saved.periodStart, saved.value);
       ps.value = 0;
       ps.subsDone = [];
       ps.hasEntry = false;
+      ps.void = false;
     }
   }
 }
@@ -4509,6 +4539,51 @@ function updateRadar(vals){
 const STAT_COLORS = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
 const STATS_HIST_KEY = 'cs-stats-hist-v1';
 const STATS_CHECKIN_KEY = 'cs-stats-checkin-v1';
+const VITALS_HIST_KEY = 'cs-vitals-hist-v1';
+
+function loadVitalsHist(){
+  try{ const r=localStorage.getItem(VITALS_HIST_KEY); return r?JSON.parse(r):[]; }catch{ return []; }
+}
+function saveVitalsHist(hist){
+  if(IS_DEMO) return;
+  try{ localStorage.setItem(VITALS_HIST_KEY,JSON.stringify(hist)); }catch{}
+  _reencryptIfActive();
+}
+function _vitalsAvg(hist, key){
+  const vals=hist.map(e=>e[key]).filter(v=>typeof v==='number'&&Number.isFinite(v));
+  return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+}
+function _vitals7dAvg(hist, key){
+  const cutoff=new Date(); cutoff.setDate(cutoff.getDate()-6);
+  const cutoffStr=cutoff.toISOString().slice(0,10);
+  const vals=hist.filter(e=>e.date>=cutoffStr).map(e=>e[key]).filter(v=>typeof v==='number'&&Number.isFinite(v));
+  return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+}
+
+const VITALS_CHECKIN_KEY = 'cs-vitals-checkin-v1';
+function _vitalsCheckinDoneToday(stat){
+  try{
+    const d=JSON.parse(localStorage.getItem(VITALS_CHECKIN_KEY)||'{}');
+    return d.date===new Date().toISOString().slice(0,10) && d[stat]===true;
+  }catch{return false;}
+}
+function _markVitalsCheckin(stat){
+  try{
+    const today=new Date().toISOString().slice(0,10);
+    const d=JSON.parse(localStorage.getItem(VITALS_CHECKIN_KEY)||'{}');
+    const entry=d.date===today ? d : {date:today};
+    entry[stat]=true;
+    localStorage.setItem(VITALS_CHECKIN_KEY,JSON.stringify(entry));
+  }catch{}
+}
+function _applyVitalsCheckinState(){
+  ['hp','mana'].forEach(stat=>{
+    const needsCheckin=!_vitalsCheckinDoneToday(stat);
+    document.querySelectorAll('.vital-track.'+stat).forEach(el=>{
+      el.classList.toggle('vital-needs-checkin',needsCheckin);
+    });
+  });
+}
 
 function updateStatsRadar(){
   const R=38;
@@ -5171,34 +5246,114 @@ function updateXpRing(level, xp, xpToNext){
 function updateVitalBars(s){
   const hp      = typeof s.health    === 'number' ? s.health    : null;
   const mana    = typeof s.mana      === 'number' ? s.mana      : null;
-  const hpAvg   = typeof s.healthAvg === 'number' ? s.healthAvg : null;
-  const manaAvg = typeof s.manaAvg   === 'number' ? s.manaAvg   : null;
+
+  // Compute averages from manual history; fall back to AI-set averages if no history yet
+  const hist = loadVitalsHist();
+  const hpHistAvg   = _vitalsAvg(hist, 'hp');
+  const manaHistAvg = _vitalsAvg(hist, 'mana');
+  const hp7d        = _vitals7dAvg(hist, 'hp');
+  const mana7d      = _vitals7dAvg(hist, 'mana');
+  const hpAvg   = hpHistAvg   ?? (typeof s.healthAvg === 'number' ? s.healthAvg : null);
+  const manaAvg = manaHistAvg ?? (typeof s.manaAvg   === 'number' ? s.manaAvg   : null);
 
   const hpFill   = document.getElementById('hp-bar-fill');
   const manaFill = document.getElementById('mana-bar-fill');
   const hpBase   = document.getElementById('hp-baseline');
   const manaBase = document.getElementById('mana-baseline');
+  const hpBase7d   = document.getElementById('hp-baseline-7d');
+  const manaBase7d = document.getElementById('mana-baseline-7d');
   // Mobile duplicates
   const hpFillM   = document.getElementById('hp-bar-fill-m');
   const manaFillM = document.getElementById('mana-bar-fill-m');
   const hpBaseM   = document.getElementById('hp-baseline-m');
   const manaBaseM = document.getElementById('mana-baseline-m');
+  const hpBase7dM   = document.getElementById('hp-baseline-7d-m');
+  const manaBase7dM = document.getElementById('mana-baseline-7d-m');
   const mobileVitals = document.getElementById('hdr-mobile-vitals');
 
   const hpPct   = hp   != null ? Math.min(100, Math.max(0, hp))   : 0;
   const manaPct = mana != null ? Math.min(100, Math.max(0, mana)) : 0;
 
+  const setBase = (el, avg) => {
+    if(!el) return;
+    el.style.left    = Math.min(100, Math.max(0, avg ?? 0)) + '%';
+    el.style.display = avg != null ? '' : 'none';
+  };
+
   if(hpFill)   hpFill.style.width   = hpPct+'%';
   if(manaFill) manaFill.style.width = manaPct+'%';
-  if(hpBase){   hpBase.style.left = Math.min(100,Math.max(0,hpAvg??0))+'%';   hpBase.style.display   = hpAvg   != null ? '' : 'none'; }
-  if(manaBase){ manaBase.style.left= Math.min(100,Math.max(0,manaAvg??0))+'%'; manaBase.style.display = manaAvg != null ? '' : 'none'; }
+  setBase(hpBase,   hpAvg);
+  setBase(manaBase, manaAvg);
+  setBase(hpBase7d,   hp7d);
+  setBase(manaBase7d, mana7d);
 
   if(hpFillM)   hpFillM.style.width   = hpPct+'%';
   if(manaFillM) manaFillM.style.width = manaPct+'%';
-  if(hpBaseM){   hpBaseM.style.left = Math.min(100,Math.max(0,hpAvg??0))+'%';   hpBaseM.style.display   = hpAvg   != null ? '' : 'none'; }
-  if(manaBaseM){ manaBaseM.style.left= Math.min(100,Math.max(0,manaAvg??0))+'%'; manaBaseM.style.display = manaAvg != null ? '' : 'none'; }
+  setBase(hpBaseM,   hpAvg);
+  setBase(manaBaseM, manaAvg);
+  setBase(hpBase7dM,   hp7d);
+  setBase(manaBase7dM, mana7d);
+
   // Hide mobile vitals section if no data
   if(mobileVitals) mobileVitals.style.display = (hp != null || mana != null) ? '' : 'none';
+}
+
+function vitalBarDrag(stat, el, e){
+  e.preventDefault();
+  const fills = [
+    document.getElementById(stat==='hp'?'hp-bar-fill':'mana-bar-fill'),
+    document.getElementById(stat==='hp'?'hp-bar-fill-m':'mana-bar-fill-m'),
+  ];
+  const track = el.querySelector('.vital-track');
+  fills.forEach(f=>f&&f.classList.add('dragging'));
+
+  function pctFromClient(clientX){
+    const r=track.getBoundingClientRect();
+    return Math.round(Math.min(100,Math.max(0,(clientX-r.left)/r.width*100)));
+  }
+  function applyVal(clientX){
+    const v=pctFromClient(clientX);
+    fills.forEach(f=>{ if(f) f.style.width=v+'%'; });
+    return v;
+  }
+
+  const startX = e.touches ? e.touches[0].clientX : e.clientX;
+  let lastVal = applyVal(startX);
+
+  function onMove(ev){
+    const x=ev.touches?ev.touches[0].clientX:ev.clientX;
+    lastVal=applyVal(x);
+    if(ev.cancelable) ev.preventDefault();
+  }
+  function onEnd(){
+    fills.forEach(f=>f&&f.classList.remove('dragging'));
+    saveVitalManual(stat, lastVal);
+    document.removeEventListener('mousemove',onMove);
+    document.removeEventListener('mouseup',onEnd);
+    document.removeEventListener('touchmove',onMove);
+    document.removeEventListener('touchend',onEnd);
+  }
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('mouseup',onEnd);
+  document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('touchend',onEnd);
+}
+function saveVitalManual(stat, value){
+  const val=Math.min(100,Math.max(0,Math.round(value)));
+  const today=new Date().toISOString().slice(0,10);
+  const hist=loadVitalsHist();
+  const existing=hist.find(e=>e.date===today);
+  if(existing){ existing[stat]=val; }
+  else{ hist.push({date:today,[stat]:val}); }
+  hist.sort((a,b)=>a.date<b.date?-1:1);
+  if(hist.length>365) hist.splice(0,hist.length-365);
+  saveVitalsHist(hist);
+  _markVitalsCheckin(stat);
+  const stateKey=stat==='hp'?'health':'mana';
+  appState[stateKey]=val;
+  saveState(appState); markDirty();
+  updateVitalBars(appState);
+  _applyVitalsCheckinState();
 }
 
 // ══ XP JUICE ════════════════════════════════════════════════
@@ -7574,13 +7729,16 @@ function applyMigrationBundle(p){
     if(p['cs-featured-cls-v1']) localStorage.setItem('cs-featured-cls-v1',JSON.stringify(p['cs-featured-cls-v1']));
     if(p['cs-stats-hist-v1']) localStorage.setItem('cs-stats-hist-v1',JSON.stringify(p['cs-stats-hist-v1']));
     if(p['cs-status-hist-v1']) localStorage.setItem('cs-status-hist-v1',JSON.stringify(p['cs-status-hist-v1']));
+    if(p['cs-vitals-hist-v1']) localStorage.setItem('cs-vitals-hist-v1',JSON.stringify(p['cs-vitals-hist-v1']));
     if(p['cs-status-v1']) localStorage.setItem('cs-status-v1',JSON.stringify(p['cs-status-v1']));
     if(p['cs-completed-quests-v1']) localStorage.setItem('cs-completed-quests-v1',JSON.stringify(p['cs-completed-quests-v1']));
     if(p['cs-hdr-icon-v1']!=null) localStorage.setItem('cs-hdr-icon-v1',p['cs-hdr-icon-v1']);
     if(p['cs-char-id-v1']!=null) localStorage.setItem('cs-char-id-v1',p['cs-char-id-v1']);
     if(p['cs-welcomed-v1']) localStorage.setItem('cs-welcomed-v1','1');
     if(p['cs-starters-seen-v1']) localStorage.setItem('cs-starters-seen-v1','1');
-    if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>localStorage.setItem(k,JSON.stringify(v)));
+    if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>{
+      if(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')) localStorage.setItem(k,JSON.stringify(v));
+    });
   }
   const state=p['cs-state-v1'];
   if(!state) throw new Error('Migration bundle missing cs-state-v1');
@@ -7595,12 +7753,52 @@ function applyMigrationBundle(p){
     dismissSetupBanner();
   }
 }
+function sanitizeImportHTML(obj) {
+  const TAG_RE = /<\/?[a-zA-Z][^>]*\/?>/g;
+  let stripped = false;
+  function walk(v) {
+    if (typeof v === 'string') {
+      const clean = v.replace(TAG_RE, '');
+      if (clean !== v) stripped = true;
+      return clean;
+    }
+    if (Array.isArray(v)) return v.map(walk);
+    if (v !== null && typeof v === 'object') {
+      const out = {};
+      for (const k of Object.keys(v)) out[k] = walk(v[k]);
+      return out;
+    }
+    return v;
+  }
+  return { result: walk(obj), stripped };
+}
+function validateImport(p) {
+  const errs = [];
+  const chk = (bad, msg) => { if (bad) errs.push(msg); };
+  const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
+  chk(p.name      !== undefined && typeof p.name !== 'string',                                      '"name" must be text');
+  chk(p.subtitle  !== undefined && typeof p.subtitle !== 'string',                                  '"subtitle" must be text');
+  chk(p.level     !== undefined && (typeof p.level !== 'number'     || !Number.isFinite(p.level) || p.level < 1),    '"level" must be a number >= 1');
+  chk(p.xp        !== undefined && (typeof p.xp !== 'number'        || !Number.isFinite(p.xp)    || p.xp < 0),      '"xp" must be a number >= 0');
+  chk(p.xpToNext  !== undefined && (typeof p.xpToNext !== 'number'  || !Number.isFinite(p.xpToNext) || p.xpToNext < 1), '"xpToNext" must be a number >= 1');
+  chk(p.health    !== undefined && (typeof p.health !== 'number'    || p.health < 0  || p.health > 100),  '"health" must be a number 0–100');
+  chk(p.mana      !== undefined && (typeof p.mana !== 'number'      || p.mana < 0    || p.mana > 100),    '"mana" must be a number 0–100');
+  chk(p.sessionCount !== undefined && (typeof p.sessionCount !== 'number' || p.sessionCount < 0),   '"sessionCount" must be a number >= 0');
+  ['activities','skills','allies','achievements','sideQuests','completedQuests','keyQuestions','limitingBeliefs'].forEach(f => {
+    chk(p[f] !== undefined && !Array.isArray(p[f]), `"${f}" must be an array`);
+  });
+  chk(p.enemies   !== undefined && !isObj(p.enemies),   '"enemies" must be an object, not an array');
+  chk(p.mainQuest !== undefined && !isObj(p.mainQuest), '"mainQuest" must be an object, not an array');
+  return errs.length ? errs[0] : null;
+}
 function applyUpdate(){
   const raw=document.getElementById('json-input').value.trim();
   try{
-    const p=JSON.parse(raw);
+    const { result: p, stripped: _htmlStripped } = sanitizeImportHTML(JSON.parse(raw));
     // Full migration bundle (data.json export) — restore all localStorage keys
     if(p._migration===true){ applyMigrationBundle(p); return; }
+    const _valErr = validateImport(p);
+    if(_valErr){ setModalStatus('✗ '+_valErr,'err'); return; }
     const isPartial = p._partial === true || (!p.name && !p.level);
     if(!isPartial && !p.name && !p.mainQuest && !p.skills) throw new Error('Looks empty');
     delete p._partial;
@@ -7723,7 +7921,8 @@ function applyUpdate(){
     }
     // Show diff toast after a short delay (modal close animation)
     const diffMsg = buildImportDiff(prevSnapshot, merged, isPartial, _newCQCount);
-    if(diffMsg) setTimeout(()=>showImportToast(diffMsg), 600);
+    const _toastMsg = (_htmlStripped ? 'HTML stripped from import data. ' : '') + (diffMsg || '');
+    if(_toastMsg.trim()) setTimeout(()=>showImportToast(_toastMsg.trim()), 600);
     // Flash changed UI elements after modal closes
     setTimeout(()=>flashImportChanges(prevSnapshot, merged), 700);
     // Mark welcomed if real data imported
@@ -7800,6 +7999,8 @@ function renderXPLog(){
   function _xpEntryIcon(entry){
     if(entry.type==='kill') return '☠';
     if(entry.type==='quest') return '⚔';
+    if(entry.type==='manual') return '✦';
+    if(entry.type==='practice') return '↺';
     const r=(entry.reason||'').toLowerCase();
     if(/^quest:|quest complete|side quest|main quest/.test(r)) return '⚔';
     if(/skill level.?up|skill:/.test(r)) return '◈';
@@ -7850,6 +8051,42 @@ function renderXPLog(){
   });
 }
 
+function addManualXP() {
+  showCardEditModal({
+    accentColor: '#9060c0',
+    fields: [
+      {key:'reason', label:'What did you do?', value:'', type:'text',     placeholder:'e.g. Finished a hard conversation'},
+      {key:'amount', label:'XP Amount',        value:'',  type:'xp',      placeholder:'e.g. 100'},
+    ],
+    onSave(v) {
+      const xp = parseInt(v.amount, 10);
+      if (!xp || xp <= 0) return;
+      const reason = (v.reason || '').trim() || 'Manual award';
+      const oldXp = appState.xp || 0;
+      const oldLevel = appState.level || 1;
+      appState.xp = oldXp + xp;
+      if (appState.xpToNext != null) {
+        while (appState.xp >= appState.xpToNext) {
+          appState.xp -= appState.xpToNext;
+          appState.level = (appState.level || 1) + 1;
+          appState.xpToNext = Math.round(appState.xpToNext * 1.2);
+        }
+      }
+      saveState(appState); markDirty();
+      const _d = new Date();
+      const date = String(_d.getDate()).padStart(2,'0') + '/' + String(_d.getMonth()+1).padStart(2,'0') + '/' + _d.getFullYear();
+      const log = loadXPLog();
+      if (appState.level > oldLevel) {
+        log.unshift({date, type:'levelup', amount:null, reason:'Level ' + appState.level + ' reached', totalAfter:appState.xp});
+      }
+      log.unshift({date, type:'manual', amount:xp, reason, totalAfter:appState.xp});
+      saveXPLog(log);
+      renderXPLog();
+      animateXpGain(oldXp, appState.xp, oldLevel, appState.level, appState.xpToNext, '+' + xp + ' XP');
+    }
+  });
+}
+
 // ══ EXPORT ═══════════════════════════════════════════════════
 function buildMigrationBundle(){
   // Collect all localStorage keys belonging to this app
@@ -7871,6 +8108,9 @@ function buildMigrationBundle(){
   // Status slider history (focus/energy/purpose/interest)
   const rawStatusHist=localStorage.getItem('cs-status-hist-v1');
   if(rawStatusHist) try{bundle['cs-status-hist-v1']=JSON.parse(rawStatusHist);}catch{}
+  // Vitals history (manually logged HP/Mana per day)
+  const rawVitalsHist=localStorage.getItem('cs-vitals-hist-v1');
+  if(rawVitalsHist) try{bundle['cs-vitals-hist-v1']=JSON.parse(rawVitalsHist);}catch{}
   // Status slider current values mirror
   const rawStatusLS=localStorage.getItem('cs-status-v1');
   if(rawStatusLS) try{bundle['cs-status-v1']=JSON.parse(rawStatusLS);}catch{}
@@ -7914,6 +8154,7 @@ function renderMigrationPie(bundle,jsonStr){
     {k:'cs-xplog-v1',label:'XP log'},
     {k:'cs-stats-hist-v1',label:'Core skills hist'},
     {k:'cs-status-hist-v1',label:'Status hist'},
+    {k:'cs-vitals-hist-v1',label:'Vitals hist'},
     {k:'cs-status-v1',label:'Status current'},
     {k:'_practiceData',label:'Practice data'},
     {k:'cs-completed-quests-v1',label:'Completed quests'},
@@ -8599,8 +8840,8 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
     const avgEl    = document.getElementById('stat-avg-'     + act.id);
     const avgAllEl = document.getElementById('stat-avgall-'  + act.id);
     const avgFreqEl = document.getElementById('stat-avgfreq-' + act.id);
-    if (avgEl)    avgEl.textContent    = fv(newStats.pct7);
-    if (avgAllEl) avgAllEl.textContent = fv(newStats.pctAll);
+    if (avgEl)    { avgEl.textContent    = fv(newStats.pct7);   const c=rqHealthColor(newStats.pct7);   avgEl.style.color   = c||''; }
+    if (avgAllEl) { avgAllEl.textContent = fv(newStats.pctAll); const c=rqHealthColor(newStats.pctAll); avgAllEl.style.color = c||''; }
     if (avgFreqEl) avgFreqEl.textContent = newStats.avgFreq || '—';
     // Per-sub stat elements
     if (newStats.perSub) {
@@ -8608,8 +8849,8 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
         const el7   = document.getElementById('stat-sub7-'   + act.id + '-' + sub.id);
         const elAll = document.getElementById('stat-suball-' + act.id + '-' + sub.id);
         const elAvg = document.getElementById('stat-subavg-' + act.id + '-' + sub.id);
-        if (el7)   el7.textContent   = fv(sub.pct7);
-        if (elAll) elAll.textContent = fv(sub.pctAll);
+        if (el7)   { el7.textContent   = fv(sub.pct7);   const c=rqHealthColor(sub.pct7);   el7.style.color   = c||''; }
+        if (elAll) { elAll.textContent = fv(sub.pctAll); const c=rqHealthColor(sub.pctAll); elAll.style.color = c||''; }
         if (elAvg) elAvg.textContent = sub.avgFreq || '—';
       });
     }
@@ -9131,6 +9372,24 @@ function addRegularQuest() {
   nameIn.addEventListener('blur', () => nameIn.style.borderColor = 'rgba(255,255,255,0.12)');
   box.appendChild(nameLbl); box.appendChild(nameIn);
 
+  // Description
+  const descLbl = document.createElement('p'); descLbl.style.cssText = LABEL_CSS; descLbl.textContent = 'Description';
+  const descIn = document.createElement('textarea'); descIn.placeholder = 'What does this quest involve?';
+  descIn.rows = 2;
+  descIn.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);resize:vertical;margin-bottom:12px;font-family:inherit;line-height:1.5;';
+  descIn.addEventListener('focus', () => descIn.style.borderColor = 'var(--gold)');
+  descIn.addEventListener('blur', () => descIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  box.appendChild(descLbl); box.appendChild(descIn);
+
+  // Why it matters
+  const whyLbl = document.createElement('p'); whyLbl.style.cssText = LABEL_CSS; whyLbl.textContent = 'Why it matters';
+  const whyIn = document.createElement('textarea'); whyIn.placeholder = 'Why is this worth doing?';
+  whyIn.rows = 2;
+  whyIn.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);resize:vertical;margin-bottom:12px;font-family:inherit;line-height:1.5;';
+  whyIn.addEventListener('focus', () => whyIn.style.borderColor = 'var(--gold)');
+  whyIn.addEventListener('blur', () => whyIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  box.appendChild(whyLbl); box.appendChild(whyIn);
+
   // Type
   const typeLbl = document.createElement('p'); typeLbl.style.cssText = LABEL_CSS; typeLbl.textContent = 'Type';
   box.appendChild(typeLbl);
@@ -9342,6 +9601,8 @@ function addRegularQuest() {
       color: selectedType === 'breakdown' ? undefined : selectedColor,
       priority: maxPri + 1,
       xpPerUnit,
+      description: descIn.value.trim() || undefined,
+      whyItMatters: whyIn.value.trim() || undefined,
     };
     if (selectedType === 'breakdown') {
       newAct.subActivities = bdSubs
@@ -9536,8 +9797,8 @@ function renderRecurringQuests(s) {
             const el7   = document.getElementById('stat-sub7-'   + act.id + '-' + sub.id);
             const elAll = document.getElementById('stat-suball-' + act.id + '-' + sub.id);
             const elAvg = document.getElementById('stat-subavg-' + act.id + '-' + sub.id);
-            if (el7)   el7.textContent   = fv(sub.pct7);
-            if (elAll) elAll.textContent = fv(sub.pctAll);
+            if (el7)   { el7.textContent   = fv(sub.pct7);   const c=rqHealthColor(sub.pct7);   el7.style.color   = c||''; }
+            if (elAll) { elAll.textContent = fv(sub.pctAll); const c=rqHealthColor(sub.pctAll); elAll.style.color = c||''; }
             if (elAvg) elAvg.textContent = sub.avgFreq || '—';
           });
         };
@@ -9674,8 +9935,10 @@ function renderRecurringQuests(s) {
         lbl.style.color = sub.color || 'rgba(200,168,74,0.5)';
         const val7 = document.createElement('span'); val7.className = 'ps-col-7d';
         val7.id = 'stat-sub7-' + act.id + '-' + sub.id; val7.textContent = formatVal(sub.pct7);
+        const hc7s = rqHealthColor(sub.pct7); if (hc7s) val7.style.color = hc7s;
         const valAll = document.createElement('span'); valAll.className = 'ps-col-all';
         valAll.id = 'stat-suball-' + act.id + '-' + sub.id; valAll.textContent = formatVal(sub.pctAll);
+        const hcAs = rqHealthColor(sub.pctAll); if (hcAs) valAll.style.color = hcAs;
         const valAvg = document.createElement('span'); valAvg.className = 'ps-col-avg';
         valAvg.id = 'stat-subavg-' + act.id + '-' + sub.id; valAvg.textContent = sub.avgFreq || '—';
         grid.appendChild(lbl); grid.appendChild(val7); grid.appendChild(valAll); grid.appendChild(valAvg);
@@ -9686,24 +9949,27 @@ function renderRecurringQuests(s) {
       const aggLbl = document.createElement('span'); aggLbl.className = 'ps-col-lbl ps-agg-lbl'; aggLbl.textContent = 'Any';
       const agg7   = document.createElement('span'); agg7.className   = 'ps-col-7d ps-agg-7d';
       agg7.id = 'stat-avg-' + act.id; agg7.textContent = formatVal(stats.pct7);
+      const hc7a = rqHealthColor(stats.pct7); if (hc7a) agg7.style.color = hc7a;
       const aggAll = document.createElement('span'); aggAll.className = 'ps-col-all ps-agg-all';
       aggAll.id = 'stat-avgall-' + act.id; aggAll.textContent = formatVal(stats.pctAll);
+      const hcAa = rqHealthColor(stats.pctAll); if (hcAa) aggAll.style.color = hcAa;
       const aggAvg = document.createElement('span'); aggAvg.className = 'ps-col-avg ps-agg-avg';
       aggAvg.id = 'stat-avgfreq-' + act.id; aggAvg.textContent = stats.avgFreq || '—';
       grid.appendChild(aggLbl); grid.appendChild(agg7); grid.appendChild(aggAll); grid.appendChild(aggAvg);
       statsRow.appendChild(grid);
     } else {
+      const hc7 = rqHealthColor(stats.pct7); const hcAll = rqHealthColor(stats.pctAll);
       statsRow.innerHTML = `
         <div class="practice-trends-hdr">Trends</div>
         <div class="practice-trend-row">
           <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
           <span class="practice-trend-lbl">Last 7</span>
-          <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}">${formatVal(stats.pct7)}</span>
+          <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}"${hc7?` style="color:${hc7}"`:''}>${formatVal(stats.pct7)}</span>
         </div>
         <div class="practice-trend-row">
           <span class="practice-trend-swatch practice-trend-swatch-all"></span>
           <span class="practice-trend-lbl">All-time</span>
-          <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}">${formatVal(stats.pctAll)}</span>
+          <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}"${hcAll?` style="color:${hcAll}"`:''}>${formatVal(stats.pctAll)}</span>
         </div>
       `;
     }
@@ -9716,6 +9982,7 @@ function renderRecurringQuests(s) {
     if (act.type === 'timer') {
       // Timer ring widget
       const ps = practiceState[act.id];
+      const isVoided = !!(ps && ps.void);
       const target = getRQTarget(act);
       widget.innerHTML = `
         <div class="timer-ring-wrap">
@@ -9757,10 +10024,17 @@ function renderRecurringQuests(s) {
       timerCard.innerHTML = widget.innerHTML;
       widget.innerHTML = '';
       widget.appendChild(timerCard);
+      const timerExcBtn = document.createElement('button');
+      timerExcBtn.className = 'rq-exclude-btn' + (isVoided ? ' active' : '');
+      timerExcBtn.id = 'rq-exclude-btn-' + act.id;
+      timerExcBtn.textContent = isVoided ? 'Restore' : 'Exclude today';
+      timerExcBtn.onclick = () => handleCheckboxExclude(act.id);
+      widget.appendChild(timerExcBtn);
 
     } else if (act.type === 'checkbox') {
       const ps = practiceState[act.id];
       const curVal = ps ? (ps.value || 0) : 0;
+      const isVoided = !!(ps && ps.void);
       const tgt = act.target || 1;
       const hasSubs = (act.subActivities || []).length > 0;
       if (hasSubs) {
@@ -9775,22 +10049,25 @@ function renderRecurringQuests(s) {
           <div class="rq-sub-btns">${subBtnsHtml}</div>
           ${xpLbl}
           <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${todayDone.length} / ${tgt} ${esc(act.unit||'')}</div>
+          <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
         `;
       } else {
         const dotsHtml = Array.from({length: tgt}, (_,i) =>
-          `<button class="checkbox-dot${i < curVal ? ' filled' : ''}" onclick="handleCheckboxDot('${act.id}',${i}, this)" aria-label="Mark ${i+1}"></button>`
+          `<button class="checkbox-dot${i < curVal ? ' filled' : ''}${isVoided ? ' voided' : ''}" onclick="handleCheckboxDot('${act.id}',${i}, this)" aria-label="Mark ${i+1}"></button>`
         ).join('');
         const xpLbl = act.xpPerUnit ? `<span class="rq-xp-label">+${Math.round(act.xpPerUnit)} XP each</span>` : '';
         widget.innerHTML = `
           <div class="checkbox-dots">${dotsHtml}</div>
           ${xpLbl}
           <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${tgt} ${esc(act.unit||'')}</div>
+          <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
         `;
       }
 
     } else if (act.type === 'number') {
       const ps = practiceState[act.id];
       const curVal = ps ? (ps.value || 0) : 0;
+      const isVoided = !!(ps && ps.void);
       const xpLbl = act.xpPerUnit ? `<span class="rq-xp-label">+${act.xpPerUnit} XP per ${act.unit||'unit'}</span>` : '';
       widget.innerHTML = `
         <div class="number-entry">
@@ -9804,6 +10081,7 @@ function renderRecurringQuests(s) {
         ${xpLbl}
         <div class="practice-period-lbl" id="number-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}</div>
         <div class="practice-xp-earned" id="number-xp-${act.id}"></div>
+        <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
       `;
       // Save on blur/change so typing a value and tabbing away (or tab-switching) persists it
       const numInp = widget.querySelector('#number-input-' + act.id);
@@ -9937,8 +10215,8 @@ function handleBackfill(id) {
   const avgEl     = document.getElementById('stat-avg-'     + id);
   const avgAllEl  = document.getElementById('stat-avgall-'  + id);
   const avgFreqEl = document.getElementById('stat-avgfreq-' + id);
-  if (avgEl)     avgEl.textContent     = formatV(newStats.pct7);
-  if (avgAllEl)  avgAllEl.textContent  = formatV(newStats.pctAll);
+  if (avgEl)    { avgEl.textContent     = formatV(newStats.pct7);   const c=rqHealthColor(newStats.pct7);   avgEl.style.color    = c||''; }
+  if (avgAllEl) { avgAllEl.textContent  = formatV(newStats.pctAll); const c=rqHealthColor(newStats.pctAll); avgAllEl.style.color  = c||''; }
   if (avgFreqEl) avgFreqEl.textContent = newStats.avgFreq || '—';
   if (newStats.perSub) newStats.perSub.forEach(sub => {
     const elAvg = document.getElementById('stat-subavg-' + id + '-' + sub.id);
@@ -10055,6 +10333,54 @@ function handleSubActivity(actId, subId, btn) {
   updateCombatNavArc();
 }
 
+function handleCheckboxExclude(id) {
+  const act = (window._lastState || appState).activities?.find(a => a.id === id) ||
+              DEFAULT.activities?.find(a => a.id === id);
+  if (!act) return;
+  const charName = getCharId();
+  const ps = practiceState[id];
+  if (!ps) return;
+
+  ps.void = !ps.void;
+  const period = currentPeriod(act.resetPeriod);
+
+  // Merge void flag into existing saved state — preserves timer seconds, subsDone, etc.
+  const curSaved = loadRQCurrent(charName, id) || {};
+  saveRQCurrent(charName, id, { ...curSaved, periodStart: period, void: ps.void });
+
+  // Keep history in sync so stats + bar chart reflect the excluded state
+  const histVal = act.type === 'timer' ? Math.floor((ps.seconds || 0) / 60) : (ps.value || 0);
+  const hist = loadRQHistory(charName, id);
+  const existingIdx = hist.findIndex(h => h.period === period);
+  if (ps.void) {
+    if (existingIdx >= 0) { hist[existingIdx].void = true; }
+    else { hist.push({ period, value: histVal, target: act.target || 0, void: true }); }
+  } else {
+    if (existingIdx >= 0) {
+      delete hist[existingIdx].void;
+      if (!hist[existingIdx].value && !hist[existingIdx].hasEntry) hist.splice(existingIdx, 1);
+    }
+  }
+  saveRQHistory(charName, id, hist);
+
+  // Update dots
+  const dotsEl = document.getElementById('checkbox-lbl-' + id)
+    ?.closest('.practice-widget')?.querySelector('.checkbox-dots');
+  if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach(d => d.classList.toggle('voided', !!ps.void));
+
+  // Update sub-buttons opacity when voided
+  const subsEl = document.getElementById('checkbox-lbl-' + id)
+    ?.closest('.practice-widget')?.querySelector('.rq-sub-btns');
+  if (subsEl) subsEl.style.opacity = ps.void ? '0.45' : '';
+
+  const btn = document.getElementById('rq-exclude-btn-' + id);
+  if (btn) { btn.textContent = ps.void ? 'Restore' : 'Exclude today'; btn.classList.toggle('active', !!ps.void); }
+
+  const chartWrap = document.getElementById('rq-chart-' + id);
+  if (chartWrap) renderRQBarChart(chartWrap, act, charName);
+  updateCombatNavArc();
+}
+
 function awardRQXP(actId, xp) {
   if (!xp || IS_DEMO) return;
   const oldXp = appState.xp || 0;
@@ -10070,6 +10396,18 @@ function awardRQXP(actId, xp) {
   }
   saveState(appState);
   markDirty();
+  // Log entry so the XP History feed shows recurring quest awards
+  const act = (appState.activities || []).find(a => a.id === actId);
+  const actName = act ? act.name : 'Practice';
+  const _d = new Date();
+  const date = String(_d.getDate()).padStart(2,'0') + '/' + String(_d.getMonth()+1).padStart(2,'0') + '/' + _d.getFullYear();
+  const log = loadXPLog();
+  if (appState.level > oldLevel) {
+    log.unshift({date, type:'levelup', amount:null, reason:'Level ' + appState.level + ' reached', totalAfter:appState.xp});
+  }
+  log.unshift({date, type:'practice', amount:xp, reason:'Practice: ' + actName, totalAfter:appState.xp});
+  saveXPLog(log);
+  renderXPLog();
   if (appState.level > oldLevel) {
     animateXpGain(oldXp, appState.xp, oldLevel, appState.level, appState.xpToNext, '+' + xp + ' XP');
   } else {
@@ -10079,6 +10417,13 @@ function awardRQXP(actId, xp) {
 
 function rqPeriodPrefix(period) {
   return { day:'Today', week:'This week', month:'This month', year:'This year' }[period] || ('This ' + (period||'period'));
+}
+
+function rqHealthColor(pct) {
+  if (!pct || pct <= 0) return '';   // no data: let CSS period color show
+  if (pct < 40) return '#e05060';
+  if (pct < 70) return '#c8a030';
+  return '#4ab870';
 }
 
 function stepNumberInput(id, delta) {
@@ -11169,9 +11514,19 @@ function checkForAppUpdateManual(btn){
 
 function downloadInstructionsMd(btn){
   const url='https://raw.githubusercontent.com/sam-holmes2/character-sheet/master/instructions.md';
+  const result=document.getElementById('update-check-result');
   const orig=btn.textContent;
   btn.textContent='Downloading…'; btn.disabled=true;
-  fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.text();}).then(text=>{
+  fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.text();}).then(async text=>{
+    if(INSTRUCTIONS_MD_SHA256){
+      const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));
+      const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+      if(hex!==INSTRUCTIONS_MD_SHA256){
+        btn.textContent=orig; btn.disabled=false;
+        if(result){result.textContent='Hash mismatch: downloaded file does not match expected. The file may have been modified since this version of the app was released. Download blocked.';result.style.color='#c04040';}
+        return;
+      }
+    }
     const a=document.createElement('a');
     a.href=URL.createObjectURL(new Blob([text],{type:'text/markdown'}));
     a.download='instructions.md'; document.body.appendChild(a); a.click();
@@ -11276,7 +11631,7 @@ function _collectBlob(s){
   const blob = { state: s };
   // Fixed keys
   const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
-                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1'];
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1'];
   for(const k of fixed){
     const v = localStorage.getItem(k);
     if(v !== null) blob[k] = v; // store raw JSON string
@@ -11298,7 +11653,7 @@ function _restoreBlob(blob){
   if(!blob || typeof blob !== 'object') return;
   if(blob.state) localStorage.setItem('cs-state-v1', JSON.stringify(blob.state));
   const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
-                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1'];
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1'];
   for(const k of fixed){
     if(blob[k] !== undefined) localStorage.setItem(k, blob[k]);
   }
@@ -11314,7 +11669,7 @@ function _restoreBlob(blob){
 // Remove all sensitive keys from localStorage (called when encryption is active).
 function _clearSensitiveKeys(){
   const fixed = ['cs-state-v1','cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
-                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1'];
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1'];
   for(const k of fixed) localStorage.removeItem(k);
   const rqKeys = [];
   for(let i = 0; i < localStorage.length; i++){
@@ -11658,6 +12013,7 @@ function _init(){
   loadStatusSliders();
   markStatusCheckInNeeded();
   loadStatSliders(appState);
+  _applyVitalsCheckinState();
   (appState.activities || DEFAULT.activities || []).forEach(act => {
     initRQState(act, getCharId());
   });
@@ -11673,6 +12029,7 @@ function _init(){
       loadStatusSliders();
       markStatusCheckInNeeded();
       loadStatSliders(appState);
+      _applyVitalsCheckinState();
     }
   });
   _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
