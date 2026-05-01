@@ -14,9 +14,9 @@ Journal with your AI, paste back the JSON, watch your character sheet update. No
 
 **After a few sessions you'll have:**
 - A Main Quest and side quests tracking what you're actually working on in life
-- Named enemies: recurring negative patterns, limiting beliefs, and drains with real labels
-- A skills list ranking what you're developing, what's under-levelled, and what's becoming a strength
-- Achievements and classes capturing genuine growth — milestones your AI recognises and names
+- Named enemies: recurring negative patterns, limiting beliefs and energy drains
+- A skills list ranking what you're developing, what's under-levelled, and what's becoming a signature strength
+- Achievements and classes capturing genuine growth, meaningful milestones that your AI recognises and records
 - A journal timeline linking entries to changes in your sheet
 
 ---
@@ -197,7 +197,7 @@ AI supercharged journalling and made self-reflection genuinely useful for me, bu
 
 I'm a professional cyber security consultant with real concerns about trusting any company with deep personal data. character-sheet was inspired by [Obsidian.md](https://obsidian.md/) and the principle that users should own their knowledge on their own devices. The app is a single HTML file with no server, no telemetry, and no accounts — and if you want to go further, pair it with a local LLM like [Ollama](https://ollama.com) so no journal content ever leaves your machine.
 
-If social media can use gamification to hold attention and keep people scrolling, I'd rather use the same tools to help people understand and improve themselves.
+If social media can use gamification to hold attention and keep people scrolling, I'd rather use powerful technology to help people understand and improve themselves.
 
 Ultimately, I built this because I wanted it to exist. [LFM](CONTRIBUTING.md).
 
