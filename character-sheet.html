@@ -12439,6 +12439,8 @@ function _init(){
             });
           });
         }
+        if (hist._statusHistory) { HARDCODED_STATUS_HIST = hist._statusHistory.slice().sort((a,b)=>a.date<b.date?-1:1); delete hist._statusHistory; }
+        if (hist._statsHistory)  { HARDCODED_STATS_HIST  = hist._statsHistory.slice().sort((a,b)=>a.date<b.date?-1:1); delete hist._statsHistory; }
         Object.assign(HARDCODED_HISTORY, hist); delete data._hardcodedHistory;
       }
       if(data._featuredCls){ setFeaturedCls(data._featuredCls); delete data._featuredCls; }
