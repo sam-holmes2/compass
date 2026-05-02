@@ -4992,12 +4992,13 @@ function openHistNewEntry(type, anchorEl) {
 function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
-  if(!hist.length && HARDCODED_STATS_HIST.length && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
+  if(HARDCODED_STATS_HIST.length && (IS_DEMO || !hist.length) && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
   _drawMultiLineHistChart('stats-hist-canvas','stats-hist-legend',hist,['rest','movement','nutrition','connection'],STAT_COLORS);
   _attachHistChartBackfill('stats-hist-canvas', hist, ['rest','movement','nutrition','connection'], STAT_COLORS, STATS_HIST_KEY, renderStatsHistoryChart);
 }
 
 function saveStatsSnapshot(){
+  if(IS_DEMO){ renderStatsHistoryChart(); return; }
   try{
     const today=_localDate();
     const hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]');
@@ -11333,6 +11334,7 @@ function clearStatusCheckInNeeded() {
 }
 
 function saveStatusSnapshot() {
+  if(IS_DEMO){ renderStatusHistoryChart(); return; }
   // Call once when user has finished adjusting sliders (on first change of a session day)
   try {
     const today = _localDate();
@@ -11354,7 +11356,7 @@ function saveStatusSnapshot() {
 function renderStatusHistoryChart() {
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
-  if (!hist.length && HARDCODED_STATUS_HIST.length && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
+  if (HARDCODED_STATUS_HIST.length && (IS_DEMO || !hist.length) && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
   _drawMultiLineHistChart('status-hist-canvas','status-hist-legend',hist,['focus','energy','purpose','interest'],STATUS_COLORS);
   _attachHistChartBackfill('status-hist-canvas', hist, ['focus','energy','purpose','interest'], STATUS_COLORS, STATUS_HIST_KEY, renderStatusHistoryChart);
 }
