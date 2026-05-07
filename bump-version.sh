@@ -30,6 +30,26 @@ sed -i '' "s/\(const INSTRUCTIONS_VERSION = '\)[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0
 HASH=$(shasum -a 256 "$INST" | awk '{print $1}')
 sed -i '' "s/\(const INSTRUCTIONS_MD_SHA256 = '\)[^']*\(';\)/\1${HASH}\2/" "$HTML"
 
+# ── 5. Embed instructions.md content as INSTRUCTIONS_CONTENT constant ──────────
+python3 - "$INST" "$HTML" << 'PYEOF'
+import re, sys
+inst_path = sys.argv[1]
+html_path = sys.argv[2]
+with open(inst_path) as f:
+    content = f.read()
+escaped = content.replace('\\', '\\\\').replace('`', '\\`').replace('${', '\\${')
+replacement = 'const INSTRUCTIONS_CONTENT = `' + escaped + '`;'
+with open(html_path) as f:
+    html = f.read()
+new_html = re.sub(r'const INSTRUCTIONS_CONTENT = `[\s\S]*?`;', replacement, html)
+if new_html == html:
+    print('WARNING: INSTRUCTIONS_CONTENT constant not found in HTML', file=sys.stderr)
+    sys.exit(1)
+with open(html_path, 'w') as f:
+    f.write(new_html)
+print('INSTRUCTIONS_CONTENT embedded (' + str(len(content)) + ' chars)')
+PYEOF
+
 # ── verify ─────────────────────────────────────────────────────────────────────
 echo "Version bumped to $NEW in:"
 grep -n "LLM Instructions v"                  "$INST"

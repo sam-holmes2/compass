@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'self' https://api.anthropic.com http://localhost:11434 https://raw.githubusercontent.com https://api.github.com;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>character-sheet — RPG journal, habit tracker and AI dashboard</title>
 <meta name="description" content="A free, local RPG character sheet for AI-assisted journaling. Track goals as quests, recurring patterns as enemies, and personal growth as XP. Single HTML file, no server, no account required.">
@@ -903,6 +904,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .fbar-btn:hover { background:rgba(45,168,106,0.14); color:#fff; }
 .fbar-btn.fbar-primary { background:rgba(45,168,106,0.12); }
 .fbar-btn.fbar-primary:hover { background:rgba(45,168,106,0.28); }
+.fbar-btn.fbar-chat { background:rgba(200,168,74,0.1); color:var(--gold); }
+.fbar-btn.fbar-chat:hover { background:rgba(200,168,74,0.22); color:var(--gold); }
+#chat-btn.chat-btn-loading { position:relative; }
+#chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
+@keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
 .fbar-btn.dirty::after { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:#c84040; margin-left:2px; }
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(4,4,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
@@ -1328,12 +1334,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* New-day glow: bar pulses in its own colour until today's value is logged */
 @keyframes vital-hp-needs-update {
-  0%,100% { box-shadow:0 0 0 1px rgba(220,60,60,0.15); }
-  50%      { box-shadow:0 0 0 2px rgba(220,60,60,0.45), 0 0 10px rgba(220,60,60,0.2); }
+  0%,100% { box-shadow:0 0 0 1px rgba(220,60,60,0.2); }
+  50%      { box-shadow:0 0 0 3px rgba(220,60,60,0.55), 0 0 14px rgba(220,60,60,0.32); }
 }
 @keyframes vital-mana-needs-update {
-  0%,100% { box-shadow:0 0 0 1px rgba(60,110,220,0.15); }
-  50%      { box-shadow:0 0 0 2px rgba(60,110,220,0.45), 0 0 10px rgba(60,110,220,0.2); }
+  0%,100% { box-shadow:0 0 0 1px rgba(60,110,220,0.2); }
+  50%      { box-shadow:0 0 0 3px rgba(60,110,220,0.55), 0 0 14px rgba(60,110,220,0.32); }
 }
 .vital-track.hp.vital-needs-checkin   { animation:vital-hp-needs-update   2.8s ease-in-out infinite; }
 .vital-track.mana.vital-needs-checkin { animation:vital-mana-needs-update 2.8s ease-in-out infinite; }
@@ -1619,6 +1625,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   from { opacity:0; transform:translateY(-4px); }
   to   { opacity:1; transform:translateY(0); }
 }
+.xp-chart-wrap { position:relative; margin-bottom:6px; }
+.xp-chart-tooltip {
+  position:absolute; pointer-events:none; z-index:10; display:none;
+  background:rgba(20,18,30,0.93); border:1px solid rgba(176,128,232,0.4);
+  border-radius:6px; padding:7px 10px; font-size:12px; color:var(--text-mid);
+  font-family:var(--mono); max-width:260px; word-break:break-word;
+  box-shadow:0 4px 16px rgba(0,0,0,0.45); line-height:1.5;
+}
+.xp-chart-legend { display:flex; gap:12px; flex-wrap:wrap; }
+.xp-chart-legend-item { display:flex; align-items:center; gap:4px; font-size:12px; color:var(--text-dim); font-family:var(--mono); opacity:0.7; text-transform:capitalize; }
+.xp-chart-legend-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 
 /* ══ RADAR PANEL — shared by Status check-in, Stats, Harmony ══ */
 .radar-panel {
@@ -1626,7 +1643,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   background:rgba(255,255,255,0.015); overflow:hidden; margin-bottom:10px;
 }
 .radar-panel-body {
-  display:grid; grid-template-columns:1fr 1fr 1fr;
+  display:grid; grid-template-columns:1fr 280px 2fr;
   align-items:stretch; gap:0;
 }
 .radar-panel-sliders {
@@ -1648,7 +1665,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .radar-panel-sliders .stat-bar-lbl { min-width:58px; font-size:13px; }
 .radar-panel-sliders .stat-bar-val { min-width:24px; font-size:13px; }
 .radar-panel-radar {
-  padding:8px; display:flex; align-items:stretch; justify-content:center;
+  padding:8px 40px 8px 60px; display:flex; align-items:stretch; justify-content:center;
   border-right:1px solid rgba(255,255,255,0.05);
 }
 .radar-panel-radar svg { width:100%; height:100%; display:block; }
@@ -1699,12 +1716,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   background:rgba(200,168,74,0.07);
 }
 .practice-card-hdr {
-  display:flex; align-items:center; gap:8px;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
   padding:8px 14px;
   font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.18em; color:var(--gold);
   text-transform:uppercase;
 }
-.rq-hdr-name { flex:1; min-width:0; }
+.rq-hdr-name { flex:1; min-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rq-hdr-name:focus { overflow:visible; white-space:pre-wrap; }
 .practice-type-badge {
   font-family:var(--mono); font-size:13px; letter-spacing:0.1em;
   padding:2px 6px; border-radius:2px; border:1px solid rgba(200,168,74,0.3);
@@ -1765,6 +1783,13 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .rq-sub-goal-step:hover { color:rgba(200,168,74,1); background:rgba(200,168,74,0.1); }
 .rq-sub-goal-val { font-family:var(--mono); font-size:13px; color:#e4dec8; min-width:18px; text-align:center; padding:0 2px; pointer-events:none; font-weight:500; }
 .rq-sub-goal-suffix { font-family:var(--mono); font-size:12px; color:rgba(200,168,74,0.7); padding:0 5px 0 4px; }
+.rq-goal-wrap { display:inline-flex; align-items:center; gap:0; border:1px solid rgba(176,128,232,0.4); border-radius:4px; overflow:hidden; background:rgba(0,0,0,0.35); flex-shrink:0; }
+.rq-goal-pfx { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.7); padding:0 3px 0 7px; pointer-events:none; }
+.rq-goal-num { font-family:var(--mono); font-size:13px; color:#c8b0f0; background:none; border:none; outline:none; width:38px; text-align:center; padding:2px 1px; -moz-appearance:textfield; }
+.rq-goal-num::-webkit-outer-spin-button, .rq-goal-num::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+.rq-goal-num:focus { color:#e0d0ff; }
+.rq-goal-unit { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.7); padding:0 7px 0 3px; pointer-events:none; }
+.rq-goal-unit-in { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.8); padding:0 7px 0 2px; background:none; border:none; outline:none; width:56px; min-width:28px; }
 .practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
 .practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
 .practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
@@ -1822,6 +1847,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   min-width:0;
 }
 .prac-bar-col.is-hardcoded { cursor:default; }
+.prac-bar-col.is-weekend { background: rgba(255,255,255,0.03); }
 .prac-bar-col.is-current {
   background: rgba(200,168,74,0.07);
   border-radius: 2px 2px 0 0;
@@ -2545,9 +2571,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .hdr-mobile-vital-row .vital-baseline-7d { height:14px; width:1px; }
 }
 
-/* ── Radar panels: fix left/right clipping of SVG labels ── */
-/* SVG viewBox uses overflow:visible; radar-panel has overflow:hidden which clips labels */
-.radar-panel-radar { padding-left:14px; padding-right:14px; }
+
 @media (max-width:600px) {
   /* When stacked, give the radar enough room and let SVG labels breathe */
   .radar-panel { overflow:visible; }
@@ -2644,6 +2668,218 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #focus-timer-xp-today { font-size:16px; }
 #focus-timer-card .timer-btns { gap:10px; margin-top:4px; }
 #focus-timer-card .timer-btn { font-size:14px; padding:7px 18px; }
+
+/* ── In-app chat ─────────────────────────────────────────── */
+#chat-overlay {
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(4,4,8,0.92); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  flex-direction:column;
+}
+#chat-settings-modal { z-index:10000; }
+#settings-modal { z-index:10001; }
+#chat-overlay.open { display:flex; }
+.chat-hdr {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px; border-bottom:2px solid rgba(42,144,144,0.35);
+  background:rgba(7,7,11,0.98); flex-shrink:0;
+}
+.chat-hdr-left { display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
+.chat-hdr-app {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em;
+  color:var(--text-dim); text-transform:uppercase; opacity:0.6;
+}
+.chat-hdr-title {
+  font-family:'Cinzel',serif; font-size:17px; letter-spacing:0.15em;
+  color:#2a9090; text-transform:uppercase; margin:0;
+}
+.chat-hdr-subtitle {
+  font-size:12px; color:var(--text-dim); opacity:0.8; font-style:italic;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50vw;
+}
+.chat-hdr-right { display:flex; align-items:center; gap:6px; }
+.chat-hdr-model {
+  font-family:var(--mono); font-size:11px; color:var(--text-dim); opacity:0.7;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:130px;
+}
+.chat-cloud-warn {
+  display:none; align-items:center; gap:8px;
+  padding:10px 16px; background:rgba(180,40,40,0.22);
+  border-bottom:2px solid rgba(200,60,60,0.55);
+  font-size:14px; color:#f09090; flex-shrink:0; font-weight:500;
+}
+.chat-cloud-warn.visible { display:flex; }
+.chat-cloud-warn-dot { font-size:14px; color:#e05050; animation:pulse-dot 2s infinite; flex-shrink:0; }
+#chat-reauth-gate { display:none; position:absolute; inset:0; background:rgba(8,8,16,0.97); z-index:10; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:32px 24px; text-align:center; }
+#chat-reauth-gate.visible { display:flex; }
+#chat-reauth-input { width:100%; max-width:260px; padding:9px 12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:5px; color:var(--text); font-size:14px; }
+#chat-reauth-input:focus { outline:none; border-color:rgba(200,168,74,0.5); }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.chat-icon-btn {
+  background:none; border:none; color:var(--text-dim); cursor:pointer;
+  font-size:22px; padding:5px 9px; border-radius:4px; line-height:1;
+  transition:color 0.15s;
+}
+.chat-icon-btn:hover { color:#2a9090; }
+.chat-icon-btn-del { color:rgba(200,80,80,0.65) !important; }
+.chat-icon-btn-del:hover { color:#c84040 !important; }
+.chat-msgs {
+  flex:1; overflow-y:auto; padding:14px 16px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.chat-msg {
+  max-width:82%; padding:10px 14px; border-radius:8px;
+  font-size:19px; line-height:1.6; white-space:pre-wrap; word-break:break-word;
+}
+.chat-msg-user {
+  align-self:flex-end;
+  background:rgba(42,144,144,0.1); border:1px solid rgba(42,144,144,0.3);
+  color:var(--text-b);
+}
+.chat-msg-ai {
+  align-self:flex-start;
+  background:rgba(255,255,255,0.04); border:1px solid var(--border-hi);
+  color:var(--text);
+}
+.chat-msg-sys {
+  align-self:center; font-size:13px; color:var(--text-dim);
+  font-style:italic; padding:2px 0; text-align:center;
+}
+.chat-info-card {
+  align-self:stretch; background:rgba(200,168,74,0.05);
+  border:1px solid rgba(200,168,74,0.18); border-radius:6px;
+  padding:12px 14px; font-size:13px; color:var(--text-dim); line-height:1.7;
+}
+.chat-info-card strong { color:var(--text-mid); font-style:normal; }
+.chat-info-card ol { margin:6px 0 0 18px; padding:0; }
+.chat-info-card li { margin-bottom:3px; }
+.chat-info-card code {
+  display:inline-block; margin-top:4px; padding:4px 8px;
+  background:rgba(0,0,0,0.35); border-radius:4px;
+  font-family:var(--mono); font-size:12px; color:var(--text); user-select:all;
+}
+.chat-json-hint {
+  margin-top:8px; padding:6px 10px;
+  background:rgba(45,168,106,0.08); border:1px solid rgba(45,168,106,0.3);
+  border-radius:4px; font-size:13px; color:var(--help); font-family:var(--mono);
+}
+.chat-error-bubble {
+  align-self:center; font-size:13px; color:#c84040; font-family:var(--mono);
+  background:rgba(200,64,64,0.07); border:1px solid rgba(200,64,64,0.3);
+  border-radius:4px; padding:8px 12px; max-width:90%;
+}
+.chat-loading { opacity:0.5; letter-spacing:3px; }
+.chat-input-bar {
+  display:flex; gap:10px; padding:12px 16px;
+  border-top:1px solid var(--border-hi); flex-shrink:0;
+  background:rgba(7,7,11,0.98);
+}
+.chat-textarea {
+  flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border-hi);
+  border-radius:6px; color:var(--text); font-size:19px; line-height:1.5;
+  padding:9px 12px; resize:none; font-family:'Crimson Pro',serif;
+  transition:border-color 0.15s; max-height:160px; overflow-y:auto;
+}
+.chat-textarea:focus { outline:none; border-color:rgba(42,144,144,0.6); }
+.chat-textarea::placeholder { color:var(--text-dim); }
+.chat-send-btn { align-self:flex-end; padding:9px 18px; white-space:nowrap; }
+.chat-action-bar {
+  display:flex; align-items:center; gap:10px; padding:8px 16px 10px;
+  border-top:1px solid var(--border-hi); flex-shrink:0;
+  background:rgba(7,7,11,0.98);
+}
+.chat-apply-btn {
+  background:rgba(200,168,74,0.1); border:1px solid rgba(200,168,74,0.5);
+  color:var(--gold); font-family:'Cinzel',serif; font-size:13px;
+  letter-spacing:0.1em; padding:6px 16px; border-radius:4px; cursor:pointer;
+  transition:all 0.2s; animation:chat-pulse 1.6s ease-in-out infinite;
+}
+.chat-apply-btn:hover { background:rgba(200,168,74,0.2); }
+@keyframes chat-pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(200,168,74,0); }
+  50% { box-shadow:0 0 0 5px rgba(200,168,74,0.15); }
+}
+.chat-sync-btn { font-size:13px; padding:6px 14px; color:#2a9090; border-color:rgba(42,144,144,0.35); }
+.chat-sync-btn:hover { background:rgba(42,144,144,0.1); border-color:#2a9090; }
+.chat-end-btn { font-size:13px; padding:6px 14px; margin-left:auto; }
+.chat-new-session-btn { font-size:13px; padding:6px 14px; }
+.chat-cost-display { font-size:14px; font-family:var(--mono); color:var(--text-dim); opacity:0.8; }
+.chat-sync-options { display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+.chat-sync-radio { display:flex; align-items:center; gap:7px; font-size:13px; color:var(--text); cursor:pointer; }
+.chat-sync-radio input[type=radio] { margin:0; cursor:pointer; flex-shrink:0; }
+.chat-sync-n { width:44px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:var(--text); border-radius:3px; padding:2px 4px; text-align:center; font-size:12px; }
+.chat-open-btn { font-size:14px; margin-bottom:10px; }
+/* Chat session bar + picker */
+.chat-session-bar { padding:4px 14px 0; display:flex; align-items:center; gap:8px; }
+.chat-session-picker {
+  font-size:12px; padding:3px 6px; height:28px;
+  background:rgba(42,144,144,0.08); border:1px solid rgba(42,144,144,0.3);
+  color:var(--text-dim); border-radius:4px; max-width:200px;
+}
+/* Journal tab chat session cards */
+.chat-sess-card {
+  border:1px solid rgba(255,255,255,0.07); border-radius:6px;
+  padding:12px 14px; margin-bottom:10px; background:rgba(255,255,255,0.02);
+}
+.chat-sess-meta { display:flex; align-items:baseline; gap:10px; margin-bottom:5px; }
+.chat-sess-date { font-size:13px; color:var(--text); font-weight:600; }
+.chat-sess-count { font-size:12px; color:var(--text-dim); margin-left:auto; }
+.chat-sess-badge {
+  display:inline-block; font-size:10px; padding:1px 6px; border-radius:3px; margin-left:6px;
+  background:rgba(200,168,74,0.15); border:1px solid rgba(200,168,74,0.35); color:var(--gold);
+}
+.chat-sess-badge-unfinished { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); color:var(--text-dim); }
+.chat-sess-summary { font-size:13px; color:var(--text-mid); line-height:1.5; margin-bottom:5px; }
+.chat-sess-harmony { font-size:11px; color:var(--text-dim); font-family:var(--mono); margin-bottom:6px; }
+.chat-sess-actions { display:flex; gap:8px; }
+.chat-sess-btn { font-size:12px; padding:3px 10px; }
+.chat-sess-btn-delete { color:#c84040; border-color:rgba(200,64,64,0.4); }
+.chat-sess-btn-delete:hover { background:rgba(200,64,64,0.1); }
+.chat-sess-empty { font-size:13px; color:var(--text-dim); padding:12px 0; }
+/* Chat settings modal */
+.chat-field { margin-bottom:14px; }
+.chat-field-lbl {
+  display:block; font-family:var(--mono); font-size:12px;
+  letter-spacing:0.1em; color:var(--text-dim); text-transform:uppercase; margin-bottom:5px;
+}
+#chat-settings-modal input[type=text],
+#chat-settings-modal input[type=password],
+#chat-settings-modal select,
+#chat-settings-modal input[type=number] {
+  width:100%; box-sizing:border-box;
+  background:rgba(255,255,255,0.05); border:1px solid var(--border-hi);
+  border-radius:4px; color:var(--text); font-size:15px; padding:8px 10px;
+  font-family:inherit;
+}
+#chat-settings-modal input:focus,
+#chat-settings-modal select:focus { outline:none; border-color:rgba(200,168,74,0.5); }
+#chat-settings-modal select option { background:#0f0f17; }
+.chat-pin-warn { font-size:13px; color:#c87828; margin-top:6px; line-height:1.4; }
+.chat-api-note { font-size:13px; color:var(--text-dim); margin-top:6px; line-height:1.4; }
+.chat-api-note a { color:var(--help); }
+.ollama-status-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; }
+.ollama-conn-ok  { font-size:12px; font-family:var(--mono); color:#50c878; }
+.ollama-conn-err { font-size:12px; font-family:var(--mono); color:#c07050; }
+.ollama-model-row { display:flex; align-items:center; gap:6px; padding:3px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.ollama-model-row:last-child { border-bottom:none; }
+.ollama-badge { min-width:14px; font-size:11px; }
+.ollama-badge-ok { color:#50c878; }
+.ollama-badge-no { color:#505060; }
+.ollama-model-name { font-family:var(--mono); font-size:12px; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ollama-cmd-tag { font-size:11px; color:#8090a8; background:rgba(255,255,255,0.05); padding:2px 5px; border-radius:3px; font-family:var(--mono); white-space:nowrap; max-width:180px; overflow:hidden; text-overflow:ellipsis; }
+.ollama-mini-btn { font-size:11px; padding:2px 7px; border-radius:3px; cursor:pointer; border:1px solid; white-space:nowrap; background:transparent; }
+.ollama-copy-btn { color:var(--text-dim); border-color:rgba(255,255,255,0.12); }
+.ollama-copy-btn:hover { color:var(--text); border-color:rgba(255,255,255,0.25); }
+.ollama-use-btn  { color:var(--gold); border-color:rgba(200,168,74,0.22); }
+.ollama-use-btn:hover { background:rgba(200,168,74,0.12); }
+.ollama-extra-lbl { font-size:11px; color:var(--text-dim); margin-top:7px; margin-bottom:3px; }
+.os-tabs { display:flex; gap:4px; margin:8px 0 6px; }
+.os-tab { font-size:11px; padding:2px 8px; border-radius:3px; cursor:pointer; border:1px solid rgba(255,255,255,0.15); background:transparent; color:var(--text-dim); }
+.os-tab:hover { border-color:rgba(255,255,255,0.3); color:var(--text); }
+.os-tab.os-tab-sel { background:rgba(200,168,74,0.15); border-color:rgba(200,168,74,0.4); color:var(--gold); }
+.os-hide { display:none !important; }
+@media (max-width:639px) {
+  .chat-msg { max-width:96%; }
+}
 </style>
 </head>
 <body>
@@ -2752,6 +2988,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">Set up with AI</button>
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="dismissWelcome();openModal()">I already have data: Import it</button>
     </div>
+    <div style="margin:10px 0 2px;border-top:1px solid var(--border);padding-top:12px;">
+      <button onclick="dismissWelcome();openChat()" style="width:100%;padding:11px 16px;background:rgba(200,168,74,0.1);border:1px solid rgba(200,168,74,0.45);color:var(--gold);font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;border-radius:5px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='rgba(200,168,74,0.18)'" onmouseout="this.style.background='rgba(200,168,74,0.1)'">&#10022; Chat: journal with your AI key, no copy-paste</button>
+    </div>
     <div id="welcome-setup-steps" data-mode="">
       <!-- Manual path -->
       <div class="welcome-path" id="welcome-path-manual">
@@ -2770,7 +3009,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
       </div>
     </div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
-      <strong style="color:var(--text-mid);">Privacy:</strong> Your data is stored only in this browser — no server, no accounts, no telemetry. Export regularly and keep your <code style="font-size:13px;">data.json</code> somewhere safe; treat it like a private diary. If you journal with an AI, your provider may store what you share — check their privacy settings. For full privacy, pair with a local model like <a href="https://ollama.com" target="_blank" style="color:var(--text-mid);">Ollama</a>.
+      <strong style="color:var(--text-mid);">Privacy:</strong> Your data is stored only in this browser — no server, no accounts, no telemetry. Export regularly and keep your <code style="font-size:13px;">data.json</code> somewhere safe; treat it like a private diary. If you journal with an AI, your provider may store what you share. See the <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:var(--text-mid);">provider privacy guide</a> and <a href="https://github.com/sam-holmes2/character-sheet/blob/master/journalling-threat-model.md" target="_blank" style="color:var(--text-mid);">threat model</a>. For full privacy, pair with a local model like <a href="https://ollama.com" target="_blank" style="color:var(--text-mid);">Ollama</a>.
     </div>
     <div class="modal-row" style="margin-top:14px;">
       <button class="btn-ghost" onclick="dismissWelcome()">Close</button>
@@ -3260,6 +3499,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
         <button class="hist-reset-btn" onclick="addManualXP()" title="Award yourself XP for something outside the app">+ Add XP</button>
       </div>
       <div class="section-desc">Gains, losses, and level-ups</div>
+      <div class="xp-chart-wrap">
+        <canvas id="xp-chart" style="width:100%;display:block;height:190px;"></canvas>
+        <div id="xp-chart-tooltip" class="xp-chart-tooltip"></div>
+      </div>
+      <div id="xp-chart-legend" class="xp-chart-legend" style="margin:4px 0 10px;"></div>
       <div class="xp-log-feed" id="xp-log-feed"></div>
     </div>
   </div>
@@ -3360,6 +3604,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <div id="lore-key-questions" class="lore-card lore-card--keyqs"></div>
 
   <div id="lore-open-threads" class="lore-card lore-card--threads" style="display:none;"></div>
+
+  <div style="padding-bottom:4px;">
+    <button class="btn-primary chat-open-btn" onclick="openChat()">✦ Open chat</button>
+  </div>
+
+  <!-- ── Chat sessions ── -->
+  <div class="lore-card" style="margin-top:16px;">
+    <div class="lore-card-hdr">Chat sessions</div>
+    <div class="lore-card-desc">Sessions save automatically. Each completed session appears here with a summary. Use Resume to continue any session with full context.</div>
+    <div id="chat-sessions-list"></div>
+  </div>
 
   <!-- ── Session starters ── -->
   <div class="starters-section" id="starters-section">
@@ -3481,6 +3736,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
   <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
   <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
+  <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="In-app chat: journal with your AI key">&#10022;<span class="fbar-label"> Chat</span></button>
   <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export: copy data to your AI">↓<span class="fbar-label"> Export</span></button>
   <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import data.json">↑<span class="fbar-label"> Import</span></button>
 </div>
@@ -3784,7 +4040,7 @@ function getAlignment(item){
 
 // ══ DEFAULT STATE ═══════════════════════════════════════════
 // Steve's demo data — inlined so it works on file:// and github.io alike.
-let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{}, coreSkills:{}, statusSliders:{focus:50,energy:50,interest:50,purpose:50} };
+let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{}, coreSkills:{}, statusSliders:{focus:50,energy:50,interest:50,purpose:50}, chatSessions:[] };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
 // Generate demo history anchored to today so charts always fill to current date.
@@ -3919,6 +4175,528 @@ function hpColor(hp){
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
 const INSTRUCTIONS_VERSION = '1.7.0';
+const INSTRUCTIONS_CONTENT = `# character-sheet: LLM Instructions v1.6.0
+This file lives in project knowledge alongside \`data.json\` (source of truth).
+
+---
+
+# The most important thing
+
+**Always assume there is significant context you have not been told.** The user may have completed or experienced something really important to them and never mentioned it. Do not infer, fill gaps, or update data fields based on anything other than what was explicitly discussed. When in doubt, ask rather than assume.
+
+---
+
+# Session workflow
+
+1. Read \`data.json\` and any other context available.
+2. Chat with user (see Conversational modes and Core principles).
+3. **Update over create.** Before adding anything new, check for semantic overlap with existing entries. Prefer deepening what exists over adding something parallel.
+4. Never remove or compress existing journal entries. They were accurate at the time. Do not rewrite historical bullets even if they now seem thin or redundant.
+5. Do a brief **debrief** before outputting JSON: tell the user what you are about to change and give them a chance to correct, add, or remove anything.
+6. Celebrate XP, level-ups, and achievements in chat before outputting JSON.
+7. Output \`data.json\` as a downloadable file by default (easier on mobile). Use an inline code block only if the user asks.
+8. Always increment \`sessionCount\` and update \`lastSession\`.
+
+If the conversation is getting very long, flag it and suggest the user export, start a fresh chat, and import to continue.
+
+## First session
+
+If no \`data.json\` is present, this is a first session. Do not run a survey or start filling schema fields. Understand who this person is and what they want from the tool: accountability, reflection, a thinking partner, or something else. Let them set the pace.
+
+Output a minimal JSON at the end: \`name\`, \`subtitle\`, \`sessionCount: 1\`, \`lastSession\`, and whatever emerged naturally. Use \`claudeRead\` to record your honest read of what this user seems to need. This is as important as any data field.
+
+---
+
+# Conversational modes
+
+The default mode is **Freeflow**. The user can invoke any mode by naming it; you switch immediately. All modes share the Core principles below.
+
+In Freeflow, actively listen for signals that a different mode would serve better. When you notice one, name what you observed and suggest the switch, explaining what it focuses on and why it might help. Base suggestions only on what the user has actually said. Do not push if they ignore it or decline.
+
+Example: "You mentioned wanting to ship this by Friday. Would it help to switch to coach mode so we can get specific about what's blocking you?"
+
+Never switch mode without the user's agreement.
+
+## Core principles
+*(always active, regardless of mode)*
+
+- Always assume there is important context not yet shared.
+- Ask before interpreting. Offer frameworks (IFS, NVC, CBT, etc.) as hypotheses, not diagnoses.
+- Validate the feeling without validating the story. "That makes sense" is not the same as "your interpretation is correct."
+- One good question beats a summary. If something feels unresolved, ask rather than fill the gap.
+- What the user avoids or minimises is as important as what they share.
+- Help the user hold what they discover with curiosity, not judgement.
+- If the user already has what they need (clarity, relief, direction), say so and end early.
+- Treat \`data.json\` as a historical record, not ground truth. Sessions may be weeks apart. Check in before acting on old data. Patterns across sessions are more reliable than any single account.
+
+---
+
+## Freeflow *(default)*
+
+The baseline mode. Follow the user's energy without imposing structure. Some sessions are processing; some are exploring; some are thinking out loud. All are valid.
+
+- Follow what lights up (curiosity, energy, discomfort) rather than trying to cover ground.
+- Challenge where useful, but name what you are noticing before you challenge. Do not blindly validate.
+- Surface what is underneath: emotions, beliefs, values. Not facts, logic, or events.
+- Bring the user back to the recurring pattern, not the presenting situation.
+- Notice what repeats across sessions and name it. The user cannot see their own patterns at scale.
+- If the session pattern suggests compulsive journalling without real change, name that directly.
+
+---
+
+## Catch-up mode
+
+For when it has been a while and the user needs to brain-dump before going deep. Prioritise breadth over depth.
+
+- Move faster. Ask broad open questions across work, relationships, health, mindset.
+- Capture surface-level data (quests, enemies, element shifts) even if the insight behind them is thin.
+- Deprioritise: deep probing, challenging interpretations. Once you have a reasonable picture, offer to shift modes if the user wants to go deeper.
+
+---
+
+## Introspection mode
+
+For deep internal work. The goal is understanding, not action, not solutions.
+
+- Focus on what the user keeps circling without landing on: the avoided question, the pattern they cannot quite see.
+- Surface emotional undercurrents beneath the surface narrative.
+- Challenge gently but directly. Name the contradiction, the avoidance, the recurring theme.
+- Identify conflicts between values or unmet needs. This is usually where the real work is.
+- Deprioritise: action items, practical advice, data capture. Sitting with ambiguity is often the work.
+
+---
+
+## Guided mode
+
+For when the user does not know where to start or wants prompting. Lead them.
+
+- Begin with the \`keyQuestions\` from their data. Ask them to respond honestly before anything else.
+- Generate prompts specific to this user: current goals, active enemies, unresolved tensions, gaps in data. These are always more relevant than generic prompts.
+- After each prompt, follow the energy. If something opens up, pursue it. If it falls flat, move on.
+- Deprioritise: open-ended wandering. The goal is movement. Give the user something concrete to respond to.
+
+---
+
+## Coach mode
+
+For when the user has a specific goal and needs support moving toward it. Forward-facing and practical.
+
+- Establish what the user wants to achieve, in this session or near term. Get specific.
+- Hold them to it. If they drift, bring them back.
+- Help identify what is blocking progress and what the most leveraged next action is.
+- Challenge procrastination, rationalisation, and vague intentions directly.
+- Ask them to commit to something concrete before the session ends.
+- Deprioritise: sitting with ambiguity, deep internal processing.
+
+---
+
+## Debrief mode
+
+For reviewing what is about to be written to the JSON before it is committed.
+
+- Walk through pending changes clearly: what is being added, updated, or removed.
+- Invite corrections on names, descriptions, framing, XP values, priorities.
+- Ask targeted questions: "Does this name feel accurate?" "Is this the right enemy or a symptom of something deeper?"
+- Do not introduce new threads. Stay in editorial mode until the user is satisfied, then output JSON.
+
+---
+
+# Output format
+
+## Nothing important gets lost
+
+**Treat every session as though this is the last context you will ever have.** When the chat closes, everything discussed is gone. The JSON is the only thing that carries forward. This means:
+
+- Before outputting, sweep the full conversation for anything significant that has not yet been captured: offhand mentions of progress, small wins named in passing, shifts in tone or energy, things the user said about themselves, patterns you noticed but did not explicitly flag.
+- Update all relevant existing fields, not just the ones that were the obvious focus of the session. A conversation about a quest may have surfaced something that updates an enemy's HP, a skill description, an element score, or a key question. Capture it all.
+- Refine existing entries when the session added nuance, even if nothing was explicitly "completed". A richer description is real progress.
+- The user should never need to tell you not to forget something. It is your job to notice and capture it.
+
+This is a standing instruction. It applies to every session, every output, without the user needing to ask.
+
+**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.0"\`, \`sessionCount\`, and \`lastSession\`.
+
+\`{ "_partial": true, "_instructionsVersion": "1.7.0", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
+
+**Never output:** \`_featuredAch\` · \`_featuredCls\` · \`balanceSmoothed\` · \`harmonyHistory\` · \`dailyDistribution\` · practice history · pinned achievements/classes
+
+**Writing rules for all fields:** No markdown, no em dashes, and no HTML tags in JSON strings. Plain text only. A bare \`<\` or \`>\` character in text is fine; an HTML element like \`<b>\`, \`<img>\`, or any tag with angle brackets is not. The app renders all string values as plain text and relies on this to stay secure. Every field must also pass the stranger test: a reader with no prior context should understand what specifically happened, shifted, or is meant, without needing to know the user. Vague labels like "named the pattern" or "had a breakthrough" do not pass. Be specific.
+
+**Do not modify locked fields.** If a \`_locked\` array exists in the JSON listing field paths (e.g. \`["allies.0.name", "mainQuest.title"]\`), treat those paths as read-only.
+
+---
+
+# Session tracking
+
+\`sessionCount\`: integer, increment by 1 each session.
+\`lastSession\`: ISO date: \`"2026-04-12"\`.
+
+---
+
+# Identity
+
+\`name\`: first name or chosen character name. Required.
+\`subtitle\`: short tagline or role description. Optional.
+
+---
+
+# Vitals
+
+**\`health\`** (0–100): physical health right now. Infer from anything discussed: sleep, nutrition, movement, stress, injury. 100 = thriving; 0 = seriously unwell. Only update based on what was discussed.
+
+**\`healthAvg\`** (0–100): rolling all-time average. Move slowly toward current \`health\` each session. Reflects sustained baseline, not a single session.
+
+**\`mana\`** (0–100): mental and spiritual health right now. Infer from: energy, optimism, motivation, meaning, emotional resilience. 100 = genuinely alive and driven; 0 = burned out or disconnected. Only update based on what was discussed.
+
+**\`manaAvg\`** (0–100): rolling all-time average mana. Same slow-update rule.
+
+Always include all four in every partial update once first set.
+
+---
+
+# Elements (Balance tab)
+
+Score each element 0–100 each session based on what was discussed. Treat each session as a fresh read; do not anchor to prior scores. Write a \`sliderLabel\` (max 80 chars) naming both what is working and what is not. A high score should still name the shadow; a low score should still name what is holding.
+
+Also output \`airAvg\`, \`fireAvg\`, \`waterAvg\`, \`earthAvg\`: all-time running averages nudged slightly toward the current session score. Formula: \`newAvg = round((oldAvg + (current - oldAvg) / sessionCount) * 10) / 10\`. If no prior avg exists, seed from current score.
+
+Tiers: 0-24=1 · 25-49=2 · 50-74=3 · 75-99=4 · 100=5
+
+\`"air": { "score": 76, "sliderLabel": "..." }\`
+\`"airAvg": 68.4\`
+
+| Element | Theme | Enemy type | Ally type |
+|---|---|---|---|
+| **Air** | Awareness. High = real-time pattern recognition. Low = reactive, unexamined. | \`blindspot\` | \`loot\` |
+| **Fire** | Action. High = deliberate, values-aligned. Low = drifting, obligated, burned out. | \`compulsion\` | \`spell\` |
+| **Earth** | Beliefs. High = honest, useful. Low = limiting narratives. | \`limitingBelief\` | \`liberatingBelief\` |
+| **Water** | Desire. High = genuine aliveness, needs met. Low = numbing, avoidance, flat. | \`temptation\` | \`sources\` |
+
+Compulsion = avoidance-driven. Temptation = desire-driven.
+
+---
+
+# Status check-in
+
+Two sets of sliders that update automatically from session content. Never prompt for them directly. Only update what was discussed.
+
+**\`statusSliders\`**: how the user feels right now relative to what they should be doing:
+
+\`"statusSliders": { "focus": 75, "energy": 50, "interest": 65, "purpose": 60 }\`
+
+| Key | What it measures |
+|---|---|
+| \`focus\` | Ability to direct and sustain attention on what matters |
+| \`energy\` | Physical and mental fuel: capacity to act and engage |
+| \`interest\` | Genuine curiosity and engagement, not going through the motions |
+| \`purpose\` | Sense that current actions connect to something the user cares about |
+
+**\`coreSkills\`**: key life domains tracked across sessions:
+
+\`"coreSkills": { "sleep": { "score": 40, "trend": "down-slight" }, "movement": { "score": 60, "trend": "flat" }, "nutrition": { "score": 55, "trend": "flat" }, "connection": { "score": 35, "trend": "down-strong" } }\`
+
+\`trend\`: \`up-strong\` · \`up-slight\` · \`flat\` · \`down-slight\` · \`down-strong\`
+
+Always include all four keys in both blocks if including either block.
+
+---
+
+# XP and levelling
+
+Award for: quest completion, skill level-ups, elemental tier advances, named breakthroughs.
+Deduct for: significantly negative or unhealthy pattern relapse, mastery dropping, acting against users stated values. Report all changes in chat first.
+
+**Always include \`_xpLog\` in every partial update that changes \`xp\`.** Include one entry per distinct source of XP awarded or deducted this session. The app prepends these to the existing log; do not include prior sessions.
+
+\`\`\`json
+"_xpLog": [
+  { "date": "12/04/2026", "type": "session", "amount": 150, "reason": "Side quest complete: Ship the MVP", "totalAfter": 1250 },
+  { "date": "12/04/2026", "type": "session", "amount": 80, "reason": "Skill level-up: Ask For What I Need", "totalAfter": 1100 },
+  { "date": "12/04/2026", "type": "session", "amount": -50, "reason": "Relapse: avoided conflict three times", "totalAfter": 1020 }
+]
+\`\`\`
+
+\`date\`: DD/MM/YYYY format. \`amount\`: positive for gains, negative for losses. \`reason\`: plain label naming the source specifically (quest title, skill name, enemy name, pattern). \`totalAfter\`: running \`xp\` total after this entry (list entries in reverse order: highest totalAfter first).
+
+**Level-up:** if \`xp >= xpToNext\` → subtract \`xpToNext\`, increment \`level\`, set \`xpToNext = round(old * 1.2)\`. Repeat until \`xp < xpToNext\`.
+
+**XP values are living estimates, not fixed contracts.** The app shows them as rough guidelines. Revise them each session based on what you observe: if something proved harder than the user expected, increase the reward; if it became routine or easier than thought, decrease it. Mention any revision in chat before outputting JSON.
+
+**Calibrate all rewards to this user's perceived difficulty:**
+
+- Skills: 40-150. Default for new skills: 50.
+- Side quests: 40-200. Main quest: 300-600. Default for new quests: 75 (side), 400 (main).
+- Enemies (minions): 40-120. Standalone enemies: 80-200. Bosses: 300-500. Default for new enemies: 60 (minion), 120 (standalone), 350 (boss).
+- \`sliderXpRewards\` per element: \`[null, tier-II, tier-III, tier-IV, tier-V]\`
+- \`xpPerUnit\` for daily activities: target ~20-50 XP/day when hit consistently. Default: 1 XP/min for timers, 10 XP/completion for checkbox/number.
+
+**Backfill missing XP values every session.** Every boss, enemy, quest, and skill must have an \`xpReward\`. Set any missing now using the defaults above, calibrated to what you know about this user.
+
+**Revise upward (20-50%)** when the user has been stuck longer than expected, keeps relapsing, or describes genuine struggle. **Revise downward (10-30%)** when something is now easy, automatic, or no longer a real challenge.
+
+---
+
+# Quests
+
+## Main quest
+
+Single overarching theme. One at a time. Close when \`doneWhen\` is met: move to \`completedMainQuests\` and award XP.
+
+\`{ "title": "...", "description": "...", "whyItMatters": "...", "doneWhen": "...", "nextSteps": [{ "text": "...", "doneWhen": "..." }], "xpReward": 500, "progress": 20 }\`
+
+## Side quests
+
+\`{ "id": "...", "title": "...", "description": "...", "whyItMatters": "...", "doneWhen": "...", "nextStep": "...", "progress": 30, "priority": 2, "xpReward": 150 }\`
+
+**\`progress\`** (0-100): update every session based on real movement: breakthroughs, identity shifts, sustained behaviour change, concrete milestones. Do not increment for talking without changing. Award partial XP proportional to step size across sessions.
+
+**Title rules:** Make the goal immediately clear to a stranger. Plain action language only. No metaphors or poetic names. Bad: "The Transactional Pendulum". Good: "Break the Overwork-Burnout-Repeat Cycle". Max 8 words.
+
+**Closing:** when \`doneWhen\` is met, remove from \`sideQuests\`, add to \`completedQuests\`, award XP.
+
+\`completedQuests\`: always output the full array when quests close this session (app merges by title+date).
+\`{ "title": "...", "completedDate": "March 2026", "xpEarned": 150, "howResolved": "..." }\`
+
+---
+
+# Skills
+
+\`mastery\` 1-5 · \`priority\` lower = more valuable now · \`role\` (required): \`DPS\` · \`Tank\` · \`Support\` · \`Lead\`
+
+| Role | Direction | Focus |
+|---|---|---|
+| \`DPS\` | Do more | Improve external circumstances, take action, solve outer problems |
+| \`Tank\` | Do less | Improve internal state, accept inner challenges, resist unhelpful impulses |
+| \`Support\` | Give to others | Genuine compassion or generosity toward others or future self |
+| \`Lead\` | Direct others | Set direction, hold vision, take responsibility for outcomes beyond yourself |
+
+Infer \`role\` from context. Do not ask.
+
+\`{ "name": "Ask For What I Need", "role": "Support", "mastery": 1, "priority": 1, "xpReward": 80, "description": "...", "whyItMatters": "..." }\`
+
+Size limit: 15 skills.
+
+---
+
+# Enemies
+
+Negative patterns, beliefs, habits, and reflexes working against the user. Four types, each maps to an element:
+
+| Type | Element | Root of the pattern |
+|---|---|---|
+| \`blindspot\` | Air | Perception-level misread before a conscious choice is made |
+| \`compulsion\` | Fire | Action-level pull driven by urgency or avoidance |
+| \`limitingBelief\` | Earth | False or limiting story the user treats as true |
+| \`temptation\` | Water | Desire-level pull toward something that costs more than it gives |
+
+**Do not go looking for enemies.** Only add one when a pattern has shown up in behaviour, not just conversation.
+
+**Naming:** Name the root, not the symptom. GUILT AFTER SELFISH CHOICE is a symptom. SELF-WORTH REQUIRES SELF-SACRIFICE is the root. The name must identify the exact pattern without any surrounding context. One pattern = one enemy. All caps.
+
+**\`hp\`** (0-100): power this pattern holds right now. Start at 100. Reduce for genuine insight that shifts the user's relationship to the pattern, real-time naming, understanding the origin, or behaviour change where it previously ran unchecked. Does not reduce for venting or re-describing without new clarity. Move to \`graveyard\` at 0.
+
+**\`priority\`**: unique integer shared across ALL enemies (bosses, minions, standalone). 1 = most pressing.
+
+**\`xpReward\`**: set on creation, revise as difficulty becomes clearer. Every enemy must have one.
+
+**\`limitingBelief\` entries** include a \`belief\` field: the false belief in first person, quoted: \`"\\"I'll be found out eventually.\\""\`. Other types do not use this field.
+
+## Structure
+
+\`\`\`json
+"enemies": {
+  "bosses": [
+    {
+      "name": "THE APPROVAL ENGINE",
+      "desc": "...",
+      "whyBoss": "...",
+      "hp": 85,
+      "xpReward": 400,
+      "shortTermBenefit": "...",
+      "origin": "...",
+      "vulnerabilities": [
+        { "title": "Named in real time", "desc": "..." }
+      ],
+      "minions": [
+        { "name": "SELF-WORTH REQUIRES SELF-SACRIFICE", "type": "limitingBelief", "belief": "\\"...\\"", "hp": 90, "desc": "...", "priority": 2, "xpReward": 100 },
+        { "name": "BEST CASE PROJECTION", "type": "compulsion", "hp": 75, "desc": "...", "priority": 4, "xpReward": 60 }
+      ]
+    }
+  ],
+  "current": [
+    { "name": "PRODUCTIVE AVOIDANCE", "type": "compulsion", "desc": "...", "shortTermBenefit": "...", "origin": "...", "hp": 70, "priority": 1, "xpReward": 150 }
+  ],
+  "graveyard": [
+    { "name": "SUNDAY DREAD", "defeatedDate": "Jan 2026", "howDefeated": "..." }
+  ]
+}
+\`\`\`
+
+**Bosses**: core root patterns that generate a cluster of sub-patterns. No \`type\` field.
+- \`whyBoss\`: make the case that this is a root cause, not a symptom. Ground it in the user's own words and history.
+- \`vulnerabilities\`: up to 3. Specific, actionable moments the pattern can be interrupted. Not abstract virtues.
+- \`minions\`: faster-moving manifestations of the boss pattern. Move to graveyard individually when defeated.
+
+**\`current\`**: cross-cutting patterns that do not belong under any single boss. Keep lean.
+
+Size limit: 15 entries in \`current\`.
+
+---
+
+# Allies
+
+Each ally has one \`type\`:
+
+| Type | Element | What it is |
+|---|---|---|
+| \`loot\` | Air | Person, moment, or resource that brings clarity or genuine appreciation |
+| \`spell\` | Fire | Action or leverage point that reliably overcomes friction |
+| \`liberatingBelief\` | Earth | True belief that frees from unnecessary suffering |
+| \`sources\` | Water | Activity or environment that reliably produces genuine aliveness |
+
+**Naming:** Nouns only. Name the thing, not the act. "Morning Run" not "Go Running".
+
+**\`corruption\`** (optional): the user's own patterns blocking them from fully receiving this ally. Not the ally's downsides; the user's internal blocks. Listen for: avoiding something they've said helps; guilt or ambivalence around something nourishing; enjoyment interrupted by self-criticism. Only include when clearly evidenced.
+
+\`{ "name": "BJJ", "type": "sources", "desc": "...", "why": "...", "corruption": "..." }\`
+
+Size limit: 15 allies.
+
+---
+
+# Values and Needs
+
+**Values**: principles the user cares about. Aspirational, defining what a good life looks like.
+**Needs**: psychological requirements. Deficits or resources, not ideals.
+
+Both: \`threat\`: \`red\` (living against) · \`amber\` (tension) · \`none\` (aligned). \`alignment\` 0-100. \`priority\` = display order.
+
+Update when the user describes sustained frustration, resentment, or recurring sacrifice.
+
+\`{ "name": "Autonomy", "priority": 1, "threat": "red", "alignment": 30, "description": "..." }\`
+
+Size limit: 10 each.
+
+---
+
+# Activities (Combat tab)
+
+Trackable daily habits. \`type\`: \`timer\` · \`checkbox\` · \`number\`. \`resetPeriod\`: \`day\` · \`week\` · \`month\`.
+
+\`{ "id": "deep-work", "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 1, "type": "timer", "resetPeriod": "day", "target": 90, "unit": "minutes", "xpPerUnit": 0.5 }\`
+
+---
+
+# Classes
+
+Personality archetypes the user is growing into. \`icon\` = single emoji.
+
+\`role\` (optional): \`Tank\` · \`DPS\` · \`Support\` · \`Lead\`. Infer from what the class represents.
+
+\`{ "id": "architect", "name": "Architect", "icon": "🏗️", "description": "...", "dateUnlocked": "Feb 2026", "role": "Lead" }\`
+
+---
+
+# Achievements
+
+Specific moments tied to a real date. Award XP alongside.
+
+| Type | Element | What it marks |
+|---|---|---|
+| \`insight\` | Air | Something noticed, understood, or seen differently for the first time |
+| \`deed\` | Fire | Action taken, obstacle overcome, goal reached, pattern broken in behaviour |
+| \`transmutation\` | Earth | A belief or identity that permanently changed (before/after shift) |
+| \`surrender\` | Water | Something stopped fighting: a fear released, a grip loosened |
+
+Infer type from what actually happened, not what the user calls it. When ambiguous, choose the type that captures the root. A completed quest is usually a \`deed\`; stopping needing external validation is a \`surrender\`; realising you had been lying to yourself is an \`insight\`.
+
+\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
+
+Size limit: 20 achievements.
+
+---
+
+# Journal
+
+## claudeRead
+What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
+
+## progression
+The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
+
+## keyQuestions
+The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
+
+\`\`\`json
+"keyQuestions": [
+  {
+    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
+    "asked": "2026-04-12",
+    "updated": "2026-04-12"
+  }
+]
+\`\`\`
+
+## openThreads
+Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
+
+\`\`\`json
+"openThreads": [
+  {
+    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
+    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
+  }
+]
+\`\`\`
+
+## Journal entries (insights)
+
+Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
+
+Entry structure: \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
+
+All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
+
+- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
+- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
+- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
+
+**Never remove or rewrite existing journal entries.** They were accurate at the time.
+
+---
+
+# Size limits
+
+| Category | Max |
+|---|---|
+| \`skills\` | 15 |
+| \`achievements\` | 20 |
+| \`enemies.current\` | 15 |
+| \`allies\` | 15 |
+| \`values\` / \`needs\` | 10 each |
+| \`keyQuestions\` | 3 |
+
+---
+
+# Field length limits
+
+| Field | Max |
+|---|---|
+| \`claudeRead\` | 80 words |
+| \`progression\` | 200-300 words |
+| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
+| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
+| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
+| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
+| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
+| \`limitingBelief.belief\` | 15 words |
+| \`sliderLabel\` | 80 chars |
+| \`keyQuestions[].question\` | 30 words |
+| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
+| Most \`title\` fields | 8 words |
+| Journal \`events\` bullets | 20 words |
+| Journal \`insights\` / \`tensions\` bullets | 30 words |
+`;
 const INSTRUCTIONS_MD_SHA256 = '9552d97f0be5a6d7f99c21ce7d54b94ab571f38fe9b27562b5ee98d38d18810c';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
@@ -4564,6 +5342,9 @@ function updateRadar(vals){
 const STAT_COLORS = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
 const STATS_HIST_KEY = 'cs-stats-hist-v1';
 const STATS_CHECKIN_KEY = 'cs-stats-checkin-v1';
+function _statsSliderDoneToday(name){ try{ const d=JSON.parse(localStorage.getItem(STATS_CHECKIN_KEY)||'{}'); return d.date===_localDate()&&d[name]===true; }catch{return false;} }
+function _markStatsSliderDone(name){ try{ const today=_localDate(); const d=JSON.parse(localStorage.getItem(STATS_CHECKIN_KEY)||'{}'); const e=d.date===today?d:{date:today}; e[name]=true; localStorage.setItem(STATS_CHECKIN_KEY,JSON.stringify(e)); }catch{} }
+function _allStatsDoneToday(){ return Object.keys(STAT_COLORS).every(n=>_statsSliderDoneToday(n)); }
 const VITALS_HIST_KEY = 'cs-vitals-hist-v1';
 
 function loadVitalsHist(){
@@ -4657,6 +5438,25 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
   const n = hist.length;
   const xOf = i => padL + (i / Math.max(n - 1, 1)) * plotW;
   const yOf = v => padT + plotH - Math.min(100, Math.max(0, v)) / 100 * plotH;
+
+  // Weekend tinting and Monday dividers
+  if (n > 1) {
+    const cellW = plotW / (n - 1);
+    hist.forEach((e, i) => {
+      const dow = new Date(e.date + 'T00:00:00Z').getUTCDay();
+      const x = xOf(i);
+      if (dow === 0 || dow === 6) {
+        const rx = Math.max(padL, x - cellW / 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.025)';
+        ctx.fillRect(rx, padT, Math.min(padL + plotW, x + cellW / 2) - rx, plotH);
+      }
+      if (dow === 1 && i > 0) {
+        const lx = Math.max(padL, x - cellW / 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 0.5; ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(lx, padT); ctx.lineTo(lx, padT + plotH); ctx.stroke();
+      }
+    });
+  }
 
   // Today highlight: vertical stripe behind all lines
   const todayStr = new Date().toISOString().slice(0, 10);
@@ -5033,12 +5833,12 @@ function resetStatsCheckin() {
     setStatusGradient(el, col, 50);
   });
   updateStatsRadar();
-  _applyStatsCheckinState(true);
+  _applyStatsPerSliderGlow();
 }
 
 function updateStat(name, value){
-  _markCheckinDone(STATS_CHECKIN_KEY);
-  _applyStatsCheckinState(false);
+  _markStatsSliderDone(name);
+  _applyStatsPerSliderGlow();
   const pct=parseInt(value);
   const col=STAT_COLORS[name];
   const el=document.getElementById('stat-'+name);
@@ -5054,32 +5854,34 @@ function updateStat(name, value){
   saveStatsSnapshot();
 }
 
-function _applyStatsCheckinState(needsCheckin) {
-  document.querySelectorAll('#tab-skills .stat-bar-row').forEach(row => {
-    row.classList.toggle('status-needs-checkin', needsCheckin);
+function _applyStatsPerSliderGlow() {
+  const anyNeeds = Object.keys(STAT_COLORS).some(n => !_statsSliderDoneToday(n));
+  Object.keys(STAT_COLORS).forEach(name => {
+    const el = document.getElementById('stat-' + name);
+    const row = el?.closest('.stat-bar-row');
+    if (row) row.classList.toggle('status-needs-checkin', !_statsSliderDoneToday(name));
   });
   const prompt = document.getElementById('stats-checkin-prompt');
-  if (prompt) prompt.style.display = needsCheckin ? '' : 'none';
+  if (prompt) prompt.style.display = anyNeeds ? '' : 'none';
   const badge = document.getElementById('skills-nav-checkin-badge');
-  if (badge) badge.style.display = needsCheckin ? '' : 'none';
+  if (badge) badge.style.display = anyNeeds ? '' : 'none';
   _updateDailyCheckinReminder();
 }
 
 function loadStatSliders(s){
-  const doneToday = _checkinDoneToday(STATS_CHECKIN_KEY);
   const wol=(s||appState).coreSkills||{};
   Object.entries(STAT_COLORS).forEach(([name,col])=>{
     const el=document.getElementById('stat-'+name);
     const valEl=document.getElementById('stat-'+name+'-val');
     if(!el) return;
-    // If no check-in today, reset to 50 so sliders are in neutral/pending state
-    const pct = doneToday ? Math.min(100,Math.max(0,(wol[name]||{}).score||0)) : 50;
+    const doneToday=_statsSliderDoneToday(name);
+    const pct=doneToday ? Math.min(100,Math.max(0,(wol[name]||{}).score||0)) : 50;
     el.value=pct;
     if(valEl) valEl.textContent=pct;
     setStatusGradient(el,col,pct);
   });
   updateStatsRadar();
-  _applyStatsCheckinState(!doneToday);
+  _applyStatsPerSliderGlow();
   requestAnimationFrame(()=>requestAnimationFrame(renderStatsHistoryChart));
 }
 
@@ -5274,8 +6076,11 @@ function updateXpRing(level, xp, xpToNext){
 
 // ══ VITAL BARS (HP + MANA) ══════════════════════════════════
 function updateVitalBars(s){
-  const hp      = typeof s.health    === 'number' ? s.health    : null;
-  const mana    = typeof s.mana      === 'number' ? s.mana      : null;
+  const hpRaw   = typeof s.health === 'number' ? s.health : null;
+  const manaRaw = typeof s.mana   === 'number' ? s.mana   : null;
+  // Show neutral 50 until today's value is logged, matching status/stats slider behavior
+  const hp   = hpRaw   != null && !_vitalsCheckinDoneToday('hp')   ? 50 : hpRaw;
+  const mana = manaRaw != null && !_vitalsCheckinDoneToday('mana') ? 50 : manaRaw;
 
   // Compute averages from manual history; fall back to AI-set averages if no history yet
   const hist = loadVitalsHist();
@@ -5704,29 +6509,47 @@ function completeQuest(i){
   const xp=q.xpReward||0;
   const _td=new Date(); const today=String(_td.getDate()).padStart(2,'0')+'/'+String(_td.getMonth()+1).padStart(2,'0')+'/'+_td.getFullYear();
   // Snapshot for undo
-  const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuests:JSON.parse(JSON.stringify(appState.completedQuests||[])), xp:appState.xp, level:appState.level };
+  const snapshot={ sideQuests:JSON.parse(JSON.stringify(appState.sideQuests)), completedQuests:JSON.parse(JSON.stringify(appState.completedQuests||[])), xp:appState.xp, level:appState.level, xpToNext:appState.xpToNext };
   const _logSnapshot=loadXPLog();
   const cqArr=loadCompletedQuests();
   cqArr.unshift({title:q.title,completedDate:today,xpEarned:xp,howResolved:q.doneWhen||''});
   saveCompletedQuests(cqArr);
   appState.sideQuests.splice(i,1);
   const _oldXp=appState.xp||0; const _oldLevel=appState.level||1;
-  if(xp){ appState.xp=(appState.xp||0)+xp; }
+  if(xp){
+    appState.xp=(appState.xp||0)+xp;
+    if(appState.xpToNext!=null){
+      while(appState.xp>=appState.xpToNext){
+        appState.xp-=appState.xpToNext;
+        appState.level=(appState.level||1)+1;
+        appState.xpToNext=Math.round(appState.xpToNext*1.2);
+      }
+    }
+  }
   saveState(appState); markDirty();
   renderQuestsTab(appState);
   if(xp){
-    updateXpRing(appState.level,appState.xp,appState.xpToNext);
-    animateXpGain(_oldXp, appState.xp, _oldLevel, appState.level||1, appState.xpToNext, '+'+xp+' XP');
-    const _xlog=loadXPLog();
-    _xlog.unshift({date:today,type:'quest',amount:xp,reason:'Quest: '+(q.title||'completed'),totalAfter:appState.xp});
-    saveXPLog(_xlog);
+    if(appState.level>_oldLevel){
+      const _xlog=loadXPLog();
+      _xlog.unshift({date:today,type:'levelup',amount:null,reason:'Level '+appState.level+' reached',totalAfter:appState.xp});
+      _xlog.unshift({date:today,type:'quest',amount:xp,reason:'Quest: '+(q.title||'completed'),totalAfter:appState.xp});
+      saveXPLog(_xlog);
+    } else {
+      const _xlog=loadXPLog();
+      _xlog.unshift({date:today,type:'quest',amount:xp,reason:'Quest: '+(q.title||'completed'),totalAfter:appState.xp});
+      saveXPLog(_xlog);
+    }
     renderXPLog();
+    animateXpGain(_oldXp, appState.xp, _oldLevel, appState.level||1, appState.xpToNext, '+'+xp+' XP');
+    updateXpRing(appState.level,appState.xp,appState.xpToNext);
   }
   showXpToast(q.title,xp,()=>{
     // Undo
     appState.sideQuests=snapshot.sideQuests;
     appState.completedQuests=snapshot.completedQuests;
     appState.xp=snapshot.xp;
+    appState.level=snapshot.level;
+    appState.xpToNext=snapshot.xpToNext;
     saveState(appState); markDirty();
     renderQuestsTab(appState);
     updateXpRing(appState.level,appState.xp,appState.xpToNext);
@@ -6032,8 +6855,16 @@ function killEnemy(e){
   if(_killXp>0){
     const _oldXp=appState.xp||0; const _oldLevel=appState.level||1;
     appState.xp=(_oldXp+_killXp);
+    if(appState.xpToNext!=null){
+      while(appState.xp>=appState.xpToNext){
+        appState.xp-=appState.xpToNext;
+        appState.level=(appState.level||1)+1;
+        appState.xpToNext=Math.round(appState.xpToNext*1.2);
+      }
+    }
     const log=loadXPLog();
     const _d=new Date(); const date=String(_d.getDate()).padStart(2,'0')+'/'+String(_d.getMonth()+1).padStart(2,'0')+'/'+_d.getFullYear();
+    if(appState.level>_oldLevel) log.unshift({date,type:'levelup',amount:null,reason:'Level '+appState.level+' reached',totalAfter:appState.xp});
     log.unshift({date,type:'kill',amount:_killXp,reason:(e.name||'Enemy')+' defeated',totalAfter:appState.xp});
     saveXPLog(log);
     updateXpRing(appState.level,appState.xp,appState.xpToNext);
@@ -7547,6 +8378,7 @@ function render(s){
   renderCombatSkills(s);
   renderSkillsTopRow(s);
   renderXPLog();
+  renderChatSessions(s);
   window._lastState=s;
   if(s.dailyDistribution&&!window._lastImportedDist) window._lastImportedDist=JSON.parse(JSON.stringify(s.dailyDistribution));
 
@@ -7786,6 +8618,8 @@ function applyMigrationBundle(p){
     if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>{
       if(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')) localStorage.setItem(k,JSON.stringify(v));
     });
+    if(p['cs-chat-settings-v1']) localStorage.setItem('cs-chat-settings-v1',JSON.stringify(p['cs-chat-settings-v1']));
+    if(p['cs-gitsync-v1']) localStorage.setItem('cs-gitsync-v1',JSON.stringify(p['cs-gitsync-v1']));
   }
   const state=p['cs-state-v1'];
   if(!state) throw new Error('Migration bundle missing cs-state-v1');
@@ -7838,8 +8672,8 @@ function validateImport(p) {
   chk(p.mainQuest !== undefined && !isObj(p.mainQuest), '"mainQuest" must be an object, not an array');
   return errs.length ? errs[0] : null;
 }
-function applyUpdate(){
-  const raw=document.getElementById('json-input').value.trim();
+function applyUpdate(chatData){
+  const raw=chatData ? JSON.stringify(chatData) : document.getElementById('json-input').value.trim();
   try{
     const { result: p, stripped: _htmlStripped } = sanitizeImportHTML(JSON.parse(raw));
     // Full migration bundle (data.json export) — restore all localStorage keys
@@ -7958,8 +8792,7 @@ function applyUpdate(){
     if(merged.statusSliders) { loadStatusSliders(merged); saveStatusSnapshot(); }
     if(merged.coreSkills) saveStatsSnapshot();
     setModalStatus('✓ Sheet updated','ok');
-    document.getElementById('json-input').value='';
-    setTimeout(closeModal,1200);
+    if (!chatData) { document.getElementById('json-input').value=''; setTimeout(closeModal,1200); }
     // XP juice on import
     const _impXpDiff=(merged.xp||0)-_impOldXp;
     if(_impXpDiff>0||merged.level>_impOldLevel){
@@ -8027,6 +8860,7 @@ function logXPChange(prevState, nextState, items, skipGeneric){
 }
 
 function renderXPLog(){
+  requestAnimationFrame(()=>requestAnimationFrame(()=>renderXPChart()));
   const el=document.getElementById('xp-log-feed'); if(!el) return;
   const log=loadXPLog();
   el.innerHTML='';
@@ -8098,6 +8932,184 @@ function renderXPLog(){
   });
 }
 
+function renderXPChart(){
+  const canvas=document.getElementById('xp-chart'); if(!canvas) return;
+  const log=loadXPLog();
+  const entries=log.slice().reverse(); // oldest first
+
+  function _pd(s){ const p=(s||'').split('/'); return p.length===3?new Date(+p[2],+p[1]-1,+p[0]).getTime():0; }
+  function _et(e){
+    if(e.type==='kill') return 'kill';
+    if(e.type==='quest') return 'quest';
+    if(e.type==='manual') return 'manual';
+    if(e.type==='practice') return 'practice';
+    if((e.amount||0)<0) return 'deduct';
+    const r=(e.reason||'').toLowerCase();
+    if(/quest/.test(r)) return 'quest';
+    if(/kill|slay|enemy|monster/.test(r)) return 'kill';
+    if(/practice|habit/.test(r)) return 'practice';
+    if(/elemental|element/.test(r)) return 'elemental';
+    return 'session';
+  }
+  const TC={kill:'#e07070',quest:'#c8a840',manual:'#b080e8',practice:'#40c8a8',elemental:'#60a838',session:'#8ca0c8',deduct:'#e09060'};
+  const TL={kill:'Kill',quest:'Quest',manual:'Manual',practice:'Practice',elemental:'Elemental',session:'Session',deduct:'Deduction'};
+
+  let cum=0;
+  const dayMap=new Map();
+  for(const e of entries){
+    const date=e.date||'Unknown';
+    if(!dayMap.has(date)) dayMap.set(date,{date,ts:_pd(date),cumEnd:cum,xpByType:{},levelUps:[],net:0});
+    const d=dayMap.get(date);
+    if(e.type==='levelup'||e.levelup){
+      const m=(e.reason||'').match(/\d+/); if(m) d.levelUps.push(+m[0]);
+    } else if(e.amount!=null){
+      cum+=e.amount; d.cumEnd=cum; d.net+=e.amount;
+      const t=_et(e); d.xpByType[t]=(d.xpByType[t]||0)+Math.max(0,e.amount);
+    }
+  }
+  const days=[...dayMap.values()].sort((a,b)=>a.ts-b.ts);
+
+  const dpr=window.devicePixelRatio||1;
+  const bcr=canvas.getBoundingClientRect();
+  const W=Math.round(bcr.width)||600, H=Math.round(bcr.height)||190;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
+
+  if(!days.length){
+    ctx.fillStyle='rgba(128,120,100,0.3)'; ctx.font='11px JetBrains Mono,monospace';
+    ctx.textAlign='center'; ctx.fillText('No XP recorded yet',W/2,H/2); return;
+  }
+
+  const padL=44,padR=12,padT=18,padB=22;
+  const pW=W-padL-padR, pH=H-padT-padB;
+
+  const maxXP=Math.max(...days.map(d=>d.cumEnd),1);
+  const units=[100,200,500,1000,2000,5000,10000,20000,50000];
+  const niceUnit=units.find(u=>maxXP/u<=6)||50000;
+  const niceMax=Math.ceil(maxXP/niceUnit)*niceUnit;
+
+  const minT=days[0].ts, maxT=days[days.length-1].ts, tR=maxT-minT||1;
+  const txp=t=>padL+((t-minT)/tR)*pW;
+  const typ=xp=>padT+pH-(xp/niceMax)*pH;
+
+  // Grid + Y labels
+  ctx.font='7px JetBrains Mono,monospace'; ctx.textAlign='right';
+  for(let gi=1;gi*niceUnit<=niceMax;gi++){
+    const v=gi*niceUnit, y=typ(v);
+    ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+    ctx.fillStyle='rgba(128,120,100,0.45)';
+    ctx.fillText(v>=1000?(v/1000)+'k':String(v),padL-3,y+2.5);
+  }
+
+  // Area fill (gradient under line)
+  if(days.length>=2){
+    const g=ctx.createLinearGradient(0,padT,0,padT+pH);
+    g.addColorStop(0,'rgba(144,96,192,0.2)'); g.addColorStop(1,'rgba(144,96,192,0.02)');
+    ctx.save(); ctx.beginPath();
+    ctx.moveTo(txp(days[0].ts),padT+pH);
+    days.forEach(d=>ctx.lineTo(txp(d.ts),typ(d.cumEnd)));
+    ctx.lineTo(txp(days[days.length-1].ts),padT+pH);
+    ctx.closePath(); ctx.fillStyle=g; ctx.fill(); ctx.restore();
+  }
+
+  // Level-up vertical markers
+  days.forEach(d=>{
+    if(!d.levelUps.length) return;
+    const x=txp(d.ts);
+    ctx.save();
+    ctx.strokeStyle='rgba(212,160,255,0.4)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(x,padT+14); ctx.lineTo(x,padT+pH); ctx.stroke();
+    ctx.setLineDash([]);
+    const lvl=d.levelUps[d.levelUps.length-1];
+    ctx.font='bold 7px JetBrains Mono,monospace'; ctx.textAlign='center';
+    ctx.fillStyle='rgba(212,160,255,0.85)'; ctx.fillText('▲'+lvl,x,padT+11);
+    ctx.restore();
+  });
+
+  // Main progression line
+  if(days.length>=2){
+    ctx.save(); ctx.strokeStyle='rgba(176,128,232,0.7)'; ctx.lineWidth=1.5; ctx.setLineDash([]);
+    ctx.beginPath();
+    days.forEach((d,i)=>{ const x=txp(d.ts),y=typ(d.cumEnd); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    ctx.stroke(); ctx.restore();
+  }
+
+  // Data points colored by dominant XP source type
+  const pts=days.map(d=>{
+    const x=txp(d.ts), y=typ(d.cumEnd);
+    const dom=Object.entries(d.xpByType).sort((a,b)=>b[1]-a[1])[0];
+    const domType=dom?dom[0]:'session';
+    return {x,y,d,color:TC[domType]||TC.session,domType};
+  });
+  pts.forEach(p=>{
+    ctx.save();
+    if(p.d.levelUps.length){
+      ctx.beginPath(); ctx.arc(p.x,p.y,4.5,0,Math.PI*2);
+      ctx.fillStyle='rgba(212,160,255,0.9)'; ctx.fill();
+      ctx.strokeStyle='rgba(144,96,192,0.7)'; ctx.lineWidth=1.5; ctx.stroke();
+    } else {
+      ctx.beginPath(); ctx.arc(p.x,p.y,2.5,0,Math.PI*2);
+      ctx.fillStyle=p.color; ctx.fill();
+    }
+    ctx.restore();
+  });
+
+  // X-axis date labels
+  ctx.fillStyle='rgba(128,120,100,0.5)'; ctx.font='7px JetBrains Mono,monospace';
+  const n=days.length, lc=Math.min(5,n);
+  for(let li=0;li<lc;li++){
+    const i=n===1?0:Math.round(li*(n-1)/(lc-1));
+    const x=txp(days[i].ts);
+    ctx.textAlign=li===0?'left':li===lc-1?'right':'center';
+    const dx=li===0?padL:li===lc-1?W-padR:x;
+    const p=days[i].date.split('/'); ctx.fillText(p[0]+'/'+p[1],dx,H-4);
+  }
+
+  // Update legend
+  const legend=document.getElementById('xp-chart-legend');
+  if(legend){
+    const used=[...new Set(days.flatMap(d=>Object.keys(d.xpByType)))];
+    legend.innerHTML=used.length
+      ? used.map(t=>`<span class="xp-chart-legend-item"><span class="xp-chart-legend-dot" style="background:${TC[t]||TC.session}"></span>${TL[t]||t}</span>`).join('')
+      : '';
+  }
+
+  // Tooltip hover (set up once per canvas lifetime)
+  canvas._xpPts=pts;
+  if(!canvas._xpHoverSetup){
+    canvas._xpHoverSetup=true;
+    canvas.addEventListener('mousemove',e=>{
+      const tip=document.getElementById('xp-chart-tooltip');
+      if(!canvas._xpPts||!tip) return;
+      const rect=canvas.getBoundingClientRect();
+      const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+      let near=null, minD=Infinity;
+      canvas._xpPts.forEach(p=>{ const dx=p.x-mx,dy=p.y-my,dist=Math.sqrt(dx*dx+dy*dy); if(dist<minD){minD=dist;near=p;} });
+      if(near&&minD<38){
+        const d=near.d;
+        const pts2=d.date.split('/');
+        const lvl=d.levelUps.length?` <span style="color:#d4a0ff;font-weight:700">▲ LVL ${d.levelUps.join(', ')}</span>`:'';
+        const bk=Object.entries(d.xpByType).sort((a,b)=>b[1]-a[1]).map(([t,xp])=>`<span style="color:${TC[t]||TC.session}">${TL[t]||t}: +${xp}</span>`).join('  ');
+        const net=d.net>0?'+'+d.net:String(d.net);
+        tip.innerHTML=`<b>${pts2[0]}/${pts2[1]}/${pts2[2]}</b>${lvl}<br>${net} XP today &middot; ${d.cumEnd.toLocaleString()} total<br><span style="opacity:0.75;font-size:11px">${bk||'session'}</span>`;
+        let ttx=mx+14, tty=my-18;
+        if(ttx+260>W) ttx=mx-270; if(tty<0) tty=4;
+        tip.style.left=ttx+'px'; tip.style.top=tty+'px'; tip.style.display='block';
+      } else {
+        const tip2=document.getElementById('xp-chart-tooltip'); if(tip2) tip2.style.display='none';
+      }
+    });
+    canvas.addEventListener('mouseleave',()=>{ const tip=document.getElementById('xp-chart-tooltip'); if(tip) tip.style.display='none'; });
+  }
+  // Redraw at correct resolution whenever the canvas is resized
+  if(!canvas._xpResizeObserver){
+    canvas._xpResizeObserver=new ResizeObserver(()=>renderXPChart());
+    canvas._xpResizeObserver.observe(canvas);
+  }
+}
+
 function addManualXP() {
   showCardEditModal({
     accentColor: '#9060c0',
@@ -8107,8 +9119,8 @@ function addManualXP() {
     ],
     onSave(v) {
       const xp = parseInt(v.amount, 10);
-      if (!xp || xp <= 0) return;
-      const reason = (v.reason || '').trim() || 'Manual award';
+      if (!xp) return;
+      const reason = (v.reason || '').trim() || (xp > 0 ? 'Manual award' : 'Manual deduction');
       const oldXp = appState.xp || 0;
       const oldLevel = appState.level || 1;
       appState.xp = oldXp + xp;
@@ -8118,6 +9130,13 @@ function addManualXP() {
           appState.level = (appState.level || 1) + 1;
           appState.xpToNext = Math.round(appState.xpToNext * 1.2);
         }
+        while (appState.level > 1 && appState.xp < 0) {
+          const prevXpToNext = Math.round(appState.xpToNext / 1.2);
+          appState.xp += prevXpToNext;
+          appState.level--;
+          appState.xpToNext = prevXpToNext;
+        }
+        appState.xp = Math.max(0, appState.xp);
       }
       saveState(appState); markDirty();
       const _d = new Date();
@@ -8129,7 +9148,8 @@ function addManualXP() {
       log.unshift({date, type:'manual', amount:xp, reason, totalAfter:appState.xp});
       saveXPLog(log);
       renderXPLog();
-      animateXpGain(oldXp, appState.xp, oldLevel, appState.level, appState.xpToNext, '+' + xp + ' XP');
+      updateXpRing(appState.level, appState.xp, appState.xpToNext);
+      animateXpGain(oldXp, appState.xp, oldLevel, appState.level, appState.xpToNext, (xp > 0 ? '+' : '') + xp + ' XP');
     }
   });
 }
@@ -8182,6 +9202,11 @@ function buildMigrationBundle(){
     }
   }
   if(Object.keys(rqKeys).length) bundle._practiceData=rqKeys;
+  // Chat settings (API key, model) and git sync config
+  const rawChatSettings=localStorage.getItem('cs-chat-settings-v1');
+  if(rawChatSettings) try{bundle['cs-chat-settings-v1']=JSON.parse(rawChatSettings);}catch{}
+  const rawGitSync=localStorage.getItem('cs-gitsync-v1');
+  if(rawGitSync) try{bundle['cs-gitsync-v1']=JSON.parse(rawGitSync);}catch{}
   return bundle;
 }
 
@@ -8482,11 +9507,6 @@ function timerStop(id) {
   }
   ps.startedAt = null;
   if (act) {
-    // Award time-based XP for any new minutes since last stop
-    const mins = Math.floor(ps.seconds / 60);
-    const earnedTimeXP = Math.floor(mins * (act.xpPerUnit || 0));
-    const toAward = earnedTimeXP - (ps.awardedTimeXP || 0);
-    if (toAward > 0) { awardRQXP(id, toAward); ps.awardedTimeXP = earnedTimeXP; }
     saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   }
   if (act) renderTimerRing(id, act);
@@ -8546,7 +9566,14 @@ function timerReset(id) {
     const cur = loadRQCurrent(charName, id);
     archiveRQValue(act, charName, cur?.periodStart || currentPeriod(act.resetPeriod), Math.floor(ps.seconds / 60));
   }
-  ps.seconds = 0; ps.milestonesHit = new Set(); ps.milestoneXP = 0; ps.awardedTimeXP = 0;
+  // Remove the current period's history entry so the graph reflects the reset
+  if (act && charName) {
+    const currentPrd = currentPeriod(act.resetPeriod);
+    const hist = loadRQHistory(charName, id);
+    const idx = hist.findIndex(h => h.period === currentPrd);
+    if (idx >= 0) { hist.splice(idx, 1); saveRQHistory(charName, id, hist); }
+  }
+  ps.seconds = 0; ps.milestonesHit = new Set(); ps.milestoneXP = 0;
   if (act) saveRQCurrent(charName, id, { value: 0, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   renderTimerRing(id, act);
   updateTimerToday(id, act);
@@ -8582,11 +9609,6 @@ function timerBackfill(id, totalMinutes) {
       }
     }
   }
-  // Award time-based XP for any net increase (milestones already awarded above)
-  const newMins = Math.floor(ps.seconds / 60);
-  const earnedTimeXP = Math.floor(newMins * (act.xpPerUnit || 0));
-  const toAwardBf = earnedTimeXP - (ps.awardedTimeXP || 0);
-  if (toAwardBf > 0) { awardRQXP(id, toAwardBf); ps.awardedTimeXP = earnedTimeXP; }
   saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: false });
   renderTimerRing(id, act);
   updateTimerToday(id, act);
@@ -8823,9 +9845,7 @@ function updateTimerToday(id, act) {
   const goalMins = act.target || 90;
   const todayEl = document.getElementById('timer-today-' + id);
   if (todayEl) todayEl.textContent = 'Today: ' + mins + ' / ' + goalMins + ' min';
-  const xpRate = act.xpPerUnit || 0.5;
-  const timeXP = Math.floor(mins * xpRate);
-  const totalXP = timeXP + (ps ? (ps.milestoneXP || 0) : 0);
+  const totalXP = ps ? (ps.milestoneXP || 0) : 0;
   const xpEl = document.getElementById('timer-xp-today-' + id);
   if (xpEl) xpEl.textContent = totalXP > 0 ? '+' + totalXP + ' XP today' : '';
   if (window._focusId === id) {
@@ -8954,11 +9974,9 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
     }
   }
 
-  // When aligned, keep full window so all charts share the same x-axis. Otherwise trim leading empties.
+  // Always trim leading empties so each chart starts from its first data point.
   let displayPoints;
-  if (_alignStart) {
-    displayPoints = dataPoints.length > 0 ? dataPoints : dataPoints.slice(-1);
-  } else {
+  {
     const firstDataIdx = dataPoints.findIndex(d => act.type === 'checkbox' ? d.hasEntry : d.value > 0);
     const trimmedPoints = firstDataIdx > 0 ? dataPoints.slice(firstDataIdx) : dataPoints;
     displayPoints = trimmedPoints.length > 0 ? trimmedPoints : dataPoints.slice(-1);
@@ -8970,6 +9988,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   // ── Build chart plot ──────────────────────────────────────────
   const plot = document.createElement('div');
   plot.className = 'prac-bar-plot';
+  if (hasSubs) { plot.style.height = plotH + 'px'; plot.style.flex = '0 0 auto'; }
 
   if (!hasSubs) {
     // Classic Y-axis labels
@@ -9334,10 +10353,12 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
     }
 
     const col = document.createElement('div');
+    const _colDow = act.resetPeriod === 'day' ? new Date(dp.period + 'T00:00:00Z').getUTCDay() : -1;
     col.className = 'prac-bar-col' +
       (dp.isCurrent ? ' is-current' : '') +
       (dp.isHard    ? ' is-hardcoded' : '') +
-      (hasSubs      ? ' is-sub-mode' : '');
+      (hasSubs      ? ' is-sub-mode' : '') +
+      (_colDow === 0 || _colDow === 6 ? ' is-weekend' : '');
 
     if (hasSubs) {
       // GitHub-style: fixed-height column, one cell per sub-activity lane
@@ -9467,25 +10488,25 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
       svg.appendChild(avgAllLine);
     }
 
-    // Goal line for timer quests
-    if (act.type === 'timer' && act.target > 0) {
+    // Goal line (purple) for all non-breakdown quests with a target
+    if (!hasSubs && act.target > 0) {
       const goalYPct = toYPct(act.target);
       const goalLine = document.createElementNS(svgNS, 'line');
       goalLine.setAttribute('x1', '0%'); goalLine.setAttribute('y1', goalYPct + '%');
       goalLine.setAttribute('x2', '100%'); goalLine.setAttribute('y2', goalYPct + '%');
-      goalLine.setAttribute('stroke', 'rgba(200,168,74,0.45)');
+      goalLine.setAttribute('stroke', 'rgba(176,128,232,0.5)');
       goalLine.setAttribute('stroke-width', '1');
       goalLine.setAttribute('stroke-dasharray', '3 4');
       svg.appendChild(goalLine);
-      // Small label at right edge
+      const goalUnitLbl = act.type === 'timer' ? 'min' : (act.unit || '');
       const goalLbl = document.createElementNS(svgNS, 'text');
       goalLbl.setAttribute('x', '100%');
       goalLbl.setAttribute('y', (goalYPct - 1.5) + '%');
       goalLbl.setAttribute('text-anchor', 'end');
-      goalLbl.setAttribute('fill', 'rgba(200,168,74,0.55)');
+      goalLbl.setAttribute('fill', 'rgba(176,128,232,0.6)');
       goalLbl.setAttribute('font-size', '8');
       goalLbl.setAttribute('font-family', 'JetBrains Mono, monospace');
-      goalLbl.textContent = act.target + ' min';
+      goalLbl.textContent = act.target + (goalUnitLbl ? ' ' + goalUnitLbl : '');
       svg.appendChild(goalLbl);
     }
 
@@ -9493,22 +10514,46 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   }
 
   plot.appendChild(colsWrap);
+
+  // For breakdown (sub-mode) daily quests, add day-letter header row just above the grid
+  if (hasSubs && act.resetPeriod === 'day') {
+    const _dow7h = 'SMTWTFS';
+    const dowHdr = document.createElement('div');
+    dowHdr.style.cssText = 'display:flex;gap:2px;padding-left:30px;box-sizing:border-box;height:10px;margin-bottom:2px;';
+    displayPoints.forEach((dp, dpIdx) => {
+      if (dpIdx > 0 && new Date(dp.period + 'T00:00:00Z').getUTCDay() === 1) {
+        const sp = document.createElement('span');
+        sp.style.cssText = 'flex-shrink:0;width:3px;';
+        dowHdr.appendChild(sp);
+      }
+      const dow = new Date(dp.period + 'T00:00:00Z').getUTCDay();
+      const lbl = document.createElement('span');
+      lbl.textContent = _dow7h[dow];
+      lbl.style.cssText = `flex:1;min-width:0;text-align:center;font-family:var(--mono);font-size:7px;line-height:10px;` +
+        `color:rgba(128,120,100,${dow === 0 || dow === 6 ? '0.65' : '0.45'});`;
+      dowHdr.appendChild(lbl);
+    });
+    wrap.appendChild(dowHdr);
+  }
+
   wrap.appendChild(plot);
 
-  // ── X-axis labels (show ~5 evenly spaced) ─────────────────────
+  // ── X-axis labels ─────────────────────────────────────────────
   const xAxis = document.createElement('div'); xAxis.className = 'prac-bar-x-axis';
-  const labelIndices = new Set();
   const n = displayPoints.length;
-  [0, Math.round(n*0.25), Math.round(n*0.5), Math.round(n*0.75), n-1].forEach(i => labelIndices.add(Math.min(i, n-1)));
-  labelIndices.forEach(i => {
-    const dp = displayPoints[i];
-    const xPct = ((i + 0.5) / n) * 100;
-    const xlbl = document.createElement('span');
-    xlbl.className = 'prac-bar-x-label';
-    xlbl.textContent = dp.label;
-    xlbl.style.left = `calc(${xPct}%)`;
-    xAxis.appendChild(xlbl);
-  });
+  if (act.resetPeriod !== 'day') {
+    const labelIndices = new Set();
+    [0, Math.round(n*0.25), Math.round(n*0.5), Math.round(n*0.75), n-1].forEach(i => labelIndices.add(Math.min(i, n-1)));
+    labelIndices.forEach(i => {
+      const dp = displayPoints[i];
+      const xPct = ((i + 0.5) / n) * 100;
+      const xlbl = document.createElement('span');
+      xlbl.className = 'prac-bar-x-label';
+      xlbl.textContent = dp.label;
+      xlbl.style.left = `calc(${xPct}%)`;
+      xAxis.appendChild(xlbl);
+    });
+  }
   wrap.appendChild(xAxis);
 
   // Outside click handler — ignore clicks inside any open popover (e.g. hist-backfill-pop appended to body)
@@ -9742,7 +10787,7 @@ function addRegularQuest() {
   xpIn.addEventListener('blur', () => xpIn.style.borderColor = 'rgba(255,255,255,0.12)');
   const xpNote2 = document.createElement('span'); xpNote2.style.cssText = 'font-size:14px;color:var(--text-dim);'; xpNote2.textContent = 'awarded each time you hit your target';
   const updateXpNote = () => {
-    if (selectedType === 'timer') { xpLbl2.textContent = 'XP per minute'; xpNote2.textContent = 'plus milestone bonuses at 25/50/75/100%'; if (!xpIn._userEdited) xpIn.value = '1'; }
+    if (selectedType === 'timer') { xpLbl2.textContent = 'XP for completing goal'; xpNote2.textContent = 'milestones award 25%, 50%, 75% of this on the way'; if (!xpIn._userEdited) xpIn.value = '12'; }
     else { xpLbl2.textContent = 'XP per completion'; xpNote2.textContent = 'awarded each time you hit your target'; if (!xpIn._userEdited) xpIn.value = '10'; }
   };
   xpIn.addEventListener('input', () => { xpIn._userEdited = true; });
@@ -9766,7 +10811,7 @@ function addRegularQuest() {
     const actType = selectedType === 'breakdown' ? 'checkbox' : selectedType;
     const tgt = selectedType === 'breakdown' ? bdSubs.filter(s => s.name.trim()).length : (parseInt(targetIn.value, 10) || 1);
     const unit = selectedType === 'breakdown' ? 'activities' : (unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : 'times'));
-    const xpPerUnit = parseInt(xpIn.value, 10) || 10;
+    const xpPerUnit = selectedType === 'timer' ? (parseFloat(xpIn.value) || 12) / 12 : (parseInt(xpIn.value, 10) || 10);
     const newAct = {
       id, name: capitalise(name),
       type: actType,
@@ -9815,7 +10860,22 @@ function computeRQLifetimeXP(act, charName) {
 
   const calcXP = val => {
     if (!val || val <= 0) return 0;
-    if (act.type === 'timer')    return Math.floor(val * rate);  // val = minutes
+    if (act.type === 'timer') {
+      const mx = getMilestoneXP(rate);
+      const targetSecs = getRQTarget(act);
+      const secs = val * 60;
+      const loops = Math.floor(secs / targetSecs);
+      const partialPct = (secs % targetSecs) / targetSecs;
+      let xp = 0;
+      for (let i = 0; i < loops; i++) {
+        xp += mx[0.25] + mx[0.5] + mx[0.75];
+        xp += i === 0 ? mx[1.0] : Math.max(1, Math.round(18 * rate));
+      }
+      if (partialPct >= 0.25) xp += mx[0.25];
+      if (partialPct >= 0.5)  xp += mx[0.5];
+      if (partialPct >= 0.75) xp += mx[0.75];
+      return xp;
+    }
     if (act.type === 'number')   return Math.round(val * rate);
     if (act.type === 'checkbox') return val >= target ? Math.round(rate) : 0;
     return 0;
@@ -9838,7 +10898,7 @@ function computeRQLifetimeXP(act, charName) {
   // Current period in progress
   if (ps) {
     if (act.type === 'timer') {
-      total += Math.floor(Math.floor((ps.seconds || 0) / 60) * rate) + (ps.milestoneXP || 0);
+      total += (ps.milestoneXP || 0);
     } else if (act.type === 'number') {
       total += Math.round((ps.value || 0) * rate);
     } else if (act.type === 'checkbox') {
@@ -10135,6 +11195,62 @@ function renderRecurringQuests(s) {
 
     hdr.appendChild(typeSelect);
     hdr.appendChild(periodSelect);
+
+    // Goal editor in header (purple) — skip for breakdown (per-sub goals live in chips)
+    if (!isBreakdown) {
+      const goalWrap = document.createElement('span'); goalWrap.className = 'rq-goal-wrap'; goalWrap.title = 'Target per period';
+      const goalPfx = document.createElement('span'); goalPfx.className = 'rq-goal-pfx'; goalPfx.textContent = 'goal:';
+      const goalNum = document.createElement('input'); goalNum.className = 'rq-goal-num'; goalNum.type = 'number'; goalNum.min = '1'; goalNum.max = act.type === 'timer' ? '480' : '999';
+      goalNum.value = act.target || (act.type === 'timer' ? 90 : 1);
+      const saveGoalTarget = () => {
+        const newT = Math.max(1, Math.min(act.type === 'timer' ? 480 : 999, parseInt(goalNum.value, 10) || 1));
+        goalNum.value = newT;
+        const actInState = (appState.activities || []).find(a => a.id === act.id);
+        if (actInState) actInState.target = newT;
+        act.target = newT;
+        saveState(appState); markDirty();
+        const todayEl = document.getElementById('timer-today-' + act.id);
+        if (todayEl) { const ps = practiceState[act.id]; const cv = ps ? Math.floor((ps.seconds||0)/60) : 0; todayEl.textContent = `Today: ${cv} / ${newT} min`; }
+        const cbLbl  = document.getElementById('checkbox-lbl-'  + act.id);
+        if (cbLbl)  { const ps = practiceState[act.id]; cbLbl.textContent  = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${act.unit||''}`; }
+        const numLbl = document.getElementById('number-lbl-' + act.id);
+        if (numLbl) { const ps = practiceState[act.id]; numLbl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${act.unit||''}`; }
+        const cw = document.getElementById('rq-chart-' + act.id);
+        if (cw) renderRQBarChart(cw, act, charName);
+      };
+      goalNum.addEventListener('click', e => e.stopPropagation());
+      goalNum.addEventListener('mousedown', e => e.stopPropagation());
+      goalNum.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); goalNum.blur(); } e.stopPropagation(); });
+      goalNum.addEventListener('blur', saveGoalTarget);
+      goalWrap.appendChild(goalPfx); goalWrap.appendChild(goalNum);
+      if (act.type === 'timer') {
+        const unitSpan = document.createElement('span'); unitSpan.className = 'rq-goal-unit'; unitSpan.textContent = 'min';
+        goalWrap.appendChild(unitSpan);
+      } else {
+        const unitIn = document.createElement('input'); unitIn.className = 'rq-goal-unit-in'; unitIn.type = 'text';
+        unitIn.value = act.unit || (act.type === 'checkbox' ? 'times' : 'units');
+        unitIn.placeholder = 'unit';
+        unitIn.addEventListener('click', e => e.stopPropagation());
+        unitIn.addEventListener('mousedown', e => e.stopPropagation());
+        unitIn.addEventListener('keydown', e => e.stopPropagation());
+        unitIn.addEventListener('blur', () => {
+          const u = unitIn.value.trim() || (act.type === 'checkbox' ? 'times' : 'units');
+          const actInState = (appState.activities || []).find(a => a.id === act.id);
+          if (actInState) actInState.unit = u;
+          act.unit = u;
+          unitIn.value = u;
+          saveState(appState); markDirty();
+          const newT = act.target || 1;
+          const cbLbl  = document.getElementById('checkbox-lbl-'  + act.id);
+          if (cbLbl)  { const ps = practiceState[act.id]; cbLbl.textContent  = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${u}`; }
+          const numLbl = document.getElementById('number-lbl-' + act.id);
+          if (numLbl) { const ps = practiceState[act.id]; numLbl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${u}`; }
+        });
+        goalWrap.appendChild(unitIn);
+      }
+      hdr.appendChild(goalWrap);
+    }
+
     // Initialise timer XP rate to 1/min if never configured
     if (act.type === 'timer' && act.xpPerUnit == null) {
       act.xpPerUnit = 1;
@@ -10142,12 +11258,15 @@ function renderRecurringQuests(s) {
       if (actInState) actInState.xpPerUnit = 1;
       saveState(appState);
     }
-    hdr.appendChild(makeXpPill(act.xpPerUnit,'+','xp-pill-quest',v=>{
+    { const _pill=makeXpPill(act.type==='timer'&&act.xpPerUnit?Math.round(12*act.xpPerUnit):act.xpPerUnit,'+','xp-pill-quest',v=>{
       const rqIdx=rqRealIdx>=0?rqRealIdx:(appState.activities||[]).findIndex(a=>a.id===act.id);
-      if(rqIdx>=0){ appState.activities[rqIdx].xpPerUnit=v??0; }
-      act.xpPerUnit=v??0;
+      const stored=act.type==='timer'?(v!=null?v/12:0):(v??0);
+      if(rqIdx>=0){ appState.activities[rqIdx].xpPerUnit=stored; }
+      act.xpPerUnit=stored;
       saveState(appState); markDirty();
-    }));
+    });
+    if(act.type==='timer') _pill.title='Click to set XP for completing goal (milestones scale automatically)';
+    hdr.appendChild(_pill); }
     card.appendChild(hdr);
 
     // Body: info + widget
@@ -11273,6 +12392,9 @@ function cycleHdrIcon(){
 const STATUS_COLORS = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
 const STATUS_LS_KEY = 'cs-status-v1';
 const STATUS_CHECKIN_KEY = 'cs-status-checkin-v1';
+function _statusSliderDoneToday(name){ try{ const d=JSON.parse(localStorage.getItem(STATUS_CHECKIN_KEY)||'{}'); return d.date===_localDate()&&d[name]===true; }catch{return false;} }
+function _markStatusSliderDone(name){ try{ const today=_localDate(); const d=JSON.parse(localStorage.getItem(STATUS_CHECKIN_KEY)||'{}'); const e=d.date===today?d:{date:today}; e[name]=true; localStorage.setItem(STATUS_CHECKIN_KEY,JSON.stringify(e)); }catch{} }
+function _allStatusDoneToday(){ return Object.keys(STATUS_COLORS).every(n=>_statusSliderDoneToday(n)); }
 
 function _checkinDoneToday(key) {
   try { const d = JSON.parse(localStorage.getItem(key)||'{}'); return d.date === _localDate(); } catch(e) { return false; }
@@ -11321,24 +12443,27 @@ function updateStatusRadar() {
 
 const STATUS_HIST_KEY = 'cs-status-hist-v1';
 
-function _applyStatusCheckinState(needsCheckin) {
-  document.querySelectorAll('#tab-combat .stat-bar-row').forEach(row => {
-    row.classList.toggle('status-needs-checkin', needsCheckin);
+function _applyStatusPerSliderGlow() {
+  const anyNeeds = Object.keys(STATUS_COLORS).some(n => !_statusSliderDoneToday(n));
+  Object.keys(STATUS_COLORS).forEach(name => {
+    const el = document.getElementById('status-' + name);
+    const row = el?.closest('.stat-bar-row');
+    if (row) row.classList.toggle('status-needs-checkin', !_statusSliderDoneToday(name));
   });
   const prompt = document.getElementById('status-checkin-prompt');
-  if (prompt) prompt.style.display = needsCheckin ? '' : 'none';
+  if (prompt) prompt.style.display = anyNeeds ? '' : 'none';
   const badge = document.getElementById('combat-nav-checkin-badge');
-  if (badge) badge.style.display = needsCheckin ? '' : 'none';
+  if (badge) badge.style.display = anyNeeds ? '' : 'none';
   _updateDailyCheckinReminder();
 }
 
 function markStatusCheckInNeeded() {
-  _applyStatusCheckinState(!_checkinDoneToday(STATUS_CHECKIN_KEY));
+  _applyStatusPerSliderGlow();
 }
 
 function clearStatusCheckInNeeded() {
-  _markCheckinDone(STATUS_CHECKIN_KEY);
-  _applyStatusCheckinState(false);
+  Object.keys(STATUS_COLORS).forEach(n => _markStatusSliderDone(n));
+  _applyStatusPerSliderGlow();
 }
 
 function saveStatusSnapshot() {
@@ -11417,11 +12542,12 @@ function resetStatusCheckin() {
     setStatusGradient(el, col, 50);
   });
   updateStatusRadar();
-  _applyStatusCheckinState(true);
+  _applyStatusPerSliderGlow();
 }
 
 function updateStatus(name, value) {
-  clearStatusCheckInNeeded();
+  _markStatusSliderDone(name);
+  _applyStatusPerSliderGlow();
   const pct = parseInt(value);
   const col = STATUS_COLORS[name];
   const el = document.getElementById('status-' + name);
@@ -11444,7 +12570,6 @@ function updateStatus(name, value) {
 }
 
 function loadStatusSliders(s) {
-  const doneToday = _checkinDoneToday(STATUS_CHECKIN_KEY);
   // Prefer appState.statusSliders (round-trips through JSON), fall back to localStorage
   const fromState = (s || appState).statusSliders || {};
   let fromLS = {};
@@ -11453,7 +12578,8 @@ function loadStatusSliders(s) {
     const el = document.getElementById('status-' + name);
     const valEl = document.getElementById('status-' + name + '-val');
     if (!el) return;
-    // If no check-in today, reset to 50 (middle) so sliders are in neutral/pending state
+    // If this slider hasn't been checked in today, reset to 50 (neutral/pending state)
+    const doneToday = _statusSliderDoneToday(name);
     let pct;
     if (!doneToday) {
       pct = 50;
@@ -11468,6 +12594,7 @@ function loadStatusSliders(s) {
   });
   try { localStorage.setItem(STATUS_LS_KEY, JSON.stringify(fromLS)); } catch(e) {}
   updateStatusRadar();
+  _applyStatusPerSliderGlow();
   requestAnimationFrame(()=>requestAnimationFrame(renderStatusHistoryChart));
 }
 
@@ -11940,6 +13067,10 @@ async function _verifyAndDecrypt(pin){
 
 // Called after successful unlock or when saving with PIN active
 let _currentPIN = null;
+// Reset on every lock; user must re-enter PIN before loading any past chat session.
+let _chatHistoryUnlocked = false;
+// Assigned after chatState is declared; called by lockApp to clear chat without TDZ issues.
+let _onLockClearChat = null;
 
 // Collect all sensitive localStorage keys into a single blob object.
 // appState is passed explicitly (it may not yet be written to localStorage).
@@ -11947,7 +13078,8 @@ function _collectBlob(s){
   const blob = { state: s };
   // Fixed keys
   const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
-                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1'];
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1',
+                  'cs-chat-settings-v1'];
   for(const k of fixed){
     const v = localStorage.getItem(k);
     if(v !== null) blob[k] = v; // store raw JSON string
@@ -11969,7 +13101,8 @@ function _restoreBlob(blob){
   if(!blob || typeof blob !== 'object') return;
   if(blob.state) localStorage.setItem('cs-state-v1', JSON.stringify(blob.state));
   const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
-                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1'];
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1',
+                  'cs-chat-settings-v1'];
   for(const k of fixed){
     if(blob[k] !== undefined) localStorage.setItem(k, blob[k]);
   }
@@ -11985,7 +13118,8 @@ function _restoreBlob(blob){
 // Remove all sensitive keys from localStorage (called when encryption is active).
 function _clearSensitiveKeys(){
   const fixed = ['cs-state-v1','cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
-                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1'];
+                  'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1',
+                  'cs-chat-settings-v1'];
   for(const k of fixed) localStorage.removeItem(k);
   const rqKeys = [];
   for(let i = 0; i < localStorage.length; i++){
@@ -12027,6 +13161,11 @@ function lockApp(){
   if(_lockTimer){ clearTimeout(_lockTimer); _lockTimer=null; }
   _pinActive = false;
   _currentPIN = null;
+  // Clear chat overlay and wipe in-memory messages so history isn't visible after re-unlock
+  closeChat();
+  closeChatSettings();
+  if (_onLockClearChat) _onLockClearChat();
+  _chatHistoryUnlocked = false;
   document.getElementById('lock-screen').classList.add('open');
   document.getElementById('lock-pin-input').value = '';
   document.getElementById('lock-error').textContent = '';
@@ -12128,6 +13267,7 @@ function openSettingsModal(){
 function closeSettingsModal(){
   hideResetConfirm();
   document.getElementById('settings-modal').classList.remove('open');
+  if (document.getElementById('chat-settings-modal')?.classList.contains('open')) openChatSettings();
 }
 
 function showResetConfirm(){
@@ -12317,8 +13457,8 @@ function _pendingCheckins() {
   const items = [];
   if (!_vitalsCheckinDoneToday('hp'))          items.push('HP');
   if (!_vitalsCheckinDoneToday('mana'))        items.push('Mana');
-  if (!_checkinDoneToday(STATUS_CHECKIN_KEY))  items.push('Current State');
-  if (!_checkinDoneToday(STATS_CHECKIN_KEY))   items.push('Core Skills');
+  if (!_allStatusDoneToday())  items.push('Current State');
+  if (!_allStatsDoneToday())   items.push('Core Skills');
   return items;
 }
 function _showDailyCheckinReminder() {
@@ -12377,6 +13517,7 @@ function _init(){
       markStatusCheckInNeeded();
       loadStatSliders(appState);
       _applyVitalsCheckinState();
+      updateVitalBars(appState);
       _showDailyCheckinReminder();
     }
   }
@@ -12385,6 +13526,22 @@ function _init(){
   _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
   maybeShowResetUndoBanner();
 }
+
+// chatState must be declared before the init IIFE because _init() → render() →
+// renderChatSessions() accesses chatState.currentSessionId. A TDZ error there
+// escapes the IIFE and halts the rest of the script (causing apparent data loss
+// and breaking subsequent imports with the same TDZ error).
+const chatState = {
+  messages: [],       // [{role:'user'|'assistant', content:string}]
+  pendingJSON: null,
+  isLoading: false,
+  systemPrompt: null, // snapshotted on first send, fixed for the session
+  tokenUsage: { input: 0, output: 0 },
+  currentSessionId: null,
+  sessionStartedAt: null,
+  _displaySessionId: null, // tracks which session is being viewed (for header display)
+};
+let _chatSettingsCache = null;
 
 // Steve demo data is fetched on github.io; local opens start blank.
 (function(){
@@ -12462,6 +13619,1337 @@ function _init(){
     })
     .catch(() => { _init(); updateInstructionsNotice(null); });
 })();
+
+// ══ IN-APP CHAT (BYOK JOURNAL) ══════════════════════════════
+
+const CHAT_SETTINGS_KEY = 'cs-chat-settings-v1';
+const ANTHROPIC_PRICING = {
+  'claude-opus-4-7':           { in: 15.00, out: 75.00 },
+  'claude-sonnet-4-6':         { in:  3.00, out: 15.00 },
+  'claude-haiku-4-5-20251001': { in:  0.80, out:  4.00 },
+};
+
+_onLockClearChat = function() {
+  chatState.messages = [];
+  chatState.pendingJSON = null;
+  chatState.systemPrompt = null;
+  chatState.currentSessionId = null;
+  chatState.sessionStartedAt = null;
+  chatState._displaySessionId = null;
+  _chatSettingsCache = null;
+  const chatMsgs = document.getElementById('chat-msgs');
+  if (chatMsgs) chatMsgs.innerHTML = '';
+  const sessionList = document.getElementById('chat-sessions-list');
+  if (sessionList) sessionList.innerHTML = '';
+};
+
+let _chatReauthCallback = null;
+
+function _chatRequestReauth(callback) {
+  _chatReauthCallback = callback;
+  const gate  = document.getElementById('chat-reauth-gate');
+  const input = document.getElementById('chat-reauth-input');
+  const errEl = document.getElementById('chat-reauth-error');
+  if (errEl)  errEl.textContent = '';
+  if (input)  { input.value = ''; setTimeout(() => input.focus(), 80); }
+  if (gate)   gate.classList.add('visible');
+}
+
+async function _chatReauthSubmit() {
+  const input = document.getElementById('chat-reauth-input');
+  const errEl = document.getElementById('chat-reauth-error');
+  const pin   = input ? input.value : '';
+  if (!pin) { if (errEl) errEl.textContent = 'Enter your password'; return; }
+  const result = await _verifyAndDecrypt(pin);
+  if (result === null) {
+    if (errEl) errEl.textContent = 'Incorrect password';
+    if (input) { input.value = ''; input.focus(); }
+    return;
+  }
+  _chatHistoryUnlocked = true;
+  document.getElementById('chat-reauth-gate')?.classList.remove('visible');
+  if (_chatReauthCallback) { const cb = _chatReauthCallback; _chatReauthCallback = null; cb(); }
+}
+
+function _chatReauthCancel() {
+  _chatReauthCallback = null;
+  document.getElementById('chat-reauth-gate')?.classList.remove('visible');
+  const picker = document.getElementById('chat-session-picker');
+  if (picker) picker.value = '';
+}
+
+function loadChatSettings() {
+  if (IS_DEMO) return {};
+  try {
+    const r = localStorage.getItem(CHAT_SETTINGS_KEY);
+    if (r) { _chatSettingsCache = JSON.parse(r); return _chatSettingsCache; }
+  } catch {}
+  return _chatSettingsCache || {};
+}
+function saveChatSettings(s) {
+  if (IS_DEMO) return;
+  if (s.apiKey && !_isLocalModel(s.model) && !(typeof _pinActive !== 'undefined' && _pinActive)) {
+    console.warn('saveChatSettings: refusing to store cloud API key without active encryption');
+    return;
+  }
+  _chatSettingsCache = s;
+  try { localStorage.setItem(CHAT_SETTINGS_KEY, JSON.stringify(s)); } catch {}
+  _reencryptIfActive();
+}
+
+function buildCompactContext() {
+  const sq = appState.sideQuests || [];
+  const skills = appState.skills || [];
+  const enemies = (appState.enemies || {});
+  const allies = appState.allies || [];
+  const insights = appState.insights || [];
+  const sessions = appState.chatSessions || [];
+  const out = [];
+
+  // Character header
+  const lvl = appState.level || 1;
+  const xp = appState.xp || 0;
+  const name = appState.name || 'Character';
+  out.push(`## ${name} | Level ${lvl} | XP ${xp}${appState.xpToNext ? ' / ' + appState.xpToNext + ' to next' : ''}`);
+  if (appState.sessionCount) out.push(`Sessions: ${appState.sessionCount}${appState.lastSession ? ' | Last: ' + appState.lastSession : ''}`);
+
+  // Status sliders
+  const ss = appState.statusSliders || {};
+  const sliderNames = Object.keys(ss);
+  if (sliderNames.length) {
+    out.push('Status: ' + sliderNames.map(k => `${k}: ${ss[k]}%`).join(' | '));
+  }
+
+  // Harmony elements
+  const sv = appState.sliderValues || {};
+  const sl = appState.sliderLabels || {};
+  const elems = Object.keys(sv);
+  if (elems.length) {
+    out.push('Elements: ' + elems.map(k => `${sl[k] || k}: ${sv[k]}%`).join(' | '));
+  }
+
+  // Main quest
+  const mq = appState.mainQuest || {};
+  if (mq.title || mq.description) {
+    out.push(`\n## Main Quest: ${mq.title || '(untitled)'}`);
+    if (mq.description) out.push(mq.description);
+    if (mq.nextSteps && mq.nextSteps.length) {
+      out.push('Next steps: ' + mq.nextSteps.slice(0, 3).map(s => s.text || s).join(' / '));
+    }
+  }
+
+  // Side quests (active only)
+  const activeQ = sq.filter(q => !q.completed && !q.archived);
+  if (activeQ.length) {
+    out.push(`\n## Side Quests (${activeQ.length} active of ${sq.length} total)`);
+    activeQ.slice(0, 8).forEach(q => {
+      const prog = q.progress != null ? ` ${q.progress}%` : '';
+      out.push(`- ${q.title}${prog}${q.nextStep ? ': ' + q.nextStep : ''}`);
+    });
+  }
+
+  // Skills
+  if (skills.length) {
+    out.push(`\n## Skills (${skills.length})`);
+    out.push(skills.slice(0, 10).map(sk => `${sk.name}${sk.level ? ' L' + sk.level : ''}`).join(', '));
+  }
+
+  // Enemies
+  const activeEnemies = enemies.current || [];
+  if (activeEnemies.length) {
+    out.push(`\n## Enemies (${activeEnemies.length} active)`);
+    out.push(activeEnemies.slice(0, 5).map(e => e.name).join(', '));
+  }
+
+  // Allies
+  if (allies.length) {
+    out.push(`\n## Allies (${allies.length}): ` + allies.slice(0, 5).map(a => a.name).join(', '));
+  }
+
+  // Recent insights
+  if (insights.length) {
+    out.push(`\n## Insights (${insights.length} total)`);
+    insights.slice(-3).forEach(ins => out.push(`- ${ins.content || ins}`));
+  }
+
+  // Recent chat sessions (last 3, titles only)
+  const liveSessions = sessions.filter(s => s.summary || s.highlights);
+  if (liveSessions.length) {
+    out.push(`\n## Past sessions (${liveSessions.length} total)`);
+    liveSessions.slice(-3).forEach(s => {
+      out.push(`- ${s.startedAt ? s.startedAt.slice(0,10) : ''}: ${s.summary || ''}`);
+    });
+  }
+
+  return out.join('\n');
+}
+
+function buildChatSystemPrompt() {
+  const inst = typeof INSTRUCTIONS_CONTENT !== 'undefined' ? INSTRUCTIONS_CONTENT : '(instructions unavailable)';
+  const s = loadChatSettings();
+  const syncMode = s.syncMode || (s.autoApply ? 'always' : 'manual');
+  const syncEvery = s.syncEvery || 5;
+  const deltaNote = 'Output only changed fields with `"_partial": true`. The app merges partial updates automatically — do not output the full state.';
+  const syncInstr = syncMode === 'always'
+    ? `Output a \`\`\`json block at the end of your reply whenever you have changes to apply. ${deltaNote}`
+    : syncMode === 'every-n'
+    ? `Output a \`\`\`json block every ~${syncEvery} messages to record accumulated changes. Journal freely between updates. ${deltaNote}`
+    : `Only output a \`\`\`json block when the user explicitly asks you to save or sync (e.g. "save that" or "sync now"). Journal freely otherwise. ${deltaNote}`;
+  const inAppNote = `IN-APP CHAT MODE
+You are running directly inside character-sheet. Key differences from the standalone workflow described above:
+- A compact summary of the user's current data is loaded below. Full quest, skill, or session details are available if relevant — the user can share more, or you can ask.
+- When you include a \`\`\`json block with updated data, the app applies it to local storage automatically. Do not tell the user to copy, paste, or import JSON.
+- ${syncInstr}
+- Keep responses conversational. Skip any boilerplate about the import/export workflow.`;
+  return inst + '\n\n---\n' + inAppNote + '\n\n---\nCurrent data (compact summary):\n\n' + buildCompactContext();
+}
+
+function detectChatJSON(text) {
+  const known = ['name','mainQuest','sideQuests','skills','enemies','allies','insights',
+                 'achievements','_instructionsVersion','level','xp','sessionCount'];
+  function tryParse(s) {
+    try {
+      const obj = JSON.parse(s.trim());
+      if (obj && typeof obj === 'object' && !Array.isArray(obj) && known.some(k => k in obj)) return obj;
+    } catch {}
+    return null;
+  }
+  // ```json ... ```
+  let m = text.match(/```json\s*([\s\S]*?)```/);
+  if (m) { const r = tryParse(m[1]); if (r) return r; }
+  // ``` ... ``` (no language tag)
+  m = text.match(/```\s*([\s\S]*?)```/);
+  if (m) { const r = tryParse(m[1]); if (r) return r; }
+  return null;
+}
+
+function chatScrollBottom() {
+  const el = document.getElementById('chat-msgs');
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+function chatAddMsg(role, text, hint) {
+  const container = document.getElementById('chat-msgs');
+  if (!container) return;
+  const div = document.createElement('div');
+  if (role === 'user') {
+    div.className = 'chat-msg chat-msg-user';
+    div.textContent = text;
+  } else if (role === 'assistant') {
+    div.className = 'chat-msg chat-msg-ai';
+    const body = document.createElement('div');
+    body.textContent = text;
+    div.appendChild(body);
+    if (hint) {
+      const h = document.createElement('div');
+      h.className = 'chat-json-hint';
+      h.textContent = hint;
+      div.appendChild(h);
+    }
+  } else if (role === 'system') {
+    div.className = 'chat-msg-sys';
+    div.textContent = text;
+  } else if (role === 'error') {
+    div.className = 'chat-error-bubble';
+    div.textContent = text;
+  }
+  container.appendChild(div);
+  chatScrollBottom();
+}
+
+function chatAddInfoCard(html) {
+  const container = document.getElementById('chat-msgs');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'chat-info-card';
+  div.innerHTML = html;
+  container.appendChild(div);
+  chatScrollBottom();
+}
+
+function chatSetLoading(v) {
+  chatState.isLoading = v;
+  const send = document.getElementById('chat-send-btn');
+  const inp  = document.getElementById('chat-input');
+  const end  = document.getElementById('chat-end-btn');
+  const sync = document.getElementById('chat-sync-btn');
+  if (send) { send.disabled = v; send.textContent = v ? '...' : 'Send'; }
+  if (inp)  inp.disabled = v;
+  if (end)  end.disabled = v;
+  if (sync) sync.disabled = v;
+  const _overlay = document.getElementById('chat-overlay');
+  const _chatBtn = document.getElementById('chat-btn');
+  if (_chatBtn) _chatBtn.classList.toggle('chat-btn-loading', v && !_overlay?.classList.contains('open'));
+}
+
+function chatShowApply(show) {
+  const btn = document.getElementById('chat-apply-btn');
+  if (btn) btn.style.display = show ? 'inline-block' : 'none';
+}
+
+function openChat() {
+  if (IS_DEMO) { alert('In-app chat is not available in demo mode.'); return; }
+  if (!(typeof _hasPIN === 'function' && _hasPIN())) {
+    showImportToast('A security password is required before using chat. Set one in Security settings.');
+    openSettingsModal();
+    setTimeout(() => document.getElementById('settings-pin-new')?.focus(), 300);
+    return;
+  }
+  const overlay = document.getElementById('chat-overlay');
+  if (!overlay) return;
+  overlay.classList.add('open');
+  _warmPromptCache();
+  document.getElementById('chat-btn')?.classList.remove('chat-btn-loading');
+  const s = loadChatSettings();
+  _updateCloudWarnBanner();
+  _updateChatSyncBtn();
+  renderChatSessionPicker();
+  const inp = document.getElementById('chat-input');
+  if (inp) setTimeout(() => inp.focus(), 80);
+  const container = document.getElementById('chat-msgs');
+  if (container && container.children.length === 0) {
+    const estTokens = Math.round(((typeof INSTRUCTIONS_CONTENT !== 'undefined' ? INSTRUCTIONS_CONTENT.length : 0)
+      + JSON.stringify(appState).length) / 4);
+    if (estTokens > 60000) {
+      chatAddMsg('system', 'Note: your data is large (~' + estTokens.toLocaleString() + ' tokens). Consider a compact export if smaller models hit context limits.');
+    }
+    const currentModel = loadChatSettings().model || '';
+    if (window.location.protocol === 'file:' && currentModel && !currentModel.startsWith('claude-')) {
+      chatAddInfoCard(_ollamaInstallHTML(detectOS(), currentModel));
+    }
+  }
+}
+
+function closeChat() {
+  document.getElementById('chat-overlay')?.classList.remove('open');
+  if (chatState.isLoading) document.getElementById('chat-btn')?.classList.add('chat-btn-loading');
+}
+
+function _updateChatSyncBtn() {
+  const s = loadChatSettings();
+  const mode = s.syncMode || (s.autoApply ? 'always' : 'manual');
+  const btn = document.getElementById('chat-sync-btn');
+  if (btn) btn.style.display = mode === 'manual' ? '' : 'none';
+}
+
+async function _warmPromptCache() {
+  if (IS_DEMO) return;
+  const s = loadChatSettings();
+  const model = s.model || 'claude-sonnet-4-6';
+  if (model.startsWith('claude-')) {
+    if (!s.apiKey) return;
+    if (!chatState.systemPrompt) chatState.systemPrompt = buildChatSystemPrompt();
+    const inst = typeof INSTRUCTIONS_CONTENT !== 'undefined' ? INSTRUCTIONS_CONTENT : null;
+    const sysBlocks = (inst && chatState.systemPrompt.startsWith(inst))
+      ? [{ type: 'text', text: inst, cache_control: { type: 'ephemeral' } }, { type: 'text', text: chatState.systemPrompt.slice(inst.length) }]
+      : [{ type: 'text', text: chatState.systemPrompt, cache_control: { type: 'ephemeral' } }];
+    try {
+      await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': s.apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-beta': 'prompt-caching-2024-07-31',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({ model, max_tokens: 1, system: sysBlocks, messages: [{ role: 'user', content: '.' }] }),
+      });
+    } catch {}
+  } else {
+    try {
+      await fetch('http://localhost:11434/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model, messages: [{ role: 'user', content: '.' }], stream: false, options: { num_predict: 1 } }),
+      });
+    } catch {}
+  }
+}
+
+async function callAnthropicAPI(messages, systemPrompt, streamCallback = null) {
+  const s = loadChatSettings();
+  if (!s.apiKey) throw new Error('No API key set. Open settings (gear icon) to add one.');
+  const model     = s.model || 'claude-sonnet-4-6';
+  const maxTokens = s.maxTokens || 4096;
+  const _inst = typeof INSTRUCTIONS_CONTENT !== 'undefined' ? INSTRUCTIONS_CONTENT : null;
+  const _sysBlocks = (_inst && systemPrompt.startsWith(_inst))
+    ? [{ type: 'text', text: _inst, cache_control: { type: 'ephemeral' } }, { type: 'text', text: systemPrompt.slice(_inst.length) }]
+    : [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }];
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': s.apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-beta': 'prompt-caching-2024-07-31',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model, max_tokens: maxTokens,
+      system: _sysBlocks,
+      messages,
+      ...(streamCallback ? { stream: true } : {}),
+    }),
+  });
+  if (!resp.ok) {
+    let msg = 'API error ' + resp.status;
+    try { const e = await resp.json(); msg = e?.error?.message || msg; } catch {}
+    if (resp.status === 401) msg += ' — check your API key in settings (gear icon).';
+    if (resp.status === 429) msg = 'Rate limit reached. Your Anthropic account tier has a low token cap — the character sheet context is likely too large for it. Switch to a local Ollama model (free, no limits) or upgrade your account at console.anthropic.com.';
+    throw new Error(msg);
+  }
+  if (!streamCallback) {
+    const data = await resp.json();
+    if (data.usage) {
+      chatState.tokenUsage.input  += data.usage.input_tokens  || 0;
+      chatState.tokenUsage.output += data.usage.output_tokens || 0;
+      _updateCostDisplay();
+    }
+    return (data.content?.[0]?.text) || '';
+  }
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = '';
+  let inputTokens = 0, outputTokens = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const lines = decoder.decode(value, { stream: true }).split('\n');
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const raw = line.slice(6).trim();
+      if (!raw || raw === '[DONE]') continue;
+      try {
+        const ev = JSON.parse(raw);
+        if (ev.type === 'message_start') inputTokens = ev.message?.usage?.input_tokens || 0;
+        else if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
+          fullText += ev.delta.text;
+          streamCallback(ev.delta.text);
+        } else if (ev.type === 'message_delta') outputTokens = ev.usage?.output_tokens || 0;
+      } catch {}
+    }
+  }
+  chatState.tokenUsage.input  += inputTokens;
+  chatState.tokenUsage.output += outputTokens;
+  _updateCostDisplay();
+  return fullText;
+}
+
+async function callOllamaAPI(messages, systemPrompt, streamCallback = null) {
+  const s = loadChatSettings();
+  const model = s.model || 'qwen2.5:7b';
+  const maxTokens = s.maxTokens || 4096;
+  const numCtx = s.numCtx || 8192;
+  let resp;
+  try {
+    resp = await fetch('http://localhost:11434/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'system', content: systemPrompt }, ...messages],
+        stream: !!streamCallback,
+        options: { num_ctx: numCtx, num_predict: maxTokens },
+      }),
+    });
+  } catch(e) {
+    const onFile = window.location.protocol === 'file:';
+    throw new Error(onFile
+      ? 'Ollama blocked by browser CORS. Quit the menu bar app and run: OLLAMA_ORIGINS="*" ollama serve'
+      : 'Could not connect to Ollama. Is it running? Try: ollama serve');
+  }
+  if (!resp.ok) {
+    let msg = 'Ollama error ' + resp.status;
+    try { const e = await resp.json(); msg = (typeof e?.error === 'string' ? e.error : e?.error?.message) || msg; } catch {}
+    throw new Error(msg);
+  }
+  if (!streamCallback) {
+    const data = await resp.json();
+    return data?.message?.content || '';
+  }
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = '';
+  let buf = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += decoder.decode(value, { stream: true });
+    const lines = buf.split('\n');
+    buf = lines.pop();
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      try { const ev = JSON.parse(line); if (ev.message?.content) { fullText += ev.message.content; streamCallback(ev.message.content); } } catch {}
+    }
+  }
+  if (buf.trim()) { try { const ev = JSON.parse(buf); if (ev.message?.content) { fullText += ev.message.content; streamCallback(ev.message.content); } } catch {} }
+  return fullText;
+}
+
+async function callChatAPI(messages, systemPrompt, streamCallback = null) {
+  const s = loadChatSettings();
+  const model = s.model || 'qwen2.5:7b';
+  if (!model.startsWith('claude-')) return callOllamaAPI(messages, systemPrompt, streamCallback);
+  return callAnthropicAPI(messages, systemPrompt, streamCallback);
+}
+
+function _chatHandleReply(reply, streamingEl = null) {
+  const detected = detectChatJSON(reply);
+  if (!detected) {
+    if (streamingEl) {
+      streamingEl.classList.remove('chat-loading');
+      streamingEl.textContent = '';
+      const body = document.createElement('div');
+      body.textContent = reply;
+      streamingEl.appendChild(body);
+    } else { chatAddMsg('assistant', reply); }
+    return;
+  }
+  if (streamingEl) streamingEl.remove();
+  chatState.pendingJSON = detected;
+  const s = loadChatSettings();
+  const syncMode = s.syncMode || (s.autoApply ? 'always' : 'manual');
+  if (syncMode !== 'manual') {
+    const display = reply.replace(/```json[\s\S]*?```/, '').replace(/\n{3,}/g, '\n\n').trim();
+    if (display) chatAddMsg('assistant', display);
+    chatApplyUpdate();
+  } else {
+    chatAddMsg('assistant', reply, '✶ Sheet update detected. Click Apply Update to apply it.');
+    chatShowApply(true);
+  }
+}
+
+function _chatAddLoadingBubble() {
+  const container = document.getElementById('chat-msgs');
+  if (!container) return null;
+  const el = document.createElement('div');
+  el.className = 'chat-msg chat-msg-ai chat-loading';
+  el.textContent = '...';
+  container.appendChild(el);
+  chatScrollBottom();
+  return el;
+}
+
+async function chatSend() {
+  if (chatState.isLoading) return;
+  const inp = document.getElementById('chat-input');
+  const text = inp ? inp.value.trim() : '';
+  if (!text) return;
+  if (!chatState.systemPrompt) chatState.systemPrompt = buildChatSystemPrompt();
+  chatState.messages.push({ role: 'user', content: text });
+  chatAddMsg('user', text);
+  inp.value = '';
+  inp.style.height = '';
+  chatSetLoading(true);
+  const loadEl = _chatAddLoadingBubble();
+  const messagesRef = chatState.messages;
+  const capturedSessionId = chatState.currentSessionId;
+  let streamStarted = false;
+  try {
+    const reply = await callChatAPI(chatState.messages, chatState.systemPrompt, (chunk) => {
+      if (!streamStarted) { loadEl.textContent = ''; streamStarted = true; }
+      loadEl.textContent += chunk;
+      chatScrollBottom();
+    });
+    if (chatState.messages !== messagesRef) {
+      messagesRef.push({ role: 'assistant', content: reply });
+      if (!IS_DEMO) {
+        if (!appState.chatSessions) appState.chatSessions = [];
+        const bgId = capturedSessionId || ('cs-chat-' + Date.now());
+        const bgIdx = appState.chatSessions.findIndex(s => s.id === bgId);
+        if (bgIdx >= 0) appState.chatSessions[bgIdx] = Object.assign({}, appState.chatSessions[bgIdx], { messages: messagesRef.slice(), _hasUnread: true });
+        else appState.chatSessions.push({ id: bgId, startedAt: new Date().toISOString(), messages: messagesRef.slice(), _hasUnread: true });
+        saveState(appState);
+        renderChatSessionPicker();
+      }
+      if (loadEl) loadEl.remove();
+      return;
+    }
+    if (!streamStarted && loadEl) loadEl.remove();
+    chatState.messages.push({ role: 'assistant', content: reply });
+    _chatHandleReply(reply, streamStarted ? loadEl : null);
+    _chatSaveLiveSession();
+  } catch (err) {
+    if (loadEl) loadEl.remove();
+    chatAddMsg('error', err.message || 'Unknown error');
+    _chatSaveLiveSession();
+  } finally {
+    chatSetLoading(false);
+    document.getElementById('chat-input')?.focus();
+  }
+}
+
+function chatApplyUpdate() {
+  if (!chatState.pendingJSON || chatState.isLoading) return;
+  applyUpdate(chatState.pendingJSON);
+  const statusEl = document.getElementById('modal-status');
+  const failed = statusEl && statusEl.classList.contains('err');
+  if (!failed) {
+    chatState.pendingJSON = null;
+    chatShowApply(false);
+    chatAddMsg('system', 'Sheet updated.');
+  } else {
+    chatAddMsg('error', 'Could not apply: ' + (statusEl ? statusEl.textContent.replace(/^[^\s]+\s*/, '') : 'Validation failed'));
+  }
+}
+
+async function chatEndSession() {
+  if (chatState.isLoading) return;
+  if (!chatState.systemPrompt) chatState.systemPrompt = buildChatSystemPrompt();
+  const prompt = 'Please do a brief debrief of what you are about to change, then output the complete updated data.json with all changes from this session applied.';
+  chatState.messages.push({ role: 'user', content: prompt });
+  chatAddMsg('user', prompt);
+  chatSetLoading(true);
+  const loadEl = _chatAddLoadingBubble();
+  try {
+    const reply = await callChatAPI(chatState.messages, chatState.systemPrompt);
+    if (loadEl) loadEl.remove();
+    chatState.messages.push({ role: 'assistant', content: reply });
+    _chatHandleReply(reply);
+    _chatFinalizeSession(_chatExtractSummaryFromReply(reply), '', []);
+  } catch (err) {
+    if (loadEl) loadEl.remove();
+    chatAddMsg('error', err.message || 'Unknown error');
+    _chatSaveLiveSession();
+  } finally {
+    chatSetLoading(false);
+  }
+}
+
+async function chatSync() {
+  if (chatState.isLoading) return;
+  if (!chatState.systemPrompt) chatState.systemPrompt = buildChatSystemPrompt();
+  const prompt = 'Output the complete updated data.json with all changes from our conversation applied. Respond with only the JSON code block, no other text.';
+  chatState.messages.push({ role: 'user', content: prompt });
+  const syncBtn = document.getElementById('chat-sync-btn');
+  if (syncBtn) syncBtn.textContent = '...';
+  chatSetLoading(true);
+  const loadEl = _chatAddLoadingBubble();
+  if (loadEl) loadEl.textContent = 'Syncing...';
+  try {
+    const reply = await callChatAPI(chatState.messages, chatState.systemPrompt);
+    if (loadEl) loadEl.remove();
+    chatState.messages.push({ role: 'assistant', content: reply });
+    console.log('[chatSync] raw reply:', reply.slice(0, 500));
+    const detected = detectChatJSON(reply);
+    if (detected) {
+      applyUpdate(detected);
+      const statusEl = document.getElementById('modal-status');
+      const failed = statusEl && statusEl.classList.contains('err');
+      if (!failed) {
+        chatAddMsg('system', 'Synced.');
+      } else {
+        chatAddMsg('error', 'Sync failed: ' + (statusEl?.textContent.replace(/^[^\s]+\s*/, '') || 'Could not apply update'));
+      }
+    } else {
+      console.log('[chatSync] full reply for debug:', reply);
+      chatAddMsg('error', 'Sync failed: no data found in response. Try End session instead.');
+    }
+  } catch (err) {
+    if (loadEl) loadEl.remove();
+    chatAddMsg('error', 'Sync failed: ' + (err.message || 'Unknown error'));
+  } finally {
+    chatSetLoading(false);
+    if (syncBtn) syncBtn.textContent = '↻ Sync';
+  }
+}
+
+function chatNewSession() {
+  if (chatState.isLoading) return;
+  // Save in-progress session before clearing
+  if (chatState.messages.length > 0 && chatState.currentSessionId && !IS_DEMO) {
+    if (!appState.chatSessions) appState.chatSessions = [];
+    const idx = appState.chatSessions.findIndex(s => s.id === chatState.currentSessionId);
+    if (idx >= 0) {
+      appState.chatSessions[idx] = Object.assign({}, appState.chatSessions[idx], {
+        messages: chatState.messages.slice(),
+        tokenUsage: Object.assign({}, chatState.tokenUsage),
+      });
+      saveState(appState);
+    }
+  }
+  chatState.messages = [];
+  chatState.pendingJSON = null;
+  chatState.systemPrompt = null;
+  chatState.tokenUsage = { input: 0, output: 0 };
+  chatState.currentSessionId = null;
+  chatState.sessionStartedAt = null;
+  chatState._displaySessionId = null;
+  const container = document.getElementById('chat-msgs');
+  if (container) container.innerHTML = '';
+  chatShowApply(false);
+  const costEl = document.getElementById('chat-cost-display');
+  if (costEl) costEl.style.display = 'none';
+  renderChatSessionPicker();
+}
+
+function _chatFormatCost(c) {
+  if (c < 0.001) return '<$0.001';
+  return '~$' + c.toFixed(c < 0.10 ? 3 : 2);
+}
+
+// ── Chat session persistence ──────────────────────────────
+
+function _chatSaveLiveSession() {
+  if (IS_DEMO || chatState.messages.length === 0) return;
+  if (!appState.chatSessions) appState.chatSessions = [];
+  if (!chatState.currentSessionId) {
+    chatState.currentSessionId = 'cs-chat-' + Date.now();
+    chatState.sessionStartedAt = new Date().toISOString();
+    chatState._displaySessionId = null;
+  }
+  const idx = appState.chatSessions.findIndex(s => s.id === chatState.currentSessionId);
+  const session = {
+    id: chatState.currentSessionId,
+    startedAt: chatState.sessionStartedAt,
+    messages: chatState.messages.slice(),
+    tokenUsage: Object.assign({}, chatState.tokenUsage),
+  };
+  if (idx >= 0) appState.chatSessions[idx] = Object.assign({}, appState.chatSessions[idx], session);
+  else appState.chatSessions.push(session);
+  saveState(appState);
+  _chatCheckStorageWarning();
+  renderChatSessionPicker();
+}
+
+function _chatFinalizeSession(summary, systemRead, highlights) {
+  if (!chatState.currentSessionId || !appState.chatSessions) return;
+  const idx = appState.chatSessions.findIndex(s => s.id === chatState.currentSessionId);
+  if (idx < 0) return;
+  appState.chatSessions[idx] = Object.assign({}, appState.chatSessions[idx], {
+    endedAt: new Date().toISOString(),
+    messages: chatState.messages.slice(),
+    tokenUsage: Object.assign({}, chatState.tokenUsage),
+    summary: summary || '',
+    systemRead: systemRead || '',
+    highlights: Array.isArray(highlights) ? highlights : [],
+    harmonySnapshot: Object.assign({}, appState.sliderValues || {}),
+  });
+  saveState(appState);
+  chatState.currentSessionId = null;
+  chatState.sessionStartedAt = null;
+  renderChatSessionPicker();
+  renderChatSessions(appState);
+}
+
+function _chatExtractSummaryFromReply(reply) {
+  const text = reply.replace(/```json[\s\S]*?```/g, '').replace(/```[\s\S]*?```/g, '').trim();
+  return text.length > 500 ? text.slice(0, 497) + '...' : text;
+}
+
+function _chatSessionLabel(session) {
+  const d = session.startedAt ? new Date(session.startedAt) : null;
+  const dateStr = d ? d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown';
+  const firstUser = (session.messages || []).find(m => m.role === 'user');
+  const snippet = firstUser ? firstUser.content.slice(0, 45) + (firstUser.content.length > 45 ? '...' : '') : '';
+  return snippet ? dateStr + ': ' + snippet : dateStr;
+}
+
+function _chatFormatElapsed(fromISO, toISO) {
+  const from = new Date(fromISO);
+  const to = toISO ? new Date(toISO) : new Date();
+  const diff = Math.round((to - from) / 1000);
+  if (diff < 60) return diff + 's';
+  if (diff < 3600) return Math.round(diff / 60) + 'm';
+  if (diff < 86400) return Math.round(diff / 3600) + 'h';
+  return Math.round(diff / 86400) + 'd';
+}
+
+function _chatCheckStorageWarning() {
+  if (IS_DEMO) return;
+  const size = JSON.stringify(appState.chatSessions || []).length;
+  if (size > 1024 * 1024) {
+    showImportToast('Chat history is large (' + Math.round(size / 1024) + ' KB). Delete old sessions in the Journal tab to free space.');
+  }
+}
+
+function chatLoadSession(sessionId) {
+  if (_hasPIN() && _pinActive && !_chatHistoryUnlocked) {
+    _chatRequestReauth(() => chatLoadSession(sessionId));
+    return;
+  }
+  const sessions = appState.chatSessions || [];
+  const session = sessions.find(s => s.id === sessionId);
+  if (!session) return;
+  if (session._hasUnread) { session._hasUnread = false; if (!IS_DEMO) saveState(appState); }
+  if (chatState.messages.length > 0 && chatState.currentSessionId) {
+    const idx = (appState.chatSessions || []).findIndex(s => s.id === chatState.currentSessionId);
+    if (idx >= 0) {
+      appState.chatSessions[idx] = Object.assign({}, appState.chatSessions[idx], {
+        messages: chatState.messages.slice(),
+        tokenUsage: Object.assign({}, chatState.tokenUsage),
+      });
+      saveState(appState);
+    }
+  }
+  chatState.messages = (session.messages || []).slice();
+  chatState.pendingJSON = null;
+  chatState.systemPrompt = null;
+  chatState.tokenUsage = Object.assign({}, session.tokenUsage || { input: 0, output: 0 });
+  chatState.currentSessionId = null;
+  chatState.sessionStartedAt = null;
+  chatState._displaySessionId = sessionId;
+  const container = document.getElementById('chat-msgs');
+  if (container) {
+    container.innerHTML = '';
+    const elapsed = session.endedAt ? _chatFormatElapsed(session.startedAt, session.endedAt) : null;
+    const sessionDate = session.startedAt ? new Date(session.startedAt).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }) : 'Unknown date';
+    const timeSince = session.endedAt ? _chatFormatElapsed(session.endedAt, new Date().toISOString()) : null;
+    chatAddMsg('system', 'Resumed session from ' + sessionDate + (timeSince ? ', ' + timeSince + ' ago' : '') + (elapsed ? ' (session lasted ' + elapsed + ')' : '') + '. Context loaded. Continue below or use End session to finalize.');
+    chatState.messages.forEach(m => {
+      if (m.role === 'user') chatAddMsg('user', m.content);
+      else if (m.role === 'assistant') chatAddMsg('assistant', m.content);
+    });
+  }
+  chatShowApply(false);
+  _updateCostDisplay();
+  renderChatSessionPicker();
+}
+
+function chatDeleteSession(sessionId) {
+  if (!confirm('Delete this chat session? This cannot be undone.')) return;
+  appState.chatSessions = (appState.chatSessions || []).filter(s => s.id !== sessionId);
+  if (chatState.currentSessionId === sessionId) {
+    chatState.currentSessionId = null;
+    chatState.sessionStartedAt = null;
+  }
+  saveState(appState);
+  renderChatSessionPicker();
+  renderChatSessions(appState);
+}
+
+function renderChatSessionPicker() {
+  const sel = document.getElementById('chat-session-picker');
+  if (!sel) return;
+  const sessions = (appState.chatSessions || []).slice().reverse();
+  sel.innerHTML = '<option value="">Past sessions...</option>';
+  sessions.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.id;
+    const inProg = !s.endedAt && s.id !== chatState.currentSessionId;
+    opt.textContent = _chatSessionLabel(s) + (s._hasUnread ? ' (new response)' : inProg ? ' (unfinished)' : '');
+    sel.appendChild(opt);
+  });
+  sel.style.display = sessions.length > 0 ? '' : 'none';
+  _updateChatHeader();
+}
+
+function _updateChatHeader() {
+  const sessions = appState.chatSessions || [];
+  const displayId = chatState.currentSessionId || chatState._displaySessionId;
+  let sessionNum, subtitle;
+  if (!displayId) {
+    sessionNum = sessions.length + 1;
+    subtitle = '';
+  } else {
+    const idx = sessions.findIndex(s => s.id === displayId);
+    sessionNum = idx >= 0 ? idx + 1 : sessions.length + 1;
+    const session = idx >= 0 ? sessions[idx] : null;
+    if (session && session.summary) {
+      subtitle = session.summary.length > 70 ? session.summary.slice(0, 67) + '...' : session.summary;
+    } else {
+      const msgs = session ? session.messages : chatState.messages;
+      const firstUser = (msgs || []).find(m => m.role === 'user');
+      subtitle = firstUser ? (firstUser.content.length > 70 ? firstUser.content.slice(0, 67) + '...' : firstUser.content) : '';
+    }
+  }
+  const titleEl = document.getElementById('chat-hdr-title');
+  const subtitleEl = document.getElementById('chat-hdr-subtitle');
+  const deleteBtn = document.getElementById('chat-hdr-delete-btn');
+  if (titleEl) titleEl.textContent = 'Session #' + sessionNum;
+  if (subtitleEl) { subtitleEl.textContent = subtitle; subtitleEl.style.display = subtitle ? '' : 'none'; }
+  if (deleteBtn) deleteBtn.style.display = (displayId || chatState.messages.length > 0) ? '' : 'none';
+}
+
+function chatDeleteCurrentSession() {
+  const id = chatState.currentSessionId || chatState._displaySessionId;
+  if (!id && chatState.messages.length === 0) return;
+  if (!confirm('Delete this chat session? This cannot be undone.')) return;
+  if (id) {
+    appState.chatSessions = (appState.chatSessions || []).filter(s => s.id !== id);
+    saveState(appState);
+    renderChatSessions(appState);
+  }
+  chatState.messages = [];
+  chatState.pendingJSON = null;
+  chatState.systemPrompt = null;
+  chatState.tokenUsage = { input: 0, output: 0 };
+  chatState.currentSessionId = null;
+  chatState.sessionStartedAt = null;
+  chatState._displaySessionId = null;
+  const container = document.getElementById('chat-msgs');
+  if (container) container.innerHTML = '';
+  chatShowApply(false);
+  const costEl = document.getElementById('chat-cost-display');
+  if (costEl) costEl.style.display = 'none';
+  renderChatSessionPicker();
+}
+
+function renderChatSessions(s) {
+  const container = document.getElementById('chat-sessions-list');
+  if (!container) return;
+  const sessions = (s.chatSessions || []).slice().reverse();
+  if (sessions.length === 0) {
+    container.innerHTML = '<div class="chat-sess-empty">No saved sessions yet. Chat sessions save automatically as you go.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  sessions.forEach(session => {
+    const card = document.createElement('div');
+    card.className = 'chat-sess-card';
+    const dateStr = session.startedAt ? new Date(session.startedAt).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown date';
+    const msgCount = (session.messages || []).length;
+    const userCount = (session.messages || []).filter(m => m.role === 'user').length;
+    const isLive = session.id === chatState.currentSessionId;
+    const badge = isLive ? '<span class="chat-sess-badge">live</span>' : (!session.endedAt ? '<span class="chat-sess-badge chat-sess-badge-unfinished">unfinished</span>' : '');
+    const harmony = session.harmonySnapshot;
+    const harmonyStr = harmony ? Object.entries(harmony).map(([k, v]) => `${k}: ${Math.round(v)}`).join(' | ') : '';
+    card.innerHTML = `
+      <div class="chat-sess-meta">
+        <span class="chat-sess-date">${esc(dateStr)}${badge}</span>
+        <span class="chat-sess-count">${userCount} message${userCount !== 1 ? 's' : ''}</span>
+      </div>
+      ${session.summary ? `<div class="chat-sess-summary">${esc(session.summary)}</div>` : ''}
+      ${harmonyStr ? `<div class="chat-sess-harmony">${esc(harmonyStr)}</div>` : ''}
+      <div class="chat-sess-actions">
+        <button class="btn-ghost chat-sess-btn" onclick="openChat();chatLoadSession('${session.id}')">Resume</button>
+        <button class="btn-ghost chat-sess-btn chat-sess-btn-delete" onclick="chatDeleteSession('${session.id}')">Delete</button>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function _updateCostDisplay() {
+  const el = document.getElementById('chat-cost-display');
+  if (!el) return;
+  const s = loadChatSettings();
+  const p = ANTHROPIC_PRICING[s.model];
+  if (!p || (!chatState.tokenUsage.input && !chatState.tokenUsage.output)) { el.style.display = 'none'; return; }
+  const cost = chatState.tokenUsage.input  * p.in  / 1e6
+             + chatState.tokenUsage.output * p.out / 1e6;
+  el.textContent = _chatFormatCost(cost);
+  el.style.display = '';
+}
+
+// ── Git sync (multi-device via private GitHub repo) ───────
+// Requires PIN active. Pushes/pulls the encrypted blob -- the PIN never leaves the device.
+const GIT_SYNC_SETTINGS_KEY = 'cs-gitsync-v1';
+
+function loadGitSyncSettings() {
+  try { const r = localStorage.getItem(GIT_SYNC_SETTINGS_KEY); return r ? JSON.parse(r) : {}; } catch { return {}; }
+}
+function saveGitSyncSettings(s) {
+  try { localStorage.setItem(GIT_SYNC_SETTINGS_KEY, JSON.stringify(s)); } catch {}
+}
+
+function _updateGitSyncStatus() {
+  const gs = loadGitSyncSettings();
+  const el = document.getElementById('cs-git-sync-status');
+  if (!el) return;
+  const parts = [];
+  if (gs.lastPushed) parts.push('Pushed: ' + new Date(gs.lastPushed).toLocaleString());
+  if (gs.lastPulled) parts.push('Pulled: ' + new Date(gs.lastPulled).toLocaleString());
+  el.textContent = parts.join(' | ');
+}
+
+function _gitSyncReadForm() {
+  const patEl  = document.getElementById('cs-git-pat');
+  const repoEl = document.getElementById('cs-git-repo');
+  const pathEl = document.getElementById('cs-git-path');
+  if (!patEl || !repoEl || !pathEl) return null;
+  const parts = (repoEl.value.trim()).split('/');
+  return {
+    ...loadGitSyncSettings(),
+    pat:   patEl.value.trim(),
+    owner: parts[0] || '',
+    repo:  parts.slice(1).join('/') || '',
+    path:  pathEl.value.trim() || 'data.enc',
+  };
+}
+
+async function gitSyncPush() {
+  const gs = _gitSyncReadForm();
+  if (!gs) return;
+  if (!gs.pat || !gs.owner || !gs.repo) { showImportToast('Fill in PAT and owner/repo first.'); return; }
+  const pinActive = typeof _pinActive !== 'undefined' && _pinActive;
+  if (!pinActive) { showImportToast('A security password is required for git sync. Set one in Settings.'); return; }
+  const encData = localStorage.getItem(ENC_KEY);
+  if (!encData) { showImportToast('No encrypted data found. Ensure your security password is active.'); return; }
+  saveGitSyncSettings(gs);
+  const btn = document.getElementById('cs-git-push-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Pushing...'; }
+  try {
+    const apiBase = `https://api.github.com/repos/${encodeURIComponent(gs.owner)}/${encodeURIComponent(gs.repo)}/contents/${gs.path}`;
+    const headers = { Authorization: 'Bearer ' + gs.pat, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' };
+    let sha;
+    const check = await fetch(apiBase, { headers });
+    if (check.ok) sha = (await check.json()).sha;
+    else if (check.status !== 404) throw new Error('GitHub API ' + check.status);
+    const body = { message: 'sync: character-sheet', content: btoa(unescape(encodeURIComponent(encData))) };
+    if (sha) body.sha = sha;
+    const put = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!put.ok) { const e = await put.json().catch(() => ({})); throw new Error(e.message || 'Push failed ' + put.status); }
+    gs.lastPushed = new Date().toISOString();
+    saveGitSyncSettings(gs);
+    showImportToast('Pushed to ' + gs.owner + '/' + gs.repo + '/' + gs.path);
+    _updateGitSyncStatus();
+  } catch (err) {
+    showImportToast('Push failed: ' + err.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Push'; }
+  }
+}
+
+async function gitSyncPull() {
+  const gs = _gitSyncReadForm();
+  if (!gs) return;
+  if (!gs.pat || !gs.owner || !gs.repo) { showImportToast('Fill in PAT and owner/repo first.'); return; }
+  saveGitSyncSettings(gs);
+  const btn = document.getElementById('cs-git-pull-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Pulling...'; }
+  try {
+    const apiBase = `https://api.github.com/repos/${encodeURIComponent(gs.owner)}/${encodeURIComponent(gs.repo)}/contents/${gs.path}`;
+    const headers = { Authorization: 'Bearer ' + gs.pat, Accept: 'application/vnd.github+json' };
+    const resp = await fetch(apiBase, { headers });
+    if (!resp.ok) throw new Error('GitHub API ' + resp.status);
+    const data = await resp.json();
+    const raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+    // Store encrypted blob and reload -- user re-enters PIN to decrypt on next load
+    localStorage.setItem(ENC_KEY, raw);
+    _clearSensitiveKeys();
+    gs.lastPulled = new Date().toISOString();
+    saveGitSyncSettings(gs);
+    showImportToast('Pulled. Reloading now to apply...');
+    setTimeout(() => location.reload(), 1200);
+  } catch (err) {
+    showImportToast('Pull failed: ' + err.message);
+    if (btn) { btn.disabled = false; btn.textContent = 'Pull'; }
+  }
+}
+
+const OLLAMA_KNOWN_MODELS = [
+  { id: 'gemma3:4b',       ram: '4 GB'  },
+  { id: 'qwen2.5:7b',      ram: '8 GB'  },
+  { id: 'qwen3:8b',        ram: '8 GB'  },
+  { id: 'gemma3:12b',      ram: '12 GB' },
+  { id: 'qwen2.5:14b',     ram: '16 GB' },
+  { id: 'qwen2.5:32b',     ram: '32 GB' },
+  { id: 'llama3.3:latest', ram: '48 GB' },
+];
+
+function detectOS() {
+  const ua = navigator.userAgent;
+  if (/Windows/i.test(ua)) return 'win';
+  if (/Linux/i.test(ua)) return 'linux';
+  return 'mac';
+}
+
+function _ollamaInstallHTML(os, model) {
+  model = model || 'qwen2.5:7b';
+  const safeModel = esc(model);
+  const tabsHtml = ['mac','win','linux'].map(t => {
+    const label = t === 'mac' ? 'Mac' : t === 'win' ? 'Windows' : 'Linux';
+    return `<button class="os-tab${os===t?' os-tab-sel':''}" onclick="_ollamaOsTab(this,'${t}')">${label}</button>`;
+  }).join('');
+  return `<strong>Ollama setup (one-time)</strong>` +
+    `<div class="os-tabs">${tabsHtml}</div><ol>` +
+    `<li>` +
+      `<span class="os-step os-mac${os!=='mac'?' os-hide':''}">Install: <code>brew install ollama</code> &nbsp;or&nbsp; <a href="https://ollama.com/download" target="_blank" rel="noopener">ollama.com/download</a></span>` +
+      `<span class="os-step os-win${os!=='win'?' os-hide':''}">Download and run the installer from <a href="https://ollama.com/download" target="_blank" rel="noopener">ollama.com/download</a></span>` +
+      `<span class="os-step os-linux${os!=='linux'?' os-hide':''}">Install: <code>curl -fsSL https://ollama.com/install.sh | sh</code></span>` +
+    `</li>` +
+    `<li>Pull a model: <code>ollama pull ${safeModel}</code></li>` +
+    `<li>` +
+      `<span class="os-step os-mac${os!=='mac'?' os-hide':''}">Quit the Ollama menu bar app, then run: <code>OLLAMA_ORIGINS="*" ollama serve</code></span>` +
+      `<span class="os-step os-win${os!=='win'?' os-hide':''}">Open PowerShell and run: <code>$env:OLLAMA_ORIGINS="*"; ollama serve</code></span>` +
+      `<span class="os-step os-linux${os!=='linux'?' os-hide':''}">Run: <code>OLLAMA_ORIGINS="*" ollama serve</code></span>` +
+      ` — keep that terminal open while using chat.` +
+    `</li>` +
+    `</ol>`;
+}
+
+function _ollamaOsTab(btn, os) {
+  const card = btn.closest('.chat-info-card, .ollama-note');
+  if (!card) return;
+  card.querySelectorAll('.os-tab').forEach(t => t.classList.toggle('os-tab-sel', t === btn));
+  card.querySelectorAll('.os-step').forEach(s => {
+    s.classList.toggle('os-hide', !s.classList.contains('os-' + os));
+  });
+}
+
+async function fetchOllamaModels() {
+  const ctrl = new AbortController();
+  const tid  = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const resp = await fetch('http://localhost:11434/api/tags', { signal: ctrl.signal });
+    clearTimeout(tid);
+    if (!resp.ok) return { running: false, models: [] };
+    const data = await resp.json();
+    return { running: true, models: (data.models || []).map(m => m.name) };
+  } catch {
+    clearTimeout(tid);
+    return { running: false, models: [] };
+  }
+}
+
+function _ollamaCopyCmd(cmd, btn) {
+  navigator.clipboard.writeText(cmd).catch(() => {});
+  const orig = btn.textContent;
+  btn.textContent = 'Copied';
+  setTimeout(() => { btn.textContent = orig; }, 1200);
+}
+
+function _ollamaUseModel(modelId) {
+  const presetEl = document.getElementById('cs-chat-model-preset');
+  const customEl = document.getElementById('cs-chat-model-custom');
+  if (!presetEl) return;
+  const inPreset = Array.from(presetEl.options).some(o => o.value === modelId);
+  if (inPreset) {
+    presetEl.value = modelId;
+  } else {
+    presetEl.value = 'custom';
+    if (customEl) customEl.value = modelId;
+  }
+  onChatModelPresetChange();
+}
+
+function renderOllamaStatus(result) {
+  const listEl  = document.getElementById('cs-ollama-model-list');
+  const badgeEl = document.getElementById('cs-ollama-conn-badge');
+  if (!listEl) return;
+  listEl.innerHTML = '';
+
+  if (!result.running) {
+    if (badgeEl) { badgeEl.textContent = '● Ollama not running'; badgeEl.className = 'ollama-conn-err'; }
+    const row = document.createElement('div');
+    row.className = 'ollama-model-row';
+    const badge = document.createElement('span');
+    badge.className = 'ollama-badge ollama-badge-no'; badge.textContent = '○';
+    const name = document.createElement('span');
+    name.className = 'ollama-model-name'; name.style.color = 'var(--text-dim)';
+    name.textContent = 'not running';
+    const cmd     = 'ollama serve';
+    const cmdTag  = document.createElement('code'); cmdTag.className = 'ollama-cmd-tag'; cmdTag.textContent = cmd;
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'ollama-mini-btn ollama-copy-btn'; copyBtn.textContent = 'copy';
+    copyBtn.onclick = () => _ollamaCopyCmd(cmd, copyBtn);
+    row.append(badge, name, cmdTag, copyBtn);
+    listEl.appendChild(row);
+    return;
+  }
+
+  if (badgeEl) { badgeEl.textContent = '● Ollama running'; badgeEl.className = 'ollama-conn-ok'; }
+
+  OLLAMA_KNOWN_MODELS.forEach(m => {
+    const installed = result.models.some(n => n === m.id || n === m.id.split(':')[0]);
+    const row = document.createElement('div');
+    row.className = 'ollama-model-row';
+    const badge = document.createElement('span');
+    badge.className = 'ollama-badge ' + (installed ? 'ollama-badge-ok' : 'ollama-badge-no');
+    badge.textContent = installed ? '✓' : '✗';
+    const name = document.createElement('span');
+    name.className = 'ollama-model-name';
+    name.textContent = m.id + (m.ram ? '  (' + m.ram + ')' : '');
+    if (!installed) name.style.color = 'var(--text-dim)';
+    row.append(badge, name);
+    if (installed) {
+      const useBtn = document.createElement('button');
+      useBtn.className = 'ollama-mini-btn ollama-use-btn'; useBtn.textContent = 'use';
+      useBtn.onclick = () => _ollamaUseModel(m.id);
+      row.appendChild(useBtn);
+    } else {
+      const cmd     = 'ollama pull ' + m.id;
+      const cmdTag  = document.createElement('code'); cmdTag.className = 'ollama-cmd-tag'; cmdTag.textContent = cmd;
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'ollama-mini-btn ollama-copy-btn'; copyBtn.textContent = 'copy';
+      copyBtn.onclick = () => _ollamaCopyCmd(cmd, copyBtn);
+      row.append(cmdTag, copyBtn);
+    }
+    listEl.appendChild(row);
+  });
+
+  const knownIds = OLLAMA_KNOWN_MODELS.map(m => m.id);
+  const extras   = result.models.filter(n => !knownIds.includes(n));
+  if (extras.length) {
+    const lbl = document.createElement('div');
+    lbl.className = 'ollama-extra-lbl'; lbl.textContent = 'Other installed:';
+    listEl.appendChild(lbl);
+    extras.forEach(modelId => {
+      const row   = document.createElement('div'); row.className = 'ollama-model-row';
+      const badge = document.createElement('span');
+      badge.className = 'ollama-badge ollama-badge-ok'; badge.textContent = '✓';
+      const name  = document.createElement('span');
+      name.className = 'ollama-model-name'; name.textContent = modelId;
+      const useBtn = document.createElement('button');
+      useBtn.className = 'ollama-mini-btn ollama-use-btn'; useBtn.textContent = 'use';
+      useBtn.onclick = () => _ollamaUseModel(modelId);
+      row.append(badge, name, useBtn);
+      listEl.appendChild(row);
+    });
+  }
+}
+
+async function checkOllamaModels() {
+  const listEl  = document.getElementById('cs-ollama-model-list');
+  const badgeEl = document.getElementById('cs-ollama-conn-badge');
+  if (!listEl) return;
+  if (badgeEl) { badgeEl.textContent = '● Checking...'; badgeEl.className = 'ollama-conn-err'; }
+  listEl.textContent = '';
+  renderOllamaStatus(await fetchOllamaModels());
+}
+
+function openChatSettings() {
+  const modal = document.getElementById('chat-settings-modal');
+  if (!modal) return;
+  const s       = loadChatSettings();
+  const keyEl   = document.getElementById('cs-chat-apikey');
+  const presetEl= document.getElementById('cs-chat-model-preset');
+  const customEl= document.getElementById('cs-chat-model-custom');
+  const tokensEl= document.getElementById('cs-chat-maxtokens');
+  const ctxEl   = document.getElementById('cs-chat-numctx');
+  if (keyEl)    keyEl.value    = s.apiKey || '';
+  if (tokensEl) tokensEl.value = s.maxTokens || 4096;
+  if (ctxEl)    ctxEl.value    = s.numCtx   || 8192;
+  const model   = s.model || 'qwen2.5:7b';
+  const presets = ['gemma3:4b','qwen2.5:7b','qwen3:8b','gemma3:12b','qwen2.5:14b',
+                   'qwen2.5:32b','llama3.3:latest',
+                   'claude-sonnet-4-6','claude-opus-4-7','claude-haiku-4-5-20251001'];
+  if (presetEl) presetEl.value = presets.includes(model) ? model : 'custom';
+  if (customEl) {
+    customEl.value        = presets.includes(model) ? model : model;
+    customEl.style.display= presets.includes(model) ? 'none' : 'block';
+  }
+  const hasPIN   = typeof _hasPIN === 'function' && _hasPIN();
+  const pinGate  = document.getElementById('cs-pin-gate');
+  const keyInputs= document.getElementById('cs-apikey-inputs');
+  if (pinGate)  pinGate.style.display   = hasPIN ? 'none' : 'block';
+  if (keyInputs) keyInputs.style.display = hasPIN ? 'block' : 'none';
+  const syncMode = s.syncMode || (s.autoApply ? 'always' : 'manual');
+  document.querySelectorAll('input[name="cs-chat-syncmode"]').forEach(r => { r.checked = (r.value === syncMode); });
+  const syncNEl = document.getElementById('cs-chat-syncevery');
+  if (syncNEl) syncNEl.value = s.syncEvery || 5;
+  onChatModelPresetChange();
+  const gs = loadGitSyncSettings();
+  const patEl  = document.getElementById('cs-git-pat');
+  const repoEl = document.getElementById('cs-git-repo');
+  const pathEl = document.getElementById('cs-git-path');
+  if (patEl)  patEl.value  = gs.pat  || '';
+  if (repoEl) repoEl.value = (gs.owner && gs.repo) ? gs.owner + '/' + gs.repo : '';
+  if (pathEl) pathEl.value = gs.path || 'data.enc';
+  _updateGitSyncStatus();
+  modal.classList.add('open');
+}
+
+function closeChatSettings() {
+  document.getElementById('chat-settings-modal')?.classList.remove('open');
+  _updateCloudWarnBanner();
+}
+
+function saveChatSettingsFromForm() {
+  const keyEl    = document.getElementById('cs-chat-apikey');
+  const presetEl = document.getElementById('cs-chat-model-preset');
+  const customEl = document.getElementById('cs-chat-model-custom');
+  const tokensEl = document.getElementById('cs-chat-maxtokens');
+  const ctxEl    = document.getElementById('cs-chat-numctx');
+  const preset   = presetEl ? presetEl.value : '';
+  const modelId  = (preset === 'custom' && customEl) ? (customEl.value.trim() || 'qwen2.5:7b') : (preset || 'qwen2.5:7b');
+  const errEl = document.getElementById('cs-apikey-error');
+  if (modelId.startsWith('claude-') && !keyEl?.value.trim()) {
+    if (errEl) errEl.textContent = 'An API key is required to use Anthropic models.';
+    keyEl?.focus();
+    return;
+  }
+  if (modelId.startsWith('claude-') && keyEl?.value.trim() && !(typeof _hasPIN === 'function' && _hasPIN())) {
+    alert('Set up a security password first (Settings tab) before saving an API key.');
+    return;
+  }
+  if (errEl) errEl.textContent = '';
+  const s = loadChatSettings();
+  if (keyEl) s.apiKey = keyEl.value.trim();
+  s.model = modelId;
+  s.maxTokens = tokensEl ? (parseInt(tokensEl.value) || 4096) : 4096;
+  s.numCtx    = ctxEl    ? (parseInt(ctxEl.value)    || 8192) : 8192;
+  const syncRadio = document.querySelector('input[name="cs-chat-syncmode"]:checked');
+  s.syncMode  = syncRadio ? syncRadio.value : 'manual';
+  const syncNEl = document.getElementById('cs-chat-syncevery');
+  s.syncEvery = syncNEl ? (parseInt(syncNEl.value) || 5) : 5;
+  saveChatSettings(s);
+  _updateChatSyncBtn();
+  _updateCloudWarnBanner();
+  closeChatSettings();
+  const overlay = document.getElementById('chat-overlay');
+  if (overlay?.classList.contains('open')) chatAddMsg('system', 'Settings saved.');
+}
+
+function onChatModelPresetChange() {
+  const sel        = document.getElementById('cs-chat-model-preset');
+  const custom     = document.getElementById('cs-chat-model-custom');
+  const apiSec     = document.getElementById('cs-apikey-section');
+  const ollamaNote = document.getElementById('cs-ollama-note');
+  if (!sel) return;
+  const isCustom  = sel.value === 'custom';
+  const isOllama  = !sel.value.startsWith('claude-') && !isCustom;
+  const customVal = custom ? custom.value.trim() : '';
+  const customIsOllama = isCustom && customVal && !customVal.startsWith('claude-');
+  const showOllama = isOllama || customIsOllama;
+  if (custom)     custom.style.display     = isCustom    ? 'block' : 'none';
+  if (apiSec)     apiSec.style.display     = showOllama  ? 'none'  : 'block';
+  const wasHidden = !ollamaNote || ollamaNote.style.display === 'none';
+  if (ollamaNote) ollamaNote.style.display = showOllama  ? 'block' : 'none';
+  if (showOllama) {
+    const installEl = document.getElementById('cs-ollama-install');
+    if (installEl && !installEl.innerHTML) {
+      const model = sel.value === 'custom' ? (document.getElementById('cs-chat-model-custom')?.value.trim() || 'qwen2.5:7b') : sel.value;
+      installEl.innerHTML = _ollamaInstallHTML(detectOS(), model);
+    }
+    if (wasHidden) checkOllamaModels();
+  }
+  // Show inline error if Claude model selected with no API key
+  const errEl = document.getElementById('cs-apikey-error');
+  if (errEl) {
+    const isCloud = !showOllama && !isCustom && sel.value.startsWith('claude-');
+    const keyEmpty = !document.getElementById('cs-chat-apikey')?.value.trim();
+    errEl.textContent = (isCloud && keyEmpty) ? 'An API key is required to use Anthropic models.' : '';
+  }
+}
+
+const _LOCAL_OLLAMA_PRESETS = new Set(['gemma3:4b','qwen2.5:7b','qwen3:8b','gemma3:12b','qwen2.5:14b','qwen2.5:32b','llama3.3:latest']);
+function _isLocalModel(model) { return !!(model && !model.startsWith('claude-')); }
+function _updateCloudWarnBanner() {
+  const model = loadChatSettings().model || 'qwen2.5:7b';
+  const isCloud = model.startsWith('claude-');
+  document.getElementById('chat-cloud-warn')?.classList.toggle('visible', isCloud);
+  const modelEl = document.getElementById('chat-hdr-model');
+  if (modelEl) modelEl.textContent = model;
+}
+
+
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Escape') return;
+  const overlay = document.getElementById('chat-overlay');
+  if (overlay?.classList.contains('open')) { closeChat(); return; }
+  const settingsModal = document.getElementById('chat-settings-modal');
+  if (settingsModal?.classList.contains('open')) { closeChatSettings(); }
+});
+
+(function() {
+  function onChatKey(e) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      const t = e.target, s = t.selectionStart, end = t.selectionEnd;
+      t.value = t.value.substring(0, s) + '\n' + t.value.substring(end);
+      t.selectionStart = t.selectionEnd = s + 1;
+    } else if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); chatSend();
+    }
+  }
+  const inp = document.getElementById('chat-input');
+  if (inp) inp.addEventListener('keydown', onChatKey);
+  else document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('chat-input')?.addEventListener('keydown', onChatKey);
+  });
+})();
 </script>
 
 <!-- ══ FOCUS MODE OVERLAY ════════════════════════════════════ -->
@@ -12515,6 +15003,127 @@ function _init(){
   <span class="dcr-label">Log today:</span>
   <span class="dcr-items" id="daily-checkin-items"></span>
   <button class="dcr-close" onclick="document.getElementById('daily-checkin-reminder').style.display='none'" title="Dismiss">&#x2715;</button>
+</div>
+
+<!-- ══ IN-APP CHAT OVERLAY ══════════════════════════════════ -->
+<div id="chat-overlay">
+  <div class="chat-hdr">
+    <div class="chat-hdr-left">
+      <div class="chat-hdr-app">character-sheet</div>
+      <div id="chat-hdr-title" class="chat-hdr-title">Journal Session</div>
+      <div id="chat-hdr-subtitle" class="chat-hdr-subtitle" style="display:none"></div>
+    </div>
+    <div class="chat-hdr-right">
+      <select id="chat-session-picker" class="chat-session-picker" style="display:none" title="Load a past session" onchange="if(this.value){chatLoadSession(this.value);this.value=''}"></select>
+      <span id="chat-cost-display" class="chat-cost-display" style="display:none"></span>
+      <button id="chat-hdr-delete-btn" class="chat-icon-btn chat-icon-btn-del" onclick="chatDeleteCurrentSession()" title="Delete this session" style="display:none">&#x1F5D1;</button>
+      <span id="chat-hdr-model" class="chat-hdr-model"></span>
+      <button class="chat-icon-btn" onclick="openChatSettings()" title="Settings">&#9881;</button>
+      <button class="chat-icon-btn" onclick="closeChat()" title="Close (Esc)">&#x2715;</button>
+    </div>
+  </div>
+  <div id="chat-cloud-warn" class="chat-cloud-warn">
+    <span class="chat-cloud-warn-dot">&#9888;</span>
+    <span>Cloud model: your messages and journal data are sent to an external server. For full privacy, use a local Ollama model. <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:#f09090;text-decoration:underline;">Provider privacy guide</a></span>
+  </div>
+  <div id="chat-msgs" class="chat-msgs"></div>
+  <div class="chat-input-bar">
+    <textarea id="chat-input" class="chat-textarea" placeholder="What's on your mind? (Enter to send, Ctrl+Enter for new line)" rows="3"></textarea>
+    <button id="chat-send-btn" class="btn-primary chat-send-btn" onclick="chatSend()">Send</button>
+  </div>
+  <div class="chat-action-bar">
+    <button id="chat-apply-btn" class="chat-apply-btn" onclick="chatApplyUpdate()" style="display:none" title="Apply the AI's suggested update to your sheet">&#x2736; Apply Update</button>
+    <button id="chat-sync-btn" class="btn-ghost chat-sync-btn" onclick="chatSync()" title="Ask AI for updated JSON and apply it silently, without ending the session">&#8635; Sync</button>
+    <button class="btn-ghost chat-new-session-btn" onclick="chatNewSession()" title="Clear the current conversation and start a new session">New session</button>
+    <button id="chat-end-btn" class="btn-ghost chat-end-btn" onclick="chatEndSession()" title="Ask AI for a session summary and final update, then close">End session</button>
+  </div>
+  <div id="chat-reauth-gate">
+    <div style="font-size:20px;color:var(--text-dim);">&#128274;</div>
+    <div style="font-size:14px;color:var(--text-mid);line-height:1.6;">Enter your password to view past sessions</div>
+    <input type="password" id="chat-reauth-input" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')_chatReauthSubmit()">
+    <div id="chat-reauth-error" style="font-size:13px;color:#c84040;min-height:18px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-primary" onclick="_chatReauthSubmit()">Confirm</button>
+      <button class="btn-ghost" onclick="_chatReauthCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHAT SETTINGS MODAL ══════════════════════════════════ -->
+<div class="modal-overlay" id="chat-settings-modal" onclick="if(event.target===this)closeChatSettings()">
+  <div class="modal" style="border-top:3px solid var(--gold);position:relative;max-width:440px;">
+    <button class="modal-close" onclick="closeChatSettings()" title="Close">&#x2715;</button>
+    <div class="modal-title" style="color:var(--gold);">Chat Settings</div>
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.5;margin:0 0 14px;">Local models keep all data on your device. Recommended for privacy. Cloud models (Anthropic) send your journal to their servers. <a href="https://github.com/sam-holmes2/character-sheet/blob/master/journalling-threat-model.md" target="_blank" style="color:inherit;text-decoration:underline;">Threat model</a> &middot; <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:inherit;text-decoration:underline;">Provider privacy guide</a></p>
+    <div id="cs-apikey-section" class="chat-field">
+      <label class="chat-field-lbl" for="cs-chat-apikey">Anthropic API Key</label>
+      <div id="cs-pin-gate" style="display:none;padding:10px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.25);border-radius:6px;font-size:13px;color:var(--text-dim);line-height:1.6;">
+        A security password is required before storing an API key.<br>
+        <button onclick="openSettingsModal();setTimeout(()=>document.getElementById('settings-pin-new')?.focus(),300)" style="margin-top:8px;padding:5px 14px;background:rgba(200,168,74,0.12);border:1px solid rgba(200,168,74,0.4);color:var(--gold);border-radius:4px;cursor:pointer;font-size:13px;">Set up password in Settings</button>
+      </div>
+      <div id="cs-apikey-inputs">
+        <input type="password" id="cs-chat-apikey" placeholder="sk-ant-..." autocomplete="off" oninput="document.getElementById('cs-apikey-error').textContent=''">
+        <div id="cs-apikey-error" style="font-size:13px;color:#c84040;min-height:0;margin-top:5px;"></div>
+        <div class="chat-api-note">
+          <ol style="margin:4px 0 0 16px;padding:0;line-height:1.9;font-size:12px;">
+            <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (separate from Claude.ai)</li>
+            <li>Open <strong>API Keys</strong> and create a new key</li>
+            <li>Paste it above</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div id="cs-ollama-note" class="ollama-note" style="display:none;margin-bottom:14px;border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:10px 12px;">
+      <div class="ollama-status-hdr">
+        <span id="cs-ollama-conn-badge" class="ollama-conn-err">● Ollama</span>
+        <button class="ollama-mini-btn ollama-copy-btn" onclick="checkOllamaModels()">&#8635; Check</button>
+      </div>
+      <div id="cs-ollama-model-list"></div>
+      <div id="cs-ollama-install" class="chat-api-note" style="margin-top:9px;font-size:12px;"></div>
+    </div>
+    <div class="chat-field">
+      <label class="chat-field-lbl" for="cs-chat-model-preset">Model</label>
+      <select id="cs-chat-model-preset" onchange="onChatModelPresetChange()">
+        <optgroup label="Ollama (local)">
+          <option value="gemma3:4b">gemma3:4b - fast, 4 GB RAM</option>
+          <option value="qwen2.5:7b" selected>qwen2.5:7b - reliable, 8 GB RAM</option>
+          <option value="qwen3:8b">qwen3:8b - thinking mode, 8 GB RAM</option>
+          <option value="gemma3:12b">gemma3:12b - balanced, 12 GB RAM</option>
+          <option value="qwen2.5:14b">qwen2.5:14b - strong, 16 GB RAM</option>
+          <option value="qwen2.5:32b">qwen2.5:32b - best quality, 32 GB RAM</option>
+          <option value="llama3.3:latest">llama3.3 - strongest, 48 GB RAM</option>
+        </optgroup>
+        <optgroup label="Anthropic (cloud)">
+          <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
+          <option value="claude-opus-4-7">claude-opus-4-7 (more capable, slower)</option>
+          <option value="claude-haiku-4-5-20251001">claude-haiku-4-5 (fastest, cheapest)</option>
+        </optgroup>
+        <option value="custom">Custom model ID...</option>
+      </select>
+      <input type="text" id="cs-chat-model-custom" placeholder="e.g. qwen2.5:14b or gpt-4o" style="display:none;margin-top:6px">
+    </div>
+    <div class="chat-field">
+      <label class="chat-field-lbl" for="cs-chat-maxtokens">Max response tokens</label>
+      <input type="number" id="cs-chat-maxtokens" min="256" max="32000" step="256" value="4096">
+    </div>
+    <div class="chat-field">
+      <label class="chat-field-lbl" for="cs-chat-numctx">Context window (local models)</label>
+      <input type="number" id="cs-chat-numctx" min="2048" max="131072" step="1024" value="8192">
+    </div>
+    <div class="chat-field" style="margin-top:10px;">
+      <label class="chat-field-lbl" style="display:block;margin-bottom:8px;">Data sync</label>
+      <div class="chat-sync-options">
+        <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="always"> After every reply</label>
+        <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="every-n"> Every <input type="number" id="cs-chat-syncevery" class="chat-sync-n" min="2" max="50" value="5"> replies</label>
+        <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="manual" checked> Manual (use the Sync button or ask your AI)</label>
+      </div>
+      <p class="chat-api-note" style="margin-top:8px;">Controls when updated data is written back to the app. Frequent sync costs more tokens with cloud models.</p>
+    </div>
+    <div class="modal-row" style="margin-top:18px;">
+      <button class="btn-primary" onclick="saveChatSettingsFromForm()">Save</button>
+      <button class="btn-ghost" onclick="closeChatSettings()">Cancel</button>
+    </div>
+  </div>
 </div>
 </body>
 </html>

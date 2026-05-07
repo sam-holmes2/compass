@@ -251,7 +251,7 @@ Deduct for: significantly negative or unhealthy pattern relapse, mastery droppin
 - Side quests: 40-200. Main quest: 300-600. Default for new quests: 75 (side), 400 (main).
 - Enemies (minions): 40-120. Standalone enemies: 80-200. Bosses: 300-500. Default for new enemies: 60 (minion), 120 (standalone), 350 (boss).
 - `sliderXpRewards` per element: `[null, tier-II, tier-III, tier-IV, tier-V]`
-- `xpPerUnit` for daily activities: target ~20-50 XP/day when hit consistently. Default: 1 XP/min for timers, 10 XP/completion for checkbox/number.
+- `xpPerUnit` for daily activities: target ~20-50 XP/day when hit consistently. For timers, `xpPerUnit` is stored as `goalXP / 12` where goalXP is the reward for hitting 100% of the daily goal. Default: 1 (= 12 XP for completing goal) for timers, 10 XP/completion for checkbox/number.
 
 **Backfill missing XP values every session.** Every boss, enemy, quest, and skill must have an `xpReward`. Set any missing now using the defaults above, calibrated to what you know about this user.
 

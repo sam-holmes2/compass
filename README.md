@@ -21,19 +21,78 @@ Journal with your AI, paste back the JSON, watch your character sheet update. No
 
 ---
 
-🔒 **Private by default.** A single `.html` file. No server, no accounts, no telemetry. Your data is a local file you own — nothing leaves your device unless you choose to send it. If you journal with an AI, check your provider's privacy settings. Local models like [Ollama](https://ollama.com) work for fully offline journalling.
+🔒 **Private by default.** A single `.html` file. No server, no accounts, no telemetry. Your data is a local file you own — nothing leaves your device unless you choose to send it.
 
-🤖 **Works with any AI.** Claude, ChatGPT, Gemini, or any local model. Prefer no AI? Edit fields directly in the app and export your data.
+🤖 **Works with any AI.** Local models via [Ollama](https://ollama.com) (fully offline), or cloud models like Claude, ChatGPT, and Gemini. Prefer no AI? Edit fields directly in the app and export your data.
 
 🚧 **Early work in progress.** All feedback welcome: [open an issue](https://github.com/sam-holmes2/character-sheet/issues), [start a discussion](https://github.com/sam-holmes2/character-sheet/discussions), or [find me on GitHub](https://github.com/sam-holmes2).
 
 ---
 
-## Setup or update
+## Choose your path
 
-Follow these same steps whether you're setting up for the first time or updating after a significant version change. To check for updates, go to Help → Check for updates within the app.
+| | **Local (recommended)** | **Cloud** |
+|---|---|---|
+| **Privacy** | Fully offline. Nothing ever leaves your device | Your journal is sent to your AI provider |
+| **Cost** | Free | Pay per API use (Anthropic) or use a free tier |
+| **Setup** | ~5 minutes, one-time | Instant |
 
-1. **Download [`character-sheet.html`](https://github.com/sam-holmes2/character-sheet/blob/master/character-sheet.html) and [`instructions.md`](https://github.com/sam-holmes2/character-sheet/blob/master/instructions.md):** click each link, then the download icon (top right).
+### Path A: Local with Ollama (recommended)
+
+**1. Download the app**
+
+Go to [`character-sheet.html`](character-sheet.html) on GitHub, click the download icon (top right). Open it in your browser.
+
+**2. Install Ollama**
+
+| OS | Command |
+|----|---------|
+| **Mac** | `brew install ollama` or [download from ollama.com](https://ollama.com/download) |
+| **Windows** | [Download the installer from ollama.com](https://ollama.com/download) and run it |
+| **Linux** | `curl -fsSL https://ollama.com/install.sh \| sh` |
+
+**3. Pull a model**
+
+```
+ollama pull gemma3:4b
+```
+
+`gemma3:4b` is a good starting point: fast, capable, runs on 8 GB RAM. See the in-app Chat Settings for more options.
+
+**4. Run Ollama with CORS enabled**
+
+The browser needs permission to talk to Ollama. Quit the Ollama menu bar app if it is running, then:
+
+| OS | Command |
+|----|---------|
+| **Mac / Linux** | `OLLAMA_ORIGINS="*" ollama serve` |
+| **Windows (PowerShell)** | `$env:OLLAMA_ORIGINS="*"; ollama serve` |
+
+Keep that terminal open while using chat.
+
+**5. Open the app and start a session**
+
+Open `character-sheet.html` in your browser. Click the chat icon, open Settings (gear icon), confirm your model is selected, and start talking.
+
+---
+
+### Path B: Cloud with an Anthropic API key
+
+Use the [live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html) (HTTPS) or your downloaded `character-sheet.html`.
+
+1. Go to [console.anthropic.com](https://console.anthropic.com) — create an account if needed (separate from Claude.ai)
+2. Open **API Keys** and create a new key
+3. In the app: set a **security password** first (Settings tab), then open Chat Settings (gear icon in the chat panel), select a Claude model, and paste your key
+
+> Your journal data is sent to Anthropic with each chat message. Check their privacy settings if this concerns you.
+
+---
+
+### External AI workflow (copy-paste)
+
+Use any AI — Claude, ChatGPT, Gemini — without an API key. No in-app chat needed.
+
+1. **Download [`character-sheet.html`](character-sheet.html) and [`instructions.md`](instructions.md):** click each link, then the download icon (top right).
 2. **Create (or open) your AI project:** e.g. [claude.ai](https://claude.ai) → New Project.
 3. **Upload `instructions.md` to project knowledge:** Project sidebar → Add content → Add files. Replace the old version if updating.
 4. **Paste the quickstart prompt** below and start talking.
@@ -41,7 +100,7 @@ Follow these same steps whether you're setting up for the first time or updating
 6. **Add `data.json` to project knowledge:** same as step 3. (If updating: remove the old version first, then upload the new one.)
 7. **Import into the app:** open `character-sheet.html`, click `↑` (bottom right), paste the JSON, Import.
 
-**No AI?** Just download and open `character-sheet.html`. Click any field to edit it directly. The import/export workflow is entirely optional.
+**No AI?** Just download and open `character-sheet.html`. Click any field to edit it directly.
 
 ---
 
@@ -61,7 +120,7 @@ Once you have a reasonable picture, generate my data.json using the format in in
 
 ---
 
-## Each session
+## Each session (copy-paste workflow)
 
 1. **Start a new chat** in your AI project. The AI already has your context from project knowledge.
 2. **Journal:** brain dump freely, or pick a mode (see below).
@@ -176,11 +235,11 @@ I pledge 10% of anything received to the [Center for Humane Technology](https://
 
 ## Privacy and security
 
-Your data stays on your device. The copy-paste JSON workflow is not just a technical mechanism — it is the privacy model. Nothing is transmitted automatically. You decide what leaves your machine and when.
+Your data stays on your device. The copy-paste JSON workflow is not just a technical mechanism: it is the privacy model. Nothing is transmitted automatically. You decide what leaves your machine and when.
 
 - **`data.json` is your private diary.** Nothing leaves your machine unless you send it. Any AI provider you journal with (Claude, ChatGPT, etc.) may store, review, or use what you share for training. Check their privacy settings to opt out.
 - **Think before syncing `data.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
-- **AI is optional.** The app works fully offline as a plain tracker. For full privacy, use a local model like [Ollama](https://ollama.com) and paste its output manually.
+- **AI is optional.** The app works fully offline as a plain tracker. For stronger privacy with AI, options range from local models like [Ollama](https://ollama.com) (nothing leaves your device) to confidential cloud services with hardware-enforced privacy. See [ai-privacy-guide.md](ai-privacy-guide.md) for a full breakdown.
 - **Use [Firefox](https://www.firefox.com/) if possible**, since it isolates each local HTML file's storage. In Chrome and Edge, all local files share the same origin, so a malicious local file you open could read your data.
 
 **PIN lock.** The app has an optional PIN that encrypts all your data in `localStorage` using AES-256-GCM with PBKDF2 key derivation (200,000 iterations). What it protects: someone who opens your browser and navigates to the app, or reads your browser's storage files directly. What it does not protect against: someone with full access to your device while the app is already unlocked, malware with access to browser memory, or your browser's developer tools while the tab is open. Think of it as a screen lock, not full-disk encryption.
