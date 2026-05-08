@@ -1,4 +1,4 @@
-# character-sheet: LLM Instructions v1.6.0
+# character-sheet: LLM Instructions v1.7.1
 This file lives in project knowledge alongside `data.json` (source of truth).
 
 ---
@@ -137,9 +137,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 This is a standing instruction. It applies to every session, every output, without the user needing to ask.
 
-**Prefer partial updates**: include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.7.0"`, `sessionCount`, and `lastSession`.
+**Prefer partial updates**: include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.7.1"`, `sessionCount`, and `lastSession`.
 
-`{ "_partial": true, "_instructionsVersion": "1.7.0", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
+`{ "_partial": true, "_instructionsVersion": "1.7.1", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution` · practice history · pinned achievements/classes
 
@@ -450,6 +450,8 @@ The user's full journey arc in third person. 200-300 words. Three-act structure:
 ## keyQuestions
 The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has `asked` (date first raised) and `updated` (date last meaningfully refined).
 
+**Keep these current.** The app surfaces `keyQuestions` and `openThreads` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
+
 ```json
 "keyQuestions": [
   {
@@ -476,7 +478,9 @@ Unresolved threads from this session that need picking up next time. Replace wit
 
 Stored as `insights`: an array of chapters, most recent first. Each chapter has `name` and `entries` (newest first).
 
-Entry structure: `date` · `title` · `events[]` · `insights[]` · `tensions[]`
+Entry structure: `num` · `date` · `title` · `events[]` · `insights[]` · `tensions[]`
+
+`num`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
 
 All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
 

@@ -2,6 +2,13 @@
 
 How private is your journal, really? This document breaks down the trust and risk involved at each level of journalling, from pen and paper to frontier AI, and shows how character-sheet can fit into any of them.
 
+**Not sure which level to aim for?** Here is a quick guide:
+
+- **Most people:** Level 3 (Ollama local AI) gives the best balance of privacy and quality. Free, offline, one-time setup.
+- **Privacy is a concern but local setup feels too technical:** Level 4 (confidential cloud) or Level 5 with training disabled are reasonable.
+- **You're fine with trusting a major provider:** Level 5 (Claude, GPT-4, Gemini) is the most capable option. Disable training in your account settings.
+- **Maximum privacy, no AI:** Level 1 (local digital) or Level 0 (pen and paper).
+
 ---
 
 ## The levels
@@ -10,10 +17,10 @@ How private is your journal, really? This document breaks down the trust and ris
 |-------|--------|-------------------|-----------------|-------|----------|---------------------|
 | **0** | Pen and paper | On the physical page | Anyone who finds it | Loss, theft, physical discovery, no search/sync | Lock it away, hide it, destroy entries you don't want found | Use as inspiration for your entries; the app can visualise themes you track manually |
 | **1** | Local digital (no AI) | On your device only | Anyone with device access | Device theft, no backups by default, loss if device fails | Full-disk encryption, strong login password, local backups | Store `character-sheet.html` locally; import/export JSON manually; no internet required |
-| **2** | Cloud storage (no AI) | On your device + provider servers | Provider (Google, iCloud, Dropbox…) + anyone who compromises your account | Provider access, account breach, government requests, terms-of-service changes | Strong password + 2FA, review provider privacy policy, end-to-end encrypted options (e.g. Cryptomator) | Store `character-sheet.html` in Google Drive or iCloud; syncs across devices while data stays in localStorage |
+| **2** | Cloud storage (no AI) | On your device + provider servers | Provider (Google, iCloud, Dropbox...) + anyone who compromises your account | Provider access, account breach, government requests, terms-of-service changes | Strong password + 2FA, review provider privacy policy, end-to-end encrypted options (e.g. Cryptomator) | Store `character-sheet.html` in Google Drive or iCloud; syncs across devices while data stays in localStorage |
 | **3** | AI-assisted (local model) | On your device only | Anyone with device access | Model capability limits (smaller parameter counts = less nuanced reflection), higher technical setup bar | Same as level 1; model weights stay local | Journal with a local LLM (e.g. [Ollama](https://ollama.com), LM Studio); paste AI output into character-sheet manually |
 | **4** | AI-assisted (confidential cloud) | In secure hardware enclaves on provider servers; conversation content inaccessible even to provider staff | Hardware manufacturer (Intel/AMD); anyone who compromises your account | Open-source models only: quality gap vs. frontier AI; metadata (IP, account, billing) still collected; nascent providers with limited track records; hardware side-channel attack surface | Verify cryptographic attestations; choose providers with open-source verifiers; use a pseudonym | Use a confidential cloud service (e.g. Tinfoil, ExpressAI); paste `instructions.md` and `data.json` at session start; import JSON output at the end |
-| **5** | AI-assisted (frontier model) | On your device + AI provider's servers | AI provider (Anthropic, OpenAI…) + anyone who compromises your account | Provider data retention, potential training data use, account breach, jurisdiction-dependent legal access | Opt out of training data in provider settings, review retention policy, use a pseudonym, keep entries vague | The default setup: journal with Claude or GPT-4 using `instructions.md`; data.json lives in project knowledge |
+| **5** | AI-assisted (frontier model) | On your device + AI provider's servers | AI provider (Anthropic, OpenAI...) + anyone who compromises your account | Provider data retention, potential training data use, account breach, jurisdiction-dependent legal access | Opt out of training data in provider settings, review retention policy, use a pseudonym, keep entries vague | The default setup: journal with Claude or GPT-4 using `instructions.md`; data.json lives in project knowledge |
 | **6** | AI-assisted (frontier model + 3rd-party wrapper) | On your device + AI provider + 3rd-party app's servers | All of the above, plus the wrapper company | All level-5 risks, plus the wrapper storing your data independently, narrower control over how it's used | Read the wrapper's privacy policy carefully; prefer providers that are explicit about not storing journal content | Third-party apps built on Claude/GPT APIs (e.g. Purpose, Rosebud); character-sheet avoids this layer entirely |
 
 ---
@@ -30,7 +37,9 @@ A plain text file, an offline app, or character-sheet with no AI connected. Full
 Adds device sync and automatic backup at the cost of storing data on a provider's infrastructure. Google, Apple, and Dropbox all have privacy policies that grant them broad rights. End-to-end encrypted alternatives (Proton Drive, Cryptomator layer on top of any provider) close most of this gap. Government legal requests are a theoretical but real risk in some jurisdictions.
 
 ### Level 3: Local AI (e.g. Ollama, LM Studio)
-Running a model locally means no data leaves your machine. The practical tradeoff is capability: models that run on consumer hardware (7B–34B parameters) are less nuanced than frontier models at deep reflection tasks, though the gap is narrowing quickly. Setup is more technical. This is the highest-privacy option that still gives you AI assistance.
+Running a model locally means no data leaves your machine. The practical tradeoff is capability: models that run on consumer hardware (7B-34B parameters) are less nuanced than frontier models at deep reflection tasks, though the gap is narrowing quickly. Setup is more technical. This is the highest-privacy option that still gives you AI assistance.
+
+**Recommended for most users who care about privacy.** See [ai-privacy-guide.md](ai-privacy-guide.md) for hardware requirements and model recommendations.
 
 ### Level 4: Confidential cloud AI
 A newer category: consumer chat services running inference inside hardware Trusted Execution Environments (TEEs). Unlike standard cloud AI where your privacy depends on a provider's policies, TEE-based services enforce isolation in hardware: the provider's own staff cannot access conversation content. Each request can generate a cryptographic attestation proving which model ran and that it ran in a genuine, unmodified enclave.
@@ -44,6 +53,7 @@ The most capable reflection partner available. The cost is trust: your journal c
 
 **What Anthropic says:** Claude has an opt-out for model training, but stored conversations are still retained according to their standard policy. Check [Anthropic's privacy policy](https://www.anthropic.com/privacy) for current details.
 
+**API key note:** If you use the in-app cloud AI chat, your API key is a password to your account. Store it in a password manager. Anyone who has it can send requests and generate charges on your behalf. See [ai-privacy-guide.md](ai-privacy-guide.md) for details.
 
 ### Level 6: Frontier AI via 3rd-party apps
 Apps like Purpose, Rosebud, or Reflectly use frontier model APIs under the hood. You're trusting the AI provider *and* the app company. The app often stores your journal content in its own database for features like search and history, so check whether it does. character-sheet deliberately avoids this layer: it talks to no server, stores nothing remotely, and the only third party in the chain is the AI provider you choose.
@@ -54,9 +64,9 @@ Apps like Purpose, Rosebud, or Reflectly use frontier model APIs under the hood.
 
 | Level | How to use it |
 |-------|--------------|
-| **0** | Browse Steve's demo, use the tab structure as inspiration for what to reflect on, journal on paper using the same categories |
+| **0** | Browse the demo, use the tab structure as inspiration for what to reflect on, journal on paper using the same categories |
 | **1** | Download `character-sheet.html`, open locally in Firefox, use as a standalone offline tracker (no AI needed) |
-| **2** | Store the file in Google Drive or iCloud to enable sync across devices|
+| **2** | Store the file in Google Drive or iCloud to enable sync across devices |
 | **3** | Journal with a local model (Ollama + Open WebUI); paste the AI's JSON output into character-sheet manually |
 | **4** | Use a confidential cloud service (e.g. Tinfoil, ExpressAI); paste `instructions.md` and `data.json` at session start; import JSON output at the end. No persistent project context between sessions. |
 | **5** | The default setup: Claude Projects + `instructions.md` + `data.json` in project knowledge |
@@ -75,6 +85,7 @@ Apps like Purpose, Rosebud, or Reflectly use frontier model APIs under the hood.
 | AI provider data retention | Review their privacy policy; prefer providers with short retention windows |
 | Third-party app storing your data | Read the app's privacy policy; prefer apps that don't store journal content server-side |
 | Browser data loss | Export JSON regularly; keep a copy in AI project knowledge |
+| API key exposed | Store in a password manager; rotate immediately if compromised |
 
 ---
 
