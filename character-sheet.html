@@ -1795,6 +1795,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .rq-goal-unit { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.7); padding:0 7px 0 3px; pointer-events:none; }
 .rq-goal-unit-in { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.8); padding:0 7px 0 2px; background:none; border:none; outline:none; width:56px; min-width:28px; }
 .rq-goal-slash { font-family:var(--mono); font-size:13px; color:rgba(176,128,232,0.5); padding:0 3px; flex-shrink:0; }
+.rq-goal-window { display:inline-flex; align-items:center; gap:2px; flex-shrink:0; }
+.rq-goal-window-dot { font-family:var(--mono); font-size:13px; color:rgba(176,128,232,0.35); padding:0 2px; }
+.rq-goal-window-badge { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.75); background:rgba(176,128,232,0.08); border:1px solid rgba(176,128,232,0.25); border-radius:3px; padding:1px 6px; letter-spacing:0.04em; white-space:nowrap; }
 .practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
 .practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
 .practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
@@ -4128,7 +4131,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <span id="cs-git-sync-status" style="font-size:12px;color:var(--text);flex:1;text-align:right;line-height:1.4;"></span>
       </div>
       <div id="cs-git-pull-confirm" style="display:none;margin-top:10px;padding:10px 12px;background:rgba(200,60,60,0.08);border:1px solid rgba(200,60,60,0.3);border-radius:6px;font-size:13px;color:var(--text);line-height:1.5;">
-        Pull will merge the GitHub backup into your current data: new entries from GitHub are added, and any fields both versions changed are updated from the backup. Your current data is downloaded as a safety backup first.<br>
+        Pull will merge the GitHub backup into your current data: new entries from GitHub are added, and any fields both versions changed are updated from the backup. You can undo the merge immediately after if needed.<br>
         <strong>On a new device:</strong> fill in your token and repository above, then pull. Your data will be merged in. Make sure your password in Security matches the one you used on your original device.<br>
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button class="btn-ghost" style="font-size:13px;padding:5px 14px;color:#c84040;border-color:rgba(200,60,60,0.4);" onclick="gitSyncPull()">Pull and merge</button>
@@ -4303,7 +4306,12 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         </div>
       </div>
     </div>
-    <p style="font-size:13px;color:#c84040;margin-top:14px;margin-bottom:0;text-align:center;">⚠ Both files contain your private data. Treat them like a diary. Uploading to an AI service or cloud storage means trusting that provider with your data.</p>
+    <div id="export-enc-row" style="display:none;margin-top:18px;padding-top:16px;border-top:1px solid var(--border);">
+      <div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Encrypted backup</div>
+      <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Downloads the same encrypted file that GitHub sync uses. Safe to store anywhere: it is AES-256-GCM encrypted with your password and is unreadable without it. Use it as an offline backup or to move to a new device.</p>
+      <button class="btn-ghost" style="font-size:14px;" onclick="downloadEncryptedJson()">↓ data.enc</button>
+    </div>
+    <p style="font-size:13px;color:#c84040;margin-top:14px;margin-bottom:0;text-align:center;">⚠ data.json and migration.json contain your private data in plain text. Treat them like a diary. Uploading to an AI service or cloud storage means trusting that provider with your data.</p>
   </div>
 </div>
 
@@ -4477,7 +4485,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '1.7.3';
+const INSTRUCTIONS_VERSION = '1.7.4';
 const INSTRUCTIONS_CONTENT = `# character-sheet: LLM Instructions v1.7.1
 This file lives in project knowledge alongside \`data.json\` (source of truth).
 
@@ -4617,9 +4625,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 This is a standing instruction. It applies to every session, every output, without the user needing to ask.
 
-**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.3"\`, \`sessionCount\`, and \`lastSession\`.
+**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.4"\`, \`sessionCount\`, and \`lastSession\`.
 
-\`{ "_partial": true, "_instructionsVersion": "1.7.3", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
+\`{ "_partial": true, "_instructionsVersion": "1.7.4", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
 
 **Never output:** \`_featuredAch\` · \`_featuredCls\` · \`balanceSmoothed\` · \`harmonyHistory\` · \`dailyDistribution\` · practice history · pinned achievements/classes
 
@@ -5095,6 +5103,98 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | Most \`title\` fields | 8 words |
 | Journal \`events\` bullets | 20 words |
 | Journal \`insights\` / \`tensions\` bullets | 30 words |
+`; stopping needing external validation is a \`surrender\`; realising you had been lying to yourself is an \`insight\`.
+
+\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
+
+Size limit: 20 achievements.
+
+---
+
+# Journal
+
+## sessionRead
+What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
+
+## progression
+The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
+
+## keyQuestions
+The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
+
+**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
+
+\`\`\`json
+"keyQuestions": [
+  {
+    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
+    "asked": "2026-04-12",
+    "updated": "2026-04-12"
+  }
+]
+\`\`\`
+
+## openThreads
+Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
+
+\`\`\`json
+"openThreads": [
+  {
+    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
+    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
+  }
+]
+\`\`\`
+
+## Journal entries (insights)
+
+Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
+
+Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
+
+\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
+
+All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
+
+- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
+- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
+- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
+
+**Never remove or rewrite existing journal entries.** They were accurate at the time.
+
+---
+
+# Size limits
+
+| Category | Max |
+|---|---|
+| \`skills\` | 15 |
+| \`achievements\` | 20 |
+| \`enemies.current\` | 15 |
+| \`allies\` | 15 |
+| \`values\` / \`needs\` | 10 each |
+| \`keyQuestions\` | 3 |
+
+---
+
+# Field length limits
+
+| Field | Max |
+|---|---|
+| \`sessionRead\` | 80 words |
+| \`progression\` | 200-300 words |
+| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
+| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
+| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
+| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
+| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
+| \`limitingBelief.belief\` | 15 words |
+| \`sliderLabel\` | 80 chars |
+| \`keyQuestions[].question\` | 30 words |
+| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
+| Most \`title\` fields | 8 words |
+| Journal \`events\` bullets | 20 words |
+| Journal \`insights\` / \`tensions\` bullets | 30 words |
 
 ---
 
@@ -5268,7 +5368,7 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | Journal \`events\` bullets | 20 words |
 | Journal \`insights\` / \`tensions\` bullets | 30 words |
 `;
-const INSTRUCTIONS_MD_SHA256 = 'e8fe1cd0a39c3906c5548463c40ea2e92d91136f0af363d247f9de15db1e9f96';
+const INSTRUCTIONS_MD_SHA256 = '845efb53439587278275ab338dc91f6cf5fdad49f1d722a6042a39c5f42c6d6f';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -10048,6 +10148,8 @@ function exportState(){
   const migStr=JSON.stringify(bundle,null,2);
   document.getElementById('migration-textarea').value=migStr;
   renderMigrationPie(bundle,migStr);
+  const encRow = document.getElementById('export-enc-row');
+  if (encRow) encRow.style.display = (_pinActive && localStorage.getItem(ENC_KEY)) ? 'block' : 'none';
   document.getElementById('export-modal').classList.add('open');
   document.getElementById('export-btn')?.classList.remove('dirty');
   hideDirtyBanner();
@@ -10190,6 +10292,18 @@ function downloadMigrationJson(){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'migration.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function downloadEncryptedJson(){
+  const encData = localStorage.getItem(ENC_KEY);
+  const pinCheck = localStorage.getItem(PIN_CHECK);
+  if (!encData) { showImportToast('No encrypted data found. Set a password in Security first.'); return; }
+  const payload = JSON.stringify({ _v: 2, enc: encData, check: pinCheck || '' });
+  const blob = new Blob([payload], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data.enc';
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -12765,6 +12879,7 @@ function renderRecurringQuests(s) {
       const _slashSep = document.createElement('span'); _slashSep.className = 'rq-goal-slash'; _slashSep.textContent = '/';
       hdr.appendChild(_slashSep);
       hdr.appendChild(periodSelect);
+      { const _gwb = makeGoalWindowBadge(act); if (_gwb) hdr.appendChild(_gwb); }
       _hdrColorEls.forEach(el => hdr.appendChild(el));
     } else if (act.type === 'text') {
       // Text: XP pill + goal (entries) + "/" + periodSelect
@@ -12802,6 +12917,7 @@ function renderRecurringQuests(s) {
       const _textSlash = document.createElement('span'); _textSlash.className = 'rq-goal-slash'; _textSlash.textContent = '/';
       hdr.appendChild(_textSlash);
       hdr.appendChild(periodSelect);
+      { const _gwb = makeGoalWindowBadge(act); if (_gwb) hdr.appendChild(_gwb); }
       _hdrColorEls.forEach(el => hdr.appendChild(el));
     } else {
       // Breakdown: XP pill, then periodSelect, then chips
@@ -12821,6 +12937,7 @@ function renderRecurringQuests(s) {
       if(act.type==='timer') _pill.title='Click to set XP for completing goal (milestones scale automatically)';
       hdr.appendChild(_pill); }
       hdr.appendChild(periodSelect);
+      { const _gwb = makeGoalWindowBadge(act); if (_gwb) hdr.appendChild(_gwb); }
       _hdrColorEls.forEach(el => hdr.appendChild(el));
     }
     card.appendChild(hdr);
@@ -13466,6 +13583,18 @@ function awardRQXP(actId, xp, dateOverride) {
 
 function rqPeriodPrefix(period) {
   return { day:'Today', week:'This week', month:'This month', year:'This year' }[period] || ('This ' + (period||'period'));
+}
+
+// Returns a DOM element "· 5/week" for the header pin, or null if no goalCount.
+function makeGoalWindowBadge(act) {
+  if (!act.goalCount || act.resetPeriod !== 'day') return null;
+  const periodLabel = { week:'week', month:'month', year:'year' }[act.goalPeriod || 'week'];
+  const wrap = document.createElement('span'); wrap.className = 'rq-goal-window';
+  const dot  = document.createElement('span'); dot.className  = 'rq-goal-window-dot';  dot.textContent = '·';
+  const badge= document.createElement('span'); badge.className= 'rq-goal-window-badge'; badge.textContent = act.goalCount + '/' + periodLabel;
+  badge.title = 'Goal: ' + act.goalCount + ' completions per ' + periodLabel;
+  wrap.appendChild(dot); wrap.appendChild(badge);
+  return wrap;
 }
 
 // Returns a suffix like " · week: 3/5" when act has a goalCount window, else "".
@@ -17269,28 +17398,13 @@ async function gitSyncPull() {
     try { remoteBlob = JSON.parse(remotePlain); } catch { throw new Error('Backup file is corrupted or unreadable.'); }
     const remoteState = remoteBlob.state || remoteBlob;
     if (!remoteState || typeof remoteState !== 'object') throw new Error('Backup file does not contain valid data.');
-    // Safety net: download current local state before merging
-    (function _downloadSafetyBackup() {
-      try {
-        const localState = JSON.parse(JSON.stringify(appState));
-        localState._featuredAch = getFeaturedAch();
-        localState._featuredCls = getFeaturedCls();
-        localState._xpLog = loadXPLog();
-        const blob = new Blob([JSON.stringify(localState, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'pre-pull-backup-' + new Date().toISOString().slice(0, 10) + '.json';
-        a.click();
-        URL.revokeObjectURL(a.href);
-      } catch {}
-    })();
     // Merge remote state into local using the same logic as applyUpdate
     // This handles array merging by id, enemy deep-merge, locked fields, XP log, etc.
     closeGitSyncModal();
     applyUpdate(remoteState);
     gs.lastPulled = new Date().toISOString();
     await saveGitSyncSettings(gs);
-    showImportToast('Pulled and merged from ' + gs.owner + '/' + gs.repo + '. A safety backup was downloaded.');
+    showImportToast('Pulled and merged from ' + gs.owner + '/' + gs.repo + '.');
     _updateGitSyncStatus();
   } catch (err) {
     showImportToast('Pull failed: ' + err.message);
