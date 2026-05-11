@@ -385,7 +385,7 @@ body {
 .hdr-quest-desc  { font-size:15px; color:var(--text-mid); font-style:italic; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
 /* ══ TAB NAV ══════════════════════════════════════════════ */
-.tab-nav { display:flex; justify-content:center; border-bottom:1px solid var(--border-hi); margin-bottom:24px; }
+.tab-nav { display:flex; justify-content:safe center; border-bottom:1px solid var(--border-hi); margin-bottom:24px; overflow-x:auto; overflow-y:hidden; scrollbar-width:none; }
 .app-footer { text-align:center; padding:18px 16px; margin-top:32px; border-top:1px solid var(--border); font-size:14px; color:var(--text-dim); opacity:0.65; }
 .app-footer a { color:var(--text-dim); text-decoration:underline; text-underline-offset:3px; }
 .app-footer a:hover { opacity:1; color:#a0a8c0; }
@@ -393,7 +393,7 @@ body {
   background:none; border:none; border-bottom:2px solid transparent;
   color:var(--text-dim); font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.16em;
   padding:10px 20px; cursor:pointer; display:flex; align-items:center; gap:8px;
-  transition:all 0.2s; margin-bottom:-1px;
+  transition:all 0.2s; margin-bottom:-1px; white-space:nowrap; flex-shrink:0;
 }
 .tab-btn:hover { color:var(--text); }
 .tab-btn.active { border-bottom-color:currentColor; }
@@ -632,6 +632,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .stat-bar-val { font-family:var(--mono); font-size:15px; color:var(--text-mid); min-width:28px; text-align:right; }
 .stat-range { flex:1; -webkit-appearance:none; appearance:none; height:5px; border-radius:3px; outline:none; cursor:pointer; pointer-events:auto !important; }
 .stat-range::-webkit-slider-runnable-track { height:5px; border-radius:3px; background:#1e1e28; }
+.stat-range::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#dedad0; border:2px solid var(--bg); cursor:pointer; }
 .stat-range-focus   { background:#1e1e28; }
 .stat-range-focus::-webkit-slider-thumb   { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#c0cad4; border:2px solid var(--bg); cursor:pointer; }
 .stat-range-energy  { background:#1e1e28; }
@@ -911,7 +912,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
 @keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
 .fbar-btn.dirty::after { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:#c84040; margin-left:2px; }
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(4,4,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; }
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(4,4,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; }
 .modal-overlay.open { display:flex; }
 .emoji-picker { position:fixed; z-index:400; background:rgba(16,16,26,0.98); border:1px solid var(--border-hi); border-radius:10px; padding:10px; box-shadow:0 6px 32px rgba(0,0,0,0.7); width:220px; }
 .emoji-picker-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:8px; }
@@ -921,7 +922,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .emoji-picker-label { font-family:var(--mono); font-size:13px; color:var(--text-dim); margin-bottom:4px; letter-spacing:0.08em; }
 .emoji-picker-reset { font-family:var(--mono); font-size:13px; color:var(--text-dim); background:none; border:none; cursor:pointer; padding:4px 0 0; display:block; width:100%; text-align:right; }
 .emoji-picker-reset:hover { color:var(--text); }
-.modal { background:rgba(14,14,22,0.97); border:1px solid var(--border-hi); border-radius:10px; padding:26px 28px; width:600px; max-width:95vw; box-shadow:0 8px 40px rgba(0,0,0,0.6); }
+.modal { background:rgba(14,14,22,0.97); border:1px solid var(--border-hi); border-radius:10px; padding:26px 28px; width:600px; max-width:100%; box-shadow:0 8px 40px rgba(0,0,0,0.6); }
 .modal-title { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.2em; color:var(--text-dim); margin-bottom:10px; }
 .modal p { font-size:17px; color:var(--text); line-height:1.55; margin-bottom:10px; }
 .modal textarea {
@@ -1126,7 +1127,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #welcome-modal { z-index:400; }
 #welcome-modal .modal {
   border-top:3px solid var(--help);
-  max-width:700px; width:96vw;
+  max-width:700px; width:100%;
 }
 #welcome-modal .modal-title { color:var(--help); font-size:16px; }
 .welcome-modal-desc { font-size:16px; color:var(--text-mid); margin-bottom:18px; line-height:1.6; }
@@ -1905,6 +1906,15 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .prac-bar-edit-void:hover { background:rgba(180,60,60,0.22); }
 .prac-bar-edit-void.active { background:rgba(180,60,60,0.25); color:#e07070; border-color:rgba(200,80,80,0.6); }
+.prac-bar-edit.text-backfill { white-space:normal; width:240px; max-width:90vw; }
+.text-backfill-list { display:flex; flex-direction:column; gap:3px; max-height:140px; overflow-y:auto; }
+.text-backfill-entry { display:flex; align-items:flex-start; gap:4px; font-size:13px; color:var(--text-mid); line-height:1.4; }
+.text-backfill-entry-txt { flex:1; min-width:0; word-break:break-word; }
+.text-backfill-del { background:none; border:none; color:rgba(200,80,80,0.6); font-size:14px; cursor:pointer; padding:0 2px; flex-shrink:0; line-height:1; }
+.text-backfill-del:hover { color:#e07070; }
+.text-backfill-input { background:var(--bg); border:1px solid rgba(200,168,74,0.35); border-radius:3px; color:var(--text-b); font-family:inherit; font-size:13px; padding:4px 6px; width:100%; box-sizing:border-box; resize:none; outline:none; }
+.text-backfill-input:focus { border-color:var(--gold); }
+.text-backfill-hint { font-family:var(--mono); font-size:11px; color:var(--text-dim); text-align:right; }
 
 /* Checkbox practice widget */
 .checkbox-dots { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
@@ -2324,10 +2334,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 /* ══ MOBILE ══════════════════════════════════════════════════ */
 
-/* Tab nav: scrollable on small screens */
-.tab-nav { overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+/* Tab nav: scrollable at all sizes */
+.tab-nav { -webkit-overflow-scrolling:touch; }
 .tab-nav::-webkit-scrollbar { display:none; }
-.tab-btn { white-space:nowrap; flex-shrink:0; }
 
 /* ── Mobile bottom nav ── */
 @media (max-width:820px) {
@@ -2747,6 +2756,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .chat-cloud-warn.visible { display:flex; }
 .chat-cloud-warn-dot { font-size:14px; color:#e05050; animation:pulse-dot 2s infinite; flex-shrink:0; }
+.chat-cloud-warn-text { flex:1; }
+.chat-cloud-warn-dismiss { background:none; border:none; color:#f09090; cursor:pointer; font-size:18px; line-height:1; padding:0; flex-shrink:0; opacity:0.7; }
+.chat-cloud-warn-dismiss:hover { opacity:1; }
 .chat-demo-banner { padding:9px 16px; background:rgba(180,130,20,0.18); border-bottom:1px solid rgba(200,168,74,0.35); font-size:13px; color:var(--gold); flex-shrink:0; }
 .chat-sess-demo-label { font-size:12px; color:var(--text-dim); font-style:italic; }
 #chat-reauth-gate { display:none; position:absolute; inset:0; background:rgba(8,8,16,0.97); z-index:10; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:32px 24px; text-align:center; }
@@ -2828,20 +2840,25 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   border-top:1px solid var(--border-hi); flex-shrink:0;
   background:rgba(7,7,11,0.98);
 }
-.chat-apply-btn {
-  background:rgba(200,168,74,0.1); border:1px solid rgba(200,168,74,0.5);
-  color:var(--gold); font-family:'Cinzel',serif; font-size:13px;
-  letter-spacing:0.1em; padding:6px 16px; border-radius:4px; cursor:pointer;
-  transition:all 0.2s; animation:chat-pulse 1.6s ease-in-out infinite;
-}
-.chat-apply-btn:hover { background:rgba(200,168,74,0.2); }
-@keyframes chat-pulse {
-  0%,100% { box-shadow:0 0 0 0 rgba(200,168,74,0); }
-  50% { box-shadow:0 0 0 5px rgba(200,168,74,0.15); }
-}
-.chat-sync-btn { font-size:13px; padding:6px 14px; color:#2a9090; border-color:rgba(42,144,144,0.35); }
-.chat-sync-btn:hover { background:rgba(42,144,144,0.1); border-color:#2a9090; }
 .chat-end-btn { font-size:13px; padding:6px 14px; margin-left:auto; }
+/* Update review card */
+.chat-update-review {
+  background:rgba(42,144,144,0.07); border:1px solid rgba(42,144,144,0.25);
+  border-radius:6px; padding:14px 16px; margin:8px 0; display:flex; flex-direction:column; gap:10px;
+}
+.chat-review-narrative { font-size:13px; color:var(--text); line-height:1.6; }
+.chat-review-header { font-size:12px; font-family:var(--mono); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; }
+.chat-review-list { margin:0; padding:0 0 0 18px; font-size:13px; color:var(--text); line-height:1.8; }
+.chat-review-details summary { font-size:12px; color:var(--text-dim); cursor:pointer; user-select:none; }
+.chat-review-details summary:hover { color:var(--text); }
+.chat-review-json {
+  font-family:var(--mono); font-size:11px; color:var(--text-dim);
+  background:rgba(0,0,0,0.2); border-radius:4px; padding:10px; margin-top:6px;
+  max-height:200px; overflow-y:auto; white-space:pre-wrap; word-break:break-all;
+}
+.chat-review-btns { display:flex; gap:8px; }
+.chat-review-btns .btn-primary { font-size:13px; padding:6px 18px; }
+.chat-review-btns .btn-ghost  { font-size:13px; padding:6px 14px; }
 .chat-delete-session-btn { font-size:13px; padding:6px 14px; color:#c84040; border-color:rgba(200,64,64,0.4); }
 .chat-delete-session-btn:hover { background:rgba(200,64,64,0.12); border-color:#c84040; }
 .chat-new-session-btn { font-size:13px; padding:6px 14px; }
@@ -2881,9 +2898,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* Journal tab chat session cards */
 .chat-sess-card {
-  border:1px solid rgba(255,255,255,0.07); border-radius:6px;
+  border:1px solid rgba(255,255,255,0.08); border-radius:8px;
   padding:12px 14px; margin-bottom:10px; background:rgba(255,255,255,0.02);
+  transition:border-color 0.15s, background 0.15s;
 }
+.chat-sess-card:hover { border-color:rgba(42,144,144,0.35); background:rgba(42,144,144,0.04); }
+.chat-sess-card--live { border-left:3px solid rgba(42,144,144,0.6); padding-left:12px; }
 .chat-sess-meta { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
 .chat-sess-date { font-size:13px; color:var(--text); font-weight:600; }
 .chat-sess-num { font-family:var(--mono); font-size:11px; color:var(--text-dim); font-weight:400; margin-right:4px; }
@@ -2895,12 +2915,62 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chat-sess-badge-unfinished { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); color:var(--text-dim); }
 .chat-sess-title { font-size:14px; color:#6ab0b0; font-style:italic; margin-bottom:5px; }
 .chat-sess-summary { font-size:13px; color:var(--text-mid); line-height:1.5; margin-bottom:5px; }
-.chat-sess-harmony { font-size:11px; color:var(--text-dim); font-family:var(--mono); margin-bottom:6px; }
-.chat-sess-actions { display:flex; gap:8px; }
+.chat-sess-harmony { font-size:11px; color:var(--text-dim); font-family:var(--mono); margin-bottom:8px; }
+.chat-sess-actions { display:flex; gap:8px; align-items:center; }
 .chat-sess-btn { font-size:12px; padding:3px 10px; }
 .chat-sess-btn-delete { color:#c84040; border-color:rgba(200,64,64,0.4); }
 .chat-sess-btn-delete:hover { background:rgba(200,64,64,0.1); }
+.chat-sess-confirm { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-dim); }
+.chat-sess-confirm-yes { font-size:12px; padding:3px 10px; color:#c84040; border-color:rgba(200,64,64,0.6); }
+.chat-sess-confirm-yes:hover { background:rgba(200,64,64,0.18); }
+.chat-sess-confirm-no { font-size:12px; padding:3px 10px; }
 .chat-sess-empty { font-size:13px; color:var(--text-dim); padding:12px 0; }
+/* Custom session picker dropdown in chat header */
+.chat-sess-picker-wrap { position:relative; }
+.chat-sess-picker-btn {
+  font-size:12px; padding:3px 8px; height:28px; display:flex; align-items:center; gap:5px;
+  background:rgba(42,144,144,0.08); border:1px solid rgba(42,144,144,0.3);
+  color:var(--text-dim); border-radius:4px; cursor:pointer; white-space:nowrap;
+}
+.chat-sess-picker-btn:hover { background:rgba(42,144,144,0.15); border-color:rgba(42,144,144,0.5); color:var(--text); }
+.chat-sess-picker-btn .picker-arrow { font-size:9px; opacity:0.6; }
+.chat-sess-picker-panel {
+  display:none; position:absolute; right:0; top:calc(100% + 4px); z-index:200;
+  background:#0f1218; border:1px solid rgba(42,144,144,0.35); border-radius:6px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.6); min-width:280px; max-width:360px; max-height:380px;
+  overflow-y:auto;
+}
+.chat-sess-picker-panel.open { display:block; }
+.chat-sess-picker-row {
+  display:flex; align-items:center; gap:8px; padding:8px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;
+  transition:background 0.12s;
+}
+.chat-sess-picker-row:last-child { border-bottom:none; }
+.chat-sess-picker-row:hover { background:rgba(42,144,144,0.08); }
+.chat-sess-picker-row.picker-row--current { background:rgba(42,144,144,0.06); }
+.chat-sess-picker-info { flex:1; min-width:0; }
+.chat-sess-picker-label { font-size:12px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chat-sess-picker-sub { font-size:11px; color:var(--text-dim); margin-top:1px; }
+.chat-sess-picker-del {
+  flex-shrink:0; background:none; border:none; color:rgba(200,64,64,0.5); cursor:pointer;
+  font-size:15px; line-height:1; padding:2px 4px; border-radius:3px; transition:color 0.12s, background 0.12s;
+}
+.chat-sess-picker-del:hover { color:#c84040; background:rgba(200,64,64,0.12); }
+.chat-sess-picker-del-confirm {
+  flex-shrink:0; display:flex; align-items:center; gap:4px;
+}
+.chat-sess-picker-del-yes {
+  background:none; border:1px solid rgba(200,64,64,0.5); color:#c84040; cursor:pointer;
+  font-size:11px; padding:1px 7px; border-radius:3px; transition:background 0.12s;
+}
+.chat-sess-picker-del-yes:hover { background:rgba(200,64,64,0.18); }
+.chat-sess-picker-del-no {
+  background:none; border:1px solid rgba(255,255,255,0.12); color:var(--text-dim); cursor:pointer;
+  font-size:11px; padding:1px 7px; border-radius:3px; transition:background 0.12s;
+}
+.chat-sess-picker-del-no:hover { background:rgba(255,255,255,0.06); }
+.chat-sess-picker-empty { padding:12px; font-size:12px; color:var(--text-dim); text-align:center; }
 /* Chat sidebar mode */
 #chat-overlay.compact {
   inset:0 0 0 auto; width:420px; height:100%;
@@ -3085,7 +3155,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project</strong> in your AI of choice (Claude Projects, ChatGPT Projects, or Gemini Gems). Upload instructions.md to the project's knowledge base.</div></div>
         <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Start a chat</strong> and say: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life."</em></div></div>
         <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>End the session:</strong> ask your AI <em>"Update my data"</em> and copy the JSON it produces.</div></div>
-        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><strong><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;" onclick="dismissWelcome();openModal()">↑ Import</button></strong> your data (bottom-right of the app), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;font-weight:700;" onclick="dismissWelcome();openModal()">↑ Import</button> your data (bottom-right of the app), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
       </div>
       <!-- Path C: No AI / manual -->
       <div class="welcome-path" id="welcome-path-noai" style="display:none;">
@@ -3848,7 +3918,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
 <!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
 <div class="modal-overlay" id="support-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:560px;width:96vw;position:relative;">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:560px;width:100%;position:relative;">
     <button class="modal-close" onclick="document.getElementById('support-modal').classList.remove('open')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
     <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist: a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
@@ -3866,7 +3936,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
 <!-- ══ HELP MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:96vw;position:relative;">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:100%;position:relative;">
     <button class="modal-close" onclick="document.getElementById('help-modal').classList.remove('open')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);margin-bottom:16px;">? &nbsp;HOW CHARACTER-SHEET WORKS</div>
     <div class="help-cols">
@@ -3976,33 +4046,59 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <span id="cs-git-guide-arrow" style="font-size:10px;transition:transform 0.2s;">&#x25BA;</span> First time? Step-by-step setup guide
       </summary>
       <div style="padding:14px 16px;font-size:14px;color:var(--text);line-height:1.75;">
-        <p style="margin:0 0 12px;">You need two things: a private GitHub repo and a personal access token (PAT). Both are free. The token gives this app and only this app permission to write to that one repo. Nothing else.</p>
 
-        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 1: Create a free GitHub account (skip if you have one)</p>
-        <p style="margin:0 0 14px;">Go to <a href="https://github.com/signup" target="_blank" rel="noopener" style="color:var(--gold);">github.com/signup</a> and create an account. It's free.</p>
+        <p style="margin:0 0 14px;color:var(--text-mid);">GitHub is a free website for storing files. We use it as a private storage locker for your backup. Nobody else can access it. Setup takes about 5 minutes and you only do it once.</p>
 
-        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 2: Create a private repository</p>
+        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 1: Create a GitHub account (skip if you already have one)</p>
         <ol style="margin:0 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:5px;">
-          <li>Go to <a href="https://github.com/new" target="_blank" rel="noopener" style="color:var(--gold);">github.com/new</a></li>
-          <li>Give it any name, e.g. <code>my-character-sheet-backup</code></li>
-          <li><strong>Set visibility to Private</strong> (this is important: your data should not be public)</li>
-          <li>Click <strong>Create repository</strong> (leave all other options as-is)</li>
-          <li>The URL will show <code>yourname/my-character-sheet-backup</code>. Copy that and paste it into the Repository field below</li>
+          <li>Go to <a href="https://github.com/signup" target="_blank" rel="noopener" style="color:var(--gold);">github.com/signup</a></li>
+          <li>Enter your email, create a password, and choose a username</li>
+          <li>Verify your email when prompted, then come back here</li>
         </ol>
 
-        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 3: Generate a personal access token (PAT)</p>
-        <p style="margin:0 0 8px;">A PAT is like a limited-access password. This one will only be able to read and write to the one repo you just created. Nothing else on your GitHub account.</p>
-        <ol style="margin:0 0 10px;padding-left:20px;display:flex;flex-direction:column;gap:5px;">
-          <li>Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:var(--gold);">GitHub token settings</a></li>
-          <li>Under <strong>Token name</strong>, type something like <code>character-sheet-sync</code></li>
-          <li>Under <strong>Expiration</strong>, choose <strong>Custom</strong> and set a date <strong>30 days from today</strong>. GitHub will email you before it expires so you can renew it. (Why short? This repo stores sensitive personal data. If this token is ever stolen, a short expiry limits how long an attacker can use it before it stops working.)</li>
-          <li>Under <strong>Repository access</strong>, choose <strong>Only select repositories</strong>, then pick only the backup repo you just created. Do not grant access to any other repos.</li>
-          <li>Under <strong>Permissions</strong>, click <strong>Add permissions</strong>, search for <strong>Contents</strong>, and set it to <strong>Read and write</strong>. Do not add any other permissions.</li>
-          <li>Click <strong>Generate token</strong> at the bottom.</li>
-          <li>GitHub shows you the token once. <strong>Copy it now</strong> (starts with <code>github_pat_</code>) and <strong>save it in your password manager</strong> (1Password, Bitwarden, Apple Passwords, etc.) before pasting it below. You will not be able to see it again on GitHub. When it expires in 30 days you will need to generate a new one, and having it saved in your password manager means you can easily refer back to the settings.</li>
+        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 2: Create a private storage folder (called a "repository")</p>
+        <p style="margin:0 0 8px;color:var(--text-mid);">Think of this as a private folder on GitHub where your backup file will live.</p>
+        <ol style="margin:0 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:5px;">
+          <li>Go to <a href="https://github.com/new" target="_blank" rel="noopener" style="color:var(--gold);">github.com/new</a> (you must be logged in)</li>
+          <li>In the <strong>Repository name</strong> box, type any name, for example: <code>my-journal-backup</code></li>
+          <li>Under the name box you will see two options: Public and Private. <strong>Select Private.</strong> This is important. Public means anyone on the internet could see your file.</li>
+          <li>Leave everything else as-is and click the green <strong>Create repository</strong> button at the bottom</li>
+          <li>You will land on a page with a URL like <code>github.com/yourname/my-journal-backup</code>. You need the last two parts: <code>yourname/my-journal-backup</code>. Copy that and paste it into the Repository field below.</li>
         </ol>
+
+        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 3: Create an access key (called a "token")</p>
+        <p style="margin:0 0 8px;color:var(--text-mid);">A token is like a limited-access key card. This one will only allow this app to read and write your one backup folder. It cannot touch anything else on your GitHub account.</p>
+        <ol style="margin:0 0 10px;padding-left:20px;display:flex;flex-direction:column;gap:5px;">
+          <li>Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:var(--gold);">GitHub token settings</a> (you must be logged in)</li>
+          <li>In the <strong>Token name</strong> box, type something like <code>journal-sync</code> so you remember what it is later</li>
+          <li>Under <strong>Expiration</strong>, click the dropdown and choose <strong>Custom</strong>. Set the date to about 90 days from today. GitHub will email you a few days before it expires so you can renew it. (A shorter expiry limits the damage if the token is ever stolen.)</li>
+          <li>Under <strong>Repository access</strong>, select <strong>Only select repositories</strong>, then click the dropdown that appears and choose the backup folder you just created</li>
+          <li>Under <strong>Permissions</strong>, click <strong>Repository permissions</strong> to expand it. Find <strong>Contents</strong> in the list and change its dropdown from "No access" to <strong>Read and write</strong>. You do not need to change any other permissions.</li>
+          <li>Scroll to the bottom and click <strong>Generate token</strong></li>
+          <li>GitHub shows you the token <strong>once only</strong>. It starts with <code>github_pat_</code>. <strong>Copy it now</strong> and save it somewhere safe (your password manager, a secure note, or even a piece of paper in a drawer) before pasting it into the field below. If you lose it you can always generate a new one, but you will need to paste it in here again.</li>
+        </ol>
+
+        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Step 4: Fill in the fields below and push your first backup</p>
+        <ol style="margin:0 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:5px;">
+          <li>Paste your token into the <strong>GitHub personal access token</strong> field</li>
+          <li>Paste <code>yourname/my-journal-backup</code> into the <strong>Repository</strong> field</li>
+          <li>Leave <strong>File path</strong> as <code>data.enc</code></li>
+          <li>Click <strong>Push</strong>. If everything is set up correctly you will see a confirmation message.</li>
+        </ol>
+
+        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Using the backup on a second device</p>
+        <ol style="margin:0 0 14px;padding-left:20px;display:flex;flex-direction:column;gap:5px;">
+          <li>Open this app on the other device and open the Sync panel</li>
+          <li>Fill in the same token, repository, and file path</li>
+          <li>Click <strong>Pull</strong>. Your data will be downloaded and applied.</li>
+          <li>Go to <strong>Security</strong> and enter the <strong>same password</strong> you use on your main device. The backup is encrypted with that password and cannot be read without it.</li>
+        </ol>
+
+        <p style="margin:0 0 6px;font-weight:600;color:var(--gold);">Renewing your token when it expires</p>
+        <p style="margin:0 0 14px;color:var(--text-mid);">GitHub will email you a few days before expiry. When that happens: go to <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener" style="color:var(--gold);">github.com/settings/personal-access-tokens</a>, find your token, click <strong>Regenerate</strong>, copy the new token, and paste it into the field below. Everything else stays the same.</p>
+
         <div style="padding:10px 12px;background:rgba(200,60,60,0.07);border:1px solid rgba(200,60,60,0.25);border-radius:5px;font-size:13px;line-height:1.6;">
-          <strong>Important:</strong> anyone with this token can download your encrypted backup from GitHub. The password you set in Security is what actually protects your data if that happens, so make sure it is strong. Do not share the token or paste it into any other website or app.
+          <strong>Security note:</strong> your token gives access to your backup folder on GitHub. The password you set in Security encrypts the backup file itself, so even if someone got the token, they could not read your data without the password too. Keep both safe and do not share them or paste them into any other app.
         </div>
       </div>
     </details>
@@ -4032,13 +4128,17 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <span id="cs-git-sync-status" style="font-size:12px;color:var(--text);flex:1;text-align:right;line-height:1.4;"></span>
       </div>
       <div id="cs-git-pull-confirm" style="display:none;margin-top:10px;padding:10px 12px;background:rgba(200,60,60,0.08);border:1px solid rgba(200,60,60,0.3);border-radius:6px;font-size:13px;color:var(--text);line-height:1.5;">
-        This will overwrite your local data with the backup from GitHub and reload the page. Any changes since your last push will be lost.<br>
-        <strong>On a new device:</strong> after the page reloads, go to Security and set the <strong>same password you used on your original device</strong>. The backup is encrypted with that password and cannot be read without it.<br>
+        Pull will merge the GitHub backup into your current data: new entries from GitHub are added, and any fields both versions changed are updated from the backup. Your current data is downloaded as a safety backup first.<br>
+        <strong>On a new device:</strong> fill in your token and repository above, then pull. Your data will be merged in. Make sure your password in Security matches the one you used on your original device.<br>
         <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn-ghost" style="font-size:13px;padding:5px 14px;color:#c84040;border-color:rgba(200,60,60,0.4);" onclick="gitSyncPull()">Yes, overwrite and reload</button>
+          <button class="btn-ghost" style="font-size:13px;padding:5px 14px;color:#c84040;border-color:rgba(200,60,60,0.4);" onclick="gitSyncPull()">Pull and merge</button>
           <button class="btn-ghost" style="font-size:13px;padding:5px 14px;" onclick="document.getElementById('cs-git-pull-confirm').style.display='none'">Cancel</button>
         </div>
       </div>
+      <label id="cs-git-autosync-label" style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-top:10px;">
+        <input type="checkbox" id="cs-git-autosync" onchange="gitSyncToggleAuto(this.checked)">
+        <span id="cs-git-autosync-text">Auto-sync: push encrypted backup after each edit</span>
+      </label>
       <p class="chat-api-note" style="margin:12px 0 0;">Push after each session to keep your backup current. On another device: Pull, then go to Security and enter the <strong>same password</strong> you use here to decrypt your data.</p>
     </div>
     <div class="modal-row" style="margin-top:16px;">
@@ -4167,7 +4267,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
 <!-- ══ EXPORT MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:1000px;width:95vw;position:relative;">
+  <div class="modal" style="border-top:3px solid var(--help);max-width:1000px;width:100%;position:relative;">
     <button class="modal-close" onclick="document.getElementById('export-modal').classList.remove('open')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
     <div id="export-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
@@ -4377,7 +4477,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '1.7.1';
+const INSTRUCTIONS_VERSION = '1.7.3';
 const INSTRUCTIONS_CONTENT = `# character-sheet: LLM Instructions v1.7.1
 This file lives in project knowledge alongside \`data.json\` (source of truth).
 
@@ -4406,7 +4506,7 @@ If the conversation is getting very long, flag it and suggest the user export, s
 
 If no \`data.json\` is present, this is a first session. Do not run a survey or start filling schema fields. Understand who this person is and what they want from the tool: accountability, reflection, a thinking partner, or something else. Let them set the pace.
 
-Output a minimal JSON at the end: \`name\`, \`subtitle\`, \`sessionCount: 1\`, \`lastSession\`, and whatever emerged naturally. Use \`claudeRead\` to record your honest read of what this user seems to need. This is as important as any data field.
+Output a minimal JSON at the end: \`name\`, \`subtitle\`, \`sessionCount: 1\`, \`lastSession\`, and whatever emerged naturally. Use \`sessionRead\` to record your honest read of what this user seems to need. This is as important as any data field.
 
 ---
 
@@ -4517,9 +4617,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 This is a standing instruction. It applies to every session, every output, without the user needing to ask.
 
-**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.1"\`, \`sessionCount\`, and \`lastSession\`.
+**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.3"\`, \`sessionCount\`, and \`lastSession\`.
 
-\`{ "_partial": true, "_instructionsVersion": "1.7.1", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
+\`{ "_partial": true, "_instructionsVersion": "1.7.3", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
 
 **Never output:** \`_featuredAch\` · \`_featuredCls\` · \`balanceSmoothed\` · \`harmonyHistory\` · \`dailyDistribution\` · practice history · pinned achievements/classes
 
@@ -4821,7 +4921,7 @@ Size limit: 20 achievements.
 
 # Journal
 
-## claudeRead
+## sessionRead
 What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
 
 ## progression
@@ -4889,7 +4989,99 @@ All bullets must pass the stranger test: a reader with no prior context must und
 
 | Field | Max |
 |---|---|
-| \`claudeRead\` | 80 words |
+| \`sessionRead\` | 80 words |
+| \`progression\` | 200-300 words |
+| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
+| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
+| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
+| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
+| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
+| \`limitingBelief.belief\` | 15 words |
+| \`sliderLabel\` | 80 chars |
+| \`keyQuestions[].question\` | 30 words |
+| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
+| Most \`title\` fields | 8 words |
+| Journal \`events\` bullets | 20 words |
+| Journal \`insights\` / \`tensions\` bullets | 30 words |
+`; stopping needing external validation is a \`surrender\`; realising you had been lying to yourself is an \`insight\`.
+
+\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
+
+Size limit: 20 achievements.
+
+---
+
+# Journal
+
+## sessionRead
+What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
+
+## progression
+The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
+
+## keyQuestions
+The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
+
+**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
+
+\`\`\`json
+"keyQuestions": [
+  {
+    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
+    "asked": "2026-04-12",
+    "updated": "2026-04-12"
+  }
+]
+\`\`\`
+
+## openThreads
+Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
+
+\`\`\`json
+"openThreads": [
+  {
+    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
+    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
+  }
+]
+\`\`\`
+
+## Journal entries (insights)
+
+Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
+
+Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
+
+\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
+
+All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
+
+- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
+- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
+- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
+
+**Never remove or rewrite existing journal entries.** They were accurate at the time.
+
+---
+
+# Size limits
+
+| Category | Max |
+|---|---|
+| \`skills\` | 15 |
+| \`achievements\` | 20 |
+| \`enemies.current\` | 15 |
+| \`allies\` | 15 |
+| \`values\` / \`needs\` | 10 each |
+| \`keyQuestions\` | 3 |
+
+---
+
+# Field length limits
+
+| Field | Max |
+|---|---|
+| \`sessionRead\` | 80 words |
 | \`progression\` | 200-300 words |
 | \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
 | \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
@@ -4908,7 +5100,94 @@ All bullets must pass the stranger test: a reader with no prior context must und
 
 # Journal
 
-## claudeRead
+## sessionRead
+What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
+
+## progression
+The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
+
+## keyQuestions
+The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
+
+**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
+
+\`\`\`json
+"keyQuestions": [
+  {
+    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
+    "asked": "2026-04-12",
+    "updated": "2026-04-12"
+  }
+]
+\`\`\`
+
+## openThreads
+Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
+
+\`\`\`json
+"openThreads": [
+  {
+    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
+    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
+  }
+]
+\`\`\`
+
+## Journal entries (insights)
+
+Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
+
+Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
+
+\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
+
+All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
+
+- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
+- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
+- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
+
+**Never remove or rewrite existing journal entries.** They were accurate at the time.
+
+---
+
+# Size limits
+
+| Category | Max |
+|---|---|
+| \`skills\` | 15 |
+| \`achievements\` | 20 |
+| \`enemies.current\` | 15 |
+| \`allies\` | 15 |
+| \`values\` / \`needs\` | 10 each |
+| \`keyQuestions\` | 3 |
+
+---
+
+# Field length limits
+
+| Field | Max |
+|---|---|
+| \`sessionRead\` | 80 words |
+| \`progression\` | 200-300 words |
+| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
+| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
+| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
+| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
+| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
+| \`limitingBelief.belief\` | 15 words |
+| \`sliderLabel\` | 80 chars |
+| \`keyQuestions[].question\` | 30 words |
+| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
+| Most \`title\` fields | 8 words |
+| Journal \`events\` bullets | 20 words |
+| Journal \`insights\` / \`tensions\` bullets | 30 words |
+
+---
+
+# Journal
+
+## sessionRead
 What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
 
 ## progression
@@ -4974,7 +5253,7 @@ All bullets must pass the stranger test: a reader with no prior context must und
 
 | Field | Max |
 |---|---|
-| \`claudeRead\` | 80 words |
+| \`sessionRead\` | 80 words |
 | \`progression\` | 200-300 words |
 | \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
 | \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
@@ -4989,7 +5268,7 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | Journal \`events\` bullets | 20 words |
 | Journal \`insights\` / \`tensions\` bullets | 30 words |
 `;
-const INSTRUCTIONS_MD_SHA256 = 'cf38063cc812a1b6f67b06c81bbc4745aad1c155de5d6eda61e9a6f163fd2eb0';
+const INSTRUCTIONS_MD_SHA256 = 'e8fe1cd0a39c3906c5548463c40ea2e92d91136f0af363d247f9de15db1e9f96';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
@@ -5060,6 +5339,21 @@ function migrateCompletedQuests(){
   }catch{}
 }
 
+// Migration: rename claudeRead -> sessionRead in localStorage
+function migrateClaudeRead(){
+  if(IS_DEMO) return;
+  try{
+    const raw=localStorage.getItem('cs-state-v1');
+    if(!raw) return;
+    const s=JSON.parse(raw);
+    if(s.claudeRead !== undefined && s.sessionRead === undefined){
+      s.sessionRead = s.claudeRead;
+      delete s.claudeRead;
+      localStorage.setItem('cs-state-v1', JSON.stringify(s));
+    }
+  }catch{}
+}
+
 // Period helpers
 function getPeriodKey(date, resetPeriod) {
   const d = date || new Date();
@@ -5091,6 +5385,42 @@ function saveRQGoalHistory(charName, id, hist){try{localStorage.setItem('cs-rq-g
 
 // In-memory state for active practices
 const practiceState = {}; // id -> { seconds, running, interval, milestonesHit, milestoneXP, toastTimeout }
+
+// Returns { done, total } for the current goal window (e.g. days this week where quest was completed).
+// Only meaningful when act.goalCount is set and act.resetPeriod === 'day'.
+function getRQGoalWindowCount(act, charName) {
+  const gc = act.goalCount;
+  const gp = act.goalPeriod || 'week';
+  if (!gc || act.resetPeriod !== 'day') return null;
+  const windowKey = currentPeriod(gp);
+  const now = new Date();
+  const windowDays = gp === 'week' ? 7 : gp === 'month' ? 31 : 366;
+  const target = act.target || 1;
+  const hardHist = HARDCODED_HISTORY[act.id] || [];
+  const lsHist = loadRQHistory(charName, act.id);
+  const ps = practiceState[act.id];
+  let done = 0;
+  for (let i = 0; i < windowDays; i++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    if (getPeriodKey(d, gp) !== windowKey) break;
+    const dayKey = d.toISOString().slice(0, 10);
+    const hard = hardHist.find(h => h.date === dayKey);
+    const le = lsHist.find(h => h.period === dayKey);
+    let val = 0;
+    if (hard != null) val = hard.value != null ? hard.value : rqTextEntries(hard).length;
+    else if (le != null && !le.void) val = le.value != null ? le.value : rqTextEntries(le).length;
+    // count today's in-progress value from practiceState
+    if (i === 0 && ps) {
+      const psVal = act.type === 'text' ? (ps.texts || []).length
+                  : act.type === 'timer' ? Math.floor((ps.seconds || 0) / 60)
+                  : (ps.value || 0);
+      val = Math.max(val, psVal);
+    }
+    if (val >= target) done++;
+  }
+  return { done, total: gc };
+}
 
 function archiveRQValue(act, charName, periodStart, value) {
   if (!value || value <= 0 || !periodStart) return;
@@ -5227,7 +5557,34 @@ function getRQStats(act, charName) {
     periods.push({ period: periodKey, value: val ?? 0, subsDone, hasEntry, void: isVoid });
   }
   let pct7, pctAll;
-  if (isCheck) {
+  // When goalCount is set: evaluate success at goal-window level (e.g. weeks), not per day.
+  if (act.goalCount && act.resetPeriod === 'day') {
+    const gc = act.goalCount;
+    const gp = act.goalPeriod || 'week';
+    // Group the 90 daily periods into goal-windows (weeks/months), most recent first.
+    // periods[0] is yesterday (i=1), so we walk forward in time to group them.
+    const windowMap = new Map(); // windowKey -> { hits, total, hasAny }
+    periods.forEach(p => {
+      // Reconstruct date from period key (YYYY-MM-DD for day periods)
+      const d = new Date(p.period + 'T00:00:00');
+      const wk = getPeriodKey(d, gp);
+      if (!windowMap.has(wk)) windowMap.set(wk, { hits: 0, total: 0, hasAny: false });
+      const w = windowMap.get(wk);
+      w.total++;
+      if (!p.void) {
+        if (p.hasEntry) w.hasAny = true;
+        if (p.value >= target && !p.void) w.hits++;
+      }
+    });
+    const windows = [...windowMap.values()];
+    const winHit = w => w.hits >= gc;
+    const last7wins = windows.slice(0, 7);
+    const last7active = last7wins.filter(w => w.hasAny);
+    pct7 = last7active.length ? Math.round(last7active.filter(winHit).length / last7active.length * 100) : 0;
+    const lastActiveIdx = windows.reduce((acc, w, i) => w.hasAny ? i : acc, -1);
+    const allActive = lastActiveIdx >= 0 ? windows.slice(0, lastActiveIdx + 1).filter(w => w.hasAny) : [];
+    pctAll = allActive.length ? Math.round(allActive.filter(winHit).length / allActive.length * 100) : 0;
+  } else if (isCheck) {
     // For checkboxes: only count periods with explicit history entries in denominator
     const last7entries = periods.slice(0, 7).filter(p => p.hasEntry);
     pct7 = last7entries.length ? Math.round(last7entries.filter(p => p.value >= target).length / last7entries.length * 100) : 0;
@@ -5309,6 +5666,7 @@ function getRQStats(act, charName) {
 }
 
 migrateCompletedQuests();
+migrateClaudeRead();
 // Migration: rename cs-undo-v1 → cs-undo-v1
 (function(){const old=localStorage.getItem('cs-undo-v1');if(old){localStorage.setItem('cs-undo-v1',old);localStorage.removeItem('cs-undo-v1');}})();
 let appState=loadState(), timerIv={};
@@ -7033,6 +7391,7 @@ function renderQuestsTab(s){
   const sqEl=document.getElementById('qt-active');
   if(sqEl){
     sqEl.innerHTML='';
+    const sqTopBtn=document.createElement('button'); sqTopBtn.className='add-item-btn'; sqTopBtn.textContent='+ Add Quest'; sqTopBtn.onclick=addSideQuest; sqEl.appendChild(sqTopBtn);
     (s.sideQuests||DEFAULT.sideQuests).forEach((q,i)=>{
       const pct=Math.min(100,Math.max(0,q.progress||0));
       const bodyId=`sq-body-${i}`,arrowId=`sq-arrow-${i}`;
@@ -7482,6 +7841,9 @@ function renderEnemiesTab(s){
       return d;
     }
 
+    // Top add button
+    const enemyTopBtn=document.createElement('button'); enemyTopBtn.className='add-item-btn'; enemyTopBtn.textContent='+ Add Enemy'; enemyTopBtn.onclick=addEnemy; enemiesEl.appendChild(enemyTopBtn);
+
     // Render bosses section
     const bosses=(enemies.bosses||[]).filter(b=>b&&b.name);
     // Legacy: support single enemies.boss
@@ -7886,6 +8248,18 @@ function renderAlliesTab(s){
     return pa-pb;
   });
 
+  // Top add buttons
+  {
+    const topBtnRow=document.createElement('div'); topBtnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;';
+    [['loot','☁ Add Loot'],['spell','✦ Add Spell'],['liberation','⬡ Add Liberation'],['source','↑ Add Source']].forEach(([type,label])=>{
+      const btn=document.createElement('button'); btn.className='add-item-btn'; btn.textContent=label;
+      const atc=ALLY_TYPES[type]; if(atc?.tooltip) btn.title=atc.tooltip;
+      btn.onclick=()=>addAllyOfType(type);
+      topBtnRow.appendChild(btn);
+    });
+    alliesEl.appendChild(topBtnRow);
+  }
+
   if(!all.length){
     const p=document.createElement('p'); p.style.cssText='color:var(--text-dim);font-size:15px;'; p.textContent='No allies recorded yet.'; alliesEl.appendChild(p);
   } else {
@@ -8080,16 +8454,16 @@ function renderProgressionCard(el, s) {
   el.innerHTML = '';
   const ta = document.createElement('textarea');
   ta.className = 'claude-read-textarea';
-  ta.value = s.claudeRead || '';
+  ta.value = s.sessionRead || '';
   ta.placeholder = 'Add a note about your latest session...';
   ta.rows = 3;
   ta.addEventListener('input', () => {
     ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
-    appState.claudeRead = ta.value;
+    appState.sessionRead = ta.value;
   });
   ta.addEventListener('blur', () => {
     const v = ta.value.trim();
-    if (appState.claudeRead !== v) { appState.claudeRead = v; saveState(appState); markDirty(); }
+    if (appState.sessionRead !== v) { appState.sessionRead = v; saveState(appState); markDirty(); }
   });
   setTimeout(() => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }, 0);
   el.appendChild(ta);
@@ -8141,17 +8515,17 @@ function renderProgressionCard(el, s) {
   if(loreHdr) loreHdr.style.color = progColor;
   const airHdr = document.getElementById('air-progression-hdr');
   if(airHdr) airHdr.style.color = progColor;
-  // Journal tab: last session (claudeRead) — always shown, always editable
+  // Journal tab: last session (sessionRead) — always shown, always editable
   const lsWrap=document.getElementById('lore-last-session'), lsTxt=document.getElementById('lore-last-session-text');
   if(lsWrap&&lsTxt){
     lsTxt.innerHTML='';
     const lsTa=document.createElement('textarea');
     lsTa.className='claude-read-textarea';
-    lsTa.value=s.claudeRead||'';
+    lsTa.value=s.sessionRead||'';
     lsTa.placeholder='Add a note about your latest session...';
     lsTa.rows=3;
-    lsTa.addEventListener('input',()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; appState.claudeRead=lsTa.value; });
-    lsTa.addEventListener('blur',()=>{ const v=lsTa.value.trim(); if(appState.claudeRead!==v){appState.claudeRead=v;saveState(appState);markDirty();} });
+    lsTa.addEventListener('input',()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; appState.sessionRead=lsTa.value; });
+    lsTa.addEventListener('blur',()=>{ const v=lsTa.value.trim(); if(appState.sessionRead!==v){appState.sessionRead=v;saveState(appState);markDirty();} });
     setTimeout(()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; },0);
     lsTxt.appendChild(lsTa);
   }
@@ -8868,7 +9242,7 @@ function showCardEditModal({fields, accentColor, onSave}){
   overlay.id='card-edit-modal'; overlay.className='modal-overlay open';
   overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.remove(); });
   const box=document.createElement('div');
-  box.className='modal'; box.style.cssText=`border-top:3px solid ${accentColor};position:relative;max-width:480px;`;
+  box.className='modal'; box.style.cssText=`border-top:3px solid ${accentColor};position:relative;width:100%;max-width:480px;`;
   const closeBtn=document.createElement('button'); closeBtn.className='modal-close'; closeBtn.textContent='×'; closeBtn.title='Close';
   closeBtn.addEventListener('click',()=>overlay.remove());
   const modalTitleEl=document.createElement('div'); modalTitleEl.className='modal-title'; modalTitleEl.style.color=accentColor; modalTitleEl.textContent='EDIT';
@@ -8980,7 +9354,7 @@ function applyMigrationBundle(p){
     if(p['cs-welcomed-v1']) localStorage.setItem('cs-welcomed-v1','1');
     if(p['cs-starters-seen-v1']) localStorage.setItem('cs-starters-seen-v1','1');
     if(p._practiceData) Object.entries(p._practiceData).forEach(([k,v])=>{
-      if(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')) localStorage.setItem(k,JSON.stringify(v));
+      if(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')||k.startsWith('cs-rq-goals-')) localStorage.setItem(k,JSON.stringify(v));
     });
     if(p['cs-chat-settings-v1']) localStorage.setItem('cs-chat-settings-v1',JSON.stringify(p['cs-chat-settings-v1']));
     // cs-gitsync-v1 intentionally excluded from import: PAT is device-specific
@@ -9036,6 +9410,12 @@ function validateImport(p) {
   chk(p.mainQuest !== undefined && !isObj(p.mainQuest), '"mainQuest" must be an object, not an array');
   return errs.length ? errs[0] : null;
 }
+// Merge an array by a key field (name or id), preserving unmentioned entries.
+function _mergeArrayByKey(existing, incoming, key) {
+  const map = new Map((existing||[]).map(x=>[x[key], x]));
+  (incoming||[]).forEach(x => map.set(x[key], Object.assign({}, map.get(x[key])||{}, x)));
+  return [...map.values()];
+}
 function applyUpdate(chatData){
   const raw=chatData ? JSON.stringify(chatData) : document.getElementById('json-input').value.trim();
   try{
@@ -9059,14 +9439,29 @@ function applyUpdate(chatData){
     }
     let merged;
     if(isPartial){
-      // Merge scalars/objects shallowly, but merge arrays by id to avoid wiping existing entries
       merged = Object.assign({}, appState);
       for(const [k, v] of Object.entries(p)){
-        if(Array.isArray(v) && Array.isArray(merged[k]) && v.length && v[0]?.id !== undefined){
+        if(k === 'enemies' && v && typeof v === 'object' && !Array.isArray(v)){
+          // Deep-merge enemies sub-keys so adding one boss/minion doesn't wipe others
+          const base = Object.assign({}, merged.enemies || {});
+          if(v.current)   base.current   = _mergeArrayByKey(base.current,   v.current,   'name');
+          if(v.graveyard) base.graveyard = _mergeArrayByKey(base.graveyard, v.graveyard, 'name');
+          if(v.bosses){
+            // Merge bosses by name, then deep-merge each boss's minions by name
+            const bossMap = new Map((base.bosses||[]).map(b=>[b.name, b]));
+            v.bosses.forEach(nb => {
+              const existing = bossMap.get(nb.name) || {};
+              const merged_boss = Object.assign({}, existing, nb);
+              if(nb.minions && existing.minions)
+                merged_boss.minions = _mergeArrayByKey(existing.minions, nb.minions, 'name');
+              bossMap.set(nb.name, merged_boss);
+            });
+            base.bosses = [...bossMap.values()];
+          }
+          merged[k] = base;
+        } else if(Array.isArray(v) && Array.isArray(merged[k]) && v.length && v[0]?.id !== undefined){
           // Merge by id: update matching entries, append new ones
-          const map = new Map(merged[k].map(x=>[x.id, x]));
-          v.forEach(x => map.set(x.id, Object.assign({}, map.get(x.id)||{}, x)));
-          merged[k] = [...map.values()];
+          merged[k] = _mergeArrayByKey(merged[k], v, 'id');
         } else {
           merged[k] = v;
         }
@@ -9149,6 +9544,9 @@ function applyUpdate(chatData){
     }
     // Restore locked fields from pre-import snapshot (honour _locked contract)
     applyLockedFields(merged, prevSnapshot);
+    // Preserve chat session history — the AI never includes chatSessions in data.json,
+    // so a full (non-partial) import would otherwise wipe all chat history on save.
+    if(!merged.chatSessions && prevSnapshot.chatSessions) merged.chatSessions = prevSnapshot.chatSessions;
     const _impOldXp=prevSnapshot.xp||0; const _impOldLevel=prevSnapshot.level||1;
     logXPChange(appState, merged, _importItems.length?_importItems:null, _xpLogProvided);
     snapshotHarmony(merged);
@@ -9559,11 +9957,11 @@ function buildMigrationBundle(){
   // UI flags (welcomed, starters seen)
   if(localStorage.getItem('cs-welcomed-v1')) bundle['cs-welcomed-v1']='1';
   if(localStorage.getItem('cs-starters-seen-v1')) bundle['cs-starters-seen-v1']='1';
-  // Practice data (cs-rq-cur-* and cs-rq-hist-*)
+  // Practice data (cs-rq-cur-*, cs-rq-hist-*, cs-rq-goals-*)
   const rqKeys={};
   for(let i=0;i<localStorage.length;i++){
     const k=localStorage.key(i);
-    if(k&&(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-'))){
+    if(k&&(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')||k.startsWith('cs-rq-goals-'))){
       try{rqKeys[k]=JSON.parse(localStorage.getItem(k));}catch{}
     }
   }
@@ -10280,6 +10678,108 @@ function renderPracticeMiniChart(canvas, act, charName) {
   // legacy no-op — new chart uses renderPracticeBarChart on a div
 }
 
+function attachTextBackfillPopover(col, dp, act, charName, redrawFn) {
+  col.style.cursor = 'pointer';
+  col.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.prac-bar-edit').forEach(p => p.remove());
+    document.querySelectorAll('.prac-bar-col.active').forEach(c => c.classList.remove('active'));
+    col.classList.add('active');
+    const isCurrent = dp.isCurrent;
+    const getEntries = () => {
+      if (isCurrent) { const ps = practiceState[act.id]; return ps ? [...(ps.texts || [])] : []; }
+      const hist = loadRQHistory(charName, act.id);
+      const he = hist.find(h => h.period === dp.period);
+      return he ? [...rqTextEntries(he)] : [];
+    };
+    const saveEntries = texts => {
+      if (isCurrent) {
+        const ps = practiceState[act.id];
+        if (ps) {
+          ps.texts = texts;
+          saveRQCurrent(charName, act.id, { texts, periodStart: currentPeriod(act.resetPeriod) });
+          renderTextEntryList(act.id, texts, act, document.getElementById('text-input-' + act.id));
+          const lbl = document.getElementById('text-lbl-' + act.id);
+          if (lbl) { const cnt = texts.length; const tgt = act.target || 1; lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + (tgt > 1 ? cnt + ' / ' + tgt + ' entries' : (cnt ? cnt + ' ' + (cnt === 1 ? 'entry' : 'entries') : 'not yet')) + rqGoalSuffix(act, charName); }
+        }
+      } else {
+        const hist = loadRQHistory(charName, act.id);
+        const idx = hist.findIndex(h => h.period === dp.period);
+        if (texts.length > 0) {
+          if (idx >= 0) hist[idx].texts = texts; else hist.push({ period: dp.period, texts });
+        } else if (idx >= 0) { hist.splice(idx, 1); }
+        saveRQHistory(charName, act.id, hist);
+      }
+      dp.count = texts.length;
+      markDirty();
+      redrawFn();
+    };
+    const popover = document.createElement('div');
+    popover.className = 'prac-bar-edit text-backfill';
+    const hdr = document.createElement('div'); hdr.className = 'prac-bar-edit-lbl';
+    hdr.textContent = dp.label + (isCurrent ? ' (today)' : '');
+    popover.appendChild(hdr);
+    let entries = getEntries();
+    const listEl = document.createElement('div'); listEl.className = 'text-backfill-list';
+    const refreshList = () => {
+      listEl.innerHTML = '';
+      if (!entries.length) {
+        const empty = document.createElement('div');
+        empty.style.cssText = 'font-size:12px;color:var(--text-dim);text-align:center;padding:4px 0;';
+        empty.textContent = 'No entries yet';
+        listEl.appendChild(empty);
+      } else {
+        entries.forEach((txt, i) => {
+          const row = document.createElement('div'); row.className = 'text-backfill-entry';
+          const span = document.createElement('span'); span.className = 'text-backfill-entry-txt';
+          span.textContent = txt;
+          const del = document.createElement('button'); del.className = 'text-backfill-del'; del.textContent = '×'; del.title = 'Remove';
+          del.addEventListener('click', ev => {
+            ev.stopPropagation();
+            entries.splice(i, 1);
+            saveEntries([...entries]);
+            if (act.xpPerUnit) awardRQXP(act.id, -Math.round(act.xpPerUnit));
+            refreshList();
+          });
+          row.appendChild(span); row.appendChild(del);
+          listEl.appendChild(row);
+        });
+      }
+    };
+    refreshList();
+    popover.appendChild(listEl);
+    const ta = document.createElement('textarea'); ta.className = 'text-backfill-input'; ta.rows = 2;
+    ta.placeholder = 'Add entry (Enter to save)…';
+    ta.addEventListener('keydown', ev => {
+      ev.stopPropagation();
+      if (ev.key === 'Enter' && !ev.shiftKey) {
+        ev.preventDefault();
+        const text = ta.value.trim(); if (!text) return;
+        entries.push(text);
+        saveEntries([...entries]);
+        if (act.xpPerUnit) { const xp = Math.round(act.xpPerUnit); awardRQXP(act.id, xp); xpFloatLabel('+' + xp + ' XP', ta); }
+        ta.value = '';
+        refreshList();
+      }
+      if (ev.key === 'Escape') { popover.remove(); col.classList.remove('active'); }
+    });
+    popover.appendChild(ta);
+    const hint = document.createElement('div'); hint.className = 'text-backfill-hint';
+    hint.textContent = 'Shift+Enter for line break';
+    popover.appendChild(hint);
+    const closeHandler = ev => { if (!popover.contains(ev.target)) { popover.remove(); col.classList.remove('active'); document.removeEventListener('click', closeHandler, true); } };
+    document.addEventListener('click', closeHandler, true);
+    document.body.appendChild(popover);
+    requestAnimationFrame(() => {
+      const cr = col.getBoundingClientRect(); const pw = popover.offsetWidth; const ph = popover.offsetHeight;
+      let left = Math.min(window.innerWidth - pw - 4, Math.max(4, cr.left + cr.width / 2 - pw / 2));
+      let top = cr.top - ph - 6; if (top < 4) top = cr.bottom + 6;
+      popover.style.left = left + 'px'; popover.style.top = top + 'px';
+      ta.focus();
+    });
+  });
+}
+
 function renderTextEntryChart(wrap, act, charName) {
   if (!wrap) return;
   wrap.innerHTML = '';
@@ -10351,20 +10851,30 @@ function renderTextEntryChart(wrap, act, charName) {
 
   const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
   displayPoints.forEach(dp => {
-    const col = document.createElement('div'); col.className = 'prac-bar-col' + (dp.isCurrent ? ' current' : '');
-    const barWrap = document.createElement('div'); barWrap.className = 'prac-bar-bar-wrap';
-    const bar = document.createElement('div'); bar.className = 'prac-bar-bar';
+    const col = document.createElement('div'); col.className = 'prac-bar-col' + (dp.isCurrent ? ' is-current' : '');
+    const bar = document.createElement('div'); bar.className = 'prac-bar-inner';
     const pct = maxCount > 0 ? (dp.count / maxCount) * 100 : 0;
-    bar.style.height = (pct > 0 ? Math.max(8, Math.round(pct)) : 0) + '%';
-    bar.style.background = dp.isCurrent ? 'rgba(200,168,74,0.75)' : 'rgba(200,168,74,0.35)';
-    bar.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries');
-    barWrap.appendChild(bar);
-    col.appendChild(barWrap);
+    const goalMet = (act.target || 1) > 1 && dp.count >= (act.target || 1);
+    const barBase = act.color || '#c8a84a';
+    bar.style.height = (pct > 0 ? Math.max(2, Math.round(pct)) : 0) + '%';
+    bar.style.background = goalMet ? 'rgba(45,168,106,0.65)' : (dp.isCurrent ? barBase + 'bf' : barBase + '59');
+    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + ' — click to edit';
+    col.appendChild(bar);
     const lbl = document.createElement('div'); lbl.className = 'prac-bar-x-label';
     lbl.textContent = dp.label.slice(0, 5);
     col.appendChild(lbl);
+    attachTextBackfillPopover(col, dp, act, charName, () => renderTextEntryChart(wrap, act, charName));
     colsWrap.appendChild(col);
   });
+  // Goal target line
+  const goalTarget = act.target || 1;
+  if (goalTarget > 1 && maxCount > 0) {
+    const goalPct = Math.min(100, (goalTarget / maxCount) * 100);
+    const tLine = document.createElement('div'); tLine.className = 'prac-bar-target-line';
+    tLine.style.bottom = goalPct + '%';
+    tLine.title = 'Goal: ' + goalTarget + ' entries';
+    colsWrap.appendChild(tLine);
+  }
   plot.appendChild(colsWrap);
   wrap.appendChild(plot);
 }
@@ -10430,20 +10940,29 @@ function renderTextEntryChartWithN(wrap, act, charName, n) {
 
   const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
   dataPoints.forEach(dp => {
-    const col = document.createElement('div'); col.className = 'prac-bar-col' + (dp.isCurrent ? ' current' : '');
-    const barWrap = document.createElement('div'); barWrap.className = 'prac-bar-bar-wrap';
-    const bar = document.createElement('div'); bar.className = 'prac-bar-bar';
+    const col = document.createElement('div'); col.className = 'prac-bar-col' + (dp.isCurrent ? ' is-current' : '');
+    const bar = document.createElement('div'); bar.className = 'prac-bar-inner';
     const pct = maxCount > 0 ? (dp.count / maxCount) * 100 : 0;
-    bar.style.height = (pct > 0 ? Math.max(8, Math.round(pct)) : 0) + '%';
-    bar.style.background = dp.isCurrent ? 'rgba(200,168,74,0.75)' : 'rgba(200,168,74,0.35)';
-    bar.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries');
-    barWrap.appendChild(bar);
-    col.appendChild(barWrap);
+    const goalMet = (act.target || 1) > 1 && dp.count >= (act.target || 1);
+    bar.style.height = (pct > 0 ? Math.max(2, Math.round(pct)) : 0) + '%';
+    bar.style.background = goalMet ? 'rgba(45,168,106,0.65)' : (dp.isCurrent ? 'rgba(200,168,74,0.75)' : 'rgba(200,168,74,0.35)');
+    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + ' — click to edit';
+    col.appendChild(bar);
     const lbl = document.createElement('div'); lbl.className = 'prac-bar-x-label';
     lbl.textContent = dp.label.slice(0, 5);
     col.appendChild(lbl);
+    attachTextBackfillPopover(col, dp, act, charName, () => renderTextEntryChartWithN(wrap, act, charName, n));
     colsWrap.appendChild(col);
   });
+  // Goal target line
+  const goalTarget2 = act.target || 1;
+  if (goalTarget2 > 1 && maxCount > 0) {
+    const goalPct2 = Math.min(100, (goalTarget2 / maxCount) * 100);
+    const tLine2 = document.createElement('div'); tLine2.className = 'prac-bar-target-line';
+    tLine2.style.bottom = goalPct2 + '%';
+    tLine2.title = 'Goal: ' + goalTarget2 + ' entries';
+    colsWrap.appendChild(tLine2);
+  }
   plot.appendChild(colsWrap);
   wrap.appendChild(plot);
 }
@@ -10470,9 +10989,19 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   const dataPoints = [];
 
   if (act.resetPeriod === 'day') {
-    // When aligned, iterate from the shared start date to today; otherwise show last 28 days
+    // When aligned, iterate from the shared start date to today; otherwise show last 28 days,
+    // but always reach back far enough to include 7 blank days before the earliest history entry.
     const todayStr = now.toISOString().slice(0, 10);
-    const startStr = _alignStart || (() => { const d = new Date(now); d.setUTCDate(d.getUTCDate() - 27); return d.toISOString().slice(0,10); })();
+    const startStr = _alignStart || (() => {
+      const defaultStart = new Date(now); defaultStart.setUTCDate(defaultStart.getUTCDate() - 27);
+      const allEntries = [...hardHist.map(h => h.date), ...lsHist.map(h => h.period)].filter(Boolean).sort();
+      if (allEntries.length > 0) {
+        const earliest = new Date(allEntries[0] + 'T00:00:00Z');
+        earliest.setUTCDate(earliest.getUTCDate() - 7);
+        if (earliest < defaultStart) return earliest.toISOString().slice(0, 10);
+      }
+      return defaultStart.toISOString().slice(0, 10);
+    })();
     let _ds = startStr;
     while (_ds <= todayStr) {
       const ds = _ds;
@@ -10518,36 +11047,9 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   {
     const firstDataIdx = dataPoints.findIndex(d => act.type === 'checkbox' ? d.hasEntry : d.value > 0);
     if (firstDataIdx < 0) {
-      displayPoints = dataPoints.length > 0 ? dataPoints.slice(-1) : [];
+      displayPoints = dataPoints.length > 0 ? dataPoints.slice(-7) : [];
     } else {
-      const blanksAvailable = firstDataIdx;
-      const blanksNeeded = Math.max(0, 7 - blanksAvailable);
-      if (blanksNeeded === 0) {
-        displayPoints = dataPoints.slice(firstDataIdx - 7);
-      } else {
-        const syntheticBlanks = [];
-        if (act.resetPeriod === 'day') {
-          const anchorDate = new Date(dataPoints[0].period + 'T00:00:00Z');
-          for (let i = blanksNeeded; i >= 1; i--) {
-            const d = new Date(anchorDate);
-            d.setUTCDate(d.getUTCDate() - i);
-            const ds = d.toISOString().slice(0, 10);
-            const lbl = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
-            syntheticBlanks.push({ period: ds, label: lbl, value: 0, subsDone: [], isCurrent: false, isHard: false, hasEntry: false, void: false });
-          }
-        } else if (act.resetPeriod === 'week') {
-          const anchorDate = new Date(now);
-          anchorDate.setDate(anchorDate.getDate() - 12 * 7);
-          for (let i = blanksNeeded; i >= 1; i--) {
-            const d = new Date(anchorDate);
-            d.setDate(d.getDate() - i * 7);
-            const wp = getPeriodKey(d, 'week');
-            const lbl = 'W' + wp.slice(5);
-            syntheticBlanks.push({ period: wp, label: lbl, value: 0, subsDone: [], isCurrent: false, isHard: false, hasEntry: false, void: false, month: d.getMonth() });
-          }
-        }
-        displayPoints = [...syntheticBlanks, ...dataPoints];
-      }
+      displayPoints = dataPoints.slice(Math.max(0, firstDataIdx - 7));
     }
   }
 
@@ -10592,9 +11094,24 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
 
 
+  let _popScrollHandler = null;
   const closePopovers = () => {
     document.querySelectorAll('.prac-bar-edit').forEach(p => p.remove());
     wrap.querySelectorAll('.prac-bar-col.active').forEach(c => c.classList.remove('active'));
+    if (_popScrollHandler) { window.removeEventListener('scroll', _popScrollHandler, true); _popScrollHandler = null; }
+  };
+
+  const _placePopover = (popover, col) => {
+    const cr = col.getBoundingClientRect();
+    const pw = popover.offsetWidth; const ph = popover.offsetHeight;
+    popover.style.left = Math.min(window.innerWidth - pw - 4, Math.max(4, cr.left + cr.width / 2 - pw / 2)) + 'px';
+    popover.style.top  = (cr.top - ph - 6) + 'px';
+  };
+
+  const _attachPopoverScroll = (popover, col) => {
+    if (_popScrollHandler) window.removeEventListener('scroll', _popScrollHandler, true);
+    _popScrollHandler = () => _placePopover(popover, col);
+    window.addEventListener('scroll', _popScrollHandler, true);
   };
 
   // Shared: update stats display after any save
@@ -10658,7 +11175,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
                   b.classList.toggle('done', ps.subsDone.includes(b.dataset.subId));
                 });
                 const lblEl = document.getElementById('checkbox-lbl-' + act.id);
-                if (lblEl) lblEl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
+                if (lblEl) lblEl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'') + rqGoalSuffix(act, charName);
               }
             }
           }
@@ -10678,6 +11195,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
           }
           dp.subsDone = [...newSubsDone];
           dp.value    = newSubsDone.length;
+          closePopovers();
           renderRQBarChart(wrap, act, charName, _alignStart);
           refreshStats();
         };
@@ -10728,11 +11246,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
         }
 
         document.body.appendChild(popover);
-        requestAnimationFrame(() => {
-          const cr = col.getBoundingClientRect();
-          popover.style.left = Math.max(4, cr.left + cr.width/2 - popover.offsetWidth/2) + 'px';
-          popover.style.top  = (cr.top - popover.offsetHeight - 6) + 'px';
-        });
+        requestAnimationFrame(() => { _placePopover(popover, col); _attachPopoverScroll(popover, col); });
         return; // no Set button needed
       }
 
@@ -10754,7 +11268,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
             const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
             if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
             const lblEl = document.getElementById('checkbox-lbl-' + act.id);
-            if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps.value} / ${act.target||1} ${act.unit||''}`;
+            if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps.value} / ${act.target||1} ${act.unit||''}` + rqGoalSuffix(act, charName);
             saveRQCurrent(charName, act.id, { value: ps.value, periodStart: curPeriod, hasEntry: keepEntry });
           }
         } else {
@@ -10852,13 +11366,13 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
               const dotsEl = document.getElementById('checkbox-lbl-' + act.id)?.closest('.practice-widget')?.querySelector('.checkbox-dots');
               if (dotsEl) dotsEl.querySelectorAll('.checkbox-dot').forEach((d, i) => d.classList.toggle('filled', i < ps.value));
               const lblEl = document.getElementById('checkbox-lbl-' + act.id);
-              if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps.value} / ${act.target||1} ${act.unit||''}`;
+              if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps.value} / ${act.target||1} ${act.unit||''}` + rqGoalSuffix(act, charName);
             } else if (act.type === 'number') {
               ps.value = rawVal;
               const inpEl = document.getElementById('number-input-' + act.id);
               if (inpEl) inpEl.value = rawVal;
               const lblEl = document.getElementById('number-lbl-' + act.id);
-              if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
+              if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}` + rqGoalSuffix(act, charName);
             }
             saveRQCurrent(charName, act.id, { value: act.type === 'timer' ? ps.seconds : (ps.value ?? rawVal), seconds: ps.seconds, periodStart: curPeriod });
           }
@@ -10898,13 +11412,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
       inp.addEventListener('keydown', e => { if (e.key === 'Enter') doSave(); if (e.key === 'Escape') closePopovers(); });
 
       document.body.appendChild(popover);
-      requestAnimationFrame(() => {
-        const cr = col.getBoundingClientRect();
-        const pw = popover.offsetWidth;
-        popover.style.left = Math.min(window.innerWidth-pw-4, Math.max(4, cr.left + cr.width/2 - pw/2)) + 'px';
-        popover.style.top  = (cr.top - popover.offsetHeight - 6) + 'px';
-        inp.focus();
-      });
+      requestAnimationFrame(() => { _placePopover(popover, col); _attachPopoverScroll(popover, col); inp.focus(); });
     });
   };
 
@@ -11188,7 +11696,7 @@ function addRegularQuest() {
   overlay.id = 'card-edit-modal'; overlay.className = 'modal-overlay open';
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
   const box = document.createElement('div');
-  box.className = 'modal'; box.style.cssText = 'border-top:3px solid var(--gold);position:relative;max-width:480px;';
+  box.className = 'modal'; box.style.cssText = 'border-top:3px solid var(--gold);position:relative;width:100%;max-width:480px;';
   const closeBtn = document.createElement('button'); closeBtn.className = 'modal-close'; closeBtn.textContent = '×';
   closeBtn.addEventListener('click', () => overlay.remove());
   const titleEl = document.createElement('div'); titleEl.className = 'modal-title'; titleEl.style.color = 'var(--gold)'; titleEl.textContent = 'NEW REGULAR QUEST';
@@ -11248,8 +11756,10 @@ function addRegularQuest() {
     });
     typeDescEl.textContent = typeOpts.find(o => o.value === selectedType)?.desc || '';
     // show/hide target row vs breakdown builder
-    const hideTarget = selectedType === 'breakdown' || selectedType === 'text';
+    const hideTarget = selectedType === 'breakdown';
     targetSection.style.display = hideTarget ? 'none' : '';
+    targetLbl.textContent = selectedType === 'text' ? 'Goal (entries per period)' : 'Target';
+    unitIn.style.display = selectedType === 'text' ? 'none' : '';
     breakdownSection.style.display = selectedType === 'breakdown' ? '' : 'none';
   };
   typeOpts.forEach(o => {
@@ -11289,6 +11799,30 @@ function addRegularQuest() {
   });
   applyPeriodStyle();
   box.appendChild(periodGroup);
+
+  // Goal window section (optional, only shown for day-period quests)
+  const goalSection = document.createElement('div');
+  goalSection.style.display = 'none';
+  const goalLbl = document.createElement('p'); goalLbl.style.cssText = LABEL_CSS; goalLbl.textContent = 'Goal (optional)';
+  const goalRow = document.createElement('div'); goalRow.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:4px;';
+  const goalCountIn = document.createElement('input'); goalCountIn.type = 'number'; goalCountIn.min = '1'; goalCountIn.placeholder = '';
+  goalCountIn.style.cssText = INPUT_BASE + 'font-size:15px;color:var(--text-mid);width:64px;flex-shrink:0;';
+  goalCountIn.addEventListener('focus', () => goalCountIn.style.borderColor = 'var(--gold)');
+  goalCountIn.addEventListener('blur', () => goalCountIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  const goalPerLbl = document.createElement('span'); goalPerLbl.textContent = 'times per'; goalPerLbl.style.cssText = 'font-size:14px;color:var(--text-dim);white-space:nowrap;';
+  const goalPeriodSel = document.createElement('select');
+  goalPeriodSel.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);width:auto;flex:1;cursor:pointer;background:#1a1a24;';
+  [['week','Week'],['month','Month'],['year','Year']].forEach(([v,l]) => { const op = document.createElement('option'); op.value = v; op.textContent = l; goalPeriodSel.appendChild(op); });
+  goalRow.appendChild(goalCountIn); goalRow.appendChild(goalPerLbl); goalRow.appendChild(goalPeriodSel);
+  const goalHint = document.createElement('p'); goalHint.style.cssText = 'font-size:12px;color:var(--text-dim);margin:0 0 12px;';
+  goalHint.textContent = 'Leave blank to count every completion as a success.';
+  goalSection.appendChild(goalLbl); goalSection.appendChild(goalRow); goalSection.appendChild(goalHint);
+  box.appendChild(goalSection);
+
+  // Show/hide goal section based on period
+  const updateGoalSection = () => { goalSection.style.display = selectedPeriod === 'day' ? '' : 'none'; };
+  periodOpts.forEach(o => periodBtns[o.value].addEventListener('click', updateGoalSection));
+  updateGoalSection();
 
   // Target section (hidden when Breakdown selected)
   const targetSection = document.createElement('div');
@@ -11425,9 +11959,10 @@ function addRegularQuest() {
     const maxPri = appState.activities.reduce((m, a) => Math.max(m, a.priority || 0), 0);
     const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now();
     const actType = selectedType === 'breakdown' ? 'checkbox' : selectedType;
-    const tgt = selectedType === 'breakdown' ? bdSubs.filter(s => s.name.trim()).length : (selectedType === 'text' ? 1 : (parseInt(targetIn.value, 10) || 1));
+    const tgt = selectedType === 'breakdown' ? bdSubs.filter(s => s.name.trim()).length : (parseInt(targetIn.value, 10) || 1);
     const unit = selectedType === 'breakdown' ? 'activities' : (selectedType === 'text' ? '' : (unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : 'times')));
     const xpPerUnit = selectedType === 'timer' ? (parseFloat(xpIn.value) || 12) / 12 : (parseInt(xpIn.value, 10) || 10);
+    const gcVal = goalCountIn.value.trim() ? parseInt(goalCountIn.value, 10) : 0;
     const newAct = {
       id, name: capitalise(name),
       type: actType,
@@ -11439,6 +11974,8 @@ function addRegularQuest() {
       xpPerUnit,
       description: descIn.value.trim() || undefined,
       whyItMatters: whyIn.value.trim() || undefined,
+      goalCount: (selectedPeriod === 'day' && gcVal >= 1) ? gcVal : undefined,
+      goalPeriod: (selectedPeriod === 'day' && gcVal >= 1) ? goalPeriodSel.value : undefined,
     };
     if (selectedType === 'breakdown') {
       newAct.subActivities = bdSubs
@@ -11475,7 +12012,7 @@ function editRegularQuest(actId) {
   overlay.id = 'card-edit-modal'; overlay.className = 'modal-overlay open';
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
   const box = document.createElement('div');
-  box.className = 'modal'; box.style.cssText = 'border-top:3px solid var(--gold);position:relative;max-width:480px;';
+  box.className = 'modal'; box.style.cssText = 'border-top:3px solid var(--gold);position:relative;width:100%;max-width:480px;';
   const closeBtn = document.createElement('button'); closeBtn.className = 'modal-close'; closeBtn.textContent = '×';
   closeBtn.addEventListener('click', () => overlay.remove());
   const titleEl = document.createElement('div'); titleEl.className = 'modal-title'; titleEl.style.color = 'var(--gold)'; titleEl.textContent = 'EDIT REGULAR QUEST';
@@ -11540,8 +12077,10 @@ function editRegularQuest(actId) {
       b.style.borderColor = a ? o.color+'66' : 'rgba(255,255,255,0.12)';
     });
     typeDescEl.textContent = typeOpts.find(o => o.value === selectedType)?.desc || '';
-    const hideTarget = selectedType === 'breakdown' || selectedType === 'text';
+    const hideTarget = selectedType === 'breakdown';
     targetSection.style.display = hideTarget ? 'none' : '';
+    targetLbl.textContent = selectedType === 'text' ? 'Goal (entries per period)' : 'Target';
+    unitIn.style.display = selectedType === 'text' ? 'none' : '';
     breakdownSection.style.display = selectedType === 'breakdown' ? '' : 'none';
   };
   typeOpts.forEach(o => {
@@ -11581,6 +12120,31 @@ function editRegularQuest(actId) {
   });
   applyPeriodStyle();
   box.appendChild(periodGroup);
+
+  // Goal window section (optional, only shown for day-period quests)
+  const goalSection = document.createElement('div');
+  goalSection.style.display = 'none';
+  const goalLbl = document.createElement('p'); goalLbl.style.cssText = LABEL_CSS; goalLbl.textContent = 'Goal (optional)';
+  const goalRow = document.createElement('div'); goalRow.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:4px;';
+  const goalCountIn = document.createElement('input'); goalCountIn.type = 'number'; goalCountIn.min = '1'; goalCountIn.placeholder = '';
+  goalCountIn.value = act.goalCount ? String(act.goalCount) : '';
+  goalCountIn.style.cssText = INPUT_BASE + 'font-size:15px;color:var(--text-mid);width:64px;flex-shrink:0;';
+  goalCountIn.addEventListener('focus', () => goalCountIn.style.borderColor = 'var(--gold)');
+  goalCountIn.addEventListener('blur', () => goalCountIn.style.borderColor = 'rgba(255,255,255,0.12)');
+  const goalPerLbl = document.createElement('span'); goalPerLbl.textContent = 'times per'; goalPerLbl.style.cssText = 'font-size:14px;color:var(--text-dim);white-space:nowrap;';
+  const goalPeriodSel = document.createElement('select');
+  goalPeriodSel.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);width:auto;flex:1;cursor:pointer;background:#1a1a24;';
+  [['week','Week'],['month','Month'],['year','Year']].forEach(([v,l]) => { const op = document.createElement('option'); op.value = v; op.textContent = l; if (v === (act.goalPeriod || 'week')) op.selected = true; goalPeriodSel.appendChild(op); });
+  goalRow.appendChild(goalCountIn); goalRow.appendChild(goalPerLbl); goalRow.appendChild(goalPeriodSel);
+  const goalHint = document.createElement('p'); goalHint.style.cssText = 'font-size:12px;color:var(--text-dim);margin:0 0 12px;';
+  goalHint.textContent = 'Leave blank to count every completion as a success.';
+  goalSection.appendChild(goalLbl); goalSection.appendChild(goalRow); goalSection.appendChild(goalHint);
+  box.appendChild(goalSection);
+
+  // Show/hide goal section based on period
+  const updateGoalSection = () => { goalSection.style.display = selectedPeriod === 'day' ? '' : 'none'; };
+  periodOpts.forEach(o => periodBtns[o.value].addEventListener('click', updateGoalSection));
+  updateGoalSection();
 
   // Target section
   const targetSection = document.createElement('div');
@@ -11731,11 +12295,14 @@ function editRegularQuest(actId) {
     } else {
       actInState.type = selectedType;
       actInState.subActivities = undefined;
-      actInState.target = selectedType === 'text' ? 1 : (parseInt(targetIn.value, 10) || 1);
+      actInState.target = parseInt(targetIn.value, 10) || 1;
       actInState.unit = selectedType === 'text' ? '' : (unitIn.value.trim() || (selectedType === 'timer' ? 'minutes' : 'times'));
       actInState.color = selectedType === 'text' ? undefined : selectedColor;
     }
     actInState.xpPerUnit = selectedType === 'timer' ? (parseFloat(xpIn.value) || 0) / 12 : (parseFloat(xpIn.value) || 0);
+    const gcVal2 = goalCountIn.value.trim() ? parseInt(goalCountIn.value, 10) : 0;
+    actInState.goalCount = (selectedPeriod === 'day' && gcVal2 >= 1) ? gcVal2 : undefined;
+    actInState.goalPeriod = (selectedPeriod === 'day' && gcVal2 >= 1) ? goalPeriodSel.value : undefined;
 
     saveState(appState); markDirty(); renderRecurringQuests(appState);
     overlay.remove();
@@ -11960,7 +12527,7 @@ function renderRecurringQuests(s) {
 
     // Build colour swatch / sub-chips (appended later, rightmost in header)
     const _hdrColorEls = [];
-    if (act.type !== 'text' && (subActs.length === 0 || act.type !== 'checkbox')) {
+    if (subActs.length === 0 || act.type !== 'checkbox') {
       // Colour picker button
       const swatch = document.createElement('span');
       swatch.className = 'rq-color-swatch';
@@ -12141,9 +12708,9 @@ function renderRecurringQuests(s) {
         const todayEl = document.getElementById('timer-today-' + act.id);
         if (todayEl) { const ps = practiceState[act.id]; const cv = ps ? Math.floor((ps.seconds||0)/60) : 0; todayEl.textContent = `Today: ${cv} / ${newT} min`; }
         const cbLbl  = document.getElementById('checkbox-lbl-'  + act.id);
-        if (cbLbl)  { const ps = practiceState[act.id]; cbLbl.textContent  = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${act.unit||''}`; }
+        if (cbLbl)  { const ps = practiceState[act.id]; cbLbl.textContent  = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${act.unit||''}` + rqGoalSuffix(act, charName); }
         const numLbl = document.getElementById('number-lbl-' + act.id);
-        if (numLbl) { const ps = practiceState[act.id]; numLbl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${act.unit||''}`; }
+        if (numLbl) { const ps = practiceState[act.id]; numLbl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${act.unit||''}` + rqGoalSuffix(act, charName); }
         const cw = document.getElementById('rq-chart-' + act.id);
         if (cw) renderRQBarChart(cw, act, charName);
       };
@@ -12171,9 +12738,9 @@ function renderRecurringQuests(s) {
           saveState(appState); markDirty();
           const newT = act.target || 1;
           const cbLbl  = document.getElementById('checkbox-lbl-'  + act.id);
-          if (cbLbl)  { const ps = practiceState[act.id]; cbLbl.textContent  = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${u}`; }
+          if (cbLbl)  { const ps = practiceState[act.id]; cbLbl.textContent  = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${u}` + rqGoalSuffix(act, charName); }
           const numLbl = document.getElementById('number-lbl-' + act.id);
-          if (numLbl) { const ps = practiceState[act.id]; numLbl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${u}`; }
+          if (numLbl) { const ps = practiceState[act.id]; numLbl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${ps?.value||0} / ${newT} ${u}` + rqGoalSuffix(act, charName); }
         });
         goalWrap.appendChild(unitIn);
       }
@@ -12200,7 +12767,7 @@ function renderRecurringQuests(s) {
       hdr.appendChild(periodSelect);
       _hdrColorEls.forEach(el => hdr.appendChild(el));
     } else if (act.type === 'text') {
-      // Text: XP pill + periodSelect only (no goal, no colour)
+      // Text: XP pill + goal (entries) + "/" + periodSelect
       { const _pill=makeXpPill(act.xpPerUnit,'+','xp-pill-quest',v=>{
         const rqIdx=rqRealIdx>=0?rqRealIdx:(appState.activities||[]).findIndex(a=>a.id===act.id);
         if(rqIdx>=0){ appState.activities[rqIdx].xpPerUnit=v??0; }
@@ -12209,7 +12776,33 @@ function renderRecurringQuests(s) {
       });
       _pill.title='Click to set XP per journal entry';
       hdr.appendChild(_pill); }
+      { const goalWrap = document.createElement('span'); goalWrap.className = 'rq-goal-wrap'; goalWrap.title = 'Target entries per period';
+        const goalNum = document.createElement('input'); goalNum.className = 'rq-goal-num'; goalNum.type = 'number'; goalNum.min = '1'; goalNum.max = '999';
+        goalNum.value = act.target || 1;
+        const saveTextGoal = () => {
+          const newT = Math.max(1, Math.min(999, parseInt(goalNum.value, 10) || 1));
+          goalNum.value = newT;
+          const actInState = (appState.activities || []).find(a => a.id === act.id);
+          if (actInState) actInState.target = newT;
+          act.target = newT;
+          saveState(appState); markDirty();
+          const textLbl = document.getElementById('text-lbl-' + act.id);
+          if (textLbl) { const ps = practiceState[act.id]; const cnt = ps ? (ps.texts||[]).length : 0; textLbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + (cnt ? cnt + ' / ' + newT + (cnt === 1 ? ' entry' : ' entries') : '0 / ' + newT + ' entries') + rqGoalSuffix(act, charName); }
+          const cw = document.getElementById('rq-chart-' + act.id);
+          if (cw) renderRQBarChart(cw, act, charName);
+        };
+        goalNum.addEventListener('click', e => e.stopPropagation());
+        goalNum.addEventListener('mousedown', e => e.stopPropagation());
+        goalNum.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); goalNum.blur(); } e.stopPropagation(); });
+        goalNum.addEventListener('blur', saveTextGoal);
+        const entriesSpan = document.createElement('span'); entriesSpan.className = 'rq-goal-unit'; entriesSpan.textContent = 'entries';
+        goalWrap.appendChild(goalNum); goalWrap.appendChild(entriesSpan);
+        hdr.appendChild(goalWrap);
+      }
+      const _textSlash = document.createElement('span'); _textSlash.className = 'rq-goal-slash'; _textSlash.textContent = '/';
+      hdr.appendChild(_textSlash);
       hdr.appendChild(periodSelect);
+      _hdrColorEls.forEach(el => hdr.appendChild(el));
     } else {
       // Breakdown: XP pill, then periodSelect, then chips
       if (act.type === 'timer' && act.xpPerUnit == null) {
@@ -12443,7 +13036,7 @@ function renderRecurringQuests(s) {
         widget.innerHTML = `
           <div class="rq-sub-btns">${subBtnsHtml}</div>
           ${xpLbl}
-          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${todayDone.length} / ${tgt} ${esc(act.unit||'')}</div>
+          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${todayDone.length} / ${tgt} ${esc(act.unit||'')}${rqGoalSuffix(act, getCharId())}</div>
           <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
         `;
       } else {
@@ -12454,7 +13047,7 @@ function renderRecurringQuests(s) {
         widget.innerHTML = `
           <div class="checkbox-dots">${dotsHtml}</div>
           ${xpLbl}
-          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${tgt} ${esc(act.unit||'')}</div>
+          <div class="practice-count-lbl" id="checkbox-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${tgt} ${esc(act.unit||'')}${rqGoalSuffix(act, getCharId())}</div>
           <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
         `;
       }
@@ -12474,7 +13067,7 @@ function renderRecurringQuests(s) {
           <button class="number-save-btn" onclick="handleNumberSave('${act.id}')">Save</button>
         </div>
         ${xpLbl}
-        <div class="practice-period-lbl" id="number-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}</div>
+        <div class="practice-period-lbl" id="number-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${curVal} / ${act.target||4} ${esc(act.unit||'')}${rqGoalSuffix(act, getCharId())}</div>
         <div class="practice-xp-earned" id="number-xp-${act.id}"></div>
         <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
       `;
@@ -12496,7 +13089,7 @@ function renderRecurringQuests(s) {
             <button class="text-hist-btn" onclick="showTextHistory('${act.id}')" title="View past entries">History</button>
           </div>
         </div>
-        <div class="practice-period-lbl" id="text-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${entryCount ? entryCount + ' ' + (entryCount === 1 ? 'entry' : 'entries') : 'not yet'}</div>
+        <div class="practice-period-lbl" id="text-lbl-${act.id}">${rqPeriodPrefix(act.resetPeriod)}: ${act.target > 1 ? (entryCount + ' / ' + act.target + ' entries') : (entryCount ? entryCount + ' ' + (entryCount === 1 ? 'entry' : 'entries') : 'not yet')}${rqGoalSuffix(act, getCharId())}</div>
         <button class="rq-exclude-btn${isVoided ? ' active' : ''}" id="rq-exclude-btn-${act.id}" onclick="handleCheckboxExclude('${act.id}')">${isVoided ? 'Restore' : 'Exclude today'}</button>
       `;
       const inp = widget.querySelector('#text-input-' + act.id);
@@ -12505,10 +13098,15 @@ function renderRecurringQuests(s) {
           if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleTextSave(act.id); }
         });
       }
-      renderTextEntryList(act.id, curTexts, act, inp);
     }
 
     body.appendChild(widget);
+    if (act.type === 'text') {
+      const ps = practiceState[act.id];
+      const curTexts = ps ? (ps.texts || []) : [];
+      const inp = widget.querySelector('#text-input-' + act.id);
+      renderTextEntryList(act.id, curTexts, act, inp);
+    }
 
     // Graph column
     const graphCol = document.createElement('div'); graphCol.className = 'practice-graph-col';
@@ -12598,7 +13196,7 @@ function handleBackfill(id) {
       const inpEl = document.getElementById('number-input-' + id);
       if (inpEl) inpEl.value = rawVal;
       const lblEl = document.getElementById('number-lbl-' + id);
-      if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}`;
+      if (lblEl) lblEl.textContent = `${rqPeriodPrefix(act.resetPeriod)}: ${rawVal} / ${act.target||4} ${act.unit||''}` + rqGoalSuffix(act, charName);
       saveRQCurrent(charName, id, { value: rawVal, periodStart: period });
     } else if (act.type === 'checkbox') {
       oldValBf = ps.value || 0;
@@ -12689,7 +13287,7 @@ function handleCheckboxDot(id, dotIndex, btn) {
     });
   }
   const lbl = document.getElementById('checkbox-lbl-' + id);
-  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'');
+  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||1) + ' ' + (act.unit||'') + rqGoalSuffix(act, charName);
 
   // XP (only if explicitly configured via journalling)
   if (ps.value > oldVal && act.xpPerUnit) {
@@ -12730,7 +13328,7 @@ function handleSubActivity(actId, subId, btn) {
     });
   }
   const lbl = document.getElementById('checkbox-lbl-' + actId);
-  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + tgt + ' ' + (act.unit||'');
+  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + tgt + ' ' + (act.unit||'') + rqGoalSuffix(act, charName);
 
   // Archive / remove history entry for current period
   const period = currentPeriod(act.resetPeriod);
@@ -12870,6 +13468,15 @@ function rqPeriodPrefix(period) {
   return { day:'Today', week:'This week', month:'This month', year:'This year' }[period] || ('This ' + (period||'period'));
 }
 
+// Returns a suffix like " · week: 3/5" when act has a goalCount window, else "".
+function rqGoalSuffix(act, charName) {
+  if (!act.goalCount || act.resetPeriod !== 'day') return '';
+  const gw = getRQGoalWindowCount(act, charName);
+  if (!gw) return '';
+  const periodName = { week:'week', month:'month', year:'year' }[act.goalPeriod || 'week'];
+  return ' · ' + periodName + ': ' + gw.done + '/' + gw.total;
+}
+
 function rqHealthColor(pct) {
   if (!pct || pct <= 0) return '';   // no data: let CSS period color show
   if (pct < 40) return '#e05060';
@@ -12900,7 +13507,7 @@ function handleNumberSave(id) {
   ps.value = newVal;
   saveRQCurrent(charName, id, { value: ps.value, periodStart: currentPeriod(act.resetPeriod) });
   const lbl = document.getElementById('number-lbl-' + id);
-  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||4) + ' ' + (act.unit||'');
+  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.value + ' / ' + (act.target||4) + ' ' + (act.unit||'') + rqGoalSuffix(act, charName);
   if (newVal > oldVal) {
     const xp = Math.round(act.xpPerUnit * (newVal - oldVal));
     awardRQXP(id, xp);
@@ -12928,7 +13535,7 @@ function handleTextSave(id) {
   inp.style.height = 'auto';
   renderTextEntryList(id, ps.texts, act, inp);
   const lbl = document.getElementById('text-lbl-' + id);
-  if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + ps.texts.length + ' ' + (ps.texts.length === 1 ? 'entry' : 'entries');
+  if (lbl) { const cnt = ps.texts.length; const tgt = act.target || 1; lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + (tgt > 1 ? (cnt + ' / ' + tgt + ' entries') : (cnt + ' ' + (cnt === 1 ? 'entry' : 'entries'))) + rqGoalSuffix(act, charName); }
   if (act.xpPerUnit) {
     awardRQXP(id, Math.round(act.xpPerUnit));
     xpFloatLabel('+' + Math.round(act.xpPerUnit) + ' XP', inp);
@@ -12966,7 +13573,7 @@ function renderTextEntryList(id, texts, act, inputEl) {
       saveRQCurrent(charName, id, { texts: ps.texts, periodStart: period });
       renderTextEntryList(id, ps.texts, act, inputEl);
       const lbl = document.getElementById('text-lbl-' + id);
-      if (lbl) lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + (ps.texts.length ? ps.texts.length + ' ' + (ps.texts.length === 1 ? 'entry' : 'entries') : 'not yet');
+      if (lbl) { const cnt = ps.texts.length; const tgt = act.target || 1; lbl.textContent = rqPeriodPrefix(act.resetPeriod) + ': ' + (tgt > 1 ? (cnt + ' / ' + tgt + ' entries') : (cnt ? cnt + ' ' + (cnt === 1 ? 'entry' : 'entries') : 'not yet')) + rqGoalSuffix(act, charName); }
       const chartWrap = document.getElementById('rq-chart-' + id);
       if (chartWrap) renderRQBarChart(chartWrap, act, charName);
       markDirty();
@@ -12986,9 +13593,9 @@ function showTextHistory(id) {
   hist.sort((a, b) => b.period.localeCompare(a.period));
 
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9000;display:flex;align-items:center;justify-content:center;';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
   const box = document.createElement('div');
-  box.style.cssText = 'background:var(--bg-card);border:1px solid var(--border-hi);border-radius:10px;padding:24px;width:min(480px,90vw);max-height:80vh;display:flex;flex-direction:column;gap:16px;';
+  box.style.cssText = 'background:var(--bg-card);border:1px solid var(--border-hi);border-radius:10px;padding:24px;width:100%;max-width:480px;max-height:80vh;display:flex;flex-direction:column;gap:16px;';
 
   const titleRow = document.createElement('div');
   titleRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;';
@@ -14105,6 +14712,9 @@ function markDirtyExtended(){
     const b = document.getElementById('dirty-banner');
     if(b) b.style.display = 'flex';
   }
+  // Auto-sync debounce
+  clearTimeout(_autoSyncTimer);
+  _autoSyncTimer = setTimeout(_autoSyncPushSilent, 30000);
 }
 
 function hideDirtyBanner(){
@@ -14297,7 +14907,7 @@ function _collectBlob(s){
   const rq = {};
   for(let i = 0; i < localStorage.length; i++){
     const k = localStorage.key(i);
-    if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-'))){
+    if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-') || k.startsWith('cs-rq-goals-'))){
       rq[k] = localStorage.getItem(k);
     }
   }
@@ -14317,7 +14927,7 @@ function _restoreBlob(blob){
   }
   if(blob._rq && typeof blob._rq === 'object'){
     for(const [k,v] of Object.entries(blob._rq)){
-      if(k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-')){
+      if(k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-') || k.startsWith('cs-rq-goals-')){
         localStorage.setItem(k, v);
       }
     }
@@ -14333,7 +14943,7 @@ function _clearSensitiveKeys(){
   const rqKeys = [];
   for(let i = 0; i < localStorage.length; i++){
     const k = localStorage.key(i);
-    if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-'))) rqKeys.push(k);
+    if(k && (k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-') || k.startsWith('cs-rq-goals-'))) rqKeys.push(k);
   }
   for(const k of rqKeys) localStorage.removeItem(k);
 }
@@ -15003,8 +15613,7 @@ async function _chatReauthSubmit() {
 function _chatReauthCancel() {
   _chatReauthCallback = null;
   document.getElementById('chat-reauth-gate')?.classList.remove('visible');
-  const picker = document.getElementById('chat-session-picker');
-  if (picker) picker.value = '';
+  document.getElementById('chat-sess-picker-panel')?.classList.remove('open');
 }
 
 function loadChatSettings() {
@@ -15015,7 +15624,7 @@ function loadChatSettings() {
   } catch {}
   return _chatSettingsCache || {};
 }
-function saveChatSettings(s) {
+async function saveChatSettings(s) {
   if (IS_DEMO) return;
   if (s.apiKey && !_isLocalModel(s.model) && !(typeof _pinActive !== 'undefined' && _pinActive)) {
     console.warn('saveChatSettings: refusing to store cloud API key without active encryption');
@@ -15023,7 +15632,9 @@ function saveChatSettings(s) {
   }
   _chatSettingsCache = s;
   try { localStorage.setItem(CHAT_SETTINGS_KEY, JSON.stringify(s)); } catch {}
-  _reencryptIfActive();
+  // Await directly so _clearSensitiveKeys() runs before returning, preventing plaintext API key persistence on crash
+  if (_pinActive && _currentKey) await _encryptAndSave(appState, null);
+  else if (_pinActive && _currentPIN) await _encryptAndSave(appState, _currentPIN);
 }
 
 function buildCompactContext() {
@@ -15248,22 +15859,15 @@ function chatSetLoading(v) {
   chatState.isLoading = v;
   const send = document.getElementById('chat-send-btn');
   const inp  = document.getElementById('chat-input');
-  const end     = document.getElementById('chat-end-btn');
-  const sync    = document.getElementById('chat-sync-btn');
+  const end     = document.getElementById('chat-update-btn');
   const compact = document.getElementById('chat-summarize-btn');
   if (send) { send.disabled = v; send.textContent = v ? '...' : 'Send'; }
   if (inp)     inp.disabled     = v;
   if (end)     end.disabled     = v;
-  if (sync)    sync.disabled    = v;
   if (compact) compact.disabled = v;
   const _overlay = document.getElementById('chat-overlay');
   const _chatBtn = document.getElementById('chat-btn');
   if (_chatBtn) _chatBtn.classList.toggle('chat-btn-loading', v && !_overlay?.classList.contains('open'));
-}
-
-function chatShowApply(show) {
-  const btn = document.getElementById('chat-apply-btn');
-  if (btn) btn.style.display = show ? 'inline-block' : 'none';
 }
 
 function openChat() {
@@ -15427,10 +16031,7 @@ function renderChatQuickstarts() {
 }
 
 function _updateChatSyncBtn() {
-  const s = loadChatSettings();
-  const mode = s.syncMode || (s.autoApply ? 'always' : 'manual');
-  const btn = document.getElementById('chat-sync-btn');
-  if (btn) btn.style.display = mode === 'manual' ? '' : 'none';
+  // Sync button removed; kept as no-op so old call sites don't error.
 }
 
 async function _warmPromptCache() {
@@ -15635,13 +16236,18 @@ function _chatHandleReply(reply, streamingEl = null) {
   chatState.pendingJSON = detected;
   const s = loadChatSettings();
   const syncMode = s.syncMode || (s.autoApply ? 'always' : 'manual');
-  if (syncMode !== 'manual') {
-    const display = reply.replace(/```json[\s\S]*?```/, '').replace(/\n{3,}/g, '\n\n').trim();
-    if (display) chatAddMsg('assistant', display);
-    chatApplyUpdate();
+  const narrative = reply.replace(/```json[\s\S]*?```/, '').replace(/\n{3,}/g, '\n\n').trim();
+  if (syncMode === 'manual') {
+    // Show full reply with a hint — user will click Update sheet to save
+    chatAddMsg('assistant', reply, '✶ Changes noted. Use "Update sheet" to save them.');
+  } else if (s.reviewBeforeSave) {
+    // Auto-apply mode but user wants to review: show review card
+    if (narrative) chatAddMsg('assistant', narrative);
+    chatShowUpdateReview(detected, null);
   } else {
-    chatAddMsg('assistant', reply, '✶ Sheet update detected. Click Apply Update to apply it.');
-    chatShowApply(true);
+    // Silent auto-apply: show narrative only, apply immediately
+    if (narrative) chatAddMsg('assistant', narrative);
+    chatApplyUpdate();
   }
 }
 
@@ -15763,69 +16369,196 @@ function chatApplyUpdate() {
   const failed = statusEl && statusEl.classList.contains('err');
   if (!failed) {
     chatState.pendingJSON = null;
-    chatShowApply(false);
     chatAddMsg('system', 'Sheet updated.');
+    _chatSaveLiveSession();
   } else {
     chatAddMsg('error', 'Could not apply the update: ' + (statusEl ? statusEl.textContent.replace(/^[^\s]+\s*/, '') : 'the data from your AI did not pass validation. Try asking it to resend the full data.json.'));
   }
 }
 
-async function chatEndSession() {
-  if (chatState.isLoading) return;
-  if (!chatState.systemPrompt) chatState.systemPrompt = buildChatSystemPrompt();
-  const prompt = 'Please do a brief debrief of what you are about to change, then output the complete updated data.json with all changes from this session applied.';
-  chatState.messages.push({ role: 'user', content: prompt });
-  chatAddMsg('user', prompt);
-  chatSetLoading(true);
-  const loadEl = _chatAddLoadingBubble();
-  try {
-    const reply = await callChatAPI(chatState.messages, chatState.systemPrompt);
-    if (loadEl) loadEl.remove();
-    chatState.messages.push({ role: 'assistant', content: reply });
-    _chatHandleReply(reply);
-    _chatFinalizeSession(_chatExtractSummaryFromReply(reply), '', []);
-  } catch (err) {
-    if (loadEl) loadEl.remove();
-    if (err.message) chatAddMsg('error', err.message);
-    _chatSaveLiveSession();
-  } finally {
-    chatSetLoading(false);
-  }
+function chatShowApply() {} // no-op: old apply button removed
+
+// Build a human-readable list of what changed between prev and next state.
+function _buildUpdateSummaryLines(prev, next) {
+  const lines = [];
+  // XP / level
+  const xpDiff = (next.xp||0) - (prev.xp||0);
+  if ((next.level||1) > (prev.level||1)) lines.push('Level up: now Level ' + next.level);
+  else if (xpDiff > 0) lines.push('+' + xpDiff + ' XP');
+  else if (xpDiff < 0) lines.push(xpDiff + ' XP');
+  // Main quest
+  const mq = next.mainQuest, pmq = prev.mainQuest;
+  if (mq && pmq && mq.progress !== pmq.progress) lines.push('Main quest: ' + pmq.progress + '% to ' + mq.progress + '%');
+  if (mq && pmq && mq.title !== pmq.title) lines.push('Main quest renamed: ' + mq.title);
+  // Side quests
+  const newSQ = (next.sideQuests||[]).filter(sq=>!(prev.sideQuests||[]).find(p=>p.title===sq.title));
+  if (newSQ.length) lines.push('New quest' + (newSQ.length > 1 ? 's' : '') + ': ' + newSQ.map(q=>q.title||'untitled').join(', '));
+  const prevCQLen = (prev.completedQuests||[]).length;
+  const nextCQLen = (next.completedQuests||[]).length;
+  if (nextCQLen > prevCQLen) lines.push((nextCQLen - prevCQLen) + ' quest' + (nextCQLen - prevCQLen > 1 ? 's' : '') + ' completed');
+  // Enemies
+  const allNextE = [...(next.enemies?.bosses||[]), ...(next.enemies?.current||[])];
+  const allPrevE = [...(prev.enemies?.bosses||[]), ...(prev.enemies?.current||[])];
+  allNextE.forEach(ne => {
+    const pe = allPrevE.find(p=>p.name===ne.name);
+    if (!pe) { lines.push('New enemy: ' + ne.name); return; }
+    if (pe.hp != null && ne.hp != null && ne.hp !== pe.hp) lines.push((ne.name||'Enemy') + ': HP ' + pe.hp + ' to ' + ne.hp);
+    // Check new minions on bosses
+    if (ne.minions && pe.minions) {
+      const newMinions = (ne.minions||[]).filter(m=>!(pe.minions||[]).find(pm=>pm.name===m.name));
+      if (newMinions.length) lines.push('New minion' + (newMinions.length > 1 ? 's' : '') + ' under ' + ne.name + ': ' + newMinions.map(m=>m.name).join(', '));
+    }
+  });
+  const defeatedE = (next.enemies?.graveyard||[]).filter(g=>!(prev.enemies?.graveyard||[]).find(p=>p.name===g.name));
+  if (defeatedE.length) lines.push('Defeated: ' + defeatedE.map(e=>e.name).join(', '));
+  // Insights
+  let newEntries = 0;
+  (next.insights||[]).forEach(ch=>{
+    const prevCh = (prev.insights||[]).find(p=>p.name===ch.name);
+    newEntries += Math.max(0, (ch.entries||[]).length - (prevCh ? (prevCh.entries||[]).length : 0));
+  });
+  if (newEntries > 0) lines.push(newEntries + ' new insight' + (newEntries > 1 ? 's' : ''));
+  // Achievements / classes
+  const newAch = (next.achievements||[]).filter(a=>!(prev.achievements||[]).find(p=>(p.id||p.name)===(a.id||a.name)));
+  if (newAch.length) lines.push('New title' + (newAch.length > 1 ? 's' : '') + ': ' + newAch.map(a=>a.name).join(', '));
+  const newCls = (next.classes||[]).filter(c=>!(prev.classes||[]).find(p=>(p.id||p.name)===(c.id||c.name)));
+  if (newCls.length) lines.push('New class' + (newCls.length > 1 ? 'es' : '') + ': ' + newCls.map(c=>c.name).join(', '));
+  // Skills
+  const newSkills = (next.skills||[]).filter(s=>!(prev.skills||[]).find(p=>(p.id||p.name)===(s.id||s.name)));
+  if (newSkills.length) lines.push('New skill' + (newSkills.length > 1 ? 's' : '') + ': ' + newSkills.map(s=>s.name).join(', '));
+  return lines;
 }
 
-async function chatSync() {
+// Show an inline review card in chat: human-readable diff + collapsible JSON + Apply/Discard buttons.
+function chatShowUpdateReview(json, narrativeText) {
+  // Remove any previous pending review card
+  document.getElementById('chat-update-review')?.remove();
+  chatState.pendingJSON = json;
+  const container = document.getElementById('chat-msgs');
+  if (!container) return;
+
+  const card = document.createElement('div');
+  card.id = 'chat-update-review';
+  card.className = 'chat-update-review';
+
+  // Narrative (debrief text from AI, stripped of JSON block)
+  if (narrativeText) {
+    const narDiv = document.createElement('div');
+    narDiv.className = 'chat-review-narrative';
+    _renderMarkdown(narrativeText, narDiv);
+    card.appendChild(narDiv);
+  }
+
+  // Compute diff against current appState
+  // We need to simulate the merge to show accurate diff
+  let simMerged;
+  try {
+    const { result: p } = sanitizeImportHTML(JSON.parse(JSON.stringify(json)));
+    const isPartial = p._partial === true || (!p.name && !p.level);
+    delete p._partial;
+    if (isPartial) {
+      simMerged = Object.assign({}, appState);
+      for (const [k, v] of Object.entries(p)) {
+        if (k === 'enemies' && v && typeof v === 'object' && !Array.isArray(v)) {
+          const base = Object.assign({}, simMerged.enemies || {});
+          if (v.current)   base.current   = _mergeArrayByKey(base.current,   v.current,   'name');
+          if (v.graveyard) base.graveyard = _mergeArrayByKey(base.graveyard, v.graveyard, 'name');
+          if (v.bosses) {
+            const bossMap = new Map((base.bosses||[]).map(b=>[b.name, b]));
+            v.bosses.forEach(nb => {
+              const ex = bossMap.get(nb.name) || {};
+              const mb = Object.assign({}, ex, nb);
+              if (nb.minions && ex.minions) mb.minions = _mergeArrayByKey(ex.minions, nb.minions, 'name');
+              bossMap.set(nb.name, mb);
+            });
+            base.bosses = [...bossMap.values()];
+          }
+          simMerged[k] = base;
+        } else { simMerged[k] = v; }
+      }
+    } else { simMerged = p; }
+  } catch(e) { simMerged = appState; }
+
+  const summaryLines = _buildUpdateSummaryLines(appState, simMerged);
+
+  // What's changing section
+  const header = document.createElement('div');
+  header.className = 'chat-review-header';
+  header.textContent = summaryLines.length ? 'What will change:' : 'No data changes detected.';
+  card.appendChild(header);
+
+  if (summaryLines.length) {
+    const ul = document.createElement('ul');
+    ul.className = 'chat-review-list';
+    summaryLines.forEach(line => {
+      const li = document.createElement('li');
+      li.textContent = line;
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+  }
+
+  // Collapsible raw JSON
+  const details = document.createElement('details');
+  details.className = 'chat-review-details';
+  const summary = document.createElement('summary');
+  summary.textContent = 'View raw JSON';
+  details.appendChild(summary);
+  const pre = document.createElement('pre');
+  pre.className = 'chat-review-json';
+  pre.textContent = JSON.stringify(json, null, 2);
+  details.appendChild(pre);
+  card.appendChild(details);
+
+  // Apply / Discard buttons
+  const btnRow = document.createElement('div');
+  btnRow.className = 'chat-review-btns';
+  const applyBtn = document.createElement('button');
+  applyBtn.className = 'btn-primary';
+  applyBtn.textContent = 'Apply';
+  applyBtn.onclick = () => { chatApplyUpdate(); card.remove(); };
+  const discardBtn = document.createElement('button');
+  discardBtn.className = 'btn-ghost';
+  discardBtn.textContent = 'Discard';
+  discardBtn.onclick = () => { chatState.pendingJSON = null; card.remove(); chatAddMsg('system', 'Update discarded.'); };
+  btnRow.appendChild(applyBtn);
+  btnRow.appendChild(discardBtn);
+  card.appendChild(btnRow);
+
+  container.appendChild(card);
+  chatScrollBottom();
+}
+
+async function chatUpdateSheet() {
   if (chatState.isLoading) return;
   if (!chatState.systemPrompt) chatState.systemPrompt = buildChatSystemPrompt();
-  const prompt = 'Output the complete updated data.json with all changes from our conversation applied. Respond with only the JSON code block, no other text.';
+  const updateBtn = document.getElementById('chat-update-btn');
+  if (updateBtn) { updateBtn.disabled = true; updateBtn.textContent = '...'; }
+  const prompt = 'Briefly summarise what you are recording, then output a ```json block with only the fields that have changed (partial update with "_partial": true).';
   chatState.messages.push({ role: 'user', content: prompt });
-  const syncBtn = document.getElementById('chat-sync-btn');
-  if (syncBtn) syncBtn.textContent = '...';
   chatSetLoading(true);
   const loadEl = _chatAddLoadingBubble();
-  if (loadEl) loadEl.textContent = 'Syncing...';
   try {
     const reply = await callChatAPI(chatState.messages, chatState.systemPrompt);
     if (loadEl) loadEl.remove();
     chatState.messages.push({ role: 'assistant', content: reply });
     const detected = detectChatJSON(reply);
     if (detected) {
-      applyUpdate(detected);
-      const statusEl = document.getElementById('modal-status');
-      const failed = statusEl && statusEl.classList.contains('err');
-      if (!failed) {
-        chatAddMsg('system', 'Synced.');
-      } else {
-        chatAddMsg('error', 'Update failed to apply: ' + (statusEl?.textContent.replace(/^[^\s]+\s*/, '') || 'the data from your AI did not pass validation. Try asking it to resend the full data.json.'));
-      }
+      const narrative = reply.replace(/```json[\s\S]*?```/, '').replace(/\n{3,}/g, '\n\n').trim();
+      chatShowUpdateReview(detected, narrative);
     } else {
-      chatAddMsg('error', 'Your AI did not return any data. Try using "End session" to ask it for a final update, or ask it directly to output your data.json.');
+      chatAddMsg('assistant', reply);
+      chatAddMsg('system', 'No data changes found. Ask your AI to make changes before updating.');
     }
+    _chatSaveLiveSession();
+    _chatGenerateTitle(chatState.currentSessionId, chatState.messages.slice());
   } catch (err) {
     if (loadEl) loadEl.remove();
-    if (err.message) chatAddMsg('error', 'Sync failed: ' + err.message);
+    if (err.message) chatAddMsg('error', err.message);
+    _chatSaveLiveSession();
   } finally {
     chatSetLoading(false);
-    if (syncBtn) syncBtn.textContent = '↻ Sync';
+    if (updateBtn) { updateBtn.disabled = false; updateBtn.textContent = 'Update sheet'; }
   }
 }
 
@@ -16013,7 +16746,8 @@ function chatLoadSession(sessionId) {
     return;
   }
   const sessions = appState.chatSessions || [];
-  const session = sessions.find(s => s.id === sessionId);
+  const session = sessions.find(s => s.id === sessionId) ||
+    (IS_DEMO ? DEMO_SESSIONS.find(s => s.id === sessionId) : null);
   if (!session) return;
   if (session._hasUnread) { session._hasUnread = false; if (!IS_DEMO) saveState(appState); }
   if (chatState.messages.length > 0 && chatState.currentSessionId) {
@@ -16045,7 +16779,7 @@ function chatLoadSession(sessionId) {
     const elapsed = session.endedAt ? _chatFormatElapsed(session.startedAt, session.endedAt) : null;
     const sessionDate = session.startedAt ? new Date(session.startedAt).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }) : 'Unknown date';
     const timeSince = session.endedAt ? _chatFormatElapsed(session.endedAt, new Date().toISOString()) : null;
-    chatAddMsg('system', 'Resumed session from ' + sessionDate + (timeSince ? ', ' + timeSince + ' ago' : '') + (elapsed ? ' (session lasted ' + elapsed + ')' : '') + '. Context loaded. Continue below or use End session to finalize.');
+    chatAddMsg('system', 'Resumed session from ' + sessionDate + (timeSince ? ', ' + timeSince + ' ago' : '') + (elapsed ? ' (session lasted ' + elapsed + ')' : '') + '. Context loaded. Continue below or use Update sheet to save changes.');
     chatState.messages.forEach(m => {
       if (m.role === 'user') chatAddMsg('user', m.content);
       else if (m.role === 'assistant') chatAddMsg('assistant', m.content);
@@ -16058,7 +16792,6 @@ function chatLoadSession(sessionId) {
 }
 
 function chatDeleteSession(sessionId) {
-  if (!confirm('Delete this chat session? This cannot be undone.')) return;
   appState.chatSessions = (appState.chatSessions || []).filter(s => s.id !== sessionId);
   if (chatState.currentSessionId === sessionId) {
     chatState.currentSessionId = null;
@@ -16070,19 +16803,90 @@ function chatDeleteSession(sessionId) {
 }
 
 function renderChatSessionPicker() {
-  const sel = document.getElementById('chat-session-picker');
-  if (!sel) return;
+  const wrap  = document.getElementById('chat-sess-picker-wrap');
+  const panel = document.getElementById('chat-sess-picker-panel');
+  if (!wrap || !panel) return;
   const sessions = (appState.chatSessions || []).slice().reverse();
-  sel.innerHTML = '<option value="">Past sessions...</option>';
-  sessions.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s.id;
-    const inProg = !s.endedAt && s.id !== chatState.currentSessionId;
-    opt.textContent = _chatSessionLabel(s) + (s._hasUnread ? ' (new response)' : inProg ? ' (unfinished)' : '');
-    sel.appendChild(opt);
-  });
-  sel.style.display = sessions.length > 0 ? '' : 'none';
+  wrap.style.display = sessions.length > 0 ? '' : 'none';
+  _renderPickerPanel(panel, sessions);
   _updateChatHeader();
+}
+
+function _renderPickerPanel(panel, sessions) {
+  panel.innerHTML = '';
+  if (!sessions || sessions.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'chat-sess-picker-empty';
+    empty.textContent = 'No past sessions.';
+    panel.appendChild(empty);
+    return;
+  }
+  sessions.forEach(s => {
+    const inProg = !s.endedAt && s.id !== chatState.currentSessionId;
+    const isCurrent = s.id === chatState.currentSessionId;
+    const row = document.createElement('div');
+    row.className = 'chat-sess-picker-row' + (isCurrent ? ' picker-row--current' : '');
+    const info = document.createElement('div');
+    info.className = 'chat-sess-picker-info';
+    const label = document.createElement('div');
+    label.className = 'chat-sess-picker-label';
+    label.textContent = _chatSessionLabel(s);
+    info.appendChild(label);
+    const suffix = s._hasUnread ? 'new response' : isCurrent ? 'live' : inProg ? 'unfinished' : '';
+    if (suffix) {
+      const sub = document.createElement('div');
+      sub.className = 'chat-sess-picker-sub';
+      sub.textContent = suffix;
+      info.appendChild(sub);
+    }
+    const delBtn = document.createElement('button');
+    delBtn.className = 'chat-sess-picker-del';
+    delBtn.title = 'Delete session';
+    delBtn.textContent = '✕';
+    const confirmWrap = document.createElement('div');
+    confirmWrap.className = 'chat-sess-picker-del-confirm';
+    confirmWrap.style.display = 'none';
+    const yesBtn = document.createElement('button');
+    yesBtn.className = 'chat-sess-picker-del-yes';
+    yesBtn.textContent = 'Delete';
+    const noBtn = document.createElement('button');
+    noBtn.className = 'chat-sess-picker-del-no';
+    noBtn.textContent = 'Cancel';
+    confirmWrap.appendChild(yesBtn);
+    confirmWrap.appendChild(noBtn);
+    delBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      delBtn.style.display = 'none';
+      confirmWrap.style.display = 'flex';
+    });
+    noBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      confirmWrap.style.display = 'none';
+      delBtn.style.display = '';
+    });
+    yesBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      chatDeleteSession(s.id);
+    });
+    info.addEventListener('click', () => { chatLoadSession(s.id); chatPickerToggle(false); });
+    row.appendChild(info);
+    row.appendChild(delBtn);
+    row.appendChild(confirmWrap);
+    panel.appendChild(row);
+  });
+}
+
+function chatPickerToggle(forceClose) {
+  const panel = document.getElementById('chat-sess-picker-panel');
+  if (!panel) return;
+  const open = panel.classList.contains('open');
+  if (forceClose === false || open) {
+    panel.classList.remove('open');
+    return;
+  }
+  const sessions = (appState.chatSessions || []).slice().reverse();
+  _renderPickerPanel(panel, sessions);
+  panel.classList.add('open');
 }
 
 function _updateChatHeader() {
@@ -16149,27 +16953,61 @@ function chatDeleteCurrentSession() {
 const DEMO_SESSIONS = [
   {
     id: 'demo-1',
+    title: 'Writing as anchor, not reward',
     startedAt: '2025-04-12T19:34:00.000Z',
     endedAt:   '2025-04-12T20:11:00.000Z',
-    messages:  new Array(12),
-    summary:   'Spotted a pattern: Air spikes after writing, Fire spikes before meetings. Your AI noticed these boosts weren\'t random and suggested treating writing as a daily anchor, not a reward. Earth dipped to 22 and the two are likely connected.',
+    summary:   'Spotted a pattern: Air spikes after writing, Fire spikes before meetings. Your AI noticed these boosts were not random and suggested treating writing as a daily anchor, not a reward. Earth dipped to 22 and the two are likely connected.',
     harmonySnapshot: { air: 38, fire: 31, water: 22, earth: 29 },
+    messages: [
+      { role: 'user', content: 'I have been tracking for a few weeks now and I notice Air is consistently higher on days I write, even just a few paragraphs. But I still treat writing like a reward I have to earn after finishing everything else.' },
+      { role: 'assistant', content: 'That is a real pattern worth paying attention to. You are describing something that reliably lifts your clarity and awareness, and then scheduling it last, after the things that drain it. That is a bit backwards.\n\nA few questions to understand it better: when you say you have to "earn" writing, what does that mean in practice? Is it time, or something more like permission?' },
+      { role: 'user', content: 'Permission I think. Like I have not done enough useful things yet to justify sitting down with something that feels like it is just for me.' },
+      { role: 'assistant', content: 'So writing reads as indulgent rather than functional. Even though your own data is telling you it raises your Air score reliably.\n\nThat is worth sitting with for a second. You have evidence that writing increases your clarity and self-awareness. Those directly affect how well you think through everything else in your day. By treating it as a reward, you are often doing it when you are already depleted, after the decisions have been made.\n\nWhat would it look like to treat it as an input to the day, like sleep or movement, rather than a bonus at the end?' },
+      { role: 'user', content: 'Honestly that framing shifts something. I do not think of sleep as something I earn. I just do it because not doing it makes everything worse.' },
+      { role: 'assistant', content: 'Exactly. And your sheet is showing the same relationship with writing. Not doing it does not feel like a crisis in the moment, but the Air data says otherwise over time.\n\nI also want to flag something about your Earth score. It has dipped to 22 over the last few weeks, and that is the lowest it has been. You mentioned writing feels like something you need permission for. That kind of internal gating, waiting to feel "ready enough" before doing grounding things, is often a sign that the groundedness itself is low. The two might be feeding each other.\n\nIf writing became a morning anchor, non-negotiable like movement, what is the smallest version of that you could actually start tomorrow?' },
+      { role: 'user', content: 'Maybe ten minutes before I open email. Just a page, no agenda.' },
+      { role: 'assistant', content: 'That is a concrete enough commitment to actually test. Ten minutes, before email, no agenda. It removes the "earning" step entirely because it happens before there is anything to earn.\n\nI will note this in your sheet under your morning routine activity. After a week of this, it will be worth checking whether Earth moves at all. My hypothesis is that it will, because the internal gating is part of what is keeping it low.\n\nAnything else you want to look at tonight, or does this feel like a good stopping point?' },
+      { role: 'user', content: 'That is good. I think I needed someone to just say it plainly.' },
+      { role: 'assistant', content: 'The data said it. I just read it back to you.\n\nGood session. See you next time.' },
+    ],
   },
   {
     id: 'demo-2',
+    title: 'Two kinds of urgency',
     startedAt: '2025-04-19T21:05:00.000Z',
     endedAt:   '2025-04-19T21:52:00.000Z',
-    messages:  new Array(18),
     summary:   'Worked through the deadline crunch. Your AI distinguished two kinds of urgency in your logs: fear-driven (Fire spikes, sleep drops) vs. values-driven (steady Water, clear thinking). Identified three small shifts: earlier cut-off time, a daily anchor habit, one protected block of deep work.',
     harmonySnapshot: { air: 41, fire: 35, water: 24, earth: 31 },
+    messages: [
+      { role: 'user', content: 'This week has been brutal. Big deadline, I have been working until midnight most nights, and I can feel myself getting worse at my job as the week goes on. Slower thinking, more errors. And yet I cannot stop.' },
+      { role: 'assistant', content: 'That last part is the interesting bit. "I cannot stop." Is that true, or does it feel true?\n\nBefore we get into it: your Fire score has been elevated all week, and sleep has dropped below your usual baseline. That combination tends to feel like momentum, but it is actually noise. The clarity is going down even as the activity goes up.' },
+      { role: 'user', content: 'It feels true. Like stopping would mean I do not care enough, or I am not taking it seriously.' },
+      { role: 'assistant', content: 'Okay, that is useful. So the working late is not really about the deadline, it is about what stopping would mean about you. That is a different problem.\n\nI want to show you something in your data. Look back at your best weeks by output. What was your average sleep during those weeks versus this week?' },
+      { role: 'user', content: 'Oh. The good weeks I was sleeping more. Seven hours at least. This week I have been on five or six.' },
+      { role: 'assistant', content: 'So the behaviour that feels like "taking it seriously" is actually making you worse at the thing you are taking seriously. That is worth holding onto.\n\nThere are two kinds of urgency I see in your patterns. One is values-driven: you care about the work, you want it to be good, you have genuine stakes. The other is fear-driven: stopping feels like failure, so you stay busy to avoid that feeling, even when the busy is counterproductive.\n\nYour Water score has stayed relatively steady this week despite everything. That tells me the care is genuine. But the behaviour looks more like the second kind. Does that distinction land for you?' },
+      { role: 'user', content: 'Yeah. It does. I think I have been confusing the two for a long time actually.' },
+      { role: 'assistant', content: 'Most people do. The feeling is similar in the moment. The difference shows up in the outputs.\n\nHere are three things that would probably help between now and the deadline. First: a hard stop time, even if it is midnight, means your brain knows it is finite. Unlimited work time is actually harder to sustain than bounded work time. Second: keep the writing anchor from last week, it is one of the few things that clears the noise. Third: protect one deep work block per day, not scattered hours, one protected window where the actual hard thinking happens.\n\nNone of these require you to care less. They just redirect the energy more effectively.' },
+      { role: 'user', content: 'The deep work block is the one I keep losing first when things get busy.' },
+      { role: 'assistant', content: 'That is almost universal. The deep block is the first thing cut and the first thing you miss. The reason it keeps getting cut is that it has no obvious cost in the moment. Meetings have someone waiting. The deep block just silently disappears.\n\nOne thing that helps: treat the block as an external commitment, same as a meeting. Block it, do not move it for anything except an actual emergency, and tell someone else about it so there is external accountability.\n\nWhat would you protect it with this week?' },
+      { role: 'user', content: 'I will put it in the calendar and tell my partner. That usually works.' },
+      { role: 'assistant', content: 'Good. That is a real commitment, not just an intention.\n\nGet some sleep tonight. The deadline will go better for it.' },
+    ],
   },
   {
     id: 'demo-3',
+    title: 'What rest actually feels like',
     startedAt: '2025-04-27T20:18:00.000Z',
     endedAt:   null,
-    messages:  new Array(10),
     summary:   'In progress. Exploring why the last three Saturdays all show the same Water dip. Your AI found the pattern cuts across three different elements and asked a question that reframed it: what does rest actually feel like for you vs. what you think it should look like?',
     harmonySnapshot: { air: 43, fire: 34, water: 26, earth: 33 },
+    messages: [
+      { role: 'user', content: 'I keep noticing that Saturdays are weirdly low. Like I have been looking forward to the weekend all week and then Saturday comes and I feel flat. Water is consistently lower on Saturdays than any other day.' },
+      { role: 'assistant', content: 'That is a striking pattern. Three Saturdays in a row is not noise.\n\nA few things I want to understand: what does a typical Saturday actually look like for you? And when you say flat, is it low energy, low meaning, low connection, or something harder to name?' },
+      { role: 'user', content: 'Combination. I usually have no plans, which I thought I wanted. But then I sort of drift. I watch things, scroll, do small tasks, and by evening I feel like the day was wasted even if I technically rested.' },
+      { role: 'assistant', content: 'That distinction, "technically rested" versus actually restored, is exactly what your Water score is tracking. Water reflects aliveness, connection, flow, not just absence of activity. What you are describing is passive rest, which removes tiredness but does not add much.\n\nHere is something I want to ask, and take your time with it: when you imagine a day that actually left you feeling restored, what did it have in it? Not what you think rest should look like. What has actually worked in the past, even once?' },
+      { role: 'user', content: 'Honestly? The days I feel best are usually when I have done something slightly effortful that I chose. A long walk with no destination, cooking something complicated, going to a gallery even alone. Not relaxing exactly, but mine.' },
+      { role: 'assistant', content: 'That is the pattern. What restores you is not passive, it is autonomous and chosen. The unstructured Saturday gives you freedom but no direction, so you fill it with the path of least resistance, which leaves you empty.\n\nYour Water is low on those days because the things that actually feed it, doing something that is yours, that has a bit of friction and meaning, are absent. You are resting in a way that does not match how you actually work.\n\nThis connects to something in your needs profile too. Autonomy scores reasonably well for you, but Connection is flagged amber. The days that restore you tend to have both: something you chose, and some texture to the experience, even if you are alone.\n\nWhat would it take to build one anchored thing into Saturday? Not a full schedule. Just one thing that is slightly effortful and genuinely yours.' },
+    ],
   },
 ];
 
@@ -16185,11 +17023,11 @@ function renderChatSessions(s) {
   const totalSessions = sessions.length;
   sessions.forEach((session, revIdx) => {
     const card = document.createElement('div');
-    card.className = 'chat-sess-card';
+    const isLive = session.id === chatState.currentSessionId;
+    card.className = 'chat-sess-card' + (isLive ? ' chat-sess-card--live' : '');
     const sessionNum = totalSessions - revIdx;
     const dateStr = session.startedAt ? new Date(session.startedAt).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown date';
     const msgCount = IS_DEMO ? session.messages.length : (session.messages || []).filter(m => m.role === 'user').length;
-    const isLive = session.id === chatState.currentSessionId;
     const badge = isLive ? '<span class="chat-sess-badge">live</span>' : (!session.endedAt ? '<span class="chat-sess-badge chat-sess-badge-unfinished">unfinished</span>' : '');
     const harmony = session.harmonySnapshot;
     const harmonyStr = harmony ? Object.entries(harmony).map(([k, v]) => `${k}: ${Math.round(v)}`).join(' | ') : '';
@@ -16204,16 +17042,30 @@ function renderChatSessions(s) {
       ${harmonyStr ? `<div class="chat-sess-harmony">${esc(harmonyStr)}</div>` : ''}
       <div class="chat-sess-actions">
         ${IS_DEMO
-          ? '<span class="chat-sess-demo-label">Demo session. Download the app to start your own.</span>'
-          : '<button class="btn-ghost chat-sess-btn chat-sess-resume">Resume</button><button class="btn-ghost chat-sess-btn chat-sess-btn-delete chat-sess-delete">Delete</button>'
+          ? '<button class="btn-ghost chat-sess-btn chat-sess-view">View session</button><span class="chat-sess-demo-label">Demo only. Download the app to start your own.</span>'
+          : '<button class="btn-ghost chat-sess-btn chat-sess-resume">Resume</button><button class="btn-ghost chat-sess-btn chat-sess-btn-delete chat-sess-delete">Delete</button><span class="chat-sess-confirm" style="display:none"><span>Delete session?</span><button class="btn-ghost chat-sess-confirm-yes">Yes, delete</button><button class="btn-ghost chat-sess-confirm-no">Cancel</button></span>'
         }
       </div>`;
-    // Use data attribute + addEventListener to avoid session.id in onclick attribute string
     card.dataset.sessionId = session.id;
-    const resumeBtn = card.querySelector('.chat-sess-resume');
-    const deleteBtn = card.querySelector('.chat-sess-delete');
+    const viewBtn    = card.querySelector('.chat-sess-view');
+    const resumeBtn  = card.querySelector('.chat-sess-resume');
+    const deleteBtn  = card.querySelector('.chat-sess-delete');
+    const confirmEl  = card.querySelector('.chat-sess-confirm');
+    const confirmYes = card.querySelector('.chat-sess-confirm-yes');
+    const confirmNo  = card.querySelector('.chat-sess-confirm-no');
+    if (viewBtn)   viewBtn.addEventListener('click', () => { openChat(); chatLoadSession(session.id); });
     if (resumeBtn) resumeBtn.addEventListener('click', () => { openChat(); chatLoadSession(session.id); });
-    if (deleteBtn) deleteBtn.addEventListener('click', () => chatDeleteSession(session.id));
+    if (deleteBtn) deleteBtn.addEventListener('click', () => {
+      deleteBtn.style.display = 'none';
+      if (resumeBtn) resumeBtn.style.display = 'none';
+      if (confirmEl) confirmEl.style.display = '';
+    });
+    if (confirmNo) confirmNo.addEventListener('click', () => {
+      if (confirmEl) confirmEl.style.display = 'none';
+      deleteBtn.style.display = '';
+      if (resumeBtn) resumeBtn.style.display = '';
+    });
+    if (confirmYes) confirmYes.addEventListener('click', () => chatDeleteSession(session.id));
     container.appendChild(card);
   });
 }
@@ -16298,6 +17150,16 @@ function openGitSyncModal() {
     if (patEl)  patEl.value  = gs.pat  || '';
     if (repoEl) repoEl.value = (gs.owner && gs.repo) ? gs.owner + '/' + gs.repo : '';
     if (pathEl) pathEl.value = gs.path || 'data.enc';
+    const autoEl  = document.getElementById('cs-git-autosync');
+    const autoLbl = document.getElementById('cs-git-autosync-label');
+    const autoTxt = document.getElementById('cs-git-autosync-text');
+    const pinOn   = typeof _pinActive !== 'undefined' && _pinActive;
+    if (autoEl) { autoEl.checked = !!gs.autoSync; autoEl.disabled = !pinOn; }
+    if (autoLbl) autoLbl.style.opacity = pinOn ? '' : '0.45';
+    if (autoLbl) autoLbl.style.cursor  = pinOn ? 'pointer' : 'default';
+    if (autoTxt) autoTxt.textContent = pinOn
+      ? 'Auto-sync: push changes automatically'
+      : 'Auto-sync: push changes automatically (unlock your password first)';
     _updateGitSyncStatus();
   }
   document.getElementById('git-sync-modal').classList.add('open');
@@ -16317,12 +17179,19 @@ function closeGitSyncModal() {
   if (c) c.style.display = 'none';
 }
 
+async function gitSyncToggleAuto(enabled) {
+  const gs = loadGitSyncSettings();
+  gs.autoSync = enabled;
+  await saveGitSyncSettings(gs);
+}
+
 function gitSyncPullConfirm() {
   const el = document.getElementById('cs-git-pull-confirm');
   if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
 async function gitSyncPush() {
+  if (IS_DEMO) return;
   const gs = _gitSyncReadForm();
   if (!gs) return;
   if (!gs.pat || !gs.owner || !gs.repo) { showImportToast('Fill in your GitHub token and owner/repo before syncing.'); return; }
@@ -16363,12 +17232,12 @@ async function gitSyncPush() {
 }
 
 async function gitSyncPull() {
+  if (IS_DEMO) return;
   const gs = _gitSyncReadForm();
   if (!gs) return;
   if (!gs.pat || !gs.owner || !gs.repo) { showImportToast('Fill in your GitHub token and owner/repo before syncing.'); return; }
   const pinActive = typeof _pinActive !== 'undefined' && _pinActive;
   if (!pinActive) { showImportToast('A security password is required for GitHub sync. Set one in Security (bottom bar).'); return; }
-  // Persist and encrypt form values before the network call
   await saveGitSyncSettings(gs);
   const btn = document.getElementById('cs-git-pull-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Pulling...'; }
@@ -16381,30 +17250,90 @@ async function gitSyncPull() {
     if (!resp.ok) throw new Error('GitHub returned ' + resp.status + '. Check your token and repo settings.');
     const data = await resp.json();
     const raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-    let pulledEnc, pulledCheck;
+    // Parse envelope
+    let pulledEnc;
     try {
       const envelope = JSON.parse(raw);
-      if (envelope._v === 2 && envelope.enc && envelope.check) {
-        pulledEnc = envelope.enc;
-        pulledCheck = envelope.check;
-      }
+      if (envelope._v === 2 && envelope.enc) pulledEnc = envelope.enc;
     } catch {}
     if (!pulledEnc) {
       if (!raw.startsWith('{"iv"') && !raw.startsWith('{"salt"')) throw new Error('The file at that path is not a character-sheet backup. Check your owner/repo/path settings.');
       pulledEnc = raw;
     }
+    // Decrypt remote state with the current PIN
+    const pin = _currentPIN;
+    if (!pin) throw new Error('Your password session has expired. Lock and unlock again, then retry.');
+    const remotePlain = await _decrypt(pin, pulledEnc);
+    if (!remotePlain) throw new Error('Could not decrypt the backup. Make sure you are using the same password as on the device that pushed it.');
+    let remoteBlob;
+    try { remoteBlob = JSON.parse(remotePlain); } catch { throw new Error('Backup file is corrupted or unreadable.'); }
+    const remoteState = remoteBlob.state || remoteBlob;
+    if (!remoteState || typeof remoteState !== 'object') throw new Error('Backup file does not contain valid data.');
+    // Safety net: download current local state before merging
+    (function _downloadSafetyBackup() {
+      try {
+        const localState = JSON.parse(JSON.stringify(appState));
+        localState._featuredAch = getFeaturedAch();
+        localState._featuredCls = getFeaturedCls();
+        localState._xpLog = loadXPLog();
+        const blob = new Blob([JSON.stringify(localState, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'pre-pull-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      } catch {}
+    })();
+    // Merge remote state into local using the same logic as applyUpdate
+    // This handles array merging by id, enemy deep-merge, locked fields, XP log, etc.
+    closeGitSyncModal();
+    applyUpdate(remoteState);
     gs.lastPulled = new Date().toISOString();
     await saveGitSyncSettings(gs);
-    localStorage.setItem(ENC_KEY, pulledEnc);
-    if (pulledCheck) localStorage.setItem(PIN_CHECK, pulledCheck);
-    _clearSensitiveKeys();
-    showImportToast('Pulled successfully. Reloading to apply...');
-    setTimeout(() => location.reload(), 1200);
+    showImportToast('Pulled and merged from ' + gs.owner + '/' + gs.repo + '. A safety backup was downloaded.');
+    _updateGitSyncStatus();
   } catch (err) {
     showImportToast('Pull failed: ' + err.message);
     if (btn) { btn.disabled = false; btn.textContent = 'Pull ↓'; }
     const c = document.getElementById('cs-git-pull-confirm');
     if (c) c.style.display = 'none';
+  }
+}
+
+let _autoSyncTimer = null;
+let _autoSyncInFlight = false;
+
+async function _autoSyncPushSilent() {
+  if (IS_DEMO) return;
+  if (_autoSyncInFlight) return;
+  if (typeof _pinActive === 'undefined' || !_pinActive) return;
+  const gs = loadGitSyncSettings();
+  if (!gs.autoSync || !gs.pat || !gs.owner || !gs.repo) return;
+  const encData = localStorage.getItem(ENC_KEY);
+  const pinCheck = localStorage.getItem(PIN_CHECK);
+  if (!encData || !pinCheck) return;
+  _autoSyncInFlight = true;
+  const statusEl = document.getElementById('cs-git-sync-status');
+  try {
+    const pushPayload = JSON.stringify({ _v: 2, enc: encData, check: pinCheck });
+    const apiBase = `https://api.github.com/repos/${encodeURIComponent(gs.owner)}/${encodeURIComponent(gs.repo)}/contents/${encodeURIComponent(gs.path || 'data.enc')}`;
+    const headers = { Authorization: 'Bearer ' + gs.pat, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' };
+    let sha;
+    const check = await fetch(apiBase, { headers });
+    if (check.ok) sha = (await check.json()).sha;
+    else if (check.status === 404) {} // first push
+    else throw new Error('GitHub ' + check.status);
+    const body = { message: 'sync: character-sheet', content: btoa(unescape(encodeURIComponent(pushPayload))) };
+    if (sha) body.sha = sha;
+    const put = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!put.ok) { const e = await put.json().catch(() => ({})); throw new Error(e.message || 'status ' + put.status); }
+    gs.lastPushed = new Date().toISOString();
+    await saveGitSyncSettings(gs);
+    _updateGitSyncStatus();
+  } catch (err) {
+    if (statusEl) statusEl.textContent = 'Auto-sync failed: ' + err.message;
+  } finally {
+    _autoSyncInFlight = false;
   }
 }
 
@@ -16657,6 +17586,8 @@ function openChatSettings() {
   document.querySelectorAll('input[name="cs-chat-syncmode"]').forEach(r => { r.checked = (r.value === syncMode); });
   const syncNEl = document.getElementById('cs-chat-syncevery');
   if (syncNEl) syncNEl.value = s.syncEvery || 5;
+  const reviewEl = document.getElementById('cs-chat-review-before-save');
+  if (reviewEl) reviewEl.checked = !!s.reviewBeforeSave;
   onChatModelPresetChange();
   const acRadio = s.autoCompact ? 'on' : 'off';
   document.querySelectorAll('input[name="cs-chat-autocompact"]').forEach(r => { r.checked = (r.value === acRadio); });
@@ -16736,6 +17667,8 @@ function saveChatSettingsFromForm() {
   s.autoCompact = acEl ? (acEl.value === 'on') : false;
   const acThEl = document.getElementById('cs-chat-compact-threshold');
   s.autoCompactThreshold = acThEl ? (parseInt(acThEl.value) || 40000) : 40000;
+  const reviewSaveEl = document.getElementById('cs-chat-review-before-save');
+  s.reviewBeforeSave = reviewSaveEl ? reviewSaveEl.checked : false;
   saveChatSettings(s);
   _updateChatSyncBtn();
   _updateCloudWarnBanner();
@@ -16811,6 +17744,15 @@ document.addEventListener('keydown', function(e) {
   else document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('chat-input')?.addEventListener('keydown', onChatKey);
   });
+
+  // Close session picker panel when clicking outside it
+  document.addEventListener('click', function(e) {
+    const panel = document.getElementById('chat-sess-picker-panel');
+    const wrap  = document.getElementById('chat-sess-picker-wrap');
+    if (panel && panel.classList.contains('open') && wrap && !wrap.contains(e.target)) {
+      panel.classList.remove('open');
+    }
+  }, true);
 })();
 </script>
 
@@ -16897,7 +17839,10 @@ document.addEventListener('keydown', function(e) {
       <div id="chat-hdr-subtitle" class="chat-hdr-subtitle" style="display:none"></div>
     </div>
     <div class="chat-hdr-right">
-      <select id="chat-session-picker" class="chat-session-picker" style="display:none" title="Load a past session" onchange="if(this.value){chatLoadSession(this.value);this.value=''}"></select>
+      <div class="chat-sess-picker-wrap" id="chat-sess-picker-wrap" style="display:none">
+        <button class="chat-sess-picker-btn" id="chat-sess-picker-btn" onclick="chatPickerToggle()" title="Load a past session">Past sessions <span class="picker-arrow">&#9660;</span></button>
+        <div class="chat-sess-picker-panel" id="chat-sess-picker-panel"></div>
+      </div>
       <span id="chat-cost-display" class="chat-cost-display" style="display:none"></span>
       <button class="chat-icon-btn" id="chat-compact-btn" onclick="chatToggleCompact()" title="Sidebar mode">&#x2922;</button>
       <button class="chat-icon-btn" onclick="openChatSettings()" title="Settings">&#9881;</button>
@@ -16906,7 +17851,8 @@ document.addEventListener('keydown', function(e) {
   </div>
   <div id="chat-cloud-warn" class="chat-cloud-warn">
     <span class="chat-cloud-warn-dot">&#9888;</span>
-    <span>Cloud model active: every message and your journal data are sent to an external server. Your provider may store or review them. For full privacy use a local Ollama model (free). <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:#f09090;text-decoration:underline;">Provider privacy guide</a></span>
+    <span class="chat-cloud-warn-text">Cloud model active: every message and your journal data are sent to an external server. Your provider may store or review them. For full privacy use a local Ollama model (free). <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:#f09090;text-decoration:underline;">Provider privacy guide</a></span>
+    <button class="chat-cloud-warn-dismiss" onclick="this.closest('#chat-cloud-warn').classList.remove('visible')" title="Dismiss">&#x2715;</button>
   </div>
   <div id="chat-demo-banner" class="chat-demo-banner" style="display:none">Demo mode: chatting with Steve's data. Sessions won't be saved. Running a local Ollama model is recommended.</div>
   <div id="chat-quickstarts" class="chat-quickstarts" style="display:none"></div>
@@ -16916,11 +17862,9 @@ document.addEventListener('keydown', function(e) {
     <button id="chat-send-btn" class="btn-primary chat-send-btn" onclick="chatSend()">Send</button>
   </div>
   <div class="chat-action-bar">
-    <button id="chat-apply-btn" class="chat-apply-btn" onclick="chatApplyUpdate()" style="display:none" title="Apply the AI's suggested changes to your sheet now">&#x2736; Apply Update</button>
     <button id="chat-summarize-btn" class="btn-ghost chat-summarize-btn" onclick="chatCompactContext()" title="Compress old messages into a summary to free up context space. Use this if the AI starts forgetting earlier parts of the conversation.">&#9636; Compact</button>
-    <button id="chat-sync-btn" class="btn-ghost chat-sync-btn" onclick="chatSync()" title="Save progress mid-session: ask your AI to output the current changes and apply them now, then keep chatting.">&#8635; Sync</button>
     <button class="btn-ghost chat-new-session-btn" onclick="chatNewSession()" title="Start fresh: clear this conversation and begin a new session. The current session stays in the Journal tab.">New session</button>
-    <button id="chat-end-btn" class="btn-ghost chat-end-btn" onclick="chatEndSession()" title="Wrap up: your AI writes a session summary, applies all changes to your sheet, and closes the session.">End session</button>
+    <button id="chat-update-btn" class="btn-ghost chat-end-btn" onclick="chatUpdateSheet()" title="Ask your AI to summarise and save any changes from this conversation. You can review before applying.">Update sheet</button>
     <button id="chat-delete-session-btn" class="btn-ghost chat-delete-session-btn" onclick="chatDeleteCurrentSession()" title="Delete this session permanently" style="display:none">Delete session</button>
   </div>
   <div id="chat-reauth-gate">
@@ -17004,9 +17948,13 @@ document.addEventListener('keydown', function(e) {
       <div class="chat-sync-options">
         <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="always"> After every reply</label>
         <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="every-n"> Every <input type="number" id="cs-chat-syncevery" class="chat-sync-n" min="2" max="50" value="5"> replies</label>
-        <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="manual" checked> Manual (use the Sync button or ask your AI)</label>
+        <label class="chat-sync-radio"><input type="radio" name="cs-chat-syncmode" value="manual" checked> Manual (use Update sheet or ask your AI)</label>
       </div>
       <p class="chat-api-note" style="margin-top:8px;">Controls when updated data is written back to the app. Frequent sync costs more tokens with cloud models.</p>
+    </div>
+    <div class="chat-field" style="margin-top:10px;">
+      <label class="chat-sync-radio"><input type="checkbox" id="cs-chat-review-before-save"> Review changes before saving</label>
+      <p class="chat-api-note" style="margin-top:4px;">When on, any data update shows a summary of what will change with an Apply button. When off, auto-sync applies silently. Has no effect in Manual mode (Update sheet always shows a review).</p>
     </div>
     <div class="chat-field" style="margin-top:10px;">
       <label class="chat-field-lbl" style="display:block;margin-bottom:8px;">Auto-compact</label>

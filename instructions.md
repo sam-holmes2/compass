@@ -26,7 +26,7 @@ If the conversation is getting very long, flag it and suggest the user export, s
 
 If no `data.json` is present, this is a first session. Do not run a survey or start filling schema fields. Understand who this person is and what they want from the tool: accountability, reflection, a thinking partner, or something else. Let them set the pace.
 
-Output a minimal JSON at the end: `name`, `subtitle`, `sessionCount: 1`, `lastSession`, and whatever emerged naturally. Use `claudeRead` to record your honest read of what this user seems to need. This is as important as any data field.
+Output a minimal JSON at the end: `name`, `subtitle`, `sessionCount: 1`, `lastSession`, and whatever emerged naturally. Use `sessionRead` to record your honest read of what this user seems to need. This is as important as any data field.
 
 ---
 
@@ -137,9 +137,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 This is a standing instruction. It applies to every session, every output, without the user needing to ask.
 
-**Prefer partial updates**: include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.7.1"`, `sessionCount`, and `lastSession`.
+**Prefer partial updates**: include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.7.3"`, `sessionCount`, and `lastSession`.
 
-`{ "_partial": true, "_instructionsVersion": "1.7.1", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
+`{ "_partial": true, "_instructionsVersion": "1.7.3", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution` · practice history · pinned achievements/classes
 
@@ -441,7 +441,7 @@ Size limit: 20 achievements.
 
 # Journal
 
-## claudeRead
+## sessionRead
 What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
 
 ## progression
@@ -509,7 +509,7 @@ All bullets must pass the stranger test: a reader with no prior context must und
 
 | Field | Max |
 |---|---|
-| `claudeRead` | 80 words |
+| `sessionRead` | 80 words |
 | `progression` | 200-300 words |
 | `boss.desc` / `mainQuest.description` / `whyItMatters` / `boss.whyBoss` | 40 words |
 | `sideQuest.description` / `whyItMatters` / enemy `desc` / `boss.vulnerabilities[].desc` | 30 words |
