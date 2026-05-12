@@ -5011,99 +5011,6 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | Most \`title\` fields | 8 words |
 | Journal \`events\` bullets | 20 words |
 | Journal \`insights\` / \`tensions\` bullets | 30 words |
-`; stopping needing external validation is a \`surrender\`; realising you had been lying to yourself is an \`insight\`.
-
-\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
-
-Size limit: 20 achievements.
-
----
-
-# Journal
-
-## sessionRead
-What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
-
-## progression
-The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
-
-## keyQuestions
-The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
-
-**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
-
-\`\`\`json
-"keyQuestions": [
-  {
-    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
-    "asked": "2026-04-12",
-    "updated": "2026-04-12"
-  }
-]
-\`\`\`
-
-## openThreads
-Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
-
-\`\`\`json
-"openThreads": [
-  {
-    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
-    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
-  }
-]
-\`\`\`
-
-## Journal entries (insights)
-
-Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
-
-Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
-
-\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
-
-All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
-
-- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
-- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
-- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
-
-**Never remove or rewrite existing journal entries.** They were accurate at the time.
-
----
-
-# Size limits
-
-| Category | Max |
-|---|---|
-| \`skills\` | 15 |
-| \`achievements\` | 20 |
-| \`enemies.current\` | 15 |
-| \`allies\` | 15 |
-| \`values\` / \`needs\` | 10 each |
-| \`keyQuestions\` | 3 |
-
----
-
-# Field length limits
-
-| Field | Max |
-|---|---|
-| \`sessionRead\` | 80 words |
-| \`progression\` | 200-300 words |
-| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
-| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
-| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
-| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
-| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
-| \`limitingBelief.belief\` | 15 words |
-| \`sliderLabel\` | 80 chars |
-| \`keyQuestions[].question\` | 30 words |
-| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
-| Most \`title\` fields | 8 words |
-| Journal \`events\` bullets | 20 words |
-| Journal \`insights\` / \`tensions\` bullets | 30 words |
-`; stopping needing external validation is a \`surrender\`; realising you had been lying to yourself is an \`insight\`.
 
 \`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
 
@@ -6469,6 +6376,7 @@ function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave
         else { storedHist.push(newEntry); storedHist.sort((a,b) => a.date < b.date ? -1 : 1); }
         if (storedHist.length > 90) storedHist.splice(0, storedHist.length - 90);
         localStorage.setItem(storageKey, JSON.stringify(storedHist));
+        _reencryptIfActive();
       } catch(ex) {}
       pop.remove();
       onSave();
@@ -6598,6 +6506,7 @@ function openHistNewEntry(type, anchorEl) {
       else { storedHist.push(newEntry); storedHist.sort(function(a,b){ return a.date < b.date ? -1 : 1; }); }
       if (storedHist.length > 90) storedHist.splice(0, storedHist.length - 90);
       localStorage.setItem(storageKey, JSON.stringify(storedHist));
+      _reencryptIfActive();
     } catch(ex) {}
     pop.remove();
     onSave();
@@ -9529,13 +9438,19 @@ function applyUpdate(chatData){
     delete p._partial;
     // Take snapshot before any changes for diff toast + undo
     const prevSnapshot = JSON.parse(JSON.stringify(appState));
+    const undoData = {
+      state: prevSnapshot,
+      featuredAch: getFeaturedAch(),
+      featuredCls: getFeaturedCls(),
+      xpLog: loadXPLog(),
+    };
     if(!IS_DEMO){
-      localStorage.setItem('cs-undo-v1', JSON.stringify({
-        state: prevSnapshot,
-        featuredAch: getFeaturedAch(),
-        featuredCls: getFeaturedCls(),
-        xpLog: loadXPLog(),
-      }));
+      if(typeof _pinActive !== 'undefined' && _pinActive){
+        _importUndoSnap = undoData; // keep in memory — never write plaintext under PIN
+      } else {
+        _importUndoSnap = null;
+        localStorage.setItem('cs-undo-v1', JSON.stringify(undoData));
+      }
     }
     let merged;
     if(isPartial){
@@ -11103,17 +11018,9 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   const dataPoints = [];
 
   if (act.resetPeriod === 'day') {
-    // When aligned, iterate from the shared start date to today; otherwise show last 28 days,
-    // but always reach back far enough to include 7 blank days before the earliest history entry.
     const todayStr = now.toISOString().slice(0, 10);
     const startStr = _alignStart || (() => {
       const defaultStart = new Date(now); defaultStart.setUTCDate(defaultStart.getUTCDate() - 27);
-      const allEntries = [...hardHist.map(h => h.date), ...lsHist.map(h => h.period)].filter(Boolean).sort();
-      if (allEntries.length > 0) {
-        const earliest = new Date(allEntries[0] + 'T00:00:00Z');
-        earliest.setUTCDate(earliest.getUTCDate() - 7);
-        if (earliest < defaultStart) return earliest.toISOString().slice(0, 10);
-      }
       return defaultStart.toISOString().slice(0, 10);
     })();
     let _ds = startStr;
@@ -11156,15 +11063,10 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
     }
   }
 
-  // Show exactly 7 blank periods before the first data point for easy backfilling.
-  let displayPoints;
-  {
-    const firstDataIdx = dataPoints.findIndex(d => act.type === 'checkbox' ? d.hasEntry : d.value > 0);
-    if (firstDataIdx < 0) {
-      displayPoints = dataPoints.length > 0 ? dataPoints.slice(-7) : [];
-    } else {
-      displayPoints = dataPoints.slice(Math.max(0, firstDataIdx - 7));
-    }
+  let displayPoints = dataPoints;
+  if (!_alignStart && act.resetPeriod === 'day') {
+    const firstIdx = dataPoints.findIndex(d => d.hasEntry || d.value > 0);
+    displayPoints = firstIdx < 0 ? dataPoints.slice(-7) : dataPoints.slice(Math.max(0, firstIdx - 7));
   }
 
   const _goalHist = loadRQGoalHistory(charName, act.id);
@@ -12558,10 +12460,15 @@ function renderRecurringQuests(s) {
       // Find earliest entry in localStorage history
       lsHist.forEach(h => { if (h.period && h.value > 0) { const cmp = h.period; if (!alignStartDate || cmp < alignStartDate) alignStartDate = cmp; } });
     });
-    // Cap at 90 days back to avoid giant charts
-    const ninetyAgo = new Date(now); ninetyAgo.setDate(ninetyAgo.getDate() - 89);
-    const ninetyStr = ninetyAgo.toISOString().slice(0, 10);
-    if (!alignStartDate || alignStartDate < ninetyStr) alignStartDate = ninetyStr;
+    // Start 7 days before earliest data point; if no data, show last 7 days only
+    if (alignStartDate) {
+      const sevenBefore = new Date(alignStartDate + 'T00:00:00Z');
+      sevenBefore.setUTCDate(sevenBefore.getUTCDate() - 7);
+      alignStartDate = sevenBefore.toISOString().slice(0, 10);
+    } else {
+      const sevenAgo = new Date(now); sevenAgo.setUTCDate(sevenAgo.getUTCDate() - 6);
+      alignStartDate = sevenAgo.toISOString().slice(0, 10);
+    }
   }
 
   // Toggle button — render above the container using a sibling slot
@@ -14450,6 +14357,7 @@ function confirmResetHistory(type) {
     // Undo toast
     showDeleteToast(`${label} history`, () => {
       try { localStorage.setItem(key, backup); } catch(e) {}
+      _reencryptIfActive();
       if (legendEl) legendEl.dataset.built = '';
       if (type === 'stats') renderStatsHistoryChart();
       else renderStatusHistoryChart();
@@ -14524,6 +14432,7 @@ function loadStatusSliders(s) {
     fromLS[name] = pct;
   });
   try { localStorage.setItem(STATUS_LS_KEY, JSON.stringify(fromLS)); } catch(e) {}
+  _reencryptIfActive();
   updateStatusRadar();
   _applyStatusPerSliderGlow();
   requestAnimationFrame(()=>requestAnimationFrame(renderStatusHistoryChart));
@@ -14789,13 +14698,14 @@ function flashImportChanges(prev, next){
 }
 
 let _importToastTimer = null;
+let _importUndoSnap = null; // in-memory undo snapshot used when PIN is active
 function showImportToast(msg){
   const el  = document.getElementById('import-toast');
   const txt = document.getElementById('import-toast-text');
   const undoBtn = document.getElementById('import-toast-undo');
   if(!el||!txt) return;
   txt.textContent = msg;
-  if(undoBtn) undoBtn.style.display = (!IS_DEMO && localStorage.getItem('cs-undo-v1')) ? 'block' : 'none';
+  if(undoBtn) undoBtn.style.display = (!IS_DEMO && (_importUndoSnap || localStorage.getItem('cs-undo-v1'))) ? 'block' : 'none';
   el.classList.add('visible');
   clearTimeout(_importToastTimer);
   _importToastTimer = setTimeout(hideImportToast, 8000);
@@ -14807,10 +14717,15 @@ function hideImportToast(){
 }
 function undoImport(){
   try{
-    const raw = localStorage.getItem('cs-undo-v1');
-    if(!raw) return;
-    const snap = JSON.parse(raw);
-    localStorage.removeItem('cs-undo-v1');
+    let snap = _importUndoSnap;
+    if(snap){
+      _importUndoSnap = null;
+    } else {
+      const raw = localStorage.getItem('cs-undo-v1');
+      if(!raw) return;
+      snap = JSON.parse(raw);
+      localStorage.removeItem('cs-undo-v1');
+    }
     if(snap.featuredAch) setFeaturedAch(snap.featuredAch);
     if(snap.featuredCls) setFeaturedCls(snap.featuredCls);
     if(snap.xpLog) saveXPLog(snap.xpLog);
@@ -14966,6 +14881,7 @@ const PIN_TIMEOUT_KEY = 'cs-pin-timeout-v1';
 const LOCK_ON_HIDE_KEY = 'cs-lock-on-hide-v1';
 const CLOSE_CONFIRM_KEY = 'cs-close-confirm-v1';
 const SENTINEL  = 'cs-unlocked';
+const SESSION_KEY_STORE = 'cs-session-key-v1';
 
 let _lockTimer = null;
 let _pinActive = false; // true when user has set a PIN and app is unlocked
@@ -14980,6 +14896,32 @@ async function _deriveKey(pin, salt){
     {name:'PBKDF2', salt, iterations:200000, hash:'SHA-256'},
     keyMat, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']
   );
+}
+
+// Persist raw key bytes in sessionStorage so reload within the same browser session skips the lock screen.
+// sessionStorage is tab-scoped and cleared on tab close, so this does not survive across sessions.
+async function _saveSessionKey(pin, salt){
+  if(IS_DEMO) return;
+  try {
+    const enc = new TextEncoder();
+    const keyMat = await crypto.subtle.importKey('raw', enc.encode(pin), 'PBKDF2', false, ['deriveKey']);
+    const extractable = await crypto.subtle.deriveKey(
+      {name:'PBKDF2', salt, iterations:200000, hash:'SHA-256'},
+      keyMat, {name:'AES-GCM', length:256}, true, ['encrypt','decrypt']
+    );
+    const raw = await crypto.subtle.exportKey('raw', extractable);
+    sessionStorage.setItem(SESSION_KEY_STORE, _b64(raw));
+  } catch {}
+}
+
+async function _loadSessionKey(){
+  if(IS_DEMO) return null;
+  try {
+    const stored = sessionStorage.getItem(SESSION_KEY_STORE);
+    if(!stored) return null;
+    const raw = _unb64(stored);
+    return crypto.subtle.importKey('raw', raw, {name:'AES-GCM'}, false, ['encrypt','decrypt']);
+  } catch { return null; }
 }
 
 async function _encrypt(pin, plaintext){
@@ -15127,6 +15069,7 @@ function lockApp(){
   _pinActive = false;
   _currentPIN = null;
   _currentKey = null;
+  sessionStorage.removeItem(SESSION_KEY_STORE);
   // Clear chat overlay and wipe in-memory messages so history isn't visible after re-unlock
   closeChat();
   closeChatSettings();
@@ -15186,7 +15129,7 @@ async function unlockApp(){
   _pinActive = true;
   // Derive a CryptoKey from the PIN so we never hold the raw string in memory again
   { const {salt} = JSON.parse(localStorage.getItem(PIN_CHECK)||'{}');
-    if(salt) _deriveKey(pin, _unb64(salt)).then(k=>{ _currentKey=k; }).catch(()=>{}); }
+    if(salt){ const saltBuf=_unb64(salt); _deriveKey(pin, saltBuf).then(k=>{ _currentKey=k; }).catch(()=>{}); _saveSessionKey(pin, saltBuf); } }
   let blob = null;
   try { blob = JSON.parse(plain); } catch {}
   // Support old format (plain was just appState JSON) and new blob format
@@ -15407,7 +15350,7 @@ async function settingsSavePIN(){
   _pinActive = true;
   // Derive and store CryptoKey from the sentinel's salt
   { const {salt} = JSON.parse(localStorage.getItem(PIN_CHECK)||'{}');
-    if(salt) _deriveKey(p1, _unb64(salt)).then(k=>{ _currentKey=k; }).catch(()=>{}); }
+    if(salt){ const saltBuf=_unb64(salt); _deriveKey(p1, saltBuf).then(k=>{ _currentKey=k; }).catch(()=>{}); _saveSessionKey(p1, saltBuf); } }
   const strengthEl = document.getElementById('settings-pw-strength');
   if(strengthEl) strengthEl.style.display='none';
   document.getElementById('lock-btn').style.display='';
@@ -15443,6 +15386,7 @@ async function settingsRemovePIN(){
   _currentPIN = null;
   _currentKey = null;
   _pinActive = false;
+  sessionStorage.removeItem(SESSION_KEY_STORE);
   if(_lockTimer){ clearTimeout(_lockTimer); _lockTimer=null; }
   document.getElementById('lock-btn').style.display='none';
   _setSettingsStatus('Password removed. Data stored in plain text.','ok');
@@ -15482,7 +15426,7 @@ async function settingsChangePIN(){
   _clearSensitiveKeys();
   _currentPIN = null;
   { const {salt} = JSON.parse(localStorage.getItem(PIN_CHECK)||'{}');
-    if(salt) _deriveKey(newPin, _unb64(salt)).then(k=>{ _currentKey=k; }).catch(()=>{}); }
+    if(salt){ const saltBuf=_unb64(salt); _deriveKey(newPin, saltBuf).then(k=>{ _currentKey=k; }).catch(()=>{}); _saveSessionKey(newPin, saltBuf); } }
   _setSettingsStatus('Password changed.','ok');
   settingsHideChangePIN();
   document.getElementById('settings-pin-current').value='';
@@ -15540,6 +15484,46 @@ async function _initPINCheck(){
   if(IS_DEMO) return;
   if(_hasPIN()){
     document.getElementById('lock-btn').style.display='';
+    // Try to restore from sessionStorage so the user doesn't re-enter their password on reload.
+    const sessionKey = await _loadSessionKey();
+    if(sessionKey){
+      _currentKey = sessionKey;
+      _pinActive = true;
+      const enc = localStorage.getItem(ENC_KEY);
+      if(enc){
+        try {
+          const {iv, data} = JSON.parse(enc);
+          const plain = await crypto.subtle.decrypt(
+            {name:'AES-GCM', iv:_unb64(iv)}, _currentKey, _unb64(data)
+          ).then(buf => new TextDecoder().decode(buf)).catch(() => null);
+          if(plain !== null){
+            let blob = null;
+            try { blob = JSON.parse(plain); } catch {}
+            if(blob && blob.state){
+              _restoreBlob(blob);
+              try { appState = blob.state; } catch { appState = DEFAULT; }
+            } else if(blob){
+              appState = blob;
+            } else {
+              appState = DEFAULT;
+            }
+            render(appState);
+            loadStatusSliders();
+            markStatusCheckInNeeded();
+            loadStatSliders(appState);
+            (appState.activities||DEFAULT.activities||[]).forEach(act=>initRQState(act, getCharId()));
+            updateCombatNavArc();
+            _showApp();
+            _resetLockTimer();
+            return;
+          }
+        } catch {}
+      }
+      // Session key didn't decrypt successfully — fall through to normal lock screen.
+      _pinActive = false;
+      _currentKey = null;
+      sessionStorage.removeItem(SESSION_KEY_STORE);
+    }
     lockApp();
   }
 }
@@ -16289,6 +16273,7 @@ async function callOllamaAPI(messages, systemPrompt, streamCallback = null) {
       }),
     });
   } catch(e) {
+    if (!_isLocalModel(loadChatSettings().model)) throw new Error('');
     const onFile = window.location.protocol === 'file:';
     if (onFile) {
       chatAddInfoCard(_ollamaInstallHTML(detectOS(), model));
@@ -16306,6 +16291,7 @@ async function callOllamaAPI(messages, systemPrompt, streamCallback = null) {
     throw new Error('Could not connect to Ollama. Make sure it is running with CORS enabled. Use the restart command shown in Chat Settings (gear icon).');
   }
   if (!resp.ok) {
+    if (!_isLocalModel(loadChatSettings().model)) throw new Error('');
     let msg = 'Ollama error ' + resp.status;
     try { const e = await resp.json(); msg = (typeof e?.error === 'string' ? e.error : e?.error?.message) || msg; } catch {}
     const probe = await fetchOllamaModels();
@@ -16716,6 +16702,12 @@ function chatNewSession() {
   if (container) container.innerHTML = '';
   chatShowApply(false);
   _chatShowQuickstarts(!IS_DEMO);
+  const _ns = loadChatSettings();
+  if (_ns.defaultModel && _ns.model !== _ns.defaultModel) {
+    _ns.model = _ns.defaultModel;
+    saveChatSettings(_ns);
+    _ollamaUseModel(_ns.defaultModel);
+  }
   const costEl = document.getElementById('chat-cost-display');
   if (costEl) costEl.style.display = 'none';
   renderChatSessionPicker();
@@ -17702,6 +17694,8 @@ function openChatSettings() {
   if (syncNEl) syncNEl.value = s.syncEvery || 5;
   const reviewEl = document.getElementById('cs-chat-review-before-save');
   if (reviewEl) reviewEl.checked = !!s.reviewBeforeSave;
+  const defModelEl = document.getElementById('cs-chat-default-model');
+  if (defModelEl) defModelEl.checked = !!(s.defaultModel && s.defaultModel === model);
   onChatModelPresetChange();
   const acRadio = s.autoCompact ? 'on' : 'off';
   document.querySelectorAll('input[name="cs-chat-autocompact"]').forEach(r => { r.checked = (r.value === acRadio); });
@@ -17783,9 +17777,15 @@ function saveChatSettingsFromForm() {
   s.autoCompactThreshold = acThEl ? (parseInt(acThEl.value) || 40000) : 40000;
   const reviewSaveEl = document.getElementById('cs-chat-review-before-save');
   s.reviewBeforeSave = reviewSaveEl ? reviewSaveEl.checked : false;
+  const defModelSaveEl = document.getElementById('cs-chat-default-model');
+  if (defModelSaveEl && defModelSaveEl.checked) s.defaultModel = modelId;
+  else delete s.defaultModel;
   saveChatSettings(s);
   _updateChatSyncBtn();
   _updateCloudWarnBanner();
+  if (!_isLocalModel(modelId)) {
+    document.getElementById('chat-msgs')?.querySelectorAll('.chat-info-card').forEach(el => el.remove());
+  }
   closeChatSettings();
   const overlay = document.getElementById('chat-overlay');
   if (overlay?.classList.contains('open')) chatAddMsg('system', 'Settings saved.');
@@ -18046,6 +18046,7 @@ document.addEventListener('keydown', function(e) {
         <option value="custom">Custom model ID...</option>
       </select>
       <input type="text" id="cs-chat-model-custom" placeholder="e.g. qwen2.5:14b or gpt-4o" style="display:none;margin-top:6px">
+      <label class="chat-sync-radio" style="margin-top:8px;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="cs-chat-default-model"> Save as default for new chats</label>
       <p class="chat-api-note" style="margin-top:7px;"><button onclick="openModelGuide()" style="background:none;border:none;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font-size:inherit;">Not sure which model fits your computer?</button></p>
     </div>
     <div class="chat-field">
