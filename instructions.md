@@ -137,9 +137,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 This is a standing instruction. It applies to every session, every output, without the user needing to ask.
 
-**Prefer partial updates**: include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.7.4"`, `sessionCount`, and `lastSession`.
+**Prefer partial updates**: include only changed top-level keys plus `"_partial": true`. Always include `"_instructionsVersion": "1.7.5"`, `sessionCount`, and `lastSession`.
 
-`{ "_partial": true, "_instructionsVersion": "1.7.4", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
+`{ "_partial": true, "_instructionsVersion": "1.7.5", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }`
 
 **Never output:** `_featuredAch` · `_featuredCls` · `balanceSmoothed` · `harmonyHistory` · `dailyDistribution` · practice history · pinned achievements/classes
 

@@ -2885,9 +2885,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chat-sync-n { width:44px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:var(--text); border-radius:3px; padding:2px 4px; text-align:center; font-size:12px; }
 .chat-open-btn { font-size:14px; margin-bottom:10px; }
 /* Chat quickstart chips */
-.chat-quickstarts { padding:8px 16px 0; display:flex; gap:8px; flex-wrap:wrap; }
+.chat-quickstarts { padding:8px 16px 0; display:flex; flex-direction:column; gap:6px; }
 .chat-qs-chip {
-  font-size:13px; padding:5px 12px; border-radius:20px;
+  font-size:13px; padding:5px 12px; border-radius:20px; width:100%; text-align:left;
   background:rgba(42,144,144,0.08); border:1px solid rgba(42,144,144,0.28);
   color:var(--text-dim); cursor:pointer; transition:all 0.15s; line-height:1.3;
 }
@@ -4485,7 +4485,7 @@ function hpColor(hp){
 }
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
-const INSTRUCTIONS_VERSION = '1.7.4';
+const INSTRUCTIONS_VERSION = '1.7.5';
 const INSTRUCTIONS_CONTENT = `# character-sheet: LLM Instructions v1.7.1
 This file lives in project knowledge alongside \`data.json\` (source of truth).
 
@@ -4625,9 +4625,9 @@ For reviewing what is about to be written to the JSON before it is committed.
 
 This is a standing instruction. It applies to every session, every output, without the user needing to ask.
 
-**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.4"\`, \`sessionCount\`, and \`lastSession\`.
+**Prefer partial updates**: include only changed top-level keys plus \`"_partial": true\`. Always include \`"_instructionsVersion": "1.7.5"\`, \`sessionCount\`, and \`lastSession\`.
 
-\`{ "_partial": true, "_instructionsVersion": "1.7.4", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
+\`{ "_partial": true, "_instructionsVersion": "1.7.5", "sessionCount": 8, "lastSession": "2026-04-12", "xp": 450 }\`
 
 **Never output:** \`_featuredAch\` · \`_featuredCls\` · \`balanceSmoothed\` · \`harmonyHistory\` · \`dailyDistribution\` · practice history · pinned achievements/classes
 
@@ -5103,6 +5103,97 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | Journal \`events\` bullets | 20 words |
 | Journal \`insights\` / \`tensions\` bullets | 30 words |
 
+\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
+
+Size limit: 20 achievements.
+
+---
+
+# Journal
+
+## sessionRead
+What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
+
+## progression
+The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
+
+## keyQuestions
+The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
+
+**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
+
+\`\`\`json
+"keyQuestions": [
+  {
+    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
+    "asked": "2026-04-12",
+    "updated": "2026-04-12"
+  }
+]
+\`\`\`
+
+## openThreads
+Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
+
+\`\`\`json
+"openThreads": [
+  {
+    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
+    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
+  }
+]
+\`\`\`
+
+## Journal entries (insights)
+
+Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
+
+Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
+
+\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
+
+All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
+
+- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
+- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
+- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
+
+**Never remove or rewrite existing journal entries.** They were accurate at the time.
+
+---
+
+# Size limits
+
+| Category | Max |
+|---|---|
+| \`skills\` | 15 |
+| \`achievements\` | 20 |
+| \`enemies.current\` | 15 |
+| \`allies\` | 15 |
+| \`values\` / \`needs\` | 10 each |
+| \`keyQuestions\` | 3 |
+
+---
+
+# Field length limits
+
+| Field | Max |
+|---|---|
+| \`sessionRead\` | 80 words |
+| \`progression\` | 200-300 words |
+| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
+| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
+| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
+| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
+| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
+| \`limitingBelief.belief\` | 15 words |
+| \`sliderLabel\` | 80 chars |
+| \`keyQuestions[].question\` | 30 words |
+| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
+| Most \`title\` fields | 8 words |
+| Journal \`events\` bullets | 20 words |
+| Journal \`insights\` / \`tensions\` bullets | 30 words |
+
 ---
 
 # Journal
@@ -5275,13 +5366,15 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | Journal \`events\` bullets | 20 words |
 | Journal \`insights\` / \`tensions\` bullets | 30 words |
 `;
-const INSTRUCTIONS_MD_SHA256 = '845efb53439587278275ab338dc91f6cf5fdad49f1d722a6042a39c5f42c6d6f';
+const INSTRUCTIONS_MD_SHA256 = 'b5a380b3575299aadd496399703b444446c5d81625001f3828cf40aa588f6496';
 
 // ══ PERSISTENCE ═════════════════════════════════════════════
 const todayStr=()=>new Date().toISOString().slice(0,10);
 // Local calendar date (YYYY-MM-DD in the user's timezone, not UTC)
 function _localDate(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 const FEATURED_ACH_KEY='cs-featured-ach-v1';
+let _featuredAchCache=null;
+let _featuredClsCache=null;
 const COMPLETED_QUESTS_KEY='cs-completed-quests-v1';
 const HDR_ICON_KEY='cs-hdr-icon-v1';
 const WELCOMED_KEY='cs-welcomed-v1';
@@ -6119,7 +6212,7 @@ function updateStatsRadar(){
   let hist=[]; try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
   if(IS_DEMO && HARDCODED_STATS_HIST.length && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
   const _statsPts=h=>{
-    const avg=k=>h.reduce((s,e)=>s+(e[k]||0),0)/h.length/100;
+    const avg=k=>{ const vs=h.map(e=>e[k]).filter(v=>v!=null); return vs.length ? vs.reduce((s,v)=>s+v,0)/vs.length/100 : 0; };
     return `0,${(-R*avg('rest')).toFixed(2)} ${(R*avg('movement')).toFixed(2)},0 0,${(R*avg('connection')).toFixed(2)} ${(-R*avg('nutrition')).toFixed(2)},0`;
   };
   const gAll=document.getElementById('stats-radar-ghost-all');
@@ -6217,17 +6310,26 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
 
   keys.forEach(k => {
     const col = cols[k];
-    const pts = hist.map((e, i) => ({ x: xOf(i), y: yOf(e[k] ?? 0), v: e[k] ?? 0 }));
+    // null means the slider wasn't set that day — skip those points in lines/trend
+    const pts = hist.map((e, i) => {
+      const v = e[k] != null ? e[k] : null;
+      return { x: xOf(i), y: v != null ? yOf(v) : null, v };
+    });
 
-    // Draw smooth connected line — always connect all points (sparse seeds are still real data)
+    // Draw connected line, lifting the pen over null (not-set) points
     ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.75;
     ctx.setLineDash([]);
     ctx.beginPath();
-    pts.forEach((p, i) => { if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+    let penDown = false;
+    pts.forEach(p => {
+      if (p.v == null) { penDown = false; return; }
+      if (!penDown) { ctx.moveTo(p.x, p.y); penDown = true; }
+      else ctx.lineTo(p.x, p.y);
+    });
     ctx.stroke(); ctx.globalAlpha = 1;
 
-    // All-time trend line (dashed, same colour but dimmer)
-    const regAll = linReg(pts.map((p, i) => [i, p.v]));
+    // All-time trend line (dashed, same colour but dimmer) — only over set points
+    const regAll = linReg(pts.filter(p => p.v != null).map((p, i) => [i, p.v]));
     if (regAll) {
       const y1 = yOf(regAll.intercept);
       const y2 = yOf(regAll.slope * (n-1) + regAll.intercept);
@@ -6541,10 +6643,18 @@ function saveStatsSnapshot(){
   try{
     const today=_localDate();
     const hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]');
-    const entry={date:today};
-    Object.keys(STAT_COLORS).forEach(k=>{ const el=document.getElementById('stat-'+k); entry[k]=el?parseInt(el.value):0; });
-    const existing=hist.findIndex(e=>e.date===today);
-    if(existing>=0){ hist[existing]=entry; } else { hist.push(entry); }
+    const existingIdx=hist.findIndex(e=>e.date===today);
+    // Start from any previously recorded entry for today so we don't clobber
+    // sliders that haven't been set yet this session.
+    const base=existingIdx>=0 ? {...hist[existingIdx]} : {date:today};
+    // Only record values for sliders the user has actually set today.
+    Object.keys(STAT_COLORS).forEach(k=>{
+      if(_statsSliderDoneToday(k)){
+        const el=document.getElementById('stat-'+k);
+        base[k]=el?parseInt(el.value):(base[k]||0);
+      }
+    });
+    if(existingIdx>=0){ hist[existingIdx]=base; } else { hist.push(base); }
     hist.sort((a,b)=>a.date<b.date?-1:1);
     if(hist.length>90) hist.splice(0,hist.length-90);
     localStorage.setItem(STATS_HIST_KEY,JSON.stringify(hist));
@@ -7570,9 +7680,25 @@ function renderLifeWheel(s){
 function addEnemy(){
   if(!appState.enemies) appState.enemies={};
   if(!appState.enemies.current) appState.enemies.current=[];
-  const maxP=appState.enemies.current.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
-  appState.enemies.current.push({name:'',desc:'',trigger:'',type:'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:'',bounty:50});
-  saveState(appState); markDirty(); renderEnemiesTab(appState);
+  showCardEditModal({
+    accentColor:'#c84040',
+    fields:[
+      {key:'name', label:'Name', value:'', type:'text', titleFont:true, hint:'A short name for this pattern, e.g. "Perfectionism" or "Late-night scrolling"'},
+      {key:'enemyType', label:'Type', value:'blindspot', type:'select', options:[
+        {value:'blindspot',  icon:'◈', label:'Blindspot',        color:'#c83060'},
+        {value:'compulsion', icon:'⚡', label:'Compulsion',       color:'#c83030'},
+        {value:'temptation', icon:'↓', label:'Temptation',       color:'#7848c0'},
+        {value:'belief',     icon:'⬡', label:'Limiting Belief',  color:'#8b5e3c'},
+      ]},
+      {key:'desc', label:'Description', value:'', type:'textarea', rows:3, hint:'How does this pattern show up for you?'},
+    ],
+    onSave:v=>{
+      if(!v.name.trim()) return;
+      const maxP=appState.enemies.current.reduce((m,e)=>typeof e.priority==='number'?Math.max(m,e.priority):m,0);
+      appState.enemies.current.push({name:v.name,desc:v.desc,trigger:'',type:v.enemyType||'blindspot',hp:100,priority:maxP+1,shortTermBenefit:'',origin:'',bounty:50});
+      saveState(appState); markDirty(); renderEnemiesTab(appState);
+    }
+  });
 }
 function killEnemy(e){
   // e has _srcType, _idx, _bossIdx
@@ -8042,10 +8168,11 @@ function mergeCompletedQuests(incoming){
 
 // ══ ACHIEVEMENTS ════════════════════════════════════════════
 function getFeaturedAch(){
-  try{ return JSON.parse(localStorage.getItem(FEATURED_ACH_KEY)||'[]'); }
+  if(_featuredAchCache!==null) return [..._featuredAchCache];
+  try{ const v=JSON.parse(localStorage.getItem(FEATURED_ACH_KEY)||'[]'); _featuredAchCache=v; return [...v]; }
   catch(e){ return []; }
 }
-function setFeaturedAch(ids){ localStorage.setItem(FEATURED_ACH_KEY,JSON.stringify(ids)); _reencryptIfActive(); }
+function setFeaturedAch(ids){ _featuredAchCache=[...ids]; localStorage.setItem(FEATURED_ACH_KEY,JSON.stringify(ids)); _reencryptIfActive(); }
 
 const ACH_TYPES={
   insight:       { icon:'☁', label:'Insight',      cls:'att-insight',       colour:'#8090a8', tooltip:'Insight (Air): a moment of clarity. Something noticed, understood, or seen differently.' },
@@ -8126,21 +8253,19 @@ function renderAchievementsTab(s){
     const card=document.createElement('div');
     card.className='ach-card'+(isFeatured?' featured':'');
     // Whole-card click toggles featured
-    card.addEventListener('click',e=>{
-      if(e.target.closest('.ally-delete,.card-edit-btn,.ach-card-icon,.ach-card-type')) return;
+    function toggleAchFeatured(){
       const f=getFeaturedAch();
       const idx=f.indexOf(a.id);
       if(idx>=0){ f.splice(idx,1); }
       else if(f.length<3){ f.push(a.id); }
       else{ return; }
       setFeaturedAch(f);
-      card.classList.toggle('featured', f.includes(a.id));
-      achFeatBtn.classList.toggle('active', f.includes(a.id));
-      achFeatBtn.title=f.includes(a.id)?'Remove from featured':'Pin to featured (max 3)';
-      achFeatBtn.classList.add('pop');
-      achFeatBtn.addEventListener('animationend',()=>achFeatBtn.classList.remove('pop'),{once:true});
-      renderAchievementsTab(s);
-      renderHdrTitles(s);
+      renderAchievementsTab(appState);
+      renderHdrTitles(appState);
+    }
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.ally-delete,.card-edit-btn,.ach-card-icon,.ach-card-type,.ach-feature-btn')) return;
+      toggleAchFeatured();
     });
     const row=document.createElement('div'); row.className='ach-card-row'; row.dataset.handleInject='1';
     const achDelBtn=document.createElement('button'); achDelBtn.className='ally-delete card-head-del'; achDelBtn.textContent='×'; achDelBtn.title='Delete title';
@@ -8175,6 +8300,7 @@ function renderAchievementsTab(s){
     achFeatBtn.className='ach-feature-btn'+(isFeatured?' active':'');
     achFeatBtn.title=isFeatured?'Remove from featured':'Pin to featured (max 3)';
     achFeatBtn.textContent=isFeatured?'★':'☆';
+    achFeatBtn.addEventListener('click',e=>{ e.stopPropagation(); toggleAchFeatured(); });
     const achEditBtn=document.createElement('button');
     achEditBtn.className='card-edit-btn'; achEditBtn.textContent='✎'; achEditBtn.title='Edit title and description';
     achEditBtn.addEventListener('click',e=>{ e.stopPropagation();
@@ -8259,7 +8385,7 @@ function renderAlliesTab(s){
 
   // Top add buttons
   {
-    const topBtnRow=document.createElement('div'); topBtnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;';
+    const topBtnRow=document.createElement('div'); topBtnRow.className='no-drag'; topBtnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;';
     [['loot','☁ Add Loot'],['spell','✦ Add Spell'],['liberation','⬡ Add Liberation'],['source','↑ Add Source']].forEach(([type,label])=>{
       const btn=document.createElement('button'); btn.className='add-item-btn'; btn.textContent=label;
       const atc=ALLY_TYPES[type]; if(atc?.tooltip) btn.title=atc.tooltip;
@@ -8386,7 +8512,7 @@ function renderAlliesTab(s){
   const sortedAllAllies=all.slice();
 
   // Add buttons for each type
-  const btnRow=document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;';
+  const btnRow=document.createElement('div'); btnRow.className='no-drag'; btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;';
   [['loot','☁ Add Loot'],['spell','✦ Add Spell'],['liberation','⬡ Add Liberation'],['source','↑ Add Source']].forEach(([type,label])=>{
     const btn=document.createElement('button'); btn.className='add-item-btn'; btn.textContent=label;
     const atc=ALLY_TYPES[type]; if(atc?.tooltip) btn.title=atc.tooltip;
@@ -8453,8 +8579,25 @@ function addDrainToBestiary(){
 
 function addAllyOfType(type){
   if(!appState.allies) appState.allies=[];
-  appState.allies.push({name:'',desc:'',type:type});
-  saveState(appState); markDirty(); renderAlliesTab(appState);
+  const TYPE_META={
+    loot:        {label:'Loot',              color:'#4aaa72', hint:'A person, community, or resource that tangibly supports you (mentor, friend, tool, place).'},
+    spell:       {label:'Spell',             color:'#c87828', hint:'A practice, ritual, or technique that reliably shifts your state (meditation, exercise, journalling).'},
+    liberation:  {label:'Liberating Belief', color:'#2d6e40', hint:'An empowering reframe that counters a limiting belief and opens up possibility.'},
+    source:      {label:'Source',            color:'#2a9090', hint:'An activity or context that reliably produces aliveness, flow, or restored energy.'},
+  };
+  const meta=TYPE_META[type]||{label:'Ally',color:'#4aaa72',hint:''};
+  showCardEditModal({
+    accentColor: meta.color,
+    fields:[
+      {key:'name', label:'Name', value:'', type:'text', titleFont:true, hint:meta.hint},
+      {key:'desc', label:'Description', value:'', type:'textarea', rows:3, hint:'What makes this an ally for you?'},
+    ],
+    onSave:v=>{
+      if(!v.name.trim()) return;
+      appState.allies.push({name:v.name,desc:v.desc,type:type});
+      saveState(appState); markDirty(); renderAlliesTab(appState);
+    }
+  });
 }
 
 // ══ PROGRESSION CARD ════════════════════════════════════════
@@ -9937,53 +10080,64 @@ function addManualXP() {
 function buildMigrationBundle(){
   // Collect all localStorage keys belonging to this app
   const bundle={_migration:true,_migratedAt:new Date().toISOString()};
-  // Main state
-  const rawState=localStorage.getItem('cs-state-v1');
-  if(rawState) try{bundle['cs-state-v1']=JSON.parse(rawState);}catch{}
-  // XP log
-  const rawXp=localStorage.getItem('cs-xplog-v1');
-  if(rawXp) try{bundle['cs-xplog-v1']=JSON.parse(rawXp);}catch{}
-  // Featured pins
-  const rawAch=localStorage.getItem('cs-featured-ach-v1');
-  if(rawAch) try{bundle['cs-featured-ach-v1']=JSON.parse(rawAch);}catch{}
-  const rawCls=localStorage.getItem('cs-featured-cls-v1');
-  if(rawCls) try{bundle['cs-featured-cls-v1']=JSON.parse(rawCls);}catch{}
-  // Core skills history
-  const rawStats=localStorage.getItem('cs-stats-hist-v1');
-  if(rawStats) try{bundle['cs-stats-hist-v1']=JSON.parse(rawStats);}catch{}
-  // Status slider history (focus/energy/purpose/interest)
-  const rawStatusHist=localStorage.getItem('cs-status-hist-v1');
-  if(rawStatusHist) try{bundle['cs-status-hist-v1']=JSON.parse(rawStatusHist);}catch{}
-  // Vitals history (manually logged HP/Mana per day)
-  const rawVitalsHist=localStorage.getItem('cs-vitals-hist-v1');
-  if(rawVitalsHist) try{bundle['cs-vitals-hist-v1']=JSON.parse(rawVitalsHist);}catch{}
-  // Status slider current values mirror
-  const rawStatusLS=localStorage.getItem('cs-status-v1');
-  if(rawStatusLS) try{bundle['cs-status-v1']=JSON.parse(rawStatusLS);}catch{}
-  // Completed quests (dedicated key, separate from main state)
-  const rawCompleted=localStorage.getItem('cs-completed-quests-v1');
-  if(rawCompleted) try{bundle['cs-completed-quests-v1']=JSON.parse(rawCompleted);}catch{}
-  // Header icon preference
+
+  // When PIN is active, sensitive keys are not in localStorage (they're encrypted in cs-enc-v1).
+  // Use _collectBlob to get the decrypted data from memory instead.
+  if(typeof _pinActive!=='undefined'&&_pinActive){
+    const blob=_collectBlob(appState);
+    bundle['cs-state-v1']=blob.state;
+    const encFixed=['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
+      'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1',
+      'cs-chat-settings-v1'];
+    for(const k of encFixed){
+      if(blob[k]!=null) try{bundle[k]=JSON.parse(blob[k]);}catch{}
+    }
+    if(blob._rq){
+      const rqKeys={};
+      for(const [k,v] of Object.entries(blob._rq)){
+        try{rqKeys[k]=JSON.parse(v);}catch{}
+      }
+      if(Object.keys(rqKeys).length) bundle._practiceData=rqKeys;
+    }
+  } else {
+    // No PIN: read directly from localStorage
+    const rawState=localStorage.getItem('cs-state-v1');
+    if(rawState) try{bundle['cs-state-v1']=JSON.parse(rawState);}catch{}
+    const rawXp=localStorage.getItem('cs-xplog-v1');
+    if(rawXp) try{bundle['cs-xplog-v1']=JSON.parse(rawXp);}catch{}
+    const rawAch=localStorage.getItem('cs-featured-ach-v1');
+    if(rawAch) try{bundle['cs-featured-ach-v1']=JSON.parse(rawAch);}catch{}
+    const rawCls=localStorage.getItem('cs-featured-cls-v1');
+    if(rawCls) try{bundle['cs-featured-cls-v1']=JSON.parse(rawCls);}catch{}
+    const rawStats=localStorage.getItem('cs-stats-hist-v1');
+    if(rawStats) try{bundle['cs-stats-hist-v1']=JSON.parse(rawStats);}catch{}
+    const rawStatusHist=localStorage.getItem('cs-status-hist-v1');
+    if(rawStatusHist) try{bundle['cs-status-hist-v1']=JSON.parse(rawStatusHist);}catch{}
+    const rawVitalsHist=localStorage.getItem('cs-vitals-hist-v1');
+    if(rawVitalsHist) try{bundle['cs-vitals-hist-v1']=JSON.parse(rawVitalsHist);}catch{}
+    const rawStatusLS=localStorage.getItem('cs-status-v1');
+    if(rawStatusLS) try{bundle['cs-status-v1']=JSON.parse(rawStatusLS);}catch{}
+    const rawCompleted=localStorage.getItem('cs-completed-quests-v1');
+    if(rawCompleted) try{bundle['cs-completed-quests-v1']=JSON.parse(rawCompleted);}catch{}
+    const rawChatSettings=localStorage.getItem('cs-chat-settings-v1');
+    if(rawChatSettings) try{bundle['cs-chat-settings-v1']=JSON.parse(rawChatSettings);}catch{}
+    const rqKeys={};
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')||k.startsWith('cs-rq-goals-'))){
+        try{rqKeys[k]=JSON.parse(localStorage.getItem(k));}catch{}
+      }
+    }
+    if(Object.keys(rqKeys).length) bundle._practiceData=rqKeys;
+  }
+
+  // Non-sensitive keys always read from localStorage
   const rawHdrIcon=localStorage.getItem('cs-hdr-icon-v1');
   if(rawHdrIcon!=null) bundle['cs-hdr-icon-v1']=rawHdrIcon;
-  // Stable character ID (used as prefix for cs-rq-* practice keys)
   const rawCharId=localStorage.getItem('cs-char-id-v1');
   if(rawCharId!=null) bundle['cs-char-id-v1']=rawCharId;
-  // UI flags (welcomed, starters seen)
   if(localStorage.getItem('cs-welcomed-v1')) bundle['cs-welcomed-v1']='1';
   if(localStorage.getItem('cs-starters-seen-v1')) bundle['cs-starters-seen-v1']='1';
-  // Practice data (cs-rq-cur-*, cs-rq-hist-*, cs-rq-goals-*)
-  const rqKeys={};
-  for(let i=0;i<localStorage.length;i++){
-    const k=localStorage.key(i);
-    if(k&&(k.startsWith('cs-rq-cur-')||k.startsWith('cs-rq-hist-')||k.startsWith('cs-rq-goals-'))){
-      try{rqKeys[k]=JSON.parse(localStorage.getItem(k));}catch{}
-    }
-  }
-  if(Object.keys(rqKeys).length) bundle._practiceData=rqKeys;
-  // Chat settings (API key, model) and git sync config
-  const rawChatSettings=localStorage.getItem('cs-chat-settings-v1');
-  if(rawChatSettings) try{bundle['cs-chat-settings-v1']=JSON.parse(rawChatSettings);}catch{}
   // cs-gitsync-v1 intentionally excluded: PAT is device-specific and encrypted separately
   return bundle;
 }
@@ -10049,7 +10203,7 @@ function renderMigrationPie(bundle,jsonStr){
 }
 
 function exportState(){
-  const raw=(_pinActive&&_currentPIN)?null:localStorage.getItem('cs-state-v1');
+  const raw=_pinActive?null:localStorage.getItem('cs-state-v1');
   const state=raw?JSON.parse(raw):(_pinActive?JSON.parse(JSON.stringify(appState)):DEFAULT);
   delete state.completedMainQuests;
   state._featuredAch=getFeaturedAch();
@@ -10664,6 +10818,8 @@ window.addEventListener('beforeunload', (e) => {
       }
     }
   });
+  // Wipe plaintext sensitive keys if PIN is active so they aren't left in localStorage after close.
+  if(_pinActive) _clearSensitiveKeys();
   const exportBtn = document.getElementById('export-btn');
   const confirmClose = localStorage.getItem(CLOSE_CONFIRM_KEY) !== '0';
   if (confirmClose && exportBtn && exportBtn.classList.contains('dirty')) {
@@ -13549,6 +13705,9 @@ function handleNumberSave(id) {
     awardRQXP(id, xp);
     xpFloatLabel('+' + xp + ' XP', document.getElementById('number-xp-' + id) || document.getElementById('number-input-' + id));
   }
+  const chartWrap = document.getElementById('rq-chart-' + id);
+  if (chartWrap) renderRQBarChart(chartWrap, act, charName);
+  markDirty();
   updateCombatNavArc();
 }
 
@@ -14001,8 +14160,8 @@ function renderCombatSkills(s){
 // ══ CLASSES ═════════════════════════════════════════════════
 const FEATURED_CLS_KEY='cs-featured-cls-v1';
 
-function getFeaturedCls(){ try{ return JSON.parse(localStorage.getItem(FEATURED_CLS_KEY)||'[]'); }catch(e){return[];} }
-function setFeaturedCls(ids){ localStorage.setItem(FEATURED_CLS_KEY,JSON.stringify(ids)); _reencryptIfActive(); }
+function getFeaturedCls(){ if(_featuredClsCache!==null) return [..._featuredClsCache]; try{ const v=JSON.parse(localStorage.getItem(FEATURED_CLS_KEY)||'[]'); _featuredClsCache=v; return [...v]; }catch(e){return[];} }
+function setFeaturedCls(ids){ _featuredClsCache=[...ids]; localStorage.setItem(FEATURED_CLS_KEY,JSON.stringify(ids)); _reencryptIfActive(); }
 
 function renderClassesTab(s){
   const classes=s.classes||DEFAULT.classes||[];
@@ -14026,22 +14185,19 @@ function renderClassesTab(s){
     const card=document.createElement('div');
     card.className='cls-card'+(isFeatured?' featured':'');
     // Whole-card click toggles featured
-    card.addEventListener('click',e=>{
-      if(e.target.closest('.ally-delete,.card-edit-btn,.cls-card-icon,.cls-role-select')) return;
+    function toggleClsFeatured(){
       const f=getFeaturedCls();
       const idx=f.indexOf(c.id);
       if(idx>=0){f.splice(idx,1);}
       else if(f.length<3){f.push(c.id);}
       else{return;}
       setFeaturedCls(f);
-      card.classList.toggle('featured', f.includes(c.id));
-      clsFeatBtn.classList.toggle('active', f.includes(c.id));
-      clsFeatBtn.textContent=f.includes(c.id)?'★':'☆';
-      clsFeatBtn.title=f.includes(c.id)?'Remove from featured':'Pin to featured (max 3)';
-      clsFeatBtn.classList.add('pop');
-      clsFeatBtn.addEventListener('animationend',()=>clsFeatBtn.classList.remove('pop'),{once:true});
-      renderClassesTab(s);
-      renderHdrClasses(s);
+      renderClassesTab(appState);
+      renderHdrClasses(appState);
+    }
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.ally-delete,.card-edit-btn,.cls-card-icon,.cls-role-select,.cls-feature-btn')) return;
+      toggleClsFeatured();
     });
     const row=document.createElement('div'); row.className='cls-card-row'; row.dataset.handleInject='1';
     const clsDelBtn=document.createElement('button'); clsDelBtn.className='ally-delete card-head-del'; clsDelBtn.textContent='×'; clsDelBtn.title='Delete class';
@@ -14082,6 +14238,7 @@ function renderClassesTab(s){
     clsFeatBtn.className='cls-feature-btn'+(isFeatured?' active':'');
     clsFeatBtn.title=isFeatured?'Remove from featured':'Pin to featured (max 3)';
     clsFeatBtn.textContent=isFeatured?'★':'☆';
+    clsFeatBtn.addEventListener('click',e=>{ e.stopPropagation(); toggleClsFeatured(); });
     const clsEditBtn=document.createElement('button');
     clsEditBtn.className='card-edit-btn'; clsEditBtn.textContent='✎'; clsEditBtn.title='Edit title and description';
     clsEditBtn.addEventListener('click',e=>{ e.stopPropagation();
@@ -14263,7 +14420,7 @@ function updateStatusRadar() {
   let sHist=[]; try{ sHist=JSON.parse(localStorage.getItem(STATUS_HIST_KEY)||'[]'); }catch(e){}
   if(IS_DEMO && HARDCODED_STATUS_HIST.length && isUsingDemoData()) sHist=HARDCODED_STATUS_HIST;
   const _statusPts=h=>{
-    const avg=k=>h.reduce((s,e)=>s+(e[k]||0),0)/h.length/100;
+    const avg=k=>{ const vs=h.map(e=>e[k]).filter(v=>v!=null); return vs.length ? vs.reduce((s,v)=>s+v,0)/vs.length/100 : 0; };
     return `0,${(-R*avg('focus')).toFixed(2)} ${(R*avg('energy')).toFixed(2)},0 0,${(R*avg('interest')).toFixed(2)} ${(-R*avg('purpose')).toFixed(2)},0`;
   };
   const sgAll=document.getElementById('status-radar-ghost-all');
@@ -14306,16 +14463,21 @@ function clearStatusCheckInNeeded() {
 
 function saveStatusSnapshot() {
   if(IS_DEMO){ renderStatusHistoryChart(); return; }
-  // Call once when user has finished adjusting sliders (on first change of a session day)
   try {
     const today = _localDate();
     const hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]');
-    const saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}');
-    // Only record one snapshot per day (overwrite if same day)
-    const existing = hist.findIndex(e => e.date === today);
-    const entry = { date: today, focus: saved.focus||0, energy: saved.energy||0, purpose: saved.purpose||0, interest: saved.interest||0 };
-    if (existing >= 0) { hist[existing] = entry; } else { hist.push(entry); }
-    // Keep last 90 days
+    const existingIdx = hist.findIndex(e => e.date === today);
+    // Start from any previously recorded entry for today so we don't clobber
+    // sliders that haven't been set yet this session.
+    const base = existingIdx >= 0 ? { ...hist[existingIdx] } : { date: today };
+    // Only record values for sliders the user has actually set today.
+    Object.keys(STATUS_COLORS).forEach(k => {
+      if (_statusSliderDoneToday(k)) {
+        const el = document.getElementById('status-' + k);
+        base[k] = el ? parseInt(el.value) : (base[k] || 0);
+      }
+    });
+    if (existingIdx >= 0) { hist[existingIdx] = base; } else { hist.push(base); }
     hist.sort((a,b) => a.date < b.date ? -1 : 1);
     if (hist.length > 90) hist.splice(0, hist.length - 90);
     localStorage.setItem(STATUS_HIST_KEY, JSON.stringify(hist));
@@ -14417,7 +14579,8 @@ function loadStatusSliders(s) {
     const el = document.getElementById('status-' + name);
     const valEl = document.getElementById('status-' + name + '-val');
     if (!el) return;
-    // If this slider hasn't been checked in today, reset to 50 (neutral/pending state)
+    // If this slider hasn't been checked in today, show 50 (neutral/pending) but do NOT
+    // overwrite the stored value — yesterday's real value must survive for history recording.
     const doneToday = _statusSliderDoneToday(name);
     let pct;
     if (!doneToday) {
@@ -14425,11 +14588,11 @@ function loadStatusSliders(s) {
     } else {
       // appState takes priority (Claude may have set it); LS is fallback
       pct = fromState[name] !== undefined ? fromState[name] : (fromLS[name] !== undefined ? fromLS[name] : parseInt(el.value));
+      fromLS[name] = pct; // only update the mirror for values that were actually set today
     }
     el.value = pct;
     if (valEl) valEl.textContent = pct;
     setStatusGradient(el, col, pct);
-    fromLS[name] = pct;
   });
   try { localStorage.setItem(STATUS_LS_KEY, JSON.stringify(fromLS)); } catch(e) {}
   _reencryptIfActive();
@@ -14996,6 +15159,9 @@ function _restoreBlob(blob){
   for(const k of fixed){
     if(blob[k] !== undefined) localStorage.setItem(k, blob[k]);
   }
+  // Sync in-memory caches from restored blob
+  try{ _featuredAchCache=blob[FEATURED_ACH_KEY]?JSON.parse(blob[FEATURED_ACH_KEY]):null; }catch(e){ _featuredAchCache=null; }
+  try{ _featuredClsCache=blob[FEATURED_CLS_KEY]?JSON.parse(blob[FEATURED_CLS_KEY]):null; }catch(e){ _featuredClsCache=null; }
   if(blob._rq && typeof blob._rq === 'object'){
     for(const [k,v] of Object.entries(blob._rq)){
       if(k.startsWith('cs-rq-cur-') || k.startsWith('cs-rq-hist-') || k.startsWith('cs-rq-goals-')){
@@ -15039,7 +15205,6 @@ async function _encryptAndSave(s, pin){
   }
   if(!enc) return;
   localStorage.setItem(ENC_KEY, enc);
-  _clearSensitiveKeys(); // remove all plaintext sensitive data
 }
 
 // Fire-and-forget re-encryption after any secondary key write.
@@ -15069,7 +15234,10 @@ function lockApp(){
   _pinActive = false;
   _currentPIN = null;
   _currentKey = null;
+  _featuredAchCache = null;
+  _featuredClsCache = null;
   sessionStorage.removeItem(SESSION_KEY_STORE);
+  _clearSensitiveKeys();
   // Clear chat overlay and wipe in-memory messages so history isn't visible after re-unlock
   closeChat();
   closeChatSettings();
@@ -16026,6 +16194,11 @@ function _openChatOverlay() {
   _warmPromptCache();
   document.getElementById('chat-btn')?.classList.remove('chat-btn-loading');
   const s = loadChatSettings();
+  if (s.defaultModel && s.model !== s.defaultModel) {
+    s.model = s.defaultModel;
+    saveChatSettings(s);
+    _ollamaUseModel(s.defaultModel);
+  }
   _updateCloudWarnBanner();
   _updateChatSyncBtn();
   const demoBanner = document.getElementById('chat-demo-banner');
@@ -16085,31 +16258,37 @@ function chatQuickstart(text) {
   if (inp) { inp.value = text; inp.focus(); }
 }
 
+function _chipTrunc(text, max) {
+  if (!text) return '';
+  text = text.trim();
+  return text.length > max ? text.slice(0, max).trimEnd() + '...' : text;
+}
+
 function renderChatQuickstarts() {
   const el = document.getElementById('chat-quickstarts');
   if (!el) return;
   const s = appState;
   const chips = [];
 
-  // Key questions from the user's data
+  // Key questions: show truncated actual question text as the chip label
   const kqs = (Array.isArray(s.keyQuestions) && s.keyQuestions.length ? s.keyQuestions
     : (s.keyQuestion ? [{ question: s.keyQuestion }] : [])).slice(0, 2);
   for (const kq of kqs) {
-    const q = kq.question || kq;
-    if (q) chips.push({ label: 'Sit with a key question', prompt: `I want to sit with this question today: ${q}` });
+    const q = (kq.question || kq || '').trim();
+    if (q) chips.push({ label: _chipTrunc(q, 80), prompt: `I want to sit with this key question today: ${q}` });
   }
 
-  // Open threads
+  // Open threads: show truncated thread text
   const threads = (Array.isArray(s.openThreads) ? s.openThreads : []).slice(0, 1);
   for (const t of threads) {
-    const thread = t.thread || t;
-    if (thread) chips.push({ label: 'Pick up an open thread', prompt: `I want to pick up this open thread: ${thread}` });
+    const thread = (t.thread || t || '').trim();
+    if (thread) chips.push({ label: _chipTrunc(thread, 80), prompt: `I want to pick up this open thread: ${thread}` });
   }
 
   // Main quest
   const mq = s.mainQuest;
   if (mq && mq.title) {
-    chips.push({ label: `Main quest: ${mq.title.slice(0, 28)}${mq.title.length > 28 ? '...' : ''}`, prompt: `Let's focus on my main quest: ${mq.title}. Here is where things stand...` });
+    chips.push({ label: `Quest: ${_chipTrunc(mq.title, 72)}`, prompt: `Let's focus on my main quest: ${mq.title}. Here is where things stand...` });
   }
 
   // Top enemy / boss
@@ -16117,16 +16296,16 @@ function renderChatQuickstarts() {
   const curEnemies = (s.enemies && s.enemies.current) || [];
   const topEnemy = bosses[0] || curEnemies[0];
   if (topEnemy && topEnemy.name) {
-    chips.push({ label: `Work on: ${topEnemy.name.slice(0, 28)}${topEnemy.name.length > 28 ? '...' : ''}`, prompt: `I want to work on the pattern I've named "${topEnemy.name}". Here is what has been happening...` });
+    chips.push({ label: `Pattern: ${_chipTrunc(topEnemy.name, 70)}`, prompt: `I want to work on the pattern I've named "${topEnemy.name}". Here is what has been happening...` });
   }
 
   // Fill with generic chips to always show at least 4
   const generic = [
+    { label: "Walk me through my sheet", prompt: "Walk me through my current character sheet. What stands out, and where should I focus?" },
     { label: "What's been going on", prompt: "Here's what's been going on lately..." },
     { label: 'Work on a goal', prompt: "I want to work on [goal/something]... let's talk through it" },
-    { label: 'Log a completion', prompt: "I completed [something] recently. Log it and figure out what's next" },
     { label: 'Work through a struggle', prompt: "I've been struggling with [something]. Help me think it through" },
-    { label: 'What should I focus on?', prompt: "Catch me up: what does my sheet say and what should I focus on?" },
+    { label: "Where should I start?", prompt: "I'm new here. Help me figure out where to start with this app and what to track." },
   ];
   for (const g of generic) {
     if (chips.length >= 5) break;
@@ -16138,6 +16317,7 @@ function renderChatQuickstarts() {
     const btn = document.createElement('button');
     btn.className = 'chat-qs-chip';
     btn.textContent = chip.label;
+    btn.title = chip.prompt;
     btn.onclick = () => chatQuickstart(chip.prompt);
     el.appendChild(btn);
   }
@@ -17999,33 +18179,6 @@ document.addEventListener('keydown', function(e) {
     <button class="modal-close" onclick="closeChatSettings()" title="Close">&#x2715;</button>
     <div class="modal-title" style="color:#2a9090;">Chat Settings</div>
     <p style="font-size:13px;color:var(--text);line-height:1.5;margin:0 0 14px;"><strong style="color:#50c878;">A. Local models (Ollama)</strong> keep everything on your device. Free, private, no account. Recommended. <strong style="color:#f09090;">B. Cloud models (Anthropic)</strong> send your journal to their servers and may store it. <strong style="color:var(--text);">C. No AI</strong> also works. <a href="https://github.com/sam-holmes2/character-sheet/blob/master/journalling-threat-model.md" target="_blank" style="color:inherit;text-decoration:underline;">Threat model</a> &middot; <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:inherit;text-decoration:underline;">Provider privacy guide</a></p>
-    <div id="cs-apikey-section" class="chat-field">
-      <label class="chat-field-lbl" for="cs-chat-apikey">Anthropic API Key</label>
-      <div id="cs-pin-gate" style="display:none;padding:10px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.25);border-radius:6px;font-size:13px;color:var(--text);line-height:1.6;">
-        A security password is required before storing an API key. This protects your key if someone else opens this browser.<br>
-        <button onclick="openSettingsModal();setTimeout(()=>document.getElementById('settings-pin-new')?.focus(),300)" style="margin-top:8px;padding:5px 14px;background:rgba(200,168,74,0.12);border:1px solid rgba(200,168,74,0.4);color:var(--gold);border-radius:4px;cursor:pointer;font-size:13px;">Set up password in Security settings</button>
-      </div>
-      <div id="cs-apikey-inputs">
-        <input type="password" id="cs-chat-apikey" placeholder="sk-ant-..." autocomplete="off" oninput="document.getElementById('cs-apikey-error').textContent=''">
-        <div id="cs-apikey-error" style="font-size:13px;color:#c84040;min-height:0;margin-top:5px;"></div>
-        <div class="chat-api-note">
-          <ol style="margin:4px 0 0 16px;padding:0;line-height:1.9;font-size:12px;">
-            <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (separate from Claude.ai)</li>
-            <li>Open <strong>API Keys</strong> and create a new key</li>
-            <li>Paste it above. Store a copy in your password manager (1Password, Bitwarden, etc.) so you can retrieve it later.</li>
-          </ol>
-          <p style="margin:6px 0 0;font-size:11px;color:var(--text);line-height:1.5;">Keep your API key private. Anyone with it can use your Anthropic account. Never paste it into websites you don't trust.</p>
-        </div>
-      </div>
-    </div>
-    <div id="cs-ollama-note" class="ollama-note" style="display:none;margin-bottom:14px;border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:10px 12px;">
-      <div class="ollama-status-hdr">
-        <span id="cs-ollama-conn-badge" class="ollama-conn-err">● Ollama</span>
-        <button class="ollama-mini-btn ollama-copy-btn" onclick="checkOllamaModels()">&#8635; Check</button>
-      </div>
-      <div id="cs-ollama-model-list"></div>
-      <div id="cs-ollama-install" class="chat-api-note" style="margin-top:9px;font-size:12px;"></div>
-    </div>
     <div class="chat-field">
       <label class="chat-field-lbl" for="cs-chat-model-preset">Model</label>
       <select id="cs-chat-model-preset" onchange="onChatModelPresetChange()">
@@ -18046,8 +18199,37 @@ document.addEventListener('keydown', function(e) {
         <option value="custom">Custom model ID...</option>
       </select>
       <input type="text" id="cs-chat-model-custom" placeholder="e.g. qwen2.5:14b or gpt-4o" style="display:none;margin-top:6px">
-      <label class="chat-sync-radio" style="margin-top:8px;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="cs-chat-default-model"> Save as default for new chats</label>
-      <p class="chat-api-note" style="margin-top:7px;"><button onclick="openModelGuide()" style="background:none;border:none;padding:0;color:inherit;text-decoration:underline;cursor:pointer;font-size:inherit;">Not sure which model fits your computer?</button></p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:6px;">
+        <label class="chat-sync-radio" style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="cs-chat-default-model"> Save as default for new chats</label>
+        <button onclick="openModelGuide()" style="background:none;border:none;padding:0;color:var(--text-dim);text-decoration:underline;cursor:pointer;font-size:11px;white-space:nowrap;">Not sure which local model fits your computer?</button>
+      </div>
+    </div>
+    <div id="cs-ollama-note" class="ollama-note" style="display:none;margin-bottom:14px;border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:10px 12px;">
+      <div class="ollama-status-hdr">
+        <span id="cs-ollama-conn-badge" class="ollama-conn-err">● Ollama</span>
+        <button class="ollama-mini-btn ollama-copy-btn" onclick="checkOllamaModels()">&#8635; Check</button>
+      </div>
+      <div id="cs-ollama-model-list"></div>
+      <div id="cs-ollama-install" class="chat-api-note" style="margin-top:9px;font-size:12px;"></div>
+    </div>
+    <div id="cs-apikey-section" class="chat-field">
+      <label class="chat-field-lbl" for="cs-chat-apikey">Anthropic API Key</label>
+      <div id="cs-pin-gate" style="display:none;padding:10px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.25);border-radius:6px;font-size:13px;color:var(--text);line-height:1.6;">
+        A security password is required before storing an API key. This protects your key if someone else opens this browser.<br>
+        <button onclick="openSettingsModal();setTimeout(()=>document.getElementById('settings-pin-new')?.focus(),300)" style="margin-top:8px;padding:5px 14px;background:rgba(200,168,74,0.12);border:1px solid rgba(200,168,74,0.4);color:var(--gold);border-radius:4px;cursor:pointer;font-size:13px;">Set up password in Security settings</button>
+      </div>
+      <div id="cs-apikey-inputs">
+        <input type="password" id="cs-chat-apikey" placeholder="sk-ant-..." autocomplete="off" oninput="document.getElementById('cs-apikey-error').textContent=''">
+        <div id="cs-apikey-error" style="font-size:13px;color:#c84040;min-height:0;margin-top:5px;"></div>
+        <div class="chat-api-note">
+          <ol style="margin:4px 0 0 16px;padding:0;line-height:1.9;font-size:12px;">
+            <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (separate from Claude.ai)</li>
+            <li>Open <strong>API Keys</strong> and create a new key</li>
+            <li>Paste it above. Store a copy in your password manager (1Password, Bitwarden, etc.) so you can retrieve it later.</li>
+          </ol>
+          <p style="margin:6px 0 0;font-size:11px;color:var(--text);line-height:1.5;">Keep your API key private. Anyone with it can use your Anthropic account. Never paste it into websites you don't trust.</p>
+        </div>
+      </div>
     </div>
     <div class="chat-field">
       <label class="chat-field-lbl" for="cs-chat-maxtokens">Max response tokens</label>
