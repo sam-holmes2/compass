@@ -2023,6 +2023,35 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* XP hint label in widget */
 .rq-xp-label { font-family:var(--mono); font-size:13px; color:rgba(176,128,232,0.7); letter-spacing:0.06em; }
 
+/* Split-timeline chart: zoom (recent) zone vs history zone */
+.prac-bar-col.is-zoom { flex:2; }
+.prac-bar-col.is-history { flex:1; opacity:0.72; }
+.prac-bar-split-divider {
+  flex-shrink:0; width:1px; align-self:stretch;
+  background:rgba(200,168,74,0.22);
+  margin:0 3px; position:relative; pointer-events:none;
+}
+.prac-bar-split-badge {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:9px; color:rgba(200,168,74,0.5);
+  white-space:nowrap; padding:1px 3px; letter-spacing:0.05em;
+  background:var(--bg-card,#14141e); border-radius:2px;
+}
+/* Range selector row */
+.prac-bar-range-row {
+  display:flex; gap:4px; margin-bottom:6px; align-items:center;
+}
+.prac-bar-range-lbl {
+  font-size:11px; color:var(--text-dim); font-family:var(--mono); margin-right:4px;
+}
+.prac-bar-range-btn {
+  font-size:11px; font-family:var(--mono); padding:1px 6px; border-radius:3px;
+  cursor:pointer; border:1px solid rgba(255,255,255,0.12); background:transparent;
+  color:var(--text-dim); transition:all 0.1s;
+}
+.prac-bar-range-btn.active {
+  border-color:rgba(200,168,74,0.5); background:rgba(200,168,74,0.12); color:var(--gold);
+}
 /* GitHub-style sub-activity lanes in bar chart */
 .prac-bar-col.is-sub-mode {
   display:flex; flex-direction:column; gap:2px; justify-content:center;
@@ -2194,6 +2223,24 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .status-needs-checkin input.stat-range { animation:status-needs-update 2.8s ease-in-out infinite; border-radius:4px; }
 .status-needs-checkin .stat-bar-lbl    { opacity:0.6; }
+/* Daily Pulse modal */
+#daily-pulse-overlay { z-index:9200; }
+#daily-pulse-overlay .modal { max-width:620px; width:100%; padding:22px 24px 20px; position:relative; border-top:3px solid rgba(200,168,74,0.5); }
+.dp-title { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.22em; color:var(--gold); margin-bottom:4px; text-transform:uppercase; }
+.dp-subtitle { font-size:13px; color:var(--text-dim); font-family:var(--mono); letter-spacing:0.05em; margin-bottom:16px; }
+.dp-body { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+.dp-col { display:flex; flex-direction:column; }
+.dp-section-title { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
+.dp-sliders .stat-bar-row { margin-bottom:10px; }
+.dp-sliders .stat-bar-lbl { min-width:62px; font-size:13px; }
+.dp-sliders .stat-bar-val { min-width:22px; font-size:13px; }
+.dp-radars { display:flex; flex-direction:row; gap:8px; justify-content:center; margin-top:8px; }
+.dp-radar-wrap { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.dp-radar-lbl { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
+.dp-footer { display:flex; align-items:center; gap:10px; margin-top:16px; }
+@media(max-width:520px){
+  #daily-pulse-overlay .dp-body { grid-template-columns:1fr; }
+}
 /* Daily check-in reminder toast */
 #daily-checkin-reminder { position:fixed; bottom:54px; left:50%; transform:translateX(-50%); background:rgba(14,12,22,0.97); border:1px solid rgba(200,168,74,0.45); border-radius:8px; padding:9px 14px; display:flex; align-items:center; gap:10px; z-index:9100; font-size:13px; font-family:var(--mono); letter-spacing:0.04em; color:var(--text-mid); box-shadow:0 4px 24px rgba(0,0,0,0.55); white-space:nowrap; animation:toast-rise 0.25s ease; }
 #daily-checkin-reminder .dcr-label { color:rgba(200,168,74,0.85); margin-right:2px; }
@@ -10965,65 +11012,89 @@ function attachTextBackfillPopover(col, dp, act, charName, redrawFn) {
   });
 }
 
-function renderTextEntryChart(wrap, act, charName) {
+// Unified text-entry split-timeline chart.
+// histExtra = number of history-zone periods beyond the fixed recent window.
+// For day quests: recent = 7 days, history = histExtra more days (default 14).
+// For week quests: recent = 3 weeks, history = histExtra more weeks (default 4).
+function renderTextEntryChart(wrap, act, charName, histExtra) {
   if (!wrap) return;
+  const isWeek = act.resetPeriod === 'week';
+  const recentN  = isWeek ? 3 : 7;
+  const defaultH = isWeek ? 4 : 14;
+  const hExtra   = (histExtra !== undefined && histExtra !== null) ? histExtra : defaultH;
+
   wrap.innerHTML = '';
   wrap.className = 'practice-graph-wrap prac-bar-chart';
 
-  const lsHist = loadRQHistory(charName, act.id);
-  const ps = practiceState[act.id];
-  const now = new Date();
+  const lsHist   = loadRQHistory(charName, act.id);
+  const ps       = practiceState[act.id];
+  const now      = new Date();
   const curPeriod = currentPeriod(act.resetPeriod);
-  const dataPoints = [];
+  const barBase  = act.color || '#c8a84a';
 
-  const periods = act.resetPeriod === 'week' ? 13 : 28;
-  for (let i = periods - 1; i >= 0; i--) {
-    let periodKey, label;
-    if (act.resetPeriod === 'day') {
-      const d = new Date(now); d.setUTCDate(d.getUTCDate() - i);
-      periodKey = d.toISOString().slice(0, 10);
-      label = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
-    } else {
+  // Build history points (oldest first) then recent points (oldest first)
+  const histPoints   = [];
+  const recentPoints = [];
+
+  if (isWeek) {
+    const totalWeeks = recentN + hExtra;
+    for (let i = totalWeeks - 1; i >= 0; i--) {
       const d = new Date(now); d.setDate(d.getDate() - i * 7);
-      periodKey = getPeriodKey(d, 'week');
-      label = 'W' + periodKey.slice(5);
+      const periodKey = getPeriodKey(d, 'week');
+      const le = lsHist.find(h => h.period === periodKey);
+      let count = 0;
+      if (le) count = rqTextEntries(le).length;
+      else if (periodKey === curPeriod && ps) count = (ps.texts || []).length;
+      const weekNum = periodKey.slice(5);
+      // Label: show month+day at start of that ISO week (Monday)
+      const mon = new Date(d); mon.setUTCDate(mon.getUTCDate() - ((mon.getUTCDay() + 6) % 7));
+      const shortDate = mon.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
+      const dp = { period: periodKey, label: 'W' + weekNum, shortDate, count, isCurrent: periodKey === curPeriod };
+      if (i >= recentN) histPoints.push(dp); else recentPoints.push(dp);
     }
-    const le = lsHist.find(h => h.period === periodKey);
-    let count = 0;
-    if (le) count = rqTextEntries(le).length;
-    else if (periodKey === curPeriod && ps) count = (ps.texts || []).length;
-    dataPoints.push({ period: periodKey, label, count, isCurrent: periodKey === curPeriod });
+  } else {
+    const totalDays = recentN + hExtra;
+    for (let i = totalDays - 1; i >= 0; i--) {
+      const d = new Date(now); d.setUTCDate(d.getUTCDate() - i);
+      const periodKey = d.toISOString().slice(0, 10);
+      const le = lsHist.find(h => h.period === periodKey);
+      let count = 0;
+      if (le) count = rqTextEntries(le).length;
+      else if (periodKey === curPeriod && ps) count = (ps.texts || []).length;
+      // Human label for recent zone
+      let humanLabel;
+      if (i === 0)      humanLabel = 'Today';
+      else if (i === 1) humanLabel = 'Yest.';
+      else              humanLabel = d.toLocaleDateString('en-GB', { weekday:'short' });
+      const shortDate = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
+      const dp = { period: periodKey, label: shortDate, humanLabel, count, isCurrent: periodKey === curPeriod };
+      if (i >= recentN) histPoints.push(dp); else recentPoints.push(dp);
+    }
   }
 
-  // Trim leading zeros
-  const firstIdx = dataPoints.findIndex(d => d.count > 0);
-  const displayPoints = firstIdx < 0 ? dataPoints.slice(-7) : dataPoints.slice(Math.max(0, firstIdx - 3));
+  const allPoints = [...histPoints, ...recentPoints];
+  const maxCount  = Math.max(...allPoints.map(d => d.count), 1);
 
-  const maxCount = Math.max(...displayPoints.map(d => d.count), 1);
-
-  // Time range selector
+  // ── Range selector ──────────────────────────────────────────
   const rangeRow = document.createElement('div');
-  rangeRow.style.cssText = 'display:flex;gap:4px;margin-bottom:6px;align-items:center;';
+  rangeRow.className = 'prac-bar-range-row';
   const rangeLbl = document.createElement('span');
-  rangeLbl.style.cssText = 'font-size:11px;color:var(--text-dim);font-family:var(--mono);margin-right:4px;';
-  rangeLbl.textContent = 'Show:';
+  rangeLbl.className = 'prac-bar-range-lbl';
+  rangeLbl.textContent = 'History:';
   rangeRow.appendChild(rangeLbl);
-  const ranges = act.resetPeriod === 'week'
-    ? [{ label: '4w', n: 4 }, { label: '8w', n: 8 }, { label: '13w', n: 13 }]
-    : [{ label: '7d', n: 7 }, { label: '14d', n: 14 }, { label: '28d', n: 28 }];
-  let activeN = displayPoints.length;
+  const ranges = isWeek
+    ? [{ label: '+4w', h: 4 }, { label: '+8w', h: 8 }, { label: '+3m', h: 13 }]
+    : [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }];
   ranges.forEach(r => {
     const btn = document.createElement('button');
     btn.textContent = r.label;
-    btn.style.cssText = 'font-size:11px;font-family:var(--mono);padding:1px 6px;border-radius:3px;cursor:pointer;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--text-dim);transition:all 0.1s;';
-    btn.addEventListener('click', () => {
-      renderTextEntryChartWithN(wrap, act, charName, r.n);
-    });
+    btn.className = 'prac-bar-range-btn' + (r.h === hExtra ? ' active' : '');
+    btn.addEventListener('click', () => renderTextEntryChart(wrap, act, charName, r.h));
     rangeRow.appendChild(btn);
   });
   wrap.appendChild(rangeRow);
 
-  // Y-axis + bars
+  // ── Y-axis + plot ──────────────────────────────────────────
   const plot = document.createElement('div');
   plot.className = 'prac-bar-plot';
 
@@ -11035,22 +11106,44 @@ function renderTextEntryChart(wrap, act, charName) {
   plot.appendChild(yAxis);
 
   const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
-  displayPoints.forEach(dp => {
-    const col = document.createElement('div'); col.className = 'prac-bar-col' + (dp.isCurrent ? ' is-current' : '');
+
+  const makeCol = (dp, isZoom) => {
+    const col = document.createElement('div');
+    col.className = 'prac-bar-col' + (dp.isCurrent ? ' is-current' : '') + (isZoom ? ' is-zoom' : ' is-history');
     const bar = document.createElement('div'); bar.className = 'prac-bar-inner';
     const pct = maxCount > 0 ? (dp.count / maxCount) * 100 : 0;
     const goalMet = (act.target || 1) > 1 && dp.count >= (act.target || 1);
-    const barBase = act.color || '#c8a84a';
     bar.style.height = (pct > 0 ? Math.max(2, Math.round(pct)) : 0) + '%';
     bar.style.background = goalMet ? 'rgba(45,168,106,0.65)' : (dp.isCurrent ? barBase + 'bf' : barBase + '59');
-    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + ' — click to edit';
+    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + (dp.isCurrent ? ' (today)' : '') + ' — click to edit';
     col.appendChild(bar);
-    const lbl = document.createElement('div'); lbl.className = 'prac-bar-x-label';
-    lbl.textContent = dp.label.slice(0, 5);
-    col.appendChild(lbl);
-    attachTextBackfillPopover(col, dp, act, charName, () => renderTextEntryChart(wrap, act, charName));
-    colsWrap.appendChild(col);
-  });
+    // X-label: in zoom zone use human name; in history zone show sparse dates (at Monday / week boundary)
+    const showLabel = isZoom || _shouldShowHistLabel(dp, histPoints);
+    if (showLabel) {
+      const lbl = document.createElement('div'); lbl.className = 'prac-bar-x-label';
+      lbl.textContent = isZoom ? (dp.humanLabel || dp.label.slice(0, 5)) : dp.shortDate || dp.label.slice(0, 5);
+      col.appendChild(lbl);
+    }
+    attachTextBackfillPopover(col, dp, act, charName, () => renderTextEntryChart(wrap, act, charName, hExtra));
+    return col;
+  };
+
+  // History zone columns
+  if (histPoints.length > 0) {
+    histPoints.forEach(dp => colsWrap.appendChild(makeCol(dp, false)));
+    // Split divider
+    const divider = document.createElement('div');
+    divider.className = 'prac-bar-split-divider';
+    const badge = document.createElement('span');
+    badge.className = 'prac-bar-split-badge';
+    badge.textContent = isWeek ? '3w' : '7d';
+    divider.appendChild(badge);
+    colsWrap.appendChild(divider);
+  }
+
+  // Recent (zoom) zone columns
+  recentPoints.forEach(dp => colsWrap.appendChild(makeCol(dp, true)));
+
   // Goal target line
   const goalTarget = act.target || 1;
   if (goalTarget > 1 && maxCount > 0) {
@@ -11060,109 +11153,33 @@ function renderTextEntryChart(wrap, act, charName) {
     tLine.title = 'Goal: ' + goalTarget + ' entries';
     colsWrap.appendChild(tLine);
   }
+
   plot.appendChild(colsWrap);
   wrap.appendChild(plot);
 }
 
-function renderTextEntryChartWithN(wrap, act, charName, n) {
-  if (!wrap) return;
-  wrap.innerHTML = '';
-  wrap.className = 'practice-graph-wrap prac-bar-chart';
-
-  const lsHist = loadRQHistory(charName, act.id);
-  const ps = practiceState[act.id];
-  const now = new Date();
-  const curPeriod = currentPeriod(act.resetPeriod);
-  const dataPoints = [];
-
-  for (let i = n - 1; i >= 0; i--) {
-    let periodKey, label;
-    if (act.resetPeriod === 'week') {
-      const d = new Date(now); d.setDate(d.getDate() - i * 7);
-      periodKey = getPeriodKey(d, 'week');
-      label = 'W' + periodKey.slice(5);
-    } else {
-      const d = new Date(now); d.setUTCDate(d.getUTCDate() - i);
-      periodKey = d.toISOString().slice(0, 10);
-      label = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
-    }
-    const le = lsHist.find(h => h.period === periodKey);
-    let count = 0;
-    if (le) count = rqTextEntries(le).length;
-    else if (periodKey === curPeriod && ps) count = (ps.texts || []).length;
-    dataPoints.push({ period: periodKey, label, count, isCurrent: periodKey === curPeriod });
+// Show a history-zone label every ~7 days (Mon) or every other week boundary
+function _shouldShowHistLabel(dp, histPoints) {
+  if (!histPoints.length) return false;
+  const idx = histPoints.indexOf(dp);
+  if (idx < 0) return false;
+  // For day-based: show label on Mondays
+  if (dp.period && dp.period.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    return new Date(dp.period + 'T00:00:00Z').getUTCDay() === 1;
   }
-
-  const maxCount = Math.max(...dataPoints.map(d => d.count), 1);
-
-  const rangeRow = document.createElement('div');
-  rangeRow.style.cssText = 'display:flex;gap:4px;margin-bottom:6px;align-items:center;';
-  const rangeLbl = document.createElement('span');
-  rangeLbl.style.cssText = 'font-size:11px;color:var(--text-dim);font-family:var(--mono);margin-right:4px;';
-  rangeLbl.textContent = 'Show:';
-  rangeRow.appendChild(rangeLbl);
-  const ranges = act.resetPeriod === 'week'
-    ? [{ label: '4w', n: 4 }, { label: '8w', n: 8 }, { label: '13w', n: 13 }]
-    : [{ label: '7d', n: 7 }, { label: '14d', n: 14 }, { label: '28d', n: 28 }];
-  ranges.forEach(r => {
-    const btn = document.createElement('button');
-    btn.textContent = r.label;
-    const isActive = r.n === n;
-    btn.style.cssText = `font-size:11px;font-family:var(--mono);padding:1px 6px;border-radius:3px;cursor:pointer;border:1px solid ${isActive?'rgba(200,168,74,0.5)':'rgba(255,255,255,0.12)'};background:${isActive?'rgba(200,168,74,0.12)':'transparent'};color:${isActive?'var(--gold)':'var(--text-dim)'};transition:all 0.1s;`;
-    btn.addEventListener('click', () => { renderTextEntryChartWithN(wrap, act, charName, r.n); });
-    rangeRow.appendChild(btn);
-  });
-  wrap.appendChild(rangeRow);
-
-  const plot = document.createElement('div'); plot.className = 'prac-bar-plot';
-
-  const yAxis = document.createElement('div'); yAxis.className = 'prac-bar-y-axis';
-  const yTop = document.createElement('div'); yTop.className = 'prac-bar-y-label'; yTop.textContent = maxCount;
-  const yMid = document.createElement('div'); yMid.className = 'prac-bar-y-label'; yMid.textContent = Math.round(maxCount / 2);
-  const yBot = document.createElement('div'); yBot.className = 'prac-bar-y-label'; yBot.textContent = '0';
-  yAxis.appendChild(yTop); yAxis.appendChild(yMid); yAxis.appendChild(yBot);
-  plot.appendChild(yAxis);
-
-  const colsWrap = document.createElement('div'); colsWrap.className = 'prac-bar-cols';
-  dataPoints.forEach(dp => {
-    const col = document.createElement('div'); col.className = 'prac-bar-col' + (dp.isCurrent ? ' is-current' : '');
-    const bar = document.createElement('div'); bar.className = 'prac-bar-inner';
-    const pct = maxCount > 0 ? (dp.count / maxCount) * 100 : 0;
-    const goalMet = (act.target || 1) > 1 && dp.count >= (act.target || 1);
-    bar.style.height = (pct > 0 ? Math.max(2, Math.round(pct)) : 0) + '%';
-    bar.style.background = goalMet ? 'rgba(45,168,106,0.65)' : (dp.isCurrent ? 'rgba(200,168,74,0.75)' : 'rgba(200,168,74,0.35)');
-    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + ' — click to edit';
-    col.appendChild(bar);
-    const lbl = document.createElement('div'); lbl.className = 'prac-bar-x-label';
-    lbl.textContent = dp.label.slice(0, 5);
-    col.appendChild(lbl);
-    attachTextBackfillPopover(col, dp, act, charName, () => renderTextEntryChartWithN(wrap, act, charName, n));
-    colsWrap.appendChild(col);
-  });
-  // Goal target line
-  const goalTarget2 = act.target || 1;
-  if (goalTarget2 > 1 && maxCount > 0) {
-    const goalPct2 = Math.min(100, (goalTarget2 / maxCount) * 100);
-    const tLine2 = document.createElement('div'); tLine2.className = 'prac-bar-target-line';
-    tLine2.style.bottom = goalPct2 + '%';
-    tLine2.title = 'Goal: ' + goalTarget2 + ' entries';
-    colsWrap.appendChild(tLine2);
-  }
-  plot.appendChild(colsWrap);
-  wrap.appendChild(plot);
+  // For week-based: show every other week
+  return idx % 2 === 0;
 }
 
-function renderRQBarChart(wrap, act, charName, _alignStart) {
+function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
   if (!wrap) return;
-  if (act.type === 'text') { renderTextEntryChart(wrap, act, charName); return; }
+  if (act.type === 'text') { renderTextEntryChart(wrap, act, charName, histExtra); return; }
   wrap.innerHTML = '';
 
   const stats = getRQStats(act, charName);
   const subActs    = act.type === 'checkbox' ? (act.subActivities || []) : [];
   const hasSubs    = subActs.length > 0;
-  // GitHub-style: fixed row height per sub-activity lane (or single bar if no subs)
-  const LANE_H     = 10; // px per sub-activity lane
-  const MIN_H      = 8;  // minimum height for a filled single bar
+  const LANE_H     = 10;
   const plotH      = hasSubs ? Math.max(40, subActs.length * LANE_H + 8) : 64;
 
   wrap.className = 'practice-graph-wrap prac-bar-chart';
@@ -11171,63 +11188,113 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   const lsHist    = loadRQHistory(charName, act.id);
   const now       = new Date();
   const curPeriod = currentPeriod(act.resetPeriod);
-  const dataPoints = [];
 
-  if (act.resetPeriod === 'day') {
-    const todayStr = now.toISOString().slice(0, 10);
-    const startStr = _alignStart || (() => {
-      const defaultStart = new Date(now); defaultStart.setUTCDate(defaultStart.getUTCDate() - 27);
-      return defaultStart.toISOString().slice(0, 10);
-    })();
-    let _ds = startStr;
-    while (_ds <= todayStr) {
-      const ds = _ds;
-      const d = new Date(ds + 'T00:00:00Z');
-      const hard = hardHist.find(h => h.date === ds);
-      const le   = lsHist.find(h => h.period === ds);
-      let value = 0, subsDone = [], isHard = false, hasEntry = false, isVoid = false;
-      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; hasEntry = true; }
-      else if (le != null) { value = le.value; subsDone = le.subsDone || []; hasEntry = true; isVoid = !!le.void; }
-      else if (ds === curPeriod) {
-        const ps = practiceState[act.id];
-        if (ps) {
-          value = act.type === 'timer' ? Math.floor(ps.seconds / 60) : (ps.value || 0);
-          subsDone = ps.subsDone || [];
-          hasEntry = act.type === 'checkbox' ? (ps.hasEntry !== undefined ? ps.hasEntry : value > 0) : value > 0;
-        }
+  const isWeek    = act.resetPeriod === 'week';
+  // In aligned mode we show a flat range; in split mode we split into recent + history zones
+  const useSplit  = !_alignStart;
+  const recentN   = isWeek ? 3 : 7;
+  const defaultH  = isWeek ? 4 : 14;
+  const hExtra    = (histExtra !== undefined && histExtra !== null) ? histExtra : defaultH;
+
+  // ── Build data points ──────────────────────────────────────
+  const makeDP = (ds, d, isWk) => {
+    const hard = isWk ? hardHist.find(h => h.period === ds) : hardHist.find(h => h.date === ds);
+    const le   = lsHist.find(h => h.period === ds);
+    let value = 0, subsDone = [], isHard = false, hasEntry = false, isVoid = false;
+    if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; hasEntry = true; }
+    else if (le != null) { value = le.value; subsDone = le.subsDone || []; hasEntry = true; isVoid = !!le.void; }
+    else if (ds === curPeriod) {
+      const ps = practiceState[act.id];
+      if (ps) {
+        value = act.type === 'timer' ? Math.floor(ps.seconds / 60) : (ps.value || 0);
+        subsDone = ps.subsDone || [];
+        hasEntry = act.type === 'checkbox' ? (ps.hasEntry !== undefined ? ps.hasEntry : value > 0) : value > 0;
       }
-      const lbl = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
-      dataPoints.push({ period: ds, label: lbl, value, subsDone, isCurrent: ds === curPeriod, isHard, hasEntry, void: isVoid });
-      d.setUTCDate(d.getUTCDate() + 1);
-      _ds = d.toISOString().slice(0, 10);
     }
-  } else if (act.resetPeriod === 'week') {
-    for (let i = 12; i >= 0; i--) {
+    const shortDate = isWk
+      ? (() => { const mon = new Date(d); mon.setUTCDate(mon.getUTCDate() - ((mon.getUTCDay()+6)%7)); return mon.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}).replace(' ','-'); })()
+      : d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
+    const label = isWk ? ('W' + ds.slice(5)) : shortDate;
+    return { period: ds, label, shortDate, value, subsDone, isCurrent: ds === curPeriod, isHard, hasEntry, void: isVoid, month: d.getMonth() };
+  };
+
+  let histPoints = [], recentPoints = [], dataPoints = [];
+
+  if (isWeek) {
+    const totalWeeks = useSplit ? recentN + hExtra : 13;
+    for (let i = totalWeeks - 1; i >= 0; i--) {
       const d  = new Date(now); d.setDate(d.getDate() - i * 7);
       const wp = getPeriodKey(d, 'week');
-      const hard = hardHist.find(h => h.period === wp);
-      const le   = lsHist.find(h => h.period === wp);
-      let value = 0, subsDone = [], isHard = false, hasEntry = false, isVoid = false;
-      if (hard != null)    { value = hard.value; isHard = true; subsDone = hard.subsDone || []; hasEntry = true; }
-      else if (le != null) { value = le.value; subsDone = le.subsDone || []; hasEntry = true; isVoid = !!le.void; }
-      else if (wp === curPeriod) {
-        const ps = practiceState[act.id];
-        if (ps) { value = ps.value || 0; subsDone = ps.subsDone || []; hasEntry = act.type === 'checkbox' ? (ps.hasEntry !== undefined ? ps.hasEntry : value > 0) : value > 0; }
+      const dp = makeDP(wp, d, true);
+      if (useSplit && i >= recentN) histPoints.push(dp); else recentPoints.push(dp);
+    }
+  } else {
+    if (_alignStart) {
+      // Aligned flat mode: iterate from _alignStart to today
+      const todayStr = now.toISOString().slice(0, 10);
+      let _ds = _alignStart;
+      while (_ds <= todayStr) {
+        const d = new Date(_ds + 'T00:00:00Z');
+        recentPoints.push(makeDP(_ds, d, false));
+        d.setUTCDate(d.getUTCDate() + 1);
+        _ds = d.toISOString().slice(0, 10);
       }
-      const lbl = 'W' + wp.slice(5);
-      dataPoints.push({ period: wp, label: lbl, value, subsDone, isCurrent: wp === curPeriod, isHard, hasEntry, void: isVoid, month: d.getMonth() });
+    } else {
+      // Split mode: recentN + hExtra days
+      const totalDays = recentN + hExtra;
+      for (let i = totalDays - 1; i >= 0; i--) {
+        const d = new Date(now); d.setUTCDate(d.getUTCDate() - i);
+        const ds = d.toISOString().slice(0, 10);
+        const dp = makeDP(ds, d, false);
+        if (i >= recentN) histPoints.push(dp); else recentPoints.push(dp);
+      }
     }
   }
 
+  // Add humanLabel to recent day-period points
+  if (!isWeek) {
+    const totalR = recentPoints.length;
+    recentPoints.forEach((dp, ri) => {
+      const daysAgo = totalR - 1 - ri;
+      if (daysAgo === 0)      dp.humanLabel = 'Today';
+      else if (daysAgo === 1) dp.humanLabel = 'Yest.';
+      else { const d = new Date(dp.period + 'T00:00:00Z'); dp.humanLabel = d.toLocaleDateString('en-GB', { weekday:'short' }); }
+    });
+  }
+
+  dataPoints = [...histPoints, ...recentPoints];
+
+  // Flat/aligned mode only: trim leading zero-data for day quests (week quests always show all)
   let displayPoints = dataPoints;
-  if (!_alignStart && act.resetPeriod === 'day') {
+  if (!useSplit && !_alignStart && act.resetPeriod === 'day') {
     const firstIdx = dataPoints.findIndex(d => d.hasEntry || d.value > 0);
     displayPoints = firstIdx < 0 ? dataPoints.slice(-7) : dataPoints.slice(Math.max(0, firstIdx - 7));
   }
 
   const _goalHist = loadRQGoalHistory(charName, act.id);
-  const maxV = Math.max(...displayPoints.map(d => d.value), act.target || 1, ..._goalHist.map(g => g.target || 0), 1);
+  const maxV = Math.max(...dataPoints.map(d => d.value), act.target || 1, ..._goalHist.map(g => g.target || 0), 1);
   const unit = act.type === 'timer' ? 'min' : (act.unit || '');
+
+  // ── Range selector (split mode only) ─────────────────────────
+  if (useSplit) {
+    const rangeRow = document.createElement('div');
+    rangeRow.className = 'prac-bar-range-row';
+    const rangeLbl = document.createElement('span');
+    rangeLbl.className = 'prac-bar-range-lbl';
+    rangeLbl.textContent = 'History:';
+    rangeRow.appendChild(rangeLbl);
+    const ranges = isWeek
+      ? [{ label: '+4w', h: 4 }, { label: '+8w', h: 8 }, { label: '+3m', h: 13 }]
+      : [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }];
+    ranges.forEach(r => {
+      const btn = document.createElement('button');
+      btn.textContent = r.label;
+      btn.className = 'prac-bar-range-btn' + (r.h === hExtra ? ' active' : '');
+      btn.addEventListener('click', () => renderRQBarChart(wrap, act, charName, null, r.h));
+      rangeRow.appendChild(btn);
+    });
+    wrap.appendChild(rangeRow);
+  }
 
   // ── Build chart plot ──────────────────────────────────────────
   const plot = document.createElement('div');
@@ -11368,7 +11435,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
           dp.subsDone = [...newSubsDone];
           dp.value    = newSubsDone.length;
           closePopovers();
-          renderRQBarChart(wrap, act, charName, _alignStart);
+          renderRQBarChart(wrap, act, charName, _alignStart, histExtra);
           refreshStats();
         };
 
@@ -11411,7 +11478,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
             saveRQHistory(charName, act.id, hist);
             dp.void = newVoid;
             closePopovers();
-            renderRQBarChart(wrap, act, charName, _alignStart);
+            renderRQBarChart(wrap, act, charName, _alignStart, histExtra);
             refreshStats();
           });
           popover.appendChild(voidBtn);
@@ -11462,7 +11529,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
         dp.value    = newVal;
         dp.hasEntry = keepEntry;
         closePopovers();
-        renderRQBarChart(wrap, act, charName, _alignStart);
+        renderRQBarChart(wrap, act, charName, _alignStart, histExtra);
         refreshStats();
         return;
       }
@@ -11511,7 +11578,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
           saveRQHistory(charName, act.id, hist);
           dp.void = newVoid;
           closePopovers();
-          renderRQBarChart(wrap, act, charName, _alignStart);
+          renderRQBarChart(wrap, act, charName, _alignStart, histExtra);
           refreshStats();
         });
         row.appendChild(voidBtn);
@@ -11576,7 +11643,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
 
         dp.value = rawVal;
         closePopovers();
-        renderRQBarChart(wrap, act, charName, _alignStart);
+        renderRQBarChart(wrap, act, charName, _alignStart, histExtra);
         refreshStats();
       };
 
@@ -11588,32 +11655,30 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
     });
   };
 
-  displayPoints.forEach((dp, dpIdx) => {
-    // Insert a week/month boundary divider before columns that start a new period group
-    if (dpIdx > 0) {
-      let isDivider = false;
-      if (act.resetPeriod === 'day') {
-        // Divider at each Monday
-        const d = new Date(dp.period);
-        isDivider = d.getUTCDay() === 1;
-      } else if (act.resetPeriod === 'week') {
-        // Divider when the calendar month changes between consecutive weeks
-        isDivider = dp.month !== displayPoints[dpIdx - 1].month;
+  const renderZone = (points, isZoneRecent) => {
+    points.forEach((dp, dpIdx) => {
+      // In flat/aligned mode: insert week/month boundary dividers as before
+      if (!useSplit && dpIdx > 0) {
+        let isDivider = false;
+        if (act.resetPeriod === 'day') {
+          isDivider = new Date(dp.period + 'T00:00:00Z').getUTCDay() === 1;
+        } else if (act.resetPeriod === 'week') {
+          isDivider = dp.month !== points[dpIdx - 1].month;
+        }
+        if (isDivider) {
+          const div = document.createElement('div'); div.className = 'prac-bar-period-divider';
+          colsWrap.appendChild(div);
+        }
       }
-      if (isDivider) {
-        const div = document.createElement('div');
-        div.className = 'prac-bar-period-divider';
-        colsWrap.appendChild(div);
-      }
-    }
 
-    const col = document.createElement('div');
-    const _colDow = act.resetPeriod === 'day' ? new Date(dp.period + 'T00:00:00Z').getUTCDay() : -1;
-    col.className = 'prac-bar-col' +
-      (dp.isCurrent ? ' is-current' : '') +
-      (dp.isHard    ? ' is-hardcoded' : '') +
-      (hasSubs      ? ' is-sub-mode' : '') +
-      (_colDow === 0 || _colDow === 6 ? ' is-weekend' : '');
+      const col = document.createElement('div');
+      const _colDow = act.resetPeriod === 'day' ? new Date(dp.period + 'T00:00:00Z').getUTCDay() : -1;
+      col.className = 'prac-bar-col' +
+        (dp.isCurrent  ? ' is-current'   : '') +
+        (dp.isHard     ? ' is-hardcoded' : '') +
+        (hasSubs       ? ' is-sub-mode'  : '') +
+        (_colDow === 0 || _colDow === 6 ? ' is-weekend' : '') +
+        (useSplit ? (isZoneRecent ? ' is-zoom' : ' is-history') : '');
 
     if (hasSubs) {
       // GitHub-style: fixed-height column, one cell per sub-activity lane
@@ -11678,11 +11743,50 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
     }
 
     if (!dp.isHard) attachPopover(col, dp);
-    colsWrap.appendChild(col);
-  });
 
-  // ── Trendline + avg overlays (non-sub-activity charts only) ──────────
-  if (!hasSubs) {
+    // Inline x-axis label (used in split mode; flat mode uses the separate xAxis element)
+    if (useSplit) {
+      const showLbl = isZoneRecent || _shouldShowHistLabel(dp, histPoints);
+      if (showLbl) {
+        const xlbl = document.createElement('div'); xlbl.className = 'prac-bar-x-label';
+        xlbl.textContent = isZoneRecent
+          ? (dp.humanLabel || dp.label.slice(0, 5))
+          : (dp.shortDate || dp.label.slice(0, 5));
+        col.appendChild(xlbl);
+      }
+    }
+
+    colsWrap.appendChild(col);
+  }); // end forEach inside renderZone
+  }; // end renderZone
+
+  // Populate columns
+  if (useSplit && histPoints.length > 0) {
+    renderZone(histPoints, false);
+    const divider = document.createElement('div');
+    divider.className = 'prac-bar-split-divider';
+    const badge = document.createElement('span');
+    badge.className = 'prac-bar-split-badge';
+    badge.textContent = isWeek ? '3w' : '7d';
+    divider.appendChild(badge);
+    colsWrap.appendChild(divider);
+    renderZone(recentPoints, true);
+  } else {
+    renderZone(useSplit ? recentPoints : displayPoints, false);
+  }
+
+  // Goal target line for split mode (flat line across colsWrap)
+  if (useSplit && !hasSubs && act.target > 0 && maxV > 0) {
+    const goalPct = Math.min(100, (act.target / maxV) * 100);
+    const tLine = document.createElement('div'); tLine.className = 'prac-bar-target-line';
+    tLine.style.bottom = goalPct + '%';
+    const goalUnitLbl = act.type === 'timer' ? 'min' : (act.unit || '');
+    tLine.title = 'Goal: ' + act.target + (goalUnitLbl ? ' ' + goalUnitLbl : '');
+    colsWrap.appendChild(tLine);
+  }
+
+  // ── Trendline + avg overlays (flat/aligned mode only; split mode skips due to variable column widths) ──
+  if (!hasSubs && !useSplit) {
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('preserveAspectRatio', 'none');
@@ -11808,12 +11912,14 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
 
   plot.appendChild(colsWrap);
 
+  const _flatPoints = useSplit ? recentPoints : displayPoints;
+
   // For breakdown (sub-mode) daily quests, add day-letter header row just above the grid
   if (hasSubs && act.resetPeriod === 'day') {
     const _dow7h = 'SMTWTFS';
     const dowHdr = document.createElement('div');
     dowHdr.style.cssText = 'display:flex;gap:2px;padding-left:30px;box-sizing:border-box;height:10px;margin-bottom:2px;';
-    displayPoints.forEach((dp, dpIdx) => {
+    _flatPoints.forEach((dp, dpIdx) => {
       if (dpIdx > 0 && new Date(dp.period + 'T00:00:00Z').getUTCDay() === 1) {
         const sp = document.createElement('span');
         sp.style.cssText = 'flex-shrink:0;width:3px;';
@@ -11832,9 +11938,11 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
   wrap.appendChild(plot);
 
   // ── X-axis labels ─────────────────────────────────────────────
-  const xAxis = document.createElement('div'); xAxis.className = 'prac-bar-x-axis';
-  const n = displayPoints.length;
-  if (act.resetPeriod !== 'day') {
+  // In split mode, labels are embedded per-column inline; only render the x-axis for
+  // flat/aligned mode on non-day (week) quests.
+  if (!useSplit && act.resetPeriod !== 'day') {
+    const xAxis = document.createElement('div'); xAxis.className = 'prac-bar-x-axis';
+    const n = displayPoints.length;
     const labelIndices = new Set();
     [0, Math.round(n*0.25), Math.round(n*0.5), Math.round(n*0.75), n-1].forEach(i => labelIndices.add(Math.min(i, n-1)));
     labelIndices.forEach(i => {
@@ -11846,8 +11954,8 @@ function renderRQBarChart(wrap, act, charName, _alignStart) {
       xlbl.style.left = `calc(${xPct}%)`;
       xAxis.appendChild(xlbl);
     });
+    wrap.appendChild(xAxis);
   }
-  wrap.appendChild(xAxis);
 
   // Outside click handler — ignore clicks inside any open popover (e.g. hist-backfill-pop appended to body)
   const outsideHandler = e => {
@@ -15647,6 +15755,121 @@ function _updateDailyCheckinReminder() {
   if (itemsEl) itemsEl.textContent = items.join(', ');
 }
 
+// ── Daily Pulse modal ──────────────────────────────────────
+const PULSE_DISMISSED_KEY = 'cs-pulse-dismissed-v1';
+
+function _pulseDismissedToday() {
+  try { const d = JSON.parse(localStorage.getItem(PULSE_DISMISSED_KEY) || '{}'); return d.date === _localDate(); } catch(e) { return false; }
+}
+function _markPulseDismissed() {
+  try { localStorage.setItem(PULSE_DISMISSED_KEY, JSON.stringify({date: _localDate()})); } catch(e) {}
+}
+
+function maybeShowDailyPulse() {
+  if (IS_DEMO) return;
+  const lockScreen = document.getElementById('lock-screen');
+  if (lockScreen && lockScreen.classList.contains('open')) return;
+  if (_allStatsDoneToday() && _allStatusDoneToday()) return;
+  if (_pulseDismissedToday()) return;
+  const overlay = document.getElementById('daily-pulse-overlay');
+  if (!overlay) return;
+  _initPulseSliders();
+  overlay.classList.add('open');
+}
+
+function _initPulseSliders() {
+  const statCols = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
+  const statusCols = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
+  const statState = (appState.coreSkills || {});
+  const statusState = (appState.statusSliders || {});
+  let fromLS = {};
+  try { fromLS = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}'); } catch(e) {}
+  Object.entries(statCols).forEach(([name, col]) => {
+    const el = document.getElementById('dp-stat-' + name);
+    const valEl = document.getElementById('dp-stat-' + name + '-val');
+    if (!el) return;
+    const doneToday = _statsSliderDoneToday(name);
+    const pct = doneToday ? Math.min(100, Math.max(0, (statState[name] || {}).score || 0)) : 50;
+    el.value = pct;
+    if (valEl) valEl.textContent = pct;
+    setStatusGradient(el, col, pct);
+  });
+  Object.entries(statusCols).forEach(([name, col]) => {
+    const el = document.getElementById('dp-status-' + name);
+    const valEl = document.getElementById('dp-status-' + name + '-val');
+    if (!el) return;
+    const doneToday = _statusSliderDoneToday(name);
+    let pct;
+    if (!doneToday) {
+      pct = 50;
+    } else {
+      pct = statusState[name] !== undefined ? statusState[name] : (fromLS[name] !== undefined ? fromLS[name] : 50);
+    }
+    el.value = pct;
+    if (valEl) valEl.textContent = pct;
+    setStatusGradient(el, col, pct);
+  });
+  _updatePulseRadars();
+}
+
+function _updatePulseRadars() {
+  const R = 34;
+  const statEl = n => { const e = document.getElementById('dp-stat-' + n); return e ? parseInt(e.value) / 100 : 0.5; };
+  const statusEl = n => { const e = document.getElementById('dp-status-' + n); return e ? parseInt(e.value) / 100 : 0.5; };
+  const sp = `0,${-R * statEl('rest')} ${R * statEl('movement')},0 0,${R * statEl('connection')} ${-R * statEl('nutrition')},0`;
+  const sf = document.getElementById('dp-stats-radar-fill'); if (sf) sf.setAttribute('points', sp);
+  const ss = document.getElementById('dp-stats-radar-stroke'); if (ss) ss.setAttribute('points', sp);
+  const statDots = { rest:[0,-R*statEl('rest')], movement:[R*statEl('movement'),0], connection:[0,R*statEl('connection')], nutrition:[-R*statEl('nutrition'),0] };
+  Object.entries(statDots).forEach(([n,[cx,cy]]) => { const d = document.getElementById('dp-s-'+n); if(d){d.setAttribute('cx',cx);d.setAttribute('cy',cy);} });
+  const vp = `0,${-R * statusEl('focus')} ${R * statusEl('energy')},0 0,${R * statusEl('interest')} ${-R * statusEl('purpose')},0`;
+  const vf = document.getElementById('dp-status-radar-fill'); if (vf) vf.setAttribute('points', vp);
+  const vs = document.getElementById('dp-status-radar-stroke'); if (vs) vs.setAttribute('points', vp);
+  const statusDots = { focus:[0,-R*statusEl('focus')], energy:[R*statusEl('energy'),0], interest:[0,R*statusEl('interest')], purpose:[-R*statusEl('purpose'),0] };
+  Object.entries(statusDots).forEach(([n,[cx,cy]]) => { const d = document.getElementById('dp-sr-'+n); if(d){d.setAttribute('cx',cx);d.setAttribute('cy',cy);} });
+}
+
+function dpUpdateStat(name, value) {
+  const col = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' }[name];
+  const el = document.getElementById('dp-stat-' + name);
+  const valEl = document.getElementById('dp-stat-' + name + '-val');
+  if (el && col) setStatusGradient(el, col, parseInt(value));
+  if (valEl) valEl.textContent = parseInt(value);
+  _updatePulseRadars();
+}
+
+function dpUpdateStatus(name, value) {
+  const col = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' }[name];
+  const el = document.getElementById('dp-status-' + name);
+  const valEl = document.getElementById('dp-status-' + name + '-val');
+  if (el && col) setStatusGradient(el, col, parseInt(value));
+  if (valEl) valEl.textContent = parseInt(value);
+  _updatePulseRadars();
+}
+
+function dpDoneForToday() {
+  const statNames = ['rest', 'movement', 'nutrition', 'connection'];
+  const statusNames = ['focus', 'energy', 'purpose', 'interest'];
+  statNames.forEach(name => {
+    const el = document.getElementById('dp-stat-' + name);
+    if (el) updateStat(name, el.value);
+  });
+  statusNames.forEach(name => {
+    const el = document.getElementById('dp-status-' + name);
+    if (el) updateStatus(name, el.value);
+  });
+  dpClose();
+}
+
+function dpClose() {
+  const overlay = document.getElementById('daily-pulse-overlay');
+  if (overlay) overlay.classList.remove('open');
+}
+
+function dpDismiss() {
+  _markPulseDismissed();
+  dpClose();
+}
+
 // ── Init PIN check ─────────────────────────────────────────
 async function _initPINCheck(){
   if(IS_DEMO) return;
@@ -15707,6 +15930,7 @@ function _init(){
   loadStatSliders(appState);
   _applyVitalsCheckinState();
   setTimeout(_showDailyCheckinReminder, 800); // slight delay so page settles first
+  setTimeout(maybeShowDailyPulse, 400);
   (appState.activities || DEFAULT.activities || []).forEach(act => {
     initRQState(act, getCharId());
   });
@@ -18101,6 +18325,113 @@ document.addEventListener('keydown', function(e) {
   <span class="dcr-label">Log today:</span>
   <span class="dcr-items" id="daily-checkin-items"></span>
   <button class="dcr-close" onclick="document.getElementById('daily-checkin-reminder').style.display='none'" title="Dismiss">&#x2715;</button>
+</div>
+
+<!-- ══ DAILY PULSE MODAL ═════════════════════════════════════ -->
+<div class="modal-overlay" id="daily-pulse-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="dpDismiss()" title="Close without checking in">&#x2715;</button>
+    <div class="dp-title">Daily Pulse</div>
+    <div class="dp-subtitle">How are you doing today? Set all 8 sliders to log your check-in.</div>
+    <div class="dp-body">
+      <div class="dp-col">
+        <div class="dp-section-title" style="color:#9060c0;">Core Skills</div>
+        <div class="dp-sliders">
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
+            <input type="range" class="stat-range" id="dp-stat-rest" min="0" max="100" value="50" oninput="dpUpdateStat('rest',this.value)">
+            <span class="stat-bar-val" id="dp-stat-rest-val">50</span>
+          </div>
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
+            <input type="range" class="stat-range" id="dp-stat-movement" min="0" max="100" value="50" oninput="dpUpdateStat('movement',this.value)">
+            <span class="stat-bar-val" id="dp-stat-movement-val">50</span>
+          </div>
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#60a838">Nutrition</span>
+            <input type="range" class="stat-range" id="dp-stat-nutrition" min="0" max="100" value="50" oninput="dpUpdateStat('nutrition',this.value)">
+            <span class="stat-bar-val" id="dp-stat-nutrition-val">50</span>
+          </div>
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
+            <input type="range" class="stat-range" id="dp-stat-connection" min="0" max="100" value="50" oninput="dpUpdateStat('connection',this.value)">
+            <span class="stat-bar-val" id="dp-stat-connection-val">50</span>
+          </div>
+        </div>
+        <div class="dp-section-title" style="color:#8090a8;margin-top:10px;">Current State</div>
+        <div class="dp-sliders">
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#c0cad4">Focus</span>
+            <input type="range" class="stat-range stat-range-focus" id="dp-status-focus" min="0" max="100" value="50" oninput="dpUpdateStatus('focus',this.value)">
+            <span class="stat-bar-val" id="dp-status-focus-val">50</span>
+          </div>
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#d07830">Energy</span>
+            <input type="range" class="stat-range stat-range-energy" id="dp-status-energy" min="0" max="100" value="50" oninput="dpUpdateStatus('energy',this.value)">
+            <span class="stat-bar-val" id="dp-status-energy-val">50</span>
+          </div>
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#3a80c8">Interest</span>
+            <input type="range" class="stat-range stat-range-interest" id="dp-status-interest" min="0" max="100" value="50" oninput="dpUpdateStatus('interest',this.value)">
+            <span class="stat-bar-val" id="dp-status-interest-val">50</span>
+          </div>
+          <div class="stat-bar-row">
+            <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
+            <input type="range" class="stat-range stat-range-purpose" id="dp-status-purpose" min="0" max="100" value="50" oninput="dpUpdateStatus('purpose',this.value)">
+            <span class="stat-bar-val" id="dp-status-purpose-val">50</span>
+          </div>
+        </div>
+      </div>
+      <div class="dp-col">
+        <div class="dp-radars">
+          <div class="dp-radar-wrap">
+            <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:130px;height:130px;">
+              <polygon points="0,-34 34,0 0,34 -34,0" fill="none" stroke="#232332" stroke-width="0.8"/>
+              <polygon points="0,-25.5 25.5,0 0,25.5 -25.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
+              <polygon points="0,-17 17,0 0,17 -17,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
+              <line x1="0" y1="-40" x2="0" y2="40" stroke="#1e1e28" stroke-width="0.5"/>
+              <line x1="-40" y1="0" x2="40" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
+              <polygon id="dp-stats-radar-fill" fill="rgba(58,128,200,0.07)" stroke="none" points="0,-17 17,0 0,17 -17,0"/>
+              <polygon id="dp-stats-radar-stroke" fill="none" stroke="rgba(144,96,192,0.55)" stroke-width="1.4" points="0,-17 17,0 0,17 -17,0"/>
+              <circle id="dp-s-rest"       cx="0"   cy="-17" r="3" fill="#8090a8"/>
+              <circle id="dp-s-movement"   cx="17"  cy="0"   r="3" fill="#d07830"/>
+              <circle id="dp-s-connection" cx="0"   cy="17"  r="3" fill="#3a80c8"/>
+              <circle id="dp-s-nutrition"  cx="-17" cy="0"   r="3" fill="#60a838"/>
+              <text x="0"   y="-42" text-anchor="middle" font-family="'Cinzel',serif" font-size="6" fill="#8090a8" letter-spacing="0.1em">REST</text>
+              <text x="43"  y="2.5" text-anchor="start"  font-family="'Cinzel',serif" font-size="6" fill="#d07830" letter-spacing="0.1em">MOVE</text>
+              <text x="0"   y="49"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6" fill="#3a80c8" letter-spacing="0.1em">CONNECT</text>
+              <text x="-43" y="2.5" text-anchor="end"    font-family="'Cinzel',serif" font-size="6" fill="#60a838" letter-spacing="0.1em">NUTRI</text>
+            </svg>
+            <div class="dp-radar-lbl" style="color:#9060c0;">Core Skills</div>
+          </div>
+          <div class="dp-radar-wrap">
+            <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:130px;height:130px;">
+              <polygon points="0,-34 34,0 0,34 -34,0" fill="none" stroke="#232332" stroke-width="0.8"/>
+              <polygon points="0,-25.5 25.5,0 0,25.5 -25.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
+              <polygon points="0,-17 17,0 0,17 -17,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
+              <line x1="0" y1="-40" x2="0" y2="40" stroke="#1e1e28" stroke-width="0.5"/>
+              <line x1="-40" y1="0" x2="40" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
+              <polygon id="dp-status-radar-fill" fill="rgba(192,202,212,0.07)" stroke="none" points="0,-17 17,0 0,17 -17,0"/>
+              <polygon id="dp-status-radar-stroke" fill="none" stroke="rgba(192,202,212,0.55)" stroke-width="1.4" points="0,-17 17,0 0,17 -17,0"/>
+              <circle id="dp-sr-focus"    cx="0"   cy="-17" r="3" fill="#c0cad4"/>
+              <circle id="dp-sr-energy"   cx="17"  cy="0"   r="3" fill="#d07830"/>
+              <circle id="dp-sr-interest" cx="0"   cy="17"  r="3" fill="#3a80c8"/>
+              <circle id="dp-sr-purpose"  cx="-17" cy="0"   r="3" fill="#60a838"/>
+              <text x="0"   y="-42" text-anchor="middle" font-family="'Cinzel',serif" font-size="6" fill="#c0cad4" letter-spacing="0.1em">FOCUS</text>
+              <text x="43"  y="2.5" text-anchor="start"  font-family="'Cinzel',serif" font-size="6" fill="#d07830" letter-spacing="0.1em">ENERGY</text>
+              <text x="0"   y="49"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6" fill="#3a80c8" letter-spacing="0.1em">INTEREST</text>
+              <text x="-43" y="2.5" text-anchor="end"    font-family="'Cinzel',serif" font-size="6" fill="#60a838" letter-spacing="0.1em">PURPOSE</text>
+            </svg>
+            <div class="dp-radar-lbl" style="color:#8090a8;">Current State</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dp-footer">
+      <button class="btn-primary" onclick="dpDoneForToday()">Done for today</button>
+      <button class="btn-ghost" onclick="dpDismiss()">Skip for now</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ CHAT PRIVACY MODAL ════════════════════════════════════ -->
