@@ -906,10 +906,20 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .fbar-btn:hover { background:rgba(45,168,106,0.14); color:#fff; }
 .fbar-btn.fbar-primary { background:rgba(45,168,106,0.12); }
 .fbar-btn.fbar-primary:hover { background:rgba(45,168,106,0.28); }
-.fbar-btn.fbar-chat { background:rgba(200,168,74,0.1); color:var(--gold); }
-.fbar-btn.fbar-chat:hover { background:rgba(200,168,74,0.22); color:var(--gold); }
+.fbar-btn.fbar-chat { background:rgba(42,144,144,0.1); color:#2a9090; }
+.fbar-btn.fbar-chat:hover { background:rgba(42,144,144,0.22); color:#3ab8b8; }
 .fbar-btn.fbar-daily { background:rgba(200,168,74,0.13); color:var(--gold); }
 .fbar-btn.fbar-daily:hover { background:rgba(200,168,74,0.28); color:#ffe88a; }
+.fbar-btn.fbar-security { background:rgba(200,64,64,0.1); color:#c84040; }
+.fbar-btn.fbar-security:hover { background:rgba(200,64,64,0.22); color:#e05050; }
+.fbar-btn.fbar-import { background:rgba(200,64,64,0.1); color:#c84040; }
+.fbar-btn.fbar-import:hover { background:rgba(200,64,64,0.22); color:#e05050; }
+.fbar-btn.fbar-export { background:rgba(200,64,64,0.08); color:#c84040; }
+.fbar-btn.fbar-export:hover { background:rgba(200,64,64,0.2); color:#e05050; }
+.fbar-btn.fbar-support { background:rgba(208,120,48,0.1); color:#d07830; }
+.fbar-btn.fbar-support:hover { background:rgba(208,120,48,0.22); color:#e8903a; }
+.fbar-btn.fbar-help { background:rgba(144,96,192,0.1); color:#9060c0; }
+.fbar-btn.fbar-help:hover { background:rgba(144,96,192,0.22); color:#a878d8; }
 #chat-btn.chat-btn-loading { position:relative; }
 #chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
 @keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
@@ -4123,22 +4133,22 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 </div>
 
 <div id="float-bar">
-  <button class="fbar-btn" id="support-btn" onclick="openSupportModal()" title="Support this project">♥<span class="fbar-label"> Support</span></button>
-  <button class="fbar-btn" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
-  <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
-  <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
+  <button class="fbar-btn fbar-support" id="support-btn" onclick="openSupportModal()" title="Support this project">♥<span class="fbar-label"> Support</span></button>
+  <button class="fbar-btn fbar-help" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
+  <button class="fbar-btn fbar-security" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
+  <button class="fbar-btn fbar-security" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
   <button class="fbar-btn" id="git-sync-btn" onclick="openGitSyncModal()" title="Sync: back up to GitHub">↕<span class="fbar-label"> Sync</span></button>
   <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Daily check-in: update your vitals, core skills and current state">◈<span class="fbar-label"> Daily</span></button>
   <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="Chat: journal with a local Ollama model (private) or cloud AI">&#10022;<span class="fbar-label"> Chat</span></button>
-  <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export: download your data.json as a backup or to share with your AI">↓<span class="fbar-label"> Export</span></button>
-  <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import: load data.json from a backup or from your AI after a session">↑<span class="fbar-label"> Import</span></button>
+  <button class="fbar-btn fbar-export" id="export-btn" onclick="exportState()" title="Export: download your data.json as a backup or to share with your AI">↓<span class="fbar-label"> Export</span></button>
+  <button class="fbar-btn fbar-import" id="import-btn" onclick="openModal()" title="Import: load data.json from a backup or from your AI after a session">↑<span class="fbar-label"> Import</span></button>
 </div>
 
 <!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
 <div class="modal-overlay" id="support-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:560px;width:100%;position:relative;">
+  <div class="modal" style="border-top:3px solid rgba(208,120,48,0.5);max-width:560px;width:100%;position:relative;">
     <button class="modal-close" onclick="_co('support-modal')" title="Close">×</button>
-    <div class="modal-title" style="color:var(--help);margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
+    <div class="modal-title" style="color:#d07830;margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
     <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist: a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
     <p style="line-height:1.7;margin:0 0 20px;">If it's been useful to you, a small contribution helps keep it going.</p>
     <div style="margin-bottom:20px;padding:14px 16px;background:var(--help-dim);border:1px solid var(--help-border);border-radius:8px;font-size:14px;line-height:1.6;">
@@ -4154,9 +4164,9 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
 <!-- ══ HELP MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:100%;position:relative;">
+  <div class="modal" style="border-top:3px solid rgba(144,96,192,0.5);max-width:860px;width:100%;position:relative;">
     <button class="modal-close" onclick="_co('help-modal')" title="Close">×</button>
-    <div class="modal-title" style="color:var(--help);margin-bottom:16px;">? &nbsp;HOW CHARACTER-SHEET WORKS</div>
+    <div class="modal-title" style="color:#9060c0;margin-bottom:16px;">? &nbsp;HOW CHARACTER-SHEET WORKS</div>
     <div class="help-cols">
 
       <!-- Column 1: Setup / Update -->
@@ -9357,123 +9367,8 @@ function render(s){
     saveState(appState); markDirty(); render(appState);
   }); }
 
-  // ── Journal chronicle — chapters with collapsible entries ──────
-  const tlEl=document.getElementById('insights-timeline');
-  if(tlEl){
-    tlEl.innerHTML='';
-    const chapters=s.insights||DEFAULT.insights||[];
-
-    function getNestedArr(path){ return path.reduce((o,k)=>o[k],appState); }
-    function makeBulletList(bullets, arrPath){
-      const ul=document.createElement('ul'); ul.className='chapter-bullets';
-      (bullets||[]).forEach((txt,bi)=>{
-        const li=document.createElement('li'); li.className='chapter-bullet';
-        const ta=document.createElement('textarea'); ta.className='chapter-bullet-input';
-        ta.value=txt; ta.rows=1; ta.placeholder='…';
-        ta.addEventListener('input',()=>{ _autoH(ta); });
-        ta.addEventListener('change',()=>{ saveNestedField([...arrPath,bi], ta.value.trim()); markDirty(); });
-        setTimeout(()=>{ if(ta.scrollHeight>0){ _autoH(ta); } },0);
-        const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete card-head-del'; del.style.cssText='margin-top:2px;flex-shrink:0'; del.title='Delete bullet';
-        del.onclick=ev=>{ ev.stopPropagation();
-          const snap=JSON.parse(JSON.stringify(appState.insights));
-          const label=(txt||'').trim().slice(0,40)||'this bullet';
-          showConfirmDelete(label,
-            ()=>{ getNestedArr(arrPath).splice(bi,1); saveState(appState); markDirty(); render(appState); },
-            ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
-          );
-        };
-        li.appendChild(ta); li.appendChild(del); ul.appendChild(li);
-      });
-      const addBullet=document.createElement('button'); addBullet.className='chapter-add-bullet';
-      addBullet.textContent='+ add bullet';
-      addBullet.onclick=()=>{ getNestedArr(arrPath).push(''); saveState(appState); markDirty(); render(appState); };
-      ul.appendChild(addBullet);
-      return ul;
-    }
-
-    chapters.forEach((ch,ci)=>{
-      const isFirst=(ci===0);
-      const grp=document.createElement('div'); grp.className='chapter-group';
-      const gbodyId=`cgb-${ci}`, garrId=`cga-${ci}`;
-
-      // Chapter header
-      const ghead=document.createElement('div'); ghead.className='chapter-group-head'; ghead.dataset.handleInject='1';
-      const gnameEl=makeEditable(ch.name,'Chapter name',v=>{ saveNestedField(['insights',ci,'name'],v); },'chapter-group-name');
-      const gcountEl=document.createElement('span'); gcountEl.className='chapter-group-count';
-      gcountEl.textContent=(ch.entries||[]).length+' entries';
-      const garrEl=document.createElement('div'); garrEl.className='chapter-group-arrow'+(isFirst?' open':''); garrEl.id=garrId; garrEl.textContent=isFirst?'▾':'▸';
-      const gdelBtn=document.createElement('button'); gdelBtn.className='ally-delete card-head-del'; gdelBtn.textContent='×'; gdelBtn.title='Delete chapter';
-      gdelBtn.onclick=ev=>{ ev.stopPropagation();
-        const snap=JSON.parse(JSON.stringify(appState.insights));
-        showConfirmDelete(ch.name||'this chapter',
-          ()=>{ appState.insights.splice(ci,1); resequenceEntries(appState); saveState(appState); markDirty(); render(appState); },
-          ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
-        );
-      };
-      const gLockBtn=makeLockBtn(`insights.${ci}.name`);
-      ghead.appendChild(gdelBtn); ghead.appendChild(gnameEl); ghead.appendChild(gLockBtn); ghead.appendChild(gcountEl); ghead.appendChild(garrEl);
-      ghead.addEventListener('click',e=>{ if(e.target===ghead||e.target===garrEl||e.target===gcountEl) toggleChapter(gbodyId,garrId); });
-
-      // Chapter body (entries)
-      const gbody=document.createElement('div'); gbody.className='chapter-group-body'+(isFirst?' open':''); gbody.id=gbodyId;
-
-      (ch.entries||[]).forEach((entry,ei)=>{
-        const isFirstEntry=(isFirst && ei===0);
-        const item=document.createElement('div'); item.className='chapter-item';
-        const ebodyId=`ceb-${ci}-${ei}`, earrId=`cea-${ci}-${ei}`;
-
-        // Entry header
-        const ehead=document.createElement('div'); ehead.className='chapter-head'; ehead.dataset.handleInject='1';
-        const edateEl=makeEditable(entry.date,'Date',v=>{ saveNestedField(['insights',ci,'entries',ei,'date'],v); resequenceEntries(appState); saveState(appState); markDirty(); render(appState); },'chapter-date');
-        const etitleEl=makeEditable(entry.title,'Entry title',v=>saveNestedField(['insights',ci,'entries',ei,'title'],v),'chapter-title');
-        const earrEl=document.createElement('div'); earrEl.className='chapter-arrow'+(isFirstEntry?' open':''); earrEl.id=earrId; earrEl.textContent=isFirstEntry?'▾':'▸';
-        const edelBtn=document.createElement('button'); edelBtn.className='ally-delete card-head-del'; edelBtn.textContent='×'; edelBtn.title='Delete entry';
-        edelBtn.onclick=ev=>{ ev.stopPropagation();
-          const snap=JSON.parse(JSON.stringify(appState.insights));
-          showConfirmDelete(entry.title||'this entry',
-            ()=>{ appState.insights[ci].entries.splice(ei,1); resequenceEntries(appState); saveState(appState); markDirty(); render(appState); },
-            ()=>{ appState.insights=snap; saveState(appState); markDirty(); render(appState); }
-          );
-        };
-        const enumEl=document.createElement('span'); enumEl.className='chapter-num'; enumEl.textContent=entry.num!=null?'#'+entry.num:'';
-        ehead.appendChild(edelBtn); ehead.appendChild(enumEl); ehead.appendChild(edateEl); ehead.appendChild(etitleEl); ehead.appendChild(earrEl);
-        ehead.addEventListener('click',e=>{ if(e.target===ehead||e.target===earrEl) toggleChapter(ebodyId,earrId); });
-
-        // Entry body
-        const ebody=document.createElement('div'); ebody.className='chapter-body'+(isFirstEntry?' open':''); ebody.id=ebodyId;
-        [['events','Key Events'],['insights','Key Insights'],['tensions','Unresolved Tensions']].forEach(([field,lbl])=>{
-          const row=document.createElement('div'); row.className='chapter-row';
-          const lblEl=document.createElement('div'); lblEl.className='chapter-row-lbl'; lblEl.textContent=lbl;
-          row.appendChild(lblEl);
-          row.appendChild(makeBulletList(entry[field], ['insights',ci,'entries',ei,field]));
-          ebody.appendChild(row);
-        });
-        item.appendChild(ehead); item.appendChild(ebody); gbody.appendChild(item);
-      });
-
-      // Add entry button
-      const addEntry=document.createElement('button'); addEntry.className='add-item-btn';
-      addEntry.style.cssText='margin:10px 16px;';
-      addEntry.textContent='+ Add Entry';
-      addEntry.onclick=()=>{
-        if(!appState.insights[ci].entries) appState.insights[ci].entries=[];
-        appState.insights[ci].entries.push({date:'',title:'',events:[],insights:[],tensions:[]});
-        resequenceEntries(appState); saveState(appState); markDirty(); render(appState);
-      };
-      gbody.appendChild(addEntry);
-      grp.appendChild(ghead); grp.appendChild(gbody); tlEl.appendChild(grp);
-    });
-
-    // Add chapter button
-    const addChap=document.createElement('button'); addChap.className='add-item-btn'; addChap.style.marginTop='8px';
-    addChap.textContent='+ Add Chapter';
-    addChap.onclick=()=>{
-      if(!appState.insights) appState.insights=[];
-      appState.insights.unshift({name:'',entries:[]});
-      saveState(appState); markDirty(); render(appState);
-    };
-    tlEl.appendChild(addChap);
-  }
+  // ── Unified journal timeline (sessions + chapter entries) ──
+  renderJournalTimeline(s);
 
   // Combat tab - practices
   renderRecurringQuests(s);
@@ -11192,7 +11087,7 @@ function renderTextEntryChart(wrap, act, charName, histExtra) {
   const isWeek = act.resetPeriod === 'week';
   const recentN  = isWeek ? 3 : 7;
   const defaultH = isWeek ? 4 : 14;
-  const hExtra   = (histExtra !== undefined && histExtra !== null) ? histExtra : defaultH;
+  const hExtra   = (histExtra !== undefined && histExtra !== null) ? histExtra : (act.histRange ?? defaultH);
 
   wrap.innerHTML = '';
   wrap.className = 'practice-graph-wrap prac-bar-chart';
@@ -11280,7 +11175,13 @@ function renderTextEntryChart(wrap, act, charName, histExtra) {
     const btn = document.createElement('button');
     btn.textContent = r.label;
     btn.className = 'prac-bar-range-btn' + (r.h === hExtra ? ' active' : '');
-    btn.addEventListener('click', () => renderTextEntryChart(wrap, act, charName, r.h));
+    btn.addEventListener('click', () => {
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) actInState.histRange = r.h;
+      act.histRange = r.h;
+      saveState(appState); markDirty();
+      renderTextEntryChart(wrap, act, charName, r.h);
+    });
     rangeRow.appendChild(btn);
   });
   wrap.appendChild(rangeRow);
@@ -11385,7 +11286,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
   const useSplit  = !_alignStart;
   const recentN   = isWeek ? 3 : 7;
   const defaultH  = isWeek ? 4 : 14;
-  const hExtra    = (histExtra !== undefined && histExtra !== null) ? histExtra : defaultH;
+  const hExtra    = (histExtra !== undefined && histExtra !== null) ? histExtra : (act.histRange ?? defaultH);
 
   // Resolve 'all' sentinel (9999): find earliest entry across lsHist + hardHist
   let effectiveH = hExtra;
@@ -11502,7 +11403,13 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
       const btn = document.createElement('button');
       btn.textContent = r.label;
       btn.className = 'prac-bar-range-btn' + (r.h === hExtra ? ' active' : '');
-      btn.addEventListener('click', () => renderRQBarChart(wrap, act, charName, null, r.h));
+      btn.addEventListener('click', () => {
+        const actInState = (appState.activities || []).find(a => a.id === act.id);
+        if (actInState) actInState.histRange = r.h;
+        act.histRange = r.h;
+        saveState(appState); markDirty();
+        renderRQBarChart(wrap, act, charName, null, r.h);
+      });
       rangeRow.appendChild(btn);
     });
     wrap.appendChild(rangeRow);
@@ -17406,6 +17313,7 @@ function _chatFinalizeSession(summary, systemRead, highlights) {
   chatState.sessionStartedAt = null;
   renderChatSessionPicker();
   renderChatSessions(appState);
+  renderJournalTimeline(appState);
 }
 
 function _chatExtractSummaryFromReply(reply) {
@@ -17566,6 +17474,7 @@ function chatDeleteSession(sessionId) {
   saveState(appState);
   renderChatSessionPicker();
   renderChatSessions(appState);
+  renderJournalTimeline(appState);
 }
 
 function renderChatSessionPicker() {
@@ -17700,6 +17609,7 @@ function chatDeleteCurrentSession() {
     appState.chatSessions = (appState.chatSessions || []).filter(s => s.id !== id);
     saveState(appState);
     renderChatSessions(appState);
+    renderJournalTimeline(appState);
   }
   chatState.messages = [];
   chatState.pendingJSON = null;
