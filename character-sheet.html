@@ -2242,7 +2242,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .dp-radar-lbl { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
 .dp-footer { display:flex; align-items:center; gap:10px; margin-top:16px; }
 @media(max-width:520px){
-  #daily-pulse-overlay .dp-body { grid-template-columns:1fr; }
+  #daily-pulse-overlay .dp-section-inner { flex-direction:column; }
 }
 /* Daily check-in reminder toast */
 #daily-checkin-reminder { position:fixed; bottom:54px; left:50%; transform:translateX(-50%); background:rgba(14,12,22,0.97); border:1px solid rgba(200,168,74,0.45); border-radius:8px; padding:9px 14px; display:flex; align-items:center; gap:10px; z-index:9100; font-size:13px; font-family:var(--mono); letter-spacing:0.04em; color:var(--text-mid); box-shadow:0 4px 24px rgba(0,0,0,0.55); white-space:nowrap; animation:toast-rise 0.25s ease; }
@@ -15824,48 +15824,30 @@ function maybeShowDailyPulse() {
 function _initPulseSliders() {
   const statCols = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
   const statusCols = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
-  const statState = (appState.coreSkills || {});
-  const statusState = (appState.statusSliders || {});
-  let fromLS = {};
-  try { fromLS = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}'); } catch(e) {}
-  // Initialize HP/Mana vitals sliders
   const vitalCols = { hp:'#c84040', mana:'#3a80c8' };
-  const vitalStateKeys = { hp:'health', mana:'mana' };
   Object.entries(vitalCols).forEach(([stat, col]) => {
     const el = document.getElementById('dp-' + stat);
     const valEl = document.getElementById('dp-' + stat + '-val');
     if (!el) return;
-    const doneToday = _vitalsCheckinDoneToday(stat);
-    const stateVal = appState[vitalStateKeys[stat]];
-    const pct = doneToday && typeof stateVal === 'number' ? Math.min(100, Math.max(0, stateVal)) : 50;
-    el.value = pct;
-    if (valEl) valEl.textContent = pct;
-    setStatusGradient(el, col, pct);
+    el.value = 50;
+    if (valEl) valEl.textContent = 50;
+    setStatusGradient(el, col, 50);
   });
   Object.entries(statCols).forEach(([name, col]) => {
     const el = document.getElementById('dp-stat-' + name);
     const valEl = document.getElementById('dp-stat-' + name + '-val');
     if (!el) return;
-    const doneToday = _statsSliderDoneToday(name);
-    const pct = doneToday ? Math.min(100, Math.max(0, (statState[name] || {}).score || 0)) : 50;
-    el.value = pct;
-    if (valEl) valEl.textContent = pct;
-    setStatusGradient(el, col, pct);
+    el.value = 50;
+    if (valEl) valEl.textContent = 50;
+    setStatusGradient(el, col, 50);
   });
   Object.entries(statusCols).forEach(([name, col]) => {
     const el = document.getElementById('dp-status-' + name);
     const valEl = document.getElementById('dp-status-' + name + '-val');
     if (!el) return;
-    const doneToday = _statusSliderDoneToday(name);
-    let pct;
-    if (!doneToday) {
-      pct = 50;
-    } else {
-      pct = statusState[name] !== undefined ? statusState[name] : (fromLS[name] !== undefined ? fromLS[name] : 50);
-    }
-    el.value = pct;
-    if (valEl) valEl.textContent = pct;
-    setStatusGradient(el, col, pct);
+    el.value = 50;
+    if (valEl) valEl.textContent = 50;
+    setStatusGradient(el, col, 50);
   });
   _updatePulseRadars();
 }
