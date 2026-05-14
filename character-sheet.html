@@ -921,7 +921,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .fbar-btn.fbar-help { background:rgba(144,96,192,0.1); color:#9060c0; }
 .fbar-btn.fbar-help:hover { background:rgba(144,96,192,0.22); color:#a878d8; }
 #chat-btn.chat-btn-loading { position:relative; }
-#chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
+#chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:#2a9090; border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
 @keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
 .fbar-btn.dirty::after { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:#c84040; margin-left:2px; }
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(4,4,8,0.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:200; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; }
@@ -1386,10 +1386,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .jtl-item--session .jtl-item-type { color:#3aacac; }
 .jtl-item--entry   .jtl-item-type { color:var(--gold); }
 .jtl-item-date { font-family:var(--mono); font-size:12px; color:var(--text-dim); flex-shrink:0; }
+.jtl-item-date.editable { min-width:80px; }
 .jtl-item-title {
   font-size:14px; color:var(--text-b); flex:1; min-width:0;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
+.jtl-item-title.editable:focus { overflow:visible; white-space:normal; }
 .jtl-item--session .jtl-item-title { font-style:italic; color:#6ab0b0; }
 .jtl-item-badge {
   font-size:10px; padding:1px 6px; border-radius:3px;
@@ -4384,9 +4386,9 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
 <!-- ══ SETTINGS MODAL ══════════════════════════════════════ -->
 <div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettingsModal()">
-  <div class="modal" style="border-top:3px solid rgba(58,128,200,0.5);position:relative;">
+  <div class="modal" style="border-top:3px solid rgba(200,64,64,0.5);position:relative;">
     <button class="modal-close" onclick="closeSettingsModal()" title="Close">×</button>
-    <div class="modal-title" style="color:#3a80c8;">⚙ &nbsp;SECURITY</div>
+    <div class="modal-title" style="color:#c84040;">⚙ &nbsp;SECURITY</div>
     <p style="font-size:14px;color:#c84040;line-height:1.6;margin-bottom:14px;">⚠ <strong>Your data is stored only in this browser.</strong> Nothing leaves your machine unless you send it. If you use a cloud AI, that provider may store what you share with them. Setting a password encrypts your data so it is protected if someone else opens this browser. Use Firefox if possible: Chrome and Edge share storage across all local files, making them easier to cross-read.</p>
 
     <div class="settings-section">
@@ -4477,9 +4479,9 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 </div>
 
 <div class="modal-overlay" id="modal">
-  <div class="modal" style="border-top:3px solid var(--help);position:relative;">
+  <div class="modal" style="border-top:3px solid rgba(200,64,64,0.5);position:relative;">
     <button class="modal-close" onclick="closeModal()" title="Close">×</button>
-    <div class="modal-title" style="color:var(--help);">↑ &nbsp;IMPORT</div>
+    <div class="modal-title" style="color:#c84040;">↑ &nbsp;IMPORT</div>
     <p>Paste a data.json here and hit Apply. Use this to restore a backup, migrate from another device, or import an update from your AI after a journalling session.</p>
     <textarea id="json-input" placeholder='{ "name": "Alex", "mainQuest": { ... }, ... }'></textarea>
     <div class="modal-row">
@@ -4495,9 +4497,9 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
 <!-- ══ EXPORT MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="border-top:3px solid var(--help);max-width:1000px;width:100%;position:relative;">
+  <div class="modal" style="border-top:3px solid rgba(200,64,64,0.5);max-width:1000px;width:100%;position:relative;">
     <button class="modal-close" onclick="_co('export-modal')" title="Close">×</button>
-    <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
+    <div class="modal-title" style="color:#c84040;">↓ &nbsp;EXPORT</div>
     <div id="export-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
       <!-- Left: Summary export (for AI journalling) -->
       <div style="display:flex;flex-direction:column;">
@@ -6456,9 +6458,71 @@ function updateStatsRadar(){
 }
 
 // Multi-line day-by-day history chart with all-time + 7-day trend lines
-function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
+// Injects (or replaces) a History range-selector row before the canvas element.
+// type: 'stats' | 'status'; hRange: currently active range value.
+function _injectHistRangeRow(canvasId, type, hRange) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
+  const rowId = canvasId + '-range-row';
+  // Remove stale row so we don't accumulate duplicates
+  const old = document.getElementById(rowId);
+  if (old) old.remove();
+
+  const ranges = [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }, { label: 'All', h: 9999 }];
+  const row = document.createElement('div');
+  row.id = rowId;
+  row.className = 'prac-bar-range-row';
+  const lbl = document.createElement('span');
+  lbl.className = 'prac-bar-range-lbl';
+  lbl.textContent = 'History:';
+  row.appendChild(lbl);
+  ranges.forEach(r => {
+    const btn = document.createElement('button');
+    btn.textContent = r.label;
+    btn.className = 'prac-bar-range-btn' + (r.h === hRange ? ' active' : '');
+    btn.addEventListener('click', () => {
+      if (type === 'stats') {
+        appState.statsHistRange = r.h;
+      } else {
+        appState.statusHistRange = r.h;
+      }
+      saveState(appState); markDirty();
+      if (type === 'stats') renderStatsHistoryChart();
+      else renderStatusHistoryChart();
+    });
+    row.appendChild(btn);
+  });
+  canvas.parentNode.insertBefore(row, canvas);
+}
+
+function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols, hRange) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  // Slice hist to the requested range: recentN + hRange
+  const recentN = 7;
+  const today = new Date();
+  let effectiveH = hRange ?? 14;
+  if (effectiveH === 9999) {
+    // Resolve 'All': find earliest data entry and compute days back
+    const allDates = hist.map(e => e.date).filter(Boolean).sort();
+    if (allDates.length > 0) {
+      const d0 = new Date(today); d0.setUTCDate(d0.getUTCDate() - recentN);
+      effectiveH = Math.max(0, Math.ceil((d0 - new Date(allDates[0] + 'T00:00:00Z')) / 86400000));
+    } else {
+      effectiveH = 14;
+    }
+  }
+  const totalDays = recentN + effectiveH;
+  // Build a date-indexed window: fill slots for last totalDays days
+  const slots = [];
+  for (let i = totalDays - 1; i >= 0; i--) {
+    const d = new Date(today); d.setUTCDate(d.getUTCDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    const entry = hist.find(e => e.date === ds);
+    slots.push(entry ? { ...entry, date: ds } : { date: ds });
+  }
+
   const dpr = window.devicePixelRatio || 1;
   const W = canvas.offsetWidth || canvas.parentElement?.offsetWidth || 200;
   const H = canvas.offsetHeight || 90;
@@ -6466,8 +6530,28 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
-  const padL = 24, padR = 8, padT = 6, padB = 14;
+  const padL = 24, padR = 8, padT = 6, padB = 18;
   const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  // Split x-allocation: recent zone = 58% of plotW, history zone = 42%
+  const hasHistory = effectiveH > 0;
+  const recentFrac = hasHistory ? 0.58 : 1.0;
+  const histW   = hasHistory ? plotW * (1 - recentFrac) : 0;
+  const recentW = plotW * recentFrac;
+
+  // Map slot index → x position using split spacing
+  const n = slots.length;
+  const xOf = i => {
+    if (!hasHistory) return padL + (n > 1 ? i / (n - 1) : 0.5) * plotW;
+    const isRecent = i >= effectiveH;
+    if (isRecent) {
+      const ri = i - effectiveH;
+      return padL + histW + (recentN > 1 ? ri / (recentN - 1) : 0.5) * recentW;
+    } else {
+      return padL + (effectiveH > 1 ? i / (effectiveH - 1) : 0.5) * histW;
+    }
+  };
+  const yOf = v => padT + plotH - Math.min(100, Math.max(0, v)) / 100 * plotH;
 
   // Y axis labels
   ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.font = '8px monospace'; ctx.textAlign = 'right';
@@ -6484,48 +6568,55 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
     return;
   }
 
-  const n = hist.length;
-  const xOf = i => padL + (i / Math.max(n - 1, 1)) * plotW;
-  const yOf = v => padT + plotH - Math.min(100, Math.max(0, v)) / 100 * plotH;
-
-  // Weekend tinting and Monday dividers
-  if (n > 1) {
-    const cellW = plotW / (n - 1);
-    hist.forEach((e, i) => {
-      const dow = new Date(e.date + 'T00:00:00Z').getUTCDay();
-      const x = xOf(i);
-      if (dow === 0 || dow === 6) {
-        const rx = Math.max(padL, x - cellW / 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.025)';
-        ctx.fillRect(rx, padT, Math.min(padL + plotW, x + cellW / 2) - rx, plotH);
-      }
-      if (dow === 1 && i > 0) {
-        const lx = Math.max(padL, x - cellW / 2);
-        ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 0.5; ctx.setLineDash([]);
-        ctx.beginPath(); ctx.moveTo(lx, padT); ctx.lineTo(lx, padT + plotH); ctx.stroke();
-      }
-    });
+  // Zone divider between history and recent
+  if (hasHistory && effectiveH > 0 && recentN > 0) {
+    // Subtle divider line at boundary
+    const bx = padL + histW;
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.75; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(bx, padT); ctx.lineTo(bx, padT + plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    // Slight tint on history zone
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillRect(padL, padT, histW, plotH);
   }
 
-  // Today highlight: vertical stripe behind all lines
+  // Weekend tinting and Monday dividers
+  slots.forEach((e, i) => {
+    const dow = new Date(e.date + 'T00:00:00Z').getUTCDay();
+    const x = xOf(i);
+    const isRecent = !hasHistory || i >= effectiveH;
+    const cellHalfW = isRecent
+      ? (recentN > 1 ? recentW / (recentN - 1) / 2 : recentW / 2)
+      : (effectiveH > 1 ? histW / (effectiveH - 1) / 2 : histW / 2);
+    if (dow === 0 || dow === 6) {
+      const rx = Math.max(padL, x - cellHalfW);
+      ctx.fillStyle = 'rgba(255,255,255,0.025)';
+      ctx.fillRect(rx, padT, Math.min(padL + plotW, x + cellHalfW) - rx, plotH);
+    }
+    if (dow === 1 && i > 0) {
+      const lx = Math.max(padL, x - cellHalfW);
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 0.5; ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(lx, padT); ctx.lineTo(lx, padT + plotH); ctx.stroke();
+    }
+  });
+
+  // Today highlight
   const todayStr = new Date().toISOString().slice(0, 10);
-  const todayIdx = hist.findIndex(e => e.date === todayStr);
+  const todayIdx = slots.findIndex(e => e.date === todayStr);
   if (todayIdx >= 0) {
     const tx = xOf(todayIdx);
-    const barW = n > 1 ? Math.max(6, plotW / (n - 1) * 0.6) : 10;
+    const barW = 12;
     const grad = ctx.createLinearGradient(tx - barW / 2, 0, tx + barW / 2, 0);
     grad.addColorStop(0,   'rgba(200,168,74,0)');
     grad.addColorStop(0.5, 'rgba(200,168,74,0.13)');
     grad.addColorStop(1,   'rgba(200,168,74,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(tx - barW / 2, padT, barW, plotH);
-    // Subtle top tick
-    ctx.strokeStyle = 'rgba(200,168,74,0.45)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(200,168,74,0.45)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(tx, padT); ctx.lineTo(tx, padT + 4); ctx.stroke();
   }
 
-  // Linear regression over [index, value] pairs — returns {slope, intercept}
+  // Linear regression — returns {slope, intercept}
   const linReg = pts => {
     const m = pts.length; if (m < 2) return null;
     let sx=0,sy=0,sxy=0,sxx=0;
@@ -6537,13 +6628,11 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
 
   keys.forEach(k => {
     const col = cols[k];
-    // null means the slider wasn't set that day — skip those points in lines/trend
-    const pts = hist.map((e, i) => {
+    const pts = slots.map((e, i) => {
       const v = e[k] != null ? e[k] : null;
       return { x: xOf(i), y: v != null ? yOf(v) : null, v };
     });
 
-    // Draw connected line, lifting the pen over null (not-set) points
     ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.75;
     ctx.setLineDash([]);
     ctx.beginPath();
@@ -6555,7 +6644,7 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
     });
     ctx.stroke(); ctx.globalAlpha = 1;
 
-    // All-time trend line (dashed, same colour but dimmer) — only over set points
+    // Trend line (dashed, dimmer)
     const regAll = linReg(pts.filter(p => p.v != null).map((p, i) => [i, p.v]));
     if (regAll) {
       const y1 = yOf(regAll.intercept);
@@ -6567,19 +6656,31 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
     }
   });
 
-  // X-axis: show ~4 dates
-  if (hist.length > 0) {
-    ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.font = '7px monospace'; ctx.textAlign = 'center';
-    const labelIdxs = n === 1 ? [0] : [0, Math.round(n*0.33), Math.round(n*0.66), n-1].filter((v,i,a)=>a.indexOf(v)===i);
-    labelIdxs.forEach(i => {
-      const d = hist[i]?.date || '';
-      if (!d) return;
-      const lbl = d.slice(5).replace('-','/');
-      ctx.fillText(lbl, xOf(i), padT + plotH + 11);
+  // X-axis labels: recent zone shows human labels (Today, Yest., weekday); history zone shows ~3 date labels
+  ctx.fillStyle = 'rgba(255,255,255,0.22)'; ctx.font = '7px monospace'; ctx.textAlign = 'center';
+  // Recent zone labels
+  for (let ri = 0; ri < recentN; ri++) {
+    const i = effectiveH + ri;
+    const e = slots[i]; if (!e) continue;
+    const daysAgo = recentN - 1 - ri;
+    let lbl;
+    if (daysAgo === 0)      lbl = 'Today';
+    else if (daysAgo === 1) lbl = 'Yest.';
+    else { const d = new Date(e.date + 'T00:00:00Z'); lbl = d.toLocaleDateString('en-GB', { weekday: 'short' }); }
+    ctx.fillText(lbl, xOf(i), padT + plotH + 13);
+  }
+  // History zone labels: show ~3 evenly spaced
+  if (hasHistory && effectiveH > 0) {
+    ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.font = '7px monospace';
+    const histLabelIdxs = effectiveH <= 1 ? [0] : [0, Math.round(effectiveH / 2), effectiveH - 1].filter((v,i,a)=>a.indexOf(v)===i);
+    histLabelIdxs.forEach(i => {
+      const e = slots[i]; if (!e || !e.date) return;
+      const lbl = e.date.slice(5).replace('-', '/');
+      ctx.fillText(lbl, xOf(i), padT + plotH + 13);
     });
   }
 
-  // Build legend
+  // Build legend (once)
   const legendEl = document.getElementById(legendId);
   if (legendEl && !legendEl.dataset.built) {
     legendEl.dataset.built = '1';
@@ -6591,7 +6692,6 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
       item.appendChild(sw); item.appendChild(lbl);
       legendEl.appendChild(item);
     });
-    // Trend line legend entry
     const allTimeLi = document.createElement('div'); allTimeLi.className = 'hist-legend-item';
     allTimeLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="5 4"/></svg><span>trend</span>';
     legendEl.appendChild(allTimeLi);
@@ -6601,7 +6701,7 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols) {
 // Attach click-to-backfill popover to a multi-line hist chart canvas.
 // Clicking near a data point dot opens a .prac-bar-edit popover with one
 // labeled range slider per key, pre-filled from the tapped entry.
-function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave) {
+function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave, hRange) {
   const c = document.getElementById(canvasId);
   if (!c || !hist.length) return;
 
@@ -6610,6 +6710,25 @@ function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave
 
   c.style.cursor = 'pointer';
   c.title = 'Click a data point to edit';
+
+  // Build the same slot array and split-zone xOf used in _drawMultiLineHistChart
+  const recentN = 7;
+  const today2 = new Date();
+  let effectiveH2 = hRange ?? 14;
+  if (effectiveH2 === 9999) {
+    const allDates = hist.map(e => e.date).filter(Boolean).sort();
+    if (allDates.length > 0) {
+      const d0 = new Date(today2); d0.setUTCDate(d0.getUTCDate() - recentN);
+      effectiveH2 = Math.max(0, Math.ceil((d0 - new Date(allDates[0] + 'T00:00:00Z')) / 86400000));
+    } else { effectiveH2 = 14; }
+  }
+  const slots2 = [];
+  for (let i = recentN + effectiveH2 - 1; i >= 0; i--) {
+    const d = new Date(today2); d.setUTCDate(d.getUTCDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    const entry = hist.find(e => e.date === ds);
+    slots2.push(entry ? { ...entry, date: ds } : { date: ds });
+  }
 
   const handler = e => {
     // If a backfill popover is already open, ignore canvas clicks
@@ -6621,18 +6740,31 @@ function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave
     const W = c.offsetWidth || 200;
     const padL = 24, padR = 8;
     const plotW = W - padL - padR;
-    const n = hist.length;
-    const xOf = i => padL + (i / Math.max(n - 1, 1)) * plotW;
+    const hasHist2 = effectiveH2 > 0;
+    const recentFrac2 = hasHist2 ? 0.58 : 1.0;
+    const histW2   = hasHist2 ? plotW * (1 - recentFrac2) : 0;
+    const recentW2 = plotW * recentFrac2;
+    const ns = slots2.length;
+    const xOf2 = i => {
+      if (!hasHist2) return padL + (ns > 1 ? i / (ns - 1) : 0.5) * plotW;
+      const isRec = i >= effectiveH2;
+      if (isRec) {
+        const ri = i - effectiveH2;
+        return padL + histW2 + (recentN > 1 ? ri / (recentN - 1) : 0.5) * recentW2;
+      } else {
+        return padL + (effectiveH2 > 1 ? i / (effectiveH2 - 1) : 0.5) * histW2;
+      }
+    };
 
-    // Find the nearest entry by x proximity
+    // Find the nearest slot by x proximity
     let bestIdx = 0, bestDist = Infinity;
-    hist.forEach((_, i) => {
-      const dist = Math.abs(xOf(i) - clickX);
+    slots2.forEach((_, i) => {
+      const dist = Math.abs(xOf2(i) - clickX);
       if (dist < bestDist) { bestDist = dist; bestIdx = i; }
     });
     if (bestDist > 20) return; // too far from any dot
 
-    const entry = hist[bestIdx];
+    const entry = slots2[bestIdx];
     const date = entry.date || '';
 
     // Build popover
@@ -6716,7 +6848,7 @@ function _attachHistChartBackfill(canvasId, hist, keys, cols, storageKey, onSave
 
     document.body.appendChild(pop);
     requestAnimationFrame(() => {
-      const dotScreenX = rect.left + xOf(bestIdx);
+      const dotScreenX = rect.left + xOf2(bestIdx);
       const popW = pop.offsetWidth;
       const popH = pop.offsetHeight;
       let left = dotScreenX - popW / 2;
@@ -6861,8 +6993,10 @@ function renderStatsHistoryChart(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
   if(HARDCODED_STATS_HIST.length && IS_DEMO && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
-  _drawMultiLineHistChart('stats-hist-canvas','stats-hist-legend',hist,['rest','movement','nutrition','connection'],STAT_COLORS);
-  _attachHistChartBackfill('stats-hist-canvas', hist, ['rest','movement','nutrition','connection'], STAT_COLORS, STATS_HIST_KEY, renderStatsHistoryChart);
+  const hRange = appState.statsHistRange ?? 14;
+  _injectHistRangeRow('stats-hist-canvas', 'stats', hRange);
+  _drawMultiLineHistChart('stats-hist-canvas','stats-hist-legend',hist,['rest','movement','nutrition','connection'],STAT_COLORS, hRange);
+  _attachHistChartBackfill('stats-hist-canvas', hist, ['rest','movement','nutrition','connection'], STAT_COLORS, STATS_HIST_KEY, renderStatsHistoryChart, hRange);
 }
 
 function saveStatsSnapshot(){
@@ -14680,8 +14814,10 @@ function renderStatusHistoryChart() {
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
   if (HARDCODED_STATUS_HIST.length && IS_DEMO && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
-  _drawMultiLineHistChart('status-hist-canvas','status-hist-legend',hist,['focus','energy','purpose','interest'],STATUS_COLORS);
-  _attachHistChartBackfill('status-hist-canvas', hist, ['focus','energy','purpose','interest'], STATUS_COLORS, STATUS_HIST_KEY, renderStatusHistoryChart);
+  const hRange = appState.statusHistRange ?? 14;
+  _injectHistRangeRow('status-hist-canvas', 'status', hRange);
+  _drawMultiLineHistChart('status-hist-canvas','status-hist-legend',hist,['focus','energy','purpose','interest'],STATUS_COLORS, hRange);
+  _attachHistChartBackfill('status-hist-canvas', hist, ['focus','energy','purpose','interest'], STATUS_COLORS, STATUS_HIST_KEY, renderStatusHistoryChart, hRange);
 }
 
 function confirmResetHistory(type) {
@@ -17867,16 +18003,34 @@ function renderJournalTimeline(s) {
     const typeEl = document.createElement('span'); typeEl.className = 'jtl-item-type';
     typeEl.textContent = isSession ? 'chat' : 'entry';
 
-    let dateStr = '';
+    // Date: editable for entries, read-only display for sessions
+    let dateEl;
     if (isSession) {
-      dateStr = data.startedAt ? new Date(data.startedAt).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' }) : '';
+      dateEl = document.createElement('span'); dateEl.className = 'jtl-item-date';
+      dateEl.textContent = data.startedAt ? new Date(data.startedAt).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' }) : '';
     } else {
-      dateStr = data.date || '';
+      dateEl = makeEditable(data.date || '', 'DD/MM/YYYY', v => {
+        saveNestedField(['insights', ci, 'entries', ei, 'date'], v);
+        resequenceEntries(appState); saveState(appState); markDirty(); render(appState);
+      }, 'jtl-item-date');
     }
-    const dateEl = document.createElement('span'); dateEl.className = 'jtl-item-date'; dateEl.textContent = dateStr;
 
-    const titleEl = document.createElement('span'); titleEl.className = 'jtl-item-title';
-    titleEl.textContent = isSession ? (data.title || '(untitled session)') : (data.title || '(untitled entry)');
+    // Title: editable for both entries and sessions
+    let titleEl;
+    if (isSession) {
+      titleEl = makeEditable(data.title || '', 'Session title', v => {
+        const sidx = (appState.chatSessions || []).findIndex(s => s.id === data.id);
+        if (sidx >= 0) {
+          appState.chatSessions[sidx] = Object.assign({}, appState.chatSessions[sidx], { title: v, titleLocked: v ? true : appState.chatSessions[sidx].titleLocked });
+          if (!IS_DEMO) { saveState(appState); renderChatSessionPicker(); }
+        }
+      }, 'jtl-item-title');
+    } else {
+      titleEl = makeEditable(data.title || '', 'Entry title', v => {
+        saveNestedField(['insights', ci, 'entries', ei, 'title'], v);
+        saveState(appState); markDirty();
+      }, 'jtl-item-title');
+    }
 
     const arrowEl = document.createElement('span'); arrowEl.className = 'jtl-item-arrow'; arrowEl.textContent = '▸';
 
@@ -17922,6 +18076,7 @@ function renderJournalTimeline(s) {
 
     head.addEventListener('click', e => {
       if (e.target.classList.contains('jtl-item-del')) return;
+      if (e.target.closest('.editable')) return;
       toggleJtl(body, head, arrowEl);
     });
 
@@ -17975,7 +18130,7 @@ function renderJournalTimeline(s) {
           chBanner.appendChild(chDelBtn); chBanner.appendChild(chNameEl); chBanner.appendChild(chLock);
           chBanner.appendChild(chCount); chBanner.appendChild(chArrow);
           chBanner.addEventListener('click', e => {
-            if (e.target === chDelBtn || e.target.closest('.lock-btn') || e.target.closest('.editable-field')) return;
+            if (e.target === chDelBtn || e.target.closest('.lock-btn') || e.target.closest('.editable')) return;
             const open = chBodyEl.classList.toggle('open');
             chArrow.textContent = open ? '▾' : '▸';
           });
