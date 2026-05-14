@@ -1877,7 +1877,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .prac-bar-x-label {
   font-family:var(--mono); font-size:11px; color:rgba(128,120,100,0.55);
   position:absolute; left:50%; transform:translateX(-50%); white-space:nowrap;
-  bottom:1px; line-height:14px;
+  bottom:-15px; line-height:14px;
 }
 /* Edit popover */
 .prac-bar-edit {
@@ -3295,6 +3295,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
   <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Resources and positive patterns working for you"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
   <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Achievements: specific moments worth recognising (insights, deeds, transmutations, surrenders). Classes: roles and identities that shape how you operate."><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
   <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
+  <button class="tab-btn" data-tab-colour="#c8a84a" onclick="openDailyPulse()" title="Daily check-in: update your vitals, core skills and current state" style="margin-left:auto;flex-shrink:0;">Daily</button>
 </nav>
 
 <div id="tab-balance" class="tab-panel">
@@ -8302,7 +8303,7 @@ function renderAchievementsTab(s){
     const empty=document.createElement('p'); empty.style.cssText='color:var(--text-dim);font-size:15px;'; empty.textContent='No titles yet.';
     listEl.appendChild(empty);
   }
-  achievements.forEach(a=>{
+  [...achievements].reverse().forEach(a=>{
     const tc=ACH_TYPES[a.type]||ACH_DEFAULT;
     const isFeatured=featured.includes(a.id);
     const card=document.createElement('div');
@@ -8383,7 +8384,8 @@ function renderAchievementsTab(s){
     listEl.appendChild(card);
   });
   makeSortable(listEl, (from, to) => {
-    reorderArray(appState.achievements, from, to);
+    const n=appState.achievements.length;
+    reorderArray(appState.achievements, n-1-from, n-1-to);
     saveState(appState); markDirty(); renderAchievementsTab(appState);
   });
   const achAddBtn=document.createElement('button'); achAddBtn.className='add-item-btn'; achAddBtn.textContent='+ Add Achievement'; achAddBtn.onclick=addAchievement; listEl.appendChild(achAddBtn);
@@ -13421,16 +13423,17 @@ function renderRecurringQuests(s) {
     card.appendChild(body);
     container.appendChild(card);
 
-    // Render ring + bar chart after DOM insertion; auto-resume timer if it was running
-    requestAnimationFrame(() => {
-      if (act.type === 'timer') {
+    // Render bar chart immediately so history shows on initial load
+    const graphWrap = document.getElementById('rq-chart-' + act.id);
+    if (graphWrap) renderRQBarChart(graphWrap, act, charName, act.resetPeriod === 'day' ? alignStartDate : null);
+    // Timer ring needs RAF to read canvas dimensions; also auto-resume timer if it was running
+    if (act.type === 'timer') {
+      requestAnimationFrame(() => {
         renderTimerRing(act.id, act);
         const ps = practiceState[act.id];
         if (ps && ps._resumeTimer) { ps._resumeTimer = false; timerStart(act.id); }
-      }
-      const graphWrap = document.getElementById('rq-chart-' + act.id);
-      if (graphWrap) renderRQBarChart(graphWrap, act, charName, act.resetPeriod === 'day' ? alignStartDate : null);
-    });
+      });
+    }
   });
 
   const sortedActivities = activities.slice();
@@ -14300,7 +14303,7 @@ function renderClassesTab(s){
     const empty=document.createElement('p'); empty.style.cssText='color:var(--text-dim);font-size:15px;'; empty.textContent='No classes yet.';
     listEl.appendChild(empty);
   }
-  classes.forEach(c=>{
+  [...classes].reverse().forEach(c=>{
     const isFeatured=featured.includes(c.id);
     const card=document.createElement('div');
     card.className='cls-card'+(isFeatured?' featured':'');
@@ -14386,7 +14389,8 @@ function renderClassesTab(s){
     listEl.appendChild(card);
   });
   makeSortable(listEl, (from, to) => {
-    reorderArray(appState.classes, from, to);
+    const n=appState.classes.length;
+    reorderArray(appState.classes, n-1-from, n-1-to);
     saveState(appState); markDirty(); renderClassesTab(appState);
   });
   const clsAddBtn=document.createElement('button'); clsAddBtn.className='add-item-btn'; clsAddBtn.textContent='+ Add Class'; clsAddBtn.onclick=addClass; listEl.appendChild(clsAddBtn);
@@ -15921,6 +15925,16 @@ function dpDoneForToday() {
   // Mark pulse as "done" for today (stronger than dismissed — won't reappear)
   _markPulseDone();
   dpClose();
+}
+
+function openDailyPulse() {
+  if (IS_DEMO) return;
+  if (!appState.name || appState.name === '') return;
+  const overlay = document.getElementById('daily-pulse-overlay');
+  if (!overlay) return;
+  if (document.querySelector('.modal-overlay.open')) return;
+  _initPulseSliders();
+  overlay.classList.add('open');
 }
 
 function dpClose() {
