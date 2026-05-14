@@ -908,6 +908,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .fbar-btn.fbar-primary:hover { background:rgba(45,168,106,0.28); }
 .fbar-btn.fbar-chat { background:rgba(200,168,74,0.1); color:var(--gold); }
 .fbar-btn.fbar-chat:hover { background:rgba(200,168,74,0.22); color:var(--gold); }
+.fbar-btn.fbar-daily { background:rgba(200,168,74,0.13); color:var(--gold); }
+.fbar-btn.fbar-daily:hover { background:rgba(200,168,74,0.28); color:#ffe88a; }
 #chat-btn.chat-btn-loading { position:relative; }
 #chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
 @keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
@@ -1288,6 +1290,164 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   border-bottom:1px solid var(--border-hi); padding-bottom:10px; margin-bottom:18px;
 }
 .lore-chapters-hdr::before { content:'◈  '; color:#207878; }
+
+/* ══ UNIFIED JOURNAL TIMELINE ════════════════════════════ */
+.jtl-hdr {
+  display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid var(--border-hi); padding-bottom:10px; margin-bottom:18px;
+}
+.jtl-hdr-title {
+  font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.2em;
+  color:#3aacac; text-transform:uppercase; flex:1;
+}
+.jtl-hdr-title::before { content:'◈  '; color:#207878; }
+.jtl-add-entry-btn {
+  background:none; border:1px solid rgba(42,172,172,0.3); border-radius:4px;
+  color:#3aacac; font-size:12px; padding:3px 10px; cursor:pointer;
+  font-family:'Cinzel',serif; letter-spacing:0.06em;
+}
+.jtl-add-entry-btn:hover { border-color:#3aacac; background:rgba(42,172,172,0.08); }
+
+/* vertical spine */
+#journal-timeline { position:relative; padding-left:28px; }
+#journal-timeline::before {
+  content:''; position:absolute; left:9px; top:6px; bottom:6px; width:1px;
+  background:linear-gradient(to bottom, transparent, var(--border-hi) 8%, var(--border-hi) 92%, transparent);
+}
+
+/* ── Chapter milestone banner ── */
+.jtl-chapter {
+  position:relative; margin-bottom:6px; margin-top:20px;
+}
+.jtl-chapter:first-child { margin-top:0; }
+.jtl-chapter-node {
+  position:absolute; left:-28px; top:12px;
+  width:18px; height:18px; border-radius:50%;
+  background:var(--bg); border:2px solid #207878;
+  display:flex; align-items:center; justify-content:center;
+}
+.jtl-chapter-node::after {
+  content:''; width:6px; height:6px; border-radius:50%; background:#3aacac;
+}
+.jtl-chapter-banner {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 14px; border-radius:6px;
+  border:1px solid rgba(42,172,172,0.2); border-left:3px solid #207878;
+  background:rgba(32,120,120,0.06); cursor:pointer; user-select:none;
+}
+.jtl-chapter-banner:hover { background:rgba(32,120,120,0.12); }
+.jtl-chapter-name {
+  font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.12em;
+  color:#3aacac; flex:1; min-width:0;
+}
+.jtl-chapter-count { font-family:var(--mono); font-size:12px; color:var(--text-dim); }
+.jtl-chapter-arrow { font-size:13px; color:var(--text-dim); flex-shrink:0; }
+.jtl-chapter-body { display:none; padding-top:4px; }
+.jtl-chapter-body.open { display:block; }
+
+/* ── Timeline item (entry or session) ── */
+.jtl-item {
+  position:relative; margin-bottom:8px;
+}
+.jtl-item-node {
+  position:absolute; left:-28px; top:14px;
+  width:10px; height:10px; border-radius:50%;
+  background:var(--bg); border:1.5px solid var(--border-hi);
+}
+.jtl-item--session .jtl-item-node { border-color:rgba(42,172,172,0.5); }
+.jtl-item--entry   .jtl-item-node { border-color:rgba(200,168,74,0.4); }
+.jtl-item--live    .jtl-item-node { border-color:#3aacac; background:#3aacac; }
+
+.jtl-item-head {
+  display:flex; align-items:center; gap:8px;
+  padding:9px 12px; border-radius:6px;
+  border:1px solid var(--border); background:rgba(255,255,255,0.015);
+  cursor:pointer; user-select:none; transition:border-color 0.15s, background 0.15s;
+}
+.jtl-item-head:hover { border-color:rgba(255,255,255,0.14); background:rgba(255,255,255,0.03); }
+.jtl-item--session .jtl-item-head:hover { border-color:rgba(42,172,172,0.3); background:rgba(42,172,172,0.04); }
+.jtl-item--entry   .jtl-item-head:hover { border-color:rgba(200,168,74,0.25); background:rgba(200,168,74,0.03); }
+.jtl-item--live    .jtl-item-head { border-left:3px solid rgba(42,172,172,0.6); padding-left:10px; }
+
+.jtl-item-type {
+  font-family:var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+  opacity:0.55; flex-shrink:0; min-width:40px;
+}
+.jtl-item--session .jtl-item-type { color:#3aacac; }
+.jtl-item--entry   .jtl-item-type { color:var(--gold); }
+.jtl-item-date { font-family:var(--mono); font-size:12px; color:var(--text-dim); flex-shrink:0; }
+.jtl-item-title {
+  font-size:14px; color:var(--text-b); flex:1; min-width:0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.jtl-item--session .jtl-item-title { font-style:italic; color:#6ab0b0; }
+.jtl-item-badge {
+  font-size:10px; padding:1px 6px; border-radius:3px;
+  background:rgba(42,172,172,0.12); border:1px solid rgba(42,172,172,0.3);
+  color:#3aacac; flex-shrink:0;
+}
+.jtl-item-badge--unfinished {
+  background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.12); color:var(--text-dim);
+}
+.jtl-item-msgcount { font-size:12px; color:var(--text-dim); flex-shrink:0; }
+.jtl-item-arrow { font-size:12px; color:var(--text-dim); flex-shrink:0; }
+.jtl-item-num { font-family:var(--mono); font-size:11px; color:var(--text-dim); opacity:0.5; flex-shrink:0; }
+.jtl-item-del { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:14px; opacity:0; padding:0 2px; flex-shrink:0; }
+.jtl-item-head:hover .jtl-item-del { opacity:0.5; }
+.jtl-item-del:hover { opacity:1 !important; color:#c84040; }
+
+/* expanded body */
+.jtl-item-body { display:none; padding:12px 14px 14px; border:1px solid var(--border); border-top:none; border-radius:0 0 6px 6px; background:var(--bg); }
+.jtl-item-body.open { display:block; }
+.jtl-item--session .jtl-item-head { border-radius:6px; }
+.jtl-item--session .jtl-item-head.jtl-open { border-radius:6px 6px 0 0; border-bottom-color:transparent; }
+.jtl-item--entry   .jtl-item-head { border-radius:6px; }
+.jtl-item--entry   .jtl-item-head.jtl-open { border-radius:6px 6px 0 0; border-bottom-color:transparent; }
+
+/* session body */
+.jtl-sess-summary { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
+.jtl-sess-harmony {
+  font-size:11px; color:var(--text-dim); font-family:var(--mono);
+  margin-bottom:10px; display:flex; gap:10px; flex-wrap:wrap;
+}
+.jtl-sess-harmony-item { display:flex; align-items:center; gap:5px; }
+.jtl-sess-harmony-bar {
+  width:36px; height:4px; border-radius:2px; background:rgba(255,255,255,0.08);
+  position:relative; overflow:hidden;
+}
+.jtl-sess-harmony-fill { position:absolute; left:0; top:0; height:100%; border-radius:2px; }
+.jtl-sess-actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.jtl-sess-btn { font-size:12px; padding:3px 10px; }
+.jtl-sess-btn-delete { color:#c84040; border-color:rgba(200,64,64,0.4); }
+.jtl-sess-btn-delete:hover { background:rgba(200,64,64,0.1); }
+.jtl-sess-confirm { display:none; align-items:center; gap:8px; font-size:12px; color:var(--text-dim); }
+.jtl-sess-confirm.show { display:flex; }
+.jtl-sess-confirm-yes { font-size:12px; padding:3px 10px; color:#c84040; border-color:rgba(200,64,64,0.6); }
+.jtl-sess-confirm-yes:hover { background:rgba(200,64,64,0.18); }
+.jtl-sess-confirm-no { font-size:12px; padding:3px 10px; }
+
+/* entry body */
+.jtl-entry-row { margin-bottom:12px; }
+.jtl-entry-row:last-child { margin-bottom:0; }
+.jtl-entry-row-lbl {
+  font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em;
+  color:var(--text-dim); margin-bottom:5px; text-transform:uppercase;
+}
+.jtl-empty {
+  padding:24px 0; text-align:center; font-size:14px; color:var(--text-dim); font-style:italic;
+}
+.jtl-add-ch-btn {
+  background:none; border:1px dashed rgba(42,172,172,0.2); border-radius:5px;
+  color:var(--text-dim); font-size:13px; padding:8px 16px; cursor:pointer;
+  width:100%; margin-top:12px; font-family:'Cinzel',serif; letter-spacing:0.08em;
+}
+.jtl-add-ch-btn:hover { border-color:rgba(42,172,172,0.5); color:#3aacac; }
+
+/* ── element colors for harmony bars ── */
+.jtl-el-air   { background:#8090a8; }
+.jtl-el-fire  { background:#d07830; }
+.jtl-el-earth { background:#60a838; }
+.jtl-el-water { background:#3a80c8; }
 
 /* ══ HEADER PROGRESS BAR ═════════════════════════════════ */
 .hdr-mq-bar { height:2px; background:var(--border-hi); border-radius:1px; margin-top:3px; margin-bottom:5px; }
@@ -3295,7 +3455,6 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
   <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Resources and positive patterns working for you"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
   <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Achievements: specific moments worth recognising (insights, deeds, transmutations, surrenders). Classes: roles and identities that shape how you operate."><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
   <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
-  <button class="tab-btn" data-tab-colour="#c8a84a" onclick="openDailyPulse()" title="Daily check-in: update your vitals, core skills and current state" style="margin-left:auto;flex-shrink:0;">Daily</button>
 </nav>
 
 <div id="tab-balance" class="tab-panel">
@@ -3822,12 +3981,8 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 </div>
 
 <div id="tab-lore" class="tab-panel">
-  <div id="lore-progression" class="lore-card lore-card--progression" style="display:none;">
-    <div class="lore-card-hdr">Progression Timeline</div>
-    <div class="lore-card-desc">Summary of your entire progression so far since you started journalling with character-sheet</div>
-    <div id="lore-progression-text" class="lore-card-body"></div>
-  </div>
 
+  <!-- ── Top cards: latest note + key questions ── -->
   <div id="lore-last-session" class="lore-card lore-card--session">
     <div class="lore-card-hdr">Latest note</div>
     <div class="lore-card-desc">Your own note or the latest read from your AI. Click to edit.</div>
@@ -3838,19 +3993,19 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 
   <div id="lore-open-threads" class="lore-card lore-card--threads" style="display:none;"></div>
 
-  <div style="padding-bottom:4px;">
+  <div style="padding-bottom:16px;">
     <button class="btn-primary chat-open-btn" onclick="openChat()">✦ Open chat</button>
   </div>
 
-  <!-- ── Chat sessions ── -->
-  <div class="lore-card" style="margin-top:16px;">
-    <div class="lore-card-hdr">Chat sessions</div>
-    <div class="lore-card-desc">Sessions save automatically. Each completed session appears here with a summary. Use Resume to continue any session with full context.</div>
-    <div id="chat-sessions-list"></div>
+  <!-- ── Unified journal timeline ── -->
+  <div class="jtl-hdr">
+    <span class="jtl-hdr-title">Journal</span>
+    <button class="jtl-add-entry-btn" id="jtl-add-entry-btn" title="Add journal entry">+ Add entry</button>
   </div>
+  <div id="journal-timeline"></div>
 
   <!-- ── Session starters ── -->
-  <div class="starters-section" id="starters-section">
+  <div class="starters-section" id="starters-section" style="margin-top:8px;">
     <button class="starters-toggle" id="starters-toggle" onclick="toggleStarters()">
       <span class="starters-toggle-arrow" id="starters-arrow">▶</span>
       New session prompt ideas
@@ -3888,8 +4043,11 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
     </div>
   </div>
 
-  <div class="lore-chapters-hdr">Chapters</div>
-  <div id="insights-timeline"></div>
+  <!-- hidden containers kept for legacy render calls that target these IDs -->
+  <div id="chat-sessions-list" style="display:none;"></div>
+  <div id="insights-timeline" style="display:none;"></div>
+  <div id="lore-progression" style="display:none;"><div id="lore-progression-text"></div></div>
+
 </div>
 
 <div id="tab-allies" class="tab-panel">
@@ -3970,6 +4128,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
   <button class="fbar-btn" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
   <button class="fbar-btn" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
   <button class="fbar-btn" id="git-sync-btn" onclick="openGitSyncModal()" title="Sync: back up to GitHub">↕<span class="fbar-label"> Sync</span></button>
+  <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Daily check-in: update your vitals, core skills and current state">◈<span class="fbar-label"> Daily</span></button>
   <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="Chat: journal with a local Ollama model (private) or cloud AI">&#10022;<span class="fbar-label"> Chat</span></button>
   <button class="fbar-btn" id="export-btn" onclick="exportState()" title="Export: download your data.json as a backup or to share with your AI">↓<span class="fbar-label"> Export</span></button>
   <button class="fbar-btn fbar-primary" id="import-btn" onclick="openModal()" title="Import: load data.json from a backup or from your AI after a session">↑<span class="fbar-label"> Import</span></button>
@@ -13425,7 +13584,7 @@ function renderRecurringQuests(s) {
 
     // Render bar chart immediately so history shows on initial load
     const graphWrap = document.getElementById('rq-chart-' + act.id);
-    if (graphWrap) renderRQBarChart(graphWrap, act, charName, act.resetPeriod === 'day' ? alignStartDate : null);
+    if (graphWrap) renderRQBarChart(graphWrap, act, charName, null);
     // Timer ring needs RAF to read canvas dimensions; also auto-resume timer if it was running
     if (act.type === 'timer') {
       requestAnimationFrame(() => {
@@ -17617,6 +17776,348 @@ const DEMO_SESSIONS = [
     ],
   },
 ];
+
+// ── Unified journal timeline ──────────────────────────────
+function renderJournalTimeline(s) {
+  const wrap = document.getElementById('journal-timeline');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+
+  const EL_COLORS = { air:'jtl-el-air', fire:'jtl-el-fire', earth:'jtl-el-earth', water:'jtl-el-water' };
+
+  // Build flat list of all items with a sortable timestamp
+  const items = [];
+
+  // Chat sessions
+  const sessions = IS_DEMO ? DEMO_SESSIONS : (s.chatSessions || []);
+  sessions.forEach(sess => {
+    const ts = sess.startedAt ? new Date(sess.startedAt).getTime() : 0;
+    items.push({ kind: 'session', ts, data: sess });
+  });
+
+  // Chapter entries
+  const chapters = s.insights || [];
+  chapters.forEach((ch, ci) => {
+    (ch.entries || []).forEach((entry, ei) => {
+      let ts = 0;
+      if (entry.date) {
+        const p = entry.date.split('/');
+        if (p.length === 3) ts = new Date(p[2], p[1]-1, p[0]).getTime();
+      }
+      items.push({ kind: 'entry', ts, ci, ei, chapterName: ch.name, data: entry });
+    });
+  });
+
+  // Sort newest first
+  items.sort((a, b) => b.ts - a.ts || 0);
+
+  // ── Helpers ──
+
+  function toggleJtl(bodyEl, headEl, arrowEl) {
+    const open = bodyEl.classList.toggle('open');
+    if (headEl) headEl.classList.toggle('jtl-open', open);
+    if (arrowEl) arrowEl.textContent = open ? '▾' : '▸';
+  }
+
+  function makeSessionBody(sess) {
+    const body = document.createElement('div');
+    body.className = 'jtl-item-body';
+
+    if (sess.summary) {
+      const sum = document.createElement('div');
+      sum.className = 'jtl-sess-summary';
+      sum.textContent = sess.summary;
+      body.appendChild(sum);
+    }
+
+    const harmony = sess.harmonySnapshot;
+    if (harmony) {
+      const hRow = document.createElement('div');
+      hRow.className = 'jtl-sess-harmony';
+      Object.entries(harmony).forEach(([el, val]) => {
+        const item = document.createElement('div');
+        item.className = 'jtl-sess-harmony-item';
+        const bar = document.createElement('div'); bar.className = 'jtl-sess-harmony-bar';
+        const fill = document.createElement('div');
+        fill.className = 'jtl-sess-harmony-fill ' + (EL_COLORS[el] || '');
+        fill.style.width = Math.min(100, Math.round(val)) + '%';
+        bar.appendChild(fill);
+        const lbl = document.createElement('span');
+        lbl.textContent = el + ': ' + Math.round(val);
+        item.appendChild(bar); item.appendChild(lbl);
+        hRow.appendChild(item);
+      });
+      body.appendChild(hRow);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'jtl-sess-actions';
+
+    if (IS_DEMO) {
+      const viewBtn = document.createElement('button');
+      viewBtn.className = 'btn-ghost jtl-sess-btn';
+      viewBtn.textContent = 'View session';
+      viewBtn.addEventListener('click', () => { openChat(); chatLoadSession(sess.id); });
+      const demoLbl = document.createElement('span');
+      demoLbl.style.cssText = 'font-size:12px;color:var(--text-dim);font-style:italic;';
+      demoLbl.textContent = 'Demo only. Download the app to start your own.';
+      actions.appendChild(viewBtn); actions.appendChild(demoLbl);
+    } else {
+      const resumeBtn = document.createElement('button');
+      resumeBtn.className = 'btn-ghost jtl-sess-btn';
+      resumeBtn.textContent = 'Resume';
+      resumeBtn.addEventListener('click', () => { openChat(); chatLoadSession(sess.id); });
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'btn-ghost jtl-sess-btn jtl-sess-btn-delete';
+      deleteBtn.textContent = 'Delete';
+
+      const confirm = document.createElement('span');
+      confirm.className = 'jtl-sess-confirm';
+      const confirmLbl = document.createElement('span'); confirmLbl.textContent = 'Delete session?';
+      const yesBtn = document.createElement('button'); yesBtn.className = 'btn-ghost jtl-sess-confirm-yes'; yesBtn.textContent = 'Yes, delete';
+      const noBtn  = document.createElement('button'); noBtn.className  = 'btn-ghost jtl-sess-confirm-no';  noBtn.textContent  = 'Cancel';
+      confirm.appendChild(confirmLbl); confirm.appendChild(yesBtn); confirm.appendChild(noBtn);
+
+      deleteBtn.addEventListener('click', () => {
+        deleteBtn.style.display = 'none'; resumeBtn.style.display = 'none';
+        confirm.classList.add('show');
+      });
+      noBtn.addEventListener('click', () => {
+        confirm.classList.remove('show'); deleteBtn.style.display = ''; resumeBtn.style.display = '';
+      });
+      yesBtn.addEventListener('click', () => chatDeleteSession(sess.id));
+
+      actions.appendChild(resumeBtn); actions.appendChild(deleteBtn); actions.appendChild(confirm);
+    }
+    body.appendChild(actions);
+    return body;
+  }
+
+  function makeEntryBody(entry, ci, ei) {
+    const body = document.createElement('div');
+    body.className = 'jtl-item-body';
+
+    function getNestedArr(path){ return path.reduce((o,k)=>o[k],appState); }
+    function makeBulletList(bullets, arrPath) {
+      const ul = document.createElement('ul'); ul.className = 'chapter-bullets';
+      (bullets||[]).forEach((txt, bi) => {
+        const li = document.createElement('li'); li.className = 'chapter-bullet';
+        const ta = document.createElement('textarea'); ta.className = 'chapter-bullet-input';
+        ta.value = txt; ta.rows = 1; ta.placeholder = '…';
+        ta.addEventListener('input', () => _autoH(ta));
+        ta.addEventListener('change', () => { saveNestedField([...arrPath, bi], ta.value.trim()); markDirty(); });
+        setTimeout(() => { if (ta.scrollHeight > 0) _autoH(ta); }, 0);
+        const del = document.createElement('button'); del.textContent = '×'; del.className = 'ally-delete card-head-del';
+        del.style.cssText = 'margin-top:2px;flex-shrink:0'; del.title = 'Delete bullet';
+        del.onclick = ev => {
+          ev.stopPropagation();
+          const snap = JSON.parse(JSON.stringify(appState.insights));
+          const label = (txt||'').trim().slice(0,40)||'this bullet';
+          showConfirmDelete(label,
+            () => { getNestedArr(arrPath).splice(bi,1); saveState(appState); markDirty(); render(appState); },
+            () => { appState.insights = snap; saveState(appState); markDirty(); render(appState); }
+          );
+        };
+        li.appendChild(ta); li.appendChild(del); ul.appendChild(li);
+      });
+      const addBullet = document.createElement('button'); addBullet.className = 'chapter-add-bullet';
+      addBullet.textContent = '+ add bullet';
+      addBullet.onclick = () => { getNestedArr(arrPath).push(''); saveState(appState); markDirty(); render(appState); };
+      ul.appendChild(addBullet);
+      return ul;
+    }
+
+    [['events','Key Events'],['insights','Key Insights'],['tensions','Unresolved Tensions']].forEach(([field, lbl]) => {
+      const row = document.createElement('div'); row.className = 'jtl-entry-row';
+      const lblEl = document.createElement('div'); lblEl.className = 'jtl-entry-row-lbl'; lblEl.textContent = lbl;
+      row.appendChild(lblEl);
+      row.appendChild(makeBulletList(entry[field], ['insights', ci, 'entries', ei, field]));
+      body.appendChild(row);
+    });
+    return body;
+  }
+
+  function makeItem(item, isFirst) {
+    const { kind, data, ci, ei } = item;
+    const isSession = kind === 'session';
+    const isLive = isSession && data.id === chatState.currentSessionId;
+
+    const wrapper = document.createElement('div');
+    const typeClass = isSession ? 'jtl-item--session' : 'jtl-item--entry';
+    wrapper.className = 'jtl-item ' + typeClass + (isLive ? ' jtl-item--live' : '');
+
+    // spine node dot
+    const node = document.createElement('div'); node.className = 'jtl-item-node';
+    wrapper.appendChild(node);
+
+    // header row
+    const head = document.createElement('div'); head.className = 'jtl-item-head';
+
+    const typeEl = document.createElement('span'); typeEl.className = 'jtl-item-type';
+    typeEl.textContent = isSession ? 'chat' : 'entry';
+
+    let dateStr = '';
+    if (isSession) {
+      dateStr = data.startedAt ? new Date(data.startedAt).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' }) : '';
+    } else {
+      dateStr = data.date || '';
+    }
+    const dateEl = document.createElement('span'); dateEl.className = 'jtl-item-date'; dateEl.textContent = dateStr;
+
+    const titleEl = document.createElement('span'); titleEl.className = 'jtl-item-title';
+    titleEl.textContent = isSession ? (data.title || '(untitled session)') : (data.title || '(untitled entry)');
+
+    const arrowEl = document.createElement('span'); arrowEl.className = 'jtl-item-arrow'; arrowEl.textContent = '▸';
+
+    head.appendChild(typeEl);
+    head.appendChild(dateEl);
+    head.appendChild(titleEl);
+
+    if (isLive) {
+      const badge = document.createElement('span'); badge.className = 'jtl-item-badge'; badge.textContent = 'live';
+      head.appendChild(badge);
+    } else if (isSession && !data.endedAt) {
+      const badge = document.createElement('span'); badge.className = 'jtl-item-badge jtl-item-badge--unfinished'; badge.textContent = 'unfinished';
+      head.appendChild(badge);
+    }
+
+    if (isSession) {
+      const msgCount = IS_DEMO ? data.messages.length : (data.messages||[]).filter(m=>m.role==='user').length;
+      const countEl = document.createElement('span'); countEl.className = 'jtl-item-msgcount';
+      countEl.textContent = msgCount + ' msg' + (msgCount!==1?'s':'');
+      head.appendChild(countEl);
+    } else {
+      if (data.num != null) {
+        const numEl = document.createElement('span'); numEl.className = 'jtl-item-num'; numEl.textContent = '#' + data.num;
+        head.appendChild(numEl);
+      }
+      const delBtn = document.createElement('button'); delBtn.className = 'jtl-item-del'; delBtn.textContent = '×'; delBtn.title = 'Delete entry';
+      delBtn.onclick = ev => {
+        ev.stopPropagation();
+        const snap = JSON.parse(JSON.stringify(appState.insights));
+        showConfirmDelete(data.title||'this entry',
+          () => { appState.insights[ci].entries.splice(ei,1); resequenceEntries(appState); saveState(appState); markDirty(); render(appState); },
+          () => { appState.insights = snap; saveState(appState); markDirty(); render(appState); }
+        );
+      };
+      head.appendChild(delBtn);
+    }
+
+    head.appendChild(arrowEl);
+
+    const body = isSession ? makeSessionBody(data) : makeEntryBody(data, ci, ei);
+
+    if (isFirst) toggleJtl(body, head, arrowEl);
+
+    head.addEventListener('click', e => {
+      if (e.target.classList.contains('jtl-item-del')) return;
+      toggleJtl(body, head, arrowEl);
+    });
+
+    wrapper.appendChild(head);
+    wrapper.appendChild(body);
+    return wrapper;
+  }
+
+  // ── Render ──
+
+  if (items.length === 0 && chapters.length === 0) {
+    const empty = document.createElement('div'); empty.className = 'jtl-empty';
+    empty.textContent = 'No entries yet. Start a chat session or add a journal entry to begin your timeline.';
+    wrap.appendChild(empty);
+  } else {
+    // Render as a single newest-first stream.
+    // Entries are grouped under chapter banners (inserted on first appearance of each chapter).
+    // Sessions slot in between as standalone items.
+    const renderedChapters = new Set();
+
+    items.forEach((item, idx) => {
+      if (item.kind === 'entry') {
+        const chKey = item.ci;
+        if (!renderedChapters.has(chKey)) {
+          renderedChapters.add(chKey);
+          const ch = chapters[chKey];
+          const banner = document.createElement('div'); banner.className = 'jtl-chapter';
+
+          const chNode = document.createElement('div'); chNode.className = 'jtl-chapter-node';
+          banner.appendChild(chNode);
+
+          const chBanner = document.createElement('div'); chBanner.className = 'jtl-chapter-banner';
+          const chBodyEl = document.createElement('div'); chBodyEl.className = 'jtl-chapter-body open';
+
+          const chNameEl = makeEditable(ch.name, 'Chapter name', v => { saveNestedField(['insights',chKey,'name'],v); }, 'jtl-chapter-name');
+          const chCount = document.createElement('span'); chCount.className = 'jtl-chapter-count';
+          chCount.textContent = (ch.entries||[]).length + ' ' + ((ch.entries||[]).length===1?'entry':'entries');
+          const chArrow = document.createElement('span'); chArrow.className = 'jtl-chapter-arrow'; chArrow.textContent = '▾';
+
+          const chDelBtn = document.createElement('button'); chDelBtn.className = 'ally-delete card-head-del'; chDelBtn.textContent = '×'; chDelBtn.title = 'Delete chapter';
+          chDelBtn.onclick = ev => {
+            ev.stopPropagation();
+            const snap = JSON.parse(JSON.stringify(appState.insights));
+            showConfirmDelete(ch.name||'this chapter',
+              () => { appState.insights.splice(chKey,1); resequenceEntries(appState); saveState(appState); markDirty(); render(appState); },
+              () => { appState.insights = snap; saveState(appState); markDirty(); render(appState); }
+            );
+          };
+          const chLock = makeLockBtn('insights.' + chKey + '.name');
+
+          chBanner.appendChild(chDelBtn); chBanner.appendChild(chNameEl); chBanner.appendChild(chLock);
+          chBanner.appendChild(chCount); chBanner.appendChild(chArrow);
+          chBanner.addEventListener('click', e => {
+            if (e.target === chDelBtn || e.target.closest('.lock-btn') || e.target.closest('.editable-field')) return;
+            const open = chBodyEl.classList.toggle('open');
+            chArrow.textContent = open ? '▾' : '▸';
+          });
+
+          banner.appendChild(chBanner);
+          banner.appendChild(chBodyEl);
+          wrap.appendChild(banner);
+
+          // All entries for this chapter, newest-first
+          const chItems = items.filter(it => it.kind==='entry' && it.ci===chKey);
+          chItems.forEach((ei, idx2) => { chBodyEl.appendChild(makeItem(ei, idx2===0)); });
+
+          // Add entry button
+          const addEntryBtn = document.createElement('button'); addEntryBtn.className = 'add-item-btn';
+          addEntryBtn.style.cssText = 'margin:8px 0 4px;';
+          addEntryBtn.textContent = '+ Add entry';
+          addEntryBtn.onclick = () => {
+            if (!appState.insights[chKey].entries) appState.insights[chKey].entries = [];
+            appState.insights[chKey].entries.push({ date:'', title:'', events:[], insights:[], tensions:[] });
+            resequenceEntries(appState); saveState(appState); markDirty(); render(appState);
+          };
+          chBodyEl.appendChild(addEntryBtn);
+        }
+        // entry already rendered inside its chapter banner; skip standalone render
+      } else {
+        // Session: standalone timeline item
+        wrap.appendChild(makeItem(item, idx===0 && items[0].kind==='session'));
+      }
+    });
+  }
+
+  // Add chapter button at bottom
+  const addChBtn = document.createElement('button'); addChBtn.className = 'jtl-add-ch-btn';
+  addChBtn.textContent = '+ Add chapter';
+  addChBtn.onclick = () => {
+    if (!appState.insights) appState.insights = [];
+    appState.insights.unshift({ name:'', entries:[] });
+    saveState(appState); markDirty(); render(appState);
+  };
+  wrap.appendChild(addChBtn);
+
+  // Wire header "Add entry" button
+  const addEntryHeaderBtn = document.getElementById('jtl-add-entry-btn');
+  if (addEntryHeaderBtn) {
+    addEntryHeaderBtn.onclick = () => {
+      if (!appState.insights) appState.insights = [];
+      if (appState.insights.length === 0) appState.insights.push({ name:'', entries:[] });
+      appState.insights[0].entries.push({ date:'', title:'', events:[], insights:[], tensions:[] });
+      resequenceEntries(appState); saveState(appState); markDirty(); render(appState);
+    };
+  }
+}
 
 function renderChatSessions(s) {
   const container = document.getElementById('chat-sessions-list');
