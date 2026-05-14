@@ -903,6 +903,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   display:flex; align-items:center; gap:6px;
 }
 .fbar-btn:last-child { border-right:none; }
+.fbar-sep { width:1px; margin-left:-1px; background:rgba(255,255,255,0.18); flex-shrink:0; align-self:stretch; }
 .fbar-btn:hover { background:rgba(45,168,106,0.14); color:#fff; }
 .fbar-btn.fbar-primary { background:rgba(45,168,106,0.12); }
 .fbar-btn.fbar-primary:hover { background:rgba(45,168,106,0.28); }
@@ -3459,14 +3460,14 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 -->
 
 <nav class="tab-nav">
-  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Combat: daily practices and check-in. The circle arc shows progress towards your top-priority regular quest today." style="position:relative;"><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Combat<span id="combat-nav-checkin-badge" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c8a84a;box-shadow:0 0 5px rgba(200,168,74,0.7);"></span></button>
-  <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')" title="Life balance across four dimensions"><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
-  <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')" title="Active goals and direction"><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
-  <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')" title="Skills and habits ranked by mastery" style="position:relative;"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills<span id="skills-nav-checkin-badge" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c8a84a;box-shadow:0 0 5px rgba(200,168,74,0.7);"></span></button>
-  <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('enemies')" title="Problems and negative patterns working against you"><span class="tab-nav-count" id="nav-enemies" style="color:#c84040">0</span>Enemies</button>
-  <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Resources and positive patterns working for you"><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
-  <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Achievements: specific moments worth recognising (insights, deeds, transmutations, surrenders). Classes: roles and identities that shape how you operate."><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
-  <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Insights and events from journalling sessions"><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
+  <button class="tab-btn active" data-tab-colour="#b07838" onclick="switchTab('combat')" title="Practice: your daily habits and recurring quests. The arc shows progress toward your top-priority habit today. Use this tab most often." style="position:relative;"><svg id="combat-nav-arc" width="14" height="14" viewBox="0 0 14 14" style="flex-shrink:0;overflow:visible"><circle cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" opacity="0.2"/><circle id="combat-nav-arc-fill" cx="7" cy="7" r="5" fill="none" stroke="#b07838" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="31.42 31.42" stroke-dashoffset="31.42" transform="rotate(-90 7 7)"/></svg>Practice<span id="combat-nav-checkin-badge" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c8a84a;box-shadow:0 0 5px rgba(200,168,74,0.7);"></span></button>
+  <button class="tab-btn" data-tab-colour="#8090a8" onclick="switchTab('balance')" title="Balance: your life across four elements, Air (mind), Fire (drive), Water (heart), Earth (body). Drag the sliders to log where you are today."><span id="nav-balance-icon" style="flex-shrink:0;display:flex;align-items:center;"></span>Balance</button>
+  <button class="tab-btn" data-tab-colour="#c8a84a" onclick="switchTab('quests')" title="Quests: your main purpose and active side goals. Set a main quest and break it into side quests with deadlines and progress bars."><span class="tab-nav-count" id="nav-quests" style="color:#c8a84a">6</span>Quests</button>
+  <button class="tab-btn" data-tab-colour="#9060c0" onclick="switchTab('skills')" title="Skills: abilities you are actively developing, ranked by XP and mastery tier. Completing habits here earns XP toward levelling up." style="position:relative;"><span class="tab-nav-count" id="nav-skills" style="color:#9060c0">0</span>Skills<span id="skills-nav-checkin-badge" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c8a84a;box-shadow:0 0 5px rgba(200,168,74,0.7);"></span></button>
+  <button class="tab-btn" data-tab-colour="#c84040" onclick="switchTab('enemies')" title="Enemies: problems, fears, and negative patterns working against you. Name them so you can track and fight them."><span class="tab-nav-count" id="nav-enemies" style="color:#c84040">0</span>Enemies</button>
+  <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Allies: resources, strengths, people, and positive patterns working for you. Know what you can draw on."><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
+  <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Achievements: specific moments worth marking, insights, deeds, breakthroughs, surrenders. Classes: roles and identities that shape how you move through the world."><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
+  <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Journal: your AI session log. Each entry records what was explored, insights surfaced, and any state updates your AI made to your data."><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
 </nav>
 
 <div id="tab-balance" class="tab-panel">
@@ -4135,15 +4136,17 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 </div>
 
 <div id="float-bar">
-  <button class="fbar-btn fbar-support" id="support-btn" onclick="openSupportModal()" title="Support this project">♥<span class="fbar-label"> Support</span></button>
-  <button class="fbar-btn fbar-help" id="help-btn" onclick="openHelpModal()" title="Help: setup instructions" style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
-  <button class="fbar-btn fbar-security" id="settings-btn" onclick="openSettingsModal()" title="Security">⚙<span class="fbar-label"> Security</span></button>
-  <button class="fbar-btn fbar-security" id="lock-btn" onclick="lockApp()" title="Lock app" style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
-  <button class="fbar-btn" id="git-sync-btn" onclick="openGitSyncModal()" title="Sync: back up to GitHub">↕<span class="fbar-label"> Sync</span></button>
-  <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Daily check-in: update your vitals, core skills and current state">◈<span class="fbar-label"> Daily</span></button>
-  <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="Chat: journal with a local Ollama model (private) or cloud AI">&#10022;<span class="fbar-label"> Chat</span></button>
-  <button class="fbar-btn fbar-export" id="export-btn" onclick="exportState()" title="Export: download your data.json as a backup or to share with your AI">↓<span class="fbar-label"> Export</span></button>
-  <button class="fbar-btn fbar-import" id="import-btn" onclick="openModal()" title="Import: load data.json from a backup or from your AI after a session">↑<span class="fbar-label"> Import</span></button>
+  <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Daily check-in: log your vitals and current inner state. Do this once a day to track patterns over time.">◈<span class="fbar-label"> Daily</span></button>
+  <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="Chat: open a journalling session with your AI. Uses a local Ollama model (fully private) or a cloud AI with your own API key.">&#10022;<span class="fbar-label"> Chat</span></button>
+  <div class="fbar-sep"></div>
+  <button class="fbar-btn fbar-import" id="import-btn" onclick="openModal()" title="Import: paste or load a data.json to restore a backup, switch devices, or apply updates from your AI after a session.">↑<span class="fbar-label"> Import</span></button>
+  <button class="fbar-btn fbar-export" id="export-btn" onclick="exportState()" title="Export: download your data.json. Use as a backup or to share your current state with your AI before a journalling session.">↓<span class="fbar-label"> Export</span></button>
+  <button class="fbar-btn" id="git-sync-btn" onclick="openGitSyncModal()" title="Sync: push your data to a private GitHub repo as an off-device backup. Requires a GitHub account.">↕<span class="fbar-label"> Sync</span></button>
+  <div class="fbar-sep"></div>
+  <button class="fbar-btn fbar-help" id="help-btn" onclick="openHelpModal()" title="Help: how character-sheet works, setup guide for AI journalling, and instructions for first-time use." style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
+  <button class="fbar-btn fbar-security" id="settings-btn" onclick="openSettingsModal()" title="Security: set a password to encrypt all your data in this browser with AES-256. Nothing leaves your machine unless you send it.">⚙<span class="fbar-label"> Security</span></button>
+  <button class="fbar-btn fbar-security" id="lock-btn" onclick="lockApp()" title="Lock: hide your data and require your password to continue. Use when stepping away." style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
+  <button class="fbar-btn fbar-support" id="support-btn" onclick="openSupportModal()" title="Support: this app is free and open source. If it has been useful, a small contribution keeps it going.">♥<span class="fbar-label"> Support</span></button>
 </div>
 
 <!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
@@ -10123,6 +10126,7 @@ function renderXPChart(){
   const TC={kill:'#e07070',quest:'#c8a840',manual:'#b080e8',practice:'#40c8a8',elemental:'#60a838',session:'#8ca0c8',deduct:'#e09060'};
   const TL={kill:'Kill',quest:'Quest',manual:'Manual',practice:'Practice',elemental:'Elemental',session:'Session',deduct:'Deduction'};
 
+  // Build full day map (all time)
   let cum=0;
   const dayMap=new Map();
   for(const e of entries){
@@ -10136,7 +10140,48 @@ function renderXPChart(){
       const t=_et(e); d.xpByType[t]=(d.xpByType[t]||0)+Math.max(0,e.amount);
     }
   }
-  const days=[...dayMap.values()].sort((a,b)=>a.ts-b.ts);
+  const allDays=[...dayMap.values()].sort((a,b)=>a.ts-b.ts);
+
+  // Range selector injection
+  const hRange = appState.xpHistRange ?? 14;
+  const wrap = canvas.closest('.xp-chart-wrap');
+  if (wrap) {
+    const rowId = 'xp-chart-range-row';
+    const oldRow = document.getElementById(rowId);
+    if (oldRow) oldRow.remove();
+    const rangeRow = document.createElement('div');
+    rangeRow.id = rowId;
+    rangeRow.className = 'prac-bar-range-row';
+    rangeRow.style.cssText = 'margin-bottom:6px;';
+    const rangeLbl = document.createElement('span');
+    rangeLbl.className = 'prac-bar-range-lbl';
+    rangeLbl.textContent = 'History:';
+    rangeRow.appendChild(rangeLbl);
+    const ranges = [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }, { label: 'All', h: 9999 }];
+    ranges.forEach(r => {
+      const btn = document.createElement('button');
+      btn.textContent = r.label;
+      btn.className = 'prac-bar-range-btn' + (r.h === hRange ? ' active' : '');
+      btn.addEventListener('click', () => {
+        appState.xpHistRange = r.h;
+        saveState(appState); markDirty();
+        renderXPChart();
+      });
+      rangeRow.appendChild(btn);
+    });
+    wrap.insertBefore(rangeRow, canvas);
+  }
+
+  // Resolve 'All' and compute window
+  const recentDays = 7;
+  const nowMs = Date.now();
+  let effectiveH = hRange === 9999
+    ? Math.max(0, allDays.length - recentDays)
+    : hRange;
+  const cutoffMs = nowMs - (recentDays + effectiveH) * 86400000;
+  const days = allDays.filter(d => d.ts >= cutoffMs);
+  // Cumulative XP just before the window starts (anchor for the line)
+  const cumAtCutoff = allDays.filter(d => d.ts < cutoffMs).reduce((_acc, d) => d.cumEnd, 0);
 
   const dpr=window.devicePixelRatio||1;
   const bcr=canvas.getBoundingClientRect();
@@ -10145,7 +10190,7 @@ function renderXPChart(){
   const ctx=canvas.getContext('2d');
   ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
 
-  if(!days.length){
+  if(!allDays.length){
     ctx.fillStyle='rgba(128,120,100,0.3)'; ctx.font='11px JetBrains Mono,monospace';
     ctx.textAlign='center'; ctx.fillText('No XP recorded yet',W/2,H/2); return;
   }
@@ -10153,13 +10198,31 @@ function renderXPChart(){
   const padL=44,padR=12,padT=18,padB=22;
   const pW=W-padL-padR, pH=H-padT-padB;
 
-  const maxXP=Math.max(...days.map(d=>d.cumEnd),1);
+  // Split x-allocation: recent 7 days = 58%, history = 42%
+  const hasHist = effectiveH > 0;
+  const recentFrac = hasHist ? 0.58 : 1.0;
+  const histPW = hasHist ? pW * (1 - recentFrac) : 0;
+  const recentPW = pW * recentFrac;
+  const boundaryMs = nowMs - recentDays * 86400000;
+
+  const txp = d => {
+    const t = d.ts;
+    if (!hasHist || t >= boundaryMs) {
+      const span = nowMs - boundaryMs || 1;
+      return padL + histPW + Math.max(0, Math.min(1, (t - boundaryMs) / span)) * recentPW;
+    } else {
+      const span = boundaryMs - cutoffMs || 1;
+      return padL + Math.max(0, Math.min(1, (t - cutoffMs) / span)) * histPW;
+    }
+  };
+
+  // Y scale over visible data
+  const visibleCums = days.map(d => d.cumEnd);
+  if (cumAtCutoff > 0) visibleCums.unshift(cumAtCutoff);
+  const maxXP=Math.max(...visibleCums, 1);
   const units=[100,200,500,1000,2000,5000,10000,20000,50000];
   const niceUnit=units.find(u=>maxXP/u<=6)||50000;
   const niceMax=Math.ceil(maxXP/niceUnit)*niceUnit;
-
-  const minT=days[0].ts, maxT=days[days.length-1].ts, tR=maxT-minT||1;
-  const txp=t=>padL+((t-minT)/tR)*pW;
   const typ=xp=>padT+pH-(xp/niceMax)*pH;
 
   // Grid + Y labels
@@ -10172,21 +10235,36 @@ function renderXPChart(){
     ctx.fillText(v>=1000?(v/1000)+'k':String(v),padL-3,y+2.5);
   }
 
-  // Area fill (gradient under line)
-  if(days.length>=2){
+  // Zone divider + history tint
+  if (hasHist) {
+    const bx = padL + histPW;
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillRect(padL, padT, histPW, pH);
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.75; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(bx, padT); ctx.lineTo(bx, padT+pH); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Draw points: prepend synthetic anchor at cutoff if needed
+  const drawDays = (cumAtCutoff > 0 && days.length > 0)
+    ? [{ts: cutoffMs, cumEnd: cumAtCutoff, xpByType:{}, levelUps:[], net:0, date:'', _synthetic:true}, ...days]
+    : days;
+
+  // Area fill
+  if(drawDays.length>=2){
     const g=ctx.createLinearGradient(0,padT,0,padT+pH);
     g.addColorStop(0,'rgba(144,96,192,0.2)'); g.addColorStop(1,'rgba(144,96,192,0.02)');
     ctx.save(); ctx.beginPath();
-    ctx.moveTo(txp(days[0].ts),padT+pH);
-    days.forEach(d=>ctx.lineTo(txp(d.ts),typ(d.cumEnd)));
-    ctx.lineTo(txp(days[days.length-1].ts),padT+pH);
+    ctx.moveTo(txp(drawDays[0]),padT+pH);
+    drawDays.forEach(d=>ctx.lineTo(txp(d),typ(d.cumEnd)));
+    ctx.lineTo(txp(drawDays[drawDays.length-1]),padT+pH);
     ctx.closePath(); ctx.fillStyle=g; ctx.fill(); ctx.restore();
   }
 
   // Level-up vertical markers
   days.forEach(d=>{
     if(!d.levelUps.length) return;
-    const x=txp(d.ts);
+    const x=txp(d);
     ctx.save();
     ctx.strokeStyle='rgba(212,160,255,0.4)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
     ctx.beginPath(); ctx.moveTo(x,padT+14); ctx.lineTo(x,padT+pH); ctx.stroke();
@@ -10198,16 +10276,16 @@ function renderXPChart(){
   });
 
   // Main progression line
-  if(days.length>=2){
+  if(drawDays.length>=2){
     ctx.save(); ctx.strokeStyle='rgba(176,128,232,0.7)'; ctx.lineWidth=1.5; ctx.setLineDash([]);
     ctx.beginPath();
-    days.forEach((d,i)=>{ const x=txp(d.ts),y=typ(d.cumEnd); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    drawDays.forEach((d,i)=>{ const x=txp(d),y=typ(d.cumEnd); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
     ctx.stroke(); ctx.restore();
   }
 
-  // Data points colored by dominant XP source type
+  // Data points (skip synthetic anchor)
   const pts=days.map(d=>{
-    const x=txp(d.ts), y=typ(d.cumEnd);
+    const x=txp(d), y=typ(d.cumEnd);
     const dom=Object.entries(d.xpByType).sort((a,b)=>b[1]-a[1])[0];
     const domType=dom?dom[0]:'session';
     return {x,y,d,color:TC[domType]||TC.session,domType};
@@ -10225,15 +10303,29 @@ function renderXPChart(){
     ctx.restore();
   });
 
-  // X-axis date labels
-  ctx.fillStyle='rgba(128,120,100,0.5)'; ctx.font='7px JetBrains Mono,monospace';
-  const n=days.length, lc=Math.min(5,n);
-  for(let li=0;li<lc;li++){
-    const i=n===1?0:Math.round(li*(n-1)/(lc-1));
-    const x=txp(days[i].ts);
-    ctx.textAlign=li===0?'left':li===lc-1?'right':'center';
-    const dx=li===0?padL:li===lc-1?W-padR:x;
-    const p=days[i].date.split('/'); ctx.fillText(p[0]+'/'+p[1],dx,H-4);
+  // X-axis labels: recent zone = Today/Yest./weekday per day; history zone = ~3 date labels
+  ctx.font='7px JetBrains Mono,monospace';
+  const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
+  for (let daysAgo = 0; daysAgo < recentDays; daysAgo++) {
+    const d = new Date(todayMidnight); d.setDate(d.getDate() - daysAgo);
+    const x = txp({ts: d.getTime() + 43200000}); // noon of that day
+    let lbl;
+    if (daysAgo === 0)      lbl = 'Today';
+    else if (daysAgo === 1) lbl = 'Yest.';
+    else                    lbl = d.toLocaleDateString('en-GB', { weekday: 'short' });
+    ctx.fillStyle = 'rgba(128,120,100,0.55)'; ctx.textAlign = 'center';
+    ctx.fillText(lbl, x, H - 4);
+  }
+  if (hasHist && effectiveH > 0) {
+    ctx.fillStyle = 'rgba(128,120,100,0.35)';
+    const span = boundaryMs - cutoffMs || 1;
+    const histLabelTs = [cutoffMs + span * 0.1, cutoffMs + span * 0.5, cutoffMs + span * 0.9];
+    histLabelTs.forEach(t => {
+      const x = txp({ts: t});
+      const lbl = new Date(t).toLocaleDateString('en-GB', { day:'2-digit', month:'short' }).replace(' ', '-');
+      ctx.textAlign = 'center';
+      ctx.fillText(lbl, x, H - 4);
+    });
   }
 
   // Update legend
