@@ -1818,6 +1818,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .prac-bar-plot {
   display:flex; align-items:flex-end; gap:2px;
   width:100%; position:relative; flex:1; min-height:40px;
+  padding-bottom:16px; box-sizing:border-box;
 }
 .prac-bar-y-axis {
   position:absolute; left:0; top:0; bottom:0; width:28px;
@@ -1875,7 +1876,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .prac-bar-x-label {
   font-family:var(--mono); font-size:11px; color:rgba(128,120,100,0.55);
-  position:absolute; transform:translateX(-50%); white-space:nowrap; top:2px;
+  position:absolute; transform:translateX(-50%); white-space:nowrap; bottom:-14px;
 }
 /* Edit popover */
 .prac-bar-edit {
@@ -2228,14 +2229,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #daily-pulse-overlay .modal { max-width:620px; width:100%; padding:22px 24px 20px; position:relative; border-top:3px solid rgba(200,168,74,0.5); }
 .dp-title { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.22em; color:var(--gold); margin-bottom:4px; text-transform:uppercase; }
 .dp-subtitle { font-size:13px; color:var(--text-dim); font-family:var(--mono); letter-spacing:0.05em; margin-bottom:16px; }
-.dp-body { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
-.dp-col { display:flex; flex-direction:column; }
-.dp-section-title { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
+.dp-body { display:flex; flex-direction:column; gap:14px; }
+.dp-vitals-row { display:flex; flex-direction:column; gap:0; }
+.dp-section { display:flex; flex-direction:column; gap:8px; }
+.dp-section-title { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:2px; text-align:center; }
+.dp-section-inner { display:flex; flex-direction:row; gap:16px; align-items:center; }
+.dp-sliders { flex:1; min-width:0; }
 .dp-sliders .stat-bar-row { margin-bottom:10px; }
 .dp-sliders .stat-bar-lbl { min-width:62px; font-size:13px; }
 .dp-sliders .stat-bar-val { min-width:22px; font-size:13px; }
-.dp-radars { display:flex; flex-direction:row; gap:8px; justify-content:center; margin-top:8px; }
-.dp-radar-wrap { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.dp-radar-wrap { display:flex; flex-direction:column; align-items:center; gap:4px; flex-shrink:0; }
 .dp-radar-lbl { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
 .dp-footer { display:flex; align-items:center; gap:10px; margin-top:16px; }
 @media(max-width:520px){
@@ -3077,6 +3080,10 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 @media (max-width:639px) {
   .chat-msg { max-width:96%; }
 }
+.btn-gold-ghost { background:rgba(200,168,74,0.1);border:1px solid rgba(200,168,74,0.45);color:var(--gold);transition:background 0.15s; }
+.btn-gold-ghost:hover { background:rgba(200,168,74,0.18); }
+.btn-add-dim { background:none;border:none;color:var(--text-dim);cursor:pointer;opacity:0.6;transition:opacity 0.15s; }
+.btn-add-dim:hover { opacity:1; }
 </style>
 </head>
 <body>
@@ -3187,7 +3194,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
       <button class="welcome-opt-btn welcome-opt-ghost" onclick="toggleWelcomeSetup('noai')">C &nbsp;No AI &mdash; manual or copy-paste</button>
     </div>
     <div style="margin:10px 0 2px;border-top:1px solid var(--border);padding-top:12px;">
-      <button onclick="dismissWelcome();openModal()" style="width:100%;padding:11px 16px;background:rgba(200,168,74,0.1);border:1px solid rgba(200,168,74,0.45);color:var(--gold);font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;border-radius:5px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='rgba(200,168,74,0.18)'" onmouseout="this.style.background='rgba(200,168,74,0.1)'">&#10022; Already have data? Import it</button>
+      <button onclick="dismissWelcome();openModal()" class="btn-gold-ghost" style="width:100%;padding:11px 16px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;border-radius:5px;cursor:pointer;">&#10022; Already have data? Import it</button>
     </div>
     <div id="welcome-setup-steps" data-mode="">
       <!-- Path A: Local Ollama (id kept as 'manual' for JS compat) -->
@@ -3608,7 +3615,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <div class="pie-legend" id="pie-legend"></div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
-        <button onclick="addDailySlice()" style="background:none;border:none;color:var(--text-dim);font-size:15px;font-family:'Cinzel',serif;cursor:pointer;opacity:0.6;letter-spacing:0.06em;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">+ Add</button>
+        <button onclick="addDailySlice()" class="btn-add-dim" style="font-size:15px;font-family:'Cinzel',serif;letter-spacing:0.06em;">+ Add</button>
       </div>
     </div>
   </div>
@@ -3969,7 +3976,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 <!-- ══ SUPPORT MODAL ════════════════════════════════════════ -->
 <div class="modal-overlay" id="support-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="border-top:3px solid var(--help);max-width:560px;width:100%;position:relative;">
-    <button class="modal-close" onclick="document.getElementById('support-modal').classList.remove('open')" title="Close">×</button>
+    <button class="modal-close" onclick="_co('support-modal')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);margin-bottom:16px;">♥ &nbsp;SUPPORT THIS PROJECT</div>
     <p style="line-height:1.7;margin:0 0 14px;">character-sheet is free, open source, and always will be. I built it because I wanted it to exist: a personal life dashboard that's genuinely private, locally owned, and helps you reflect on what actually matters.</p>
     <p style="line-height:1.7;margin:0 0 20px;">If it's been useful to you, a small contribution helps keep it going.</p>
@@ -3987,7 +3994,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 <!-- ══ HELP MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="border-top:3px solid var(--help);max-width:860px;width:100%;position:relative;">
-    <button class="modal-close" onclick="document.getElementById('help-modal').classList.remove('open')" title="Close">×</button>
+    <button class="modal-close" onclick="_co('help-modal')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);margin-bottom:16px;">? &nbsp;HOW CHARACTER-SHEET WORKS</div>
     <div class="help-cols">
 
@@ -4027,7 +4034,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <div class="help-step">
           <div class="help-step-num">1</div>
           <div class="help-step-text"><strong>Open Import:</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:14px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');openModal()">↑ Import</button></span>
+            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:14px;padding:4px 14px;background:var(--help);color:#fff;" onclick="_co('help-modal');openModal()">↑ Import</button></span>
           </div>
         </div>
         <div class="help-step">
@@ -4035,7 +4042,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
           <div class="help-step-text"><strong>Paste your data.json</strong> into the text area and hit Apply. Or use the file picker to load directly from disk.</div>
         </div>
         <p class="help-note" style="margin-top:12px;border-top:1px solid var(--border);padding-top:10px;">
-          <strong style="color:var(--text-mid);">Using AI journalling?</strong> After a session, ask your AI: <em>"Update my data.json"</em>. Copy the JSON it outputs and paste it into <a href="#" onclick="event.preventDefault();document.getElementById('help-modal').classList.remove('open');openModal()" style="color:var(--help);">Import</a>.
+          <strong style="color:var(--text-mid);">Using AI journalling?</strong> After a session, ask your AI: <em>"Update my data.json"</em>. Copy the JSON it outputs and paste it into <a href="#" onclick="event.preventDefault();_co('help-modal');openModal()" style="color:var(--help);">Import</a>.
         </p>
       </div>
 
@@ -4049,7 +4056,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <div class="help-step">
           <div class="help-step-num">1</div>
           <div class="help-step-text"><strong>Export your data:</strong>
-            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:14px;padding:4px 14px;background:var(--help);color:#fff;" onclick="document.getElementById('help-modal').classList.remove('open');exportState()">↓ Export</button></span>
+            <span style="display:block;margin-top:6px;"><button class="btn-primary" style="font-size:14px;padding:4px 14px;background:var(--help);color:#fff;" onclick="_co('help-modal');exportState()">↓ Export</button></span>
             <span style="display:block;font-size:14px;color:var(--text);font-style:italic;margin-top:5px;">Copy or download the JSON.</span>
           </div>
         </div>
@@ -4067,7 +4074,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
     <div class="modal-row" style="margin-top:14px;align-items:center;flex-wrap:wrap;gap:10px;">
       <button class="btn-ghost" id="check-update-btn" onclick="checkForAppUpdateManual(this)" style="font-size:14px;padding:5px 13px;color:var(--gold);border-color:rgba(200,168,74,0.4);">Check for updates</button>
       <span id="update-check-result" style="font-size:14px;color:var(--text);"></span>
-      <button class="btn-ghost" style="margin-left:auto;" onclick="document.getElementById('help-modal').classList.remove('open')">Close</button>
+      <button class="btn-ghost" style="margin-left:auto;" onclick="_co('help-modal')">Close</button>
     </div>
   </div>
 </div>
@@ -4318,7 +4325,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 <!-- ══ EXPORT MODAL ══════════════════════════════════════════ -->
 <div class="modal-overlay" id="export-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="border-top:3px solid var(--help);max-width:1000px;width:100%;position:relative;">
-    <button class="modal-close" onclick="document.getElementById('export-modal').classList.remove('open')" title="Close">×</button>
+    <button class="modal-close" onclick="_co('export-modal')" title="Close">×</button>
     <div class="modal-title" style="color:var(--help);">↓ &nbsp;EXPORT</div>
     <div id="export-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
       <!-- Left: Summary export (for AI journalling) -->
@@ -5523,12 +5530,14 @@ function isPeriodExpired(periodStart, resetPeriod) {
 }
 
 // Practice localStorage helpers
-function loadRQCurrent(charName, id){try{const r=localStorage.getItem('cs-rq-cur-'+charName+'-'+id);return r?JSON.parse(r):null;}catch{return null;}}
-function saveRQCurrent(charName, id, data){try{localStorage.setItem('cs-rq-cur-'+charName+'-'+id,JSON.stringify(data));}catch{} _reencryptIfActive();}
-function loadRQHistory(charName, id){try{const r=localStorage.getItem('cs-rq-hist-'+charName+'-'+id);return r?JSON.parse(r):[];}catch{return [];}}
-function saveRQHistory(charName, id, hist){try{localStorage.setItem('cs-rq-hist-'+charName+'-'+id,JSON.stringify(hist));}catch{} _reencryptIfActive();}
-function loadRQGoalHistory(charName, id){try{const r=localStorage.getItem('cs-rq-goals-'+charName+'-'+id);return r?JSON.parse(r):[];}catch{return [];}}
-function saveRQGoalHistory(charName, id, hist){try{localStorage.setItem('cs-rq-goals-'+charName+'-'+id,JSON.stringify(hist));}catch{} _reencryptIfActive();}
+function _lsLoad(key, fallback){try{const r=localStorage.getItem(key);return r?JSON.parse(r):fallback;}catch{return fallback;}}
+function _lsSave(key, data){try{localStorage.setItem(key,JSON.stringify(data));}catch{} _reencryptIfActive();}
+function loadRQCurrent(charName, id){return _lsLoad('cs-rq-cur-'+charName+'-'+id, null);}
+function saveRQCurrent(charName, id, data){_lsSave('cs-rq-cur-'+charName+'-'+id, data);}
+function loadRQHistory(charName, id){return _lsLoad('cs-rq-hist-'+charName+'-'+id, []);}
+function saveRQHistory(charName, id, hist){_lsSave('cs-rq-hist-'+charName+'-'+id, hist);}
+function loadRQGoalHistory(charName, id){return _lsLoad('cs-rq-goals-'+charName+'-'+id, []);}
+function saveRQGoalHistory(charName, id, hist){_lsSave('cs-rq-goals-'+charName+'-'+id, hist);}
 
 // In-memory state for active practices
 const practiceState = {}; // id -> { seconds, running, interval, milestonesHit, milestoneXP, toastTimeout }
@@ -6193,8 +6202,10 @@ function updateRadar(vals){
 const STAT_COLORS = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
 const STATS_HIST_KEY = 'cs-stats-hist-v1';
 const STATS_CHECKIN_KEY = 'cs-stats-checkin-v1';
-function _statsSliderDoneToday(name){ try{ const d=JSON.parse(localStorage.getItem(STATS_CHECKIN_KEY)||'{}'); return d.date===_localDate()&&d[name]===true; }catch{return false;} }
-function _markStatsSliderDone(name){ try{ const today=_localDate(); const d=JSON.parse(localStorage.getItem(STATS_CHECKIN_KEY)||'{}'); const e=d.date===today?d:{date:today}; e[name]=true; localStorage.setItem(STATS_CHECKIN_KEY,JSON.stringify(e)); }catch{} }
+function _sliderDoneToday(key,name){ try{ const d=JSON.parse(localStorage.getItem(key)||'{}'); return d.date===_localDate()&&d[name]===true; }catch{return false;} }
+function _markSliderDone(key,name){ try{ const today=_localDate(); const d=JSON.parse(localStorage.getItem(key)||'{}'); const e=d.date===today?d:{date:today}; e[name]=true; localStorage.setItem(key,JSON.stringify(e)); }catch{} }
+function _statsSliderDoneToday(name){ return _sliderDoneToday(STATS_CHECKIN_KEY, name); }
+function _markStatsSliderDone(name){ _markSliderDone(STATS_CHECKIN_KEY, name); }
 function _allStatsDoneToday(){ return Object.keys(STAT_COLORS).every(n=>_statsSliderDoneToday(n)); }
 const VITALS_HIST_KEY = 'cs-vitals-hist-v1';
 
@@ -6243,6 +6254,7 @@ function _applyVitalsCheckinState(){
   _updateDailyCheckinReminder();
 }
 
+function _svgCo(id,cx,cy){const el=document.getElementById(id);if(el){el.setAttribute('cx',cx);el.setAttribute('cy',cy);}}
 function updateStatsRadar(){
   const R=38;
   const val=name=>{ const el=document.getElementById('stat-'+name); return el?parseInt(el.value)/100:0; };
@@ -6251,10 +6263,7 @@ function updateStatsRadar(){
   const pts=`0,${ay} ${fx},0 0,${cy} ${nx},0`;
   const fill=document.getElementById('stats-radar-fill'); if(fill) fill.setAttribute('points',pts);
   const stroke=document.getElementById('stats-radar-stroke'); if(stroke) stroke.setAttribute('points',pts);
-  const sr=document.getElementById('s-rest');       if(sr)  { sr.setAttribute('cx','0');  sr.setAttribute('cy',ay); }
-  const sm=document.getElementById('s-movement');   if(sm)  { sm.setAttribute('cx',fx);   sm.setAttribute('cy','0'); }
-  const sc=document.getElementById('s-connection'); if(sc)  { sc.setAttribute('cx','0');  sc.setAttribute('cy',cy); }
-  const sn=document.getElementById('s-nutrition');  if(sn)  { sn.setAttribute('cx',nx);   sn.setAttribute('cy','0'); }
+  _svgCo('s-rest','0',ay); _svgCo('s-movement',fx,'0'); _svgCo('s-connection','0',cy); _svgCo('s-nutrition',nx,'0');
   // Ghost polygons: teal=all-time avg, pink=7d avg
   let hist=[]; try{ hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]'); }catch(e){}
   if(IS_DEMO && HARDCODED_STATS_HIST.length && isUsingDemoData()) hist=HARDCODED_STATS_HIST;
@@ -6806,7 +6815,7 @@ function toggleChapter(bodyId,arrowId){
   const b=document.getElementById(bodyId),a=document.getElementById(arrowId);
   if(!b)return;const open=b.classList.toggle('open');
   if(a){a.textContent=open?'▾':'▸';a.classList.toggle('open',open);}
-  if(open){ b.querySelectorAll('textarea.chapter-bullet-input').forEach(ta=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; }); }
+  if(open){ b.querySelectorAll('textarea.chapter-bullet-input').forEach(ta=>{ _autoH(ta); }); }
 }
 
 // ══ TABS ════════════════════════════════════════════════════
@@ -6828,9 +6837,7 @@ function switchTab(name){
     activeBtn.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
   }
   if(name==='lore'){
-    document.querySelectorAll('#tab-lore textarea').forEach(ta=>{
-      ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px';
-    });
+    document.querySelectorAll('#tab-lore textarea').forEach(ta=>{ _autoH(ta); });
   }
   if(name==='skills'){
     requestAnimationFrame(()=>requestAnimationFrame(renderStatsHistoryChart));
@@ -8723,9 +8730,9 @@ function renderProgressionCard(el, s) {
     lsTa.value=s.sessionRead||'';
     lsTa.placeholder='Add a note about your latest session...';
     lsTa.rows=3;
-    lsTa.addEventListener('input',()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; appState.sessionRead=lsTa.value; });
+    lsTa.addEventListener('input',()=>{ _autoH(lsTa); appState.sessionRead=lsTa.value; });
     lsTa.addEventListener('blur',()=>{ const v=lsTa.value.trim(); if(appState.sessionRead!==v){appState.sessionRead=v;saveState(appState);markDirty();} });
-    setTimeout(()=>{ lsTa.style.height='auto'; lsTa.style.height=lsTa.scrollHeight+'px'; },0);
+    setTimeout(()=>{ _autoH(lsTa); },0);
     lsTxt.appendChild(lsTa);
   }
 }
@@ -9201,9 +9208,9 @@ function render(s){
         const li=document.createElement('li'); li.className='chapter-bullet';
         const ta=document.createElement('textarea'); ta.className='chapter-bullet-input';
         ta.value=txt; ta.rows=1; ta.placeholder='…';
-        ta.addEventListener('input',()=>{ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; });
+        ta.addEventListener('input',()=>{ _autoH(ta); });
         ta.addEventListener('change',()=>{ saveNestedField([...arrPath,bi], ta.value.trim()); markDirty(); });
-        setTimeout(()=>{ if(ta.scrollHeight>0){ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; } },0);
+        setTimeout(()=>{ if(ta.scrollHeight>0){ _autoH(ta); } },0);
         const del=document.createElement('button'); del.textContent='×'; del.className='ally-delete card-head-del'; del.style.cssText='margin-top:2px;flex-shrink:0'; del.title='Delete bullet';
         del.onclick=ev=>{ ev.stopPropagation();
           const snap=JSON.parse(JSON.stringify(appState.insights));
@@ -9322,6 +9329,8 @@ function render(s){
 }
 
 // ══ MODAL ═══════════════════════════════════════════════════
+function _co(id){document.getElementById(id)?.classList.remove('open');}
+function _autoH(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 function openModal(){document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');document.getElementById('modal-status').textContent='';document.getElementById('modal-status').className='modal-status';}
 function showTypeDropdown(anchorEl, options, currentVal, onSelect){
@@ -11032,12 +11041,32 @@ function renderTextEntryChart(wrap, act, charName, histExtra) {
   const curPeriod = currentPeriod(act.resetPeriod);
   const barBase  = act.color || '#c8a84a';
 
+  // Resolve 'all' sentinel: find earliest entry and compute periods back
+  let resolvedH = hExtra;
+  if (hExtra === 9999) {
+    const periods = lsHist.map(h => h.period).filter(Boolean).sort();
+    if (periods.length > 0) {
+      const earliest = periods[0];
+      if (isWeek) {
+        const d0 = new Date(now); d0.setDate(d0.getDate() - recentN * 7);
+        const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+        resolvedH = Math.max(0, Math.ceil((d0 - new Date(earliest + '-01')) / msPerWeek));
+      } else {
+        const d0 = new Date(now); d0.setUTCDate(d0.getUTCDate() - recentN);
+        resolvedH = Math.max(0, Math.ceil((d0 - new Date(earliest + 'T00:00:00Z')) / 86400000));
+      }
+    } else {
+      resolvedH = defaultH;
+    }
+  }
+  const effectiveH = resolvedH;
+
   // Build history points (oldest first) then recent points (oldest first)
   const histPoints   = [];
   const recentPoints = [];
 
   if (isWeek) {
-    const totalWeeks = recentN + hExtra;
+    const totalWeeks = recentN + effectiveH;
     for (let i = totalWeeks - 1; i >= 0; i--) {
       const d = new Date(now); d.setDate(d.getDate() - i * 7);
       const periodKey = getPeriodKey(d, 'week');
@@ -11053,7 +11082,7 @@ function renderTextEntryChart(wrap, act, charName, histExtra) {
       if (i >= recentN) histPoints.push(dp); else recentPoints.push(dp);
     }
   } else {
-    const totalDays = recentN + hExtra;
+    const totalDays = recentN + effectiveH;
     for (let i = totalDays - 1; i >= 0; i--) {
       const d = new Date(now); d.setUTCDate(d.getUTCDate() - i);
       const periodKey = d.toISOString().slice(0, 10);
@@ -11083,8 +11112,8 @@ function renderTextEntryChart(wrap, act, charName, histExtra) {
   rangeLbl.textContent = 'History:';
   rangeRow.appendChild(rangeLbl);
   const ranges = isWeek
-    ? [{ label: '+4w', h: 4 }, { label: '+8w', h: 8 }, { label: '+3m', h: 13 }]
-    : [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }];
+    ? [{ label: '+4w', h: 4 }, { label: '+8w', h: 8 }, { label: '+3m', h: 13 }, { label: 'All', h: 9999 }]
+    : [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }, { label: 'All', h: 9999 }];
   ranges.forEach(r => {
     const btn = document.createElement('button');
     btn.textContent = r.label;
@@ -11196,6 +11225,27 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
   const defaultH  = isWeek ? 4 : 14;
   const hExtra    = (histExtra !== undefined && histExtra !== null) ? histExtra : defaultH;
 
+  // Resolve 'all' sentinel (9999): find earliest entry across lsHist + hardHist
+  let effectiveH = hExtra;
+  if (hExtra === 9999) {
+    const allPeriods = [
+      ...lsHist.map(h => h.period).filter(Boolean),
+      ...hardHist.map(h => (h.period || h.date)).filter(Boolean)
+    ].sort();
+    if (allPeriods.length > 0) {
+      const earliest = allPeriods[0];
+      if (isWeek) {
+        const d0 = new Date(now); d0.setDate(d0.getDate() - recentN * 7);
+        effectiveH = Math.max(0, Math.ceil((d0 - new Date(earliest + '-01')) / (7 * 86400000)));
+      } else {
+        const d0 = new Date(now); d0.setUTCDate(d0.getUTCDate() - recentN);
+        effectiveH = Math.max(0, Math.ceil((d0 - new Date(earliest + 'T00:00:00Z')) / 86400000));
+      }
+    } else {
+      effectiveH = defaultH;
+    }
+  }
+
   // ── Build data points ──────────────────────────────────────
   const makeDP = (ds, d, isWk) => {
     const hard = isWk ? hardHist.find(h => h.period === ds) : hardHist.find(h => h.date === ds);
@@ -11221,7 +11271,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
   let histPoints = [], recentPoints = [], dataPoints = [];
 
   if (isWeek) {
-    const totalWeeks = useSplit ? recentN + hExtra : 13;
+    const totalWeeks = useSplit ? recentN + effectiveH : 13;
     for (let i = totalWeeks - 1; i >= 0; i--) {
       const d  = new Date(now); d.setDate(d.getDate() - i * 7);
       const wp = getPeriodKey(d, 'week');
@@ -11240,8 +11290,8 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
         _ds = d.toISOString().slice(0, 10);
       }
     } else {
-      // Split mode: recentN + hExtra days
-      const totalDays = recentN + hExtra;
+      // Split mode: recentN + effectiveH days
+      const totalDays = recentN + effectiveH;
       for (let i = totalDays - 1; i >= 0; i--) {
         const d = new Date(now); d.setUTCDate(d.getUTCDate() - i);
         const ds = d.toISOString().slice(0, 10);
@@ -11284,8 +11334,8 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
     rangeLbl.textContent = 'History:';
     rangeRow.appendChild(rangeLbl);
     const ranges = isWeek
-      ? [{ label: '+4w', h: 4 }, { label: '+8w', h: 8 }, { label: '+3m', h: 13 }]
-      : [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }];
+      ? [{ label: '+4w', h: 4 }, { label: '+8w', h: 8 }, { label: '+3m', h: 13 }, { label: 'All', h: 9999 }]
+      : [{ label: '+14d', h: 14 }, { label: '+28d', h: 28 }, { label: '+3m', h: 84 }, { label: 'All', h: 9999 }];
     ranges.forEach(r => {
       const btn = document.createElement('button');
       btn.textContent = r.label;
@@ -11968,6 +12018,55 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
   document.addEventListener('click', outsideHandler, true);
 }
 
+function buildBreakdownSection(initialSubs, getSelectedPeriod) {
+  const BD_PALETTE = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0'];
+  const INPUT_BASE = 'width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:8px 10px;outline:none;transition:border-color 0.15s;';
+  let bdSubs = initialSubs.map(s => ({ id: s.id, name: s.name, goal: s.goal || 1, color: s.color || BD_PALETTE[0] }));
+  const section = document.createElement('div'); section.style.display = 'none';
+  const lbl = document.createElement('p'); lbl.style.cssText = 'font-size:13px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 6px;font-family:Cinzel,serif;'; lbl.textContent = 'Subquests';
+  section.appendChild(lbl);
+  const bdList = document.createElement('div'); bdList.style.cssText = 'display:flex;flex-direction:column;gap:6px;margin-bottom:8px;';
+  const renderBdList = () => {
+    bdList.innerHTML = '';
+    bdSubs.forEach((sub, i) => {
+      const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;align-items:center;';
+      const dot = document.createElement('input'); dot.type = 'color'; dot.value = sub.color;
+      dot.style.cssText = 'width:26px;height:26px;border:none;background:none;cursor:pointer;padding:0;border-radius:50%;flex-shrink:0;';
+      dot.addEventListener('input', () => { bdSubs[i].color = dot.value; });
+      const nameIn2 = document.createElement('input'); nameIn2.type = 'text'; nameIn2.value = sub.name; nameIn2.placeholder = 'Variant name';
+      nameIn2.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);flex:1;padding:6px 9px;';
+      nameIn2.addEventListener('focus', () => nameIn2.style.borderColor = 'var(--gold)');
+      nameIn2.addEventListener('blur', () => { nameIn2.style.borderColor = 'rgba(255,255,255,0.12)'; bdSubs[i].name = nameIn2.value.trim(); });
+      nameIn2.addEventListener('input', () => { bdSubs[i].name = nameIn2.value; });
+      const bdPeriodSuffix = { day:'/wk', week:'/mo', month:'/yr', year:'/yr' }[getSelectedPeriod()] || '/wk';
+      const gWrap = document.createElement('div'); gWrap.style.cssText = 'display:flex;align-items:center;gap:0;border:1px solid rgba(200,168,74,0.35);border-radius:4px;overflow:hidden;flex-shrink:0;background:rgba(0,0,0,0.35);';
+      const gPfx   = document.createElement('span'); gPfx.textContent='goal:'; gPfx.style.cssText='font-size:13px;color:rgba(200,168,74,0.7);padding:0 4px 0 7px;font-family:var(--mono);pointer-events:none;';
+      const gMinus = document.createElement('button'); gMinus.type='button'; gMinus.textContent='−'; gMinus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
+      const gVal   = document.createElement('span'); gVal.textContent = sub.goal; gVal.style.cssText='font-family:var(--mono);font-size:14px;color:#e4dec8;font-weight:500;min-width:20px;text-align:center;padding:0 2px;';
+      const gPlus  = document.createElement('button'); gPlus.type='button'; gPlus.textContent='+'; gPlus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
+      const gSuffix= document.createElement('span'); gSuffix.textContent=bdPeriodSuffix; gSuffix.style.cssText='font-size:13px;color:rgba(200,168,74,0.7);padding:0 7px 0 0;font-family:var(--mono);';
+      gMinus.addEventListener('click', () => { bdSubs[i].goal = Math.max(1, bdSubs[i].goal - 1); gVal.textContent = bdSubs[i].goal; });
+      gPlus.addEventListener('click',  () => { bdSubs[i].goal = Math.min(99, bdSubs[i].goal + 1); gVal.textContent = bdSubs[i].goal; });
+      gWrap.appendChild(gPfx); gWrap.appendChild(gMinus); gWrap.appendChild(gVal); gWrap.appendChild(gPlus); gWrap.appendChild(gSuffix);
+      const delBtn = document.createElement('button'); delBtn.type='button'; delBtn.textContent='×'; delBtn.title='Remove';
+      delBtn.style.cssText='background:none;border:none;color:var(--text-dim);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;';
+      delBtn.addEventListener('click', () => { bdSubs.splice(i,1); renderBdList(); });
+      row.appendChild(dot); row.appendChild(nameIn2); row.appendChild(gWrap); row.appendChild(delBtn);
+      bdList.appendChild(row);
+    });
+  };
+  const bdAddBtn = document.createElement('button'); bdAddBtn.type='button'; bdAddBtn.textContent='+ Add subquest';
+  bdAddBtn.style.cssText='background:none;border:1px dashed rgba(200,168,74,0.3);border-radius:5px;color:rgba(200,168,74,0.7);font-size:14px;padding:5px 12px;cursor:pointer;width:100%;margin-bottom:12px;';
+  bdAddBtn.addEventListener('click', () => {
+    bdSubs.push({ name:'', goal:1, color: BD_PALETTE[bdSubs.length % BD_PALETTE.length] });
+    renderBdList();
+    const inputs = bdList.querySelectorAll('input[type=text]');
+    if (inputs.length) inputs[inputs.length-1].focus();
+  });
+  section.appendChild(bdList); section.appendChild(bdAddBtn);
+  return { el: section, renderBdList, getBdSubs: () => bdSubs };
+}
+
 // ══ ADD REGULAR QUEST ════════════════════════════════════════
 function addRegularQuest() {
   const existing = document.getElementById('card-edit-modal');
@@ -12121,52 +12220,7 @@ function addRegularQuest() {
   box.appendChild(targetSection);
 
   // Breakdown section (shown only when Breakdown selected)
-  const breakdownSection = document.createElement('div'); breakdownSection.style.display = 'none';
-  const bdLbl = document.createElement('p'); bdLbl.style.cssText = LABEL_CSS; bdLbl.textContent = 'Subquests';
-  breakdownSection.appendChild(bdLbl);
-  const bdSubPalette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0'];
-  let bdSubs = []; // { name, goal, color }
-  const bdList = document.createElement('div'); bdList.style.cssText = 'display:flex;flex-direction:column;gap:6px;margin-bottom:8px;';
-  const renderBdList = () => {
-    bdList.innerHTML = '';
-    bdSubs.forEach((sub, i) => {
-      const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;align-items:center;';
-      const dot = document.createElement('input'); dot.type = 'color'; dot.value = sub.color;
-      dot.style.cssText = 'width:26px;height:26px;border:none;background:none;cursor:pointer;padding:0;border-radius:50%;flex-shrink:0;';
-      dot.addEventListener('input', () => { bdSubs[i].color = dot.value; });
-      const nameIn2 = document.createElement('input'); nameIn2.type = 'text'; nameIn2.value = sub.name; nameIn2.placeholder = 'Variant name';
-      nameIn2.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);flex:1;padding:6px 9px;';
-      nameIn2.addEventListener('focus', () => nameIn2.style.borderColor = 'var(--gold)');
-      nameIn2.addEventListener('blur', () => { nameIn2.style.borderColor = 'rgba(255,255,255,0.12)'; bdSubs[i].name = nameIn2.value.trim(); });
-      nameIn2.addEventListener('input', () => { bdSubs[i].name = nameIn2.value; });
-      // goal stepper
-      const bdPeriodSuffix = { day:'/wk', week:'/mo', month:'/yr', year:'/yr' }[selectedPeriod] || '/wk';
-      const gWrap = document.createElement('div'); gWrap.style.cssText = 'display:flex;align-items:center;gap:0;border:1px solid rgba(200,168,74,0.35);border-radius:4px;overflow:hidden;flex-shrink:0;background:rgba(0,0,0,0.35);';
-      const gPfx   = document.createElement('span'); gPfx.textContent='goal:'; gPfx.style.cssText='font-size:13px;color:rgba(200,168,74,0.7);padding:0 4px 0 7px;font-family:var(--mono);pointer-events:none;';
-      const gMinus = document.createElement('button'); gMinus.type='button'; gMinus.textContent='−'; gMinus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
-      const gVal   = document.createElement('span'); gVal.textContent = sub.goal; gVal.style.cssText='font-family:var(--mono);font-size:14px;color:#e4dec8;font-weight:500;min-width:20px;text-align:center;padding:0 2px;';
-      const gPlus  = document.createElement('button'); gPlus.type='button'; gPlus.textContent='+'; gPlus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
-      const gSuffix= document.createElement('span'); gSuffix.textContent=bdPeriodSuffix; gSuffix.style.cssText='font-size:13px;color:rgba(200,168,74,0.7);padding:0 7px 0 0;font-family:var(--mono);';
-      gMinus.addEventListener('click', () => { bdSubs[i].goal = Math.max(1, bdSubs[i].goal - 1); gVal.textContent = bdSubs[i].goal; });
-      gPlus.addEventListener('click',  () => { bdSubs[i].goal = Math.min(99, bdSubs[i].goal + 1); gVal.textContent = bdSubs[i].goal; });
-      gWrap.appendChild(gPfx); gWrap.appendChild(gMinus); gWrap.appendChild(gVal); gWrap.appendChild(gPlus); gWrap.appendChild(gSuffix);
-      const delBtn = document.createElement('button'); delBtn.type='button'; delBtn.textContent='×'; delBtn.title='Remove';
-      delBtn.style.cssText='background:none;border:none;color:var(--text-dim);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;';
-      delBtn.addEventListener('click', () => { bdSubs.splice(i,1); renderBdList(); });
-      row.appendChild(dot); row.appendChild(nameIn2); row.appendChild(gWrap); row.appendChild(delBtn);
-      bdList.appendChild(row);
-    });
-  };
-  const bdAddBtn = document.createElement('button'); bdAddBtn.type='button'; bdAddBtn.textContent='+ Add subquest';
-  bdAddBtn.style.cssText='background:none;border:1px dashed rgba(200,168,74,0.3);border-radius:5px;color:rgba(200,168,74,0.7);font-size:14px;padding:5px 12px;cursor:pointer;width:100%;margin-bottom:12px;';
-  bdAddBtn.addEventListener('click', () => {
-    bdSubs.push({ name:'', goal:1, color: bdSubPalette[bdSubs.length % bdSubPalette.length] });
-    renderBdList();
-    // focus last name input
-    const inputs = bdList.querySelectorAll('input[type=text]');
-    if (inputs.length) inputs[inputs.length-1].focus();
-  });
-  breakdownSection.appendChild(bdList); breakdownSection.appendChild(bdAddBtn);
+  const { el: breakdownSection, renderBdList, getBdSubs } = buildBreakdownSection([], () => selectedPeriod);
   box.appendChild(breakdownSection);
 
   // Colour (hidden for Breakdown — each variant has its own colour)
@@ -12232,8 +12286,9 @@ function addRegularQuest() {
   saveBtn.addEventListener('click', () => {
     const name = nameIn.value.trim();
     if (!name) { nameIn.focus(); return; }
+    const bdSubs = getBdSubs();
     if (selectedType === 'breakdown' && bdSubs.filter(s => s.name.trim()).length === 0) {
-      bdAddBtn.focus(); return;
+      breakdownSection.querySelector('button')?.focus(); return;
     }
     if (!appState.activities) appState.activities = [];
     const maxPri = appState.activities.reduce((m, a) => Math.max(m, a.priority || 0), 0);
@@ -12445,50 +12500,7 @@ function editRegularQuest(actId) {
   box.appendChild(targetSection);
 
   // Breakdown section
-  const breakdownSection = document.createElement('div'); breakdownSection.style.display = 'none';
-  const bdLbl = document.createElement('p'); bdLbl.style.cssText = LABEL_CSS; bdLbl.textContent = 'Subquests';
-  breakdownSection.appendChild(bdLbl);
-  const bdSubPalette = ['#c0743a','#3a8fc0','#7ac03a','#a03ac0','#c03a6a','#3ac0a8','#c0a83a','#3a4ec0'];
-  let bdSubs = (act.subActivities || []).map(s => ({ id: s.id, name: s.name, goal: s.goal || 1, color: s.color || bdSubPalette[0] }));
-  const bdList = document.createElement('div'); bdList.style.cssText = 'display:flex;flex-direction:column;gap:6px;margin-bottom:8px;';
-  const renderBdList = () => {
-    bdList.innerHTML = '';
-    bdSubs.forEach((sub, i) => {
-      const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;align-items:center;';
-      const dot = document.createElement('input'); dot.type = 'color'; dot.value = sub.color;
-      dot.style.cssText = 'width:26px;height:26px;border:none;background:none;cursor:pointer;padding:0;border-radius:50%;flex-shrink:0;';
-      dot.addEventListener('input', () => { bdSubs[i].color = dot.value; });
-      const nameIn2 = document.createElement('input'); nameIn2.type = 'text'; nameIn2.value = sub.name; nameIn2.placeholder = 'Variant name';
-      nameIn2.style.cssText = INPUT_BASE + 'font-size:14px;color:var(--text-mid);flex:1;padding:6px 9px;';
-      nameIn2.addEventListener('focus', () => nameIn2.style.borderColor = 'var(--gold)');
-      nameIn2.addEventListener('blur', () => { nameIn2.style.borderColor = 'rgba(255,255,255,0.12)'; bdSubs[i].name = nameIn2.value.trim(); });
-      nameIn2.addEventListener('input', () => { bdSubs[i].name = nameIn2.value; });
-      const bdPeriodSuffix = { day:'/wk', week:'/mo', month:'/yr', year:'/yr' }[selectedPeriod] || '/wk';
-      const gWrap = document.createElement('div'); gWrap.style.cssText = 'display:flex;align-items:center;gap:0;border:1px solid rgba(200,168,74,0.35);border-radius:4px;overflow:hidden;flex-shrink:0;background:rgba(0,0,0,0.35);';
-      const gPfx   = document.createElement('span'); gPfx.textContent='goal:'; gPfx.style.cssText='font-size:13px;color:rgba(200,168,74,0.7);padding:0 4px 0 7px;font-family:var(--mono);pointer-events:none;';
-      const gMinus = document.createElement('button'); gMinus.type='button'; gMinus.textContent='−'; gMinus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
-      const gVal   = document.createElement('span'); gVal.textContent = sub.goal; gVal.style.cssText='font-family:var(--mono);font-size:14px;color:#e4dec8;font-weight:500;min-width:20px;text-align:center;padding:0 2px;';
-      const gPlus  = document.createElement('button'); gPlus.type='button'; gPlus.textContent='+'; gPlus.style.cssText='background:none;border:none;color:rgba(200,168,74,0.7);font-size:14px;padding:3px 8px;cursor:pointer;';
-      const gSuffix= document.createElement('span'); gSuffix.textContent=bdPeriodSuffix; gSuffix.style.cssText='font-size:13px;color:rgba(200,168,74,0.7);padding:0 7px 0 0;font-family:var(--mono);';
-      gMinus.addEventListener('click', () => { bdSubs[i].goal = Math.max(1, bdSubs[i].goal - 1); gVal.textContent = bdSubs[i].goal; });
-      gPlus.addEventListener('click',  () => { bdSubs[i].goal = Math.min(99, bdSubs[i].goal + 1); gVal.textContent = bdSubs[i].goal; });
-      gWrap.appendChild(gPfx); gWrap.appendChild(gMinus); gWrap.appendChild(gVal); gWrap.appendChild(gPlus); gWrap.appendChild(gSuffix);
-      const delBtn = document.createElement('button'); delBtn.type='button'; delBtn.textContent='×'; delBtn.title='Remove';
-      delBtn.style.cssText='background:none;border:none;color:var(--text-dim);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;';
-      delBtn.addEventListener('click', () => { bdSubs.splice(i,1); renderBdList(); });
-      row.appendChild(dot); row.appendChild(nameIn2); row.appendChild(gWrap); row.appendChild(delBtn);
-      bdList.appendChild(row);
-    });
-  };
-  const bdAddBtn = document.createElement('button'); bdAddBtn.type='button'; bdAddBtn.textContent='+ Add subquest';
-  bdAddBtn.style.cssText='background:none;border:1px dashed rgba(200,168,74,0.3);border-radius:5px;color:rgba(200,168,74,0.7);font-size:14px;padding:5px 12px;cursor:pointer;width:100%;margin-bottom:12px;';
-  bdAddBtn.addEventListener('click', () => {
-    bdSubs.push({ name:'', goal:1, color: bdSubPalette[bdSubs.length % bdSubPalette.length] });
-    renderBdList();
-    const inputs = bdList.querySelectorAll('input[type=text]');
-    if (inputs.length) inputs[inputs.length-1].focus();
-  });
-  breakdownSection.appendChild(bdList); breakdownSection.appendChild(bdAddBtn);
+  const { el: breakdownSection, renderBdList, getBdSubs } = buildBreakdownSection(act.subActivities || [], () => selectedPeriod);
   box.appendChild(breakdownSection);
 
   // Colour
@@ -12543,8 +12555,6 @@ function editRegularQuest(actId) {
   xpRow2.appendChild(xpIn); xpRow2.appendChild(xpNote2);
   box.appendChild(xpRow2);
 
-  if (isBreakdownAct) renderBdList();
-
   // Buttons
   const btnRow = document.createElement('div'); btnRow.className = 'modal-row';
   const saveBtn = document.createElement('button'); saveBtn.className = 'btn-primary'; saveBtn.textContent = 'Save';
@@ -12552,7 +12562,8 @@ function editRegularQuest(actId) {
   saveBtn.addEventListener('click', () => {
     const name = nameIn.value.trim();
     if (!name) { nameIn.focus(); return; }
-    if (selectedType === 'breakdown' && bdSubs.filter(s => s.name.trim()).length === 0) { bdAddBtn.focus(); return; }
+    const bdSubs = getBdSubs();
+    if (selectedType === 'breakdown' && bdSubs.filter(s => s.name.trim()).length === 0) { breakdownSection.querySelector('button')?.focus(); return; }
     const actInState = (appState.activities || []).find(a => a.id === actId);
     if (!actInState) { overlay.remove(); return; }
 
@@ -14477,8 +14488,8 @@ function cycleHdrIcon(){
 const STATUS_COLORS = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
 const STATUS_LS_KEY = 'cs-status-v1';
 const STATUS_CHECKIN_KEY = 'cs-status-checkin-v1';
-function _statusSliderDoneToday(name){ try{ const d=JSON.parse(localStorage.getItem(STATUS_CHECKIN_KEY)||'{}'); return d.date===_localDate()&&d[name]===true; }catch{return false;} }
-function _markStatusSliderDone(name){ try{ const today=_localDate(); const d=JSON.parse(localStorage.getItem(STATUS_CHECKIN_KEY)||'{}'); const e=d.date===today?d:{date:today}; e[name]=true; localStorage.setItem(STATUS_CHECKIN_KEY,JSON.stringify(e)); }catch{} }
+function _statusSliderDoneToday(name){ return _sliderDoneToday(STATUS_CHECKIN_KEY, name); }
+function _markStatusSliderDone(name){ _markSliderDone(STATUS_CHECKIN_KEY, name); }
 function _allStatusDoneToday(){ return Object.keys(STATUS_COLORS).every(n=>_statusSliderDoneToday(n)); }
 
 function _checkinDoneToday(key) {
@@ -15757,22 +15768,55 @@ function _updateDailyCheckinReminder() {
 
 // ── Daily Pulse modal ──────────────────────────────────────
 const PULSE_DISMISSED_KEY = 'cs-pulse-dismissed-v1';
+const PULSE_DONE_KEY      = 'cs-pulse-done-v1';
 
+// Pulse uses a 2am cutoff: "today" for pulse purposes is after 02:00 local time,
+// so a user finishing their session at 1:30am isn't interrupted for the next day.
+function _pulseDate() {
+  const now = new Date();
+  if (now.getHours() < 2) {
+    // Before 2am: treat as the previous calendar day
+    const prev = new Date(now);
+    prev.setDate(prev.getDate() - 1);
+    return prev.getFullYear() + '-' + String(prev.getMonth() + 1).padStart(2, '0') + '-' + String(prev.getDate()).padStart(2, '0');
+  }
+  return _localDate();
+}
 function _pulseDismissedToday() {
-  try { const d = JSON.parse(localStorage.getItem(PULSE_DISMISSED_KEY) || '{}'); return d.date === _localDate(); } catch(e) { return false; }
+  try { const d = JSON.parse(localStorage.getItem(PULSE_DISMISSED_KEY) || '{}'); return d.date === _pulseDate(); } catch(e) { return false; }
 }
 function _markPulseDismissed() {
-  try { localStorage.setItem(PULSE_DISMISSED_KEY, JSON.stringify({date: _localDate()})); } catch(e) {}
+  if (IS_DEMO) return;
+  try { localStorage.setItem(PULSE_DISMISSED_KEY, JSON.stringify({date: _pulseDate()})); } catch(e) {}
+}
+function _pulseDoneToday() {
+  try { const d = JSON.parse(localStorage.getItem(PULSE_DONE_KEY) || '{}'); return d.date === _pulseDate(); } catch(e) { return false; }
+}
+function _markPulseDone() {
+  if (IS_DEMO) return;
+  try { localStorage.setItem(PULSE_DONE_KEY, JSON.stringify({date: _pulseDate()})); } catch(e) {}
+}
+
+function _pulseCheckinComplete() {
+  return _allStatsDoneToday()
+    && _allStatusDoneToday()
+    && _vitalsCheckinDoneToday('hp')
+    && _vitalsCheckinDoneToday('mana');
 }
 
 function maybeShowDailyPulse() {
   if (IS_DEMO) return;
+  // Don't show until the user has set up their character (name required)
+  if (!appState.name || appState.name === '') return;
   const lockScreen = document.getElementById('lock-screen');
   if (lockScreen && lockScreen.classList.contains('open')) return;
-  if (_allStatsDoneToday() && _allStatusDoneToday()) return;
+  if (_pulseCheckinComplete()) return;
+  if (_pulseDoneToday()) return;
   if (_pulseDismissedToday()) return;
   const overlay = document.getElementById('daily-pulse-overlay');
   if (!overlay) return;
+  // Don't overlay on top of another open modal
+  if (document.querySelector('.modal-overlay.open')) return;
   _initPulseSliders();
   overlay.classList.add('open');
 }
@@ -15784,6 +15828,20 @@ function _initPulseSliders() {
   const statusState = (appState.statusSliders || {});
   let fromLS = {};
   try { fromLS = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}'); } catch(e) {}
+  // Initialize HP/Mana vitals sliders
+  const vitalCols = { hp:'#c84040', mana:'#3a80c8' };
+  const vitalStateKeys = { hp:'health', mana:'mana' };
+  Object.entries(vitalCols).forEach(([stat, col]) => {
+    const el = document.getElementById('dp-' + stat);
+    const valEl = document.getElementById('dp-' + stat + '-val');
+    if (!el) return;
+    const doneToday = _vitalsCheckinDoneToday(stat);
+    const stateVal = appState[vitalStateKeys[stat]];
+    const pct = doneToday && typeof stateVal === 'number' ? Math.min(100, Math.max(0, stateVal)) : 50;
+    el.value = pct;
+    if (valEl) valEl.textContent = pct;
+    setStatusGradient(el, col, pct);
+  });
   Object.entries(statCols).forEach(([name, col]) => {
     const el = document.getElementById('dp-stat-' + name);
     const valEl = document.getElementById('dp-stat-' + name + '-val');
@@ -15835,6 +15893,8 @@ function dpUpdateStat(name, value) {
   if (el && col) setStatusGradient(el, col, parseInt(value));
   if (valEl) valEl.textContent = parseInt(value);
   _updatePulseRadars();
+  // Live-sync: call the same function the main slider calls so the whole app re-renders
+  updateStat(name, value);
 }
 
 function dpUpdateStatus(name, value) {
@@ -15844,9 +15904,22 @@ function dpUpdateStatus(name, value) {
   if (el && col) setStatusGradient(el, col, parseInt(value));
   if (valEl) valEl.textContent = parseInt(value);
   _updatePulseRadars();
+  // Live-sync: call the same function the main slider calls so the whole app re-renders
+  updateStatus(name, value);
+}
+
+function dpUpdateVital(stat, value) {
+  const col = stat === 'hp' ? '#c84040' : '#3a80c8';
+  const el = document.getElementById('dp-' + stat);
+  const valEl = document.getElementById('dp-' + stat + '-val');
+  if (el) setStatusGradient(el, col, parseInt(value));
+  if (valEl) valEl.textContent = parseInt(value);
+  // Live-sync: write through to state + history + update the main HP/Mana bars
+  saveVitalManual(stat, parseInt(value));
 }
 
 function dpDoneForToday() {
+  // Commit any sliders that weren't already touched (live-sync handles touched ones already)
   const statNames = ['rest', 'movement', 'nutrition', 'connection'];
   const statusNames = ['focus', 'energy', 'purpose', 'interest'];
   statNames.forEach(name => {
@@ -15857,6 +15930,13 @@ function dpDoneForToday() {
     const el = document.getElementById('dp-status-' + name);
     if (el) updateStatus(name, el.value);
   });
+  // Commit HP and Mana vitals
+  ['hp', 'mana'].forEach(stat => {
+    const el = document.getElementById('dp-' + stat);
+    if (el) saveVitalManual(stat, parseInt(el.value));
+  });
+  // Mark pulse as "done" for today (stronger than dismissed — won't reappear)
+  _markPulseDone();
   dpClose();
 }
 
@@ -15930,7 +16010,7 @@ function _init(){
   loadStatSliders(appState);
   _applyVitalsCheckinState();
   setTimeout(_showDailyCheckinReminder, 800); // slight delay so page settles first
-  setTimeout(maybeShowDailyPulse, 400);
+  setTimeout(maybeShowDailyPulse, 900);       // after app settles and PIN check completes
   (appState.activities || DEFAULT.activities || []).forEach(act => {
     initRQState(act, getCharId());
   });
@@ -15948,10 +16028,15 @@ function _init(){
       _applyVitalsCheckinState();
       updateVitalBars(appState);
       _showDailyCheckinReminder();
+      // Show the pulse modal for the new day
+      maybeShowDailyPulse();
     }
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden) _handleDayRollover(); if (document.hidden && _pinActive && _getLockOnHide()) lockApp(); });
   setInterval(_handleDayRollover, 60000);
+  // Separate periodic pulse check: catches the 2am cutoff case where _localDate() hasn't
+  // changed but _pulseDate() has (user opened app before 2am, now it's after 2am).
+  setInterval(()=>{ maybeShowDailyPulse(); }, 60000);
   _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
   maybeShowResetUndoBanner();
 }
@@ -18328,62 +18413,52 @@ document.addEventListener('keydown', function(e) {
 </div>
 
 <!-- ══ DAILY PULSE MODAL ═════════════════════════════════════ -->
-<div class="modal-overlay" id="daily-pulse-overlay">
+<div class="modal-overlay" id="daily-pulse-overlay" onclick="if(event.target===this)dpDismiss()">
   <div class="modal">
     <button class="modal-close" onclick="dpDismiss()" title="Close without checking in">&#x2715;</button>
     <div class="dp-title">Daily Pulse</div>
-    <div class="dp-subtitle">How are you doing today? Set all 8 sliders to log your check-in.</div>
+    <div class="dp-subtitle">Everything starts at 50. Drag each slider to where you are today.</div>
     <div class="dp-body">
-      <div class="dp-col">
-        <div class="dp-section-title" style="color:#9060c0;">Core Skills</div>
+      <div class="dp-vitals-row">
+        <div class="dp-section-title" style="color:#c8a84a;">Vitals</div>
         <div class="dp-sliders">
           <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
-            <input type="range" class="stat-range" id="dp-stat-rest" min="0" max="100" value="50" oninput="dpUpdateStat('rest',this.value)">
-            <span class="stat-bar-val" id="dp-stat-rest-val">50</span>
+            <span class="stat-bar-lbl" style="color:#ff6060" title="HP: Physical health (0-100)">HP</span>
+            <input type="range" class="stat-range" id="dp-hp" min="0" max="100" value="50" oninput="dpUpdateVital('hp',this.value)">
+            <span class="stat-bar-val" id="dp-hp-val">50</span>
           </div>
           <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
-            <input type="range" class="stat-range" id="dp-stat-movement" min="0" max="100" value="50" oninput="dpUpdateStat('movement',this.value)">
-            <span class="stat-bar-val" id="dp-stat-movement-val">50</span>
-          </div>
-          <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#60a838">Nutrition</span>
-            <input type="range" class="stat-range" id="dp-stat-nutrition" min="0" max="100" value="50" oninput="dpUpdateStat('nutrition',this.value)">
-            <span class="stat-bar-val" id="dp-stat-nutrition-val">50</span>
-          </div>
-          <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
-            <input type="range" class="stat-range" id="dp-stat-connection" min="0" max="100" value="50" oninput="dpUpdateStat('connection',this.value)">
-            <span class="stat-bar-val" id="dp-stat-connection-val">50</span>
-          </div>
-        </div>
-        <div class="dp-section-title" style="color:#8090a8;margin-top:10px;">Current State</div>
-        <div class="dp-sliders">
-          <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#c0cad4">Focus</span>
-            <input type="range" class="stat-range stat-range-focus" id="dp-status-focus" min="0" max="100" value="50" oninput="dpUpdateStatus('focus',this.value)">
-            <span class="stat-bar-val" id="dp-status-focus-val">50</span>
-          </div>
-          <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#d07830">Energy</span>
-            <input type="range" class="stat-range stat-range-energy" id="dp-status-energy" min="0" max="100" value="50" oninput="dpUpdateStatus('energy',this.value)">
-            <span class="stat-bar-val" id="dp-status-energy-val">50</span>
-          </div>
-          <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#3a80c8">Interest</span>
-            <input type="range" class="stat-range stat-range-interest" id="dp-status-interest" min="0" max="100" value="50" oninput="dpUpdateStatus('interest',this.value)">
-            <span class="stat-bar-val" id="dp-status-interest-val">50</span>
-          </div>
-          <div class="stat-bar-row">
-            <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
-            <input type="range" class="stat-range stat-range-purpose" id="dp-status-purpose" min="0" max="100" value="50" oninput="dpUpdateStatus('purpose',this.value)">
-            <span class="stat-bar-val" id="dp-status-purpose-val">50</span>
+            <span class="stat-bar-lbl" style="color:#60a0ff" title="Mana: Mental and spiritual health (0-100)">Mana</span>
+            <input type="range" class="stat-range" id="dp-mana" min="0" max="100" value="50" oninput="dpUpdateVital('mana',this.value)">
+            <span class="stat-bar-val" id="dp-mana-val">50</span>
           </div>
         </div>
       </div>
-      <div class="dp-col">
-        <div class="dp-radars">
+      <div class="dp-section">
+        <div class="dp-section-title" style="color:#9060c0;">Core Skills</div>
+        <div class="dp-section-inner">
+          <div class="dp-sliders">
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#8090a8">Rest</span>
+              <input type="range" class="stat-range" id="dp-stat-rest" min="0" max="100" value="50" oninput="dpUpdateStat('rest',this.value)">
+              <span class="stat-bar-val" id="dp-stat-rest-val">50</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#d07830">Movement</span>
+              <input type="range" class="stat-range" id="dp-stat-movement" min="0" max="100" value="50" oninput="dpUpdateStat('movement',this.value)">
+              <span class="stat-bar-val" id="dp-stat-movement-val">50</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#60a838">Nutrition</span>
+              <input type="range" class="stat-range" id="dp-stat-nutrition" min="0" max="100" value="50" oninput="dpUpdateStat('nutrition',this.value)">
+              <span class="stat-bar-val" id="dp-stat-nutrition-val">50</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#3a80c8">Connection</span>
+              <input type="range" class="stat-range" id="dp-stat-connection" min="0" max="100" value="50" oninput="dpUpdateStat('connection',this.value)">
+              <span class="stat-bar-val" id="dp-stat-connection-val">50</span>
+            </div>
+          </div>
           <div class="dp-radar-wrap">
             <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:130px;height:130px;">
               <polygon points="0,-34 34,0 0,34 -34,0" fill="none" stroke="#232332" stroke-width="0.8"/>
@@ -18402,7 +18477,33 @@ document.addEventListener('keydown', function(e) {
               <text x="0"   y="49"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6" fill="#3a80c8" letter-spacing="0.1em">CONNECT</text>
               <text x="-43" y="2.5" text-anchor="end"    font-family="'Cinzel',serif" font-size="6" fill="#60a838" letter-spacing="0.1em">NUTRI</text>
             </svg>
-            <div class="dp-radar-lbl" style="color:#9060c0;">Core Skills</div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-section-title" style="color:#8090a8;">Current State</div>
+        <div class="dp-section-inner">
+          <div class="dp-sliders">
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#c0cad4">Focus</span>
+              <input type="range" class="stat-range stat-range-focus" id="dp-status-focus" min="0" max="100" value="50" oninput="dpUpdateStatus('focus',this.value)">
+              <span class="stat-bar-val" id="dp-status-focus-val">50</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#d07830">Energy</span>
+              <input type="range" class="stat-range stat-range-energy" id="dp-status-energy" min="0" max="100" value="50" oninput="dpUpdateStatus('energy',this.value)">
+              <span class="stat-bar-val" id="dp-status-energy-val">50</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#3a80c8">Interest</span>
+              <input type="range" class="stat-range stat-range-interest" id="dp-status-interest" min="0" max="100" value="50" oninput="dpUpdateStatus('interest',this.value)">
+              <span class="stat-bar-val" id="dp-status-interest-val">50</span>
+            </div>
+            <div class="stat-bar-row">
+              <span class="stat-bar-lbl" style="color:#60a838">Purpose</span>
+              <input type="range" class="stat-range stat-range-purpose" id="dp-status-purpose" min="0" max="100" value="50" oninput="dpUpdateStatus('purpose',this.value)">
+              <span class="stat-bar-val" id="dp-status-purpose-val">50</span>
+            </div>
           </div>
           <div class="dp-radar-wrap">
             <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:130px;height:130px;">
@@ -18422,7 +18523,6 @@ document.addEventListener('keydown', function(e) {
               <text x="0"   y="49"  text-anchor="middle" font-family="'Cinzel',serif" font-size="6" fill="#3a80c8" letter-spacing="0.1em">INTEREST</text>
               <text x="-43" y="2.5" text-anchor="end"    font-family="'Cinzel',serif" font-size="6" fill="#60a838" letter-spacing="0.1em">PURPOSE</text>
             </svg>
-            <div class="dp-radar-lbl" style="color:#8090a8;">Current State</div>
           </div>
         </div>
       </div>
