@@ -524,9 +524,16 @@ body {
 }
 .xp-bar-fill {
   height:100%; border-radius:6px;
-  background:linear-gradient(90deg, #3a1e90 0%, #7040b8 50%, #b080e8 100%);
+  background:linear-gradient(90deg, #2a1260 0%, #4a2880 50%, #7040b8 100%);
   transition:width 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.xp-bar-week {
+  background:linear-gradient(90deg, #4a2880 0%, #7040b8 50%, #9060d0 100%);
   animation:xp-bar-glow 3s ease-in-out infinite;
+}
+.xp-bar-today {
+  background:linear-gradient(90deg, #7040b8 0%, #b080e8 60%, #d4a0ff 100%);
+  animation:xp-bar-glow 2s ease-in-out infinite;
 }
 .xp-bar-fill.surging { animation:xp-bar-surge 0.9s ease-out forwards; }
 .xp-float-label {
@@ -892,18 +899,17 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #float-bar {
   position:fixed; bottom:26px; right:26px; z-index:100;
   display:flex; align-items:center; gap:0;
-  background:rgba(14,14,22,0.92); border:1px solid var(--help-border);
+  background:rgba(14,14,22,0.92); border:2px solid #000;
   border-radius:28px; overflow:hidden;
   box-shadow:0 2px 20px rgba(0,0,0,0.5);
 }
 .fbar-btn {
-  background:none; border:none; border-right:1px solid rgba(45,168,106,0.18);
+  background:none; border:none; border-right:1px solid #000;
   color:var(--help); font-family:'Cinzel',serif; font-size:14px; letter-spacing:0.1em;
   padding:0 16px; height:40px; cursor:pointer; transition:all 0.18s; white-space:nowrap;
   display:flex; align-items:center; gap:6px;
 }
 .fbar-btn:last-child { border-right:none; }
-.fbar-sep { width:1px; margin-left:-1px; background:rgba(255,255,255,0.18); flex-shrink:0; align-self:stretch; }
 .fbar-btn:hover { background:rgba(45,168,106,0.14); color:#fff; }
 .fbar-btn.fbar-primary { background:rgba(45,168,106,0.12); }
 .fbar-btn.fbar-primary:hover { background:rgba(45,168,106,0.28); }
@@ -1154,6 +1160,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .welcome-opt-ghost { background:none; border:1px solid var(--border-hi); color:var(--text-dim); }
 .welcome-opt-ghost:hover { border-color:var(--text-dim); color:var(--text); }
 .welcome-opt-ghost.active { border-color:var(--help); color:var(--help); }
+.welcome-opt-ghost.active-cloud { border-color:#f09090; color:#f09090; }
+.welcome-opt-ghost.active-noai  { border-color:#6090c8; color:#6090c8; }
 #welcome-setup-steps { display:none; margin-top:18px; padding-top:18px; border-top:1px solid var(--border-hi); }
 .welcome-step { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
 .welcome-step:last-child { border-bottom:none; }
@@ -1505,7 +1513,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   position:absolute; top:50%; width:2px; height:28px; border-radius:1px;
   transform:translate(-50%,-50%); pointer-events:none; z-index:2;
   transition:left 0.9s cubic-bezier(0.4,0,0.2,1);
-  background:#e05060; box-shadow:0 0 4px rgba(224,80,96,0.5);
+  background:#e08060; box-shadow:0 0 4px rgba(224,128,96,0.5);
 }
 /* New-day glow: bar pulses in its own colour until today's value is logged */
 @keyframes vital-hp-needs-update {
@@ -1523,7 +1531,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* Single-row layout: ████████░░░░ · 500/1000 XP · → Lv5 */
 .hdr-xp-full { display:flex; align-items:center; gap:10px; }
 .hdr-xp-track-wrap { position:relative; flex:1; min-width:0; }
-.hdr-xp-track-full { height:10px; background:rgba(100,60,160,0.1); border-radius:5px; border:1px solid rgba(144,96,192,0.2); overflow:hidden; width:100%; }
+.hdr-xp-track-full { height:10px; background:rgba(100,60,160,0.1); border-radius:5px; border:1px solid rgba(144,96,192,0.2); overflow:hidden; width:100%; position:relative; }
+.xp-bar-week, .xp-bar-today { position:absolute; top:0; bottom:0; transition:width 0.9s cubic-bezier(0.4,0,0.2,1),left 0.9s cubic-bezier(0.4,0,0.2,1); }
 .hdr-xp-right { display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0; gap:1px; }
 .xp-fraction { font-family:var(--mono); font-size:13px; color:var(--text-dim); letter-spacing:0.03em; white-space:nowrap; }
 .xp-nxt-num  { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.1em; color:#b080e8; opacity:0.5; white-space:nowrap; }
@@ -1936,7 +1945,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-stats-sub .ps-col-all,
 .practice-stats-sub .ps-col-avg,
 .practice-stats-sub .ps-col-done { width:42px; text-align:right; font-size:13px; font-family:var(--mono); }
-.practice-stats-sub .ps-col-7d  { color:#e05060; }
+.practice-stats-sub .ps-col-7d  { color:#e08060; }
 .practice-stats-sub .ps-col-all { color:#40c8c0; }
 .practice-stats-sub .ps-col-avg { color:var(--gold); width:80px; }
 .practice-stats-sub .ps-col-done { color:#c8a84a; }
@@ -1945,7 +1954,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .practice-stats-sub .ps-hdr-all,
 .practice-stats-sub .ps-hdr-avg,
 .practice-stats-sub .ps-hdr-done { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; text-align:right; opacity:0.6; }
-.practice-stats-sub .ps-hdr-7d  { color:#e05060; }
+.practice-stats-sub .ps-hdr-7d  { color:#e08060; }
 .practice-stats-sub .ps-hdr-all { color:#40c8c0; }
 .practice-stats-sub .ps-hdr-avg { color:var(--gold); }
 .practice-stats-sub .ps-hdr-done { color:#c8a84a; }
@@ -1972,11 +1981,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .rq-goal-window-dot { font-family:var(--mono); font-size:13px; color:rgba(176,128,232,0.35); padding:0 2px; }
 .rq-goal-window-badge { font-family:var(--mono); font-size:12px; color:rgba(176,128,232,0.75); background:rgba(176,128,232,0.08); border:1px solid rgba(176,128,232,0.25); border-radius:3px; padding:1px 6px; letter-spacing:0.04em; white-space:nowrap; }
 .practice-trend-swatch { display:inline-block; width:18px; height:1.5px; flex-shrink:0; border-radius:1px; }
-.practice-trend-swatch-7d  { background:#e05060; opacity:0.8; }
+.practice-trend-swatch-7d  { background:#e08060; opacity:0.8; }
 .practice-trend-swatch-all { background:#40c8c0; opacity:0.8; }
 .practice-trend-lbl { font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); flex:1; }
 .practice-trend-val { font-size:14px; font-family:var(--mono); }
-.practice-trend-val-7d  { color:#e05060; }
+.practice-trend-val-7d  { color:#e08060; }
 .practice-trend-val-all { color:#40c8c0; }
 .practice-widget { padding:10px 14px; border-left:1px solid rgba(200,168,74,0.12); min-width:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
 .practice-graph-col { border-left:1px solid rgba(200,168,74,0.1); padding:10px 12px; display:flex; align-items:stretch; min-width:0; }
@@ -2020,7 +2029,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   margin:0 1px; pointer-events:none;
 }
 .prac-bar-target-line {
-  position:absolute; left:0; right:0; border-top:1px dashed rgba(200,168,74,0.35);
+  position:absolute; left:0; right:0; border-top:1px dashed rgba(176,128,232,0.45);
   pointer-events:none;
 }
 .prac-bar-col {
@@ -2530,7 +2539,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .balance-radar-legend-item { display:flex; align-items:center; gap:5px; font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.06em; color:#8090a8; text-transform:uppercase; }
 .brl-line { display:inline-block; width:14px; height:1.5px; flex-shrink:0; }
 .brl-current { background:var(--gold); opacity:0.9; }
-.brl-week    { background:rgba(224,80,96,0.7);  border-top:1px dotted rgba(224,80,96,0.8);  height:0; }
+.brl-week    { background:rgba(224,128,96,0.7); border-top:1px dotted rgba(224,128,96,0.8); height:0; }
 .brl-month   { background:rgba(64,200,192,0.65); border-top:1px dashed rgba(64,200,192,0.8); height:0; }
 /* Chart side */
 .harmony-chart-wrap { flex:1; min-width:0; display:flex; flex-direction:column; }
@@ -3104,18 +3113,20 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chat-summarize-btn { font-size:13px; padding:6px 14px; color:var(--text-dim); border-color:rgba(255,255,255,0.15); }
 .chat-summarize-btn:hover { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.3); }
 .chat-sync-options { display:flex; flex-direction:column; gap:7px; margin-top:4px; }
-.chat-sync-radio { display:flex; align-items:center; gap:7px; font-size:13px; color:var(--text); cursor:pointer; }
+.chat-sync-radio { display:flex; align-items:center; gap:7px; font-size:14px; color:var(--text); cursor:pointer; }
 .chat-sync-radio input[type=radio] { margin:0; cursor:pointer; flex-shrink:0; }
 .chat-sync-n { width:44px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:var(--text); border-radius:3px; padding:2px 4px; text-align:center; font-size:12px; }
 .chat-open-btn { font-size:14px; margin-bottom:10px; }
 /* Chat quickstart chips */
 .chat-quickstarts { padding:8px 16px 0; display:flex; flex-direction:column; gap:6px; }
 .chat-qs-chip {
-  font-size:13px; padding:5px 12px; border-radius:20px; width:100%; text-align:left;
+  font-size:13px; padding:6px 14px; border-radius:20px; width:100%; text-align:left;
   background:rgba(42,144,144,0.08); border:1px solid rgba(42,144,144,0.28);
-  color:var(--text-dim); cursor:pointer; transition:all 0.15s; line-height:1.3;
+  color:var(--text-dim); cursor:pointer; transition:all 0.15s; line-height:1.4;
+  white-space:normal; overflow-wrap:break-word;
 }
 .chat-qs-chip:hover { background:rgba(42,144,144,0.16); border-color:#2a9090; color:var(--text); }
+.chat-qs-chip strong { color:var(--text); font-weight:600; }
 /* Chat session bar + picker */
 .chat-session-bar { padding:4px 14px 0; display:flex; align-items:center; gap:8px; }
 .chat-session-picker {
@@ -3200,21 +3211,35 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chat-sess-picker-empty { padding:12px; font-size:12px; color:var(--text-dim); text-align:center; }
 /* Chat sidebar mode */
 #chat-overlay.compact {
-  inset:0 0 0 auto; width:420px; height:100%;
+  inset:0 0 0 auto; width:var(--chat-sidebar-width,420px); height:100%;
   background:rgba(7,7,11,0.99); border-top:none; border-left:3px solid rgba(42,144,144,0.6);
   backdrop-filter:none; -webkit-backdrop-filter:none;
 }
-body.chat-sidebar { padding-right:calc(40px + 420px); }
+body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); }
 @media (max-width:900px) {
   #chat-overlay.compact { width:100%; border-left:none; border-top:3px solid rgba(42,144,144,0.6); }
   body.chat-sidebar { padding-right:40px; }
 }
+#chat-resize-handle {
+  display:none; position:absolute; left:0; top:0; bottom:0; width:8px;
+  cursor:ew-resize; z-index:1; user-select:none;
+}
+#chat-resize-handle::after {
+  content:''; position:absolute; left:3px; top:50%; transform:translateY(-50%);
+  width:2px; height:40px; background:rgba(42,144,144,0.35); border-radius:2px;
+  transition:background 0.15s;
+}
+#chat-resize-handle:hover::after { background:rgba(42,144,144,0.8); }
+#chat-overlay.compact #chat-resize-handle { display:block; }
 /* Chat settings modal */
 .chat-field { margin-bottom:14px; }
 .chat-field-lbl {
-  display:block; font-family:var(--mono); font-size:12px;
-  letter-spacing:0.1em; color:var(--text-dim); text-transform:uppercase; margin-bottom:5px;
+  display:block; font-family:var(--mono); font-size:13px;
+  letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase; margin-bottom:5px;
 }
+.chat-section-local { border:1px solid rgba(80,200,120,0.22); border-radius:6px; padding:12px 14px; margin-bottom:14px; }
+.chat-section-cloud { border:1px solid rgba(240,144,144,0.22); border-radius:6px; padding:12px 14px; margin-bottom:14px; }
+.chat-section-hdr { font-size:11px; font-family:var(--mono); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px; }
 #chat-settings-modal input[type=text],
 #chat-settings-modal input[type=password],
 #chat-settings-modal select,
@@ -3228,7 +3253,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 #chat-settings-modal select:focus { outline:none; border-color:rgba(42,144,144,0.5); }
 #chat-settings-modal select option { background:#0f0f17; }
 .chat-pin-warn { font-size:13px; color:#c87828; margin-top:6px; line-height:1.4; }
-.chat-api-note { font-size:13px; color:var(--text); margin-top:6px; line-height:1.4; }
+.chat-api-note { font-size:14px; color:var(--text); margin-top:6px; line-height:1.5; }
 .chat-api-note a { color:var(--help); }
 .ollama-status-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; }
 .ollama-conn-ok  { font-size:12px; font-family:var(--mono); color:#50c878; }
@@ -3307,7 +3332,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
   </div>
 
   <!-- Full-width XP bar (spans all columns) -->
-  <div class="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Set XP rewards on each item directly in the UI.">
+  <div class="hdr-xp-full" id="hdr-xp-full" title="XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements. Set XP rewards on each item directly in the UI.">
     <div class="hdr-xp-level-badge">
       <span class="xp-bar-lbl">Level</span>
       <span id="xp-level">4</span>
@@ -3315,6 +3340,8 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
     <div class="hdr-xp-track-wrap">
       <div class="hdr-xp-track-full">
         <div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div>
+        <div class="xp-bar-fill xp-bar-week" id="xp-bar-week" style="width:0%;left:0%"></div>
+        <div class="xp-bar-fill xp-bar-today" id="xp-bar-today" style="width:0%;left:0%"></div>
       </div>
     </div>
     <div class="hdr-xp-right">
@@ -3365,7 +3392,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
     <div class="welcome-options">
       <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup('manual')">A &nbsp;Local AI (Ollama) &mdash; recommended</button>
       <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">B &nbsp;Cloud AI &mdash; Claude, ChatGPT, Gemini</button>
-      <button class="welcome-opt-btn welcome-opt-ghost" onclick="toggleWelcomeSetup('noai')">C &nbsp;No AI &mdash; manual or copy-paste</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-noai-btn" onclick="toggleWelcomeSetup('noai')">C &nbsp;No AI &mdash; manual or copy-paste</button>
     </div>
     <div style="margin:10px 0 2px;border-top:1px solid var(--border);padding-top:12px;">
       <button onclick="dismissWelcome();openModal()" class="btn-gold-ghost" style="width:100%;padding:11px 16px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;border-radius:5px;cursor:pointer;">&#10022; Already have data? Import it</button>
@@ -3382,18 +3409,18 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
       <!-- Path B: Cloud AI copy-paste -->
       <div class="welcome-path" id="welcome-path-ai" style="display:none;">
         <div style="font-size:13px;color:#f09090;margin:14px 0 10px;font-weight:600;">B &nbsp;Cloud AI &mdash; your journal is sent to the provider's servers</div>
-        <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
-        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Create a project</strong> in your AI of choice (Claude Projects, ChatGPT Projects, or Gemini Gems). Upload instructions.md to the project's knowledge base.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Start a chat</strong> and say: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life."</em></div></div>
-        <div class="welcome-step"><div class="welcome-step-num">4</div><div class="welcome-step-text"><strong>End the session:</strong> ask your AI <em>"Update my data"</em> and copy the JSON it produces.</div></div>
-        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num">5</div><div class="welcome-step-text"><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;font-weight:700;" onclick="dismissWelcome();openModal()">↑ Import</button> your data (bottom-right of the app), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">2</div><div class="welcome-step-text"><strong>Create a project</strong> in your AI of choice (Claude Projects, ChatGPT Projects, or Gemini Gems). Upload instructions.md to the project's knowledge base.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">3</div><div class="welcome-step-text"><strong>Start a chat</strong> and say: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life."</em></div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">4</div><div class="welcome-step-text"><strong>End the session:</strong> ask your AI <em>"Update my data"</em> and copy the JSON it produces.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:#f09090;">5</div><div class="welcome-step-text"><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;font-weight:700;" onclick="dismissWelcome();openModal()">↑ Import</button> your data (bottom-right of the app), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
       </div>
       <!-- Path C: No AI / manual -->
       <div class="welcome-path" id="welcome-path-noai" style="display:none;">
-        <div style="font-size:13px;color:var(--text-mid);margin:14px 0 10px;font-weight:600;">C &nbsp;No AI &mdash; full control, works completely offline</div>
-        <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Click any field to edit it.</strong> Start with your name and main quest at the top. Almost everything in the app is editable directly.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Fill in the tabs</strong> at your own pace: Quests, Skills, Enemies, Allies, Achievements. No rush. Add things as you think of them.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Export regularly</strong> using the Export ↓ button (bottom bar). Your data only exists in this browser, so Export is your backup.</div></div>
+        <div style="font-size:13px;color:#6090c8;margin:14px 0 10px;font-weight:600;">C &nbsp;No AI &mdash; full control, works completely offline</div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">1</div><div class="welcome-step-text"><strong>Click any field to edit it.</strong> Start with your name and main quest at the top. Almost everything in the app is editable directly.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">2</div><div class="welcome-step-text"><strong>Fill in the tabs</strong> at your own pace: Quests, Skills, Enemies, Allies, Achievements. No rush. Add things as you think of them.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">3</div><div class="welcome-step-text"><strong>Export regularly</strong> using the Export ↓ button (bottom bar). Your data only exists in this browser, so Export is your backup.</div></div>
         <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:var(--text-dim);">i</div><div class="welcome-step-text" style="font-size:14px;color:var(--text-dim);">You can use any AI outside the app: export your data.json, paste it into a chat along with instructions.md, get an update, and import it back. The Help screen has full details.</div></div>
       </div>
     </div>
@@ -3502,7 +3529,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
         <line x1="0" y1="-72" x2="0" y2="72" stroke="#1e1e28" stroke-width="0.5"/>
         <line x1="-72" y1="0" x2="72" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
         <polygon id="radar-ghost-month" fill="none" stroke="rgba(64,200,192,0.55)" stroke-width="1.2" stroke-dasharray="5,3"/>
-        <polygon id="radar-ghost-week"  fill="none" stroke="rgba(224,80,96,0.65)"  stroke-width="1.2" stroke-dasharray="1.5,4"/>
+        <polygon id="radar-ghost-week"  fill="none" stroke="rgba(224,128,96,0.65)" stroke-width="1.2" stroke-dasharray="2,4"/>
         <polygon id="radar-fill"   fill="rgba(200,168,74,0.07)" stroke="none"/>
         <polygon id="radar-stroke" fill="none" stroke="var(--gold)" stroke-width="1.6" opacity="0.8"/>
         <circle id="r-air"   cx="0" cy="0" r="4.5" fill="#8090a8"/>
@@ -3848,7 +3875,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
           <line x1="0" y1="-44" x2="0" y2="44" stroke="#1e1e28" stroke-width="0.5"/>
           <line x1="-44" y1="0" x2="44" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
           <polygon id="stats-radar-ghost-all" fill="none" stroke="rgba(64,200,192,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
-          <polygon id="stats-radar-ghost-7d"  fill="none" stroke="rgba(224,80,96,0.35)"  stroke-width="1" stroke-dasharray="1.5,3.5"/>
+          <polygon id="stats-radar-ghost-7d"  fill="none" stroke="rgba(224,128,96,0.35)" stroke-width="1" stroke-dasharray="2,3.5"/>
           <polygon id="stats-radar-fill"   fill="rgba(58,128,200,0.06)" stroke="none"/>
           <polygon id="stats-radar-stroke" fill="none" stroke="rgba(58,128,200,0.4)" stroke-width="1.4"/>
           <circle id="s-rest"       cx="0"   cy="-38" r="3.5" fill="#8090a8"/>
@@ -3900,6 +3927,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div class="qt-section-hdr no-prefix" style="color:#9060c0;border-color:rgba(144,96,192,0.3);">◈ XP History</div>
         <button class="hist-reset-btn" onclick="addManualXP()" title="Award yourself XP for something outside the app">+ Add XP</button>
+        <button class="hist-reset-btn" onclick="confirmResetXPProgress()" title="Reset XP and level back to Level 1" style="color:#c84040;border-color:rgba(200,64,64,0.4);">Reset XP</button>
       </div>
       <div class="section-desc">Gains, losses, and level-ups</div>
       <div class="xp-chart-wrap">
@@ -3955,7 +3983,7 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
           <line x1="0" y1="-44" x2="0" y2="44" stroke="#1e1e28" stroke-width="0.5"/>
           <line x1="-44" y1="0" x2="44" y2="0" stroke="#1e1e28" stroke-width="0.5"/>
           <polygon id="status-radar-ghost-all" fill="none" stroke="rgba(64,200,192,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
-          <polygon id="status-radar-ghost-7d"  fill="none" stroke="rgba(224,80,96,0.35)"  stroke-width="1" stroke-dasharray="1.5,3.5"/>
+          <polygon id="status-radar-ghost-7d"  fill="none" stroke="rgba(224,128,96,0.35)" stroke-width="1" stroke-dasharray="2,3.5"/>
           <polygon id="status-radar-fill"   fill="rgba(192,202,212,0.07)" stroke="none"/>
           <polygon id="status-radar-stroke" fill="none" stroke="rgba(192,202,212,0.6)" stroke-width="1.4"/>
           <circle id="sr-focus"    cx="0" cy="-38" r="3.5" fill="#c0cad4"/>
@@ -4138,11 +4166,9 @@ body.chat-sidebar { padding-right:calc(40px + 420px); }
 <div id="float-bar">
   <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Daily check-in: log your vitals and current inner state. Do this once a day to track patterns over time.">◈<span class="fbar-label"> Daily</span></button>
   <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="Chat: open a journalling session with your AI. Uses a local Ollama model (fully private) or a cloud AI with your own API key.">&#10022;<span class="fbar-label"> Chat</span></button>
-  <div class="fbar-sep"></div>
   <button class="fbar-btn fbar-import" id="import-btn" onclick="openModal()" title="Import: paste or load a data.json to restore a backup, switch devices, or apply updates from your AI after a session.">↑<span class="fbar-label"> Import</span></button>
   <button class="fbar-btn fbar-export" id="export-btn" onclick="exportState()" title="Export: download your data.json. Use as a backup or to share your current state with your AI before a journalling session.">↓<span class="fbar-label"> Export</span></button>
   <button class="fbar-btn" id="git-sync-btn" onclick="openGitSyncModal()" title="Sync: push your data to a private GitHub repo as an off-device backup. Requires a GitHub account.">↕<span class="fbar-label"> Sync</span></button>
-  <div class="fbar-sep"></div>
   <button class="fbar-btn fbar-help" id="help-btn" onclick="openHelpModal()" title="Help: how character-sheet works, setup guide for AI journalling, and instructions for first-time use." style="position:relative;">?<span class="fbar-label"> Help</span><span id="help-dot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:#c06060;"></span></button>
   <button class="fbar-btn fbar-security" id="settings-btn" onclick="openSettingsModal()" title="Security: set a password to encrypt all your data in this browser with AES-256. Nothing leaves your machine unless you send it.">⚙<span class="fbar-label"> Security</span></button>
   <button class="fbar-btn fbar-security" id="lock-btn" onclick="lockApp()" title="Lock: hide your data and require your password to continue. Use when stepping away." style="display:none;">⬡<span class="fbar-label"> Lock</span></button>
@@ -6647,14 +6673,29 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols, hRange) {
     });
     ctx.stroke(); ctx.globalAlpha = 1;
 
-    // Trend line (dashed, dimmer)
-    const regAll = linReg(pts.filter(p => p.v != null).map((p, i) => [i, p.v]));
-    if (regAll) {
+    // All-time trend line of best fit (cyan, long dashes)
+    const validPts = pts.filter(p => p.v != null);
+    const regAll = linReg(validPts.map((p, i) => [i, p.v]));
+    if (regAll && validPts.length >= 2) {
+      const nAll = validPts.length;
       const y1 = yOf(regAll.intercept);
-      const y2 = yOf(regAll.slope * (n-1) + regAll.intercept);
-      ctx.beginPath(); ctx.setLineDash([5, 4]); ctx.lineWidth = 1;
-      ctx.strokeStyle = col; ctx.globalAlpha = 0.28;
-      ctx.moveTo(xOf(0), y1); ctx.lineTo(xOf(n-1), y2);
+      const y2 = yOf(regAll.slope * (nAll - 1) + regAll.intercept);
+      ctx.beginPath(); ctx.setLineDash([6, 4]); ctx.lineWidth = 1.1;
+      ctx.strokeStyle = '#40c8c0'; ctx.globalAlpha = 0.55;
+      ctx.moveTo(validPts[0].x, y1); ctx.lineTo(validPts[nAll - 1].x, y2);
+      ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    }
+
+    // 7-day trend line of best fit (coral, short dashes) — last 7 slots
+    const pts7 = pts.slice(-7).filter(p => p.v != null);
+    const reg7 = linReg(pts7.map((p, i) => [i, p.v]));
+    if (reg7 && pts7.length >= 2) {
+      const n7 = pts7.length;
+      const y1 = yOf(reg7.intercept);
+      const y2 = yOf(reg7.slope * (n7 - 1) + reg7.intercept);
+      ctx.beginPath(); ctx.setLineDash([2, 4]); ctx.lineWidth = 1.1;
+      ctx.strokeStyle = '#e08060'; ctx.globalAlpha = 0.6;
+      ctx.moveTo(pts7[0].x, y1); ctx.lineTo(pts7[n7 - 1].x, y2);
       ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
     }
   });
@@ -6696,8 +6737,11 @@ function _drawMultiLineHistChart(canvasId, legendId, hist, keys, cols, hRange) {
       legendEl.appendChild(item);
     });
     const allTimeLi = document.createElement('div'); allTimeLi.className = 'hist-legend-item';
-    allTimeLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="5 4"/></svg><span>trend</span>';
+    allTimeLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="#40c8c0" stroke-width="1.1" stroke-dasharray="6 4"/></svg><span>all-time</span>';
     legendEl.appendChild(allTimeLi);
+    const sevenDayLi = document.createElement('div'); sevenDayLi.className = 'hist-legend-item';
+    sevenDayLi.innerHTML = '<svg width="16" height="4" style="flex-shrink:0"><line x1="0" y1="2" x2="16" y2="2" stroke="#e08060" stroke-width="1.1" stroke-dasharray="2 4"/></svg><span>7-day</span>';
+    legendEl.appendChild(sevenDayLi);
   }
 }
 
@@ -7264,12 +7308,56 @@ function updateXpRing(level, xp, xpToNext){
   const lbl=document.getElementById('xp-level');
   const nxt=document.getElementById('xp-next-level');
   const fill=document.getElementById('xp-bar-fill');
+  const fillWeek=document.getElementById('xp-bar-week');
+  const fillToday=document.getElementById('xp-bar-today');
   const frac=document.getElementById('xp-fraction');
-  const pct=Math.min(100,Math.round(((xp||0)/(xpToNext||1))*100));
+  const totalXp=xp||0;
+  const threshold=xpToNext||1;
+  const pct=Math.min(100,Math.round((totalXp/threshold)*100));
   if(lbl) lbl.textContent=level||1;
   if(nxt) nxt.textContent='→ Level '+((level||1)+1);
   if(fill) fill.style.width=pct+'%';
-  if(frac) frac.textContent=`${(xp||0).toLocaleString()} / ${(xpToNext||0).toLocaleString()} XP`;
+  if(frac) frac.textContent=`${totalXp.toLocaleString()} / ${(xpToNext||0).toLocaleString()} XP`;
+
+  // Compute today and this-week XP from log for segment highlights
+  const log=loadXPLog();
+  const todayISO=new Date().toISOString().slice(0,10);
+  const weekAgo=new Date(Date.now()-7*24*60*60*1000).toISOString().slice(0,10);
+  // Normalize DD/MM/YYYY → YYYY-MM-DD for comparison; leave YYYY-MM-DD as-is
+  function _normDate(d){ const p=d&&d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); return p?`${p[3]}-${p[2].padStart(2,'0')}-${p[1].padStart(2,'0')}`:d||''; }
+  let todayXp=0, weekXp=0;
+  log.forEach(e=>{
+    if(!e.date||e.type==='levelup'||e.levelup) return;
+    const amt=e.amount||0; if(amt<=0) return;
+    const d=_normDate(e.date);
+    if(d===todayISO) { todayXp+=amt; weekXp+=amt; }
+    else if(d>=weekAgo&&d<todayISO) weekXp+=amt;
+  });
+  // Segments are stacked; each extends from left edge to its cumulative width.
+  // week segment covers (totalXp - weekXp) → totalXp slice, rendered on top of base.
+  // today segment covers (totalXp - todayXp) → totalXp slice, rendered on top of week.
+  const weekStartXp=Math.max(0, totalXp-weekXp);
+  const todayStartXp=Math.max(0, totalXp-todayXp);
+  // Each segment's left% and width% within the bar track
+  const weekLeftPct=Math.min(100,(weekStartXp/threshold)*100);
+  const weekWidthPct=Math.min(100-weekLeftPct,(weekXp/threshold)*100);
+  const todayLeftPct=Math.min(100,(todayStartXp/threshold)*100);
+  const todayWidthPct=Math.min(100-todayLeftPct,(todayXp/threshold)*100);
+  if(fillWeek){ fillWeek.style.left=weekLeftPct+'%'; fillWeek.style.width=weekWidthPct+'%'; fillWeek.style.right='auto'; }
+  if(fillToday){ fillToday.style.left=todayLeftPct+'%'; fillToday.style.width=todayWidthPct+'%'; fillToday.style.right='auto'; }
+
+  // Update tooltip with today/week info
+  const bar=document.getElementById('hdr-xp-full');
+  if(bar){
+    let tip='XP (Experience Points): earned by completing quests, levelling skills, achieving breakthroughs, and advancing elements.';
+    if(todayXp>0||weekXp>0){
+      tip+=` +${todayXp} XP today`;
+      if(weekXp>todayXp) tip+=`, +${weekXp} XP this week`;
+      tip+='.';
+    }
+    bar.title=tip;
+  }
+
   // Mobile compact header
   const mLvl=document.getElementById('hdr-mobile-level');
   const mFill=document.getElementById('hdr-mobile-xp-fill');
@@ -7456,22 +7544,24 @@ function xpFloatLabel(text, anchorEl){
 // gainLabel: string like "+120 XP" shown floating.
 function animateXpGain(oldXp, newXp, oldLevel, newLevel, xpToNext, gainLabel){
   const fill=document.getElementById('xp-bar-fill');
+  const fillToday=document.getElementById('xp-bar-today');
   const track=fill?.parentElement;
   if(!fill) return;
 
   const newPct=Math.min(100,Math.round(((newXp||0)/(xpToNext||1))*100));
 
-  // Surge glow on the bar
-  fill.classList.remove('surging');
-  void fill.offsetWidth;
-  fill.classList.add('surging');
-  setTimeout(()=>fill.classList.remove('surging'), 1000);
+  // Surge glow on the bar (prefer today segment as it's most visible)
+  const surgeEl=fillToday||fill;
+  surgeEl.classList.remove('surging');
+  void surgeEl.offsetWidth;
+  surgeEl.classList.add('surging');
+  setTimeout(()=>surgeEl.classList.remove('surging'), 1000);
 
   // Floating +XP label above the bar track
   if(gainLabel && track) xpFloatLabel(gainLabel, track);
 
-  // Particle burst from the fill edge (after bar width transition, ~0.6s in)
-  setTimeout(()=>xpParticleBurst(fill), 600);
+  // Particle burst from the leading fill edge (today segment if nonzero, else base)
+  setTimeout(()=>xpParticleBurst((fillToday&&parseFloat(fillToday.style.width)>0?fillToday:fill)), 600);
 
   // Level-up overlay if levelled up
   if(newLevel > oldLevel){
@@ -9212,27 +9302,104 @@ function render(s){
   // keyQuestions (new array format) — also falls back to legacy keyQuestion string
   const kqEl=document.getElementById('lore-key-questions');
   if(kqEl){
-    const kqs=(Array.isArray(s.keyQuestions)&&s.keyQuestions.length?s.keyQuestions
+    const kqsRaw=(Array.isArray(s.keyQuestions)&&s.keyQuestions.length?s.keyQuestions
       :(s.keyQuestion?[{question:s.keyQuestion}]:[])).slice(0,3);
     kqEl.style.display='block';
-    if(kqs.length){
-      kqEl.innerHTML=`<div class="lore-card-hdr">Key Questions</div><div class="lore-keyq-list">`+
-        kqs.map(q=>`<div class="lore-keyq-item"><div class="lore-keyq-icon">?</div><div><div class="lore-keyq-text">${esc(q.question||q)}</div>${q.updated?`<div class="lore-keyq-meta">updated ${esc(q.updated)}</div>`:''}</div></div>`).join('')+
-        `</div>`;
+    kqEl.innerHTML='';
+    const kqHdr=document.createElement('div'); kqHdr.className='lore-card-hdr'; kqHdr.textContent='Key Questions'; kqEl.appendChild(kqHdr);
+    const kqList=document.createElement('div'); kqList.className='lore-keyq-list'; kqEl.appendChild(kqList);
+    function renderKqItem(qi){
+      const q=appState.keyQuestions[qi];
+      const item=document.createElement('div'); item.className='lore-keyq-item';
+      const icon=document.createElement('div'); icon.className='lore-keyq-icon'; icon.textContent='?'; item.appendChild(icon);
+      const body=document.createElement('div'); body.style.flex='1'; body.style.minWidth='0';
+      const qText=makeEditable(q.question||'','Enter a key question…',v=>{
+        if(!Array.isArray(appState.keyQuestions)) appState.keyQuestions=[];
+        if(appState.keyQuestions[qi]) appState.keyQuestions[qi].question=v;
+        saveState(appState); markDirty();
+      },'lore-keyq-text');
+      body.appendChild(qText);
+      if(q.updated){ const meta=document.createElement('div'); meta.className='lore-keyq-meta'; meta.textContent='updated '+q.updated; body.appendChild(meta); }
+      item.appendChild(body);
+      const del=document.createElement('button'); del.className='ally-delete card-head-del'; del.textContent='×'; del.title='Delete question';
+      del.style.cssText='margin-top:3px;flex-shrink:0;';
+      del.onclick=ev=>{
+        ev.stopPropagation();
+        const snap=JSON.parse(JSON.stringify(appState.keyQuestions||[]));
+        showConfirmDelete((q.question||'this question').slice(0,40),
+          ()=>{ if(!Array.isArray(appState.keyQuestions)) appState.keyQuestions=[]; appState.keyQuestions.splice(qi,1); saveState(appState); markDirty(); render(appState); },
+          ()=>{ appState.keyQuestions=snap; saveState(appState); markDirty(); render(appState); }
+        );
+      };
+      item.appendChild(del);
+      kqList.appendChild(item);
+    }
+    if(kqsRaw.length){
+      if(!Array.isArray(appState.keyQuestions)||!appState.keyQuestions.length) appState.keyQuestions=kqsRaw.map(q=>typeof q==='string'?{question:q}:q);
+      appState.keyQuestions.slice(0,3).forEach((_,qi)=>renderKqItem(qi));
     } else {
-      kqEl.innerHTML=`<div class="lore-card-hdr">Key Questions</div><div class="lore-keyq-list"><div class="lore-keyq-item"><div class="lore-keyq-icon">?</div><div><div class="lore-keyq-text" style="color:var(--text-dim);font-style:italic;">No key questions yet. Claude will infer these from your journalling sessions.</div></div></div></div>`;
+      const empty=document.createElement('div'); empty.className='lore-keyq-item';
+      const eIcon=document.createElement('div'); eIcon.className='lore-keyq-icon'; eIcon.textContent='?'; empty.appendChild(eIcon);
+      const eTxt=document.createElement('div'); eTxt.className='lore-keyq-text'; eTxt.style.cssText='color:var(--text-dim);font-style:italic;';
+      eTxt.textContent='No key questions yet. Your AI will infer these from your journalling sessions.'; empty.appendChild(eTxt);
+      kqList.appendChild(empty);
+    }
+    if((appState.keyQuestions||[]).length<3){
+      const addBtn=document.createElement('button'); addBtn.className='chapter-add-bullet'; addBtn.textContent='+ add question';
+      addBtn.style.marginTop='8px';
+      addBtn.onclick=()=>{
+        if(!Array.isArray(appState.keyQuestions)) appState.keyQuestions=[];
+        appState.keyQuestions.push({question:'',updated:''});
+        saveState(appState); markDirty(); render(appState);
+      };
+      kqList.appendChild(addBtn);
     }
   }
   // openThreads
   const otEl=document.getElementById('lore-open-threads');
   if(otEl){
     const threads=Array.isArray(s.openThreads)&&s.openThreads.length?s.openThreads:[];
+    otEl.innerHTML='';
     if(threads.length){
-      otEl.innerHTML=`<div class="lore-card-hdr">Open Threads</div><div class="lore-thread-list">`+
-        threads.map(t=>`<div class="lore-thread-item"><div class="lore-thread-icon">⟳</div><div class="lore-thread-text"><div class="lore-thread-thread">${esc(t.thread||t)}</div>${t.whyItMatters?`<div class="lore-thread-why">${esc(t.whyItMatters)}</div>`:''}</div></div>`).join('')+
-        `</div>`;
+      const otHdr=document.createElement('div'); otHdr.className='lore-card-hdr'; otHdr.textContent='Open Threads'; otEl.appendChild(otHdr);
+      const otList=document.createElement('div'); otList.className='lore-thread-list'; otEl.appendChild(otList);
+      threads.forEach((t,ti)=>{
+        const item=document.createElement('div'); item.className='lore-thread-item';
+        const icon=document.createElement('div'); icon.className='lore-thread-icon'; icon.textContent='⟳'; item.appendChild(icon);
+        const body=document.createElement('div'); body.className='lore-thread-text'; body.style.flex='1'; body.style.minWidth='0';
+        const threadEl=makeEditable(t.thread||t||'','Thread…',v=>{
+          if(!Array.isArray(appState.openThreads)) appState.openThreads=[];
+          if(typeof appState.openThreads[ti]==='string') appState.openThreads[ti]={thread:v};
+          else if(appState.openThreads[ti]) appState.openThreads[ti].thread=v;
+          saveState(appState); markDirty();
+        },'lore-thread-thread');
+        body.appendChild(threadEl);
+        if(t.whyItMatters!=null){
+          const whyEl=makeEditable(t.whyItMatters||'','Why it matters…',v=>{
+            if(!Array.isArray(appState.openThreads)) appState.openThreads=[];
+            if(typeof appState.openThreads[ti]==='string') appState.openThreads[ti]={thread:t,whyItMatters:v};
+            else if(appState.openThreads[ti]) appState.openThreads[ti].whyItMatters=v;
+            saveState(appState); markDirty();
+          },'lore-thread-why');
+          body.appendChild(whyEl);
+        }
+        item.appendChild(body);
+        const del=document.createElement('button'); del.className='ally-delete card-head-del'; del.textContent='×'; del.title='Delete thread';
+        del.style.cssText='margin-top:3px;flex-shrink:0;';
+        del.onclick=ev=>{
+          ev.stopPropagation();
+          const snap=JSON.parse(JSON.stringify(appState.openThreads||[]));
+          const label=((t.thread||t)||'this thread').slice(0,40);
+          showConfirmDelete(label,
+            ()=>{ appState.openThreads.splice(ti,1); saveState(appState); markDirty(); render(appState); },
+            ()=>{ appState.openThreads=snap; saveState(appState); markDirty(); render(appState); }
+          );
+        };
+        item.appendChild(del);
+        otList.appendChild(item);
+      });
       otEl.style.display='block';
-    } else { otEl.innerHTML=''; otEl.style.display='none'; }
+    } else { otEl.style.display='none'; }
   }
   updateXpRing(s.level||DEFAULT.level, s.xp||DEFAULT.xp, s.xpToNext||DEFAULT.xpToNext);
   updateVitalBars(s);
@@ -11498,7 +11665,7 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
   const subActs    = act.type === 'checkbox' ? (act.subActivities || []) : [];
   const hasSubs    = subActs.length > 0;
   const LANE_H     = 10;
-  const plotH      = hasSubs ? Math.max(40, subActs.length * LANE_H + 8) : 64;
+  const plotH      = hasSubs ? Math.max(56, subActs.length * 12 + 20) : 64;
 
   wrap.className = 'practice-graph-wrap prac-bar-chart';
 
@@ -12120,76 +12287,71 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
     renderZone(useSplit ? recentPoints : displayPoints, false);
   }
 
-  // Goal target line for split mode (flat line across colsWrap)
-  if (useSplit && !hasSubs && act.target > 0 && maxV > 0) {
-    const goalPct = Math.min(100, (act.target / maxV) * 100);
-    const tLine = document.createElement('div'); tLine.className = 'prac-bar-target-line';
-    tLine.style.bottom = goalPct + '%';
-    const goalUnitLbl = act.type === 'timer' ? 'min' : (act.unit || '');
-    tLine.title = 'Goal: ' + act.target + (goalUnitLbl ? ' ' + goalUnitLbl : '');
-    colsWrap.appendChild(tLine);
-  }
+  // Goal line for split mode is drawn in drawSplitTrends below (SVG, with label + history segments)
 
-  // ── Trendline + avg overlays (flat/aligned mode only; split mode skips due to variable column widths) ──
+  // ── Trend line overlays ───────────────────────────────────────
+  // Shared helpers used by both flat and split mode
+  const _isActive = dp => !dp.void && dp.hasEntry;
+  // Linear regression over an array of {x, y} points. Returns {slope, intercept} or null if < 2 points.
+  const _linReg = pts => {
+    if (pts.length < 2) return null;
+    const n = pts.length;
+    const sx = pts.reduce((s, p) => s + p.x, 0);
+    const sy = pts.reduce((s, p) => s + p.y, 0);
+    const sxy = pts.reduce((s, p) => s + p.x * p.y, 0);
+    const sxx = pts.reduce((s, p) => s + p.x * p.x, 0);
+    const denom = n * sxx - sx * sx;
+    if (denom === 0) return null;
+    const slope = (n * sxy - sx * sy) / denom;
+    const intercept = (sy - slope * sx) / n;
+    return { slope, intercept };
+  };
+
   if (!hasSubs && !useSplit) {
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('preserveAspectRatio', 'none');
     svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;';
     const toYPct = v => 100 - Math.min(100, Math.max(0, (v / maxV) * 100));
+    const nPts = displayPoints.length;
+    const xPctOf = i => ((i + 0.5) / nPts) * 100;
 
-    // Linear regression helper: returns {slope, intercept} over indexed points
-    const linReg = pts => {
-      const n = pts.length;
-      if (n < 2) return null;
-      let sx = 0, sy = 0, sxy = 0, sxx = 0;
-      pts.forEach(([x, y]) => { sx += x; sy += y; sxy += x*y; sxx += x*x; });
-      const denom = n*sxx - sx*sx;
-      if (denom === 0) return null;
-      const slope = (n*sxy - sx*sy) / denom;
-      const intercept = (sy - slope*sx) / n;
-      return { slope, intercept };
-    };
+    // Active point indices for regression (excluded days skipped)
+    const activeIndices = displayPoints.reduce((acc, dp, i) => _isActive(dp) ? [...acc, i] : acc, []);
 
-    // 7-period trend line of best fit (coral, dotted) — last 7 display points, skip voided
-    const pts7 = displayPoints.slice(-7).flatMap((dp, i) => dp.void ? [] : [[i, dp.value]]);
-    const reg7 = linReg(pts7);
-    if (reg7) {
-      const n7 = pts7.length;
-      // x positions: map the 7-pt window back to full chart x-percentages
-      const totalPts = displayPoints.length;
-      const startIdx = totalPts - n7;
-      const x1Pct = ((startIdx + 0.5) / totalPts) * 100;
-      const x2Pct = ((totalPts - 1 + 0.5) / totalPts) * 100;
-      const y1Pct = toYPct(reg7.slope * 0 + reg7.intercept);
-      const y2Pct = toYPct(reg7.slope * (n7 - 1) + reg7.intercept);
-      const avg7Line = document.createElementNS(svgNS, 'line');
-      avg7Line.setAttribute('x1', x1Pct + '%'); avg7Line.setAttribute('y1', y1Pct + '%');
-      avg7Line.setAttribute('x2', x2Pct + '%'); avg7Line.setAttribute('y2', y2Pct + '%');
-      avg7Line.setAttribute('stroke', '#e05060');
-      avg7Line.setAttribute('stroke-width', '1.2');
-      avg7Line.setAttribute('stroke-opacity', '0.7');
-      avg7Line.setAttribute('stroke-dasharray', '1.5 4');
-      svg.appendChild(avg7Line);
+    // All-time line of best fit (cyan, long dashes) — linear regression over all active points
+    if (activeIndices.length >= 2) {
+      const regPts = activeIndices.map(i => ({ x: i, y: displayPoints[i].value }));
+      const reg = _linReg(regPts);
+      if (reg) {
+        const x0 = activeIndices[0], x1 = activeIndices[activeIndices.length - 1];
+        const polyAll = document.createElementNS(svgNS, 'line');
+        polyAll.setAttribute('x1', xPctOf(x0) + '%'); polyAll.setAttribute('y1', toYPct(reg.slope * x0 + reg.intercept) + '%');
+        polyAll.setAttribute('x2', xPctOf(x1) + '%'); polyAll.setAttribute('y2', toYPct(reg.slope * x1 + reg.intercept) + '%');
+        polyAll.setAttribute('stroke', '#40c8c0');
+        polyAll.setAttribute('stroke-width', '1.2');
+        polyAll.setAttribute('stroke-opacity', '0.7');
+        polyAll.setAttribute('stroke-dasharray', '6 4');
+        svg.appendChild(polyAll);
+      }
     }
 
-    // All-time trend line of best fit (cyan, dashed) — all display points, skip voided
-    const ptsAll = displayPoints.flatMap((dp, i) => dp.void ? [] : [[i, dp.value]]);
-    const regAll = linReg(ptsAll);
-    if (regAll) {
-      const nAll = ptsAll.length;
-      const x1Pct = (0.5 / nAll) * 100;
-      const x2Pct = ((nAll - 1 + 0.5) / nAll) * 100;
-      const y1Pct = toYPct(regAll.slope * 0 + regAll.intercept);
-      const y2Pct = toYPct(regAll.slope * (nAll - 1) + regAll.intercept);
-      const avgAllLine = document.createElementNS(svgNS, 'line');
-      avgAllLine.setAttribute('x1', x1Pct + '%'); avgAllLine.setAttribute('y1', y1Pct + '%');
-      avgAllLine.setAttribute('x2', x2Pct + '%'); avgAllLine.setAttribute('y2', y2Pct + '%');
-      avgAllLine.setAttribute('stroke', '#40c8c0');
-      avgAllLine.setAttribute('stroke-width', '1.2');
-      avgAllLine.setAttribute('stroke-opacity', '0.7');
-      avgAllLine.setAttribute('stroke-dasharray', '5 3');
-      svg.appendChild(avgAllLine);
+    // Last-7 line of best fit (coral, short dashes) — linear regression over last 7 active points
+    const last7Indices = activeIndices.slice(-7);
+    if (last7Indices.length >= 2) {
+      const regPts7 = last7Indices.map(i => ({ x: i, y: displayPoints[i].value }));
+      const reg7 = _linReg(regPts7);
+      if (reg7) {
+        const x0 = last7Indices[0], x1 = last7Indices[last7Indices.length - 1];
+        const avg7Line = document.createElementNS(svgNS, 'line');
+        avg7Line.setAttribute('x1', xPctOf(x0) + '%'); avg7Line.setAttribute('y1', toYPct(reg7.slope * x0 + reg7.intercept) + '%');
+        avg7Line.setAttribute('x2', xPctOf(x1) + '%'); avg7Line.setAttribute('y2', toYPct(reg7.slope * x1 + reg7.intercept) + '%');
+        avg7Line.setAttribute('stroke', '#e08060');
+        avg7Line.setAttribute('stroke-width', '1.2');
+        avg7Line.setAttribute('stroke-opacity', '0.7');
+        avg7Line.setAttribute('stroke-dasharray', '2 4');
+        svg.appendChild(avg7Line);
+      }
     }
 
     // Goal line (purple) for all non-breakdown quests with a target
@@ -12198,14 +12360,21 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
       const n = displayPoints.length;
 
       // Historical goal segments — faint lines over the date range each goal was active
+      // For weekly periods (YYYY-Www) convert to Monday date string for comparison against goal history dates
+      const _periodToDate = p => {
+        const wm = p.match(/^(\d{4})-W(\d{2})$/);
+        if (!wm) return p; // already YYYY-MM-DD
+        const jan4 = new Date(Date.UTC(+wm[1], 0, 4));
+        const mon = new Date(jan4); mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() + 6) % 7) + (+wm[2] - 1) * 7);
+        return mon.toISOString().slice(0, 10);
+      };
       if (n > 0) {
         _goalHist.forEach(entry => {
           if (entry.target === act.target && entry.to === null) return; // current goal drawn below
           if (entry.target <= 0) return;
           const fromStr = entry.from || '2000-01-01';
-          const toStr   = entry.to   || displayPoints[n - 1].period;
-          // Map period strings: for non-day periods compare prefix (YYYY-WNN or YYYY-MM)
-          const periodInRange = p => p >= fromStr && p <= toStr;
+          const toStr   = _periodToDate(entry.to || displayPoints[n - 1].period);
+          const periodInRange = p => { const d = _periodToDate(p); return d >= fromStr && d <= toStr; };
           const leftIdx  = displayPoints.findIndex(dp => periodInRange(dp.period));
           if (leftIdx < 0) return;
           let rightIdx = leftIdx;
@@ -12253,6 +12422,137 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
     }
 
     colsWrap.appendChild(svg);
+  }
+
+  // Split mode moving averages: drawn after layout via rAF so we can read actual column positions
+  if (!hasSubs && useSplit) {
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const trendSvg = document.createElementNS(svgNS, 'svg');
+    trendSvg.setAttribute('preserveAspectRatio', 'none');
+    trendSvg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;';
+    colsWrap.appendChild(trendSvg);
+
+    const toYPct = v => 100 - Math.min(100, Math.max(0, (v / maxV) * 100));
+
+    const drawSplitTrends = () => {
+      trendSvg.innerHTML = '';
+      const wrapRect = colsWrap.getBoundingClientRect();
+      if (!wrapRect.width) return;
+
+      const cols = [...colsWrap.querySelectorAll('.prac-bar-col')];
+      if (cols.length < 2) return;
+      const allDp = [...histPoints, ...recentPoints];
+      if (cols.length !== allDp.length) return;
+
+      const xPcts = cols.map(col => {
+        const r = col.getBoundingClientRect();
+        return ((r.left - wrapRect.left + r.width / 2) / wrapRect.width) * 100;
+      });
+
+      // Active point indices (excluded days skipped)
+      const activeIdxAll = allDp.reduce((acc, dp, i) => _isActive(dp) ? [...acc, i] : acc, []);
+
+      // All-time line of best fit (cyan, long dashes) — linear regression over all active points
+      if (activeIdxAll.length >= 2) {
+        const regPts = activeIdxAll.map(i => ({ x: xPcts[i], y: allDp[i].value }));
+        const reg = _linReg(regPts);
+        if (reg) {
+          const i0 = activeIdxAll[0], i1 = activeIdxAll[activeIdxAll.length - 1];
+          const polyAll = document.createElementNS(svgNS, 'line');
+          polyAll.setAttribute('x1', xPcts[i0] + '%'); polyAll.setAttribute('y1', toYPct(reg.slope * xPcts[i0] + reg.intercept) + '%');
+          polyAll.setAttribute('x2', xPcts[i1] + '%'); polyAll.setAttribute('y2', toYPct(reg.slope * xPcts[i1] + reg.intercept) + '%');
+          polyAll.setAttribute('stroke', '#40c8c0');
+          polyAll.setAttribute('stroke-width', '1.2');
+          polyAll.setAttribute('stroke-opacity', '0.7');
+          polyAll.setAttribute('stroke-dasharray', '6 4');
+          trendSvg.appendChild(polyAll);
+        }
+      }
+
+      // Last-7 line of best fit (coral, short dashes) — linear regression over last 7 active points
+      const last7IdxAll = activeIdxAll.slice(-7);
+      if (last7IdxAll.length >= 2) {
+        const regPts7 = last7IdxAll.map(i => ({ x: xPcts[i], y: allDp[i].value }));
+        const reg7 = _linReg(regPts7);
+        if (reg7) {
+          const i0 = last7IdxAll[0], i1 = last7IdxAll[last7IdxAll.length - 1];
+          const avg7Line = document.createElementNS(svgNS, 'line');
+          avg7Line.setAttribute('x1', xPcts[i0] + '%'); avg7Line.setAttribute('y1', toYPct(reg7.slope * xPcts[i0] + reg7.intercept) + '%');
+          avg7Line.setAttribute('x2', xPcts[i1] + '%'); avg7Line.setAttribute('y2', toYPct(reg7.slope * xPcts[i1] + reg7.intercept) + '%');
+          avg7Line.setAttribute('stroke', '#e08060');
+          avg7Line.setAttribute('stroke-width', '1.2');
+          avg7Line.setAttribute('stroke-opacity', '0.7');
+          avg7Line.setAttribute('stroke-dasharray', '2 4');
+          trendSvg.appendChild(avg7Line);
+        }
+      }
+
+      // Goal line (purple) — historical segments + current goal
+      if (act.target > 0) {
+        const goalUnitLbl = act.type === 'timer' ? 'min' : (act.unit || '');
+        const n = allDp.length;
+
+        // Historical goal segments — faint lines over the date range each goal was active
+        // For weekly periods (YYYY-Www) convert to Monday date for comparison against goal history dates
+        const _periodToDateS = p => {
+          const wm = p.match(/^(\d{4})-W(\d{2})$/);
+          if (!wm) return p;
+          const jan4 = new Date(Date.UTC(+wm[1], 0, 4));
+          const mon = new Date(jan4); mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() + 6) % 7) + (+wm[2] - 1) * 7);
+          return mon.toISOString().slice(0, 10);
+        };
+        if (n > 0) {
+          _goalHist.forEach(entry => {
+            if (entry.target === act.target && entry.to === null) return; // current goal drawn below
+            if (entry.target <= 0) return;
+            const fromStr = entry.from || '2000-01-01';
+            const toStr   = _periodToDateS(entry.to || allDp[n - 1].period);
+            const periodInRange = p => { const d = _periodToDateS(p); return d >= fromStr && d <= toStr; };
+            const leftIdx  = allDp.findIndex(dp => periodInRange(dp.period));
+            if (leftIdx < 0) return;
+            let rightIdx = leftIdx;
+            for (let i = leftIdx + 1; i < n; i++) { if (periodInRange(allDp[i].period)) rightIdx = i; else break; }
+            const histLine = document.createElementNS(svgNS, 'line');
+            histLine.setAttribute('x1', xPcts[leftIdx] + '%');  histLine.setAttribute('y1', toYPct(entry.target) + '%');
+            histLine.setAttribute('x2', xPcts[rightIdx] + '%'); histLine.setAttribute('y2', toYPct(entry.target) + '%');
+            histLine.setAttribute('stroke', 'rgba(176,128,232,0.22)');
+            histLine.setAttribute('stroke-width', '1');
+            histLine.setAttribute('stroke-dasharray', '3 4');
+            trendSvg.appendChild(histLine);
+            const histLbl = document.createElementNS(svgNS, 'text');
+            histLbl.setAttribute('x', xPcts[rightIdx] + '%');
+            histLbl.setAttribute('y', (toYPct(entry.target) - 1.5) + '%');
+            histLbl.setAttribute('text-anchor', 'end');
+            histLbl.setAttribute('fill', 'rgba(176,128,232,0.3)');
+            histLbl.setAttribute('font-size', '7');
+            histLbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+            histLbl.textContent = entry.target + (goalUnitLbl ? ' ' + goalUnitLbl : '');
+            trendSvg.appendChild(histLbl);
+          });
+        }
+
+        // Current goal line (full width, standard purple)
+        const goalYPct = toYPct(act.target);
+        const goalLine = document.createElementNS(svgNS, 'line');
+        goalLine.setAttribute('x1', '0%'); goalLine.setAttribute('y1', goalYPct + '%');
+        goalLine.setAttribute('x2', '100%'); goalLine.setAttribute('y2', goalYPct + '%');
+        goalLine.setAttribute('stroke', 'rgba(176,128,232,0.5)');
+        goalLine.setAttribute('stroke-width', '1');
+        goalLine.setAttribute('stroke-dasharray', '3 4');
+        trendSvg.appendChild(goalLine);
+        const goalLbl = document.createElementNS(svgNS, 'text');
+        goalLbl.setAttribute('x', '100%');
+        goalLbl.setAttribute('y', (goalYPct - 1.5) + '%');
+        goalLbl.setAttribute('text-anchor', 'end');
+        goalLbl.setAttribute('fill', 'rgba(176,128,232,0.6)');
+        goalLbl.setAttribute('font-size', '8');
+        goalLbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+        goalLbl.textContent = act.target + (goalUnitLbl ? ' ' + goalUnitLbl : '');
+        trendSvg.appendChild(goalLbl);
+      }
+    };
+
+    requestAnimationFrame(drawSplitTrends);
   }
 
   plot.appendChild(colsWrap);
@@ -14950,6 +15250,30 @@ function confirmResetHistory(type) {
 }
 
 
+function confirmResetXPProgress() {
+  const msg   = document.getElementById('confirm-delete-msg');
+  const ok    = document.getElementById('confirm-delete-ok');
+  const title = document.querySelector('#confirm-delete-modal .modal-title');
+  if (msg) msg.textContent = 'Reset all XP and return to Level 1? Your quests, skills, and other data are not affected. This cannot be undone.';
+  if (ok)  ok.textContent = 'Reset to Level 1';
+  if (title) title.textContent = 'Reset XP Progress?';
+  if (ok) ok.onclick = () => {
+    closeConfirmDelete();
+    appState.xp = 0;
+    appState.level = 1;
+    appState.xpToNext = DEFAULT.xpToNext;
+    saveXPLog([]);
+    appState._xpLog = [];
+    saveState(appState);
+    markDirty();
+    updateXpRing(1, 0, DEFAULT.xpToNext);
+    renderXPLog();
+    if (title) title.textContent = 'Delete?';
+    if (ok)    ok.textContent = 'Delete';
+  };
+  document.getElementById('confirm-delete-modal').classList.add('open');
+}
+
 function resetStatusCheckin() {
   _clearCheckinDone(STATUS_CHECKIN_KEY);
   Object.entries(STATUS_COLORS).forEach(([name, col]) => {
@@ -15097,17 +15421,18 @@ function toggleWelcomeSetup(mode){
   const steps      = document.getElementById('welcome-setup-steps');
   const manualBtn  = document.getElementById('welcome-setup-btn');
   const aiBtn      = document.getElementById('welcome-ai-btn');
+  const noaiBtn    = document.getElementById('welcome-noai-btn');
   const manualPath = document.getElementById('welcome-path-manual');
   const aiPath     = document.getElementById('welcome-path-ai');
   const noaiPath   = document.getElementById('welcome-path-noai');
   if(!steps) return;
   const currentMode = steps.dataset.mode;
-  // Clicking the active mode toggles it off
   if(currentMode === mode){
     steps.style.display = 'none';
     steps.dataset.mode  = '';
     if(manualBtn) manualBtn.classList.remove('active');
-    if(aiBtn)     aiBtn.classList.remove('active');
+    if(aiBtn)     aiBtn.classList.remove('active-cloud');
+    if(noaiBtn)   noaiBtn.classList.remove('active-noai');
     return;
   }
   steps.style.display   = 'block';
@@ -15115,8 +15440,9 @@ function toggleWelcomeSetup(mode){
   if(manualPath) manualPath.style.display = mode === 'manual' ? 'block' : 'none';
   if(aiPath)     aiPath.style.display     = mode === 'ai'     ? 'block' : 'none';
   if(noaiPath)   noaiPath.style.display   = mode === 'noai'   ? 'block' : 'none';
-  if(manualBtn)  manualBtn.classList.toggle('active', mode === 'manual');
-  if(aiBtn)      aiBtn.classList.toggle('active',     mode === 'ai');
+  if(manualBtn)  manualBtn.classList.toggle('active',       mode === 'manual');
+  if(aiBtn)      aiBtn.classList.toggle('active-cloud',     mode === 'ai');
+  if(noaiBtn)    noaiBtn.classList.toggle('active-noai',    mode === 'noai');
 }
 
 // ══ SESSION STARTERS ════════════════════════════════════════
@@ -16430,15 +16756,15 @@ let _chatSettingsCache = null;
 function _defaultNumCtx() {
   const chars = ((typeof INSTRUCTIONS_CONTENT !== 'undefined' ? INSTRUCTIONS_CONTENT.length : 0) + JSON.stringify(appState).length);
   const est = Math.round(chars / 4);
-  // Round up to next power of 2, minimum 8192, maximum 32768
+  // Round up to next power of 2, minimum 8192, maximum 131072
   let ctx = 8192;
-  while (ctx < est * 1.25 && ctx < 32768) ctx *= 2;
+  while (ctx < est * 1.25 && ctx < 131072) ctx *= 2;
   return ctx;
 }
 
 function _defaultAutoCompactThreshold() {
-  // 75% of the usable context window in chars (~4 chars/token)
-  return Math.round(_defaultNumCtx() * 4 * 0.75);
+  // Trigger compaction at 75% of context window (in tokens)
+  return Math.round(_defaultNumCtx() * 0.75);
 }
 
 const CHAT_SETTINGS_KEY     = 'cs-chat-settings-v1';
@@ -16847,21 +17173,56 @@ function chatToggleCompact() {
   }
 }
 
+(function() {
+  function applyChatWidth(w) {
+    document.documentElement.style.setProperty('--chat-sidebar-width', w + 'px');
+  }
+  function savedChatWidth() {
+    const v = parseInt(localStorage.getItem('cs-chat-width'), 10);
+    return (v >= 280 && v <= 800) ? v : 420;
+  }
+  // Apply persisted width on load
+  applyChatWidth(savedChatWidth());
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const handle = document.getElementById('chat-resize-handle');
+    if (!handle) return;
+    let startX, startW;
+    handle.addEventListener('mousedown', function(e) {
+      if (window.innerWidth <= 900) return;
+      e.preventDefault();
+      startX = e.clientX;
+      startW = savedChatWidth();
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'ew-resize';
+
+      function onMove(ev) {
+        const delta = startX - ev.clientX; // drag left = bigger
+        const newW = Math.min(800, Math.max(280, startW + delta));
+        applyChatWidth(newW);
+      }
+      function onUp() {
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+        const w = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chat-sidebar-width'), 10) || 420;
+        try { localStorage.setItem('cs-chat-width', w); } catch {}
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+      }
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    });
+  });
+})();
+
 function _chatShowQuickstarts(show) {
   const el = document.getElementById('chat-quickstarts');
   if (el) el.style.display = show ? 'flex' : 'none';
 }
 
 function chatQuickstart(text) {
-  _chatShowQuickstarts(false);
   const inp = document.getElementById('chat-input');
   if (inp) { inp.value = text; inp.focus(); }
-}
-
-function _chipTrunc(text, max) {
-  if (!text) return '';
-  text = text.trim();
-  return text.length > max ? text.slice(0, max).trimEnd() + '...' : text;
 }
 
 function renderChatQuickstarts() {
@@ -16870,42 +17231,42 @@ function renderChatQuickstarts() {
   const s = appState;
   const chips = [];
 
-  // Key questions: show truncated actual question text as the chip label
+  // Key questions
   const kqs = (Array.isArray(s.keyQuestions) && s.keyQuestions.length ? s.keyQuestions
     : (s.keyQuestion ? [{ question: s.keyQuestion }] : [])).slice(0, 2);
   for (const kq of kqs) {
     const q = (kq.question || kq || '').trim();
-    if (q) chips.push({ label: _chipTrunc(q, 80), prompt: `I want to sit with this key question today: ${q}` });
+    if (q) chips.push({ title: 'Question', body: q, prompt: `I want to dig into a question I have been sitting with: ${q}` });
   }
 
-  // Open threads: show truncated thread text
+  // Open threads
   const threads = (Array.isArray(s.openThreads) ? s.openThreads : []).slice(0, 1);
   for (const t of threads) {
     const thread = (t.thread || t || '').trim();
-    if (thread) chips.push({ label: _chipTrunc(thread, 80), prompt: `I want to pick up this open thread: ${thread}` });
+    if (thread) chips.push({ title: 'Open thread', body: thread, prompt: `I want to pick up an open thread. Here is where I left off: ${thread}` });
   }
 
   // Main quest
   const mq = s.mainQuest;
   if (mq && mq.title) {
-    chips.push({ label: `Quest: ${_chipTrunc(mq.title, 72)}`, prompt: `Let's focus on my main quest: ${mq.title}. Here is where things stand...` });
+    chips.push({ title: 'Quest', body: mq.title, prompt: `I want to focus on my main quest: ${mq.title}. Let me tell you where things stand and what I am trying to move forward.` });
   }
 
-  // Top enemy / boss
+  // Top enemy / pattern
   const bosses = (s.enemies && s.enemies.bosses) || [];
   const curEnemies = (s.enemies && s.enemies.current) || [];
   const topEnemy = bosses[0] || curEnemies[0];
   if (topEnemy && topEnemy.name) {
-    chips.push({ label: `Pattern: ${_chipTrunc(topEnemy.name, 70)}`, prompt: `I want to work on the pattern I've named "${topEnemy.name}". Here is what has been happening...` });
+    chips.push({ title: 'Pattern', body: topEnemy.name, prompt: `I want to work on a recurring pattern I have named "${topEnemy.name}". Here is what has been happening and where I feel stuck.` });
   }
 
   // Fill with generic chips to always show at least 4
   const generic = [
-    { label: "Walk me through my sheet", prompt: "Walk me through my current character sheet. What stands out, and where should I focus?" },
-    { label: "What's been going on", prompt: "Here's what's been going on lately..." },
-    { label: 'Work on a goal', prompt: "I want to work on [goal/something]... let's talk through it" },
-    { label: 'Work through a struggle', prompt: "I've been struggling with [something]. Help me think it through" },
-    { label: "Where should I start?", prompt: "I'm new here. Help me figure out where to start with this app and what to track." },
+    { title: 'Overview', body: 'walk me through my sheet and what stands out', prompt: "Walk me through my current character sheet. I want to hear what stands out to you and where I should be focusing my energy." },
+    { title: 'Catch up', body: "here is what has been going on lately", prompt: "Here is what has been going on lately. I want to talk it through and figure out what it means for my goals and growth." },
+    { title: 'Goal', body: 'help me think through something I am working toward', prompt: "I want to work toward something and need help thinking it through. Let me tell you what it is and where I am starting from." },
+    { title: 'Stuck', body: 'I have been struggling with something and can not shift it', prompt: "I have been struggling with something and cannot seem to shift it. I want to talk it through and figure out what is in the way." },
+    { title: 'New here', body: 'help me figure out where to start', prompt: "I am new to this app. Can you walk me through how it works and help me figure out what to track and where to start?" },
   ];
   for (const g of generic) {
     if (chips.length >= 5) break;
@@ -16916,7 +17277,12 @@ function renderChatQuickstarts() {
   for (const chip of chips.slice(0, 5)) {
     const btn = document.createElement('button');
     btn.className = 'chat-qs-chip';
-    btn.textContent = chip.label;
+    const strong = document.createElement('strong');
+    strong.textContent = chip.title + ': ';
+    const span = document.createElement('span');
+    span.textContent = chip.body;
+    btn.appendChild(strong);
+    btn.appendChild(span);
     btn.title = chip.prompt;
     btn.onclick = () => chatQuickstart(chip.prompt);
     el.appendChild(btn);
@@ -16953,10 +17319,11 @@ async function _warmPromptCache() {
     } catch {}
   } else {
     try {
+      const numCtx = s.numCtx || _defaultNumCtx();
       await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model, messages: [{ role: 'user', content: '.' }], stream: false, options: { num_predict: 1 } }),
+        body: JSON.stringify({ model, messages: [{ role: 'user', content: '.' }], stream: false, options: { num_ctx: numCtx, num_predict: 1 } }),
       });
     } catch {}
   }
@@ -17132,11 +17499,8 @@ function _chatHandleReply(reply, streamingEl = null) {
   const s = loadChatSettings();
   const syncMode = s.syncMode || (s.autoApply ? 'always' : 'manual');
   const narrative = reply.replace(/```json[\s\S]*?```/, '').replace(/\n{3,}/g, '\n\n').trim();
-  if (syncMode === 'manual') {
-    // Show full reply with a hint — user will click Update sheet to save
-    chatAddMsg('assistant', reply, '✶ Changes noted. Use "Update sheet" to save them.');
-  } else if (s.reviewBeforeSave) {
-    // Auto-apply mode but user wants to review: show review card
+  if (syncMode === 'manual' || s.reviewBeforeSave) {
+    // Show narrative only, then review card with Apply/Discard
     if (narrative) chatAddMsg('assistant', narrative);
     chatShowUpdateReview(detected, null);
   } else {
@@ -17257,14 +17621,14 @@ async function chatSend() {
   }
 }
 
-function chatApplyUpdate() {
+function chatApplyUpdate(silent = false) {
   if (!chatState.pendingJSON || chatState.isLoading) return;
   applyUpdate(chatState.pendingJSON);
   const statusEl = document.getElementById('modal-status');
   const failed = statusEl && statusEl.classList.contains('err');
   if (!failed) {
     chatState.pendingJSON = null;
-    chatAddMsg('system', 'Sheet updated.');
+    if (!silent) chatAddMsg('system', 'Sheet updated.');
     _chatSaveLiveSession();
   } else {
     chatAddMsg('error', 'Could not apply the update: ' + (statusEl ? statusEl.textContent.replace(/^[^\s]+\s*/, '') : 'the data from your AI did not pass validation. Try asking it to resend the full data.json.'));
@@ -17411,7 +17775,21 @@ function chatShowUpdateReview(json, narrativeText) {
   const applyBtn = document.createElement('button');
   applyBtn.className = 'btn-primary';
   applyBtn.textContent = 'Apply';
-  applyBtn.onclick = () => { chatApplyUpdate(); card.remove(); };
+  applyBtn.onclick = () => {
+    chatApplyUpdate(true);
+    const statusEl = document.getElementById('modal-status');
+    const failed = statusEl && statusEl.classList.contains('err');
+    if (!failed) {
+      btnRow.remove();
+      details.remove();
+      const appliedLabel = document.createElement('div');
+      appliedLabel.className = 'chat-review-header';
+      const now = new Date();
+      const t = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      appliedLabel.textContent = 'Applied ' + t;
+      card.appendChild(appliedLabel);
+    }
+  };
   const discardBtn = document.createElement('button');
   discardBtn.className = 'btn-ghost';
   discardBtn.textContent = 'Discard';
@@ -18887,7 +19265,7 @@ function _modelGuideSetOs(os) {
   wrap.querySelectorAll('.os-step').forEach(s => s.classList.toggle('os-hide', !s.classList.contains('os-' + os)));
 }
 
-function saveChatSettingsFromForm() {
+async function saveChatSettingsFromForm() {
   const keyEl    = document.getElementById('cs-chat-apikey');
   const presetEl = document.getElementById('cs-chat-model-preset');
   const customEl = document.getElementById('cs-chat-model-custom');
@@ -18924,7 +19302,7 @@ function saveChatSettingsFromForm() {
   const defModelSaveEl = document.getElementById('cs-chat-default-model');
   if (defModelSaveEl && defModelSaveEl.checked) s.defaultModel = modelId;
   else delete s.defaultModel;
-  saveChatSettings(s);
+  await saveChatSettings(s);
   _updateChatSyncBtn();
   _updateCloudWarnBanner();
   if (!_isLocalModel(modelId)) {
@@ -18936,20 +19314,20 @@ function saveChatSettingsFromForm() {
 }
 
 function onChatModelPresetChange() {
-  const sel        = document.getElementById('cs-chat-model-preset');
-  const custom     = document.getElementById('cs-chat-model-custom');
-  const apiSec     = document.getElementById('cs-apikey-section');
-  const ollamaNote = document.getElementById('cs-ollama-note');
+  const sel         = document.getElementById('cs-chat-model-preset');
+  const custom      = document.getElementById('cs-chat-model-custom');
+  const cloudSec    = document.getElementById('cs-cloud-section');
+  const ollamaNote  = document.getElementById('cs-ollama-note');
   if (!sel) return;
   const isCustom  = sel.value === 'custom';
   const isOllama  = !sel.value.startsWith('claude-') && !isCustom;
   const customVal = custom ? custom.value.trim() : '';
   const customIsOllama = isCustom && customVal && !customVal.startsWith('claude-');
   const showOllama = isOllama || customIsOllama;
-  if (custom)     custom.style.display     = isCustom    ? 'block' : 'none';
-  if (apiSec)     apiSec.style.display     = showOllama  ? 'none'  : 'block';
+  if (custom)    custom.style.display    = isCustom   ? 'block' : 'none';
+  if (cloudSec)  cloudSec.style.display  = showOllama ? 'none'  : 'block';
   const wasHidden = !ollamaNote || ollamaNote.style.display === 'none';
-  if (ollamaNote) ollamaNote.style.display = showOllama  ? 'block' : 'none';
+  if (ollamaNote) ollamaNote.style.display = showOllama ? 'block' : 'none';
   if (showOllama) {
     const installEl = document.getElementById('cs-ollama-install');
     if (installEl && !installEl.innerHTML) {
@@ -18970,11 +19348,15 @@ function onChatModelPresetChange() {
 const _LOCAL_OLLAMA_PRESETS = new Set(['gemma3:4b','qwen2.5:7b','qwen3:8b','gemma3:12b','qwen2.5:14b','qwen2.5:32b','llama3.3:latest']);
 function _isLocalModel(model) { return !!(model && !model.startsWith('claude-')); }
 function _updateCloudWarnBanner() {
-  const model = loadChatSettings().model || 'qwen2.5:7b';
+  const model = loadChatSettings().model || '';
   const isCloud = model.startsWith('claude-');
+  const isLocal = model && !isCloud;
   document.getElementById('chat-cloud-warn')?.classList.toggle('visible', isCloud);
   const modelEl = document.getElementById('chat-hdr-model');
-  if (modelEl) modelEl.textContent = model;
+  if (modelEl) {
+    modelEl.textContent = model || 'no model';
+    modelEl.style.color = isCloud ? '#f09090' : isLocal ? '#50c878' : '#6090c8';
+  }
 }
 
 
@@ -19204,6 +19586,7 @@ document.addEventListener('keydown', function(e) {
 
 <!-- ══ IN-APP CHAT OVERLAY ══════════════════════════════════ -->
 <div id="chat-overlay">
+  <div id="chat-resize-handle"></div>
   <div class="chat-hdr">
     <div class="chat-hdr-left">
       <div class="chat-hdr-app">character-sheet</div>
@@ -19264,67 +19647,84 @@ document.addEventListener('keydown', function(e) {
   <div class="modal" style="border-top:3px solid rgba(42,144,144,0.5);position:relative;max-width:560px;">
     <button class="modal-close" onclick="closeChatSettings()" title="Close">&#x2715;</button>
     <div class="modal-title" style="color:#2a9090;">Chat Settings</div>
-    <p style="font-size:13px;color:var(--text);line-height:1.5;margin:0 0 14px;"><strong style="color:#50c878;">A. Local models (Ollama)</strong> keep everything on your device. Free, private, no account. Recommended. <strong style="color:#f09090;">B. Cloud models (Anthropic)</strong> send your journal to their servers and may store it. <strong style="color:var(--text);">C. No AI</strong> also works. <a href="https://github.com/sam-holmes2/character-sheet/blob/master/journalling-threat-model.md" target="_blank" style="color:inherit;text-decoration:underline;">Threat model</a> &middot; <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:inherit;text-decoration:underline;">Provider privacy guide</a></p>
-    <div class="chat-field">
-      <label class="chat-field-lbl" for="cs-chat-model-preset">Model</label>
-      <select id="cs-chat-model-preset" onchange="onChatModelPresetChange()">
-        <optgroup label="Ollama (local)">
-          <option value="gemma3:4b">gemma3:4b - fast, 4 GB RAM</option>
-          <option value="qwen2.5:7b" selected>qwen2.5:7b - reliable, 8 GB RAM</option>
-          <option value="qwen3:8b">qwen3:8b - thinking mode, 8 GB RAM</option>
-          <option value="gemma3:12b">gemma3:12b - balanced, 12 GB RAM</option>
-          <option value="qwen2.5:14b">qwen2.5:14b - strong, 16 GB RAM</option>
-          <option value="qwen2.5:32b">qwen2.5:32b - best quality, 32 GB RAM</option>
-          <option value="llama3.3:latest">llama3.3 - strongest, 48 GB RAM</option>
-        </optgroup>
-        <optgroup label="Anthropic (cloud)">
-          <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
-          <option value="claude-opus-4-7">claude-opus-4-7 (more capable, slower)</option>
-          <option value="claude-haiku-4-5-20251001">claude-haiku-4-5 (fastest, cheapest)</option>
-        </optgroup>
-        <option value="custom">Custom model ID...</option>
-      </select>
-      <input type="text" id="cs-chat-model-custom" placeholder="e.g. qwen2.5:14b or gpt-4o" style="display:none;margin-top:6px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:6px;">
-        <label class="chat-sync-radio" style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="cs-chat-default-model"> Save as default for new chats</label>
-        <button onclick="openModelGuide()" style="background:none;border:none;padding:0;color:var(--text-dim);text-decoration:underline;cursor:pointer;font-size:11px;white-space:nowrap;">Not sure which local model fits your computer?</button>
+    <div style="font-size:14px;color:var(--text);line-height:1.7;margin:0 0 14px;">
+      <div><strong style="color:#50c878;">A. Local models (Ollama):</strong> free, fully private, no account needed. Everything stays on your device. <span style="color:#50c878;font-weight:600;">Recommended.</span></div>
+      <div style="margin-top:5px;"><strong style="color:#f09090;">B. Cloud models (Anthropic):</strong> your journal is sent to Anthropic's servers and may be stored. Requires an API key.</div>
+      <div style="margin-top:5px;"><strong style="color:#6090c8;">C. No AI:</strong> all other features work fine without any AI model set up.</div>
+      <div style="margin-top:7px;font-size:12px;color:var(--text-dim);"><a href="https://github.com/sam-holmes2/character-sheet/blob/master/journalling-threat-model.md" target="_blank" style="color:inherit;text-decoration:underline;">Full privacy threat model</a> &middot; <a href="https://github.com/sam-holmes2/character-sheet/blob/master/ai-privacy-guide.md" target="_blank" style="color:inherit;text-decoration:underline;">Provider privacy guide</a></div>
+    </div>
+    <!-- Local model settings -->
+    <div class="chat-section-local">
+      <div class="chat-section-hdr" style="color:#50c878;">Local model (Ollama)</div>
+      <div class="chat-field" style="margin-bottom:10px;">
+        <label class="chat-field-lbl" for="cs-chat-model-preset">Model</label>
+        <select id="cs-chat-model-preset" onchange="onChatModelPresetChange()">
+          <optgroup label="Ollama (local)">
+            <option value="gemma3:4b">gemma3:4b - fast, 4 GB RAM</option>
+            <option value="qwen2.5:7b" selected>qwen2.5:7b - reliable, 8 GB RAM</option>
+            <option value="qwen3:8b">qwen3:8b - thinking mode, 8 GB RAM</option>
+            <option value="gemma3:12b">gemma3:12b - balanced, 12 GB RAM</option>
+            <option value="qwen2.5:14b">qwen2.5:14b - strong, 16 GB RAM</option>
+            <option value="qwen2.5:32b">qwen2.5:32b - best quality, 32 GB RAM</option>
+            <option value="llama3.3:latest">llama3.3 - strongest, 48 GB RAM</option>
+          </optgroup>
+          <optgroup label="Anthropic (cloud)">
+            <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
+            <option value="claude-opus-4-7">claude-opus-4-7 (more capable, slower)</option>
+            <option value="claude-haiku-4-5-20251001">claude-haiku-4-5 (fastest, cheapest)</option>
+          </optgroup>
+          <option value="custom">Custom model ID...</option>
+        </select>
+        <input type="text" id="cs-chat-model-custom" placeholder="e.g. qwen2.5:14b or gpt-4o" style="display:none;margin-top:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:6px;">
+          <label class="chat-sync-radio"><input type="checkbox" id="cs-chat-default-model"> Save as default for new chats</label>
+          <button onclick="openModelGuide()" style="background:none;border:none;padding:0;color:var(--text-dim);text-decoration:underline;cursor:pointer;font-size:12px;white-space:nowrap;">Not sure which model fits your computer?</button>
+        </div>
+      </div>
+      <div id="cs-ollama-note" class="ollama-note" style="display:none;margin-bottom:10px;border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:10px 12px;">
+        <div class="ollama-status-hdr">
+          <span id="cs-ollama-conn-badge" class="ollama-conn-err">● Ollama</span>
+          <button class="ollama-mini-btn ollama-copy-btn" onclick="checkOllamaModels()">&#8635; Check</button>
+        </div>
+        <div id="cs-ollama-model-list"></div>
+        <div id="cs-ollama-install" class="chat-api-note" style="margin-top:9px;"></div>
+      </div>
+      <div class="chat-field" style="margin-bottom:0;">
+        <label class="chat-field-lbl" for="cs-chat-numctx">Context window</label>
+        <input type="number" id="cs-chat-numctx" min="2048" max="131072" step="1024" value="8192">
+        <p class="chat-api-note" style="margin-top:5px;">Your data is about <strong id="cs-ctx-token-est">...</strong> tokens. Auto-set to fit your data with room for the conversation. Only change this if you get context limit errors.</p>
       </div>
     </div>
-    <div id="cs-ollama-note" class="ollama-note" style="display:none;margin-bottom:14px;border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:10px 12px;">
-      <div class="ollama-status-hdr">
-        <span id="cs-ollama-conn-badge" class="ollama-conn-err">● Ollama</span>
-        <button class="ollama-mini-btn ollama-copy-btn" onclick="checkOllamaModels()">&#8635; Check</button>
-      </div>
-      <div id="cs-ollama-model-list"></div>
-      <div id="cs-ollama-install" class="chat-api-note" style="margin-top:9px;font-size:12px;"></div>
-    </div>
-    <div id="cs-apikey-section" class="chat-field">
-      <label class="chat-field-lbl" for="cs-chat-apikey">Anthropic API Key</label>
-      <div id="cs-pin-gate" style="display:none;padding:10px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.25);border-radius:6px;font-size:13px;color:var(--text);line-height:1.6;">
-        A security password is required before storing an API key. This protects your key if someone else opens this browser.<br>
-        <button onclick="openSettingsModal();setTimeout(()=>document.getElementById('settings-pin-new')?.focus(),300)" style="margin-top:8px;padding:5px 14px;background:rgba(200,168,74,0.12);border:1px solid rgba(200,168,74,0.4);color:var(--gold);border-radius:4px;cursor:pointer;font-size:13px;">Set up password in Security settings</button>
-      </div>
-      <div id="cs-apikey-inputs">
-        <input type="password" id="cs-chat-apikey" placeholder="sk-ant-..." autocomplete="off" oninput="document.getElementById('cs-apikey-error').textContent=''">
-        <div id="cs-apikey-error" style="font-size:13px;color:#c84040;min-height:0;margin-top:5px;"></div>
-        <div class="chat-api-note">
-          <ol style="margin:4px 0 0 16px;padding:0;line-height:1.9;font-size:12px;">
-            <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (separate from Claude.ai)</li>
-            <li>Open <strong>API Keys</strong> and create a new key</li>
-            <li>Paste it above. Store a copy in your password manager (1Password, Bitwarden, etc.) so you can retrieve it later.</li>
-          </ol>
-          <p style="margin:6px 0 0;font-size:11px;color:var(--text);line-height:1.5;">Keep your API key private. Anyone with it can use your Anthropic account. Never paste it into websites you don't trust.</p>
+
+    <!-- Cloud model settings -->
+    <div class="chat-section-cloud" id="cs-cloud-section">
+      <div class="chat-section-hdr" style="color:#f09090;">Cloud model (Anthropic)</div>
+      <div id="cs-apikey-section" class="chat-field" style="margin-bottom:0;">
+        <label class="chat-field-lbl" for="cs-chat-apikey">API Key</label>
+        <div id="cs-pin-gate" style="display:none;padding:10px 12px;background:rgba(200,168,74,0.07);border:1px solid rgba(200,168,74,0.25);border-radius:6px;font-size:14px;color:var(--text);line-height:1.6;">
+          A security password is required before storing an API key. This protects your key if someone else opens this browser.<br>
+          <button onclick="openSettingsModal();setTimeout(()=>document.getElementById('settings-pin-new')?.focus(),300)" style="margin-top:8px;padding:5px 14px;background:rgba(200,168,74,0.12);border:1px solid rgba(200,168,74,0.4);color:var(--gold);border-radius:4px;cursor:pointer;font-size:14px;">Set up password in Security settings</button>
+        </div>
+        <div id="cs-apikey-inputs">
+          <input type="password" id="cs-chat-apikey" placeholder="sk-ant-..." autocomplete="off" oninput="document.getElementById('cs-apikey-error').textContent=''">
+          <div id="cs-apikey-error" style="font-size:14px;color:#c84040;min-height:0;margin-top:5px;"></div>
+          <div class="chat-api-note">
+            <ol style="margin:4px 0 0 16px;padding:0;line-height:1.9;">
+              <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (separate from Claude.ai)</li>
+              <li>Open <strong>API Keys</strong> and create a new key</li>
+              <li>Paste it above. Store a copy in your password manager (1Password, Bitwarden, etc.) so you can retrieve it later.</li>
+            </ol>
+            <p style="margin:6px 0 0;color:var(--text-dim);line-height:1.5;">Keep your API key private. Anyone with it can use your Anthropic account. Never paste it into websites you don't trust.</p>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Settings that apply to all models -->
     <div class="chat-field">
       <label class="chat-field-lbl" for="cs-chat-maxtokens">Max response tokens</label>
       <input type="number" id="cs-chat-maxtokens" min="256" max="32000" step="256" value="4096">
-    </div>
-    <div class="chat-field">
-      <label class="chat-field-lbl" for="cs-chat-numctx">Context window (local models)</label>
-      <input type="number" id="cs-chat-numctx" min="2048" max="131072" step="1024" value="8192">
-      <p class="chat-api-note" style="margin-top:5px;">Your current data is about <strong id="cs-ctx-token-est">...</strong> tokens. Set this to at least 2x that, plus headroom for the conversation.</p>
+      <p class="chat-api-note" style="margin-top:5px;">How long the AI's reply can be. 2048 is enough for most conversations; raise it if responses get cut off.</p>
     </div>
     <div class="chat-field" style="margin-top:10px;">
       <label class="chat-field-lbl" style="display:block;margin-bottom:8px;">Data sync</label>
@@ -19363,7 +19763,7 @@ document.addEventListener('keydown', function(e) {
     <div style="margin-bottom:14px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:6px;">
       <div style="font-size:12px;color:var(--text-dim);margin-bottom:3px;">Your current data size</div>
       <div style="font-size:20px;font-weight:600;color:var(--text);font-family:var(--mono);" id="cs-guide-token-est">...</div>
-      <div style="font-size:12px;color:var(--text-dim);margin-top:3px;">tokens (data + system prompt). Set the Context Window in Chat Settings to at least twice this.</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-top:3px;">tokens (data + system prompt). The Context Window in Chat Settings is auto-set to cover this with room for the conversation.</div>
     </div>
 
     <div style="font-size:12px;font-weight:600;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Pick by RAM</div>
