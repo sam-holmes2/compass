@@ -2411,12 +2411,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #daily-pulse-overlay { z-index:9200; }
 #daily-pulse-overlay .modal { max-width:620px; width:100%; padding:22px 24px 20px; position:relative; border-top:3px solid rgba(200,168,74,0.5); }
 .dp-title { font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.22em; color:var(--gold); margin-bottom:4px; text-transform:uppercase; }
-.dp-subtitle { font-size:13px; color:var(--text-dim); font-family:var(--mono); letter-spacing:0.05em; margin-bottom:16px; }
+.dp-subtitle { font-size:13px; color:var(--text-dim); font-family:var(--mono); letter-spacing:0.05em; margin-bottom:10px; }
 .dp-body { display:flex; flex-direction:column; gap:14px; }
 .dp-vitals-row { display:flex; flex-direction:column; gap:0; }
 .dp-section { display:flex; flex-direction:column; gap:8px; }
 .dp-section-title { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:2px; text-align:center; }
-.dp-section-inner { display:flex; flex-direction:row; gap:16px; align-items:center; }
+.dp-section-inner { display:flex; flex-direction:row; gap:24px; align-items:center; }
 .dp-sliders { flex:1; min-width:0; }
 .dp-sliders .stat-bar-row { margin-bottom:10px; }
 .dp-sliders .stat-bar-lbl { min-width:62px; font-size:13px; }
@@ -2424,6 +2424,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .dp-radar-wrap { display:flex; flex-direction:column; align-items:center; gap:4px; flex-shrink:0; }
 .dp-radar-lbl { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-dim); }
 .dp-footer { display:flex; align-items:center; gap:10px; margin-top:16px; }
+.dp-date-toggle { display:flex; align-items:center; gap:0; margin-bottom:14px; border:1px solid rgba(200,168,74,0.25); border-radius:6px; overflow:hidden; width:fit-content; }
+.dp-date-btn { background:none; border:none; padding:5px 14px; font-family:var(--mono); font-size:12px; letter-spacing:0.06em; color:var(--text-dim); cursor:pointer; transition:background 0.15s,color 0.15s; }
+.dp-date-btn.active { background:rgba(200,168,74,0.18); color:var(--gold); }
+.dp-date-btn:hover:not(.active) { background:rgba(200,168,74,0.08); color:var(--text-mid); }
+.dp-date-separator { width:1px; background:rgba(200,168,74,0.2); align-self:stretch; }
 @media(max-width:520px){
   #daily-pulse-overlay .dp-section-inner { flex-direction:column; }
 }
@@ -3947,10 +3952,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
     <div class="radar-panel-body">
       <div class="radar-panel-sliders">
         <div class="radar-panel-head">
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Current State</div>
-            <button id="status-checkin-reset-btn" class="hist-reset-btn" onclick="resetStatusCheckin()" title="Reset today's check-in: move all sliders back to middle and re-arm the glow">Reset today</button>
-          </div>
+          <div class="radar-panel-title" style="font-size:18px;color:#8090a8;letter-spacing:0.2em;">Current State</div>
           <div class="radar-panel-desc">A daily snapshot of your inner conditions. Track these over time to spot patterns in what lifts or drains you.</div>
           <div id="status-checkin-prompt" style="display:none;margin-top:6px;font-size:13px;color:#c8a84a;font-family:var(--mono);letter-spacing:0.05em;">Update your current state for today</div>
         </div>
@@ -3973,6 +3975,9 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
           <span class="stat-bar-lbl" style="color:#60a838" title="Purpose: sense that what you're doing matters and connects to something you care about">Purpose</span>
           <input type="range" class="stat-range stat-range-purpose" id="status-purpose" min="0" max="100" value="55" oninput="updateStatus('purpose',this.value)" title="Purpose: sense that what you're doing matters and connects to something you care about">
           <span class="stat-bar-val" id="status-purpose-val">55</span>
+        </div>
+        <div style="text-align:center;margin-top:6px;">
+          <button id="status-checkin-reset-btn" class="hist-reset-btn" onclick="resetStatusCheckin()" title="Reset today's check-in: move all sliders back to middle and re-arm the glow">Reset today</button>
         </div>
       </div>
       <div class="radar-panel-radar">
@@ -4164,7 +4169,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 </div>
 
 <div id="float-bar">
-  <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Daily check-in: log your vitals and current inner state. Do this once a day to track patterns over time.">◈<span class="fbar-label"> Daily</span></button>
+  <button class="fbar-btn fbar-daily" id="daily-btn" onclick="openDailyPulse()" title="Check-in: log your vitals and current inner state. Use this regularly to track patterns over time.">◈<span class="fbar-label"> Check-in</span></button>
   <button class="fbar-btn fbar-chat" id="chat-btn" onclick="openChat()" title="Chat: open a journalling session with your AI. Uses a local Ollama model (fully private) or a cloud AI with your own API key.">&#10022;<span class="fbar-label"> Chat</span></button>
   <button class="fbar-btn fbar-import" id="import-btn" onclick="openModal()" title="Import: paste or load a data.json to restore a backup, switch devices, or apply updates from your AI after a session.">↑<span class="fbar-label"> Import</span></button>
   <button class="fbar-btn fbar-export" id="export-btn" onclick="exportState()" title="Export: download your data.json. Use as a backup or to share your current state with your AI before a journalling session.">↓<span class="fbar-label"> Export</span></button>
@@ -4473,6 +4478,18 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
       </label>
     </div>
 
+    <div class="settings-section">
+      <div class="settings-label">Check-in Frequency</div>
+      <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px;">How often the check-in modal should auto-appear. Manually opening it with the Check-in button always works regardless.</p>
+      <select class="settings-select" id="settings-checkin-interval" onchange="settingsSaveCheckinInterval()">
+        <option value="6">Every 6 hours</option>
+        <option value="12">Every 12 hours</option>
+        <option value="24">Once a day (default)</option>
+        <option value="48">Every 2 days</option>
+        <option value="0">Never auto-prompt</option>
+      </select>
+    </div>
+
     <div class="settings-danger-zone">
       <div class="settings-danger-label">Danger Zone</div>
       <button class="btn-ghost" style="color:#c84040;border-color:rgba(200,60,60,0.4);" onclick="showResetConfirm()">Reset all data...</button>
@@ -4742,7 +4759,7 @@ function hpColor(hp){
 
 // ══ INSTRUCTIONS VERSIONING ════════════════════════════════
 const INSTRUCTIONS_VERSION = '1.7.5';
-const INSTRUCTIONS_CONTENT = `# character-sheet: LLM Instructions v1.7.1
+const INSTRUCTIONS_CONTENT = `# character-sheet: LLM Instructions v1.7.5
 This file lives in project knowledge alongside \`data.json\` (source of truth).
 
 ---
@@ -4887,9 +4904,14 @@ This is a standing instruction. It applies to every session, every output, witho
 
 **Never output:** \`_featuredAch\` · \`_featuredCls\` · \`balanceSmoothed\` · \`harmonyHistory\` · \`dailyDistribution\` · practice history · pinned achievements/classes
 
+**To remove an entry** from any array by id, include \`"_deleteIds"\` as a map of field name to array of ids to delete:
+\`{ "_partial": true, "_deleteIds": { "sideQuests": ["quest-id-abc"], "enemies.current": [] } }\`
+
 **Writing rules for all fields:** No markdown, no em dashes, and no HTML tags in JSON strings. Plain text only. A bare \`<\` or \`>\` character in text is fine; an HTML element like \`<b>\`, \`<img>\`, or any tag with angle brackets is not. The app renders all string values as plain text and relies on this to stay secure. Every field must also pass the stranger test: a reader with no prior context should understand what specifically happened, shifted, or is meant, without needing to know the user. Vague labels like "named the pattern" or "had a breakthrough" do not pass. Be specific.
 
-**Do not modify locked fields.** If a \`_locked\` array exists in the JSON listing field paths (e.g. \`["allies.0.name", "mainQuest.title"]\`), treat those paths as read-only.
+**Conversational style:** As a low-priority background signal, try to match the user's tone and vocabulary in your replies. If they write casually, write casually. If they are more formal, match that. Mirror their sentence length and energy. Do not force it; accuracy and depth come first.
+
+**Do not modify locked fields.** The DATA SECTION below lists any protected field paths under "Protected fields". Treat every path listed there as read-only: do not output it in your JSON update, even if you think the value should change.
 
 ---
 
@@ -5195,360 +5217,6 @@ The user's full journey arc in third person. 200-300 words. Three-act structure:
 The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
 
 **Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
-
-\`\`\`json
-"keyQuestions": [
-  {
-    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
-    "asked": "2026-04-12",
-    "updated": "2026-04-12"
-  }
-]
-\`\`\`
-
-## openThreads
-Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
-
-\`\`\`json
-"openThreads": [
-  {
-    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
-    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
-  }
-]
-\`\`\`
-
-## Journal entries (insights)
-
-Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
-
-Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
-
-\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
-
-All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
-
-- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
-- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
-- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
-
-**Never remove or rewrite existing journal entries.** They were accurate at the time.
-
----
-
-# Size limits
-
-| Category | Max |
-|---|---|
-| \`skills\` | 15 |
-| \`achievements\` | 20 |
-| \`enemies.current\` | 15 |
-| \`allies\` | 15 |
-| \`values\` / \`needs\` | 10 each |
-| \`keyQuestions\` | 3 |
-
----
-
-# Field length limits
-
-| Field | Max |
-|---|---|
-| \`sessionRead\` | 80 words |
-| \`progression\` | 200-300 words |
-| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
-| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
-| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
-| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
-| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
-| \`limitingBelief.belief\` | 15 words |
-| \`sliderLabel\` | 80 chars |
-| \`keyQuestions[].question\` | 30 words |
-| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
-| Most \`title\` fields | 8 words |
-| Journal \`events\` bullets | 20 words |
-| Journal \`insights\` / \`tensions\` bullets | 30 words |
-
-\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
-
-Size limit: 20 achievements.
-
----
-
-# Journal
-
-## sessionRead
-What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
-
-## progression
-The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
-
-## keyQuestions
-The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
-
-**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
-
-\`\`\`json
-"keyQuestions": [
-  {
-    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
-    "asked": "2026-04-12",
-    "updated": "2026-04-12"
-  }
-]
-\`\`\`
-
-## openThreads
-Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
-
-\`\`\`json
-"openThreads": [
-  {
-    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
-    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
-  }
-]
-\`\`\`
-
-## Journal entries (insights)
-
-Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
-
-Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
-
-\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
-
-All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
-
-- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
-- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
-- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
-
-**Never remove or rewrite existing journal entries.** They were accurate at the time.
-
----
-
-# Size limits
-
-| Category | Max |
-|---|---|
-| \`skills\` | 15 |
-| \`achievements\` | 20 |
-| \`enemies.current\` | 15 |
-| \`allies\` | 15 |
-| \`values\` / \`needs\` | 10 each |
-| \`keyQuestions\` | 3 |
-
----
-
-# Field length limits
-
-| Field | Max |
-|---|---|
-| \`sessionRead\` | 80 words |
-| \`progression\` | 200-300 words |
-| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
-| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
-| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
-| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
-| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
-| \`limitingBelief.belief\` | 15 words |
-| \`sliderLabel\` | 80 chars |
-| \`keyQuestions[].question\` | 30 words |
-| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
-| Most \`title\` fields | 8 words |
-| Journal \`events\` bullets | 20 words |
-| Journal \`insights\` / \`tensions\` bullets | 30 words |
-
-\`{ "id": "...", "title": "...", "description": "...", "type": "insight", "dateUnlocked": "April 2026" }\`
-
-Size limit: 20 achievements.
-
----
-
-# Journal
-
-## sessionRead
-What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
-
-## progression
-The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
-
-## keyQuestions
-The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
-
-**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
-
-\`\`\`json
-"keyQuestions": [
-  {
-    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
-    "asked": "2026-04-12",
-    "updated": "2026-04-12"
-  }
-]
-\`\`\`
-
-## openThreads
-Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
-
-\`\`\`json
-"openThreads": [
-  {
-    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
-    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
-  }
-]
-\`\`\`
-
-## Journal entries (insights)
-
-Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
-
-Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
-
-\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
-
-All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
-
-- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
-- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
-- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
-
-**Never remove or rewrite existing journal entries.** They were accurate at the time.
-
----
-
-# Size limits
-
-| Category | Max |
-|---|---|
-| \`skills\` | 15 |
-| \`achievements\` | 20 |
-| \`enemies.current\` | 15 |
-| \`allies\` | 15 |
-| \`values\` / \`needs\` | 10 each |
-| \`keyQuestions\` | 3 |
-
----
-
-# Field length limits
-
-| Field | Max |
-|---|---|
-| \`sessionRead\` | 80 words |
-| \`progression\` | 200-300 words |
-| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
-| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
-| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
-| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
-| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
-| \`limitingBelief.belief\` | 15 words |
-| \`sliderLabel\` | 80 chars |
-| \`keyQuestions[].question\` | 30 words |
-| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
-| Most \`title\` fields | 8 words |
-| Journal \`events\` bullets | 20 words |
-| Journal \`insights\` / \`tensions\` bullets | 30 words |
-
----
-
-# Journal
-
-## sessionRead
-What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
-
-## progression
-The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
-
-## keyQuestions
-The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
-
-**Keep these current.** The app surfaces \`keyQuestions\` and \`openThreads\` as personalised chat entry points each time the user opens a session. Stale or generic entries produce generic chips. Specific, freshly inferred questions produce prompts the user actually wants to click.
-
-\`\`\`json
-"keyQuestions": [
-  {
-    "question": "If the signal could never arrive the right way, what would it mean to give yourself the credit directly?",
-    "asked": "2026-04-12",
-    "updated": "2026-04-12"
-  }
-]
-\`\`\`
-
-## openThreads
-Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
-
-\`\`\`json
-"openThreads": [
-  {
-    "thread": "Whether intellectual flatness with Emily is specific to her or structural given low boredom tolerance",
-    "whyItMatters": "Changes whether the relationship question is solvable or is being judged by a broken instrument"
-  }
-]
-\`\`\`
-
-## Journal entries (insights)
-
-Stored as \`insights\`: an array of chapters, most recent first. Each chapter has \`name\` and \`entries\` (newest first).
-
-Entry structure: \`num\` · \`date\` · \`title\` · \`events[]\` · \`insights[]\` · \`tensions[]\`
-
-\`num\`: global sequential number assigned by the app across all entries, ordered by date. Preserve it exactly as-is when outputting data.json. Never set or change it yourself.
-
-All bullets must pass the stranger test: a reader with no prior context must understand what specifically happened or shifted, not just that something was named. "Named the pattern" does not pass. Describe the actual content.
-
-- \`events[]\`: what happened or was said. Up to 3 bullets, max 20 words each.
-- \`insights[]\`: what shifted in understanding. Up to 3 bullets, max 30 words each.
-- \`tensions[]\`: what remains unresolved. Up to 3 bullets, max 30 words each.
-
-**Never remove or rewrite existing journal entries.** They were accurate at the time.
-
----
-
-# Size limits
-
-| Category | Max |
-|---|---|
-| \`skills\` | 15 |
-| \`achievements\` | 20 |
-| \`enemies.current\` | 15 |
-| \`allies\` | 15 |
-| \`values\` / \`needs\` | 10 each |
-| \`keyQuestions\` | 3 |
-
----
-
-# Field length limits
-
-| Field | Max |
-|---|---|
-| \`sessionRead\` | 80 words |
-| \`progression\` | 200-300 words |
-| \`boss.desc\` / \`mainQuest.description\` / \`whyItMatters\` / \`boss.whyBoss\` | 40 words |
-| \`sideQuest.description\` / \`whyItMatters\` / enemy \`desc\` / \`boss.vulnerabilities[].desc\` | 30 words |
-| \`activity\` / \`skill\` / \`achievement\` / \`class\` \`.description\` | 25 words |
-| \`ally.desc\` / \`why\` / \`corruption\` / \`value\` / \`need\` \`.description\` | 20 words |
-| \`doneWhen\` / \`nextStep\` / \`howResolved\` / \`shortTermBenefit\` / \`origin\` | 20 words |
-| \`limitingBelief.belief\` | 15 words |
-| \`sliderLabel\` | 80 chars |
-| \`keyQuestions[].question\` | 30 words |
-| \`openThreads[].thread\` / \`whyItMatters\` | 25 words each |
-| Most \`title\` fields | 8 words |
-| Journal \`events\` bullets | 20 words |
-| Journal \`insights\` / \`tensions\` bullets | 30 words |
-
----
-
-# Journal
-
-## sessionRead
-What is this person avoiding, repeating, or not yet seeing, including what they may be avoiding bringing into this session? Name it plainly. No flattery, no summary. If nothing is clearly being avoided, describe the most important unresolved dynamic instead. Max 80 words.
-
-## progression
-The user's full journey arc in third person. 200-300 words. Three-act structure: where they started and what drove it, how the work has evolved and what has shifted, what is live and unresolved right now. Written in a narrator's voice, vivid and human, not diagnostic. The third person gives the user distance from their own narrative. Separate each act with a blank line (double newline) so the app renders them as distinct paragraphs. Update each session, this is the most important cold-start context for a future Claude reading the file.
-
-## keyQuestions
-The top questions the user most needs to sit with. **Always maintain exactly 3.** These are inferred by you from the full picture: patterns you observe, contradictions you notice, themes the user keeps circling or avoiding. They do not need to have been explicitly raised in conversation; they should reflect your honest read of what the user most needs to sit with right now. Replace resolved or stale questions; refine active ones. Each has \`asked\` (date first raised) and \`updated\` (date last meaningfully refined).
 
 \`\`\`json
 "keyQuestions": [
@@ -7046,18 +6714,16 @@ function renderStatsHistoryChart(){
   _attachHistChartBackfill('stats-hist-canvas', hist, ['rest','movement','nutrition','connection'], STAT_COLORS, STATS_HIST_KEY, renderStatsHistoryChart, hRange);
 }
 
-function saveStatsSnapshot(){
+function saveStatsSnapshot(targetDate){
   if(IS_DEMO){ renderStatsHistoryChart(); return; }
   try{
-    const today=_localDate();
+    const today=targetDate||_localDate();
     const hist=JSON.parse(localStorage.getItem(STATS_HIST_KEY)||'[]');
     const existingIdx=hist.findIndex(e=>e.date===today);
-    // Start from any previously recorded entry for today so we don't clobber
-    // sliders that haven't been set yet this session.
     const base=existingIdx>=0 ? {...hist[existingIdx]} : {date:today};
-    // Only record values for sliders the user has actually set today.
+    // When backfilling, record all slider values; otherwise only record sliders set today.
     Object.keys(STAT_COLORS).forEach(k=>{
-      if(_statsSliderDoneToday(k)){
+      if(targetDate || _statsSliderDoneToday(k)){
         const el=document.getElementById('stat-'+k);
         base[k]=el?parseInt(el.value):(base[k]||0);
       }
@@ -7085,14 +6751,14 @@ function resetStatsCheckin() {
   _applyStatsPerSliderGlow();
 }
 
-function updateStat(name, value){
-  _markStatsSliderDone(name);
+function updateStat(name, value, targetDate){
+  if(!targetDate) _markStatsSliderDone(name);
   _applyStatsPerSliderGlow();
   const pct=parseInt(value);
   const col=STAT_COLORS[name];
   const el=document.getElementById('stat-'+name);
   const valEl=document.getElementById('stat-'+name+'-val');
-  if(el) setStatusGradient(el,col,pct);
+  if(el){ el.value=pct; setStatusGradient(el,col,pct); }
   if(valEl) valEl.textContent=pct;
   updateStatsRadar();
   // Write back to appState so export reflects manual adjustments
@@ -7100,7 +6766,7 @@ function updateStat(name, value){
   if(!appState.coreSkills[name]) appState.coreSkills[name]={};
   appState.coreSkills[name].score=pct;
   saveState(appState); markDirty();
-  saveStatsSnapshot();
+  saveStatsSnapshot(targetDate);
 }
 
 function _applyStatsPerSliderGlow() {
@@ -7464,9 +7130,9 @@ function vitalBarDrag(stat, el, e){
   document.addEventListener('touchmove',onMove,{passive:false});
   document.addEventListener('touchend',onEnd);
 }
-function saveVitalManual(stat, value){
+function saveVitalManual(stat, value, targetDate){
   const val=Math.min(100,Math.max(0,Math.round(value)));
-  const today=_localDate();
+  const today=targetDate||_localDate();
   const hist=loadVitalsHist();
   const existing=hist.find(e=>e.date===today);
   if(existing){ existing[stat]=val; }
@@ -7474,7 +7140,7 @@ function saveVitalManual(stat, value){
   hist.sort((a,b)=>a.date<b.date?-1:1);
   if(hist.length>365) hist.splice(0,hist.length-365);
   saveVitalsHist(hist);
-  _markVitalsCheckin(stat);
+  if(!targetDate) _markVitalsCheckin(stat);
   const stateKey=stat==='hp'?'health':'mana';
   appState[stateKey]=val;
   saveState(appState); markDirty();
@@ -9911,8 +9577,8 @@ function applyMigrationBundle(p){
   if(!IS_DEMO){
     if(p['cs-state-v1']) localStorage.setItem('cs-state-v1',JSON.stringify(p['cs-state-v1']));
     if(p['cs-xplog-v1']) localStorage.setItem('cs-xplog-v1',JSON.stringify(p['cs-xplog-v1']));
-    if(p['cs-featured-ach-v1']) localStorage.setItem('cs-featured-ach-v1',JSON.stringify(p['cs-featured-ach-v1']));
-    if(p['cs-featured-cls-v1']) localStorage.setItem('cs-featured-cls-v1',JSON.stringify(p['cs-featured-cls-v1']));
+    if(p['cs-featured-ach-v1']){ _featuredAchCache=p['cs-featured-ach-v1']; localStorage.setItem('cs-featured-ach-v1',JSON.stringify(p['cs-featured-ach-v1'])); } else { _featuredAchCache=null; }
+    if(p['cs-featured-cls-v1']){ _featuredClsCache=p['cs-featured-cls-v1']; localStorage.setItem('cs-featured-cls-v1',JSON.stringify(p['cs-featured-cls-v1'])); } else { _featuredClsCache=null; }
     if(p['cs-stats-hist-v1']) localStorage.setItem('cs-stats-hist-v1',JSON.stringify(p['cs-stats-hist-v1']));
     if(p['cs-status-hist-v1']) localStorage.setItem('cs-status-hist-v1',JSON.stringify(p['cs-status-hist-v1']));
     if(p['cs-vitals-hist-v1']) localStorage.setItem('cs-vitals-hist-v1',JSON.stringify(p['cs-vitals-hist-v1']));
@@ -9972,7 +9638,7 @@ function validateImport(p) {
   chk(p.health    !== undefined && (typeof p.health !== 'number'    || p.health < 0  || p.health > 100),  '"health" must be a number 0–100');
   chk(p.mana      !== undefined && (typeof p.mana !== 'number'      || p.mana < 0    || p.mana > 100),    '"mana" must be a number 0–100');
   chk(p.sessionCount !== undefined && (typeof p.sessionCount !== 'number' || p.sessionCount < 0),   '"sessionCount" must be a number >= 0');
-  ['activities','skills','allies','achievements','sideQuests','completedQuests','keyQuestions','limitingBeliefs'].forEach(f => {
+  ['activities','skills','allies','achievements','sideQuests','completedQuests','keyQuestions','limitingBeliefs','liberatingBeliefs','openThreads','classes','values','needs','insights'].forEach(f => {
     chk(p[f] !== undefined && !Array.isArray(p[f]), `"${f}" must be an array`);
   });
   chk(p.enemies   !== undefined && !isObj(p.enemies),   '"enemies" must be an object, not an array');
@@ -10015,6 +9681,16 @@ function applyUpdate(chatData){
     let merged;
     if(isPartial){
       merged = Object.assign({}, appState);
+      // Process _deleteIds before other fields: remove entries by id from any array
+      if(p._deleteIds && typeof p._deleteIds === 'object'){
+        Object.entries(p._deleteIds).forEach(([field, ids]) => {
+          if(Array.isArray(merged[field]) && Array.isArray(ids)){
+            const idSet = new Set(ids);
+            merged[field] = merged[field].filter(item => !idSet.has(item.id));
+          }
+        });
+        delete p._deleteIds;
+      }
       for(const [k, v] of Object.entries(p)){
         if(k === 'enemies' && v && typeof v === 'object' && !Array.isArray(v)){
           // Deep-merge enemies sub-keys so adding one boss/minion doesn't wipe others
@@ -10046,8 +9722,10 @@ function applyUpdate(chatData){
     }
     if(merged._featuredAch) setFeaturedAch(merged._featuredAch);
     else if(merged.achievements) setFeaturedAch((merged.achievements).filter(a=>a.featured&&a.id).map(a=>a.id));
+    else if(!isPartial) setFeaturedAch([]);
     if(merged._featuredCls) setFeaturedCls(merged._featuredCls);
     else if(merged.classes) setFeaturedCls((merged.classes).filter(c=>c.featured&&c.id).map(c=>c.id));
+    else if(!isPartial) setFeaturedCls([]);
     if(merged._xpLog&&Array.isArray(merged._xpLog)){
       const existing=loadXPLog();
       saveXPLog([...merged._xpLog,...existing]);
@@ -15177,18 +14855,16 @@ function clearStatusCheckInNeeded() {
   _applyStatusPerSliderGlow();
 }
 
-function saveStatusSnapshot() {
+function saveStatusSnapshot(targetDate) {
   if(IS_DEMO){ renderStatusHistoryChart(); return; }
   try {
-    const today = _localDate();
+    const today = targetDate || _localDate();
     const hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]');
     const existingIdx = hist.findIndex(e => e.date === today);
-    // Start from any previously recorded entry for today so we don't clobber
-    // sliders that haven't been set yet this session.
     const base = existingIdx >= 0 ? { ...hist[existingIdx] } : { date: today };
-    // Only record values for sliders the user has actually set today.
+    // When backfilling, record all slider values; otherwise only record sliders set today.
     Object.keys(STATUS_COLORS).forEach(k => {
-      if (_statusSliderDoneToday(k)) {
+      if (targetDate || _statusSliderDoneToday(k)) {
         const el = document.getElementById('status-' + k);
         base[k] = el ? parseInt(el.value) : (base[k] || 0);
       }
@@ -15288,14 +14964,14 @@ function resetStatusCheckin() {
   _applyStatusPerSliderGlow();
 }
 
-function updateStatus(name, value) {
-  _markStatusSliderDone(name);
+function updateStatus(name, value, targetDate) {
+  if(!targetDate) _markStatusSliderDone(name);
   _applyStatusPerSliderGlow();
   const pct = parseInt(value);
   const col = STATUS_COLORS[name];
   const el = document.getElementById('status-' + name);
   const valEl = document.getElementById('status-' + name + '-val');
-  if (el) setStatusGradient(el, col, pct);
+  if (el) { el.value = pct; setStatusGradient(el, col, pct); }
   if (valEl) valEl.textContent = pct;
   updateStatusRadar();
   // Persist to appState (round-trips through JSON export/import)
@@ -15309,7 +14985,7 @@ function updateStatus(name, value) {
     localStorage.setItem(STATUS_LS_KEY, JSON.stringify(saved));
     _reencryptIfActive();
   } catch(e) {}
-  saveStatusSnapshot();
+  saveStatusSnapshot(targetDate);
 }
 
 function loadStatusSliders(s) {
@@ -16135,6 +15811,17 @@ function openSettingsModal(){
   if (ccEl) ccEl.checked = localStorage.getItem(CLOSE_CONFIRM_KEY) !== '0';
   const lohEl = document.getElementById('settings-lock-on-hide');
   if (lohEl) lohEl.checked = _getLockOnHide();
+  // Set check-in interval dropdown
+  const ciSel = document.getElementById('settings-checkin-interval');
+  if (ciSel) {
+    const curHours = _getPulseIntervalHours();
+    const knownValues = [6, 12, 24, 48];
+    const isNever = !knownValues.includes(curHours);
+    [...ciSel.options].forEach(o => {
+      const v = parseInt(o.value, 10);
+      o.selected = isNever ? (o.value === '0') : (v === curHours);
+    });
+  }
   hideResetConfirm();
   document.getElementById('settings-modal').classList.add('open');
 }
@@ -16359,6 +16046,12 @@ function settingsSaveCloseConfirm(){
   const el = document.getElementById('settings-close-confirm');
   if (el) localStorage.setItem(CLOSE_CONFIRM_KEY, el.checked ? '1' : '0');
 }
+function settingsSaveCheckinInterval(){
+  const el = document.getElementById('settings-checkin-interval');
+  if (!el) return;
+  const v = parseInt(el.value, 10);
+  _setPulseIntervalHours(v === 0 ? 999999 : v);
+}
 
 // ── Daily check-in reminder ─────────────────────────────────
 let _dcrDismissTimer = null;
@@ -16391,42 +16084,49 @@ function _updateDailyCheckinReminder() {
   if (itemsEl) itemsEl.textContent = items.join(', ');
 }
 
-// ── Daily Pulse modal ──────────────────────────────────────
-const PULSE_DISMISSED_KEY = 'cs-pulse-dismissed-v1';
-const PULSE_DONE_KEY      = 'cs-pulse-done-v1';
+// ── Check-in modal ──────────────────────────────────────────
+const PULSE_DONE_KEY      = 'cs-pulse-done-v1';      // {ts,date} — timestamp of last completed check-in
+const PULSE_DISMISS_KEY   = 'cs-pulse-dismissed-v1'; // timestamp (ms) of last dismiss
+const PULSE_INTERVAL_KEY  = 'cs-pulse-interval-v1';  // hours between auto-prompts (default 24)
+
+function _getPulseIntervalHours() {
+  try { const v = parseInt(localStorage.getItem(PULSE_INTERVAL_KEY), 10); return v > 0 ? v : 24; } catch { return 24; }
+}
+function _setPulseIntervalHours(h) {
+  if (IS_DEMO) return;
+  try { localStorage.setItem(PULSE_INTERVAL_KEY, String(Math.max(1, Math.round(h)))); } catch {}
+}
 
 // Pulse uses a 2am cutoff: "today" for pulse purposes is after 02:00 local time,
 // so a user finishing their session at 1:30am isn't interrupted for the next day.
 function _pulseDate() {
   const now = new Date();
   if (now.getHours() < 2) {
-    // Before 2am: treat as the previous calendar day
     const prev = new Date(now);
     prev.setDate(prev.getDate() - 1);
     return prev.getFullYear() + '-' + String(prev.getMonth() + 1).padStart(2, '0') + '-' + String(prev.getDate()).padStart(2, '0');
   }
   return _localDate();
 }
+
+function _pulseLastDoneTs() {
+  try { const d = JSON.parse(localStorage.getItem(PULSE_DONE_KEY) || '{}'); return d.ts || 0; } catch { return 0; }
+}
 function _pulseDismissedToday() {
-  try { const d = JSON.parse(localStorage.getItem(PULSE_DISMISSED_KEY) || '{}'); return d.date === _pulseDate(); } catch(e) { return false; }
+  try { const ts = parseInt(localStorage.getItem(PULSE_DISMISS_KEY) || '0', 10) || 0; if (!ts) return false; return (Date.now() - ts) < _getPulseIntervalHours() * 3600 * 1000; } catch { return false; }
 }
 function _markPulseDismissed() {
   if (IS_DEMO) return;
-  try { localStorage.setItem(PULSE_DISMISSED_KEY, JSON.stringify({date: _pulseDate()})); } catch(e) {}
+  try { localStorage.setItem(PULSE_DISMISS_KEY, String(Date.now())); } catch {}
 }
 function _pulseDoneToday() {
-  try { const d = JSON.parse(localStorage.getItem(PULSE_DONE_KEY) || '{}'); return d.date === _pulseDate(); } catch(e) { return false; }
+  const last = _pulseLastDoneTs();
+  if (!last) return false;
+  return (Date.now() - last) < _getPulseIntervalHours() * 3600 * 1000;
 }
 function _markPulseDone() {
   if (IS_DEMO) return;
-  try { localStorage.setItem(PULSE_DONE_KEY, JSON.stringify({date: _pulseDate()})); } catch(e) {}
-}
-
-function _pulseCheckinComplete() {
-  return _allStatsDoneToday()
-    && _allStatusDoneToday()
-    && _vitalsCheckinDoneToday('hp')
-    && _vitalsCheckinDoneToday('mana');
+  try { localStorage.setItem(PULSE_DONE_KEY, JSON.stringify({ts: Date.now(), date: _pulseDate()})); } catch {}
 }
 
 function maybeShowDailyPulse() {
@@ -16435,7 +16135,6 @@ function maybeShowDailyPulse() {
   if (!appState.name || appState.name === '') return;
   const lockScreen = document.getElementById('lock-screen');
   if (lockScreen && lockScreen.classList.contains('open')) return;
-  if (_pulseCheckinComplete()) return;
   if (_pulseDoneToday()) return;
   if (_pulseDismissedToday()) return;
   const overlay = document.getElementById('daily-pulse-overlay');
@@ -16446,7 +16145,26 @@ function maybeShowDailyPulse() {
   overlay.classList.add('open');
 }
 
+// Target date for the currently open check-in modal (YYYY-MM-DD or null = today)
+let _dpTargetDate = null;
+
+function _dpYesterdayStr() {
+  const d = new Date(); d.setDate(d.getDate() - 1);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function dpSetDate(which) {
+  _dpTargetDate = which === 'yesterday' ? _dpYesterdayStr() : null;
+  const yBtn = document.getElementById('dp-date-yesterday');
+  const tBtn = document.getElementById('dp-date-today');
+  if (yBtn) yBtn.classList.toggle('active', which === 'yesterday');
+  if (tBtn) tBtn.classList.toggle('active', which === 'today');
+}
+
 function _initPulseSliders() {
+  // Default to yesterday if it's before noon (likely logging after waking up)
+  const defaultDate = new Date().getHours() < 12 ? 'yesterday' : 'today';
+  dpSetDate(defaultDate);
+
   const statCols = { rest:'#8090a8', movement:'#d07830', nutrition:'#60a838', connection:'#3a80c8' };
   const statusCols = { focus:'#c0cad4', energy:'#d07830', purpose:'#60a838', interest:'#3a80c8' };
   const vitalCols = { hp:'#c84040', mana:'#3a80c8' };
@@ -16500,8 +16218,7 @@ function dpUpdateStat(name, value) {
   if (el && col) setStatusGradient(el, col, parseInt(value));
   if (valEl) valEl.textContent = parseInt(value);
   _updatePulseRadars();
-  // Live-sync: call the same function the main slider calls so the whole app re-renders
-  updateStat(name, value);
+  updateStat(name, value, _dpTargetDate);
 }
 
 function dpUpdateStatus(name, value) {
@@ -16511,8 +16228,7 @@ function dpUpdateStatus(name, value) {
   if (el && col) setStatusGradient(el, col, parseInt(value));
   if (valEl) valEl.textContent = parseInt(value);
   _updatePulseRadars();
-  // Live-sync: call the same function the main slider calls so the whole app re-renders
-  updateStatus(name, value);
+  updateStatus(name, value, _dpTargetDate);
 }
 
 function dpUpdateVital(stat, value) {
@@ -16521,28 +16237,25 @@ function dpUpdateVital(stat, value) {
   const valEl = document.getElementById('dp-' + stat + '-val');
   if (el) setStatusGradient(el, col, parseInt(value));
   if (valEl) valEl.textContent = parseInt(value);
-  // Live-sync: write through to state + history + update the main HP/Mana bars
-  saveVitalManual(stat, parseInt(value));
+  saveVitalManual(stat, parseInt(value), _dpTargetDate);
 }
 
 function dpDoneForToday() {
-  // Commit any sliders that weren't already touched (live-sync handles touched ones already)
+  const targetDate = _dpTargetDate;
   const statNames = ['rest', 'movement', 'nutrition', 'connection'];
   const statusNames = ['focus', 'energy', 'purpose', 'interest'];
   statNames.forEach(name => {
     const el = document.getElementById('dp-stat-' + name);
-    if (el) updateStat(name, el.value);
+    if (el) updateStat(name, el.value, targetDate);
   });
   statusNames.forEach(name => {
     const el = document.getElementById('dp-status-' + name);
-    if (el) updateStatus(name, el.value);
+    if (el) updateStatus(name, el.value, targetDate);
   });
-  // Commit HP and Mana vitals
   ['hp', 'mana'].forEach(stat => {
     const el = document.getElementById('dp-' + stat);
-    if (el) saveVitalManual(stat, parseInt(el.value));
+    if (el) saveVitalManual(stat, parseInt(el.value), targetDate);
   });
-  // Mark pulse as "done" for today (stronger than dismissed — won't reappear)
   _markPulseDone();
   dpClose();
 }
@@ -16859,12 +16572,21 @@ function buildCompactContext() {
   const name = appState.name || 'Character';
   out.push(`## ${name} | Level ${lvl} | XP ${xp}${appState.xpToNext ? ' / ' + appState.xpToNext + ' to next' : ''}`);
   if (appState.sessionCount) out.push(`Sessions: ${appState.sessionCount}${appState.lastSession ? ' | Last: ' + appState.lastSession : ''}`);
+  if (appState.subtitle) out.push(appState.subtitle);
 
   // Status sliders
   const ss = appState.statusSliders || {};
   const sliderNames = Object.keys(ss);
   if (sliderNames.length) {
     out.push('Status: ' + sliderNames.map(k => `${k}: ${ss[k]}%`).join(' | '));
+  }
+
+  // Vitals
+  if (appState.health != null || appState.mana != null) {
+    const parts = [];
+    if (appState.health != null) parts.push(`health: ${appState.health}` + (appState.healthAvg != null ? ` (avg ${appState.healthAvg})` : ''));
+    if (appState.mana != null) parts.push(`mana: ${appState.mana}` + (appState.manaAvg != null ? ` (avg ${appState.manaAvg})` : ''));
+    out.push('Vitals: ' + parts.join(' | '));
   }
 
   // Harmony elements
@@ -16875,10 +16597,14 @@ function buildCompactContext() {
     out.push('Elements: ' + elems.map(k => `${sl[k] || k}: ${sv[k]}%`).join(' | '));
   }
 
+  // Values and needs (highest-threat ones)
+  const values = (appState.values || []).filter(v => v.threat && v.threat !== 'none');
+  if (values.length) out.push('Values under threat: ' + values.slice(0, 3).map(v => `${v.name} (${v.threat})`).join(', '));
+
   // Main quest
   const mq = appState.mainQuest || {};
   if (mq.title || mq.description) {
-    out.push(`\n## Main Quest: ${mq.title || '(untitled)'}`);
+    out.push(`\n## Main Quest: ${mq.title || '(untitled)'}${mq.progress != null ? ' (' + mq.progress + '%)' : ''}`);
     if (mq.description) out.push(mq.description);
     if (mq.nextSteps && mq.nextSteps.length) {
       out.push('Next steps: ' + mq.nextSteps.slice(0, 3).map(s => s.text || s).join(' / '));
@@ -16898,34 +16624,63 @@ function buildCompactContext() {
   // Skills
   if (skills.length) {
     out.push(`\n## Skills (${skills.length})`);
-    out.push(skills.slice(0, 10).map(sk => `${sk.name}${sk.level ? ' L' + sk.level : ''}`).join(', '));
+    out.push(skills.slice(0, 10).map(sk => `${sk.name}${sk.role ? ' [' + sk.role + ']' : ''}${sk.mastery ? ' M' + sk.mastery : ''}`).join(', '));
   }
+
+  // Classes
+  const classes = appState.classes || [];
+  if (classes.length) out.push('Classes: ' + classes.map(c => c.name).join(', '));
 
   // Enemies
   const activeEnemies = enemies.current || [];
-  if (activeEnemies.length) {
-    out.push(`\n## Enemies (${activeEnemies.length} active)`);
-    out.push(activeEnemies.slice(0, 5).map(e => e.name).join(', '));
+  const bosses = enemies.bosses || [];
+  if (activeEnemies.length || bosses.length) {
+    out.push(`\n## Enemies`);
+    if (bosses.length) out.push('Bosses: ' + bosses.map(b => `${b.name} (HP ${b.hp ?? '?'})`).join(', '));
+    if (activeEnemies.length) out.push('Current: ' + activeEnemies.slice(0, 5).map(e => `${e.name} (HP ${e.hp ?? '?'})`).join(', '));
   }
 
   // Allies
   if (allies.length) {
-    out.push(`\n## Allies (${allies.length}): ` + allies.slice(0, 5).map(a => a.name).join(', '));
+    out.push(`\n## Allies (${allies.length}): ` + allies.slice(0, 8).map(a => a.name + (a.type ? ' [' + a.type + ']' : '')).join(', '));
   }
 
-  // Recent insights
-  if (insights.length) {
-    out.push(`\n## Insights (${insights.length} total)`);
-    insights.slice(-3).forEach(ins => out.push(`- ${ins.content || ins}`));
+  // Key questions and open threads
+  const kqs = appState.keyQuestions || [];
+  if (kqs.length) {
+    out.push('\n## Key questions');
+    kqs.slice(0, 3).forEach(q => out.push(`- ${q.question || q}`));
+  }
+  const threads = appState.openThreads || [];
+  if (threads.length) {
+    out.push('Open threads: ' + threads.slice(0, 3).map(t => t.thread || t).join(' / '));
   }
 
-  // Recent chat sessions (last 3, titles only)
-  const liveSessions = sessions.filter(s => s.summary || s.highlights);
-  if (liveSessions.length) {
-    out.push(`\n## Past sessions (${liveSessions.length} total)`);
-    liveSessions.slice(-3).forEach(s => {
-      out.push(`- ${s.startedAt ? s.startedAt.slice(0,10) : ''}: ${s.summary || ''}`);
+  // Progression arc (cold-start context)
+  if (appState.progression) {
+    out.push(`\n## Progression\n${appState.progression}`);
+  }
+
+  // Past sessions: most recent 5, with sessionRead and key content
+  const journalSessions = (appState.insights || []).flatMap(ch => ch.entries || [])
+    .sort((a, b) => (a.date || '') < (b.date || '') ? 1 : -1);
+  if (journalSessions.length) {
+    out.push(`\n## Session history (${journalSessions.length} total)`);
+    journalSessions.slice(0, 5).forEach(e => {
+      const dateStr = e.date ? `${e.date}: ` : '';
+      const title = e.title || '';
+      out.push(`\n**${dateStr}${title}**`);
+      if (e.sessionRead) out.push(e.sessionRead);
+      if (e.events && e.events.length) out.push('Events: ' + e.events.slice(0, 2).join(' / '));
+      if (e.insights && e.insights.length) out.push('Insights: ' + e.insights.slice(0, 2).join(' / '));
+      if (e.tensions && e.tensions.length) out.push('Tensions: ' + e.tensions.slice(0, 2).join(' / '));
     });
+  }
+
+  // Locked fields (read-only for AI)
+  const locked = appState._locked || [];
+  if (locked.length) {
+    out.push(`\n## Protected fields (do not modify these in your JSON output)\n` + locked.map(p => `- ${p}`).join('\n'));
   }
 
   return out.join('\n');
@@ -16953,7 +16708,11 @@ You are running directly inside character-sheet. Key differences from the standa
 
 function detectChatJSON(text) {
   const known = ['name','mainQuest','sideQuests','skills','enemies','allies','insights',
-                 'achievements','_instructionsVersion','level','xp','sessionCount'];
+                 'achievements','_instructionsVersion','level','xp','sessionCount',
+                 'statusSliders','sliderValues','sliderLabels','keyQuestions','openThreads',
+                 'liberatingBeliefs','activities','classes','values','needs',
+                 'health','mana','healthAvg','manaAvg','coreSkills','progression','sessionRead',
+                 'subtitle','lastSession','limitingBeliefs','_deleteIds'];
   function tryParse(s) {
     try {
       const obj = JSON.parse(s.trim());
@@ -16973,6 +16732,18 @@ function detectChatJSON(text) {
 function chatScrollBottom() {
   const el = document.getElementById('chat-msgs');
   if (el) el.scrollTop = el.scrollHeight;
+}
+
+// Returns true if the chat messages container is scrolled near the bottom.
+// Used during streaming to decide whether to auto-scroll.
+function _chatNearBottom() {
+  const el = document.getElementById('chat-msgs');
+  if (!el) return true;
+  return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+}
+
+function chatScrollBottomIfAtBottom() {
+  if (_chatNearBottom()) chatScrollBottom();
 }
 
 function _renderMarkdown(text, container) {
@@ -17589,7 +17360,7 @@ async function chatSend() {
     const reply = await callChatAPI(chatState.messages, chatState.systemPrompt, (chunk) => {
       if (!streamStarted) { loadEl.textContent = ''; streamStarted = true; }
       loadEl.textContent += chunk;
-      chatScrollBottom();
+      chatScrollBottomIfAtBottom();
     });
     if (chatState.messages !== messagesRef) {
       messagesRef.push({ role: 'assistant', content: reply });
@@ -19453,8 +19224,13 @@ document.addEventListener('keydown', function(e) {
 <div class="modal-overlay" id="daily-pulse-overlay" onclick="if(event.target===this)dpDismiss()">
   <div class="modal">
     <button class="modal-close" onclick="dpDismiss()" title="Close without checking in">&#x2715;</button>
-    <div class="dp-title">Daily Pulse</div>
-    <div class="dp-subtitle">Everything starts at 50. Drag each slider to where you are today.</div>
+    <div class="dp-title">Check-in</div>
+    <div class="dp-subtitle" id="dp-subtitle">Everything starts at 50. Drag each slider to where you are.</div>
+    <div class="dp-date-toggle">
+      <button class="dp-date-btn active" id="dp-date-yesterday" onclick="dpSetDate('yesterday')">Yesterday</button>
+      <div class="dp-date-separator"></div>
+      <button class="dp-date-btn" id="dp-date-today" onclick="dpSetDate('today')">Today</button>
+    </div>
     <div class="dp-body">
       <div class="dp-vitals-row">
         <div class="dp-section-title" style="color:#c8a84a;">Vitals</div>
@@ -19497,7 +19273,7 @@ document.addEventListener('keydown', function(e) {
             </div>
           </div>
           <div class="dp-radar-wrap">
-            <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:130px;height:130px;">
+            <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:150px;height:150px;">
               <polygon points="0,-34 34,0 0,34 -34,0" fill="none" stroke="#232332" stroke-width="0.8"/>
               <polygon points="0,-25.5 25.5,0 0,25.5 -25.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
               <polygon points="0,-17 17,0 0,17 -17,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
@@ -19543,7 +19319,7 @@ document.addEventListener('keydown', function(e) {
             </div>
           </div>
           <div class="dp-radar-wrap">
-            <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:130px;height:130px;">
+            <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;width:150px;height:150px;">
               <polygon points="0,-34 34,0 0,34 -34,0" fill="none" stroke="#232332" stroke-width="0.8"/>
               <polygon points="0,-25.5 25.5,0 0,25.5 -25.5,0" fill="none" stroke="#1c1c26" stroke-width="0.6"/>
               <polygon points="0,-17 17,0 0,17 -17,0" fill="none" stroke="#18181f" stroke-width="0.5"/>
@@ -19565,7 +19341,7 @@ document.addEventListener('keydown', function(e) {
       </div>
     </div>
     <div class="dp-footer">
-      <button class="btn-primary" onclick="dpDoneForToday()">Done for today</button>
+      <button class="btn-primary" onclick="dpDoneForToday()">Save check-in</button>
       <button class="btn-ghost" onclick="dpDismiss()">Skip for now</button>
     </div>
   </div>
