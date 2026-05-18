@@ -299,7 +299,8 @@
       "priority": 1,
       "xpReward": 80,
       "description": "Decline requests that conflict with the main quest without over-explaining or apologising.",
-      "whyItMatters": "Without this, time and energy get consumed by everyone else's priorities."
+      "whyItMatters": "Without this, time and energy get consumed by everyone else's priorities.",
+      "enables": ["Deep Focus", "Stay Consistent"]
     },
     {
       "name": "Ask For Help",
@@ -308,7 +309,8 @@
       "priority": 2,
       "xpReward": 80,
       "description": "Reach out before getting lost in a problem alone. State the actual need, not a softened version of it.",
-      "whyItMatters": "Directly determines how fast the main quest actually progresses."
+      "whyItMatters": "Directly determines how fast the main quest actually progresses.",
+      "synergy": ["Planning"]
     },
     {
       "name": "Stay Consistent",
@@ -317,34 +319,39 @@
       "priority": 3,
       "xpReward": 80,
       "description": "Show up even when motivation is absent. The anchor habits hold regardless of how the week feels.",
-      "whyItMatters": "Deep work, movement, and morning routine all depend on this."
+      "whyItMatters": "Deep work, movement, and morning routine all depend on this.",
+      "enables": ["Deep Focus"]
     },
     {
       "name": "Deep Focus",
       "role": "DPS",
       "mastery": 4,
-      "priority": null,
+      "priority": 4,
       "xpReward": 200,
       "description": "Sustain attention on one thing long enough for real progress to happen. No phone, no tabs, one thing.",
-      "whyItMatters": "The capability that produces meaningful output."
+      "whyItMatters": "The capability that produces meaningful output.",
+      "synergy": ["Adaptability"]
     },
     {
       "name": "Planning",
       "role": "Lead",
       "mastery": 3,
-      "priority": null,
+      "priority": 5,
       "xpReward": 150,
       "description": "Break big goals into clear next steps without over-engineering the system.",
-      "whyItMatters": "In high-uncertainty territory, clear direction is the primary signal."
+      "whyItMatters": "In high-uncertainty territory, clear direction is the primary signal.",
+      "enables": ["Stay Consistent"],
+      "synergy": ["Ask For Help"]
     },
     {
       "name": "Adaptability",
       "role": "DPS",
       "mastery": 4,
-      "priority": null,
+      "priority": 6,
       "xpReward": 150,
       "description": "Read the situation, adjust the approach, keep moving forward.",
-      "whyItMatters": "Foundation of making progress when conditions are not ideal."
+      "whyItMatters": "Foundation of making progress when conditions are not ideal.",
+      "synergy": ["Deep Focus"]
     }
   ],
   "enemies": {

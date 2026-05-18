@@ -463,7 +463,7 @@ The top questions the user most needs to sit with. **Always maintain exactly 3.*
 ```
 
 ## openThreads
-Unresolved threads from this session that need picking up next time. Replace with new threads each session. Do not accumulate indefinitely.
+Unresolved threads from this session that need picking up next time. **Maximum 3 at any time.** If the list is already at 3 when wrapping up, ask the user which existing thread to remove before adding a new one. Replace stale threads each session; do not accumulate indefinitely.
 
 ```json
 "openThreads": [
@@ -502,6 +502,7 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | `allies` | 15 |
 | `values` / `needs` | 10 each |
 | `keyQuestions` | 3 |
+| `openThreads` | 3 |
 
 ---
 
