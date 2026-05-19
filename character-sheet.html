@@ -2126,7 +2126,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   box-shadow: inset 0 2px 0 rgba(200,168,74,0.4);
 }
 .prac-bar-inner {
-  width:100%; border-radius:1px 1px 0 0; transition:opacity 0.15s;
+  width:100%; border-radius:1px 1px 0 0; transition:opacity 0.15s, height 0.9s cubic-bezier(0.4,0,0.2,1);
   min-height:2px;
 }
 .prac-bar-col:not(.is-hardcoded):hover .prac-bar-inner {
@@ -11291,6 +11291,7 @@ function timerStart(id) {
     ps.seconds++;
     checkPracticeTimerMilestones(id, act, charName);
     renderTimerRing(id, act);
+    updateTimerHistBar(id, act);
     if (ps.seconds % 10 === 0) {
       saveRQCurrent(charName, id, { value: ps.seconds, periodStart: currentPeriod(act.resetPeriod), timerRunning: true, timerStartedAt: ps.startedAt });
       updateTimerToday(id, act);
@@ -11362,6 +11363,7 @@ function exitFocusMode() {
   window._focusId = null;
   document.getElementById('focus-overlay').style.display = 'none';
   document.body.style.overflow = '';
+  maybeShowDailyPulse();
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && window._focusId) exitFocusMode(); });
@@ -11687,6 +11689,17 @@ function updateTimerToday(id, act) {
     const fx = document.getElementById('focus-timer-xp-today'); if (fx) fx.textContent = totalXP > 0 ? '+' + totalXP + ' XP today' : '';
   }
   updateCombatNavArc();
+}
+
+function updateTimerHistBar(id, act) {
+  const bar = document.getElementById('rq-bar-today-' + id);
+  if (!bar) return;
+  const ps = practiceState[id];
+  if (!ps) return;
+  const mins = Math.floor((ps.seconds || 0) / 60);
+  const maxV = parseFloat(bar.dataset.maxv) || (act.target || 1);
+  const heightPct = mins > 0 ? Math.max(4, (mins / maxV) * 100) : 2;
+  bar.style.height = Math.min(heightPct, 100) + '%';
 }
 
 window.addEventListener('beforeunload', (e) => {
@@ -12628,6 +12641,10 @@ function renderRQBarChart(wrap, act, charName, _alignStart, histExtra) {
           dp.value > 0                   ? barBase + '52' :
                                            'rgba(255,255,255,0.04)'
         };${dp.void ? 'border-top:2px solid rgba(200,80,80,0.7);' : ''}`;
+        if (dp.isCurrent && act.type === 'timer') {
+          bar.id = 'rq-bar-today-' + act.id;
+          bar.dataset.maxv = maxV;
+        }
       }
       col.appendChild(bar);
     }
@@ -17676,6 +17693,8 @@ function maybeShowDailyPulse() {
   if (!appState.name || appState.name === '') return;
   const lockScreen = document.getElementById('lock-screen');
   if (lockScreen && lockScreen.classList.contains('open')) return;
+  // Don't interrupt focus mode; exitFocusMode() will call this afterwards
+  if (window._focusId) return;
   if (_pulseDoneToday()) return;
   if (_pulseDismissedToday()) return;
   const overlay = document.getElementById('daily-pulse-overlay');
@@ -17765,6 +17784,26 @@ function _initPulseSliders() {
   // doesn't overwrite our fresh cache with stale DOM values
   _dpTargetDate = undefined;
   dpSetDate(defaultDate);
+
+  // Sync inline frequency select to current setting
+  const ciSel = document.getElementById('dp-checkin-interval');
+  if (ciSel) {
+    const curHours = _getPulseIntervalHours();
+    const knownValues = [6, 12, 24, 48];
+    const isNever = !knownValues.includes(curHours);
+    [...ciSel.options].forEach(o => {
+      const v = parseInt(o.value, 10);
+      o.selected = isNever ? (o.value === '0') : (v === curHours);
+    });
+  }
+}
+
+function _dpIntervalChanged(val) {
+  const v = parseInt(val, 10);
+  _setPulseIntervalHours(v === 0 ? 999999 : v);
+  // Keep the settings modal select in sync if open
+  const settingsSel = document.getElementById('settings-checkin-interval');
+  if (settingsSel) [...settingsSel.options].forEach(o => o.selected = (o.value === val));
 }
 
 function _updatePulseRadars() {
@@ -21210,17 +21249,17 @@ async function saveChatSettingsFromForm() {
   const preset   = presetEl ? presetEl.value : '';
   const modelId  = (preset === 'custom' && customEl) ? (customEl.value.trim() || 'qwen2.5:7b') : (preset || 'qwen2.5:7b');
   const errEl = document.getElementById('cs-apikey-error');
-  if (modelId.startsWith('claude-') && !keyEl?.value.trim()) {
-    if (errEl) errEl.textContent = 'An API key is required to use Anthropic models.';
-    keyEl?.focus();
-    return;
-  }
+  if (errEl) errEl.textContent = '';
   if (modelId.startsWith('claude-') && keyEl?.value.trim() && !(typeof _hasPIN === 'function' && _hasPIN())) {
     alert('Set up a security password first (Settings tab) before saving an API key.');
     return;
   }
-  if (errEl) errEl.textContent = '';
   const s = loadChatSettings();
+  if (modelId.startsWith('claude-') && !keyEl?.value.trim() && !s.apiKey) {
+    if (errEl) { errEl.textContent = 'An API key is required to use this model. Paste your key above.'; }
+    keyEl?.focus();
+    return;
+  }
   if (keyEl) s.apiKey = keyEl.value.trim();
   s.model = modelId;
   s.maxTokens = tokensEl ? (parseInt(tokensEl.value) || 4096) : 4096;
@@ -21508,6 +21547,16 @@ document.addEventListener('keydown', function(e) {
     <div class="dp-footer">
       <button class="btn-primary" onclick="dpDoneForToday()">Save check-in</button>
       <button class="btn-ghost" onclick="dpDismiss()">Skip for now</button>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+        <label for="dp-checkin-interval" style="font-size:12px;color:var(--text-dim);white-space:nowrap;">Remind me</label>
+        <select id="dp-checkin-interval" onchange="_dpIntervalChanged(this.value)" style="font-size:12px;background:var(--surface);border:1px solid var(--border);color:var(--text-dim);border-radius:4px;padding:3px 6px;cursor:pointer;font-family:inherit;">
+          <option value="6">every 6h</option>
+          <option value="12">every 12h</option>
+          <option value="24">once a day</option>
+          <option value="48">every 2 days</option>
+          <option value="0">never</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>
