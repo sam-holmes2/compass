@@ -3671,41 +3671,40 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 <div class="modal-overlay" id="welcome-modal">
   <div class="modal">
     <div class="modal-title">✦ &nbsp;WELCOME TO CHARACTER-SHEET</div>
-    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Journal with your AI and watch your sheet update, or fill everything in yourself. Nothing leaves your device unless you choose to send it.</p>
-    <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px;line-height:1.5;">How do you want to use AI? You can change this at any time.</div>
+    <p class="welcome-modal-desc">A personal life dashboard styled as an RPG character sheet. Fill it in yourself, journal with your AI outside the app, or connect an AI directly and chat inside. Nothing leaves your device unless you choose to send it.</p>
+    <div style="font-size:13px;color:var(--text-dim);margin-bottom:10px;line-height:1.5;">How do you want to use it? You can change this at any time.</div>
     <div class="welcome-options">
-      <button class="welcome-opt-btn welcome-opt-primary" id="welcome-setup-btn" onclick="toggleWelcomeSetup('manual')">A &nbsp;Local AI (Ollama) &mdash; recommended</button>
-      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">B &nbsp;Cloud AI &mdash; Claude, ChatGPT, Gemini</button>
-      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-noai-btn" onclick="toggleWelcomeSetup('noai')">C &nbsp;No AI &mdash; manual or copy-paste</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-noai-btn" onclick="toggleWelcomeSetup('noai')">A &nbsp;Fill it in yourself</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-ai-btn" onclick="toggleWelcomeSetup('ai')">B &nbsp;Copy-paste with your AI</button>
+      <button class="welcome-opt-btn welcome-opt-ghost" id="welcome-setup-btn" onclick="toggleWelcomeSetup('manual')">C &nbsp;Chat inside the app</button>
     </div>
     <div style="margin:10px 0 2px;border-top:1px solid var(--border);padding-top:12px;">
       <button onclick="dismissWelcome();openModal()" class="btn-gold-ghost" style="width:100%;padding:11px 16px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;border-radius:5px;cursor:pointer;">&#10022; Already have data? Import it</button>
     </div>
     <div id="welcome-setup-steps" data-mode="">
-      <!-- Path A: Local Ollama (id kept as 'manual' for JS compat) -->
-      <div class="welcome-path" id="welcome-path-manual">
-        <div style="font-size:13px;color:#50c878;margin:14px 0 10px;font-weight:600;">A &nbsp;Local AI (Ollama) &mdash; private, free, runs on your computer</div>
-        <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Install Ollama</strong> (free, one-time). <a href="https://ollama.com/download" target="_blank" rel="noopener" style="color:var(--text-mid);">Download from ollama.com</a> and run the installer. No account needed.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Download a model.</strong> Open a Terminal (Mac/Linux) or PowerShell (Windows) and run: <code style="font-size:12px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">ollama pull qwen2.5:7b</code> (5 GB, recommended for 16 GB RAM). Less RAM? Try <code style="font-size:12px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">ollama pull gemma3:4b</code> (4 GB, works on 8 GB RAM).</div></div>
-        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Open Chat</strong> (✶ star icon, bottom bar), then open Chat Settings (gear icon inside the chat panel). The app will show you the exact start command for your OS, ready to copy.</div></div>
-        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:var(--text-dim);">i</div><div class="welcome-step-text" style="font-size:14px;color:var(--text-dim);">Ollama runs entirely offline after a one-time model download. Nothing you write is ever sent anywhere.</div></div>
-      </div>
-      <!-- Path B: Cloud AI copy-paste -->
-      <div class="welcome-path" id="welcome-path-ai" style="display:none;">
-        <div style="font-size:13px;color:#f09090;margin:14px 0 10px;font-weight:600;">B &nbsp;Cloud AI &mdash; your journal is sent to the provider's servers</div>
-        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">↓ instructions.md</button></div></div>
-        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">2</div><div class="welcome-step-text"><strong>Create a project</strong> in your AI of choice (Claude Projects, ChatGPT Projects, or Gemini Gems). Upload instructions.md to the project's knowledge base.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">3</div><div class="welcome-step-text"><strong>Start a chat</strong> and say: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life."</em></div></div>
-        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">4</div><div class="welcome-step-text"><strong>End the chat:</strong> ask your AI <em>"Update my data"</em> and copy the JSON it produces.</div></div>
-        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:#f09090;">5</div><div class="welcome-step-text"><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;font-weight:700;" onclick="dismissWelcome();openModal()">↑ Import</button> your data (bottom-right of the app), paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
-      </div>
-      <!-- Path C: No AI / manual -->
-      <div class="welcome-path" id="welcome-path-noai" style="display:none;">
-        <div style="font-size:13px;color:#6090c8;margin:14px 0 10px;font-weight:600;">C &nbsp;No AI &mdash; full control, works completely offline</div>
+      <!-- Path A: Manual / no AI (id="welcome-path-noai" kept for JS compat) -->
+      <div class="welcome-path" id="welcome-path-noai">
+        <div style="font-size:13px;color:#6090c8;margin:14px 0 10px;font-weight:600;">A &nbsp;Fill it in yourself &mdash; no AI required, works completely offline</div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">1</div><div class="welcome-step-text"><strong>Click any field to edit it.</strong> Start with your name and main quest at the top. Almost everything in the app is editable directly.</div></div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">2</div><div class="welcome-step-text"><strong>Fill in the tabs</strong> at your own pace: Quests, Skills, Enemies, Allies, Achievements. No rush. Add things as you think of them.</div></div>
-        <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">3</div><div class="welcome-step-text"><strong>Export regularly</strong> using the Export ↓ button (bottom bar). Your data only exists in this browser, so Export is your backup.</div></div>
-        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:var(--text-dim);">i</div><div class="welcome-step-text" style="font-size:14px;color:var(--text-dim);">You can use any AI outside the app: export your data.json, paste it into a chat along with instructions.md, get an update, and import it back. The Help screen has full details.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">3</div><div class="welcome-step-text"><strong>Export regularly</strong> using the Export button (bottom bar). Your data only exists in this browser, so Export is your backup.</div></div>
+      </div>
+      <!-- Path B: Copy-paste with external AI (id="welcome-path-ai" kept for JS compat) -->
+      <div class="welcome-path" id="welcome-path-ai" style="display:none;">
+        <div style="font-size:13px;color:#f09090;margin:14px 0 10px;font-weight:600;">B &nbsp;Copy-paste with your AI &mdash; journal in any AI, import the result</div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">&#8595; instructions.md</button></div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">2</div><div class="welcome-step-text"><strong>Create a project</strong> in your AI of choice and upload instructions.md to its knowledge base.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">3</div><div class="welcome-step-text"><strong>Start a chat</strong> and say: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life."</em></div></div>
+        <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">4</div><div class="welcome-step-text"><strong>End the chat:</strong> ask your AI <em>"Update my data"</em> and copy the JSON it produces.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:#f09090;">5</div><div class="welcome-step-text"><button class="btn-ghost" style="font-size:inherit;padding:2px 7px;font-weight:700;" onclick="dismissWelcome();openModal()">&#8593; Import</button> your data, paste the JSON, and hit Apply. Your sheet updates instantly.</div></div>
+      </div>
+      <!-- Path C: Chat in app via API key or Ollama (id="welcome-path-manual" kept for JS compat) -->
+      <div class="welcome-path" id="welcome-path-manual" style="display:none;">
+        <div style="font-size:13px;color:#50c878;margin:14px 0 10px;font-weight:600;">C &nbsp;Chat inside the app &mdash; API key or local Ollama</div>
+        <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Open Chat</strong> using the star icon in the bottom bar.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Open Chat Settings</strong> (gear icon inside the chat panel) and enter your API key, or set up a local Ollama model. The settings screen shows the exact Ollama start command for your OS.</div></div>
+        <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Start a conversation.</strong> Journal for 10-20 minutes and your sheet fills in from your own words. No copy-pasting needed.</div></div>
+        <div class="welcome-step" style="border-bottom:none;padding-bottom:0;"><div class="welcome-step-num" style="color:var(--text-dim);">i</div><div class="welcome-step-text" style="font-size:14px;color:var(--text-dim);">Ollama runs entirely offline after a one-time model download. API key usage sends your journal to the provider's servers.</div></div>
       </div>
     </div>
     <div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
@@ -16934,7 +16933,19 @@ function _tourRender(){
   const nextBtn = document.getElementById('tour-btn-next');
   nextBtn.textContent = step.next || (isLast ? 'Download the app' : 'Next');
   if(isLast){
-    nextBtn.onclick = e => { e.stopPropagation(); downloadApp(); _tourEnd(false); };
+    nextBtn.onclick = e => {
+      e.stopPropagation();
+      downloadApp();
+      // Show a post-download nudge in place of the CTA options
+      const bodyEl2 = document.getElementById('tour-body');
+      bodyEl2.innerHTML = '';
+      const msg = document.createElement('div');
+      msg.style.cssText = 'font-size:15px;color:var(--text-mid);line-height:1.6;';
+      msg.textContent = 'Your file is downloading. Open character-sheet.html in your browser to start setting up your own sheet.';
+      bodyEl2.appendChild(msg);
+      nextBtn.textContent = 'Done';
+      nextBtn.onclick = e2 => { e2.stopPropagation(); _tourEnd(false); };
+    };
   } else {
     nextBtn.onclick = e => { e.stopPropagation(); _tourNext(); };
   }
@@ -17010,30 +17021,30 @@ function _tourPosition(step){
 
 function toggleWelcomeSetup(mode){
   const steps      = document.getElementById('welcome-setup-steps');
-  const manualBtn  = document.getElementById('welcome-setup-btn');
-  const aiBtn      = document.getElementById('welcome-ai-btn');
-  const noaiBtn    = document.getElementById('welcome-noai-btn');
-  const manualPath = document.getElementById('welcome-path-manual');
-  const aiPath     = document.getElementById('welcome-path-ai');
+  const noaiBtn    = document.getElementById('welcome-noai-btn');   // A: fill it in yourself
+  const aiBtn      = document.getElementById('welcome-ai-btn');     // B: copy-paste with AI
+  const manualBtn  = document.getElementById('welcome-setup-btn'); // C: chat in app
   const noaiPath   = document.getElementById('welcome-path-noai');
+  const aiPath     = document.getElementById('welcome-path-ai');
+  const manualPath = document.getElementById('welcome-path-manual');
   if(!steps) return;
   const currentMode = steps.dataset.mode;
   if(currentMode === mode){
     steps.style.display = 'none';
     steps.dataset.mode  = '';
-    if(manualBtn) manualBtn.classList.remove('active');
-    if(aiBtn)     aiBtn.classList.remove('active-cloud');
     if(noaiBtn)   noaiBtn.classList.remove('active-noai');
+    if(aiBtn)     aiBtn.classList.remove('active-cloud');
+    if(manualBtn) manualBtn.classList.remove('active');
     return;
   }
   steps.style.display   = 'block';
   steps.dataset.mode    = mode;
-  if(manualPath) manualPath.style.display = mode === 'manual' ? 'block' : 'none';
-  if(aiPath)     aiPath.style.display     = mode === 'ai'     ? 'block' : 'none';
   if(noaiPath)   noaiPath.style.display   = mode === 'noai'   ? 'block' : 'none';
-  if(manualBtn)  manualBtn.classList.toggle('active',       mode === 'manual');
-  if(aiBtn)      aiBtn.classList.toggle('active-cloud',     mode === 'ai');
-  if(noaiBtn)    noaiBtn.classList.toggle('active-noai',    mode === 'noai');
+  if(aiPath)     aiPath.style.display     = mode === 'ai'     ? 'block' : 'none';
+  if(manualPath) manualPath.style.display = mode === 'manual' ? 'block' : 'none';
+  if(noaiBtn)    noaiBtn.classList.toggle('active-noai', mode === 'noai');
+  if(aiBtn)      aiBtn.classList.toggle('active-cloud',  mode === 'ai');
+  if(manualBtn)  manualBtn.classList.toggle('active', mode === 'manual');
 }
 
 // ══ SESSION STARTERS ════════════════════════════════════════
