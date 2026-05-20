@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' blob:; font-src 'self' data:; img-src 'self' data:; connect-src 'self' https://api.anthropic.com http://localhost:11434 https://raw.githubusercontent.com https://api.github.com;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>character-sheet — RPG journal, habit tracker and AI dashboard</title>
+<title>character-sheet: RPG journal, habit tracker and AI dashboard</title>
 <meta name="description" content="A free, local RPG character sheet for AI-assisted journaling. Track goals as quests, recurring patterns as enemies, and personal growth as XP. Single HTML file, no server, no account required.">
-<meta property="og:title" content="character-sheet — RPG journal and habit tracker">
+<meta property="og:title" content="character-sheet: RPG journal and habit tracker">
 <meta property="og:description" content="Turn your AI conversations into a persistent RPG character sheet. Track goals, habits, and personal growth with XP bars and quest tracking. Free, open source, runs locally.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://sam-holmes2.github.io/character-sheet/Screenshot%202026-05-02%20at%2017.47.42.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="character-sheet — RPG journal and habit tracker">
+<meta name="twitter:title" content="character-sheet: RPG journal and habit tracker">
 <meta name="twitter:description" content="Turn your AI conversations into a persistent RPG character sheet. Free, open source, runs locally.">
 <style>
 /* latin-ext */
@@ -1526,8 +1526,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.12em;
   color:#3aacac; flex:1; min-width:0;
 }
-.jtl-chapter-count { font-family:var(--mono); font-size:12px; color:var(--text-dim); }
-.jtl-chapter-arrow { font-size:13px; color:var(--text-dim); flex-shrink:0; }
+.jtl-chapter-count { font-family:var(--mono); font-size:12px; color:#7a7468; }
+.jtl-chapter-arrow { font-size:13px; color:#7a7468; flex-shrink:0; }
 .jtl-chapter-body { display:none; padding-top:4px; }
 .jtl-chapter-body.open { display:block; }
 
@@ -1557,18 +1557,18 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 
 .jtl-item-type {
   font-family:var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
-  opacity:0.55; flex-shrink:0; min-width:40px;
+  opacity:0.7; flex-shrink:0; min-width:40px;
 }
 .jtl-item--session .jtl-item-type { color:#3aacac; }
 .jtl-item--entry   .jtl-item-type { color:var(--gold); }
-.jtl-item-date { font-family:var(--mono); font-size:12px; color:var(--text-dim); flex-shrink:0; }
+.jtl-item-date { font-family:var(--mono); font-size:12px; color:#7a7468; flex-shrink:0; }
 .jtl-item-date.editable { min-width:80px; }
 .jtl-item-title {
   font-size:14px; color:var(--text-b); flex:1; min-width:0;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 .jtl-item-title.editable:focus { overflow:visible; white-space:normal; }
-.jtl-item--session .jtl-item-title { font-style:italic; color:#6ab0b0; }
+.jtl-item--session .jtl-item-title { font-style:italic; color:#82c8c8; }
 .jtl-item-badge {
   font-size:10px; padding:1px 6px; border-radius:3px;
   background:rgba(42,172,172,0.12); border:1px solid rgba(42,172,172,0.3);
@@ -1577,9 +1577,9 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .jtl-item-badge--unfinished {
   background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.12); color:var(--text-dim);
 }
-.jtl-item-msgcount { font-size:12px; color:var(--text-dim); flex-shrink:0; }
-.jtl-item-arrow { font-size:12px; color:var(--text-dim); flex-shrink:0; }
-.jtl-item-num { font-family:var(--mono); font-size:11px; color:var(--text-dim); opacity:0.5; flex-shrink:0; }
+.jtl-item-msgcount { font-size:12px; color:#7a7468; flex-shrink:0; }
+.jtl-item-arrow { font-size:12px; color:#7a7468; flex-shrink:0; }
+.jtl-item-num { font-family:var(--mono); font-size:11px; color:var(--text-dim); opacity:0.6; flex-shrink:0; }
 .jtl-item-del { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:14px; opacity:0; padding:0 2px; flex-shrink:0; }
 .jtl-item-head:hover .jtl-item-del { opacity:0.5; }
 .jtl-item-del:hover { opacity:1 !important; color:#c84040; }
@@ -1593,12 +1593,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .jtl-item--entry   .jtl-item-head.jtl-open { border-radius:6px 6px 0 0; border-bottom-color:transparent; }
 
 /* session body */
-.jtl-sess-summary { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:10px; }
+.jtl-sess-summary { font-size:14px; color:#b8b09c; line-height:1.65; margin-bottom:10px; }
 .jtl-sess-analysis { margin-top:12px; border-top:1px solid rgba(255,255,255,0.07); padding-top:12px; }
 .jtl-sess-analysis-row { margin-bottom:10px; }
 .jtl-sess-analysis-row:last-child { margin-bottom:0; }
-.jtl-sess-analysis-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.18em; color:var(--text-dim); text-transform:uppercase; margin-bottom:4px; }
-.jtl-sess-analysis-list { margin:0; padding:0 0 0 16px; font-size:13px; color:var(--text-mid); line-height:1.7; }
+.jtl-sess-analysis-lbl { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.18em; color:#7a7468; text-transform:uppercase; margin-bottom:4px; }
+.jtl-sess-analysis-list { margin:0; padding:0 0 0 16px; font-size:13px; color:#b8b09c; line-height:1.75; }
 .jtl-sess-analysis-list li { margin-bottom:1px; }
 .jtl-sess-analyze-btn { font-size:12px; padding:4px 12px; margin-top:10px; opacity:0.75; }
 .jtl-sess-analyze-btn:hover { opacity:1; }
@@ -1628,7 +1628,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .jtl-entry-row:last-child { margin-bottom:0; }
 .jtl-entry-row-lbl {
   font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em;
-  color:var(--text-dim); margin-bottom:5px; text-transform:uppercase;
+  color:#7a7468; margin-bottom:5px; text-transform:uppercase;
 }
 .jtl-empty {
   padding:24px 0; text-align:center; font-size:14px; color:var(--text-dim); font-style:italic;
@@ -2189,8 +2189,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .prac-bar-plot {
   display:flex; align-items:flex-end; gap:2px;
-  width:100%; position:relative; flex:1; min-height:40px;
-  padding-bottom:16px; box-sizing:border-box;
+  width:100%; position:relative; flex:1; min-height:60px;
+  padding-bottom:38px; box-sizing:border-box;
 }
 .prac-bar-y-axis {
   position:absolute; left:0; top:0; bottom:0; width:28px;
@@ -2244,12 +2244,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .prac-bar-col.is-hardcoded:hover .prac-bar-inner { outline:none; }
 .prac-bar-x-axis {
   display:flex; align-items:flex-start; padding-left:30px; box-sizing:border-box;
-  height:14px; position:relative;
+  height:38px; position:relative;
 }
 .prac-bar-x-label {
-  font-family:var(--mono); font-size:11px; color:rgba(128,120,100,0.55);
-  position:absolute; left:50%; transform:translateX(-50%); white-space:nowrap;
-  bottom:-15px; line-height:14px;
+  font-family:var(--mono); font-size:12px; color:rgba(160,152,128,0.85);
+  position:absolute; left:50%; white-space:nowrap;
+  bottom:2px; line-height:1;
+  transform:translateX(-50%) rotate(-45deg);
+  transform-origin:top center;
 }
 /* Edit popover */
 .prac-bar-edit {
@@ -3685,14 +3687,14 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
     <div id="welcome-setup-steps" data-mode="">
       <!-- Path A: Manual / no AI (id="welcome-path-noai" kept for JS compat) -->
       <div class="welcome-path" id="welcome-path-noai">
-        <div style="font-size:13px;color:#6090c8;margin:14px 0 10px;font-weight:600;">A &nbsp;Fill it in yourself &mdash; no AI required, works completely offline</div>
+        <div style="font-size:13px;color:#6090c8;margin:14px 0 10px;font-weight:600;">A &nbsp;Fill it in yourself. No AI required, works completely offline.</div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">1</div><div class="welcome-step-text"><strong>Click any field to edit it.</strong> Start with your name and main quest at the top. Almost everything in the app is editable directly.</div></div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">2</div><div class="welcome-step-text"><strong>Fill in the tabs</strong> at your own pace: Quests, Skills, Enemies, Allies, Achievements. No rush. Add things as you think of them.</div></div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#6090c8;">3</div><div class="welcome-step-text"><strong>Export regularly</strong> using the Export button (bottom bar). Your data only exists in this browser, so Export is your backup.</div></div>
       </div>
       <!-- Path B: Copy-paste with external AI (id="welcome-path-ai" kept for JS compat) -->
       <div class="welcome-path" id="welcome-path-ai" style="display:none;">
-        <div style="font-size:13px;color:#f09090;margin:14px 0 10px;font-weight:600;">B &nbsp;Copy-paste with your AI &mdash; journal in any AI, import the result</div>
+        <div style="font-size:13px;color:#f09090;margin:14px 0 10px;font-weight:600;">B &nbsp;Copy-paste with your AI. Journal in any AI, then import the result.</div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">1</div><div class="welcome-step-text"><strong>Download instructions.md,</strong> the file that tells your AI how this app works. <button class="btn-ghost btn-download" style="margin-left:6px;" onclick="downloadInstructionsMd(this)">&#8595; instructions.md</button></div></div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">2</div><div class="welcome-step-text"><strong>Create a project</strong> in your AI of choice and upload instructions.md to its knowledge base.</div></div>
         <div class="welcome-step"><div class="welcome-step-num" style="color:#f09090;">3</div><div class="welcome-step-text"><strong>Start a chat</strong> and say: <em>"I'm setting up character-sheet. Start by asking me what's going on in my life."</em></div></div>
@@ -3701,7 +3703,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
       </div>
       <!-- Path C: Chat in app via API key or Ollama (id="welcome-path-manual" kept for JS compat) -->
       <div class="welcome-path" id="welcome-path-manual" style="display:none;">
-        <div style="font-size:13px;color:#50c878;margin:14px 0 10px;font-weight:600;">C &nbsp;Chat inside the app &mdash; API key or local Ollama</div>
+        <div style="font-size:13px;color:#50c878;margin:14px 0 10px;font-weight:600;">C &nbsp;Chat inside the app. API key or local Ollama.</div>
         <div class="welcome-step"><div class="welcome-step-num">1</div><div class="welcome-step-text"><strong>Open Chat</strong> using the star icon in the bottom bar.</div></div>
         <div class="welcome-step"><div class="welcome-step-num">2</div><div class="welcome-step-text"><strong>Open Chat Settings</strong> (gear icon inside the chat panel) and enter your API key, or set up a local Ollama model. The settings screen shows the exact Ollama start command for your OS.</div></div>
         <div class="welcome-step"><div class="welcome-step-num">3</div><div class="welcome-step-text"><strong>Start a conversation.</strong> Journal for 10-20 minutes and your sheet fills in from your own words. No copy-pasting needed.</div></div>
@@ -4591,8 +4593,8 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
         <div class="help-step">
           <div class="help-step-num">2</div>
           <div class="help-step-text"><strong>Choose how to connect:</strong>
-            <span style="display:block;margin-top:6px;font-size:14px;"><strong style="color:var(--text-b);">API key</strong> — enter a key from Anthropic, OpenAI, or another provider. You pay for usage directly (usually a few cents per session). Fastest setup.</span>
-            <span style="display:block;margin-top:6px;font-size:14px;"><strong style="color:var(--text-b);">Ollama</strong> — a free app that runs an AI model on your own computer. Nothing leaves your device. Requires a one-time install and model download (4-10 GB).</span>
+            <span style="display:block;margin-top:6px;font-size:14px;"><strong style="color:var(--text-b);">API key:</strong> enter a key from Anthropic, OpenAI, or another provider. You pay for usage directly (usually a few cents per session). Fastest setup.</span>
+            <span style="display:block;margin-top:6px;font-size:14px;"><strong style="color:var(--text-b);">Ollama:</strong> a free app that runs an AI model on your own computer. Nothing leaves your device. Requires a one-time install and model download (4-10 GB).</span>
           </div>
         </div>
         <div class="help-step">
@@ -12100,7 +12102,7 @@ function renderTextEntryChart(wrap, act, charName, histExtra) {
     const goalMet = (act.target || 1) > 1 && dp.count >= (act.target || 1);
     bar.style.height = (pct > 0 ? Math.max(2, Math.round(pct)) : 0) + '%';
     bar.style.background = goalMet ? 'rgba(45,168,106,0.65)' : (dp.isCurrent ? barBase + 'bf' : barBase + '59');
-    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + (dp.isCurrent ? ' (today)' : '') + ' — click to edit';
+    col.title = dp.label + ': ' + dp.count + ' ' + (dp.count === 1 ? 'entry' : 'entries') + (dp.isCurrent ? ' (today)' : '') + '. Click to edit.';
     col.appendChild(bar);
     // X-label: in zoom zone use human name; in history zone show sparse dates (at Monday / week boundary)
     const showLabel = isZoom || _shouldShowHistLabel(dp, histPoints);
@@ -16491,6 +16493,7 @@ function updateStatusRadar() {
   // Ghost polygons: teal=all-time avg, pink=7d avg
   let sHist=[]; try{ sHist=JSON.parse(localStorage.getItem(STATUS_HIST_KEY)||'[]'); }catch(e){}
   if(IS_DEMO && HARDCODED_STATUS_HIST.length && isUsingDemoData()) sHist=HARDCODED_STATUS_HIST;
+  sHist = _statusNormHist(sHist);
   const _statusPts=h=>{
     const avg=k=>{ const vs=h.map(e=>e[k]).filter(v=>v!=null); return vs.length ? vs.reduce((s,v)=>s+v,0)/vs.length/100 : 0; };
     return `0,${(-R*avg('focus')).toFixed(2)} ${(R*avg('energy')).toFixed(2)},0 0,${(R*avg('interest')).toFixed(2)} ${(-R*avg('purpose')).toFixed(2)},0`;
@@ -16509,6 +16512,20 @@ function updateStatusRadar() {
 }
 
 const STATUS_HIST_KEY = 'cs-status-hist-v1';
+
+function _statusDayAvg(entry, key) {
+  const v = entry[key];
+  if (Array.isArray(v)) return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+  return v != null ? v : null;
+}
+// Normalize status history so chart consumers always see scalar (averaged) values.
+function _statusNormHist(hist) {
+  return hist.map(e => {
+    const n = { date: e.date };
+    ['focus', 'energy', 'purpose', 'interest'].forEach(k => { const v = _statusDayAvg(e, k); if (v != null) n[k] = v; });
+    return n;
+  });
+}
 
 function _applyStatusPerSliderGlow() {
   const anyNeeds = Object.keys(STATUS_COLORS).some(n => !_statusSliderDoneToday(n));
@@ -16533,7 +16550,9 @@ function clearStatusCheckInNeeded() {
   _applyStatusPerSliderGlow();
 }
 
-function saveStatusSnapshot(targetDate) {
+// append=true: add a new reading to the array (daily pulse path)
+// append=false (default): overwrite last reading (direct slider drag on status tab)
+function saveStatusSnapshot(targetDate, append) {
   if(IS_DEMO){ renderStatusHistoryChart(); return; }
   try {
     const today = targetDate || _localDate();
@@ -16544,7 +16563,18 @@ function saveStatusSnapshot(targetDate) {
     Object.keys(STATUS_COLORS).forEach(k => {
       if (targetDate || _statusSliderDoneToday(k)) {
         const el = document.getElementById('status-' + k);
-        base[k] = el ? parseInt(el.value) : (base[k] || 0);
+        const val = el ? parseInt(el.value) : null;
+        if (val == null) return;
+        if (append) {
+          // Migrate scalar to array, then append (cap at 10 readings per day)
+          if (!Array.isArray(base[k])) base[k] = base[k] != null ? [base[k]] : [];
+          if (base[k].length < 10) base[k].push(val);
+          else base[k][base[k].length - 1] = val;
+        } else {
+          // Direct drag: overwrite last reading so the average updates without adding a new entry
+          if (Array.isArray(base[k]) && base[k].length > 0) base[k][base[k].length - 1] = val;
+          else base[k] = val;
+        }
       }
     });
     if (existingIdx >= 0) { hist[existingIdx] = base; } else { hist.push(base); }
@@ -16560,6 +16590,7 @@ function renderStatusHistoryChart() {
   let hist = [];
   try { hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]'); } catch(e) {}
   if (HARDCODED_STATUS_HIST.length && IS_DEMO && isUsingDemoData()) hist = HARDCODED_STATUS_HIST;
+  hist = _statusNormHist(hist);
   const hRange = appState.statusHistRange ?? 14;
   _injectHistRangeRow('status-hist-canvas', 'status', hRange);
   _drawMultiLineHistChart('status-hist-canvas','status-hist-legend',hist,['focus','energy','purpose','interest'],STATUS_COLORS, hRange);
@@ -16642,7 +16673,7 @@ function resetStatusCheckin() {
   _applyStatusPerSliderGlow();
 }
 
-function updateStatus(name, value, targetDate) {
+function updateStatus(name, value, targetDate, append) {
   if(!targetDate) _markStatusSliderDone(name);
   _applyStatusPerSliderGlow();
   const pct = parseInt(value);
@@ -16652,18 +16683,26 @@ function updateStatus(name, value, targetDate) {
   if (el) { el.value = pct; setStatusGradient(el, col, pct); }
   if (valEl) valEl.textContent = pct;
   updateStatusRadar();
+  saveStatusSnapshot(targetDate, append);
+  // After snapshot, read back the day's average so appState reflects all readings
+  const today = targetDate || _localDate();
+  let dayAvg = pct;
+  try {
+    const hist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]');
+    const entry = hist.find(e => e.date === today);
+    if (entry) { const v = _statusDayAvg(entry, name); if (v != null) dayAvg = Math.round(v); }
+  } catch(e) {}
   // Persist to appState (round-trips through JSON export/import)
   if (!appState.statusSliders) appState.statusSliders = {};
-  appState.statusSliders[name] = pct;
+  appState.statusSliders[name] = dayAvg;
   saveState(appState); markDirty();
   // Also keep localStorage mirror for fast load
   try {
     const saved = JSON.parse(localStorage.getItem(STATUS_LS_KEY) || '{}');
-    saved[name] = pct;
+    saved[name] = dayAvg;
     localStorage.setItem(STATUS_LS_KEY, JSON.stringify(saved));
     _reencryptIfActive();
   } catch(e) {}
-  saveStatusSnapshot(targetDate);
 }
 
 function loadStatusSliders(s) {
@@ -16808,21 +16847,21 @@ const _TOUR_STEPS = [
   {
     target: '.tab-nav',
     heading: 'Eight views of your life',
-    body: "<strong>Practice</strong> &mdash; daily habits<br><strong>Balance</strong> &mdash; four elements<br><strong>Quests / Skills / Enemies / Allies</strong><br><strong>Achievements / Journal</strong><br><br>Steve's data is filled in across all of them. Click any tab to explore freely.",
+    body: "<strong>Practice</strong>: daily habits<br><strong>Balance</strong>: four tracked dimensions<br><strong>Quests / Skills / Enemies / Allies</strong><br><strong>Achievements / Journal</strong><br><br>All tabs are filled in. Click any one to explore freely.",
     placement: 'below',
   },
   // Step 4 — vitals
   {
     target: '.hdr-vitals',
     heading: 'Vitals: HP and Mana',
-    body: "<strong>HP</strong> &mdash; physical health<br><strong>Mana</strong> &mdash; mental and emotional energy<br><br>Drag the bars to log a reading, or tap Check-in below. Check in daily and a history chart builds itself.",
+    body: "<strong>HP</strong>: physical health<br><strong>Mana</strong>: mental and emotional energy<br><br>Drag the bars to log a reading, or tap Check-in below. Check in daily and a history chart builds itself.",
     placement: 'left',
   },
   // Step 5 — check-in button
   {
     target: '#daily-btn',
     heading: 'Daily check-in',
-    body: "Tap this to log your vitals and element balance.<br><br>Takes 30 seconds. No AI needed. The app works fully offline and builds a history chart from your check-ins over time.",
+    body: "Tap this to log your vitals and inner state.<br><br>Takes 30 seconds. No AI needed. The app works fully offline and builds a history chart from your check-ins over time.",
     placement: 'above',
   },
   // Step 6 — chat button
@@ -18129,11 +18168,43 @@ function dpSetDate(which) {
   _dpApplySliders(_dpTargetDate || _dpTodayStr());
 }
 
+function _dpLoadDateCache(dateStr) {
+  const cache = {};
+  // Vitals (arrays — use day average)
+  try {
+    const vHist = loadVitalsHist();
+    const vEntry = vHist.find(e => e.date === dateStr);
+    if (vEntry) {
+      const hp = _dayAvg(vEntry, 'hp'); if (hp != null) cache.hp = Math.round(hp);
+      const mana = _dayAvg(vEntry, 'mana'); if (mana != null) cache.mana = Math.round(mana);
+    }
+  } catch(e) {}
+  // Core Skills (scalar)
+  try {
+    const sHist = JSON.parse(localStorage.getItem(STATS_HIST_KEY) || '[]');
+    const sEntry = sHist.find(e => e.date === dateStr);
+    if (sEntry) {
+      ['rest', 'movement', 'nutrition', 'connection'].forEach(k => { if (sEntry[k] != null) cache[k] = sEntry[k]; });
+    }
+  } catch(e) {}
+  // Status (arrays — use day average)
+  try {
+    const stHist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY) || '[]');
+    const stEntry = stHist.find(e => e.date === dateStr);
+    if (stEntry) {
+      ['focus', 'energy', 'purpose', 'interest'].forEach(k => {
+        const v = _statusDayAvg(stEntry, k); if (v != null) cache[k] = Math.round(v);
+      });
+    }
+  } catch(e) {}
+  return cache;
+}
+
 function _initPulseSliders() {
-  // Reset cache so both dates start fresh at 50
+  // Pre-populate cache from existing history so yesterday/today show real values
   _dpSliderCache = {};
-  _dpSliderCache[_dpYesterdayStr()] = {};
-  _dpSliderCache[_dpTodayStr()] = {};
+  _dpSliderCache[_dpYesterdayStr()] = _dpLoadDateCache(_dpYesterdayStr());
+  _dpSliderCache[_dpTodayStr()] = _dpLoadDateCache(_dpTodayStr());
 
   // Default to yesterday until today's check-in has been completed
   const lastDoneDate = (() => { try { return JSON.parse(localStorage.getItem(PULSE_DONE_KEY) || '{}').date || ''; } catch { return ''; } })();
@@ -18203,7 +18274,7 @@ function dpUpdateStatus(name, value) {
   const dateKey = _dpTargetDate || _dpTodayStr();
   if (!_dpSliderCache[dateKey]) _dpSliderCache[dateKey] = {};
   _dpSliderCache[dateKey][name] = parseInt(value);
-  updateStatus(name, value, _dpTargetDate);
+  // Do not save here — dpDoneForToday() saves once on submit, so each check-in is one reading
 }
 
 function dpUpdateVital(stat, value) {
@@ -18230,7 +18301,7 @@ function dpDoneForToday() {
       if (vals[name] !== undefined) updateStat(name, vals[name], targetDate);
     });
     ['focus', 'energy', 'purpose', 'interest'].forEach(name => {
-      if (vals[name] !== undefined) updateStatus(name, vals[name], targetDate);
+      if (vals[name] !== undefined) updateStatus(name, vals[name], targetDate, true);
     });
     ['hp', 'mana'].forEach(stat => {
       if (vals[stat] !== undefined) saveVitalManual(stat, vals[stat], targetDate);
@@ -18241,11 +18312,12 @@ function dpDoneForToday() {
 }
 
 function openDailyPulse() {
-  if (IS_DEMO) return;
   if (!appState.name || appState.name === '') return;
   const overlay = document.getElementById('daily-pulse-overlay');
   if (!overlay) return;
   if (document.querySelector('.modal-overlay.open')) return;
+  const demoNotice = document.getElementById('dp-demo-notice');
+  if (demoNotice) demoNotice.style.display = IS_DEMO ? 'block' : 'none';
   _initPulseSliders();
   overlay.classList.add('open');
 }
@@ -18721,7 +18793,9 @@ function buildChatSystemPrompt() {
   const inAppNote = `IN-APP CHAT MODE
 You are running directly inside character-sheet. Key differences from the standalone workflow described above:
 - A compact summary of the user's current data is loaded below. Full quest, skill, or chat details are available if relevant — the user can share more, or you can ask.
-- When you include a \`\`\`json block with updated data, the app applies it to local storage automatically. Do not tell the user to copy, paste, or import JSON.
+- When you include a \`\`\`json block with updated data, the app intercepts it automatically — the user never sees the raw JSON. Do not tell the user to copy, paste, or import JSON.
+- NEVER display raw JSON or describe JSON field names/structure in your conversational text. The user has no idea what the JSON looks like and does not need to. If you want to tell the user what would be recorded, describe it in plain language (e.g. "I would update your main quest and add a new side quest").
+- To save changes, the user clicks the "Update sheet" button at the bottom of the chat. When they ask how to save, tell them to click that button — do not output a JSON block in response.
 - ${syncInstr}
 - Keep responses conversational. Skip any boilerplate about the import/export workflow.`;
   // Use trimmed context for small local models to avoid context overflow
@@ -21787,6 +21861,7 @@ document.addEventListener('keydown', function(e) {
   <div class="modal">
     <button class="modal-close" onclick="dpDismiss()" title="Close without checking in">&#x2715;</button>
     <div class="dp-title">Check-in</div>
+    <div id="dp-demo-notice" style="display:none;font-size:13px;color:var(--gold);background:rgba(200,168,74,0.1);border:1px solid rgba(200,168,74,0.25);border-radius:4px;padding:6px 10px;margin-bottom:8px;">Demo mode: sliders are interactive but nothing is saved.</div>
     <div class="dp-subtitle" id="dp-subtitle">Hey, how are you?</div>
     <div class="dp-date-toggle">
       <button class="dp-date-btn active" id="dp-date-yesterday" onclick="dpSetDate('yesterday')">Yesterday</button>
