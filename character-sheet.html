@@ -1264,6 +1264,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:14px;
 }
 .tour-body strong { color:var(--text-b); font-weight:600; }
+.tour-body em { color:var(--text-b); font-style:italic; }
 .tour-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .tour-btn-next {
   background:var(--gold); border:none; color:#1a1608;
@@ -16785,7 +16786,7 @@ const _TOUR_STEPS = [
   {
     target: null,
     heading: "Welcome. You're looking at Steve's demo.",
-    body: "This is a real example of what your own character sheet could look like. It's an RPG-styled personal dashboard: your goals as quests, your habits as skills, your patterns named and tracked. Nothing here is saved. Take 60 seconds to see how it works.",
+    body: "An RPG-styled personal dashboard: goals as quests, habits as skills, patterns named and tracked.<br><br>Nothing here is saved. Take 60 seconds to see how it works.",
     next: 'Take the tour',
     skip: 'Skip',
   },
@@ -16793,42 +16794,42 @@ const _TOUR_STEPS = [
   {
     target: '.hdr-centre',
     heading: 'Your character',
-    body: "Name, icon, and subtitle live here. Steve is his own character. When you download the app, this becomes you. Click the name to edit it, click the icon to cycle through symbols.",
+    body: "Name, icon, and subtitle live here.<br><br>When you download the app, this becomes you. Click the name to edit, click the icon to cycle through symbols.",
     placement: 'below',
   },
   // Step 2 — main quest
   {
     target: '.hdr-left',
     heading: 'Your main quest',
-    body: "One sentence that answers: what are you actually working toward right now? Everything else in the app supports this. Click it to go to the Quests tab.",
+    body: "One sentence: <em>what are you actually working toward right now?</em><br><br>Everything else in the app supports this. Click it to go to the Quests tab.",
     placement: 'below',
   },
   // Step 3 — tab nav
   {
     target: '.tab-nav',
     heading: 'Eight views of your life',
-    body: "<strong>Practice</strong> (daily habits), <strong>Balance</strong> (four elements), <strong>Quests</strong>, <strong>Skills</strong>, <strong>Enemies</strong>, <strong>Allies</strong>, <strong>Achievements</strong>, and <strong>Journal</strong>. Steve's data is filled in across all of them. Click any tab to explore freely.",
+    body: "<strong>Practice</strong> &mdash; daily habits<br><strong>Balance</strong> &mdash; four elements<br><strong>Quests / Skills / Enemies / Allies</strong><br><strong>Achievements / Journal</strong><br><br>Steve's data is filled in across all of them. Click any tab to explore freely.",
     placement: 'below',
   },
   // Step 4 — vitals
   {
     target: '.hdr-vitals',
     heading: 'Vitals: HP and Mana',
-    body: "HP tracks physical health, Mana tracks mental/emotional energy. Drag the bars to log a reading, or use the Check-in button below. Check in daily and a history chart builds itself.",
+    body: "<strong>HP</strong> &mdash; physical health<br><strong>Mana</strong> &mdash; mental and emotional energy<br><br>Drag the bars to log a reading, or tap Check-in below. Check in daily and a history chart builds itself.",
     placement: 'left',
   },
   // Step 5 — check-in button
   {
     target: '#daily-btn',
     heading: 'Daily check-in',
-    body: "Tap this to log your vitals and element balance. Takes 30 seconds. No AI needed. The app works fully offline and builds a history chart from your check-ins over time.",
+    body: "Tap this to log your vitals and element balance.<br><br>Takes 30 seconds. No AI needed. The app works fully offline and builds a history chart from your check-ins over time.",
     placement: 'above',
   },
   // Step 6 — chat button
   {
     target: '#chat-btn',
     heading: 'Journal with your AI',
-    body: "Open this to connect an AI directly. Journal for 10-20 minutes and your sheet fills itself in from your own words. Works with any AI via API key, or with a local Ollama model that never leaves your device.",
+    body: "Connect an AI directly and journal for 10-20 minutes. Your sheet fills itself in from your own words.<br><br>Works with any AI via API key, or a local Ollama model that never leaves your device.",
     placement: 'above',
   },
   // Step 7 — data / download CTA
