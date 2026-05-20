@@ -1195,6 +1195,114 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   .help-col:last-child { border-bottom:none; margin-bottom:0; }
 }
 
+/* ══ INTRO TOUR ════════════════════════════════════════════ */
+#tour-overlay {
+  display:none; position:fixed; inset:0; z-index:8000;
+  pointer-events:none;
+}
+#tour-overlay.active { display:block; }
+
+/* Dark scrim — everything except the spotlight hole */
+#tour-scrim {
+  position:absolute; inset:0;
+  background:rgba(4,4,8,0.75);
+  pointer-events:auto;
+  cursor:pointer; /* click-to-advance */
+}
+
+/* Transparent punch-out over the highlighted element */
+#tour-spotlight {
+  position:fixed;
+  border-radius:6px;
+  box-shadow:0 0 0 9999px rgba(4,4,8,0.75);
+  transition:top 0.32s cubic-bezier(.4,0,.2,1),
+             left 0.32s cubic-bezier(.4,0,.2,1),
+             width 0.32s cubic-bezier(.4,0,.2,1),
+             height 0.32s cubic-bezier(.4,0,.2,1),
+             opacity 0.2s;
+  pointer-events:none;
+  outline:2px solid rgba(200,168,74,0.55);
+  outline-offset:3px;
+  z-index:8001;
+}
+#tour-spotlight.hidden { opacity:0; box-shadow:none; outline:none; }
+
+/* Tooltip card */
+#tour-card {
+  position:fixed;
+  z-index:8002;
+  background:var(--surface);
+  border:1px solid var(--border-hi);
+  border-top:3px solid var(--gold);
+  border-radius:8px;
+  padding:18px 20px 14px;
+  max-width:320px;
+  width:calc(100vw - 32px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.55);
+  pointer-events:auto;
+  transition:top 0.32s cubic-bezier(.4,0,.2,1),
+             left 0.32s cubic-bezier(.4,0,.2,1),
+             opacity 0.18s;
+}
+#tour-card.tour-card-center {
+  top:50% !important; left:50% !important;
+  transform:translate(-50%,-50%);
+  max-width:420px;
+  transition:opacity 0.18s;
+}
+#tour-card:not(.tour-card-center) { transform:none; }
+
+.tour-step-label {
+  font-family:var(--mono); font-size:11px; letter-spacing:0.15em;
+  color:var(--gold); text-transform:uppercase; margin-bottom:7px; opacity:0.8;
+}
+.tour-heading {
+  font-family:'Cinzel',serif; font-size:15px; color:var(--text-b);
+  margin-bottom:8px; line-height:1.3;
+}
+.tour-body {
+  font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:14px;
+}
+.tour-body strong { color:var(--text-b); font-weight:600; }
+.tour-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.tour-btn-next {
+  background:var(--gold); border:none; color:#1a1608;
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em;
+  padding:7px 18px; border-radius:4px; cursor:pointer;
+  transition:filter 0.15s;
+}
+.tour-btn-next:hover { filter:brightness(1.12); }
+.tour-btn-skip {
+  background:none; border:none; color:var(--text-dim);
+  font-size:13px; cursor:pointer; padding:4px 6px;
+  transition:color 0.15s; margin-left:auto;
+}
+.tour-btn-skip:hover { color:var(--text); }
+.tour-progress {
+  display:flex; gap:5px; align-items:center; margin-right:4px;
+}
+.tour-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--border-hi); transition:background 0.2s;
+}
+.tour-dot.active { background:var(--gold); }
+/* Final step CTA buttons */
+.tour-cta-row { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+.tour-cta-btn {
+  background:none; border:1px solid var(--border-hi);
+  color:var(--text); font-size:14px; padding:9px 14px;
+  border-radius:5px; cursor:pointer; text-align:left;
+  transition:border-color 0.15s, background 0.15s;
+  font-family:inherit;
+}
+.tour-cta-btn:hover { border-color:var(--gold); background:rgba(200,168,74,0.07); }
+.tour-cta-btn strong { color:var(--gold); display:block; font-size:13px; margin-bottom:2px; }
+@media (max-width:480px) {
+  #tour-card { padding:15px 15px 12px; }
+  .tour-heading { font-size:14px; }
+  .tour-body { font-size:13px; }
+}
+
 /* ══ WELCOME MODAL ════════════════════════════════════════ */
 #welcome-modal { z-index:400; }
 #welcome-modal .modal {
@@ -4498,6 +4606,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
     <div class="modal-row" style="margin-top:14px;align-items:center;flex-wrap:wrap;gap:10px;">
       <button class="btn-ghost" id="check-update-btn" onclick="checkForAppUpdateManual(this)" style="font-size:14px;padding:5px 13px;color:var(--gold);border-color:rgba(200,168,74,0.4);">Check for updates</button>
       <span id="update-check-result" style="font-size:14px;color:var(--text);"></span>
+      <button class="btn-ghost" id="help-replay-tour-btn" onclick="_co('help-modal');startTour()" style="font-size:14px;padding:5px 13px;display:none;">Replay intro tour</button>
       <button class="btn-ghost" style="margin-left:auto;" onclick="_co('help-modal')">Close</button>
     </div>
   </div>
@@ -16621,6 +16730,10 @@ function maybeShowWelcome(){
     } else {
       const b = document.getElementById('demo-banner');
       if(b) b.style.display = 'flex';
+      // Show intro tour on first visit each session
+      if(!sessionStorage.getItem(TOUR_SEEN_KEY)){
+        setTimeout(startTour, 650);
+      }
     }
     return;
   }
@@ -16654,12 +16767,245 @@ function openHelpModal(){
   const isLocal = location.protocol === 'file:';
   const dlStep = document.getElementById('help-download-step');
   if(dlStep) dlStep.style.display = isLocal ? 'none' : 'block';
+  // Show "Replay intro tour" button on demo site
+  const replayBtn = document.getElementById('help-replay-tour-btn');
+  if(replayBtn) replayBtn.style.display = IS_DEMO ? 'inline-flex' : 'none';
   updateInstructionsNotice(null);
   document.getElementById('help-modal').classList.add('open');
 }
 
 function showWelcome(){
   document.getElementById('welcome-modal').classList.add('open');
+}
+
+// ══ INTRO TOUR ══════════════════════════════════════════════
+const TOUR_SEEN_KEY = 'cs-tour-seen-v1'; // sessionStorage — resets each browser session
+
+const _TOUR_STEPS = [
+  // Step 0 — full-screen framing, no spotlight
+  {
+    target: null,
+    heading: "Welcome. You're looking at Steve's demo.",
+    body: "This is a real example of what your own character sheet could look like. It's an RPG-styled personal dashboard: your goals as quests, your habits as skills, your patterns named and tracked. Nothing here is saved. Take 60 seconds to see how it works.",
+    next: 'Take the tour',
+    skip: 'Skip',
+  },
+  // Step 1 — character header
+  {
+    target: '.hdr-centre',
+    heading: 'Your character',
+    body: "Name, icon, and subtitle live here. Steve is his own character. When you download the app, this becomes you. Click the name to edit it, click the icon to cycle through symbols.",
+    placement: 'below',
+  },
+  // Step 2 — main quest
+  {
+    target: '.hdr-left',
+    heading: 'Your main quest',
+    body: "One sentence that answers: what are you actually working toward right now? Everything else in the app supports this. Click it to go to the Quests tab.",
+    placement: 'below',
+  },
+  // Step 3 — tab nav
+  {
+    target: '.tab-nav',
+    heading: 'Eight views of your life',
+    body: "<strong>Practice</strong> (daily habits), <strong>Balance</strong> (four elements), <strong>Quests</strong>, <strong>Skills</strong>, <strong>Enemies</strong>, <strong>Allies</strong>, <strong>Achievements</strong>, and <strong>Journal</strong>. Steve's data is filled in across all of them. Click any tab to explore freely.",
+    placement: 'below',
+  },
+  // Step 4 — vitals
+  {
+    target: '.hdr-vitals',
+    heading: 'Vitals: HP and Mana',
+    body: "HP tracks physical health, Mana tracks mental/emotional energy. Drag the bars to log a reading, or use the Check-in button below. Check in daily and a history chart builds itself.",
+    placement: 'left',
+  },
+  // Step 5 — check-in button
+  {
+    target: '#daily-btn',
+    heading: 'Daily check-in',
+    body: "Tap this to log your vitals and element balance. Takes 30 seconds. No AI needed. The app works fully offline and builds a history chart from your check-ins over time.",
+    placement: 'above',
+  },
+  // Step 6 — chat button
+  {
+    target: '#chat-btn',
+    heading: 'Journal with your AI',
+    body: "Open this to connect an AI directly. Journal for 10-20 minutes and your sheet fills itself in from your own words. Works with any AI via API key, or with a local Ollama model that never leaves your device.",
+    placement: 'above',
+  },
+  // Step 7 — data / download CTA
+  {
+    target: '#demo-banner',
+    heading: 'Ready to make it yours?',
+    body: null, // replaced by CTA block
+    isCTA: true,
+    placement: 'above',
+  },
+];
+
+let _tourStep = 0;
+let _tourActive = false;
+let _tourResizeObs = null;
+
+function startTour(){
+  _tourStep = 0;
+  _tourActive = true;
+  document.getElementById('tour-overlay').classList.add('active');
+  _tourRender();
+}
+
+function _tourEnd(skipped){
+  _tourActive = false;
+  document.getElementById('tour-overlay').classList.remove('active');
+  document.getElementById('tour-spotlight').classList.add('hidden');
+  if(_tourResizeObs){ _tourResizeObs.disconnect(); _tourResizeObs = null; }
+  sessionStorage.setItem(TOUR_SEEN_KEY, '1');
+}
+
+function _tourNext(){
+  if(_tourStep < _TOUR_STEPS.length - 1){
+    _tourStep++;
+    _tourRender();
+  } else {
+    _tourEnd(false);
+  }
+}
+
+function _tourScrimClick(){
+  // Click outside the card advances the tour (feels natural)
+  _tourNext();
+}
+
+function _tourRender(){
+  const step = _TOUR_STEPS[_tourStep];
+  const card = document.getElementById('tour-card');
+  const spotlight = document.getElementById('tour-spotlight');
+  const isLast = _tourStep === _TOUR_STEPS.length - 1;
+
+  // Step label
+  document.getElementById('tour-step-label').textContent =
+    _tourStep === 0 ? 'Intro' : `Step ${_tourStep} of ${_TOUR_STEPS.length - 1}`;
+
+  // Heading
+  document.getElementById('tour-heading').textContent = step.heading;
+
+  // Body
+  const bodyEl = document.getElementById('tour-body');
+  if(step.isCTA){
+    bodyEl.innerHTML = '';
+    const ctaRow = document.createElement('div');
+    ctaRow.className = 'tour-cta-row';
+    const opts = [
+      { label: 'Fill it in yourself', sub: 'Click any field to edit. No AI needed.', action: ()=>{ _tourEnd(false); openHelpModal(); } },
+      { label: 'Journal with any AI', sub: 'Copy-paste JSON updates from Claude, ChatGPT, Gemini.', action: ()=>{ _tourEnd(false); openHelpModal(); } },
+      { label: 'Chat inside the app', sub: 'Connect via API key or local Ollama. No copy-paste.', action: ()=>{ _tourEnd(false); openHelpModal(); } },
+    ];
+    opts.forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'tour-cta-btn';
+      const strong = document.createElement('strong');
+      strong.textContent = o.label;
+      const sub = document.createTextNode(o.sub);
+      btn.appendChild(strong);
+      btn.appendChild(sub);
+      btn.addEventListener('click', e => { e.stopPropagation(); o.action(); });
+      ctaRow.appendChild(btn);
+    });
+    bodyEl.appendChild(ctaRow);
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size:13px;color:var(--text-dim);line-height:1.5;margin-top:4px;';
+    note.textContent = 'Download the app first, then the Help screen walks you through each option.';
+    bodyEl.appendChild(note);
+  } else if(step.body){
+    bodyEl.innerHTML = step.body; // static internal content, no user data
+  } else {
+    bodyEl.textContent = '';
+  }
+
+  // Progress dots
+  const prog = document.getElementById('tour-progress');
+  prog.innerHTML = '';
+  _TOUR_STEPS.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'tour-dot' + (i === _tourStep ? ' active' : '');
+    prog.appendChild(dot);
+  });
+
+  // Next button label
+  const nextBtn = document.getElementById('tour-btn-next');
+  nextBtn.textContent = step.next || (isLast ? 'Download the app' : 'Next');
+  if(isLast){
+    nextBtn.onclick = e => { e.stopPropagation(); downloadApp(); _tourEnd(false); };
+  } else {
+    nextBtn.onclick = e => { e.stopPropagation(); _tourNext(); };
+  }
+
+  // Spotlight + card positioning
+  if(!step.target){
+    // Full-screen: center the card, hide spotlight
+    spotlight.classList.add('hidden');
+    card.className = 'tour-card-center';
+    // clear any inline positioning so the CSS centering takes effect
+    card.style.top = ''; card.style.left = ''; card.style.right = ''; card.style.bottom = '';
+  } else {
+    card.className = '';
+    spotlight.classList.remove('hidden');
+    _tourPosition(step);
+    // reposition on resize
+    if(_tourResizeObs) _tourResizeObs.disconnect();
+    _tourResizeObs = new ResizeObserver(() => { if(_tourActive) _tourPosition(_TOUR_STEPS[_tourStep]); });
+    _tourResizeObs.observe(document.documentElement);
+  }
+}
+
+function _tourPosition(step){
+  if(!step.target) return;
+  const el = document.querySelector(step.target);
+  if(!el) return;
+  const r = el.getBoundingClientRect();
+  const pad = 8;
+  const spotlight = document.getElementById('tour-spotlight');
+  const card = document.getElementById('tour-card');
+  const vw = window.innerWidth, vh = window.innerHeight;
+
+  // Position spotlight
+  spotlight.style.top    = (r.top  - pad) + 'px';
+  spotlight.style.left   = (r.left - pad) + 'px';
+  spotlight.style.width  = (r.width  + pad*2) + 'px';
+  spotlight.style.height = (r.height + pad*2) + 'px';
+
+  // Position card adjacent to spotlight
+  const placement = step.placement || 'below';
+  const cardW = Math.min(320, vw - 32);
+  const margin = 14;
+
+  // Reset
+  card.style.top = card.style.left = card.style.right = card.style.bottom = '';
+  // We'll set top+left explicitly after a brief delay to let the card render
+  requestAnimationFrame(() => {
+    const cH = card.offsetHeight || 220;
+    const cW = card.offsetWidth  || cardW;
+    let top, left;
+    if(placement === 'below'){
+      top  = r.bottom + pad + margin;
+      left = Math.max(8, Math.min(r.left, vw - cW - 8));
+    } else if(placement === 'above'){
+      top  = r.top - pad - margin - cH;
+      left = Math.max(8, Math.min(r.left, vw - cW - 8));
+    } else if(placement === 'left'){
+      top  = Math.max(8, Math.min(r.top, vh - cH - 8));
+      left = r.left - margin - cW;
+      if(left < 8){ left = r.right + margin; } // flip to right if no room
+    } else { // right
+      top  = Math.max(8, Math.min(r.top, vh - cH - 8));
+      left = r.right + margin;
+      if(left + cW > vw - 8){ left = r.left - margin - cW; }
+    }
+    // clamp
+    top  = Math.max(8, Math.min(top,  vh - cH - 8));
+    left = Math.max(8, Math.min(left, vw - cW - 8));
+    card.style.top  = top  + 'px';
+    card.style.left = left + 'px';
+  });
 }
 
 function toggleWelcomeSetup(mode){
@@ -21805,6 +22151,22 @@ document.addEventListener('keydown', function(e) {
 
     <div class="modal-row" style="margin-top:18px;">
       <button class="btn-ghost" onclick="closeModelGuide()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INTRO TOUR ═══════════════════════════════════════════ -->
+<div id="tour-overlay">
+  <div id="tour-scrim" onclick="_tourScrimClick()"></div>
+  <div id="tour-spotlight" class="hidden"></div>
+  <div id="tour-card">
+    <div class="tour-step-label" id="tour-step-label"></div>
+    <div class="tour-heading"    id="tour-heading"></div>
+    <div class="tour-body"       id="tour-body"></div>
+    <div class="tour-actions">
+      <div class="tour-progress" id="tour-progress"></div>
+      <button class="tour-btn-next" id="tour-btn-next" onclick="_tourNext()">Next</button>
+      <button class="tour-btn-skip" onclick="_tourEnd(true)">Skip</button>
     </div>
   </div>
 </div>
