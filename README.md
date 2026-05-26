@@ -100,7 +100,7 @@ pkill -f "ollama serve" 2>/dev/null; sleep 1; OLLAMA_ORIGINS="*" ollama serve
 Stop-Process -Name ollama -Force -ErrorAction SilentlyContinue; Start-Sleep 1; $env:OLLAMA_ORIGINS="*"; ollama serve
 ```
 
-Keep that terminal open while using chat. The app's Chat Settings screen shows the command for your OS.
+Keep that terminal open while using chat. The app's Chat Settings screen shows the command for your OS. **Close it when you are done** to stop Ollama and limit the window during which other pages in your browser could reach it.
 
 **5. Open the app and start a session**
 
@@ -159,7 +159,8 @@ Use the [live demo](https://sam-holmes2.github.io/character-sheet/character-shee
 1. Go to [console.anthropic.com](https://console.anthropic.com) and create an account (separate from Claude.ai)
 2. Open **API Keys** and create a new key
 3. **Store your API key in a password manager** (1Password, Bitwarden, Apple Passwords, etc.). You will need it again later and it cannot be retrieved from Anthropic after creation.
-4. In the app: set a **security password** first (Security button, bottom bar), then open Chat Settings (gear icon in the chat panel), select a Claude model, and paste your key
+4. **Enable two-factor authentication** on your Anthropic account (Account Settings). Anyone who compromises your account can read your API usage and rack up charges.
+5. In the app: set a **security password** first (Security button, bottom bar) — the app will not let you save an API key without one. Then open Chat Settings (gear icon in the chat panel), select a Claude model, and paste your key.
 
 > **Keep your API key private.** Anyone with it can use your Anthropic account and generate charges. Never paste it into websites you don't trust.
 
@@ -333,8 +334,10 @@ Your data stays on your device. The copy-paste JSON workflow is not just a techn
 - **`data.json` is your private diary.** Nothing leaves your machine unless you send it. Any AI provider you journal with (Claude, ChatGPT, etc.) may store, review, or use what you share for training. Check their privacy settings to opt out.
 - **Think before syncing `data.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
 - **AI is optional.** The app works fully offline as a plain tracker. For stronger privacy with AI, use local models like [Ollama](https://ollama.com) (nothing leaves your device). See [ai-privacy-guide.md](ai-privacy-guide.md) for the full picture.
-- **Keep your API key in a password manager.** If you use a cloud AI via the in-app chat, your API key grants access to your account. Store it in a password manager (1Password, Bitwarden, Apple Passwords, etc.), not in a document or email.
+- **Keep your API key in a password manager.** If you use a cloud AI via the in-app chat, your API key grants access to your account. Store it in a password manager (1Password, Bitwarden, Apple Passwords, etc.), not in a document or email. Enable two-factor authentication on your AI provider account.
+- **Enable full-disk encryption** on your device (FileVault on Mac, BitLocker on Windows). If your laptop is stolen, disk encryption is the barrier between a thief and your data — including browser storage files.
 - **Use [Firefox](https://www.firefox.com/) if possible**, since it isolates each local HTML file's storage. In Chrome and Edge, all local files share the same origin, so a malicious local file you open could read your data.
+- **Close Ollama when you are done.** When running Ollama for local chat, keep the terminal open only while you need it. Closing it stops the service and means other webpages cannot reach your local model.
 
 **Password lock.** The app has an optional password that encrypts all your data in `localStorage` using AES-256-GCM with PBKDF2 key derivation (200,000 iterations). What it protects: someone who opens your browser and navigates to the app, or reads your browser's storage files directly. What it does not protect against: someone with full access to your device while the app is already unlocked, malware with access to browser memory, or your browser's developer tools while the tab is open. Think of it as a screen lock, not full-disk encryption.
 

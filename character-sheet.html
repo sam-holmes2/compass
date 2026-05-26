@@ -966,8 +966,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-util { display:flex; align-items:center; justify-content:flex-end; gap:4px; margin-bottom:3px; }
 .hdr-util-btn {
   background:none; border:none; cursor:pointer; border-radius:6px;
-  width:34px; height:34px; display:flex; align-items:center; justify-content:center;
-  font-size:20px; color:var(--text-dim); transition:color 0.15s, background 0.15s;
+  width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+  font-size:22px; color:var(--text-dim); transition:color 0.15s, background 0.15s;
   padding:0; line-height:1;
 }
 .hdr-util-btn:hover { color:var(--text); background:rgba(255,255,255,0.07); }
@@ -2434,6 +2434,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   display:inline-block; width:10px; height:10px; border-radius:2px; flex-shrink:0;
 }
 .rq-color-swatch-sm { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.rq-color-circle {
+  display:inline-block; width:14px; height:14px; border-radius:50%; flex-shrink:0;
+  cursor:pointer; position:relative; overflow:hidden; vertical-align:middle;
+  border:1px solid rgba(255,255,255,0.18); transition:border-color 0.15s;
+}
+.rq-color-circle:hover { border-color:rgba(255,255,255,0.4); }
 .rq-color-input {
   position:absolute; inset:0; opacity:0; width:100%; height:100%;
   cursor:pointer; padding:0; border:none;
@@ -3256,22 +3262,22 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #cs-model-guide-modal { z-index:10002; }
 #chat-overlay.open { display:flex; }
 .chat-hdr {
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:10px 16px; border-bottom:2px solid rgba(42,144,144,0.35);
-  background:rgba(7,7,11,0.98); flex-shrink:0;
+  display:flex; align-items:center; gap:8px;
+  padding:8px 14px; border-bottom:2px solid rgba(42,144,144,0.35);
+  background:rgba(7,7,11,0.98); flex-shrink:0; min-height:48px;
 }
-.chat-hdr-left { display:flex; flex-direction:column; gap:3px; min-width:0; flex:1; }
+.chat-hdr-left { display:flex; align-items:center; gap:8px; min-width:0; flex:1; overflow:hidden; }
 .chat-hdr-app {
-  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.22em;
-  color:var(--text-mid); text-transform:uppercase;
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.22em;
+  color:var(--text-dim); text-transform:uppercase; flex-shrink:0; opacity:0.6;
 }
-.chat-hdr-title-row { display:flex; align-items:center; gap:8px; min-width:0; flex-wrap:wrap; }
+.chat-hdr-title-row { display:contents; }
 .chat-hdr-num {
   font-family:var(--mono); font-size:11px; color:var(--text-dim);
-  opacity:0.55; flex-shrink:0; white-space:nowrap; user-select:none;
+  opacity:0.5; flex-shrink:0; white-space:nowrap; user-select:none;
 }
 .chat-hdr-title {
-  font-family:'Cinzel',serif; font-size:17px; letter-spacing:0.13em;
+  font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.1em;
   color:#2a9090; text-transform:uppercase; margin:0;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex-shrink:1; min-width:60px;
   cursor:text; border-radius:3px; padding:2px 5px; margin-left:-5px;
@@ -3283,25 +3289,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 .chat-hdr-title:hover:not(:focus) { background:rgba(42,144,144,0.07); border-color:rgba(42,144,144,0.2); }
 .chat-hdr-title:empty:not(:focus)::before { content:attr(data-placeholder); color:var(--text-dim); opacity:0.4; font-style:italic; }
-.chat-hdr-lock-btn {
-  background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;
-  padding:3px 8px; border-radius:4px; line-height:1;
-  flex-shrink:0; transition:color 0.15s, border-color 0.15s, background 0.15s;
-  display:flex; align-items:center; gap:4px;
-  font-size:11px; font-family:var(--mono); color:var(--text-dim); opacity:0.6;
-}
-.chat-hdr-lock-btn .lock-icon { font-size:13px; line-height:1; }
-.chat-hdr-lock-btn .lock-label { letter-spacing:0.04em; }
-.chat-hdr-lock-btn:hover { opacity:1; color:#2a9090; border-color:rgba(42,144,144,0.4); background:rgba(42,144,144,0.07); }
-.chat-hdr-lock-btn.locked { color:#c8a84a; border-color:rgba(200,168,74,0.4); background:rgba(200,168,74,0.07); opacity:1; }
+.chat-hdr-lock-btn.locked { color:#c8a84a !important; border-color:rgba(200,168,74,0.4) !important; background:rgba(200,168,74,0.07) !important; }
 .chat-hdr-finish-btn {
-  background:none; border:1px solid rgba(255,255,255,0.15); cursor:pointer;
-  padding:6px 14px; font-size:13px; color:var(--text-dim); border-radius:4px;
-  font-family:var(--mono); letter-spacing:0.04em; flex-shrink:0;
-  transition:color 0.15s, border-color 0.15s, background 0.15s; opacity:0.7;
+  background:none; border:1px solid rgba(255,255,255,0.12); cursor:pointer;
+  padding:5px 10px; font-size:12px; color:var(--text-dim); border-radius:5px; height:32px;
+  font-family:var(--mono); letter-spacing:0.03em; flex-shrink:0;
+  transition:color 0.15s, border-color 0.15s, background 0.15s;
+  display:flex; align-items:center;
 }
-.chat-hdr-finish-btn:hover { opacity:1; border-color:rgba(80,190,110,0.5); color:rgba(80,190,110,0.9); }
-.chat-hdr-finish-btn.done { border-color:rgba(80,190,110,0.5); color:rgba(80,190,110,0.9); opacity:1; }
+.chat-hdr-finish-btn:hover { border-color:rgba(80,190,110,0.5); color:rgba(80,190,110,0.9); }
+.chat-hdr-finish-btn.done { border-color:rgba(80,190,110,0.5); color:rgba(80,190,110,0.9); }
 .chat-hdr-subtitle {
   font-size:13px; color:var(--text-mid); font-style:italic;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
@@ -3310,7 +3307,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
   font-family:var(--mono); font-size:12px; color:#6ab0b0;
   white-space:nowrap; flex-shrink:0;
 }
-.chat-hdr-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.chat-hdr-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
 .chat-cloud-warn {
   display:none; align-items:center; gap:8px;
   padding:10px 16px; background:rgba(180,40,40,0.22);
@@ -3340,7 +3337,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chat-icon-btn:hover { color:#2a9090; border-color:rgba(42,144,144,0.5); background:rgba(42,144,144,0.07); }
 .chat-icon-btn-del { color:rgba(200,80,80,0.65) !important; }
 .chat-icon-btn-del:hover { color:#c84040 !important; }
-.chat-hdr-model-inline { font-family:var(--mono); font-size:11px; color:#6ab0b0; white-space:nowrap; max-width:110px; overflow:hidden; text-overflow:ellipsis; }
+.chat-hdr-model-inline { font-family:var(--mono); font-size:12px; color:#6ab0b0; white-space:nowrap; }
 .chat-sess-name-chip { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.1em; color:var(--text-dim); text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:130px; opacity:0.7; align-self:center; }
 .chat-msgs {
   flex:1; overflow-y:auto; padding:14px 16px;
@@ -3541,11 +3538,12 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* Custom session picker dropdown in chat header */
 .chat-sess-picker-wrap { position:relative; }
 .chat-sess-picker-btn {
-  font-size:12px; padding:3px 8px; height:28px; display:flex; align-items:center; gap:5px;
-  background:rgba(42,144,144,0.08); border:1px solid rgba(42,144,144,0.3);
-  color:var(--text-dim); border-radius:4px; cursor:pointer; white-space:nowrap;
+  font-size:12px; padding:5px 10px; height:32px; display:flex; align-items:center; gap:5px;
+  background:none; border:1px solid rgba(255,255,255,0.12);
+  color:var(--text-dim); border-radius:5px; cursor:pointer; white-space:nowrap;
+  transition:color 0.15s, border-color 0.15s, background 0.15s;
 }
-.chat-sess-picker-btn:hover { background:rgba(42,144,144,0.15); border-color:rgba(42,144,144,0.5); color:var(--text); }
+.chat-sess-picker-btn:hover { background:rgba(42,144,144,0.07); border-color:rgba(42,144,144,0.5); color:#2a9090; }
 .chat-sess-picker-btn .picker-arrow { font-size:9px; opacity:0.6; }
 .chat-sess-picker-panel {
   display:none; position:absolute; right:0; top:calc(100% + 4px); z-index:200;
@@ -4847,18 +4845,6 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
         <input type="checkbox" id="settings-close-confirm" onchange="settingsSaveCloseConfirm()" style="width:16px;height:16px;cursor:pointer;">
         Ask before closing tab when data is unsaved
       </label>
-    </div>
-
-    <div class="settings-section">
-      <div class="settings-label">Check-in Frequency</div>
-      <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px;">How often the check-in modal should auto-appear. Manually opening it with the Check-in button always works regardless.</p>
-      <select class="settings-select" id="settings-checkin-interval" onchange="settingsSaveCheckinInterval()">
-        <option value="6">Every 6 hours</option>
-        <option value="12">Every 12 hours</option>
-        <option value="24">Once a day (default)</option>
-        <option value="48">Every 2 days</option>
-        <option value="0">Never auto-prompt</option>
-      </select>
     </div>
 
     <div class="settings-danger-zone">
@@ -14355,7 +14341,7 @@ function renderRecurringQuests(s) {
         chip.appendChild(goalWrap);
 
         const swatch = document.createElement('span');
-        swatch.className = 'rq-color-swatch rq-color-swatch-sm';
+        swatch.className = 'rq-color-circle';
         swatch.title = 'Set colour';
         swatch.style.background = sa.color || 'rgba(200,168,74,0.5)';
         const cpk = document.createElement('input');
@@ -17828,7 +17814,7 @@ function _collectBlob(s){
   // Fixed keys
   const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
                   'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1',
-                  'cs-chat-settings-v1','cs-gitsync-v1'];
+                  'cs-chat-settings-v1','cs-gitsync-v1','cs-char-id-v1'];
   for(const k of fixed){
     const v = localStorage.getItem(k);
     if(v !== null) blob[k] = v; // store raw JSON string
@@ -17851,7 +17837,7 @@ function _restoreBlob(blob){
   if(blob.state) localStorage.setItem('cs-state-v1', JSON.stringify(blob.state));
   const fixed = ['cs-xplog-v1','cs-stats-hist-v1','cs-status-hist-v1','cs-status-v1',
                   'cs-featured-ach-v1','cs-featured-cls-v1','cs-completed-quests-v1','cs-vitals-hist-v1',
-                  'cs-chat-settings-v1','cs-gitsync-v1'];
+                  'cs-chat-settings-v1','cs-gitsync-v1','cs-char-id-v1'];
   for(const k of fixed){
     if(blob[k] !== undefined) localStorage.setItem(k, blob[k]);
   }
@@ -18087,17 +18073,6 @@ function openSettingsModal(){
   if (ccEl) ccEl.checked = localStorage.getItem(CLOSE_CONFIRM_KEY) !== '0';
   const lohEl = document.getElementById('settings-lock-on-hide');
   if (lohEl) lohEl.checked = _getLockOnHide();
-  // Set check-in interval dropdown
-  const ciSel = document.getElementById('settings-checkin-interval');
-  if (ciSel) {
-    const curHours = _getPulseIntervalHours();
-    const knownValues = [6, 12, 24, 48];
-    const isNever = !knownValues.includes(curHours);
-    [...ciSel.options].forEach(o => {
-      const v = parseInt(o.value, 10);
-      o.selected = isNever ? (o.value === '0') : (v === curHours);
-    });
-  }
   hideResetConfirm();
   document.getElementById('settings-modal').classList.add('open');
 }
@@ -18322,13 +18297,6 @@ function settingsSaveCloseConfirm(){
   const el = document.getElementById('settings-close-confirm');
   if (el) localStorage.setItem(CLOSE_CONFIRM_KEY, el.checked ? '1' : '0');
 }
-function settingsSaveCheckinInterval(){
-  const el = document.getElementById('settings-checkin-interval');
-  if (!el) return;
-  const v = parseInt(el.value, 10);
-  _setPulseIntervalHours(v === 0 ? 999999 : v);
-}
-
 // ── Daily check-in reminder ─────────────────────────────────
 let _dcrDismissTimer = null;
 function _pendingCheckins() {
@@ -18651,9 +18619,6 @@ function _initPulseSliders() {
 function _dpIntervalChanged(val) {
   const v = parseInt(val, 10);
   _setPulseIntervalHours(v === 0 ? 999999 : v);
-  // Keep the settings modal select in sync if open
-  const settingsSel = document.getElementById('settings-checkin-interval');
-  if (settingsSel) [...settingsSel.options].forEach(o => o.selected = (o.value === val));
 }
 
 function _updatePulseRadars() {
@@ -19424,6 +19389,7 @@ function _openChatOverlay() {
   const savedCompact = localStorage.getItem('cs-chat-compact') === '1';
   overlay.classList.toggle('compact', savedCompact);
   document.body.classList.toggle('chat-sidebar', savedCompact);
+  if (!savedCompact) document.body.style.overflow = 'hidden';
   const compactBtn = document.getElementById('chat-compact-btn');
   if (compactBtn) {
     compactBtn.innerHTML = savedCompact
@@ -19478,6 +19444,7 @@ function _openChatOverlay() {
 function closeChat() {
   document.getElementById('chat-overlay')?.classList.remove('open');
   document.body.classList.remove('chat-sidebar');
+  document.body.style.overflow = '';
   if (chatState.isLoading) document.getElementById('chat-btn')?.classList.add('chat-btn-loading');
 }
 
@@ -19486,6 +19453,7 @@ function chatToggleCompact() {
   if (!overlay) return;
   const isCompact = overlay.classList.toggle('compact');
   document.body.classList.toggle('chat-sidebar', isCompact);
+  document.body.style.overflow = isCompact ? '' : 'hidden';
   try { localStorage.setItem('cs-chat-compact', isCompact ? '1' : '0'); } catch {}
   const btn = document.getElementById('chat-compact-btn');
   if (btn) {
@@ -20554,10 +20522,10 @@ async function _chatGenerateTitle(sessionId, messages) {
   const convo = messages.filter(m => m.role === 'user' || m.role === 'assistant');
   if (convo.length < 2) return;
   const transcript = convo.map(m => (m.role === 'user' ? 'User: ' : 'AI: ') + m.content.slice(0, 400)).join('\n\n');
-  const titleMessages = [{ role: 'user', content: 'Conversation so far:\n\n' + transcript + '\n\nReply with only a short title (max 8 words). Multiple topics: separate with " | ". No punctuation at end. No quotes.' }];
+  const titleMessages = [{ role: 'user', content: 'Conversation so far:\n\n' + transcript + '\n\nReply with only a short title (2-4 words, 5 max). No punctuation at end. No quotes.' }];
   try {
-    const title = (await callChatAPI(titleMessages, 'You generate concise chat titles.')).trim().replace(/^["']|["']$/g, '').replace(/\.$/, '');
-    if (!title || title.length > 120) return;
+    const title = (await callChatAPI(titleMessages, 'You generate very concise chat titles. Keep them to 2-4 words.')).trim().replace(/^["']|["']$/g, '').replace(/\.$/, '');
+    if (!title || title.length > 60) return;
     if (!appState.chatSessions) return;
     const idx = appState.chatSessions.findIndex(s => s.id === sessionId);
     if (idx < 0) return;
@@ -22356,19 +22324,24 @@ async function gitSyncPull() {
       if (!raw.startsWith('{"iv"') && !raw.startsWith('{"salt"')) throw new Error('The file at that path is not a character-sheet backup. Check your owner/repo/path settings.');
       pulledEnc = raw;
     }
-    // Decrypt remote state with the current PIN
-    const pin = _currentPIN;
-    if (!pin) throw new Error('Your authentication session has expired. Lock and unlock again, then retry.');
-    const remotePlain = await _decrypt(pin, pulledEnc);
+    // Decrypt remote state — must re-derive from PIN so the remote blob's salt is used
+    const _pullPIN = _currentPIN || (() => {
+      try { const s = sessionStorage.getItem(SESSION_KEY_STORE); return s ? decodeURIComponent(escape(atob(s))) : null; } catch { return null; }
+    })();
+    if (!_pullPIN) throw new Error('Your authentication session has expired. Lock and unlock again, then retry.');
+    const remotePlain = await _decrypt(_pullPIN, pulledEnc);
     if (!remotePlain) throw new Error('Could not decrypt the backup. Make sure you are using the same password as on the device that pushed it.');
     let remoteBlob;
     try { remoteBlob = JSON.parse(remotePlain); } catch { throw new Error('Backup file is corrupted or unreadable.'); }
     const remoteState = remoteBlob.state || remoteBlob;
     if (!remoteState || typeof remoteState !== 'object') throw new Error('Backup file does not contain valid data.');
-    // Merge remote state into local using the same logic as applyUpdate
-    // This handles array merging by id, enemy deep-merge, locked fields, XP log, etc.
+    // Full restore: write all blob keys back to localStorage, then re-render
     closeGitSyncModal();
-    applyUpdate(remoteState);
+    _restoreBlob(remoteBlob);
+    appState = remoteState;
+    saveState(appState);
+    render(appState);
+    renderStatsHistoryChart(); renderStatusHistoryChart();
     gs.lastPulled = new Date().toISOString();
     await saveGitSyncSettings(gs);
     showImportToast('Pulled and merged from ' + gs.owner + '/' + gs.repo + '.');
@@ -23127,25 +23100,22 @@ document.addEventListener('keydown', function(e) {
   <div id="chat-resize-handle"></div>
   <div class="chat-hdr">
     <div class="chat-hdr-left">
-      <div class="chat-hdr-app">character-sheet</div>
-      <div class="chat-hdr-title-row">
-        <span id="chat-hdr-num" class="chat-hdr-num"></span>
-        <div id="chat-hdr-title" class="chat-hdr-title" contenteditable="true" spellcheck="false"
-          data-placeholder="Click to name this chat"
-          title="Click to rename this chat"
-          onblur="chatTitleSave(this)"
-          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}else if(event.key==='Escape'){chatTitleAbort(this);this.blur()}"
-          onfocus="chatTitleFocus(this)"></div>
-        <button id="chat-hdr-lock-btn" class="chat-hdr-lock-btn" onclick="chatTitleToggleLock()"><span class="lock-icon">🤖</span><span class="lock-label">AI names</span></button>
-        <div class="chat-sess-picker-wrap" id="chat-sess-picker-wrap" style="display:none">
-          <button class="chat-sess-picker-btn" id="chat-sess-picker-btn" onclick="chatPickerToggle()" title="Load a past chat">Past chats <span class="picker-arrow">&#9660;</span></button>
-          <div class="chat-sess-picker-panel" id="chat-sess-picker-panel"></div>
-        </div>
-      </div>
-      <div id="chat-hdr-subtitle" class="chat-hdr-subtitle" style="display:none"></div>
+      <div class="chat-hdr-app">cs</div>
+      <span id="chat-hdr-num" class="chat-hdr-num"></span>
+      <div id="chat-hdr-title" class="chat-hdr-title" contenteditable="true" spellcheck="false"
+        data-placeholder="Click to name this chat"
+        title="Click to rename this chat"
+        onblur="chatTitleSave(this)"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}else if(event.key==='Escape'){chatTitleAbort(this);this.blur()}"
+        onfocus="chatTitleFocus(this)"></div>
     </div>
     <div class="chat-hdr-right">
       <span id="chat-cost-display" class="chat-cost-display" style="display:none"></span>
+      <button id="chat-hdr-lock-btn" class="chat-hdr-lock-btn chat-icon-btn" onclick="chatTitleToggleLock()"><span class="lock-icon chat-icon-glyph">🤖</span><span class="lock-label chat-icon-label">AI names</span></button>
+      <div class="chat-sess-picker-wrap" id="chat-sess-picker-wrap" style="display:none">
+        <button class="chat-sess-picker-btn" id="chat-sess-picker-btn" onclick="chatPickerToggle()" title="Load a past chat">Past chats <span class="picker-arrow">&#9660;</span></button>
+        <div class="chat-sess-picker-panel" id="chat-sess-picker-panel"></div>
+      </div>
       <button class="chat-icon-btn" id="chat-compact-btn" onclick="chatToggleCompact()" title="Sidebar mode"><span class="chat-icon-glyph">&#x2922;</span><span class="chat-icon-label">Sidebar</span></button>
       <button class="chat-icon-btn" id="chat-hdr-settings-btn" onclick="openChatSettings()" title="Settings"><span class="chat-icon-glyph">&#9881;</span><span id="chat-hdr-model" class="chat-hdr-model-inline"></span></button>
       <button class="chat-icon-btn" onclick="closeChat()" title="Close (Esc)"><span class="chat-icon-glyph">&#x2715;</span><span class="chat-icon-label">Close</span></button>
