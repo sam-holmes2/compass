@@ -973,6 +973,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-util-btn:hover { color:var(--text); background:rgba(255,255,255,0.07); }
 .hdr-util-btn.hdr-util-help    { color:rgba(144,96,192,0.6); }
 .hdr-util-btn.hdr-util-help:hover    { color:#9060c0; background:rgba(144,96,192,0.1); }
+.hdr-util-btn.help-pulse { animation:help-btn-pulse 0.8s ease-in-out 4; color:#9060c0; background:rgba(144,96,192,0.15); }
+@keyframes help-btn-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(144,96,192,0);} 50%{box-shadow:0 0 0 5px rgba(144,96,192,0.35);} }
 .hdr-util-btn.hdr-util-settings { color:rgba(96,144,200,0.6); }
 .hdr-util-btn.hdr-util-settings:hover { color:#6090c8; background:rgba(80,120,180,0.12); }
 .hdr-util-btn.hdr-util-support { color:rgba(42,144,80,0.6); }
@@ -2710,7 +2712,11 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 #daily-checkin-reminder { position:fixed; bottom:54px; left:50%; transform:translateX(-50%); background:rgba(14,12,22,0.97); border:1px solid rgba(200,168,74,0.45); border-radius:8px; padding:9px 14px; display:flex; align-items:center; gap:10px; z-index:9100; font-size:13px; font-family:var(--mono); letter-spacing:0.04em; color:var(--text-mid); box-shadow:0 4px 24px rgba(0,0,0,0.55); white-space:nowrap; animation:toast-rise 0.25s ease; }
 #daily-checkin-reminder .dcr-label { color:rgba(200,168,74,0.85); margin-right:2px; }
 #daily-checkin-reminder .dcr-items { color:#d8d4c8; }
-#daily-checkin-reminder .dcr-close { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:14px; padding:0 0 0 6px; line-height:1; }
+#daily-checkin-reminder .dcr-body { display:flex; align-items:center; gap:6px; cursor:pointer; }
+#daily-checkin-reminder .dcr-body:hover .dcr-items { color:#fff; }
+#daily-checkin-reminder .dcr-open { background:rgba(200,168,74,0.15); border:1px solid rgba(200,168,74,0.4); color:rgba(200,168,74,0.9); cursor:pointer; font-size:11px; font-family:var(--mono); letter-spacing:0.06em; border-radius:4px; padding:2px 8px; line-height:1.5; transition:background 0.15s; white-space:nowrap; }
+#daily-checkin-reminder .dcr-open:hover { background:rgba(200,168,74,0.28); }
+#daily-checkin-reminder .dcr-close { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:14px; padding:0 0 0 4px; line-height:1; }
 .timer-svg.running-glow        { animation:ring-glow-pulse 2.4s ease-in-out infinite; }
 .timer-svg.running-glow.overflow { animation:ring-glow-pulse-deep 2.4s ease-in-out infinite; }
 .timer-svg.milestone-beat      { animation:ring-milestone-beat 0.5s ease; }
@@ -3826,6 +3832,8 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
   <div id="lock-forgot-panel" style="display:none;max-width:340px;text-align:center;">
     <p style="font-size:14px;color:var(--text-dim);line-height:1.6;margin:0 0 8px;">If you recently pulled from GitHub and the password stopped working: the backup may have been pushed from a device with a different password. Go back to the original device, push again, then pull here.</p>
     <p style="font-size:14px;color:#c84040;line-height:1.6;margin:0 0 10px;"><strong>Warning:</strong> without your password, your data cannot be decrypted or recovered. There is no way to retrieve it.</p>
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.5;margin:0 0 12px;">If you have a backup file (data.json) exported from a previous session, you can restore it to start fresh from that point.</p>
+    <button onclick="lockWipeAndOpenImport()" style="padding:7px 18px;background:none;border:1px solid rgba(140,180,80,0.5);border-radius:4px;color:#90b848;font-family:var(--mono);font-size:13px;cursor:pointer;margin-bottom:12px;">Restore from backup file</button>
     <p style="font-size:13px;color:var(--text-dim);line-height:1.5;margin:0 0 12px;">If you are certain your data is gone and want to start fresh, this will permanently erase everything and open a blank app.</p>
     <div id="lock-wipe-confirm" style="display:none;padding:10px 14px;background:rgba(200,60,60,0.08);border:1px solid rgba(200,60,60,0.3);border-radius:6px;margin-bottom:10px;">
       <p style="font-size:13px;color:#c84040;margin:0 0 10px;line-height:1.5;"><strong>Are you sure?</strong> This cannot be undone. All encrypted data will be deleted.</p>
@@ -4657,10 +4665,23 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 
 <!-- ══ SYNC EXPLAINED MODAL ══════════════════════════════ -->
 <div class="modal-overlay" id="sync-modal">
-  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);position:relative;">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);position:relative;max-width:480px;">
     <button class="modal-close" onclick="closeSyncModal()" title="Close">×</button>
-    <div class="modal-title" style="color:var(--gold);">HOW SYNC WORKS</div>
-    <p>Changes are saved locally in your browser. Export ↓ to create a backup or to keep an AI up to date with your latest state.</p>
+    <div class="modal-title" style="color:var(--gold);">HOW YOUR DATA IS SAVED</div>
+    <p style="font-size:14px;color:var(--text);line-height:1.65;margin:0 0 14px;">Your data lives in your browser's local storage. It stays on this device and is never sent anywhere automatically. If you clear your browser data, it will be lost.</p>
+    <p style="font-size:13px;font-weight:600;color:var(--text-mid);margin:0 0 10px;letter-spacing:0.03em;">To keep your data safe, choose an option:</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+      <div style="border:1px solid rgba(200,168,74,0.25);border-radius:8px;padding:12px 14px;">
+        <div style="font-size:14px;font-weight:600;color:var(--gold);margin-bottom:4px;">Export a backup file</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;">Download your data as a file you keep yourself. Simple, no account needed. Re-import it any time to restore.</div>
+        <button class="btn-ghost" onclick="closeSyncModal();exportState()" style="margin-top:10px;font-size:13px;padding:4px 12px;">Export ↓</button>
+      </div>
+      <div style="border:1px solid rgba(200,168,74,0.25);border-radius:8px;padding:12px 14px;">
+        <div style="font-size:14px;font-weight:600;color:var(--gold);margin-bottom:4px;">Sync to GitHub</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;">Push an encrypted backup to a private GitHub repo. Lets you restore from any device. Requires a free GitHub account.</div>
+        <button class="btn-ghost" onclick="closeSyncModal();openGitSyncModal()" style="margin-top:10px;font-size:13px;padding:4px 12px;">Sync ↕</button>
+      </div>
+    </div>
     <div class="modal-row">
       <button class="btn-primary" onclick="closeSyncModal()">Got it</button>
       <button class="btn-ghost" onclick="closeSyncModal(true)">Never show again</button>
@@ -14686,33 +14707,54 @@ function renderRecurringQuests(s) {
         </div>` : ''}
       `;
     } else {
+      // Grid layout matching breakdown style: Goal % section (L7 | All) + History section (Avg | Done)
+      const grid = document.createElement('div'); grid.className = 'practice-stats-sub';
+      // Section header row
+      const hdrLbl  = document.createElement('span'); hdrLbl.className  = 'ps-hdr'; hdrLbl.textContent = 'Activity';
+      const hdrGoal = document.createElement('span'); hdrGoal.className = 'ps-hdr-goal'; hdrGoal.textContent = 'Goal %'; hdrGoal.title = 'How often goal was hit relative to target frequency';
+      const hdrGap  = document.createElement('span'); hdrGap.className  = 'ps-col-gap';
+      const hdrHist = document.createElement('span'); hdrHist.className = 'ps-hdr-hist'; hdrHist.textContent = 'History';
+      grid.appendChild(hdrLbl); grid.appendChild(hdrGoal); grid.appendChild(hdrGap); grid.appendChild(hdrHist);
+      // Column label row
+      const hdr7d    = document.createElement('span'); hdr7d.className    = 'ps-hdr-7d';   hdr7d.textContent    = 'L7';   hdr7d.title  = 'Goal hit rate, last 7 days';
+      const hdrAll   = document.createElement('span'); hdrAll.className   = 'ps-hdr-all';  hdrAll.textContent   = 'All';  hdrAll.title = 'Goal hit rate, all time';
+      const hdrGap2  = document.createElement('span'); hdrGap2.className  = 'ps-col-gap';
+      const hdrAvg   = document.createElement('span'); hdrAvg.className   = 'ps-hdr-avg';  hdrAvg.textContent   = 'Avg';  hdrAvg.title = 'Average time between completions';
+      const hdrDone  = document.createElement('span'); hdrDone.className  = 'ps-hdr-done'; hdrDone.textContent  = 'Done'; hdrDone.title = 'Total completions / periods tracked';
+      const hdrBlank = document.createElement('span');
+      grid.appendChild(hdrBlank); grid.appendChild(hdr7d); grid.appendChild(hdrAll); grid.appendChild(hdrGap2); grid.appendChild(hdrAvg); grid.appendChild(hdrDone);
+      // Single data row
       const hc7 = rqHealthColor(stats.pct7); const hcAll = rqHealthColor(stats.pctAll);
-      const lifetimeXP = computeRQLifetimeXP(act, charName);
       const { count: cmpCount, total: cmpTotal } = computeRQCompletions(act, charName);
       const cmpStr = cmpTotal > 0 ? cmpCount + '/' + cmpTotal : '—';
-      statsRow.innerHTML = `
-        <div class="practice-trends-hdr">Trends</div>
-        <div class="practice-trend-row">
-          <span class="practice-trend-swatch practice-trend-swatch-7d"></span>
-          <span class="practice-trend-lbl">Last 7</span>
-          <span class="practice-trend-val practice-trend-val-7d" id="stat-avg-${act.id}"${hc7?` style="color:${hc7}"`:''}>${formatVal(stats.pct7)}</span>
-        </div>
-        <div class="practice-trend-row">
-          <span class="practice-trend-swatch practice-trend-swatch-all"></span>
-          <span class="practice-trend-lbl">All-time</span>
-          <span class="practice-trend-val practice-trend-val-all" id="stat-avgall-${act.id}"${hcAll?` style="color:${hcAll}"`:''}>${formatVal(stats.pctAll)}</span>
-        </div>
-        <div class="practice-trend-row">
-          <span class="practice-trend-swatch" style="background:#c8a84a;opacity:0.7;"></span>
-          <span class="practice-trend-lbl">Completions</span>
-          <span class="practice-trend-val" style="color:#c8a84a;">${cmpStr}</span>
-        </div>
-        ${act.xpPerUnit ? `<div class="practice-trend-row">
-          <span class="practice-trend-swatch" style="background:#b080e8;opacity:0.6;"></span>
-          <span class="practice-trend-lbl">XP earned</span>
-          <span class="practice-trend-val" style="color:#b080e8;">${lifetimeXP > 0 ? '+' + lifetimeXP + ' XP' : '—'}</span>
-        </div>` : ''}
-      `;
+      const rowLbl  = document.createElement('span'); rowLbl.className  = 'ps-col-lbl'; rowLbl.textContent = act.name || 'Activity';
+      const rowLblColor = act.color || 'rgba(200,168,74,0.5)'; rowLbl.style.color = rowLblColor;
+      const row7    = document.createElement('span'); row7.className    = 'ps-col-7d';
+      row7.id = 'stat-avg-' + act.id; row7.textContent = formatVal(stats.pct7);
+      row7.title = 'Goal hit rate, last 7 days'; if (hc7) row7.style.color = hc7;
+      const rowAll  = document.createElement('span'); rowAll.className  = 'ps-col-all';
+      rowAll.id = 'stat-avgall-' + act.id; rowAll.textContent = formatVal(stats.pctAll);
+      rowAll.title = 'Goal hit rate, all time'; if (hcAll) rowAll.style.color = hcAll;
+      const rowGap  = document.createElement('span'); rowGap.className  = 'ps-col-gap';
+      const rowAvg  = document.createElement('span'); rowAvg.className  = 'ps-col-avg';
+      rowAvg.id = 'stat-avgfreq-' + act.id; rowAvg.textContent = stats.avgFreq || '—';
+      rowAvg.title = 'Average time between completions';
+      const rowDone = document.createElement('span'); rowDone.className = 'ps-col-done';
+      rowDone.textContent = cmpStr; rowDone.title = 'Completions / periods tracked';
+      grid.appendChild(rowLbl); grid.appendChild(row7); grid.appendChild(rowAll); grid.appendChild(rowGap); grid.appendChild(rowAvg); grid.appendChild(rowDone);
+      // XP row (if applicable)
+      const lifetimeXP = computeRQLifetimeXP(act, charName);
+      if (act.xpPerUnit) {
+        const xpRow = document.createElement('div');
+        xpRow.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;gap:6px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.06);margin-top:2px;';
+        const xpDot = document.createElement('span'); xpDot.style.cssText = 'width:8px;height:8px;border-radius:50%;background:#b080e8;opacity:0.6;flex-shrink:0;';
+        const xpLbl = document.createElement('span'); xpLbl.style.cssText = 'font-size:14px;color:var(--text-dim);'; xpLbl.textContent = 'XP earned';
+        const xpVal = document.createElement('span'); xpVal.style.cssText = 'margin-left:auto;font-family:var(--mono);font-size:14px;color:#b080e8;';
+        xpVal.textContent = lifetimeXP > 0 ? '+' + lifetimeXP + ' XP' : '—';
+        xpRow.appendChild(xpDot); xpRow.appendChild(xpLbl); xpRow.appendChild(xpVal);
+        grid.appendChild(xpRow);
+      }
+      statsRow.appendChild(grid);
     }
     info.appendChild(statsRow);
     body.appendChild(info);
@@ -17192,6 +17234,7 @@ const _TOUR_STEPS = [
 let _tourStep = 0;
 let _tourActive = false;
 let _tourResizeObs = null;
+let _miniSteps = [];
 
 function startTour(){
   _tourStep = 0;
@@ -17202,10 +17245,175 @@ function startTour(){
 
 function _tourEnd(skipped){
   _tourActive = false;
+  _miniSteps  = [];
   document.getElementById('tour-overlay').classList.remove('active');
   document.getElementById('tour-spotlight').classList.add('hidden');
   if(_tourResizeObs){ _tourResizeObs.disconnect(); _tourResizeObs = null; }
   sessionStorage.setItem(TOUR_SEEN_KEY, '1');
+}
+
+function _pulseHelpBtn(){
+  const btn = document.getElementById('hdr-help-btn');
+  if(!btn) return;
+  btn.classList.add('help-pulse');
+  setTimeout(() => btn.classList.remove('help-pulse'), 3500);
+}
+
+// ── Mini-tour: reuses main tour overlay/card/spotlight machinery ────────────
+// Each step: { target, heading, body, placement, next, onEnter }
+// onEnter() fires before render — use it to open panels so targets exist in DOM.
+function startMiniTour(steps){
+  _miniSteps = steps;
+  _tourStep  = 0;
+  _tourActive = true;
+  document.getElementById('tour-overlay').classList.add('active');
+  _miniRender();
+}
+
+function _miniNext(){
+  if(_tourStep < _miniSteps.length - 1){
+    _tourStep++;
+    _miniRender();
+  } else {
+    _tourEnd(false);
+    _miniSteps = [];
+  }
+}
+
+function _miniRender(){
+  const step   = _miniSteps[_tourStep];
+  const isLast = _tourStep === _miniSteps.length - 1;
+
+  // Fire any side-effect before rendering (e.g. open chat panel)
+  if(step.onEnter) step.onEnter();
+
+  const spotlight = document.getElementById('tour-spotlight');
+  const card      = document.getElementById('tour-card');
+
+  // Step label
+  document.getElementById('tour-step-label').textContent =
+    _miniSteps.length > 1 ? `Step ${_tourStep + 1} of ${_miniSteps.length}` : '';
+
+  // Heading
+  document.getElementById('tour-heading').textContent = step.heading;
+
+  // Body
+  const bodyEl = document.getElementById('tour-body');
+  bodyEl.innerHTML = ''; // safe: we only put static strings from our own code below
+  if(step.body){
+    const p = document.createElement('div');
+    p.textContent = step.body;
+    bodyEl.appendChild(p);
+  }
+
+  // Progress dots
+  const prog = document.getElementById('tour-progress');
+  prog.innerHTML = '';
+  _miniSteps.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'tour-dot' + (i === _tourStep ? ' active' : '');
+    prog.appendChild(dot);
+  });
+
+  // Next button
+  const nextBtn = document.getElementById('tour-btn-next');
+  nextBtn.textContent = step.next || (isLast ? 'Got it' : 'Next');
+  nextBtn.onclick = e => { e.stopPropagation(); _miniNext(); };
+
+  // Spotlight + card positioning
+  if(!step.target){
+    spotlight.classList.add('hidden');
+    card.className = 'tour-card-center';
+    card.style.top = ''; card.style.left = ''; card.style.right = ''; card.style.bottom = '';
+  } else {
+    card.className = '';
+    spotlight.classList.remove('hidden');
+    // Small delay so onEnter panels can paint before we measure them
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        _tourPosition(step);
+        if(_tourResizeObs) _tourResizeObs.disconnect();
+        _tourResizeObs = new ResizeObserver(() => { if(_tourActive) _tourPosition(step); });
+        _tourResizeObs.observe(document.documentElement);
+      });
+    });
+  }
+}
+
+// Path A: Fill it in yourself
+function _startNoAITour(){
+  startMiniTour([
+    {
+      target: '#hdr-name',
+      heading: 'Start here: your name',
+      body: 'Click this to set your name. Make it yours.',
+      placement: 'below',
+    },
+    {
+      target: '.hdr-left',
+      heading: 'Set your main quest',
+      body: 'One sentence: what are you actually working toward right now? Click to edit.',
+      placement: 'below',
+    },
+    {
+      target: '.tab-nav',
+      heading: 'Fill in tabs at your own pace',
+      body: 'Practice, Quests, Enemies, Allies. No rush. Add one thing at a time as it comes to you.',
+      placement: 'below',
+    },
+    {
+      target: '#hdr-help-btn',
+      heading: "That's all you need",
+      body: 'This purple button is always here. It replays this tour and has the full guide whenever you want it.',
+      placement: 'left',
+      next: 'Got it',
+    },
+  ]);
+}
+
+// Path B: Chat inside the app
+function _startChatTour(){
+  startMiniTour([
+    {
+      target: '#chat-btn',
+      heading: 'Open Chat',
+      body: "Tap this button. That's it. The app will walk you through connecting your AI from inside.",
+      placement: 'above',
+    },
+    {
+      target: '#chat-hdr-settings-btn',
+      heading: 'Connect your AI here',
+      body: "Tap the gear icon. You can use Ollama (free, runs on your computer) or paste in a cloud API key. Takes about two minutes.",
+      placement: 'left',
+      onEnter(){ openChat(); },
+    },
+    {
+      target: '#chat-hdr-settings-btn',
+      heading: 'Then just talk',
+      body: "Once connected, close settings and start a conversation. Tell your AI what is going on in your life. Your sheet fills itself in from what you say.",
+      placement: 'left',
+      next: 'Got it',
+    },
+  ]);
+}
+
+// Path C: Copy-paste with your AI
+function _startCopyPasteTour(){
+  startMiniTour([
+    {
+      target: null,
+      heading: 'Step 1: journal with your AI',
+      body: 'Open your AI (ChatGPT, Claude, anything). Download instructions.md from the help menu, upload it, then just talk. Cover your goals, habits, what is working and what is not. 10 to 20 minutes is plenty.',
+      next: 'Next: bringing it back',
+    },
+    {
+      target: '#data-btn',
+      heading: 'Step 2: bring the data back here',
+      body: 'When you are done chatting, ask your AI: "Give me my character-sheet data as JSON". Then tap this Data button and choose Import. Paste what it gave you. Done.',
+      placement: 'above',
+      next: 'Got it',
+    },
+  ]);
 }
 
 function _tourNext(){
@@ -17219,7 +17427,7 @@ function _tourNext(){
 
 function _tourScrimClick(){
   // Click outside the card advances the tour (feels natural)
-  _tourNext();
+  if(_miniSteps.length > 0) _miniNext(); else _tourNext();
 }
 
 function _tourRender(){
@@ -17242,9 +17450,9 @@ function _tourRender(){
     const ctaRow = document.createElement('div');
     ctaRow.className = 'tour-cta-row';
     const opts = [
-      { label: 'Fill it in yourself', sub: 'Type directly into any field. No AI needed, works offline.', action: ()=>{ _tourEnd(false); openHelpModal(); } },
-      { label: 'Chat inside the app', sub: 'Connect your AI and just talk. Your sheet fills itself in. Recommended.', action: ()=>{ _tourEnd(false); openHelpModal(); } },
-      { label: 'Copy-paste with your AI', sub: 'Journal in any AI, then import the result here.', action: ()=>{ _tourEnd(false); openHelpModal(); } },
+      { label: 'Fill it in yourself', sub: 'Type directly into any field. No AI needed, works offline.', action: ()=>{ _tourEnd(false); _startNoAITour(); } },
+      { label: 'Chat inside the app', sub: 'Connect your AI and just talk. Your sheet fills itself in. Recommended.', action: ()=>{ _tourEnd(false); _startChatTour(); } },
+      { label: 'Copy-paste with your AI', sub: 'Journal in any AI, then import the result here.', action: ()=>{ _tourEnd(false); _startCopyPasteTour(); } },
     ];
     opts.forEach(o => {
       const btn = document.createElement('button');
@@ -17260,7 +17468,7 @@ function _tourRender(){
     bodyEl.appendChild(ctaRow);
     const note = document.createElement('div');
     note.style.cssText = 'font-size:13px;color:var(--text-dim);line-height:1.5;margin-top:4px;';
-    note.textContent = 'Save the file to your computer, then open it in your browser. The setup guide walks you through each option.';
+    note.textContent = 'Save the file to your computer, then open it in your browser. Each option walks you through your chosen path step by step.';
     bodyEl.appendChild(note);
   } else if(step.body){
     bodyEl.innerHTML = step.body; // static internal content, no user data
@@ -18029,6 +18237,18 @@ function lockWipeAndReset(){
   for(const k of keysToRemove) localStorage.removeItem(k);
   location.reload();
 }
+function lockWipeAndOpenImport(){
+  if(IS_DEMO) return;
+  const keysToRemove = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k) keysToRemove.push(k);
+  }
+  for(const k of keysToRemove) localStorage.removeItem(k);
+  // Reload and open import modal automatically
+  sessionStorage.setItem('cs-open-import-on-load', '1');
+  location.reload();
+}
 
 // ── Settings modal ─────────────────────────────────────────
 function updatePwStrength(val){
@@ -18298,7 +18518,14 @@ function settingsSaveCloseConfirm(){
   if (el) localStorage.setItem(CLOSE_CONFIRM_KEY, el.checked ? '1' : '0');
 }
 // ── Daily check-in reminder ─────────────────────────────────
-let _dcrDismissTimer = null;
+const DCR_DISMISS_KEY = 'cs-dcr-dismissed-v1'; // { date } — dismissed for this pulse date
+function _dcrDismissedToday() {
+  try { const d = JSON.parse(localStorage.getItem(DCR_DISMISS_KEY) || '{}'); return d.date === _pulseDate(); } catch { return false; }
+}
+function _dcrMarkDismissed() {
+  if (IS_DEMO) return;
+  try { localStorage.setItem(DCR_DISMISS_KEY, JSON.stringify({ date: _pulseDate() })); } catch {}
+}
 function _pendingCheckins() {
   const items = [];
   if (!_vitalsCheckinDoneToday('hp'))          items.push('HP');
@@ -18314,16 +18541,16 @@ function _showDailyCheckinReminder() {
   const itemsEl = document.getElementById('daily-checkin-items');
   if (!el || !itemsEl) return;
   if (!items.length) { el.style.display = 'none'; return; }
+  if (_dcrDismissedToday()) return;
   itemsEl.textContent = items.join(', ');
   el.style.display = 'flex';
-  clearTimeout(_dcrDismissTimer);
-  _dcrDismissTimer = setTimeout(() => { if (el) el.style.display = 'none'; }, 14000);
 }
 function _updateDailyCheckinReminder() {
-  const el = document.getElementById('daily-checkin-reminder');
-  if (!el || el.style.display === 'none') return; // only update if already visible
   const items = _pendingCheckins();
+  const el = document.getElementById('daily-checkin-reminder');
+  if (!el) return;
   if (!items.length) { el.style.display = 'none'; return; }
+  if (el.style.display === 'none') return; // don't re-show if hidden (dismissed or not yet triggered)
   const itemsEl = document.getElementById('daily-checkin-items');
   if (itemsEl) itemsEl.textContent = items.join(', ');
 }
@@ -18694,6 +18921,8 @@ function dpDoneForToday() {
     });
   });
   _markPulseDone();
+  const dcrEl = document.getElementById('daily-checkin-reminder');
+  if (dcrEl) dcrEl.style.display = 'none';
   dpClose();
 }
 
@@ -18806,7 +19035,13 @@ function _init(){
   // Separate periodic pulse check: catches the 2am cutoff case where _localDate() hasn't
   // changed but _pulseDate() has (user opened app before 2am, now it's after 2am).
   setInterval(()=>{ maybeShowDailyPulse(); }, 60000);
-  _initPINCheck().then(()=>{ if(!_hasPIN()) maybeShowWelcome(); });
+  _initPINCheck().then(()=>{
+    if(!_hasPIN()) maybeShowWelcome();
+    if(sessionStorage.getItem('cs-open-import-on-load')){
+      sessionStorage.removeItem('cs-open-import-on-load');
+      setTimeout(openModal, 300);
+    }
+  });
   maybeShowResetUndoBanner();
 }
 
@@ -22342,6 +22577,7 @@ async function gitSyncPull() {
     saveState(appState);
     render(appState);
     renderStatsHistoryChart(); renderStatusHistoryChart();
+    dismissSetupBanner();
     gs.lastPulled = new Date().toISOString();
     await saveGitSyncSettings(gs);
     showImportToast('Pulled and merged from ' + gs.owner + '/' + gs.repo + '.');
@@ -22915,9 +23151,12 @@ document.addEventListener('keydown', function(e) {
 
 <!-- Daily check-in reminder toast (shown when any log is pending for today) -->
 <div id="daily-checkin-reminder" style="display:none;">
-  <span class="dcr-label">Log today:</span>
-  <span class="dcr-items" id="daily-checkin-items"></span>
-  <button class="dcr-close" onclick="document.getElementById('daily-checkin-reminder').style.display='none'" title="Dismiss">&#x2715;</button>
+  <span class="dcr-body" onclick="openDailyPulse()" title="Open check-in">
+    <span class="dcr-label">Log today:</span>
+    <span class="dcr-items" id="daily-checkin-items"></span>
+  </span>
+  <button class="dcr-open" onclick="openDailyPulse()" title="Open check-in modal">Open</button>
+  <button class="dcr-close" onclick="_dcrMarkDismissed();this.closest('#daily-checkin-reminder').style.display='none'" title="Dismiss for today">&#x2715;</button>
 </div>
 
 <!-- ══ DAILY PULSE MODAL ═════════════════════════════════════ -->
