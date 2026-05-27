@@ -4,7 +4,7 @@
 
 Most journalling disappears into a void. Insights get forgotten, negative patterns repeat, and progress feels invisible. character-sheet turns self-reflection into an RPG: earn XP for understanding yourself, name your enemies, track your quests, and watch your character sheet grow more detailed over time.
 
-🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** — no download needed
+🎮 **[Try the live demo](https://sam-holmes2.github.io/character-sheet/character-sheet.html)** (no download needed)
 
 <img width="1642" height="1116" alt="image" src="https://github.com/user-attachments/assets/7a3d1196-b1cf-49fd-b1b4-be3e9d98f2d5" />
 
@@ -29,7 +29,7 @@ Most journalling disappears into a void. Insights get forgotten, negative patter
 
 ## Privacy and security
 
-Your data stays on your device. Nothing is transmitted automatically — you decide what leaves your machine and when.
+Your data stays on your device. Nothing is transmitted automatically. You decide what leaves your machine and when.
 
 - **`data.json` is your private diary.** Any AI provider you journal with (Claude, ChatGPT, etc.) may store or use what you share. Check their privacy settings to opt out.
 - **Think before syncing `data.json` to cloud storage.** Uploading to Google Drive, Dropbox, or iCloud means trusting that provider with your journal. `character-sheet.html` and `instructions.md` are fine to sync.
@@ -40,7 +40,7 @@ Your data stays on your device. Nothing is transmitted automatically — you dec
 
 **Password lock.** The app has an optional password that encrypts all your data using AES-256-GCM with PBKDF2 key derivation (200,000 iterations). It protects against someone who opens your browser or reads your storage files directly. It does not protect against malware with access to browser memory or someone using your device while the app is already unlocked.
 
-[Full threat model](journalling-threat-model.md) — privacy risks broken down across every journalling approach.
+[Full threat model](journalling-threat-model.md): privacy risks broken down across every journalling approach.
 
 ---
 
@@ -123,9 +123,9 @@ Use the [live demo](https://sam-holmes2.github.io/character-sheet/character-shee
 
 1. Create an account at [console.anthropic.com](https://console.anthropic.com) (separate from Claude.ai)
 2. Go to **API Keys** and create a new key
-3. Store the key in a password manager — it cannot be retrieved from Anthropic after creation
+3. Store the key in a password manager. It cannot be retrieved from Anthropic after creation
 4. Enable two-factor authentication on your Anthropic account
-5. In the app: click **Security** (bottom bar) and set a password first — the app won't save an API key without one
+5. In the app: click **Security** (bottom bar) and set a password first. The app won't save an API key without one
 6. Open Chat Settings (gear icon in the chat panel), select a Claude model, and paste your key
 
 > Your API key grants access to your Anthropic account. Anyone with it can generate charges. Never paste it into websites you don't trust.
@@ -134,10 +134,10 @@ Use the [live demo](https://sam-holmes2.github.io/character-sheet/character-shee
 
 ### D. Cloud AI via copy-paste (no API key)
 
-Use any AI — Claude, ChatGPT, Gemini — through its normal web interface. No in-app chat or API key needed.
+Use any AI (Claude, ChatGPT, Gemini) through its normal web interface. No in-app chat or API key needed.
 
 **First session:**
-1. Download [character-sheet.html](character-sheet.html) and [instructions.md](instructions.md) — click each link, then the download icon
+1. Download [character-sheet.html](character-sheet.html) and [instructions.md](instructions.md) (click each link, then the download icon)
 2. Create an AI project (e.g. [claude.ai](https://claude.ai) → New Project)
 3. Upload `instructions.md` to the project knowledge
 4. Paste the [quickstart prompt](#quickstart-prompt) and start talking
@@ -159,13 +159,13 @@ Start by asking me what's going on in my life right now: what I'm working on, wh
 Once you have a reasonable picture, generate my data.json using the format in instructions.md. We can fill in the gaps over time through regular sessions.
 ```
 
-Optional: for a fuller first session, try the **[Deep Dive](deep-dive.md)** — a structured interview covering all main fields. For richer session prompts, also upload `journalling-prompts.md` to project knowledge alongside `instructions.md`.
+Optional: for a fuller first session, try the **[Deep Dive](deep-dive.md)**, a structured interview covering all main fields. For richer session prompts, also upload `journalling-prompts.md` to project knowledge alongside `instructions.md`.
 
 ---
 
 ## Each session (copy-paste workflow)
 
-1. Start a new chat in your AI project — it already has your context from project knowledge
+1. Start a new chat in your AI project (it already has your context from project knowledge)
 2. Journal freely, or pick a [session mode](#session-modes)
 3. Ask your AI to *"Update my data."* For shorter sessions this produces a [Partial update](tips.md#partial-updates) to keep token usage low
 4. Replace `data.json` in project knowledge: remove the old version, upload the new one
@@ -240,23 +240,23 @@ Contributions welcome: if you build something useful, [open a pull request](http
 ## Roadmap
 
 - **Diagramming relationships** between quests, skills, enemies, etc.
-- **Skill trees** — structured skill progression with branching paths
-- **Export to PDF** — a read-only view of your sheet
-- **Quest dependencies** — unlock side quests when others complete
-- **Themes / skins** — alternate visual styles beyond the default dark RPG look
-- **Sync / backup** — optional encrypted export or cloud sync without compromising local-first principles
+- **Skill trees**: structured skill progression with branching paths
+- **Export to PDF**: a read-only view of your sheet
+- **Quest dependencies**: unlock side quests when others complete
+- **Themes / skins**: alternate visual styles beyond the default dark RPG look
+- **Sync / backup**: optional encrypted export or cloud sync without compromising local-first principles
 
-The immediate focus is getting the app in front of real users, collecting feedback, and fixing bugs. Feature requests and bug reports welcome — [open an issue](https://github.com/sam-holmes2/character-sheet/issues).
+The immediate focus is getting the app in front of real users, collecting feedback, and fixing bugs. Feature requests and bug reports welcome: [open an issue](https://github.com/sam-holmes2/character-sheet/issues).
 
 ---
 
 ## Why I built this
 
-> *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."* — Northlane
+> *"We are longing for an understanding of the universe around us when we barely understand the universe within our minds."* (Northlane)
 
 AI supercharged journalling and made self-reflection genuinely useful for me, but every conversation started mostly from scratch. The real insights lived in chat logs I'd never reread. I wanted somewhere to see that reflection clearly, own it, and build on it over time.
 
-I'm a professional cyber security consultant with real concerns about trusting any company with deep personal data. character-sheet was inspired by [Obsidian.md](https://obsidian.md/) and the principle that users should own their knowledge on their own devices. The app is a single HTML file with no server, no telemetry, and no accounts — and if you want to go further, pair it with a local model via Ollama so no journal content ever leaves your machine.
+I'm a professional cyber security consultant with real concerns about trusting any company with deep personal data. character-sheet was inspired by [Obsidian.md](https://obsidian.md/) and the principle that users should own their knowledge on their own devices. The app is a single HTML file with no server, no telemetry, and no accounts. If you want to go further, pair it with a local model via Ollama so no journal content ever leaves your machine.
 
 If social media can use gamification to hold attention and keep people scrolling, I'd rather use powerful technology to help people understand and improve themselves.
 
