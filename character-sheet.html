@@ -994,14 +994,14 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .inbox-item.processed { opacity:0.38; }
 .inbox-priority { font-family:var(--mono); font-size:11px; color:var(--gold); width:14px; flex-shrink:0; padding-top:1px; }
 .inbox-body { flex:1; min-width:0; }
-.inbox-content { font-size:13px; color:var(--text); line-height:1.4; }
+.inbox-content { font-size:14px; color:var(--text); line-height:1.4; }
 .inbox-meta { display:flex; align-items:center; gap:6px; margin-top:4px; flex-wrap:wrap; }
-.inbox-type-badge { font-size:10px; font-family:var(--mono); padding:1px 6px; border-radius:10px; background:rgba(96,144,200,0.15); color:#6090c8; letter-spacing:0.05em; }
-.inbox-source { font-size:10px; color:var(--text-dim); font-family:var(--mono); }
-.inbox-date { font-size:10px; color:var(--text-dim); font-family:var(--mono); }
-.inbox-done-btn { background:none; border:1px solid rgba(74,170,114,0.35); color:#4aaa72; font-size:11px; font-family:var(--mono); cursor:pointer; border-radius:4px; padding:2px 7px; flex-shrink:0; margin-top:1px; transition:background 0.15s; }
+.inbox-type-badge { font-size:11px; font-family:var(--mono); padding:1px 6px; border-radius:10px; background:rgba(96,144,200,0.15); color:#6090c8; letter-spacing:0.05em; }
+.inbox-source { font-size:11px; color:var(--text-dim); font-family:var(--mono); }
+.inbox-date { font-size:11px; color:var(--text-dim); font-family:var(--mono); }
+.inbox-done-btn { background:none; border:1px solid rgba(74,170,114,0.35); color:#4aaa72; font-size:12px; font-family:var(--mono); cursor:pointer; border-radius:4px; padding:2px 7px; flex-shrink:0; margin-top:1px; transition:background 0.15s; }
 .inbox-done-btn:hover { background:rgba(74,170,114,0.12); }
-.inbox-empty { padding:16px; text-align:center; color:var(--text-dim); font-size:13px; font-family:var(--mono); }
+.inbox-empty { padding:16px; text-align:center; color:var(--text-dim); font-size:14px; font-family:var(--mono); }
 #chat-btn.chat-btn-loading { position:relative; }
 #chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:#2a9090; border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
 @keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
@@ -1052,7 +1052,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .qt-section-hdr::before { content:'◈  '; }
 .qt-section-hdr.no-prefix::before { content:''; }
 .qt-main-hdr::before { content:'!  '; font-size:15px; font-weight:700; }
-.section-desc { font-size:15px; color:var(--text-dim); letter-spacing:0.02em; margin-top:-10px; margin-bottom:14px; }
+.section-desc { font-size:16px; color:var(--text-dim); letter-spacing:0.02em; margin-top:-10px; margin-bottom:14px; }
 .mqcard {
   background:rgba(200,168,74,0.04); border:1px solid rgba(200,168,74,0.2);
   border-left:3px solid var(--gold); border-radius:6px; padding:18px 20px;
@@ -2959,10 +2959,16 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* ══ STATS panel — uses radar-panel; keep for margin override ══ */
 .stats-card { margin-bottom:18px; }
+/* ══ READABILITY BUMP ════════════════════════════════════════ */
+/* Increases small UI text that was hard to read at 100% zoom */
+.help-note, .help-col-sub, .sqcard-desc, .cqcard-desc, .lore-card-desc { font-size:15px; }
+.chat-api-note, .modal p { font-size:14px; }
+.radar-panel-desc, .radar-chart-lbl, .practice-record .section-desc { font-size:14px; }
 /* ══ TRENDS TAB ══════════════════════════════════════════════ */
-.trends-layout { display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start; }
+.trends-layout { display:grid; grid-template-columns:300px 1fr; gap:16px; align-items:start; }
 @media (max-width:700px) { .trends-layout { grid-template-columns:1fr; } }
-.trends-chart-col { min-width:0; }
+.trends-chart-col { min-width:0; order:2; }
+.trends-legend-col { order:1; }
 #trends-canvas { width:100%; display:block; height:260px; cursor:crosshair; }
 .trends-controls { display:flex; gap:5px; justify-content:center; margin:7px 0 0; }
 .trends-range-btn { background:none; border:1px solid rgba(255,255,255,0.12); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.08em; padding:3px 9px; border-radius:4px; cursor:pointer; transition:border-color 0.15s,color 0.15s; }
@@ -4737,6 +4743,11 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
         <div class="trends-group-hdr"><span style="color:#60a0ff">✦</span>&nbsp;Mana</div>
         <div class="trends-group-toggles" id="trends-toggles-mana"></div>
         <div id="trends-legend-mana"></div>
+      </div>
+      <div class="trends-legend-group" id="trends-quests-group" style="display:none;">
+        <div class="trends-group-hdr">◈&nbsp;Quests</div>
+        <div class="trends-group-toggles" id="trends-toggles-quests"></div>
+        <div id="trends-legend-quests"></div>
       </div>
     </div>
   </div>
@@ -17674,6 +17685,56 @@ async function _buildTrendsSlots(rangeD) {
     });
   });
 
+  // ── Dynamic regular quest data ──────────────────────────────
+  const dynSeries = _buildDynamicQuestSeries();
+  if (dynSeries.length) {
+    const dynRaw = {};
+    dynSeries.forEach(qs => { dynRaw[qs.key] = _loadRQHistoryAllNames(qs.actId); });
+    const activities = (appState && appState.activities) || [];
+
+    slots.forEach(s => {
+      dynSeries.forEach(qs => {
+        const hist = dynRaw[qs.key] || [];
+        const act = activities.find(a => a.id === qs.actId);
+        const resetPeriod = act ? (act.resetPeriod || 'day') : 'day';
+        let periodKey;
+        try { periodKey = getPeriodKey(new Date(s.date + 'T12:00:00'), resetPeriod); }
+        catch(e) { periodKey = s.date; }
+        const entry = hist.find(h => h.period === periodKey && !h.void);
+        let val = 0;
+        if (entry) {
+          val = qs.source === 'rquest-sub'
+            ? ((entry.subsDone || []).includes(qs.subId) ? 1 : 0)
+            : (entry.value || 0);
+        }
+        // Merge with cowork-log (take max — either source counts)
+        if (qs.coworkKey && cwByDate[s.date]) val = Math.max(val, cwByDate[s.date][qs.coworkKey] || 0);
+        s['_rqraw_' + qs.key] = val;
+      });
+    });
+
+    dynSeries.forEach(qs => {
+      const rawVals = slots.map(s => s['_rqraw_' + qs.key] || 0);
+      const firstIdx = rawVals.findIndex(v => v > 0);
+      const startDate = firstIdx >= 0 ? slots[firstIdx].date : null;
+      if (qs.norm === 'completion7') {
+        slots.forEach((s, i) => {
+          if (!startDate || s.date < startDate) { s[qs.key] = null; return; }
+          const w = slots.slice(Math.max(0, i-6), i+1).filter(d => d.date >= startDate);
+          s[qs.key] = w.length ? w.reduce((acc,d) => acc + ((d['_rqraw_' + qs.key] || 0) > 0 ? 1 : 0), 0) / 7 * 100 : null;
+        });
+      } else {
+        const posVals = rawVals.filter(v => v > 0).sort((a,b)=>a-b);
+        const maxVal = posVals.length ? Math.max(posVals[Math.floor(posVals.length*0.9)] || posVals[posVals.length-1], 1) : 1;
+        slots.forEach(s => {
+          if (!startDate || s.date < startDate) { s[qs.key] = null; return; }
+          s[qs.key] = (s['_rqraw_' + qs.key] || 0) > 0 ? Math.min(100, s['_rqraw_' + qs.key] / maxVal * 100) : 0;
+        });
+      }
+    });
+  }
+  // ── end dynamic quest data ──────────────────────────────────
+
   return slots;
 }
 
@@ -17704,7 +17765,7 @@ function _pearsonR(xs, ys) {
 
 function _computeTrendsCorrelations(slots) {
   const results = [];
-  const keys = TRENDS_SERIES.map(s => s.key);
+  const keys = _getAllTrendsSeries().map(s => s.key);
   for (let i=0; i<keys.length; i++) {
     for (let j=i+1; j<keys.length; j++) {
       const ka=keys[i], kb=keys[j];
@@ -17727,35 +17788,30 @@ function _renderTrendsCorrelations(slots) {
     return;
   }
   el.innerHTML = '';
-  const seriesByKey = Object.fromEntries(TRENDS_SERIES.map(s=>[s.key,s]));
+  const seriesByKey = Object.fromEntries(_getAllTrendsSeries().map(s=>[s.key,s]));
   pairs.forEach(({ka, kb, r, n}) => {
     const sa = seriesByKey[ka], sb = seriesByKey[kb];
     if (!sa || !sb) return;
     const strength = Math.abs(r) > 0.75 ? 'strong' : 'moderate';
-    const dir = r > 0 ? 'positive' : 'negative';
-    const dirLabel = r > 0 ? 'move together' : 'move in opposite directions';
     const item = document.createElement('div');
-    item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
-
-    const dots = document.createElement('div');
-    dots.style.cssText = 'display:flex;gap:3px;flex-shrink:0;';
-    [sa.color, sb.color].forEach(c => {
-      const d = document.createElement('div');
-      d.style.cssText = `width:7px;height:7px;border-radius:50%;background:${c};`;
-      dots.appendChild(d);
-    });
+    item.style.cssText = 'display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
 
     const txt = document.createElement('span');
-    txt.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--text-mid);flex:1;letter-spacing:0.03em;';
-    txt.textContent = `${sa.label} + ${sb.label} tend to ${dirLabel}`;
+    txt.style.cssText = 'font-size:12px;font-family:var(--mono);flex:1;letter-spacing:0.02em;';
+    const aSpan = document.createElement('span'); aSpan.textContent = sa.label; aSpan.style.color = sa.color;
+    const mid = document.createElement('span'); mid.style.color='var(--text-dim)';
+    mid.textContent = r > 0 ? ' + ' : ' vs ';
+    const bSpan = document.createElement('span'); bSpan.textContent = sb.label; bSpan.style.color = sb.color;
+    const end = document.createElement('span'); end.style.color='var(--text-dim)';
+    end.textContent = r > 0 ? ' rise together' : ' move in opposite directions';
+    txt.append(aSpan, mid, bSpan, end);
 
     const badge = document.createElement('span');
-    const badgeColor = r > 0 ? 'rgba(64,168,96,0.25)' : 'rgba(216,64,64,0.2)';
-    const badgeText = r > 0 ? 'rgba(64,168,96,0.9)' : '#d84040';
-    badge.style.cssText = `font-size:9px;font-family:var(--mono);letter-spacing:0.08em;background:${badgeColor};color:${badgeText};border-radius:3px;padding:1px 5px;flex-shrink:0;`;
-    badge.textContent = `${strength} (r=${r.toFixed(2)}, n=${n})`;
-
-    item.append(dots, txt, badge);
+    const bc = r > 0 ? 'rgba(64,168,96,0.25)' : 'rgba(216,64,64,0.2)';
+    const btc = r > 0 ? 'rgba(64,168,96,0.9)' : '#d84040';
+    badge.style.cssText = `font-size:9px;font-family:var(--mono);letter-spacing:0.08em;background:${bc};color:${btc};border-radius:3px;padding:1px 5px;flex-shrink:0;`;
+    badge.textContent = `${strength} r=${r.toFixed(2)}`;
+    item.append(txt, badge);
     el.appendChild(item);
   });
 }
@@ -17763,7 +17819,7 @@ function _renderTrendsCorrelations(slots) {
 // ── Next-day lagged correlations ────────────────────────────
 function _computeLaggedCorrelations(slots) {
   const results = [];
-  const keys = TRENDS_SERIES.map(s => s.key);
+  const keys = _getAllTrendsSeries().map(s => s.key);
   for (let i = 0; i < keys.length; i++) {
     for (let j = 0; j < keys.length; j++) {
       if (i === j) continue;
@@ -17802,35 +17858,31 @@ function _renderLaggedCorrelations(slots) {
     msg.textContent = 'Not enough overlapping data yet.';
     el.appendChild(msg); return;
   }
-  const seriesByKey = Object.fromEntries(TRENDS_SERIES.map(s => [s.key, s]));
+  const seriesByKey = Object.fromEntries(_getAllTrendsSeries().map(s => [s.key, s]));
   pairs.forEach(({ ka, kb, r, n }) => {
     const sa = seriesByKey[ka], sb = seriesByKey[kb];
     if (!sa || !sb) return;
     const strength = Math.abs(r) > 0.75 ? 'strong' : 'moderate';
-    const dir = r > 0 ? 'higher' : 'lower';
+    const arrow = r > 0 ? '↑' : '↓';
+    const arrowColor = r > 0 ? '#40a860' : '#d84040';
     const item = document.createElement('div');
-    item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
-
-    const dots = document.createElement('div');
-    dots.style.cssText = 'display:flex;gap:3px;flex-shrink:0;align-items:center;';
-    const d1 = document.createElement('div');
-    d1.style.cssText = `width:7px;height:7px;border-radius:50%;background:${sa.color};`;
-    const arr = document.createElement('span');
-    arr.textContent = '→'; arr.style.cssText = 'font-size:9px;color:rgba(255,255,255,0.3);margin:0 1px;';
-    const d2 = document.createElement('div');
-    d2.style.cssText = `width:7px;height:7px;border-radius:50%;background:${sb.color};`;
-    dots.append(d1, arr, d2);
+    item.style.cssText = 'display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
 
     const txt = document.createElement('span');
-    txt.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--text-mid);flex:1;letter-spacing:0.03em;';
-    txt.textContent = `High ${sa.label} today: ${sb.label} tends to be ${dir} tomorrow`;
+    txt.style.cssText = 'font-size:12px;font-family:var(--mono);flex:1;letter-spacing:0.02em;';
+    const aSpan = document.createElement('span'); aSpan.textContent = sa.label; aSpan.style.color = sa.color;
+    const todaySpan = document.createElement('span'); todaySpan.textContent = ' today → '; todaySpan.style.color = 'rgba(255,255,255,0.22)';
+    const arrSpan = document.createElement('span'); arrSpan.textContent = arrow + ' '; arrSpan.style.cssText = `color:${arrowColor};font-size:13px;`;
+    const bSpan = document.createElement('span'); bSpan.textContent = sb.label; bSpan.style.color = sb.color;
+    const tomSpan = document.createElement('span'); tomSpan.textContent = ' tomorrow'; tomSpan.style.color = 'rgba(255,255,255,0.22)';
+    txt.append(aSpan, todaySpan, arrSpan, bSpan, tomSpan);
 
     const badge = document.createElement('span');
     const bc = r > 0 ? 'rgba(64,168,96,0.25)' : 'rgba(216,64,64,0.2)';
     const btc = r > 0 ? 'rgba(64,168,96,0.9)' : '#d84040';
     badge.style.cssText = `font-size:9px;font-family:var(--mono);letter-spacing:0.08em;background:${bc};color:${btc};border-radius:3px;padding:1px 5px;flex-shrink:0;`;
-    badge.textContent = `${strength} (r=${r.toFixed(2)}, n=${n})`;
-    item.append(dots, txt, badge);
+    badge.textContent = `${strength} r=${r.toFixed(2)}`;
+    item.append(txt, badge);
     el.appendChild(item);
   });
 }
@@ -17933,6 +17985,7 @@ async function renderTrendsChart() {
   // Sync meditation colour from activity definition
   const medSeries = TRENDS_SERIES.find(s => s.key === 'meditation');
   if (medSeries && window._medActColor) medSeries.color = window._medActColor;
+  const allSeries = _getAllTrendsSeries();
 
   const dpr = window.devicePixelRatio || 1;
   const W = canvas.offsetWidth || (canvas.parentElement && canvas.parentElement.offsetWidth) || 500;
@@ -18012,7 +18065,11 @@ async function renderTrendsChart() {
   });
 
   // Draw series lines + best-fit
-  const active = TRENDS_SERIES.filter(s => enabled[s.key] !== false);
+  const active = allSeries.filter(s => {
+    if (enabled[s.key] === false) return false;
+    if (s.defaultHidden && enabled[s.key] === undefined) return false;
+    return true;
+  });
   let hasAnyData = false;
   active.forEach(series => {
     const pts = slots.map((s,i)=>s[series.key]!=null?[i,s[series.key]]:null).filter(Boolean);
@@ -18050,7 +18107,8 @@ async function renderTrendsChart() {
   // Nav badge: average of series with actual data (exclude 0 and null)
   const navEl=document.getElementById('nav-trends');
   if(navEl){
-    const validMeta=TRENDS_SERIES
+    const validMeta=allSeries
+      .filter(s=>!(s.defaultHidden && enabled[s.key]===undefined))
       .map(s=>_computeTrendsMeta(slots,s.key))
       .filter(m=>m.current!=null && m.current>0);
     if(validMeta.length){
@@ -18062,7 +18120,7 @@ async function renderTrendsChart() {
     } else { navEl.textContent=''; }
   }
 
-  _renderTrendsLegend(slots, enabled);
+  _renderTrendsLegend(slots, enabled, allSeries);
   _renderTrendsCorrelations(slots);
   _renderLaggedCorrelations(slots);
 }
@@ -18091,12 +18149,18 @@ function _trendsToggleSubgroup(groupKey, keys, enabled) {
   renderTrendsChart();
 }
 
-function _renderTrendsLegend(slots, enabled) {
-  const hpEl   = document.getElementById('trends-legend-hp');
-  const manaEl = document.getElementById('trends-legend-mana');
+function _renderTrendsLegend(slots, enabled, allSeries) {
+  allSeries = allSeries || _getAllTrendsSeries();
+  const hpEl     = document.getElementById('trends-legend-hp');
+  const manaEl   = document.getElementById('trends-legend-mana');
+  const questsEl = document.getElementById('trends-legend-quests');
   if (!hpEl || !manaEl) return;
 
-  const withMeta = TRENDS_SERIES.map(s => ({ ...s, ..._computeTrendsMeta(slots, s.key) }));
+  const withMeta = allSeries.map(s => ({
+    ...s,
+    ..._computeTrendsMeta(slots, s.key),
+    _isHidden: s.defaultHidden && enabled[s.key] === undefined,
+  }));
   const sorted = [...withMeta].sort((a,b) => {
     if (a.current==null && b.current==null) return 0;
     if (a.current==null) return 1;
@@ -18125,51 +18189,125 @@ function _renderTrendsLegend(slots, enabled) {
   buildToggles(document.getElementById('trends-toggles-hp'),   'hp');
   buildToggles(document.getElementById('trends-toggles-mana'), 'mana');
 
+  // Quests group: show only if there are quest series
+  const questGroup = document.getElementById('trends-quests-group');
+  const questSeries = allSeries.filter(s => s.group === 'quests');
+  if (questGroup) questGroup.style.display = questSeries.length ? '' : 'none';
+  if (questSeries.length) {
+    const togglesEl = document.getElementById('trends-toggles-quests');
+    if (togglesEl) {
+      togglesEl.innerHTML = '';
+      // "All active" toggle
+      const activeKeys = questSeries.filter(s => !s.archived).map(s => s.key);
+      const allActiveOn = activeKeys.every(k => enabled[k] !== false && !(allSeries.find(s=>s.key===k)?.defaultHidden && enabled[k]===undefined));
+      const btn = document.createElement('button');
+      btn.className = 'trends-group-btn';
+      btn.textContent = 'All active';
+      btn.style.borderColor = allActiveOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
+      btn.style.color = allActiveOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
+      btn.onclick = () => {
+        const cur = _getTrendsEnabled();
+        activeKeys.forEach(k => { cur[k] = !allActiveOn; });
+        try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e) {}
+        renderTrendsChart();
+      };
+      togglesEl.appendChild(btn);
+      // "Show archived" toggle
+      const archivedKeys = questSeries.filter(s => s.archived).map(s => s.key);
+      if (archivedKeys.length) {
+        const anyArchivedOn = archivedKeys.some(k => enabled[k] === true);
+        const archBtn = document.createElement('button');
+        archBtn.className = 'trends-group-btn';
+        archBtn.textContent = 'Archived';
+        archBtn.style.borderColor = anyArchivedOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
+        archBtn.style.color = anyArchivedOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
+        archBtn.onclick = () => {
+          const cur = _getTrendsEnabled();
+          archivedKeys.forEach(k => { cur[k] = !anyArchivedOn; });
+          try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e) {}
+          renderTrendsChart();
+        };
+        togglesEl.appendChild(archBtn);
+      }
+    }
+  }
+
+  function buildItem(s) {
+    const isOn = !s._isHidden && enabled[s.key] !== false;
+    const item = document.createElement('div');
+    item.className = 'trends-legend-item';
+    item.title = s.current!=null ? `${s.label}: ${Math.round(s.current)}/100` : `${s.label}: no data`;
+
+    const sw = document.createElement('div');
+    sw.className = 'trends-swatch';
+    sw.style.borderColor = s.color;
+    sw.style.background  = isOn ? s.color : 'transparent';
+    sw.style.opacity = isOn ? '1' : '0.4';
+    sw.onclick = e => {
+      e.stopPropagation();
+      const cur = _getTrendsEnabled();
+      cur[s.key] = !isOn;
+      try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e2) {}
+      renderTrendsChart();
+    };
+
+    const dot = document.createElement('div');
+    dot.className = 'trends-dot';
+    dot.style.background = levelColors[s.levelClass];
+
+    const arrow = document.createElement('span');
+    arrow.className = 'trends-arrow';
+    let arrowChar='→', arrowCol='rgba(255,255,255,0.25)';
+    if (s.trend > 6)       { arrowChar='↑'; arrowCol='#40a860'; }
+    else if (s.trend < -6) { arrowChar='↓'; arrowCol='#d84040'; }
+    arrow.textContent = arrowChar; arrow.style.color = arrowCol;
+
+    const lbl = document.createElement('span');
+    lbl.className = 'trends-lbl';
+    lbl.textContent = s.label;
+    lbl.style.color   = isOn ? 'var(--text-mid)' : 'var(--text-dim)';
+    lbl.style.opacity = isOn ? '1' : '0.45';
+    if (s.archived) lbl.style.fontStyle = 'italic';
+
+    const val = document.createElement('span');
+    val.className = 'trends-val';
+    val.textContent = s.current!=null ? Math.round(s.current) : '--';
+    val.style.color = levelColors[s.levelClass];
+
+    item.append(sw, dot, arrow, lbl, val);
+    return item;
+  }
+
   function buildGroup(el, groupKey) {
+    if (!el) return;
     el.innerHTML = '';
-    sorted.filter(s=>s.group===groupKey).forEach(s => {
-      const isOn = enabled[s.key] !== false;
-      const item = document.createElement('div');
-      item.className = 'trends-legend-item';
-      item.title = s.current!=null ? `${s.label}: ${Math.round(s.current)}/100` : `${s.label}: no data`;
-
-      const sw = document.createElement('div');
-      sw.className = 'trends-swatch';
-      sw.style.borderColor = s.color;
-      sw.style.background  = isOn ? s.color : 'transparent';
-      sw.style.opacity = isOn ? '1' : '0.4';
-      sw.onclick = e => { e.stopPropagation(); _setTrendsToggle(s.key, !isOn); renderTrendsChart(); };
-
-      const dot = document.createElement('div');
-      dot.className = 'trends-dot';
-      dot.style.background = levelColors[s.levelClass];
-
-      const arrow = document.createElement('span');
-      arrow.className = 'trends-arrow';
-      let arrowChar='→', arrowCol='rgba(255,255,255,0.25)';
-      if (s.trend > 6)      { arrowChar='↑'; arrowCol='#40a860'; }
-      else if (s.trend < -6){ arrowChar='↓'; arrowCol='#d84040'; }
-      arrow.textContent = arrowChar;
-      arrow.style.color = arrowCol;
-
-      const lbl = document.createElement('span');
-      lbl.className = 'trends-lbl';
-      lbl.textContent = s.label;
-      lbl.style.color   = isOn ? 'var(--text-mid)' : 'var(--text-dim)';
-      lbl.style.opacity = isOn ? '1' : '0.45';
-
-      const val = document.createElement('span');
-      val.className = 'trends-val';
-      val.textContent = s.current!=null ? Math.round(s.current) : '--';
-      val.style.color = levelColors[s.levelClass];
-
-      item.append(sw, dot, arrow, lbl, val);
-      el.appendChild(item);
-    });
+    sorted.filter(s=>s.group===groupKey).forEach(s => el.appendChild(buildItem(s)));
   }
 
   buildGroup(hpEl,   'hp');
   buildGroup(manaEl, 'mana');
+
+  // Quests group: group by parent quest, show sub-activities indented
+  if (questsEl) {
+    questsEl.innerHTML = '';
+    const questSorted = sorted.filter(s => s.group === 'quests');
+    // Group sub-activities under their parent
+    const seen = new Set();
+    questSorted.forEach(s => {
+      if (s.parentLabel && !seen.has(s.parentLabel)) {
+        seen.add(s.parentLabel);
+        const groupLbl = document.createElement('div');
+        groupLbl.style.cssText = 'font-size:10px;font-family:var(--mono);color:var(--text-dim);letter-spacing:0.06em;padding:3px 0 1px;opacity:0.6;';
+        groupLbl.textContent = s.parentLabel + (s.archived ? ' (archived)' : '');
+        questsEl.appendChild(groupLbl);
+      }
+      const item = buildItem(s);
+      if (s.parentLabel) item.style.paddingLeft = '10px';
+      questsEl.appendChild(item);
+    });
+    // Non-sub-activity quests (no parentLabel)
+    questSorted.filter(s => !s.parentLabel).forEach(s => questsEl.appendChild(buildItem(s)));
+  }
 }
 
 // ── end TRENDS TAB ──────────────────────────────────────────
@@ -23908,6 +24046,95 @@ function _schedulePlainAutoSync() {
   }, 300000); // 5 minutes after last change
 }
 // ── end plain sync ──────────────────────────────────────────
+
+// ── Dynamic regular quest series ─────────────────────────────
+// Maps sub-activity/quest names to cowork-log.json fields for data merging
+const _COWORK_KEY_MAP = {
+  'foot rehab':'footRehab','foot':'footRehab','rehab':'footRehab',
+  'mobility':'mobility','flexibility':'flexibility',
+  'pull':'pull','push':'push',
+  'bjj':'bjj','jiu jitsu':'bjj','jiu-jitsu':'bjj',
+  'cs check-in':'csCheckin','check-in':'csCheckin','checkin':'csCheckin',
+};
+function _nameToCoworkKey(name) {
+  if (!name) return null;
+  const n = name.toLowerCase().trim();
+  for (const [k, v] of Object.entries(_COWORK_KEY_MAP)) { if (n.includes(k)) return v; }
+  return null;
+}
+
+const _RQ_COLORS = ['#c8a84a','#a068e0','#2ab8b0','#e05060','#e09030','#a8c840',
+                    '#9868d8','#6848b8','#d06090','#4ab890','#c06060','#6090c8'];
+
+function _buildDynamicQuestSeries() {
+  const series = [];
+  const activities = (appState && appState.activities) || [];
+  activities.forEach((act, i) => {
+    if (!act || !act.id) return;
+    if (act.type === 'text') return; // no numeric data
+    const baseColor = act.color || _RQ_COLORS[i % _RQ_COLORS.length];
+    const isBreakdown = act.type === 'checkbox' && (act.subActivities || []).length > 0;
+    if (isBreakdown) {
+      (act.subActivities || []).forEach(sub => {
+        series.push({
+          key: 'rq_' + act.id + '_' + sub.id,
+          label: sub.name || act.name,
+          parentLabel: act.name,
+          group: 'quests',
+          color: sub.color || baseColor,
+          source: 'rquest-sub',
+          actId: act.id, subId: sub.id,
+          norm: 'completion7',
+          coworkKey: _nameToCoworkKey(sub.name),
+          archived: !!act.archived,
+          defaultHidden: !!act.archived,
+        });
+      });
+    } else {
+      series.push({
+        key: 'rq_' + act.id,
+        label: act.name || ('Quest ' + i),
+        group: 'quests',
+        color: baseColor,
+        source: 'rquest-dynamic',
+        actId: act.id,
+        norm: act.type === 'timer' ? 'rollingMax' : 'completion7',
+        coworkKey: _nameToCoworkKey(act.name),
+        archived: !!act.archived,
+        defaultHidden: !!act.archived,
+      });
+    }
+  });
+  return series;
+}
+
+// Returns all series: static core + dynamic quest series
+function _getAllTrendsSeries() {
+  return [...TRENDS_SERIES, ..._buildDynamicQuestSeries()];
+}
+
+// Load RQ history trying all charName variants in localStorage
+function _loadRQHistoryAllNames(actId) {
+  const charNames = new Set([appState.name || '']);
+  try {
+    Object.keys(localStorage).forEach(k => {
+      if (k.startsWith('cs-rq-hist-')) {
+        const rest = k.slice('cs-rq-hist-'.length);
+        const lastDash = rest.lastIndexOf('-');
+        if (lastDash > 0) charNames.add(rest.slice(0, lastDash));
+      }
+    });
+  } catch(e) {}
+  let merged = [];
+  charNames.forEach(cn => {
+    try {
+      const h = loadRQHistory(cn, actId);
+      h.forEach(e => { if (!merged.find(m => m.period === e.period)) merged.push(e); });
+    } catch(e2) {}
+  });
+  return merged;
+}
+// ── end dynamic quest series ──────────────────────────────────
 
 let _autoSyncTimer = null;
 let _autoSyncInFlight = false;
