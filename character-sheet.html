@@ -982,7 +982,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-util-btn.hdr-util-inbox { color:rgba(200,168,74,0.6); position:relative; }
 .hdr-util-btn.hdr-util-inbox:hover { color:var(--gold); background:rgba(200,168,74,0.1); }
 .hdr-util-btn.hdr-util-inbox.inbox-active { color:var(--gold); background:rgba(200,168,74,0.12); }
-.inbox-badge { position:absolute; top:3px; right:3px; min-width:14px; height:14px; border-radius:7px; background:#c84040; color:#fff; font-size:10px; font-family:var(--mono); line-height:14px; text-align:center; padding:0 3px; display:none; pointer-events:none; }
+.inbox-badge { position:absolute; top:-3px; right:-3px; min-width:16px; height:16px; border-radius:8px; background:#c84040; color:#fff; font-size:10px; font-family:var(--mono); font-weight:700; line-height:16px; text-align:center; padding:0 3px; display:none; pointer-events:none; box-shadow:0 0 0 2px var(--surface); }
 #inbox-panel { display:none; position:fixed; top:70px; right:12px; width:340px; max-height:70vh; overflow-y:auto; background:var(--surface); border:1px solid rgba(200,168,74,0.3); border-radius:8px; z-index:150; box-shadow:0 4px 24px rgba(0,0,0,0.5); }
 #inbox-panel.open { display:flex; flex-direction:column; }
 .inbox-panel-hdr { display:flex; align-items:center; padding:10px 14px 8px; border-bottom:1px solid rgba(255,255,255,0.07); flex-shrink:0; }
@@ -3794,7 +3794,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
   <!-- Col 3: Utility icons + HP + Mana vitals -->
   <div class="hdr-vitals">
     <div class="hdr-util">
-      <button class="hdr-util-btn hdr-util-inbox" onclick="toggleInboxPanel()" id="inbox-toggle-btn" title="Inbox: flagged items to process this session.">&#128444;<span class="inbox-badge" id="inbox-badge"></span></button>
+      <button class="hdr-util-btn hdr-util-inbox" onclick="toggleInboxPanel()" id="inbox-toggle-btn" title="Inbox: items flagged for processing this session.">&#9993;<span class="inbox-badge" id="inbox-badge"></span></button>
       <button class="hdr-util-btn hdr-util-help" onclick="openHelpModal()" title="Help: how character-sheet works, setup guide for AI journalling, and instructions for first-time use." id="hdr-help-btn" style="position:relative;">?<span id="hdr-help-dot" style="display:none;position:absolute;top:1px;right:1px;width:6px;height:6px;border-radius:50%;background:#c06060;"></span></button>
       <button class="hdr-util-btn hdr-util-settings" onclick="openSettingsModal()" title="Settings: password, encryption, and app preferences.">&#9881;</button>
       <button class="hdr-util-btn hdr-util-support" onclick="openSupportModal()" title="Support: this app is free and open source. If it has been useful, a small contribution keeps it going.">&#9829;</button>
@@ -4746,6 +4746,11 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
     <div class="section-desc" style="margin-bottom:8px;">Pairs that consistently move together (positive) or in opposite directions (negative). Only shown when the pattern is clear in the data.</div>
     <div id="trends-correlations-list"></div>
   </div>
+  <div style="margin-top:16px;">
+    <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Next-day patterns</div>
+    <div class="section-desc" style="margin-bottom:8px;">When X is high today, is Y typically higher or lower the next day? Distinct from same-day correlations and often more actionable.</div>
+    <div id="trends-lagged-list"></div>
+  </div>
 </div>
 
 <div id="float-bar">
@@ -5048,10 +5053,45 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 <!-- ══ INBOX PANEL ══════════════════════════════════════════ -->
 <div id="inbox-panel">
   <div class="inbox-panel-hdr">
-    <span class="inbox-panel-title">&#128444; Inbox</span>
+    <span class="inbox-panel-title">&#9993; Inbox</span>
     <button class="inbox-panel-close" onclick="toggleInboxPanel()" title="Close">×</button>
   </div>
   <div class="inbox-items" id="inbox-items-list"></div>
+</div>
+
+<!-- Inbox edit modal -->
+<div class="modal-overlay" id="inbox-edit-modal" onclick="if(event.target===this)closeInboxEditModal()">
+  <div class="modal" style="border-top:3px solid rgba(200,168,74,0.5);position:relative;max-width:520px;width:100%;">
+    <button class="modal-close" onclick="closeInboxEditModal()">×</button>
+    <div class="modal-title" style="color:var(--gold);margin-bottom:14px;">&#9993; EDIT INBOX ITEM</div>
+    <input type="hidden" id="inbox-edit-id">
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <div style="flex:1;">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Title</div>
+        <input id="inbox-edit-content" type="text" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:8px 10px;font-size:14px;color:var(--text);outline:none;" placeholder="Item content">
+      </div>
+      <div style="flex-shrink:0;">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Type</div>
+        <select id="inbox-edit-type" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:8px 10px;font-size:13px;color:var(--text);outline:none;">
+          <option value="general">general</option>
+          <option value="quest">quest</option>
+          <option value="enemy">enemy</option>
+          <option value="skill">skill</option>
+          <option value="ally">ally</option>
+          <option value="vitals">vitals</option>
+          <option value="achievement">achievement</option>
+        </select>
+      </div>
+    </div>
+    <div style="font-size:11px;font-family:var(--mono);color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;">Notes / sub-points</div>
+    <div id="inbox-edit-bullets" style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px;"></div>
+    <button onclick="inboxEditAddBullet()" style="background:none;border:1px dashed rgba(200,168,74,0.3);color:rgba(200,168,74,0.6);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;padding:4px 12px;border-radius:4px;cursor:pointer;width:100%;margin-bottom:14px;">+ Add note</button>
+    <div class="modal-row">
+      <button class="btn-primary" onclick="saveInboxEdit()">Save</button>
+      <button class="btn-ghost" onclick="closeInboxEditModal()">Cancel</button>
+      <button class="btn-ghost" style="color:#c84040;border-color:rgba(200,64,64,0.3);margin-left:auto;" onclick="deleteInboxItem()">Delete</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ SETTINGS MODAL ══════════════════════════════════════ -->
@@ -7663,7 +7703,7 @@ const QABAR_CONFIG = {
   achievements: { label:'+ Add Achievement',  color:'#d07830', fn:()=>addAchievement(), hint:'Moments worth marking, wins large and small', label2:'+ Add Class', color2:'#9060c0', fn2:()=>addClass() },
   balance:      { label:null, color:'#8090a8', fn:null, hint:'Each of the four elements reflects a different domain of life' },
   lore:         { label:'+ New Chat',          color:'#2a9090', fn:()=>{ openChat(); chatNewSession(); }, hint:'Your journal lives in chats. Each one updates your character sheet.', label2:'+ New Entry', color2:'#2a9050', fn2:()=>addJournalEntry() },
-  trends:       { label:'+ Check-in',          color:'#3a7a48', fn:()=>openDailyPulse(), hint:'Log your current state. Multiple check-ins per day are averaged.' },
+  trends:       { label:'+ Check-in',          color:'#3a7a48', fn:()=>openDailyPulse(), hint:'All your tracked metrics in one place. Spot what actually moves your wellbeing over time — correlations surface automatically as data builds up.' },
 };
 
 function renderQuickAddBar(tabName) {
@@ -17720,6 +17760,170 @@ function _renderTrendsCorrelations(slots) {
   });
 }
 
+// ── Next-day lagged correlations ────────────────────────────
+function _computeLaggedCorrelations(slots) {
+  const results = [];
+  const keys = TRENDS_SERIES.map(s => s.key);
+  for (let i = 0; i < keys.length; i++) {
+    for (let j = 0; j < keys.length; j++) {
+      if (i === j) continue;
+      const ka = keys[i], kb = keys[j];
+      const xs = [], ys = [];
+      for (let d = 0; d < slots.length - 1; d++) {
+        const today = slots[d], tomorrow = slots[d + 1];
+        if (today[ka] != null && tomorrow[kb] != null && today[ka] > 0 && tomorrow[kb] > 0) {
+          xs.push(today[ka]); ys.push(tomorrow[kb]);
+        }
+      }
+      if (xs.length < 10) continue;
+      const r = _pearsonR(xs, ys);
+      if (r == null || Math.abs(r) < 0.5) continue;
+      results.push({ ka, kb, r, n: xs.length });
+    }
+  }
+  // Deduplicate: if A->B and B->A are both significant, keep only the stronger
+  const seen = new Set();
+  const deduped = results.filter(p => {
+    const key = [p.ka, p.kb].sort().join('|');
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+  return deduped.sort((a, b) => Math.abs(b.r) - Math.abs(a.r)).slice(0, 6);
+}
+
+function _renderLaggedCorrelations(slots) {
+  const el = document.getElementById('trends-lagged-list');
+  if (!el) return;
+  const pairs = _computeLaggedCorrelations(slots);
+  el.innerHTML = '';
+  if (!pairs.length) {
+    const msg = document.createElement('span');
+    msg.style.cssText = 'font-size:12px;color:var(--text-dim);font-family:var(--mono);';
+    msg.textContent = 'Not enough overlapping data yet.';
+    el.appendChild(msg); return;
+  }
+  const seriesByKey = Object.fromEntries(TRENDS_SERIES.map(s => [s.key, s]));
+  pairs.forEach(({ ka, kb, r, n }) => {
+    const sa = seriesByKey[ka], sb = seriesByKey[kb];
+    if (!sa || !sb) return;
+    const strength = Math.abs(r) > 0.75 ? 'strong' : 'moderate';
+    const dir = r > 0 ? 'higher' : 'lower';
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
+
+    const dots = document.createElement('div');
+    dots.style.cssText = 'display:flex;gap:3px;flex-shrink:0;align-items:center;';
+    const d1 = document.createElement('div');
+    d1.style.cssText = `width:7px;height:7px;border-radius:50%;background:${sa.color};`;
+    const arr = document.createElement('span');
+    arr.textContent = '→'; arr.style.cssText = 'font-size:9px;color:rgba(255,255,255,0.3);margin:0 1px;';
+    const d2 = document.createElement('div');
+    d2.style.cssText = `width:7px;height:7px;border-radius:50%;background:${sb.color};`;
+    dots.append(d1, arr, d2);
+
+    const txt = document.createElement('span');
+    txt.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--text-mid);flex:1;letter-spacing:0.03em;';
+    txt.textContent = `High ${sa.label} today: ${sb.label} tends to be ${dir} tomorrow`;
+
+    const badge = document.createElement('span');
+    const bc = r > 0 ? 'rgba(64,168,96,0.25)' : 'rgba(216,64,64,0.2)';
+    const btc = r > 0 ? 'rgba(64,168,96,0.9)' : '#d84040';
+    badge.style.cssText = `font-size:9px;font-family:var(--mono);letter-spacing:0.08em;background:${bc};color:${btc};border-radius:3px;padding:1px 5px;flex-shrink:0;`;
+    badge.textContent = `${strength} (r=${r.toFixed(2)}, n=${n})`;
+    item.append(dots, txt, badge);
+    el.appendChild(item);
+  });
+}
+// ── end lagged correlations ───────────────────────────────────
+
+// ── Inbox edit modal ─────────────────────────────────────────
+function openInboxEditModal(id) {
+  const items = getInboxItems();
+  const item = id ? items.find(i => i.id === id) : null;
+  document.getElementById('inbox-edit-id').value = id || '';
+  const contentEl = document.getElementById('inbox-edit-content');
+  const typeEl    = document.getElementById('inbox-edit-type');
+  if (contentEl) contentEl.value = item ? (item.content || '') : '';
+  if (typeEl)    typeEl.value    = item ? (item.type    || 'general') : 'general';
+  _renderInboxBullets(item ? (item.bullets || []) : []);
+  document.getElementById('inbox-edit-modal').classList.add('open');
+}
+
+function closeInboxEditModal() {
+  document.getElementById('inbox-edit-modal').classList.remove('open');
+}
+
+function _renderInboxBullets(bullets) {
+  const container = document.getElementById('inbox-edit-bullets');
+  if (!container) return;
+  container.innerHTML = '';
+  bullets.forEach((text, idx) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:6px;';
+    const indent = document.createElement('span');
+    indent.textContent = '·'; indent.style.cssText = 'color:var(--text-dim);font-size:14px;flex-shrink:0;padding-left:8px;';
+    const input = document.createElement('input');
+    input.type = 'text'; input.value = text;
+    input.dataset.bulletIdx = idx;
+    input.style.cssText = 'flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:5px 8px;font-size:13px;color:var(--text);outline:none;';
+    const upBtn = document.createElement('button');
+    upBtn.textContent = '↑'; upBtn.title = 'Move up';
+    upBtn.style.cssText = 'background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:0 3px;';
+    upBtn.onclick = () => { const b = _getEditBullets(); if (idx > 0) { [b[idx-1],b[idx]]=[b[idx],b[idx-1]]; _renderInboxBullets(b); } };
+    const downBtn = document.createElement('button');
+    downBtn.textContent = '↓'; downBtn.title = 'Move down';
+    downBtn.style.cssText = 'background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:0 3px;';
+    downBtn.onclick = () => { const b = _getEditBullets(); if (idx < b.length-1) { [b[idx],b[idx+1]]=[b[idx+1],b[idx]]; _renderInboxBullets(b); } };
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '×'; delBtn.title = 'Remove';
+    delBtn.style.cssText = 'background:none;border:none;color:rgba(200,64,64,0.6);cursor:pointer;font-size:15px;padding:0 2px;';
+    delBtn.onclick = () => { const b = _getEditBullets(); b.splice(idx, 1); _renderInboxBullets(b); };
+    row.append(indent, input, upBtn, downBtn, delBtn);
+    container.appendChild(row);
+  });
+}
+
+function _getEditBullets() {
+  const inputs = document.querySelectorAll('#inbox-edit-bullets input[data-bullet-idx]');
+  return Array.from(inputs).map(el => el.value.trim()).filter(Boolean);
+}
+
+function inboxEditAddBullet() {
+  const bullets = _getEditBullets();
+  bullets.push('');
+  _renderInboxBullets(bullets);
+  // Focus the new input
+  const inputs = document.querySelectorAll('#inbox-edit-bullets input');
+  if (inputs.length) inputs[inputs.length - 1].focus();
+}
+
+function saveInboxEdit() {
+  if (!Array.isArray(appState.inbox)) appState.inbox = [];
+  const id      = document.getElementById('inbox-edit-id').value;
+  const content = document.getElementById('inbox-edit-content').value.trim();
+  const type    = document.getElementById('inbox-edit-type').value;
+  const bullets = _getEditBullets();
+  if (id) {
+    const item = appState.inbox.find(i => i.id === id);
+    if (item) { item.content = content; item.type = type; item.bullets = bullets; }
+  } else {
+    appState.inbox.push({ id: 'inbox-' + Date.now(), content, type, bullets, addedDate: _localDate(), processed: false });
+  }
+  saveState(appState); markDirty();
+  renderInboxBadge(); renderInboxPanel();
+  closeInboxEditModal();
+}
+
+function deleteInboxItem() {
+  const id = document.getElementById('inbox-edit-id').value;
+  if (!id || !Array.isArray(appState.inbox)) return;
+  appState.inbox = appState.inbox.filter(i => i.id !== id);
+  saveState(appState); markDirty();
+  renderInboxBadge(); renderInboxPanel();
+  closeInboxEditModal();
+}
+// ── end inbox edit ─────────────────────────────────────────
+
 async function renderTrendsChart() {
   const canvas = document.getElementById('trends-canvas');
   if (!canvas) return;
@@ -17860,6 +18064,7 @@ async function renderTrendsChart() {
 
   _renderTrendsLegend(slots, enabled);
   _renderTrendsCorrelations(slots);
+  _renderLaggedCorrelations(slots);
 }
 
 // Sub-group definitions for batch toggles
@@ -24239,29 +24444,98 @@ function renderInboxPanel() {
   const list = document.getElementById('inbox-items-list');
   if (!list) return;
   const items = getInboxItems();
+  list.innerHTML = '';
   if (items.length === 0) {
-    list.innerHTML = '<div class="inbox-empty">Inbox clear ✓</div>';
+    const empty = document.createElement('div');
+    empty.className = 'inbox-empty';
+    empty.textContent = 'Inbox clear ✓';
+    list.appendChild(empty);
     return;
   }
-  // Sort: unprocessed first, then by priority asc
   const sorted = [...items].sort((a, b) => {
     if (a.processed !== b.processed) return a.processed ? 1 : -1;
     return (a.priority||99) - (b.priority||99);
   });
-  list.innerHTML = sorted.map(item => `
-    <div class="inbox-item${item.processed ? ' processed' : ''}" data-inbox-id="${item.id}">
-      <div class="inbox-priority">${item.priority||'–'}</div>
-      <div class="inbox-body">
-        <div class="inbox-content">${item.content||''}</div>
-        <div class="inbox-meta">
-          <span class="inbox-type-badge">${item.type||'general'}</span>
-          ${item.source ? `<span class="inbox-source">${item.source}</span>` : ''}
-          ${item.addedDate ? `<span class="inbox-date">${item.addedDate}</span>` : ''}
-        </div>
-      </div>
-      ${!item.processed ? `<button class="inbox-done-btn" onclick="markInboxDone('${item.id}')">Done</button>` : ''}
-    </div>
-  `).join('');
+  sorted.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'inbox-item' + (item.processed ? ' processed' : '');
+    row.dataset.inboxId = item.id;
+
+    const pri = document.createElement('div');
+    pri.className = 'inbox-priority';
+    pri.textContent = item.priority || '–';
+
+    const body = document.createElement('div');
+    body.className = 'inbox-body';
+
+    const content = document.createElement('div');
+    content.className = 'inbox-content';
+    content.textContent = item.content || '';
+    body.appendChild(content);
+
+    // Bullets
+    if (Array.isArray(item.bullets) && item.bullets.length) {
+      const ul = document.createElement('ul');
+      ul.style.cssText = 'margin:4px 0 2px 12px;padding:0;list-style:disc;display:flex;flex-direction:column;gap:2px;';
+      item.bullets.forEach(b => {
+        const li = document.createElement('li');
+        li.style.cssText = 'font-size:12px;color:var(--text-dim);line-height:1.4;';
+        li.textContent = b;
+        ul.appendChild(li);
+      });
+      body.appendChild(ul);
+    }
+
+    const meta = document.createElement('div');
+    meta.className = 'inbox-meta';
+    const typeBadge = document.createElement('span');
+    typeBadge.className = 'inbox-type-badge';
+    typeBadge.textContent = item.type || 'general';
+    meta.appendChild(typeBadge);
+    if (item.source) {
+      const src = document.createElement('span');
+      src.className = 'inbox-source'; src.textContent = item.source;
+      meta.appendChild(src);
+    }
+    if (item.addedDate) {
+      const dt = document.createElement('span');
+      dt.className = 'inbox-date'; dt.textContent = item.addedDate;
+      meta.appendChild(dt);
+    }
+    body.appendChild(meta);
+
+    const actions = document.createElement('div');
+    actions.style.cssText = 'display:flex;flex-direction:column;gap:4px;flex-shrink:0;';
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'inbox-done-btn';
+    editBtn.style.borderColor = 'rgba(200,168,74,0.35)';
+    editBtn.style.color = 'var(--gold)';
+    editBtn.textContent = 'Edit';
+    editBtn.onclick = () => openInboxEditModal(item.id);
+    actions.appendChild(editBtn);
+
+    if (!item.processed) {
+      const doneBtn = document.createElement('button');
+      doneBtn.className = 'inbox-done-btn';
+      doneBtn.textContent = 'Done';
+      doneBtn.onclick = () => markInboxDone(item.id);
+      actions.appendChild(doneBtn);
+    }
+
+    row.append(pri, body, actions);
+    list.appendChild(row);
+  });
+
+  // Add new item button at bottom
+  const addRow = document.createElement('div');
+  addRow.style.cssText = 'padding:6px 2px;';
+  const addBtn = document.createElement('button');
+  addBtn.style.cssText = 'background:none;border:1px dashed rgba(200,168,74,0.3);color:rgba(200,168,74,0.6);font-family:var(--mono);font-size:11px;letter-spacing:0.06em;padding:4px 12px;border-radius:4px;cursor:pointer;width:100%;';
+  addBtn.textContent = '+ New item';
+  addBtn.onclick = () => openInboxEditModal(null);
+  addRow.appendChild(addBtn);
+  list.appendChild(addRow);
 }
 
 function markInboxDone(id) {
