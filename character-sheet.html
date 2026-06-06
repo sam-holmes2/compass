@@ -979,6 +979,29 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .hdr-util-btn.hdr-util-settings:hover { color:#6090c8; background:rgba(80,120,180,0.12); }
 .hdr-util-btn.hdr-util-support { color:rgba(42,144,80,0.6); }
 .hdr-util-btn.hdr-util-support:hover { color:#2a9050; background:rgba(42,144,80,0.1); }
+.hdr-util-btn.hdr-util-inbox { color:rgba(200,168,74,0.6); position:relative; }
+.hdr-util-btn.hdr-util-inbox:hover { color:var(--gold); background:rgba(200,168,74,0.1); }
+.hdr-util-btn.hdr-util-inbox.inbox-active { color:var(--gold); background:rgba(200,168,74,0.12); }
+.inbox-badge { position:absolute; top:3px; right:3px; min-width:14px; height:14px; border-radius:7px; background:#c84040; color:#fff; font-size:10px; font-family:var(--mono); line-height:14px; text-align:center; padding:0 3px; display:none; pointer-events:none; }
+#inbox-panel { display:none; position:fixed; top:70px; right:12px; width:340px; max-height:70vh; overflow-y:auto; background:var(--surface); border:1px solid rgba(200,168,74,0.3); border-radius:8px; z-index:150; box-shadow:0 4px 24px rgba(0,0,0,0.5); }
+#inbox-panel.open { display:flex; flex-direction:column; }
+.inbox-panel-hdr { display:flex; align-items:center; padding:10px 14px 8px; border-bottom:1px solid rgba(255,255,255,0.07); flex-shrink:0; }
+.inbox-panel-title { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.08em; color:var(--gold); flex:1; }
+.inbox-panel-close { background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:18px; padding:0; line-height:1; }
+.inbox-panel-close:hover { color:var(--text); }
+.inbox-items { padding:8px 10px; display:flex; flex-direction:column; gap:6px; }
+.inbox-item { display:flex; align-items:flex-start; gap:8px; padding:8px 10px; border-radius:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); transition:opacity 0.2s; }
+.inbox-item.processed { opacity:0.38; }
+.inbox-priority { font-family:var(--mono); font-size:11px; color:var(--gold); width:14px; flex-shrink:0; padding-top:1px; }
+.inbox-body { flex:1; min-width:0; }
+.inbox-content { font-size:13px; color:var(--text); line-height:1.4; }
+.inbox-meta { display:flex; align-items:center; gap:6px; margin-top:4px; flex-wrap:wrap; }
+.inbox-type-badge { font-size:10px; font-family:var(--mono); padding:1px 6px; border-radius:10px; background:rgba(96,144,200,0.15); color:#6090c8; letter-spacing:0.05em; }
+.inbox-source { font-size:10px; color:var(--text-dim); font-family:var(--mono); }
+.inbox-date { font-size:10px; color:var(--text-dim); font-family:var(--mono); }
+.inbox-done-btn { background:none; border:1px solid rgba(74,170,114,0.35); color:#4aaa72; font-size:11px; font-family:var(--mono); cursor:pointer; border-radius:4px; padding:2px 7px; flex-shrink:0; margin-top:1px; transition:background 0.15s; }
+.inbox-done-btn:hover { background:rgba(74,170,114,0.12); }
+.inbox-empty { padding:16px; text-align:center; color:var(--text-dim); font-size:13px; font-family:var(--mono); }
 #chat-btn.chat-btn-loading { position:relative; }
 #chat-btn.chat-btn-loading::after { content:''; position:absolute; top:5px; right:5px; width:6px; height:6px; background:#2a9090; border-radius:50%; animation:chatBtnPulse 1.2s ease-in-out infinite; }
 @keyframes chatBtnPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(0.65)} }
@@ -1064,7 +1087,20 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chapter-group-head:hover .lock-btn:not(.locked) { opacity:0.4; }
 .quest-reopen-btn { background:none; border:none; cursor:pointer; padding:3px 4px; color:var(--text-dim); opacity:0; transition:opacity 0.15s,color 0.15s; flex-shrink:0; display:flex; align-items:center; }
 .quest-reopen-btn:hover { color:#4aaa72; opacity:1 !important; }
-.cqcard-head:hover .quest-reopen-btn { opacity:0.55; }
+.cqcard-head:hover .quest-reopen-btn, .sqcard-head:hover .quest-reopen-btn { opacity:0.55; }
+.quest-archive-btn { background:none; border:none; cursor:pointer; padding:3px 4px; color:var(--text-dim); opacity:0; transition:opacity 0.15s,color 0.15s; flex-shrink:0; display:flex; align-items:center; }
+.quest-archive-btn:hover { color:#8090a8; opacity:1 !important; }
+.sqcard-head:hover .quest-archive-btn, .sqcard-head:focus-within .quest-archive-btn,
+.practice-card-hdr:hover .quest-archive-btn, .practice-card-hdr:focus-within .quest-archive-btn { opacity:0.45; }
+.archived-quest-section { margin-top:18px; }
+.archived-quest-section-hdr { display:flex; align-items:center; gap:8px; cursor:pointer; padding:6px 0; opacity:0.6; user-select:none; }
+.archived-quest-section-hdr:hover { opacity:0.85; }
+.archived-quest-section-title { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.18em; color:var(--text-dim); text-transform:uppercase; }
+.archived-quest-section-count { font-family:var(--mono); font-size:12px; color:var(--text-dim); }
+.archived-quest-section-arrow { font-size:12px; color:var(--text-dim); }
+.archived-rq-hdr { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); opacity:0.6; }
+.archived-rq-hdr:hover { opacity:0.85; }
+.archived-rq-hdr:hover .quest-reopen-btn { opacity:0.55; }
 /* XP toast */
 .xp-toast {
   position:fixed; bottom:32px; right:32px; z-index:500;
@@ -1347,7 +1383,7 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .welcome-row-btn.active-ai     { border-color:#f09090; background:rgba(240,144,144,0.06); }
 .welcome-row-btn.active-import { border-color:rgba(200,168,74,0.7); background:rgba(200,168,74,0.06); }
 .welcome-row-btn.active-sync   { border-color:rgba(200,168,74,0.7); background:rgba(200,168,74,0.06); }
-.welcome-row-icon { font-size:20px; flex-shrink:0; width:28px; text-align:center; opacity:0.75; }
+.welcome-row-icon { font-size:20px; flex-shrink:0; width:28px; text-align:center; opacity:0.9; color:#50c878; }
 .welcome-row-text { flex:1; min-width:0; }
 .welcome-row-title { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; color:var(--text-b); line-height:1.3; }
 .welcome-row-sub { font-size:13px; color:var(--text-dim); line-height:1.4; margin-top:2px; }
@@ -2923,6 +2959,28 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 }
 /* ══ STATS panel — uses radar-panel; keep for margin override ══ */
 .stats-card { margin-bottom:18px; }
+/* ══ TRENDS TAB ══════════════════════════════════════════════ */
+.trends-layout { display:grid; grid-template-columns:1fr 340px; gap:16px; align-items:start; }
+@media (max-width:700px) { .trends-layout { grid-template-columns:1fr; } }
+.trends-chart-col { min-width:0; }
+#trends-canvas { width:100%; display:block; height:260px; cursor:crosshair; }
+.trends-controls { display:flex; gap:5px; justify-content:center; margin:7px 0 0; }
+.trends-range-btn { background:none; border:1px solid rgba(255,255,255,0.12); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.08em; padding:3px 9px; border-radius:4px; cursor:pointer; transition:border-color 0.15s,color 0.15s; }
+.trends-range-btn:hover { border-color:rgba(58,122,72,0.5); color:rgba(80,160,96,0.9); }
+.trends-range-btn.active { border-color:rgba(58,122,72,0.7); color:#3a7a48; }
+.trends-legend-col { display:flex; flex-direction:column; gap:12px; padding-top:2px; }
+.trends-legend-group { }
+.trends-group-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; color:rgba(58,122,72,0.6); text-transform:uppercase; padding-bottom:4px; border-bottom:1px solid rgba(58,122,72,0.2); margin-bottom:5px; display:flex; align-items:center; gap:8px; }
+.trends-group-toggles { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:6px; }
+.trends-group-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--text-dim); font-family:var(--mono); font-size:9px; letter-spacing:0.06em; padding:2px 6px; border-radius:3px; cursor:pointer; transition:border-color 0.15s,color 0.15s; white-space:nowrap; }
+.trends-group-btn:hover { border-color:rgba(58,122,72,0.5); color:rgba(80,160,96,0.9); }
+.trends-legend-item { display:flex; align-items:center; gap:6px; padding:2px 0; cursor:pointer; }
+.trends-legend-item:hover .trends-lbl { color:var(--text-mid) !important; }
+.trends-swatch { width:10px; height:10px; border-radius:2px; border:1.5px solid; flex-shrink:0; transition:opacity 0.15s; }
+.trends-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.trends-arrow { font-size:11px; font-family:var(--mono); flex-shrink:0; width:10px; text-align:center; }
+.trends-lbl { font-size:11px; font-family:var(--mono); letter-spacing:0.04em; flex:1; transition:color 0.15s; }
+.trends-val { font-size:10px; font-family:var(--mono); flex-shrink:0; min-width:20px; text-align:right; }
 
 /* ══ DRAG-TO-REORDER ════════════════════════════════════════ */
 .drag-handle { display:flex; align-items:center; justify-content:center; width:18px; flex-shrink:0; cursor:grab; color:var(--text-dim); opacity:0.35; font-size:17px; user-select:none; padding:0 2px; transition:opacity 0.15s; }
@@ -3705,6 +3763,12 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 .btn-gold-ghost:hover { background:rgba(200,168,74,0.18); }
 .btn-add-dim { background:none;border:none;color:var(--text-dim);cursor:pointer;opacity:0.6;transition:opacity 0.15s; }
 .btn-add-dim:hover { opacity:1; }
+.github-backup-section { margin-top:20px;padding-top:16px;border-top:1px solid var(--border); }
+.github-backup-label { font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:8px; }
+.github-backup-row { display:flex;gap:8px;align-items:center; }
+.github-backup-input { background:var(--surface);border:1px solid var(--border-hi);border-radius:6px;color:var(--text-b);font-family:var(--mono);font-size:13px;padding:6px 10px;flex:1;outline:none;transition:border-color 0.15s; }
+.github-backup-input:focus { border-color:var(--gold); }
+.github-backup-input::placeholder { color:var(--text-dim);opacity:0.6; }
 </style>
 </head>
 <body>
@@ -3730,6 +3794,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
   <!-- Col 3: Utility icons + HP + Mana vitals -->
   <div class="hdr-vitals">
     <div class="hdr-util">
+      <button class="hdr-util-btn hdr-util-inbox" onclick="toggleInboxPanel()" id="inbox-toggle-btn" title="Inbox: flagged items to process this session.">&#128444;<span class="inbox-badge" id="inbox-badge"></span></button>
       <button class="hdr-util-btn hdr-util-help" onclick="openHelpModal()" title="Help: how character-sheet works, setup guide for AI journalling, and instructions for first-time use." id="hdr-help-btn" style="position:relative;">?<span id="hdr-help-dot" style="display:none;position:absolute;top:1px;right:1px;width:6px;height:6px;border-radius:50%;background:#c06060;"></span></button>
       <button class="hdr-util-btn hdr-util-settings" onclick="openSettingsModal()" title="Settings: password, encryption, and app preferences.">&#9881;</button>
       <button class="hdr-util-btn hdr-util-support" onclick="openSupportModal()" title="Support: this app is free and open source. If it has been useful, a small contribution keeps it going.">&#9829;</button>
@@ -3977,6 +4042,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
   <button class="tab-btn" data-tab-colour="#2a9050" onclick="switchTab('allies')" title="Allies: resources, strengths, people, and positive patterns working for you. Know what you can draw on."><span class="tab-nav-count" id="nav-allies" style="color:#2a9050">0</span>Allies</button>
   <button class="tab-btn" data-tab-colour="#d07830" onclick="switchTab('achievements')" title="Achievements: specific moments worth marking, insights, deeds, breakthroughs, surrenders. Classes: roles and identities that shape how you move through the world."><span class="tab-nav-count" id="nav-achievements" style="color:#d07830">0</span>Achievements</button>
   <button class="tab-btn" data-tab-colour="#2a9090" onclick="switchTab('lore')" title="Journal: your AI chat log. Each entry records what was explored, insights surfaced, and any state updates your AI made to your data."><span class="tab-nav-count" id="nav-lore" style="color:#2a9090">1</span>Journal</button>
+  <button class="tab-btn" data-tab-colour="#3a7a48" onclick="switchTab('trends')" title="Trends: all tracked metrics on one timeline. Spot correlations between physical and mental health, habits, and life factors. Legend ranked worst-first."><span class="tab-nav-count" id="nav-trends" style="color:#3a7a48;font-size:13px;letter-spacing:0;"></span>Trends</button>
 </nav>
 <div id="tab-quickadd-bar"></div>
 
@@ -4308,6 +4374,11 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
     <div class="section-desc">Proof you can finish things</div>
     <div id="qt-completed"></div>
   </div>
+  <div class="qt-section" id="qt-archived-section" style="display:none;">
+    <div class="qt-section-hdr" style="color:var(--text-dim);border-color:rgba(255,255,255,0.08);">Archived</div>
+    <div class="section-desc">Hidden from view. Restore to make active again.</div>
+    <div id="qt-archived"></div>
+  </div>
 </div>
 
 <div id="tab-skills" class="tab-panel">
@@ -4516,6 +4587,14 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
   <div class="section-desc" style="margin-bottom:10px;">Recurring things that matter. Track consistency and spot trends over time.</div>
   <div id="rquests-container"></div>
   <button class="add-item-btn" onclick="addRegularQuest()" style="margin-top:10px;">+ New Regular Quest</button>
+  <div id="rq-archived-section" style="display:none;margin-top:18px;">
+    <div class="archived-quest-section-hdr" onclick="toggleChapter('rq-archived-list','rq-archived-arrow')">
+      <span class="archived-quest-section-arrow" id="rq-archived-arrow">▸</span>
+      <span class="archived-quest-section-title">Archived Regular Quests</span>
+      <span class="archived-quest-section-count" id="rq-archived-count"></span>
+    </div>
+    <div id="rq-archived-list" class="sqcard-body"></div>
+  </div>
 
 </div>
 
@@ -4628,6 +4707,44 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
         <div class="pie-legend" id="ach-pie-legend"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="tab-trends" class="tab-panel">
+  <div class="trends-layout">
+    <!-- Left: chart -->
+    <div class="trends-chart-col">
+      <div class="section-desc" style="margin-bottom:6px;">All metrics normalised 0-100. Dashed line: best fit. Dot: current level. Arrow: 7-day direction.</div>
+      <div style="position:relative;border:1px solid rgba(58,122,72,0.2);border-radius:6px;background:rgba(0,0,0,0.12);padding:8px 8px 2px;">
+        <canvas id="trends-canvas"></canvas>
+        <div id="trends-no-data" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--text-dim);">No data yet. Start daily check-ins to begin.</div>
+      </div>
+      <div class="trends-controls">
+        <button class="trends-range-btn active" data-range="30" onclick="setTrendsRange(30,this)">30d</button>
+        <button class="trends-range-btn" data-range="90" onclick="setTrendsRange(90,this)">90d</button>
+        <button class="trends-range-btn" data-range="180" onclick="setTrendsRange(180,this)">180d</button>
+        <button class="trends-range-btn" data-range="9999" onclick="setTrendsRange(9999,this)">All</button>
+      </div>
+    </div>
+    <!-- Right: legend -->
+    <div class="trends-legend-col" id="trends-legend">
+      <div class="trends-legend-group">
+        <div class="trends-group-hdr"><span style="color:#ff6060">♥</span>&nbsp;HP</div>
+        <div class="trends-group-toggles" id="trends-toggles-hp"></div>
+        <div id="trends-legend-hp"></div>
+      </div>
+      <div class="trends-legend-group">
+        <div class="trends-group-hdr"><span style="color:#60a0ff">✦</span>&nbsp;Mana</div>
+        <div class="trends-group-toggles" id="trends-toggles-mana"></div>
+        <div id="trends-legend-mana"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Correlations -->
+  <div style="margin-top:18px;">
+    <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Correlations</div>
+    <div class="section-desc" style="margin-bottom:8px;">Pairs that consistently move together (positive) or in opposite directions (negative). Only shown when the pattern is clear in the data.</div>
+    <div id="trends-correlations-list"></div>
   </div>
 </div>
 
@@ -4889,6 +5006,32 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
       </label>
       <p class="chat-api-note" style="margin:12px 0 0;">Push after each session to keep your backup current. On another device: Pull, then go to Security and enter the <strong>same password</strong> you use here to decrypt your data.</p>
     </div>
+
+    <!-- Plain (unencrypted) auto-sync — personal use, no PIN required -->
+    <div id="cs-plain-sync-section" style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07);">
+      <div style="font-size:12px;font-family:var(--mono);letter-spacing:0.08em;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:8px;">Plain backup (no encryption)</div>
+      <p style="font-size:13px;color:var(--text-dim);margin:0 0 10px;line-height:1.5;">Pushes your full data as readable JSON to a private GitHub repo. No password required. Suitable for personal use when you trust the device and repo.</p>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
+        <input id="cs-plain-sync-pat" type="password" placeholder="GitHub personal access token" autocomplete="off"
+          style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:7px 10px;font-size:13px;color:var(--text);outline:none;width:100%;box-sizing:border-box;"
+          oninput="plainSyncSaveSettings()">
+        <input id="cs-plain-sync-repo" type="text" placeholder="owner/repo" autocomplete="off"
+          style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:7px 10px;font-size:13px;color:var(--text);outline:none;width:100%;box-sizing:border-box;"
+          oninput="plainSyncSaveSettings()">
+        <input id="cs-plain-sync-path" type="text" placeholder="data.json" autocomplete="off"
+          style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:7px 10px;font-size:13px;color:var(--text);outline:none;width:100%;box-sizing:border-box;"
+          oninput="plainSyncSaveSettings()">
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <button class="btn-primary" style="padding:7px 16px;font-size:13px;" onclick="_plainSyncPush(true)">Push now &#x2191;</button>
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;">
+          <input type="checkbox" id="cs-plain-sync-auto" onchange="plainSyncToggleAuto(this.checked)">
+          <span>Auto-sync after each edit</span>
+        </label>
+        <span id="cs-plain-sync-status" style="font-size:11px;color:var(--text-dim);flex:1;text-align:right;"></span>
+      </div>
+    </div>
+
     <div class="modal-row" style="margin-top:16px;">
       <button class="btn-ghost" onclick="closeGitSyncModal()">Close</button>
     </div>
@@ -4900,6 +5043,15 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
   <span>All data was reset.</span>
   <button onclick="undoReset()">Undo reset</button>
   <button onclick="document.getElementById('reset-undo-banner').classList.remove('visible');localStorage.removeItem('cs-reset-undo-v1')" style="background:none;border:none;opacity:0.6;font-size:18px;padding:0 4px;">×</button>
+</div>
+
+<!-- ══ INBOX PANEL ══════════════════════════════════════════ -->
+<div id="inbox-panel">
+  <div class="inbox-panel-hdr">
+    <span class="inbox-panel-title">&#128444; Inbox</span>
+    <button class="inbox-panel-close" onclick="toggleInboxPanel()" title="Close">×</button>
+  </div>
+  <div class="inbox-items" id="inbox-items-list"></div>
 </div>
 
 <!-- ══ SETTINGS MODAL ══════════════════════════════════════ -->
@@ -5035,8 +5187,8 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
     <div id="export-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;">
       <!-- Left: Summary export (for AI journalling) -->
       <div style="display:flex;flex-direction:column;">
-        <div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Export snapshot</div>
-        <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Your portable data snapshot. Use for backup, device migration, or to share your latest state with your AI project.</p>
+        <div style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">AI context snapshot</div>
+        <p style="margin:0 0 10px;font-size:14px;color:var(--text-dim);line-height:1.5;">Compact snapshot for sharing with your AI. Includes your quests, skills, sliders, and progression. Chat history is replaced with the last 3 session titles; completed quests are collapsed to a 14-day count. Use the full export for device migration.</p>
         <div id="export-size-warning" style="display:none;margin-bottom:10px;padding:8px 12px;border-radius:4px;font-size:14px;line-height:1.4;"></div>
         <div id="export-context-note" style="margin-bottom:10px;font-size:13px;color:var(--text-dim);font-family:var(--mono);"></div>
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;overflow:visible;">
@@ -5063,6 +5215,13 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
           <button class="btn-primary" id="copy-migration-btn" onclick="copyMigration()" style="background:rgba(200,168,74,0.15);border-color:rgba(200,168,74,0.5);color:var(--gold);">Copy</button>
           <button class="btn-ghost" style="font-size:14px;opacity:0.7;" onclick="downloadMigrationJson()">↓ migration.json</button>
         </div>
+      </div>
+    </div>
+    <div class="github-backup-section">
+      <div class="github-backup-label">GitHub backup</div>
+      <div class="github-backup-row">
+        <input class="github-backup-input" id="github-backup-url" type="url" placeholder="https://github.com/you/your-backup-repo" oninput="saveGithubBackupUrl()" />
+        <a id="github-backup-btn" class="btn-ghost" href="#" target="_blank" rel="noopener" style="display:none;font-size:13px;padding:6px 12px;text-decoration:none;white-space:nowrap;">↗ View backups</a>
       </div>
     </div>
   </div>
@@ -5104,7 +5263,7 @@ function getAlignment(item){
 
 // ══ DEFAULT STATE ═══════════════════════════════════════════
 // Steve's demo data — inlined so it works on file:// and github.io alike.
-let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{}, coreSkills:{}, statusSliders:{focus:50,energy:50,interest:50,purpose:50}, chatSessions:[] };
+let DEFAULT = { name:'', level:1, xp:0, xpToNext:500, activities:[], sideQuests:[], skills:[], values:[], needs:[], allies:[], flowSources:[], drains:[], limitingBeliefs:[], liberatingBeliefs:[], insights:[], achievements:[], classes:[], completedQuests:[], completedMainQuests:[], enemies:{boss:{},current:[],graveyard:[]}, sliderValues:{air:50,fire:50,water:50,earth:50}, balanceSmoothed:{air:50,fire:50,water:50,earth:50}, harmonyHistory:[], sliderXpRewards:{air:[null,100,200,350,500],fire:[null,150,300,500,750],water:[null,100,220,380,550],earth:[null,120,260,440,650]}, sliderLabels:{air:'',fire:'',water:'',earth:''}, dailyDistribution:{}, coreSkills:{}, statusSliders:{focus:50,energy:50,interest:50,purpose:50}, chatSessions:[], inbox:[] };
 let HARDCODED_HISTORY = {};
 let HARDCODED_XP_LOG = [];
 // Generate demo history anchored to today so charts always fill to current date.
@@ -5529,6 +5688,8 @@ Single overarching theme. One at a time. Close when \`doneWhen\` is met: move to
 
 **Title rules:** Make the goal immediately clear to a stranger. Plain action language only. No metaphors or poetic names. Bad: "The Transactional Pendulum". Good: "Break the Overwork-Burnout-Repeat Cycle". Max 8 words.
 
+**Archiving:** to hide a quest from the dashboard without deleting it, output \`"archived": true\` on the quest object. To restore it, output \`"archived": false\`. Archived quests remain in \`sideQuests\` and retain all data; they are simply hidden from active views.
+
 **Closing:** when \`doneWhen\` is met, remove from \`sideQuests\`, add to \`completedQuests\`, award XP.
 
 \`completedQuests\`: always output the full array when quests close this session (app merges by title+date).
@@ -5678,6 +5839,8 @@ Size limit: 10 each.
 Trackable daily habits. \`type\`: \`timer\` · \`checkbox\` · \`number\`. \`resetPeriod\`: \`day\` · \`week\` · \`month\`.
 
 \`{ "id": "deep-work", "name": "Deep Work", "description": "...", "whyItMatters": "...", "startDate": "2026-01-01", "priority": 1, "type": "timer", "resetPeriod": "day", "target": 90, "unit": "minutes", "xpPerUnit": 0.5 }\`
+
+To hide an activity from the dashboard without deleting it, output \`"archived": true\` on the activity object (merged by id). To restore it, output \`"archived": false\`.
 
 ---
 
@@ -7439,7 +7602,7 @@ function buildBalanceIcon(sv){
 function updateNavCounts(s){
   const sv=resolveElementScores(s);
   const biEl=document.getElementById('nav-balance-icon'); if(biEl) biEl.innerHTML=buildBalanceIcon(sv);
-  const qEl=document.getElementById('nav-quests'); if(qEl) qEl.textContent=(s.mainQuest?1:0)+(s.sideQuests||DEFAULT.sideQuests).length;
+  const qEl=document.getElementById('nav-quests'); if(qEl) qEl.textContent=(s.mainQuest?1:0)+(s.sideQuests||DEFAULT.sideQuests).filter(q=>!q.archived).length;
   const cEl=document.getElementById('nav-lore'); if(cEl){ const chs=s.insights||DEFAULT.insights||[]; cEl.textContent=s.sessionCount!=null?s.sessionCount:chs.reduce((n,c)=>n+(c.entries||[]).length,0); }
   const skEl=document.getElementById('nav-skills'); if(skEl) skEl.textContent=(s.skills||DEFAULT.skills||[]).length;
   const alEl=document.getElementById('nav-allies'); if(alEl) alEl.textContent=(s.allies||DEFAULT.allies||[]).length;
@@ -7485,6 +7648,9 @@ function switchTab(name){
   if(name==='balance'){
     requestAnimationFrame(()=>requestAnimationFrame(()=>renderHarmonyChart(appState)));
   }
+  if(name==='trends'){
+    requestAnimationFrame(()=>requestAnimationFrame(()=>renderTrendsChart()));
+  }
   renderQuickAddBar(name);
 }
 
@@ -7497,6 +7663,7 @@ const QABAR_CONFIG = {
   achievements: { label:'+ Add Achievement',  color:'#d07830', fn:()=>addAchievement(), hint:'Moments worth marking, wins large and small', label2:'+ Add Class', color2:'#9060c0', fn2:()=>addClass() },
   balance:      { label:null, color:'#8090a8', fn:null, hint:'Each of the four elements reflects a different domain of life' },
   lore:         { label:'+ New Chat',          color:'#2a9090', fn:()=>{ openChat(); chatNewSession(); }, hint:'Your journal lives in chats. Each one updates your character sheet.', label2:'+ New Entry', color2:'#2a9050', fn2:()=>addJournalEntry() },
+  trends:       { label:'+ Check-in',          color:'#3a7a48', fn:()=>openDailyPulse(), hint:'Log your current state. Multiple check-ins per day are averaged.' },
 };
 
 function renderQuickAddBar(tabName) {
@@ -8312,13 +8479,16 @@ function renderQuestsTab(s){
   const sqEl=document.getElementById('qt-active');
   if(sqEl){
     sqEl.innerHTML='';
+    const allSQ=s.sideQuests||DEFAULT.sideQuests;
+    const activeSQ=allSQ.filter(q=>!q.archived);
     const sqTopBtn=document.createElement('button'); sqTopBtn.className='add-item-btn'; sqTopBtn.textContent='+ Add Side Quest'; sqTopBtn.onclick=addSideQuest; sqEl.appendChild(sqTopBtn);
-    (s.sideQuests||DEFAULT.sideQuests).forEach((q,i)=>{
+    activeSQ.forEach((q,activeIdx)=>{
+      const i=allSQ.indexOf(q);
       const pct=Math.min(100,Math.max(0,q.progress||0));
       const bodyId=`sq-body-${i}`,arrowId=`sq-arrow-${i}`;
       const d=document.createElement('div'); d.className='sqcard';
       const head=document.createElement('div'); head.className='sqcard-head'; head.dataset.handleInject='1';
-      const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=i+2;
+      const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=activeIdx+2;
       const titleEl=makeEditable(q.title,'Quest name',v=>saveNestedField(['sideQuests',i,'title'],capitalise(v)),'sq-title-edit');
       titleEl.className+=' sqcard-name'; titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
@@ -8333,6 +8503,12 @@ function renderQuestsTab(s){
       const completeBtn=document.createElement('button'); completeBtn.className='quest-complete-btn'; completeBtn.title='Mark as completed';
       completeBtn.innerHTML='<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/><path d="M4.5 8.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       completeBtn.addEventListener('click',e=>{ e.stopPropagation(); completeQuest(i); });
+      const archiveBtn=document.createElement('button'); archiveBtn.className='quest-archive-btn'; archiveBtn.title='Archive quest (hide from dashboard)';
+      archiveBtn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14"><rect x="1" y="2.5" width="12" height="2.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 5v6a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V5" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="5" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+      archiveBtn.addEventListener('click',e=>{ e.stopPropagation();
+        saveNestedField(['sideQuests',i,'archived'],true);
+        renderQuestsTab(appState);
+      });
       const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.title='Cancel quest (no XP)'; delBtn.textContent='×';
       delBtn.addEventListener('click',e=>{ e.stopPropagation();
         const snap=JSON.parse(JSON.stringify(appState.sideQuests));
@@ -8367,7 +8543,7 @@ function renderQuestsTab(s){
           }
         });
       });
-      head.appendChild(sqEditBtn); head.appendChild(completeBtn); head.appendChild(arrowEl);
+      head.appendChild(sqEditBtn); head.appendChild(archiveBtn); head.appendChild(completeBtn); head.appendChild(arrowEl);
       head.addEventListener('click',e=>{ if(e.target===head||e.target===arrowEl||e.target===mark) toggleChapter(bodyId,arrowId); });
       const body=document.createElement('div'); body.className='sqcard-body open'; body.id=bodyId;
       body.appendChild(makeEditable(q.nextStep,'What needs doing…',v=>saveNestedField(['sideQuests',i,'nextStep'],v),'sqcard-next'));
@@ -8382,9 +8558,49 @@ function renderQuestsTab(s){
     });
     const addBtn=document.createElement('button'); addBtn.className='add-item-btn'; addBtn.textContent='+ Add Quest'; addBtn.onclick=addSideQuest; sqEl.appendChild(addBtn);
     makeSortable(sqEl, (from, to) => {
-      reorderArray(appState.sideQuests, from, to);
+      // Reorder among active quests only, then write back to full array preserving archived positions
+      const active=appState.sideQuests.filter(q=>!q.archived);
+      reorderArray(active, from, to);
+      const archived=appState.sideQuests.filter(q=>q.archived);
+      appState.sideQuests=[...active,...archived];
       appState.sideQuests.forEach((q, i) => { q.priority = i + 1; });
       saveState(appState); markDirty(); renderQuestsTab(appState);
+    });
+  }
+
+  // Archived side quests
+  const archivedSQ=(s.sideQuests||[]).filter(q=>q.archived);
+  const archivedSection=document.getElementById('qt-archived-section');
+  const archivedEl=document.getElementById('qt-archived');
+  if(archivedSection) archivedSection.style.display=archivedSQ.length?'':'none';
+  if(archivedEl){
+    archivedEl.innerHTML='';
+    const allSQ2=s.sideQuests||[];
+    archivedSQ.forEach(q=>{
+      const i=allSQ2.indexOf(q);
+      const d=document.createElement('div'); d.className='sqcard'; d.style.opacity='0.65';
+      const head=document.createElement('div'); head.className='sqcard-head'; head.dataset.handleInject='1';
+      const titleEl=document.createElement('div'); titleEl.className='sqcard-name sq-title-edit';
+      titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--text-dim);';
+      titleEl.textContent=q.title||'(untitled)';
+      const unarchiveBtn=document.createElement('button'); unarchiveBtn.className='quest-reopen-btn'; unarchiveBtn.title='Restore to active quests';
+      unarchiveBtn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7a5 5 0 1 0 1.2-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M1 3.5L2.2 7l3-1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      unarchiveBtn.addEventListener('click',e=>{ e.stopPropagation();
+        saveNestedField(['sideQuests',i,'archived'],false);
+        renderQuestsTab(appState); updateNavCounts(appState);
+      });
+      const delBtn=document.createElement('button'); delBtn.className='ally-delete card-head-del'; delBtn.title='Delete permanently'; delBtn.textContent='×';
+      delBtn.addEventListener('click',e=>{ e.stopPropagation();
+        const snap=JSON.parse(JSON.stringify(appState.sideQuests));
+        showConfirmDelete(q.title||'this quest',
+          ()=>{ appState.sideQuests.splice(i,1); saveState(appState); markDirty(); renderQuestsTab(appState); },
+          ()=>{ appState.sideQuests=snap; saveState(appState); markDirty(); renderQuestsTab(appState); }
+        );
+      });
+      head.appendChild(delBtn); head.appendChild(titleEl);
+      if(q.progress!=null){ const ps=document.createElement('div'); ps.className='sqcard-pct'; ps.textContent=q.progress+'%'; head.appendChild(ps); }
+      head.appendChild(unarchiveBtn);
+      d.appendChild(head); archivedEl.appendChild(d);
     });
   }
 
@@ -9838,13 +10054,13 @@ function render(s){
     mqBody.appendChild(mqFoot);
     mqWrap.appendChild(mqTrigger); mqWrap.appendChild(mqBody); fqEl.appendChild(mqWrap);
 
-    // Top 2 side quests by priority (lowest priority number = highest priority)
-    const topSide=(s.sideQuests||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,2);
+    // Top 2 side quests by priority (lowest priority number = highest priority), excluding archived
+    const topSide=(s.sideQuests||[]).filter(q=>!q.archived).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).slice(0,2);
     topSide.forEach((q,i)=>{
       const pct=Math.min(100,Math.max(0,q.progress||0));
       const d=document.createElement('div'); d.className='sqcard';
       const head=document.createElement('div'); head.className='sqcard-head';
-      const rank=(s.sideQuests||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).indexOf(q)+2;
+      const rank=(s.sideQuests||[]).filter(q=>!q.archived).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).indexOf(q)+2;
       const mark=document.createElement('span'); mark.className='quest-mark quest-rank'; mark.textContent=rank;
       const titleEl=document.createElement('div'); titleEl.className='sq-title-edit sqcard-name'; titleEl.style.cssText='flex:1;font-family:"Cinzel",serif;font-size:17px;font-weight:600;color:var(--gold);'; titleEl.textContent=q.title||'';
       const tr=document.createElement('div'); tr.className='sqcard-track'; tr.style.cssText='position:relative;width:80px;';
@@ -10692,9 +10908,9 @@ function applyUpdate(chatData){
       merged.insights = Object.entries(merged.insights).map(([k,v])=>({name:k,entries:Array.isArray(v)?v:[]}));
     }
     // Migrate old schema: bestiary → enemies, currentEnemies → current, subEnemies → minions, wheelOfLife → coreSkills
-    if(merged.bestiary && !merged.enemies){
-      merged.enemies = merged.bestiary;
-      delete merged.bestiary;
+    if(merged.bestiary){
+      if(!merged.enemies) merged.enemies = merged.bestiary;
+      delete merged.bestiary; // always remove legacy field
     }
     if(merged.enemies){
       if(merged.enemies.currentEnemies && !merged.enemies.current){
@@ -10705,10 +10921,11 @@ function applyUpdate(chatData){
         if(b.subEnemies && !b.minions){ b.minions = b.subEnemies; delete b.subEnemies; }
       });
     }
-    if(merged.wheelOfLife && !merged.coreSkills){
-      merged.coreSkills = merged.wheelOfLife;
-      delete merged.wheelOfLife;
+    if(merged.wheelOfLife){
+      if(!merged.coreSkills) merged.coreSkills = merged.wheelOfLife;
+      delete merged.wheelOfLife; // always remove legacy field
     }
+    delete merged.journal; // hallucinated wrapper field — strip on every load
     // Auto-level-up: resolve XP overflow so the ring never shows >100%
     const _impRawMergedXp=merged.xp||0;
     if(merged.xp!=null && merged.xpToNext!=null){
@@ -11331,16 +11548,86 @@ function renderMigrationPie(bundle,jsonStr){
   if(warn) warn.style.display='block';
 }
 
+function _buildAIContextExport(fullState){
+  const s=Object.assign({},fullState);
+  // App internals — not useful for AI journalling
+  delete s.completedMainQuests;
+  delete s.harmonyHistory;
+  delete s.dailyDistribution;
+  delete s.balanceSmoothed;
+  delete s.sliderXpRewards;
+  delete s._featuredAch;
+  delete s._featuredCls;
+  delete s._xpLog;
+  delete s.avgHistory;       // chart render data only
+  delete s.pieColours;       // UI colour preferences
+  delete s.rqAlignTimelines; // UI toggle state
+  delete s._locked;          // field lock metadata
+  // Legacy fields superseded by canonical equivalents
+  delete s.bestiary;         // migrated to enemies
+  delete s.wheelOfLife;      // migrated to coreSkills
+  delete s.keyQuestion;      // superseded by keyQuestions array
+  // Hallucinated wrapper fields — AI sometimes nests real fields under a bogus key
+  delete s.journal;
+
+  // Filter empty-name allies and enemies (placeholder rows left in UI)
+  if(s.allies) s.allies=s.allies.filter(a=>a.name&&a.name.trim());
+  if(s.enemies){
+    s.enemies=Object.assign({},s.enemies);
+    if(s.enemies.current) s.enemies.current=s.enemies.current.filter(e=>e.name&&e.name.trim());
+  }
+
+  // Replace chatSessions with compact summaries of the last 3 unique sessions only
+  const seenIds=new Set();
+  const uniqueSessions=(fullState.chatSessions||[]).filter(sess=>{
+    if(!sess.id||seenIds.has(sess.id)) return false;
+    seenIds.add(sess.id); return true;
+  }).slice().sort((a,b)=>((a.startedAt||'')>(b.startedAt||'')?1:-1));
+  if(uniqueSessions.length){
+    s.chatSessions=uniqueSessions.slice(-3).map(sess=>{
+      const d=sess.startedAt?new Date(sess.startedAt).toISOString().slice(0,10):'';
+      const out={id:sess.id};
+      if(d) out.date=d;
+      if(sess.title) out.title=sess.title;
+      if(sess.summary) out.summary=sess.summary;
+      return out;
+    });
+    if(uniqueSessions.length>3) s.chatSessions.unshift({_note:'Plus '+(uniqueSessions.length-3)+' earlier session(s) not shown'});
+  } else {
+    delete s.chatSessions;
+  }
+
+  // Collapse completedQuests to 14-day rolling window count + titles, discard older entries
+  // Note: entries use completedDate (DD/MM/YYYY or free text), so we match on the stored string
+  const allCompleted=fullState.completedQuests||[];
+  if(allCompleted.length){
+    const cutoffMs=Date.now()-14*24*3600*1000;
+    const recent=allCompleted.filter(q=>{
+      const raw=q.completedDate||q.date||'';
+      // Try ISO format first, then DD/MM/YYYY
+      const iso=raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      const dmy=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+      if(iso) return new Date(raw).getTime()>=cutoffMs;
+      if(dmy) return new Date(`${dmy[3]}-${dmy[2]}-${dmy[1]}`).getTime()>=cutoffMs;
+      return false; // free-text dates like "March 2026" can't be compared
+    });
+    s.completedQuests={
+      total:allCompleted.length,
+      last14Days:recent.length,
+      recentTitles:recent.slice(-5).map(q=>q.title||'').filter(Boolean)
+    };
+  }
+
+  return s;
+}
+
 function exportState(){
   const raw=_pinActive?null:localStorage.getItem('cs-state-v1');
   const state=raw?JSON.parse(raw):(_pinActive?JSON.parse(JSON.stringify(appState)):DEFAULT);
-  delete state.completedMainQuests;
-  state._featuredAch=getFeaturedAch();
-  state._featuredCls=getFeaturedCls();
-  state._xpLog=loadXPLog();
-  const jsonStr=JSON.stringify(state,null,2);
+  const aiContext=_buildAIContextExport(state);
+  const jsonStr=JSON.stringify(aiContext,null,2);
   document.getElementById('export-textarea').value=jsonStr;
-  renderExportPie(state,jsonStr);
+  renderExportPie(aiContext,jsonStr);
   // Build and render migration bundle
   const bundle=buildMigrationBundle();
   const migStr=JSON.stringify(bundle,null,2);
@@ -11349,9 +11636,25 @@ function exportState(){
   const encRow = document.getElementById('export-enc-row');
   if (encRow) encRow.style.display = (_pinActive && localStorage.getItem(ENC_KEY)) ? 'block' : 'none';
   document.getElementById('export-modal').classList.add('open');
+  loadGithubBackupUrl();
   _clearDirty();
   hideDirtyBanner();
   updateInstructionsNotice(state);
+}
+function loadGithubBackupUrl(){
+  const url=localStorage.getItem('cs-github-backup-v1')||'';
+  const input=document.getElementById('github-backup-url');
+  const btn=document.getElementById('github-backup-btn');
+  if(input) input.value=url;
+  if(btn){ btn.style.display=url?'inline-flex':'none'; if(url) btn.href=url; }
+}
+function saveGithubBackupUrl(){
+  const input=document.getElementById('github-backup-url');
+  const btn=document.getElementById('github-backup-btn');
+  if(!input) return;
+  const url=input.value.trim();
+  if(url){ localStorage.setItem('cs-github-backup-v1',url); } else { localStorage.removeItem('cs-github-backup-v1'); }
+  if(btn){ btn.style.display=url?'inline-flex':'none'; if(url) btn.href=url; }
 }
 function updateInstructionsNotice(state){
   if(!state) { const raw=(typeof _pinActive!=='undefined'&&_pinActive)?null:localStorage.getItem('cs-state-v1'); state=raw?JSON.parse(raw):(typeof appState!=='undefined'?appState:DEFAULT); }
@@ -14279,7 +14582,8 @@ function renderRecurringQuests(s) {
   if (!container) return;
   container.innerHTML = '';
   const activities = (s.activities || DEFAULT.activities || [])
-    .slice().sort((a,b) => (a.priority||99) - (b.priority||99));
+    .slice().sort((a,b) => (a.priority||99) - (b.priority||99))
+    .filter(a => !a.archived);
   const charName = getCharId();
 
   // Compute aligned start date: earliest first data point across all day-period activities
@@ -14355,6 +14659,15 @@ function renderRecurringQuests(s) {
       }, () => { appState.activities=snap; saveState(appState); markDirty(); renderRecurringQuests(appState); });
     });
     hdr.appendChild(rqDelBtn);
+
+    // Archive button
+    const rqArchiveBtn = document.createElement('button'); rqArchiveBtn.className = 'quest-archive-btn'; rqArchiveBtn.title = 'Archive quest (hide from dashboard)';
+    rqArchiveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14"><rect x="1" y="2.5" width="12" height="2.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 5v6a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V5" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="5" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
+    rqArchiveBtn.addEventListener('click', e => { e.stopPropagation();
+      const actInState = (appState.activities || []).find(a => a.id === act.id);
+      if (actInState) { actInState.archived = true; saveState(appState); markDirty(); renderRecurringQuests(appState); }
+    });
+    hdr.appendChild(rqArchiveBtn);
 
     // Name (editable) + color swatch for simple quests (no sub-activities)
     const nameSpan = makeEditable(act.name, 'Quest name', v => {
@@ -15074,6 +15387,39 @@ function renderRecurringQuests(s) {
     });
     saveState(appState); markDirty(); renderRecurringQuests(appState);
   });
+
+  // Archived regular quests
+  const archivedActs = (s.activities || []).filter(a => a.archived);
+  const rqArchivedSection = document.getElementById('rq-archived-section');
+  const rqArchivedList = document.getElementById('rq-archived-list');
+  const rqArchivedCount = document.getElementById('rq-archived-count');
+  if (rqArchivedSection) rqArchivedSection.style.display = archivedActs.length ? '' : 'none';
+  if (rqArchivedCount) rqArchivedCount.textContent = archivedActs.length ? `(${archivedActs.length})` : '';
+  if (rqArchivedList) {
+    rqArchivedList.innerHTML = '';
+    archivedActs.forEach(act => {
+      const row = document.createElement('div'); row.className = 'archived-rq-hdr';
+      const nameEl = document.createElement('span'); nameEl.style.cssText = 'flex:1;font-family:"Cinzel",serif;font-size:15px;color:var(--text-dim);';
+      nameEl.textContent = act.name || '(untitled)';
+      const unarchiveBtn = document.createElement('button'); unarchiveBtn.className = 'quest-reopen-btn'; unarchiveBtn.title = 'Restore to active quests';
+      unarchiveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7a5 5 0 1 0 1.2-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M1 3.5L2.2 7l3-1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      unarchiveBtn.addEventListener('click', () => {
+        const actInState = (appState.activities || []).find(a => a.id === act.id);
+        if (actInState) { delete actInState.archived; saveState(appState); markDirty(); renderRecurringQuests(appState); }
+      });
+      const delBtn = document.createElement('button'); delBtn.className = 'ally-delete card-head-del'; delBtn.textContent = '×'; delBtn.title = 'Delete permanently';
+      delBtn.addEventListener('click', () => {
+        const snap = JSON.parse(JSON.stringify(appState.activities || []));
+        showConfirmDelete(act.name || 'this quest', () => {
+          const idx = (appState.activities || []).findIndex(a => a.id === act.id);
+          if (idx >= 0) appState.activities.splice(idx, 1);
+          saveState(appState); markDirty(); renderRecurringQuests(appState);
+        }, () => { appState.activities = snap; saveState(appState); markDirty(); renderRecurringQuests(appState); });
+      });
+      row.appendChild(nameEl); row.appendChild(unarchiveBtn); row.appendChild(delBtn);
+      rqArchivedList.appendChild(row);
+    });
+  }
 }
 
 
@@ -17056,6 +17402,573 @@ function renderStatusHistoryChart() {
   _attachHistChartBackfill('status-hist-canvas', hist, ['focus','energy','purpose','interest'], STATUS_COLORS, STATUS_HIST_KEY, renderStatusHistoryChart, hRange);
 }
 
+// ══════════════════════════════════════════════════════════════
+// TRENDS TAB
+// ══════════════════════════════════════════════════════════════
+
+const TRENDS_SERIES = [
+  // HP: Physical
+  { key:'rest',         label:'Rest',          group:'hp',   color:'#8090a8', source:'stats'  },
+  { key:'movement',     label:'Movement',      group:'hp',   color:'#d07830', source:'stats'  },
+  { key:'nutrition',    label:'Nutrition',     group:'hp',   color:'#60a838', source:'stats'  },
+  { key:'footRehab',    label:'Foot rehab',    group:'hp',   color:'#e05060', source:'cowork', norm:'completion7' },
+  { key:'mobility',     label:'Mobility',      group:'hp',   color:'#e09030', source:'cowork', norm:'completion7' },
+  { key:'flexibility',  label:'Flexibility',   group:'hp',   color:'#a8c840', source:'cowork', norm:'completion7' },
+  { key:'pull',         label:'Pull',          group:'hp',   color:'#9868d8', source:'cowork', norm:'completionWeekly' },
+  { key:'push',         label:'Push',          group:'hp',   color:'#6848b8', source:'cowork', norm:'completionWeekly' },
+  // Mana: Mental
+  { key:'focus',        label:'Focus',         group:'mana', color:'#c0cad4', source:'status' },
+  { key:'energy',       label:'Energy',        group:'mana', color:'#e0a040', source:'status' },
+  { key:'purpose',      label:'Purpose',       group:'mana', color:'#58b858', source:'status' },
+  { key:'interest',     label:'Interest',      group:'mana', color:'#3a80c8', source:'status' },
+  { key:'connection',   label:'Connection',    group:'hp',   color:'#40b0e0', source:'stats'  },
+  { key:'meditation',   label:'Meditation',    group:'mana', color:'#c8a84a', source:'rquest', norm:'rollingMax' },
+  { key:'coworkCount',  label:'Cowork',        group:'mana', color:'#2ab8b0', source:'cowork', norm:'rollingMax' },
+  { key:'wordsWritten', label:'Words written', group:'mana', color:'#a068e0', source:'cowork', norm:'rollingMax' },
+  { key:'socialEvents', label:'Social events', group:'mana', color:'#d06090', source:'cowork', norm:'rollingMax' },
+  { key:'csCheckin',    label:'CS check-in',   group:'mana', color:'#c8b858', source:'cowork', norm:'completion7' },
+];
+
+const TRENDS_TOGGLE_KEY = 'cs-trends-toggles-v1';
+const TRENDS_RANGE_KEY  = 'cs-trends-range-v1';
+let _coworkLog = null;
+let _trendsRange = (() => { try { return parseInt(localStorage.getItem(TRENDS_RANGE_KEY)||'30'); } catch(e){ return 30; } })();
+
+async function _loadCoworkLog(force) {
+  if (_coworkLog && !force) return _coworkLog;
+  try {
+    const r = await fetch('/cowork-log.json?t=' + Date.now());
+    _coworkLog = r.ok ? await r.json() : { entries:[] };
+  } catch(e) { _coworkLog = { entries:[] }; }
+  return _coworkLog;
+}
+
+function _getTrendsEnabled() {
+  try {
+    const s = localStorage.getItem(TRENDS_TOGGLE_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  const def = {};
+  TRENDS_SERIES.forEach(s => { def[s.key] = true; });
+  return def;
+}
+
+function _setTrendsToggle(key, val) {
+  const en = _getTrendsEnabled();
+  en[key] = val;
+  try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(en)); } catch(e) {}
+}
+
+function setTrendsRange(n, btn) {
+  _trendsRange = n;
+  try { localStorage.setItem(TRENDS_RANGE_KEY, String(n)); } catch(e) {}
+  document.querySelectorAll('.trends-range-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderTrendsChart();
+}
+
+function _linReg(pts) {
+  const n = pts.length;
+  if (n < 2) return null;
+  let sx=0, sy=0, sxy=0, sx2=0;
+  pts.forEach(([x,y]) => { sx+=x; sy+=y; sxy+=x*y; sx2+=x*x; });
+  const d = n*sx2 - sx*sx;
+  if (!d) return null;
+  const slope = (n*sxy - sx*sy)/d;
+  return { slope, intercept:(sy - slope*sx)/n };
+}
+
+async function _buildTrendsSlots(rangeD) {
+  const log = await _loadCoworkLog();
+  const cwByDate = {};
+  (log.entries || []).forEach(e => { cwByDate[e.date] = e; });
+
+  let statsHist = [], statusHist = [];
+  try { statsHist  = JSON.parse(localStorage.getItem(STATS_HIST_KEY)   || '[]'); } catch(e) {}
+  try { statusHist = JSON.parse(localStorage.getItem(STATUS_HIST_KEY)  || '[]'); } catch(e) {}
+  // Helper: scalar or averaged array (mirrors _statusDayAvg)
+  const dayAvg = (entry, key) => {
+    const v = entry[key];
+    if (Array.isArray(v)) return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null;
+    return v != null ? v : null;
+  };
+
+  const stById = {}, ssById = {};
+  statsHist.forEach(e  => { stById[e.date] = e; });
+  statusHist.forEach(e => { ssById[e.date] = e; });
+
+  // Meditation from regular quest history (minutes per day for timer, count for checkbox).
+  // Keywords: meditat, meditate, mindful, or the 🧘 emoji. Also matches exact name "meditate".
+  const medKeywords = ['meditat','meditate','mindful','🧘'];
+  const medAct = (appState.activities || []).find(a => {
+    if (!a.name) return false;
+    const n = a.name.toLowerCase().trim();
+    return medKeywords.some(k => n.includes(k));
+  });
+  const medById = {};
+  if (medAct) {
+    try {
+      // Try all known charName variants via cs-rq-hist-* localStorage keys
+      const charNames = new Set([appState.name || '']);
+      try {
+        Object.keys(localStorage).forEach(k => {
+          if (k.startsWith('cs-rq-hist-')) {
+            const rest = k.slice('cs-rq-hist-'.length);
+            // Key format: cs-rq-hist-{charName}-{activityId}. activityId has no dashes.
+            const lastDash = rest.lastIndexOf('-');
+            if (lastDash > 0) charNames.add(rest.slice(0, lastDash));
+          }
+        });
+      } catch(e2) {}
+      charNames.forEach(cn => {
+        try {
+          loadRQHistory(cn, medAct.id).forEach(e => {
+            if (!e.period || e.period.length !== 10) return;
+            let val = e.value || 0;
+            if (medAct.type === 'timer' && val > 360) val = Math.round(val / 60); // guard raw seconds
+            if (val > 0) medById[e.period] = (medById[e.period] || 0) + val;
+          });
+        } catch(e2) {}
+      });
+      // Include today's in-progress value from practiceState (not yet archived)
+      const todayKey = _localDate ? _localDate() : new Date().toISOString().slice(0,10);
+      const ps = window.practiceState && window.practiceState[medAct.id];
+      if (ps) {
+        let todayVal = medAct.type === 'timer'
+          ? Math.floor((ps.seconds || 0) / 60)
+          : (ps.value || 0);
+        if (todayVal > 0) medById[todayKey] = Math.max(medById[todayKey] || 0, todayVal);
+      }
+    } catch(e) {}
+  }
+  // Expose meditation activity colour for chart sync (used in renderTrendsChart)
+  window._medActColor = medAct ? (medAct.color || '#c8a84a') : '#c8a84a';
+
+  // Resolve range
+  const today = new Date();
+  let days = rangeD;
+  if (rangeD === 9999) {
+    const allDates = [...statsHist.map(e=>e.date), ...statusHist.map(e=>e.date), ...Object.keys(cwByDate)].filter(Boolean).sort();
+    days = allDates.length ? Math.ceil((today - new Date(allDates[0]+'T00:00:00Z'))/86400000)+1 : 90;
+  }
+
+  // Build raw slots
+  const slots = [];
+  for (let i = days; i >= 0; i--) {
+    const d = new Date(today); d.setUTCDate(d.getUTCDate() - i);
+    const ds = d.toISOString().slice(0,10);
+    const cw = cwByDate[ds] || {};
+    const st = stById[ds]  || {};
+    const ss = ssById[ds]  || {};
+    slots.push({
+      date:ds,
+      rest:dayAvg(st,'rest'), movement:dayAvg(st,'movement'), nutrition:dayAvg(st,'nutrition'), connection:dayAvg(st,'connection'),
+      focus:dayAvg(ss,'focus'), energy:dayAvg(ss,'energy'), purpose:dayAvg(ss,'purpose'), interest:dayAvg(ss,'interest'),
+      _coworkCount:   cw.coworkSessions || 0,
+      _wordsWritten:  cw.wordsWritten   || 0,
+      _socialEvents:  cw.socialEvents   || 0,
+      _meditation:    medById[ds]       || 0,
+      _footRehab:     cw.footRehab      || 0,
+      _mobility:      cw.mobility       || 0,
+      _flexibility:   cw.flexibility    || 0,
+      _pull:          cw.pull           || 0,
+      _push:          cw.push           || 0,
+      // Infer check-in from CS stats/status history if cowork-log doesn't have it
+      _csCheckin: cw.csCheckin || ((stById[ds] || ssById[ds]) ? 1 : 0),
+    });
+  }
+
+  // Determine the first date cowork-log has any entry (for missing-data gaps)
+  const cwDates = Object.keys(cwByDate).sort();
+  const cwStartDate = cwDates.length ? cwDates[0] : null;
+
+  // 7-day rolling completion rate for Todoist daily tasks.
+  // Shows null (gap) before cowork-log started; 0-100 once logging began.
+  ['_footRehab','_mobility','_flexibility','_csCheckin'].forEach(raw => {
+    const out = raw.slice(1);
+    slots.forEach((s, i) => {
+      // If no cowork-log data exists yet, or this day is before logging started, leave null
+      if (!cwStartDate || s.date < cwStartDate) { s[out] = null; return; }
+      const w = slots.slice(Math.max(0,i-6), i+1);
+      // Only score days that are within the logging window
+      const loggedDays = w.filter(d => d.date >= cwStartDate);
+      if (!loggedDays.length) { s[out] = null; return; }
+      s[out] = loggedDays.reduce((acc,d)=>acc+(d[raw]||0), 0) / 7 * 100;
+    });
+  });
+
+  // Weekly task: rolling 4-week hit rate. Null before logging started.
+  ['_pull','_push'].forEach(raw => {
+    const out = raw.slice(1);
+    slots.forEach((s, i) => {
+      if (!cwStartDate || s.date < cwStartDate) { s[out] = null; return; }
+      let hit = 0, weeksChecked = 0;
+      for (let w = 0; w < 4; w++) {
+        const wk = slots.slice(Math.max(0,i-6-w*7), Math.max(0,i-w*7)+1);
+        const loggedWk = wk.filter(d => d.date >= cwStartDate);
+        if (!loggedWk.length) break;
+        weeksChecked++;
+        if (loggedWk.some(d => (d[raw]||0) > 0)) hit++;
+      }
+      s[out] = weeksChecked ? hit/weeksChecked*100 : null;
+    });
+  });
+
+  // Rolling max normalization for count-based metrics.
+  // cowork/words use cwStartDate; meditation uses medById presence.
+  const metaMap = {
+    _coworkCount:'coworkCount', _wordsWritten:'wordsWritten',
+    _socialEvents:'socialEvents', _meditation:'meditation'
+  };
+  Object.entries(metaMap).forEach(([raw, out]) => {
+    const isMed = raw === '_meditation';
+    const startDate = isMed
+      ? (Object.keys(medById).sort()[0] || null)  // first day with meditation data
+      : cwStartDate;
+    const vals = slots.map(s=>s[raw]||0).filter(v=>v>0).sort((a,b)=>a-b);
+    const cap = vals.length ? vals[Math.floor(vals.length*0.9)] || vals[vals.length-1] : 1;
+    const maxVal = Math.max(cap, 1);
+    slots.forEach(s => {
+      if (!startDate || s.date < startDate) { s[out] = null; return; }
+      s[out] = (s[raw]||0) > 0 ? Math.min(100, s[raw]/maxVal*100) : 0;
+    });
+  });
+
+  return slots;
+}
+
+function _computeTrendsMeta(slots, key) {
+  let current = null;
+  for (let i = slots.length-1; i >= 0; i--) {
+    if (slots[i][key] != null) { current = slots[i][key]; break; }
+  }
+  if (current === null) return { current:null, trend:0, levelClass:'none' };
+  const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+  const l7 = slots.slice(-7).map(s=>s[key]).filter(v=>v!=null);
+  const p7 = slots.slice(-14,-7).map(s=>s[key]).filter(v=>v!=null);
+  const trend = (l7.length && p7.length) ? avg(l7)-avg(p7) : 0;
+  const levelClass = current < 35 ? 'low' : current < 62 ? 'mid' : 'high';
+  return { current, trend, levelClass };
+}
+
+// Pearson correlation coefficient for two equal-length arrays
+function _pearsonR(xs, ys) {
+  const n = xs.length;
+  if (n < 10) return null;
+  const mx = xs.reduce((a,b)=>a+b,0)/n, my = ys.reduce((a,b)=>a+b,0)/n;
+  let num=0, dx2=0, dy2=0;
+  for (let i=0; i<n; i++) { const dx=xs[i]-mx, dy=ys[i]-my; num+=dx*dy; dx2+=dx*dx; dy2+=dy*dy; }
+  const denom = Math.sqrt(dx2*dy2);
+  return denom ? num/denom : null;
+}
+
+function _computeTrendsCorrelations(slots) {
+  const results = [];
+  const keys = TRENDS_SERIES.map(s => s.key);
+  for (let i=0; i<keys.length; i++) {
+    for (let j=i+1; j<keys.length; j++) {
+      const ka=keys[i], kb=keys[j];
+      const shared = slots.filter(s => s[ka]!=null && s[kb]!=null && s[ka]>0 && s[kb]>0);
+      if (shared.length < 10) continue;
+      const r = _pearsonR(shared.map(s=>s[ka]), shared.map(s=>s[kb]));
+      if (r==null || Math.abs(r) < 0.5) continue;
+      results.push({ ka, kb, r, n: shared.length });
+    }
+  }
+  return results.sort((a,b)=>Math.abs(b.r)-Math.abs(a.r)).slice(0,6);
+}
+
+function _renderTrendsCorrelations(slots) {
+  const el = document.getElementById('trends-correlations-list');
+  if (!el) return;
+  const pairs = _computeTrendsCorrelations(slots);
+  if (!pairs.length) {
+    el.innerHTML = '<span style="font-size:12px;color:var(--text-dim);font-family:var(--mono);">Not enough data yet. Keep checking in daily.</span>';
+    return;
+  }
+  el.innerHTML = '';
+  const seriesByKey = Object.fromEntries(TRENDS_SERIES.map(s=>[s.key,s]));
+  pairs.forEach(({ka, kb, r, n}) => {
+    const sa = seriesByKey[ka], sb = seriesByKey[kb];
+    if (!sa || !sb) return;
+    const strength = Math.abs(r) > 0.75 ? 'strong' : 'moderate';
+    const dir = r > 0 ? 'positive' : 'negative';
+    const dirLabel = r > 0 ? 'move together' : 'move in opposite directions';
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
+
+    const dots = document.createElement('div');
+    dots.style.cssText = 'display:flex;gap:3px;flex-shrink:0;';
+    [sa.color, sb.color].forEach(c => {
+      const d = document.createElement('div');
+      d.style.cssText = `width:7px;height:7px;border-radius:50%;background:${c};`;
+      dots.appendChild(d);
+    });
+
+    const txt = document.createElement('span');
+    txt.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--text-mid);flex:1;letter-spacing:0.03em;';
+    txt.textContent = `${sa.label} + ${sb.label} tend to ${dirLabel}`;
+
+    const badge = document.createElement('span');
+    const badgeColor = r > 0 ? 'rgba(64,168,96,0.25)' : 'rgba(216,64,64,0.2)';
+    const badgeText = r > 0 ? 'rgba(64,168,96,0.9)' : '#d84040';
+    badge.style.cssText = `font-size:9px;font-family:var(--mono);letter-spacing:0.08em;background:${badgeColor};color:${badgeText};border-radius:3px;padding:1px 5px;flex-shrink:0;`;
+    badge.textContent = `${strength} (r=${r.toFixed(2)}, n=${n})`;
+
+    item.append(dots, txt, badge);
+    el.appendChild(item);
+  });
+}
+
+async function renderTrendsChart() {
+  const canvas = document.getElementById('trends-canvas');
+  if (!canvas) return;
+  const enabled = _getTrendsEnabled();
+  const slots   = await _buildTrendsSlots(_trendsRange);
+
+  // Sync meditation colour from activity definition
+  const medSeries = TRENDS_SERIES.find(s => s.key === 'meditation');
+  if (medSeries && window._medActColor) medSeries.color = window._medActColor;
+
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || (canvas.parentElement && canvas.parentElement.offsetWidth) || 500;
+  const H = 260;
+  canvas.style.height = H + 'px';
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0,0,W,H);
+
+  // Split zone: recent 7 days (58% width) + history (42%)
+  const padL=30, padR=12, padT=18, padB=26;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const recentN = Math.min(7, slots.length);
+  const histN   = slots.length - recentN;
+  const hasHistory = histN > 0;
+  const recentFrac = hasHistory ? 0.58 : 1.0;
+  const histW   = hasHistory ? plotW*(1-recentFrac) : 0;
+  const recentW = plotW*recentFrac;
+  const n = slots.length;
+
+  const xOf = i => {
+    if (!hasHistory) return padL + (n>1 ? i/(n-1) : 0.5)*plotW;
+    const isRecent = i >= histN;
+    if (isRecent) {
+      const ri = i - histN;
+      return padL + histW + (recentN>1 ? ri/(recentN-1) : 0.5)*recentW;
+    }
+    return padL + (histN>1 ? i/(histN-1) : 0.5)*histW;
+  };
+  const yOf = v => padT + plotH - Math.min(100,Math.max(0,v))/100*plotH;
+
+  // Grid lines + Y labels
+  ctx.font='8px monospace'; ctx.textAlign='right';
+  [0,25,50,75,100].forEach(v => {
+    const y=yOf(v);
+    ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.fillText(v,padL-4,y+3);
+    ctx.strokeStyle=v===50?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.03)';
+    ctx.lineWidth=v===50?0.8:0.5; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+plotW,y); ctx.stroke();
+  });
+
+  // Zone divider + labels
+  if (hasHistory) {
+    const bx = padL+histW;
+    ctx.fillStyle='rgba(0,0,0,0.12)';
+    ctx.fillRect(padL, padT, histW, plotH);
+    ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=1; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(bx,padT-14); ctx.lineTo(bx,padT+plotH); ctx.stroke();
+    ctx.font='bold 8px monospace'; ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,255,255,0.25)';
+    ctx.fillText('history', padL+histW/2, padT-5);
+    ctx.fillStyle='rgba(58,122,72,0.6)';
+    ctx.fillText('7 days', bx+recentW/2, padT-5);
+  }
+
+  // Weekend shading
+  slots.forEach((s,i) => {
+    const dow=new Date(s.date+'T00:00:00Z').getUTCDay();
+    if (dow===0||dow===6) {
+      const x=xOf(i);
+      const step = i<histN ? (histN>1?histW/(histN-1):histW) : (recentN>1?recentW/(recentN-1):recentW);
+      ctx.fillStyle='rgba(255,255,255,0.018)';
+      ctx.fillRect(x-step/2,padT,step,plotH);
+    }
+  });
+
+  // Date labels: every ~5 history slots + all 7 recent days
+  ctx.fillStyle='rgba(255,255,255,0.22)'; ctx.font='8px monospace'; ctx.textAlign='center';
+  const histStep = Math.max(1,Math.floor(histN/5));
+  slots.forEach((s,i) => {
+    const isRecent = i >= histN;
+    const show = isRecent || (i%histStep===0);
+    if (!show) return;
+    const d=new Date(s.date+'T00:00:00Z');
+    ctx.fillText((d.getUTCMonth()+1)+'/'+(d.getUTCDate()), xOf(i), padT+plotH+16);
+  });
+
+  // Draw series lines + best-fit
+  const active = TRENDS_SERIES.filter(s => enabled[s.key] !== false);
+  let hasAnyData = false;
+  active.forEach(series => {
+    const pts = slots.map((s,i)=>s[series.key]!=null?[i,s[series.key]]:null).filter(Boolean);
+    if (!pts.length) return;
+    hasAnyData = true;
+
+    ctx.globalAlpha=0.72; ctx.strokeStyle=series.color; ctx.lineWidth=1.5; ctx.setLineDash([]);
+    ctx.beginPath();
+    let started=false;
+    slots.forEach((s,i)=>{
+      const v=s[series.key];
+      if(v==null){started=false;return;}
+      if(!started){ctx.moveTo(xOf(i),yOf(v));started=true;}
+      else ctx.lineTo(xOf(i),yOf(v));
+    });
+    ctx.stroke();
+
+    const reg=_linReg(pts);
+    if(reg){
+      const x0=pts[0][0],x1=pts[pts.length-1][0];
+      ctx.globalAlpha=0.32; ctx.strokeStyle=series.color; ctx.lineWidth=1.1; ctx.setLineDash([5,4]);
+      ctx.beginPath();
+      ctx.moveTo(xOf(x0),yOf(reg.slope*x0+reg.intercept));
+      ctx.lineTo(xOf(x1),yOf(reg.slope*x1+reg.intercept));
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+  });
+  ctx.setLineDash([]);
+
+  // No-data overlay
+  const noDataEl=document.getElementById('trends-no-data');
+  if(noDataEl) noDataEl.style.display=hasAnyData?'none':'flex';
+
+  // Nav badge: average of series with actual data (exclude 0 and null)
+  const navEl=document.getElementById('nav-trends');
+  if(navEl){
+    const validMeta=TRENDS_SERIES
+      .map(s=>_computeTrendsMeta(slots,s.key))
+      .filter(m=>m.current!=null && m.current>0);
+    if(validMeta.length){
+      const avgScore=Math.round(validMeta.reduce((s,m)=>s+m.current,0)/validMeta.length);
+      const avgTrend=validMeta.reduce((s,m)=>s+m.trend,0)/validMeta.length;
+      const arrow=avgTrend>3?'↑':avgTrend<-3?'↓':'→';
+      const arrowColor=avgTrend>3?'#40a860':avgTrend<-3?'#d84040':'rgba(255,255,255,0.3)';
+      navEl.innerHTML=`<span style="color:${arrowColor};font-size:11px;">${arrow}</span><span style="font-size:12px;">${avgScore}</span>&thinsp;`;
+    } else { navEl.textContent=''; }
+  }
+
+  _renderTrendsLegend(slots, enabled);
+  _renderTrendsCorrelations(slots);
+}
+
+// Sub-group definitions for batch toggles
+const TRENDS_SUBGROUPS = {
+  hp: [
+    { label:'Core Skills', keys:['rest','movement','nutrition','connection'] },
+    { label:'Workouts',    keys:['footRehab','mobility','flexibility','pull','push'] },
+    { label:'All HP',      keys: null },
+  ],
+  mana: [
+    { label:'Status',      keys:['focus','energy','purpose','interest'] },
+    { label:'Activity',    keys:['meditation','coworkCount','wordsWritten','socialEvents','csCheckin'] },
+    { label:'All Mana',    keys: null },
+  ],
+};
+
+function _trendsToggleSubgroup(groupKey, keys, enabled) {
+  const groupKeys = keys || TRENDS_SERIES.filter(s=>s.group===groupKey).map(s=>s.key);
+  // If all are on, turn all off; otherwise turn all on
+  const allOn = groupKeys.every(k => enabled[k] !== false);
+  const newVal = !allOn;
+  groupKeys.forEach(k => { enabled[k] = newVal; });
+  try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(enabled)); } catch(e) {}
+  renderTrendsChart();
+}
+
+function _renderTrendsLegend(slots, enabled) {
+  const hpEl   = document.getElementById('trends-legend-hp');
+  const manaEl = document.getElementById('trends-legend-mana');
+  if (!hpEl || !manaEl) return;
+
+  const withMeta = TRENDS_SERIES.map(s => ({ ...s, ..._computeTrendsMeta(slots, s.key) }));
+  const sorted = [...withMeta].sort((a,b) => {
+    if (a.current==null && b.current==null) return 0;
+    if (a.current==null) return 1;
+    if (b.current==null) return -1;
+    return a.current - b.current;
+  });
+
+  const levelColors = { low:'#d84040', mid:'#c8a030', high:'#40a860', none:'rgba(255,255,255,0.18)' };
+
+  function buildToggles(el, groupKey) {
+    if (!el) return;
+    el.innerHTML = '';
+    (TRENDS_SUBGROUPS[groupKey] || []).forEach(sg => {
+      const keys = sg.keys || TRENDS_SERIES.filter(s=>s.group===groupKey).map(s=>s.key);
+      const allOn = keys.every(k => enabled[k] !== false);
+      const btn = document.createElement('button');
+      btn.className = 'trends-group-btn';
+      btn.textContent = sg.label;
+      btn.style.borderColor = allOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
+      btn.style.color = allOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
+      btn.onclick = () => _trendsToggleSubgroup(groupKey, sg.keys, _getTrendsEnabled());
+      el.appendChild(btn);
+    });
+  }
+
+  buildToggles(document.getElementById('trends-toggles-hp'),   'hp');
+  buildToggles(document.getElementById('trends-toggles-mana'), 'mana');
+
+  function buildGroup(el, groupKey) {
+    el.innerHTML = '';
+    sorted.filter(s=>s.group===groupKey).forEach(s => {
+      const isOn = enabled[s.key] !== false;
+      const item = document.createElement('div');
+      item.className = 'trends-legend-item';
+      item.title = s.current!=null ? `${s.label}: ${Math.round(s.current)}/100` : `${s.label}: no data`;
+
+      const sw = document.createElement('div');
+      sw.className = 'trends-swatch';
+      sw.style.borderColor = s.color;
+      sw.style.background  = isOn ? s.color : 'transparent';
+      sw.style.opacity = isOn ? '1' : '0.4';
+      sw.onclick = e => { e.stopPropagation(); _setTrendsToggle(s.key, !isOn); renderTrendsChart(); };
+
+      const dot = document.createElement('div');
+      dot.className = 'trends-dot';
+      dot.style.background = levelColors[s.levelClass];
+
+      const arrow = document.createElement('span');
+      arrow.className = 'trends-arrow';
+      let arrowChar='→', arrowCol='rgba(255,255,255,0.25)';
+      if (s.trend > 6)      { arrowChar='↑'; arrowCol='#40a860'; }
+      else if (s.trend < -6){ arrowChar='↓'; arrowCol='#d84040'; }
+      arrow.textContent = arrowChar;
+      arrow.style.color = arrowCol;
+
+      const lbl = document.createElement('span');
+      lbl.className = 'trends-lbl';
+      lbl.textContent = s.label;
+      lbl.style.color   = isOn ? 'var(--text-mid)' : 'var(--text-dim)';
+      lbl.style.opacity = isOn ? '1' : '0.45';
+
+      const val = document.createElement('span');
+      val.className = 'trends-val';
+      val.textContent = s.current!=null ? Math.round(s.current) : '--';
+      val.style.color = levelColors[s.levelClass];
+
+      item.append(sw, dot, arrow, lbl, val);
+      el.appendChild(item);
+    });
+  }
+
+  buildGroup(hpEl,   'hp');
+  buildGroup(manaEl, 'mana');
+}
+
+// ── end TRENDS TAB ──────────────────────────────────────────
+
 function confirmResetHistory(type) {
   // type: 'stats' or 'status'
   const label = type === 'stats' ? 'Core Skills' : 'Current State';
@@ -17914,9 +18827,11 @@ function markDirtyExtended(){
     const b = document.getElementById('dirty-banner');
     if(b) b.style.display = 'flex';
   }
-  // Auto-sync debounce
+  // Encrypted auto-sync debounce
   clearTimeout(_autoSyncTimer);
   _autoSyncTimer = setTimeout(_autoSyncPushSilent, 300000);
+  // Plain auto-sync debounce
+  _schedulePlainAutoSync();
 }
 
 function hideDirtyBanner(){
@@ -18301,6 +19216,7 @@ async function unlockApp(){
   updateCombatNavArc();
   _showApp();
   _resetLockTimer();
+  initInbox();
 }
 
 // ── Lock screen forgot-password flow ───────────────────────
@@ -19106,7 +20022,7 @@ function _init(){
     initRQState(act, getCharId());
   });
   updateCombatNavArc();
-  window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); if(document.getElementById('tab-skills')?.classList.contains('active')) renderSkillTree(appState); });
+  window.addEventListener('resize', ()=>{ renderStatusHistoryChart(); renderStatsHistoryChart(); if(document.getElementById('tab-skills')?.classList.contains('active')) renderSkillTree(appState); if(document.getElementById('tab-trends')?.classList.contains('active')) renderTrendsChart(); });
   // Re-arm check-in if the day rolls over while the tab is open
   let _checkinInitDate = _localDate();
   function _handleDayRollover() {
@@ -20438,6 +21354,11 @@ async function chatSend() {
   chatSetLoading(true);
   const loadEl = _chatAddLoadingBubble();
   const messagesRef = chatState.messages;
+  // Mint session ID now so both the normal and background-save paths use the same one
+  if (!chatState.currentSessionId) {
+    chatState.currentSessionId = 'cs-chat-' + Date.now();
+    chatState.sessionStartedAt = new Date().toISOString();
+  }
   const capturedSessionId = chatState.currentSessionId;
   let streamStarted = false;
   try {
@@ -20450,10 +21371,9 @@ async function chatSend() {
       messagesRef.push({ role: 'assistant', content: reply });
       if (!IS_DEMO) {
         if (!appState.chatSessions) appState.chatSessions = [];
-        const bgId = capturedSessionId || ('cs-chat-' + Date.now());
-        const bgIdx = appState.chatSessions.findIndex(s => s.id === bgId);
+        const bgIdx = appState.chatSessions.findIndex(s => s.id === capturedSessionId);
         if (bgIdx >= 0) appState.chatSessions[bgIdx] = Object.assign({}, appState.chatSessions[bgIdx], { messages: messagesRef.slice(), _hasUnread: true });
-        else appState.chatSessions.push({ id: bgId, startedAt: new Date().toISOString(), messages: messagesRef.slice(), _hasUnread: true });
+        else appState.chatSessions.push({ id: capturedSessionId, startedAt: chatState.sessionStartedAt || new Date().toISOString(), messages: messagesRef.slice(), _hasUnread: true });
         if (!_pinActive || _currentKey) saveState(appState); // skip if locked mid-stream
         renderChatSessionPicker();
       }
@@ -22528,6 +23448,7 @@ function openGitSyncModal() {
       : 'Auto-sync: push changes automatically (unlock your password first)';
     _updateGitSyncStatus();
   }
+  _populatePlainSyncModal();
   document.getElementById('git-sync-modal').classList.add('open');
   const guide = document.getElementById('cs-git-setup-guide');
   const arrow = document.getElementById('cs-git-guide-arrow');
@@ -22682,6 +23603,106 @@ async function gitSyncPull() {
     if (c) c.style.display = 'none';
   }
 }
+
+// ── Plain (unencrypted) auto-sync ─────────────────────────────
+const PLAIN_SYNC_KEY = 'cs-plain-sync-v1';
+
+function _loadPlainSyncSettings() {
+  try { return JSON.parse(localStorage.getItem(PLAIN_SYNC_KEY) || '{}'); } catch(e) { return {}; }
+}
+
+function _savePlainSyncSettings(s) {
+  try { localStorage.setItem(PLAIN_SYNC_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
+function plainSyncSaveSettings() {
+  const s = _loadPlainSyncSettings();
+  const pat  = document.getElementById('cs-plain-sync-pat');
+  const repo = document.getElementById('cs-plain-sync-repo');
+  const path = document.getElementById('cs-plain-sync-path');
+  if (pat)  s.pat  = pat.value.trim();
+  if (repo) { const p = repo.value.trim().split('/'); s.owner = p[0]||''; s.repo = p.slice(1).join('/')||''; }
+  if (path) s.path = path.value.trim() || 'data.json';
+  _savePlainSyncSettings(s);
+}
+
+function _populatePlainSyncModal() {
+  const s = _loadPlainSyncSettings();
+  const pat  = document.getElementById('cs-plain-sync-pat');
+  const repo = document.getElementById('cs-plain-sync-repo');
+  const path = document.getElementById('cs-plain-sync-path');
+  const auto = document.getElementById('cs-plain-sync-auto');
+  if (pat)  pat.value  = s.pat  || '';
+  if (repo) repo.value = (s.owner && s.repo) ? s.owner + '/' + s.repo : '';
+  if (path) path.value = s.path || 'data.json';
+  if (auto) auto.checked = !!s.autoSync;
+  _updatePlainSyncStatus();
+}
+
+function _updatePlainSyncStatus() {
+  const el = document.getElementById('cs-plain-sync-status');
+  if (!el) return;
+  const s = _loadPlainSyncSettings();
+  el.textContent = s.lastPushed ? 'Last pushed: ' + new Date(s.lastPushed).toLocaleString() : '';
+}
+
+async function _plainSyncPush(showToast) {
+  if (IS_DEMO) return;
+  const s = _loadPlainSyncSettings();
+  if (!s.pat || !s.owner || !s.repo) {
+    if (showToast) showImportToast('Fill in your GitHub token and owner/repo first.');
+    return;
+  }
+  const bundle = buildMigrationBundle();
+  const payload = JSON.stringify(bundle, null, 2);
+  const encodedContent = btoa(unescape(encodeURIComponent(payload)));
+  const apiBase = `https://api.github.com/repos/${encodeURIComponent(s.owner)}/${encodeURIComponent(s.repo)}/contents/${encodeURIComponent(s.path || 'data.json')}`;
+  const headers = { Authorization: 'Bearer ' + s.pat, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' };
+  const body = { message: 'sync: character-sheet plain backup', content: encodedContent };
+  if (s.lastSha) body.sha = s.lastSha;
+  try {
+    let put = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body), referrerPolicy: 'no-referrer' });
+    if (put.status === 409 || (!s.lastSha && put.status === 422)) {
+      const fresh = await fetch(apiBase, { headers: { Authorization: 'Bearer ' + s.pat, Accept: 'application/vnd.github+json' }, referrerPolicy: 'no-referrer' });
+      if (fresh.ok) { const fd = await fresh.json(); s.lastSha = fd.sha; body.sha = fd.sha; }
+      put = await fetch(apiBase, { method: 'PUT', headers, body: JSON.stringify(body), referrerPolicy: 'no-referrer' });
+    }
+    if (!put.ok) { const e = await put.json().catch(()=>({})); throw new Error(e.message || 'status ' + put.status); }
+    const pd = await put.json();
+    s.lastSha = pd.content?.sha || s.lastSha;
+    s.lastPushed = new Date().toISOString();
+    _savePlainSyncSettings(s);
+    _clearDirty(); hideDirtyBanner();
+    _updatePlainSyncStatus();
+    if (showToast) showImportToast('Pushed to ' + s.owner + '/' + s.repo + '/' + (s.path || 'data.json'));
+  } catch(err) {
+    if (showToast) showImportToast('Plain sync failed: ' + err.message);
+  }
+}
+
+function plainSyncToggleAuto(enabled) {
+  plainSyncSaveSettings();
+  const s = _loadPlainSyncSettings();
+  if (enabled && (!s.pat || !s.owner || !s.repo)) {
+    showImportToast('Fill in your GitHub token and owner/repo before enabling auto-sync.');
+    const el = document.getElementById('cs-plain-sync-auto');
+    if (el) el.checked = false;
+    return;
+  }
+  s.autoSync = enabled;
+  _savePlainSyncSettings(s);
+}
+
+let _plainSyncTimer = null;
+
+function _schedulePlainAutoSync() {
+  clearTimeout(_plainSyncTimer);
+  _plainSyncTimer = setTimeout(async () => {
+    const s = _loadPlainSyncSettings();
+    if (s.autoSync && s.pat && s.owner && s.repo) await _plainSyncPush(false);
+  }, 300000); // 5 minutes after last change
+}
+// ── end plain sync ──────────────────────────────────────────
 
 let _autoSyncTimer = null;
 let _autoSyncInFlight = false;
@@ -23194,6 +24215,103 @@ document.addEventListener('keydown', function(e) {
     }
   }, true);
 })();
+// ══ INBOX ════════════════════════════════════════════════════
+const INBOX_VISIBLE_KEY = 'cs-inbox-visible-v1';
+
+function getInboxItems() {
+  return Array.isArray(appState.inbox) ? appState.inbox : [];
+}
+
+function renderInboxBadge() {
+  const items = getInboxItems();
+  const unprocessed = items.filter(i => !i.processed).length;
+  const badge = document.getElementById('inbox-badge');
+  if (!badge) return;
+  if (unprocessed > 0) {
+    badge.textContent = unprocessed;
+    badge.style.display = 'block';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function renderInboxPanel() {
+  const list = document.getElementById('inbox-items-list');
+  if (!list) return;
+  const items = getInboxItems();
+  if (items.length === 0) {
+    list.innerHTML = '<div class="inbox-empty">Inbox clear ✓</div>';
+    return;
+  }
+  // Sort: unprocessed first, then by priority asc
+  const sorted = [...items].sort((a, b) => {
+    if (a.processed !== b.processed) return a.processed ? 1 : -1;
+    return (a.priority||99) - (b.priority||99);
+  });
+  list.innerHTML = sorted.map(item => `
+    <div class="inbox-item${item.processed ? ' processed' : ''}" data-inbox-id="${item.id}">
+      <div class="inbox-priority">${item.priority||'–'}</div>
+      <div class="inbox-body">
+        <div class="inbox-content">${item.content||''}</div>
+        <div class="inbox-meta">
+          <span class="inbox-type-badge">${item.type||'general'}</span>
+          ${item.source ? `<span class="inbox-source">${item.source}</span>` : ''}
+          ${item.addedDate ? `<span class="inbox-date">${item.addedDate}</span>` : ''}
+        </div>
+      </div>
+      ${!item.processed ? `<button class="inbox-done-btn" onclick="markInboxDone('${item.id}')">Done</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function markInboxDone(id) {
+  if (!Array.isArray(appState.inbox)) return;
+  const item = appState.inbox.find(i => i.id === id);
+  if (!item) return;
+  item.processed = true;
+  saveState(appState);
+  renderInboxBadge();
+  renderInboxPanel();
+}
+
+function toggleInboxPanel() {
+  const panel = document.getElementById('inbox-panel');
+  const btn = document.getElementById('inbox-toggle-btn');
+  if (!panel) return;
+  const isOpen = panel.classList.toggle('open');
+  if (btn) btn.classList.toggle('inbox-active', isOpen);
+  try { localStorage.setItem(INBOX_VISIBLE_KEY, isOpen ? '1' : '0'); } catch {}
+  if (isOpen) renderInboxPanel();
+}
+
+function initInbox() {
+  renderInboxBadge();
+  try {
+    const stored = localStorage.getItem(INBOX_VISIBLE_KEY);
+    if (stored === '1') {
+      const panel = document.getElementById('inbox-panel');
+      const btn = document.getElementById('inbox-toggle-btn');
+      if (panel) panel.classList.add('open');
+      if (btn) btn.classList.add('inbox-active');
+      renderInboxPanel();
+    }
+  } catch {}
+}
+
+// Hook into render to keep badge fresh
+(function(){
+  const _origRender = typeof render === 'function' ? render : null;
+  if (_origRender) {
+    // We patch after DOMContentLoaded so render is already defined
+    const _patchRender = function(s) {
+      _origRender(s);
+      renderInboxBadge();
+    };
+    // Can't easily re-assign render here since it's a function declaration.
+    // Instead, call renderInboxBadge at end of initInbox and after markInboxDone (already done).
+  }
+})();
+
 </script>
 
 <!-- ══ FOCUS MODE OVERLAY ════════════════════════════════════ -->
