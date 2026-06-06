@@ -345,7 +345,7 @@
   --text:      #cec8b4;
   --text-b:    #e4dec8;
   --text-mid:  #908a78;
-  --text-dim:  #504c44;
+  --text-dim:  #65605a;
   --mono:      'JetBrains Mono', monospace;
   --air:       #8090a8;   --air-bg:   rgba(128,144,168,0.06);
   --fire:      #d07830;   --fire-bg:  rgba(208,120,48,0.06);
@@ -2967,8 +2967,8 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 /* ══ TRENDS TAB ══════════════════════════════════════════════ */
 .trends-layout { display:grid; grid-template-columns:300px 1fr; gap:16px; align-items:start; }
 @media (max-width:700px) { .trends-layout { grid-template-columns:1fr; } }
-.trends-chart-col { min-width:0; order:2; }
-.trends-legend-col { order:1; }
+.trends-chart-col { min-width:0; }
+.trends-legend-col { }
 #trends-canvas { width:100%; display:block; height:260px; cursor:crosshair; }
 .trends-controls { display:flex; gap:5px; justify-content:center; margin:7px 0 0; }
 .trends-range-btn { background:none; border:1px solid rgba(255,255,255,0.12); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.08em; padding:3px 9px; border-radius:4px; cursor:pointer; transition:border-color 0.15s,color 0.15s; }
@@ -2976,17 +2976,21 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .trends-range-btn.active { border-color:rgba(58,122,72,0.7); color:#3a7a48; }
 .trends-legend-col { display:flex; flex-direction:column; gap:12px; padding-top:2px; }
 .trends-legend-group { }
-.trends-group-hdr { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; color:rgba(58,122,72,0.6); text-transform:uppercase; padding-bottom:4px; border-bottom:1px solid rgba(58,122,72,0.2); margin-bottom:5px; display:flex; align-items:center; gap:8px; }
+.trends-group-hdr { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.2em; color:rgba(58,122,72,0.75); text-transform:uppercase; padding-bottom:4px; border-bottom:1px solid rgba(58,122,72,0.2); margin-bottom:5px; display:flex; align-items:center; gap:8px; }
 .trends-group-toggles { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:6px; }
-.trends-group-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--text-dim); font-family:var(--mono); font-size:9px; letter-spacing:0.06em; padding:2px 6px; border-radius:3px; cursor:pointer; transition:border-color 0.15s,color 0.15s; white-space:nowrap; }
+.trends-group-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.06em; padding:2px 7px; border-radius:3px; cursor:pointer; transition:border-color 0.15s,color 0.15s; white-space:nowrap; }
 .trends-group-btn:hover { border-color:rgba(58,122,72,0.5); color:rgba(80,160,96,0.9); }
-.trends-legend-item { display:flex; align-items:center; gap:6px; padding:2px 0; cursor:pointer; }
-.trends-legend-item:hover .trends-lbl { color:var(--text-mid) !important; }
-.trends-swatch { width:10px; height:10px; border-radius:2px; border:1.5px solid; flex-shrink:0; transition:opacity 0.15s; }
-.trends-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-.trends-arrow { font-size:11px; font-family:var(--mono); flex-shrink:0; width:10px; text-align:center; }
-.trends-lbl { font-size:11px; font-family:var(--mono); letter-spacing:0.04em; flex:1; transition:color 0.15s; }
-.trends-val { font-size:10px; font-family:var(--mono); flex-shrink:0; min-width:20px; text-align:right; }
+.trends-legend-item { display:flex; align-items:center; gap:6px; padding:3px 0; cursor:pointer; }
+.trends-legend-item:hover .trends-lbl { color:var(--text-b) !important; }
+.trends-star { background:none; border:none; padding:0; cursor:pointer; font-size:13px; flex-shrink:0; line-height:1; color:rgba(255,255,255,0.2); transition:color 0.15s; }
+.trends-star:hover { color:rgba(200,168,74,0.7); }
+.trends-star.starred { color:#c8a84a; }
+.trends-range-btn.starred-filter { border-color:rgba(200,168,74,0.5); color:#c8a84a; }
+.trends-swatch { width:11px; height:11px; border-radius:2px; border:1.5px solid; flex-shrink:0; transition:opacity 0.15s; }
+.trends-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.trends-arrow { font-size:12px; font-family:var(--mono); flex-shrink:0; width:11px; text-align:center; }
+.trends-lbl { font-size:13px; font-family:var(--mono); letter-spacing:0.04em; flex:1; transition:color 0.15s; }
+.trends-val { font-size:12px; font-family:var(--mono); flex-shrink:0; min-width:22px; text-align:right; }
 
 /* ══ DRAG-TO-REORDER ════════════════════════════════════════ */
 .drag-handle { display:flex; align-items:center; justify-content:center; width:18px; flex-shrink:0; cursor:grab; color:var(--text-dim); opacity:0.35; font-size:17px; user-select:none; padding:0 2px; transition:opacity 0.15s; }
@@ -4718,21 +4722,7 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 
 <div id="tab-trends" class="tab-panel">
   <div class="trends-layout">
-    <!-- Left: chart -->
-    <div class="trends-chart-col">
-      <div class="section-desc" style="margin-bottom:6px;">All metrics normalised 0-100. Dashed line: best fit. Dot: current level. Arrow: 7-day direction.</div>
-      <div style="position:relative;border:1px solid rgba(58,122,72,0.2);border-radius:6px;background:rgba(0,0,0,0.12);padding:8px 8px 2px;">
-        <canvas id="trends-canvas"></canvas>
-        <div id="trends-no-data" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--text-dim);">No data yet. Start daily check-ins to begin.</div>
-      </div>
-      <div class="trends-controls">
-        <button class="trends-range-btn active" data-range="30" onclick="setTrendsRange(30,this)">30d</button>
-        <button class="trends-range-btn" data-range="90" onclick="setTrendsRange(90,this)">90d</button>
-        <button class="trends-range-btn" data-range="180" onclick="setTrendsRange(180,this)">180d</button>
-        <button class="trends-range-btn" data-range="9999" onclick="setTrendsRange(9999,this)">All</button>
-      </div>
-    </div>
-    <!-- Right: legend -->
+    <!-- Left: legend -->
     <div class="trends-legend-col" id="trends-legend">
       <div class="trends-legend-group">
         <div class="trends-group-hdr"><span style="color:#ff6060">♥</span>&nbsp;HP</div>
@@ -4750,17 +4740,31 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
         <div id="trends-legend-quests"></div>
       </div>
     </div>
-  </div>
-  <!-- Correlations -->
-  <div style="margin-top:18px;">
-    <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Correlations</div>
-    <div class="section-desc" style="margin-bottom:8px;">Pairs that consistently move together (positive) or in opposite directions (negative). Only shown when the pattern is clear in the data.</div>
-    <div id="trends-correlations-list"></div>
-  </div>
-  <div style="margin-top:16px;">
-    <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Next-day patterns</div>
-    <div class="section-desc" style="margin-bottom:8px;">When X is high today, is Y typically higher or lower the next day? Distinct from same-day correlations and often more actionable.</div>
-    <div id="trends-lagged-list"></div>
+    <!-- Right: chart + correlations -->
+    <div class="trends-chart-col">
+      <div class="section-desc" style="margin-bottom:6px;">All metrics normalised 0-100. Dashed line: best fit. Dot: current level. Arrow: 7-day direction.</div>
+      <div style="position:relative;border:1px solid rgba(58,122,72,0.2);border-radius:6px;background:rgba(0,0,0,0.12);padding:8px 8px 2px;">
+        <canvas id="trends-canvas"></canvas>
+        <div id="trends-no-data" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--text-dim);">No data yet. Start daily check-ins to begin.</div>
+      </div>
+      <div class="trends-controls">
+        <button class="trends-range-btn active" data-range="30" onclick="setTrendsRange(30,this)">30d</button>
+        <button class="trends-range-btn" data-range="90" onclick="setTrendsRange(90,this)">90d</button>
+        <button class="trends-range-btn" data-range="180" onclick="setTrendsRange(180,this)">180d</button>
+        <button class="trends-range-btn" data-range="9999" onclick="setTrendsRange(9999,this)">All</button>
+        <button class="trends-range-btn" id="trends-starred-filter-btn" onclick="toggleTrendsStarredFilter(this)" title="Show only starred series">★ Only</button>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Correlations</div>
+        <div class="section-desc" style="margin-bottom:8px;">Pairs that consistently move together or in opposite directions. Only shown when pattern is clear.</div>
+        <div id="trends-correlations-list"></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Next-day patterns</div>
+        <div class="section-desc" style="margin-bottom:8px;">Does X today predict Y tomorrow?</div>
+        <div id="trends-lagged-list"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -17458,22 +17462,16 @@ function renderStatusHistoryChart() {
 // ══════════════════════════════════════════════════════════════
 
 const TRENDS_SERIES = [
-  // HP: Physical
+  // HP: Physical (check-in sliders only — workouts come from dynamic quest series)
   { key:'rest',         label:'Rest',          group:'hp',   color:'#8090a8', source:'stats'  },
   { key:'movement',     label:'Movement',      group:'hp',   color:'#d07830', source:'stats'  },
   { key:'nutrition',    label:'Nutrition',     group:'hp',   color:'#60a838', source:'stats'  },
-  { key:'footRehab',    label:'Foot rehab',    group:'hp',   color:'#e05060', source:'cowork', norm:'completion7' },
-  { key:'mobility',     label:'Mobility',      group:'hp',   color:'#e09030', source:'cowork', norm:'completion7' },
-  { key:'flexibility',  label:'Flexibility',   group:'hp',   color:'#a8c840', source:'cowork', norm:'completion7' },
-  { key:'pull',         label:'Pull',          group:'hp',   color:'#9868d8', source:'cowork', norm:'completionWeekly' },
-  { key:'push',         label:'Push',          group:'hp',   color:'#6848b8', source:'cowork', norm:'completionWeekly' },
+  { key:'connection',   label:'Connection',    group:'hp',   color:'#40b0e0', source:'stats'  },
   // Mana: Mental
   { key:'focus',        label:'Focus',         group:'mana', color:'#c0cad4', source:'status' },
   { key:'energy',       label:'Energy',        group:'mana', color:'#e0a040', source:'status' },
   { key:'purpose',      label:'Purpose',       group:'mana', color:'#58b858', source:'status' },
   { key:'interest',     label:'Interest',      group:'mana', color:'#3a80c8', source:'status' },
-  { key:'connection',   label:'Connection',    group:'hp',   color:'#40b0e0', source:'stats'  },
-  { key:'meditation',   label:'Meditation',    group:'mana', color:'#c8a84a', source:'rquest', norm:'rollingMax' },
   { key:'coworkCount',  label:'Cowork',        group:'mana', color:'#2ab8b0', source:'cowork', norm:'rollingMax' },
   { key:'wordsWritten', label:'Words written', group:'mana', color:'#a068e0', source:'cowork', norm:'rollingMax' },
   { key:'socialEvents', label:'Social events', group:'mana', color:'#d06090', source:'cowork', norm:'rollingMax' },
@@ -17548,53 +17546,6 @@ async function _buildTrendsSlots(rangeD) {
   statsHist.forEach(e  => { stById[e.date] = e; });
   statusHist.forEach(e => { ssById[e.date] = e; });
 
-  // Meditation from regular quest history (minutes per day for timer, count for checkbox).
-  // Keywords: meditat, meditate, mindful, or the 🧘 emoji. Also matches exact name "meditate".
-  const medKeywords = ['meditat','meditate','mindful','🧘'];
-  const medAct = (appState.activities || []).find(a => {
-    if (!a.name) return false;
-    const n = a.name.toLowerCase().trim();
-    return medKeywords.some(k => n.includes(k));
-  });
-  const medById = {};
-  if (medAct) {
-    try {
-      // Try all known charName variants via cs-rq-hist-* localStorage keys
-      const charNames = new Set([appState.name || '']);
-      try {
-        Object.keys(localStorage).forEach(k => {
-          if (k.startsWith('cs-rq-hist-')) {
-            const rest = k.slice('cs-rq-hist-'.length);
-            // Key format: cs-rq-hist-{charName}-{activityId}. activityId has no dashes.
-            const lastDash = rest.lastIndexOf('-');
-            if (lastDash > 0) charNames.add(rest.slice(0, lastDash));
-          }
-        });
-      } catch(e2) {}
-      charNames.forEach(cn => {
-        try {
-          loadRQHistory(cn, medAct.id).forEach(e => {
-            if (!e.period || e.period.length !== 10) return;
-            let val = e.value || 0;
-            if (medAct.type === 'timer' && val > 360) val = Math.round(val / 60); // guard raw seconds
-            if (val > 0) medById[e.period] = (medById[e.period] || 0) + val;
-          });
-        } catch(e2) {}
-      });
-      // Include today's in-progress value from practiceState (not yet archived)
-      const todayKey = _localDate ? _localDate() : new Date().toISOString().slice(0,10);
-      const ps = window.practiceState && window.practiceState[medAct.id];
-      if (ps) {
-        let todayVal = medAct.type === 'timer'
-          ? Math.floor((ps.seconds || 0) / 60)
-          : (ps.value || 0);
-        if (todayVal > 0) medById[todayKey] = Math.max(medById[todayKey] || 0, todayVal);
-      }
-    } catch(e) {}
-  }
-  // Expose meditation activity colour for chart sync (used in renderTrendsChart)
-  window._medActColor = medAct ? (medAct.color || '#c8a84a') : '#c8a84a';
-
   // Resolve range
   const today = new Date();
   let days = rangeD;
@@ -17618,7 +17569,6 @@ async function _buildTrendsSlots(rangeD) {
       _coworkCount:   cw.coworkSessions || 0,
       _wordsWritten:  cw.wordsWritten   || 0,
       _socialEvents:  cw.socialEvents   || 0,
-      _meditation:    medById[ds]       || 0,
       _footRehab:     cw.footRehab      || 0,
       _mobility:      cw.mobility       || 0,
       _flexibility:   cw.flexibility    || 0,
@@ -17665,22 +17615,16 @@ async function _buildTrendsSlots(rangeD) {
     });
   });
 
-  // Rolling max normalization for count-based metrics.
-  // cowork/words use cwStartDate; meditation uses medById presence.
+  // Rolling max normalization for count-based cowork metrics
   const metaMap = {
-    _coworkCount:'coworkCount', _wordsWritten:'wordsWritten',
-    _socialEvents:'socialEvents', _meditation:'meditation'
+    _coworkCount:'coworkCount', _wordsWritten:'wordsWritten', _socialEvents:'socialEvents'
   };
   Object.entries(metaMap).forEach(([raw, out]) => {
-    const isMed = raw === '_meditation';
-    const startDate = isMed
-      ? (Object.keys(medById).sort()[0] || null)  // first day with meditation data
-      : cwStartDate;
     const vals = slots.map(s=>s[raw]||0).filter(v=>v>0).sort((a,b)=>a-b);
     const cap = vals.length ? vals[Math.floor(vals.length*0.9)] || vals[vals.length-1] : 1;
     const maxVal = Math.max(cap, 1);
     slots.forEach(s => {
-      if (!startDate || s.date < startDate) { s[out] = null; return; }
+      if (!cwStartDate || s.date < cwStartDate) { s[out] = null; return; }
       s[out] = (s[raw]||0) > 0 ? Math.min(100, s[raw]/maxVal*100) : 0;
     });
   });
@@ -17982,10 +17926,12 @@ async function renderTrendsChart() {
   const enabled = _getTrendsEnabled();
   const slots   = await _buildTrendsSlots(_trendsRange);
 
-  // Sync meditation colour from activity definition
-  const medSeries = TRENDS_SERIES.find(s => s.key === 'meditation');
-  if (medSeries && window._medActColor) medSeries.color = window._medActColor;
   const allSeries = _getAllTrendsSeries();
+  const starred = _getTrendsStarred();
+  const starFilterOn = _getTrendsStarFilterOn();
+  // Sync star filter button state
+  const sfBtn = document.getElementById('trends-starred-filter-btn');
+  if (sfBtn) sfBtn.classList.toggle('starred-filter', starFilterOn);
 
   const dpr = window.devicePixelRatio || 1;
   const W = canvas.offsetWidth || (canvas.parentElement && canvas.parentElement.offsetWidth) || 500;
@@ -18066,6 +18012,7 @@ async function renderTrendsChart() {
 
   // Draw series lines + best-fit
   const active = allSeries.filter(s => {
+    if (starFilterOn && !starred.has(s.key)) return false;
     if (enabled[s.key] === false) return false;
     if (s.defaultHidden && enabled[s.key] === undefined) return false;
     return true;
@@ -18076,7 +18023,11 @@ async function renderTrendsChart() {
     if (!pts.length) return;
     hasAnyData = true;
 
-    ctx.globalAlpha=0.72; ctx.strokeStyle=series.color; ctx.lineWidth=1.5; ctx.setLineDash([]);
+    const isStarred = starred.has(series.key);
+    ctx.globalAlpha = isStarred ? 0.92 : 0.68;
+    ctx.strokeStyle=series.color;
+    ctx.lineWidth = isStarred ? 2.5 : 1.5;
+    ctx.setLineDash([]);
     ctx.beginPath();
     let started=false;
     slots.forEach((s,i)=>{
@@ -18120,7 +18071,7 @@ async function renderTrendsChart() {
     } else { navEl.textContent=''; }
   }
 
-  _renderTrendsLegend(slots, enabled, allSeries);
+  _renderTrendsLegend(slots, enabled, allSeries, starred);
   _renderTrendsCorrelations(slots);
   _renderLaggedCorrelations(slots);
 }
@@ -18129,12 +18080,11 @@ async function renderTrendsChart() {
 const TRENDS_SUBGROUPS = {
   hp: [
     { label:'Core Skills', keys:['rest','movement','nutrition','connection'] },
-    { label:'Workouts',    keys:['footRehab','mobility','flexibility','pull','push'] },
     { label:'All HP',      keys: null },
   ],
   mana: [
     { label:'Status',      keys:['focus','energy','purpose','interest'] },
-    { label:'Activity',    keys:['meditation','coworkCount','wordsWritten','socialEvents','csCheckin'] },
+    { label:'Activity',    keys:['coworkCount','wordsWritten','socialEvents','csCheckin'] },
     { label:'All Mana',    keys: null },
   ],
 };
@@ -18149,8 +18099,9 @@ function _trendsToggleSubgroup(groupKey, keys, enabled) {
   renderTrendsChart();
 }
 
-function _renderTrendsLegend(slots, enabled, allSeries) {
+function _renderTrendsLegend(slots, enabled, allSeries, starred) {
   allSeries = allSeries || _getAllTrendsSeries();
+  starred = starred || _getTrendsStarred();
   const hpEl     = document.getElementById('trends-legend-hp');
   const manaEl   = document.getElementById('trends-legend-mana');
   const questsEl = document.getElementById('trends-legend-quests');
@@ -18238,6 +18189,18 @@ function _renderTrendsLegend(slots, enabled, allSeries) {
     item.className = 'trends-legend-item';
     item.title = s.current!=null ? `${s.label}: ${Math.round(s.current)}/100` : `${s.label}: no data`;
 
+    // Star button
+    const isStarred = starred.has(s.key);
+    const starBtn = document.createElement('button');
+    starBtn.className = 'trends-star' + (isStarred ? ' starred' : '');
+    starBtn.textContent = isStarred ? '★' : '☆';
+    starBtn.title = isStarred ? 'Unstar' : 'Star to compare';
+    starBtn.onclick = e => {
+      e.stopPropagation();
+      _setTrendsStar(s.key, !isStarred);
+      renderTrendsChart();
+    };
+
     const sw = document.createElement('div');
     sw.className = 'trends-swatch';
     sw.style.borderColor = s.color;
@@ -18265,8 +18228,8 @@ function _renderTrendsLegend(slots, enabled, allSeries) {
     const lbl = document.createElement('span');
     lbl.className = 'trends-lbl';
     lbl.textContent = s.label;
-    lbl.style.color   = isOn ? 'var(--text-mid)' : 'var(--text-dim)';
-    lbl.style.opacity = isOn ? '1' : '0.45';
+    lbl.style.color   = isOn ? 'var(--text)' : 'var(--text-mid)';
+    lbl.style.opacity = isOn ? '1' : '0.55';
     if (s.archived) lbl.style.fontStyle = 'italic';
 
     const val = document.createElement('span');
@@ -18274,7 +18237,7 @@ function _renderTrendsLegend(slots, enabled, allSeries) {
     val.textContent = s.current!=null ? Math.round(s.current) : '--';
     val.style.color = levelColors[s.levelClass];
 
-    item.append(sw, dot, arrow, lbl, val);
+    item.append(starBtn, sw, dot, arrow, lbl, val);
     return item;
   }
 
@@ -18297,7 +18260,7 @@ function _renderTrendsLegend(slots, enabled, allSeries) {
       if (s.parentLabel && !seen.has(s.parentLabel)) {
         seen.add(s.parentLabel);
         const groupLbl = document.createElement('div');
-        groupLbl.style.cssText = 'font-size:10px;font-family:var(--mono);color:var(--text-dim);letter-spacing:0.06em;padding:3px 0 1px;opacity:0.6;';
+        groupLbl.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--text-mid);letter-spacing:0.06em;padding:3px 0 1px;opacity:0.8;';
         groupLbl.textContent = s.parentLabel + (s.archived ? ' (archived)' : '');
         questsEl.appendChild(groupLbl);
       }
@@ -18305,8 +18268,6 @@ function _renderTrendsLegend(slots, enabled, allSeries) {
       if (s.parentLabel) item.style.paddingLeft = '10px';
       questsEl.appendChild(item);
     });
-    // Non-sub-activity quests (no parentLabel)
-    questSorted.filter(s => !s.parentLabel).forEach(s => questsEl.appendChild(buildItem(s)));
   }
 }
 
@@ -24047,6 +24008,32 @@ function _schedulePlainAutoSync() {
 }
 // ── end plain sync ──────────────────────────────────────────
 
+// ── Starred series ───────────────────────────────────────────
+const TRENDS_STARRED_KEY      = 'cs-trends-starred-v1';
+const TRENDS_STARFILTER_KEY   = 'cs-trends-starfilter-v1';
+
+function _getTrendsStarred() {
+  try { return new Set(JSON.parse(localStorage.getItem(TRENDS_STARRED_KEY) || '[]')); } catch(e) { return new Set(); }
+}
+
+function _setTrendsStar(key, val) {
+  const starred = _getTrendsStarred();
+  val ? starred.add(key) : starred.delete(key);
+  try { localStorage.setItem(TRENDS_STARRED_KEY, JSON.stringify([...starred])); } catch(e) {}
+}
+
+function _getTrendsStarFilterOn() {
+  try { return localStorage.getItem(TRENDS_STARFILTER_KEY) === '1'; } catch(e) { return false; }
+}
+
+function toggleTrendsStarredFilter(btn) {
+  const isOn = _getTrendsStarFilterOn();
+  try { localStorage.setItem(TRENDS_STARFILTER_KEY, isOn ? '0' : '1'); } catch(e) {}
+  if (btn) btn.classList.toggle('starred-filter', !isOn);
+  renderTrendsChart();
+}
+// ── end starred ───────────────────────────────────────────────
+
 // ── Dynamic regular quest series ─────────────────────────────
 // Maps sub-activity/quest names to cowork-log.json fields for data merging
 const _COWORK_KEY_MAP = {
@@ -24105,7 +24092,15 @@ function _buildDynamicQuestSeries() {
       });
     }
   });
-  return series;
+  // Deduplicate: if two quests/sub-activities have the same label, keep only the first
+  // non-archived one (it typically has the most complete history)
+  const seenLabels = new Set();
+  return series.filter(s => {
+    const key = (s.parentLabel ? s.parentLabel + '/' : '') + s.label.toLowerCase();
+    if (seenLabels.has(key)) return false;
+    seenLabels.add(key);
+    return true;
+  });
 }
 
 // Returns all series: static core + dynamic quest series
