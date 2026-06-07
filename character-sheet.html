@@ -2965,32 +2965,42 @@ input[type=range].rank-black::-webkit-slider-thumb  { background:#c8a84a !import
 .chat-api-note, .modal p { font-size:14px; }
 .radar-panel-desc, .radar-chart-lbl, .practice-record .section-desc { font-size:14px; }
 /* ══ TRENDS TAB ══════════════════════════════════════════════ */
-.trends-layout { display:grid; grid-template-columns:300px 1fr; gap:16px; align-items:start; }
-@media (max-width:700px) { .trends-layout { grid-template-columns:1fr; } }
-.trends-chart-col { min-width:0; }
-.trends-legend-col { }
-#trends-canvas { width:100%; display:block; height:260px; cursor:crosshair; }
-.trends-controls { display:flex; gap:5px; justify-content:center; margin:7px 0 0; }
+#trends-canvas { width:100%; display:block; height:280px; cursor:crosshair; }
+.trends-controls { display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+.trends-ctrl-sep { flex:1; min-width:6px; }
 .trends-range-btn { background:none; border:1px solid rgba(255,255,255,0.12); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.08em; padding:3px 9px; border-radius:4px; cursor:pointer; transition:border-color 0.15s,color 0.15s; }
 .trends-range-btn:hover { border-color:rgba(58,122,72,0.5); color:rgba(80,160,96,0.9); }
-.trends-range-btn.active { border-color:rgba(58,122,72,0.7); color:#3a7a48; }
-.trends-legend-col { display:flex; flex-direction:column; gap:12px; padding-top:2px; }
-.trends-legend-group { }
-.trends-group-hdr { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.2em; color:rgba(58,122,72,0.75); text-transform:uppercase; padding-bottom:4px; border-bottom:1px solid rgba(58,122,72,0.2); margin-bottom:5px; display:flex; align-items:center; gap:8px; }
-.trends-group-toggles { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:6px; }
-.trends-group-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.06em; padding:2px 7px; border-radius:3px; cursor:pointer; transition:border-color 0.15s,color 0.15s; white-space:nowrap; }
+.trends-range-btn.active { border-color:rgba(58,122,72,0.7); color:#5aaa68; }
+.trends-range-btn.starred-filter { border-color:rgba(200,168,74,0.5); color:#c8a84a; }
+.trends-ctrl-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--text-dim); font-family:var(--mono); font-size:11px; letter-spacing:0.06em; padding:3px 9px; border-radius:4px; cursor:pointer; transition:border-color 0.15s,color 0.15s; }
+.trends-ctrl-btn:hover { border-color:rgba(58,122,72,0.5); color:rgba(80,160,96,0.9); }
+.trends-legend-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px 20px; margin-top:16px; }
+.trends-avgall { font-size:11px; font-family:var(--mono); flex-shrink:0; min-width:18px; text-align:right; color:#2ab8b0; }
+.trends-col-avghdrs { display:flex; justify-content:flex-end; gap:0; margin-bottom:3px; padding-right:1px; }
+.trends-7d-hdr  { font-size:10px; font-family:var(--mono); color:#e07858; min-width:22px; text-align:right; cursor:help; letter-spacing:0.03em; }
+.trends-all-hdr { font-size:10px; font-family:var(--mono); color:#2ab8b0; min-width:18px; text-align:right; cursor:help; letter-spacing:0.03em; margin-left:3px; }
+.trends-group-hdr { font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; padding-bottom:5px; border-bottom-width:1px; border-bottom-style:solid; margin-bottom:5px; display:flex; align-items:center; gap:6px; }
+.trends-group-toggles { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:4px; }
+.trends-group-btn { background:none; border:1px solid rgba(255,255,255,0.1); color:var(--text-dim); font-family:var(--mono); font-size:10px; letter-spacing:0.06em; padding:2px 6px; border-radius:3px; cursor:pointer; transition:border-color 0.15s,color 0.15s; white-space:nowrap; }
 .trends-group-btn:hover { border-color:rgba(58,122,72,0.5); color:rgba(80,160,96,0.9); }
-.trends-legend-item { display:flex; align-items:center; gap:6px; padding:3px 0; cursor:pointer; }
+.trends-legend-item { display:flex; align-items:center; gap:5px; padding:3px 2px; }
 .trends-legend-item:hover .trends-lbl { color:var(--text-b) !important; }
-.trends-star { background:none; border:none; padding:0; cursor:pointer; font-size:13px; flex-shrink:0; line-height:1; color:rgba(255,255,255,0.2); transition:color 0.15s; }
+.trends-legend-item:hover .trends-hide-btn { opacity:1 !important; }
+.trends-star { background:none; border:none; padding:0; cursor:pointer; font-size:12px; flex-shrink:0; line-height:1; color:rgba(255,255,255,0.2); transition:color 0.15s; }
 .trends-star:hover { color:rgba(200,168,74,0.7); }
 .trends-star.starred { color:#c8a84a; }
-.trends-range-btn.starred-filter { border-color:rgba(200,168,74,0.5); color:#c8a84a; }
-.trends-swatch { width:11px; height:11px; border-radius:2px; border:1.5px solid; flex-shrink:0; transition:opacity 0.15s; }
+.trends-hide-btn { background:none; border:none; padding:0 1px; cursor:pointer; font-size:12px; flex-shrink:0; line-height:1; color:rgba(255,255,255,0.22); opacity:0; transition:color 0.15s,opacity 0.15s; }
+.trends-hide-btn:hover { color:#5090c8; opacity:1 !important; }
+.trends-restore-btn { background:none; border:none; padding:0 1px; cursor:pointer; font-size:12px; flex-shrink:0; line-height:1; color:rgba(80,160,96,0.7); transition:color 0.15s; }
+.trends-restore-btn:hover { color:#60c878; }
+.trends-swatch { width:11px; height:11px; border-radius:2px; border:1.5px solid; flex-shrink:0; transition:opacity 0.15s; cursor:pointer; }
 .trends-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.trends-arrow { font-size:12px; font-family:var(--mono); flex-shrink:0; width:11px; text-align:center; }
-.trends-lbl { font-size:13px; font-family:var(--mono); letter-spacing:0.04em; flex:1; transition:color 0.15s; }
+.trends-arrow  { font-size:12px; font-family:var(--mono); flex-shrink:0; width:11px; text-align:center; }
+.trends-arrow2 { font-size:10px; font-family:var(--mono); flex-shrink:0; width:10px; text-align:center; opacity:0.7; }
+.trends-lbl { font-size:13px; font-family:var(--mono); letter-spacing:0.04em; flex:1; transition:color 0.15s; cursor:pointer; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .trends-val { font-size:12px; font-family:var(--mono); flex-shrink:0; min-width:22px; text-align:right; }
+.trends-corr-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+@media (max-width:640px) { .trends-corr-grid { grid-template-columns:1fr; } }
 
 /* ══ DRAG-TO-REORDER ════════════════════════════════════════ */
 .drag-handle { display:flex; align-items:center; justify-content:center; width:18px; flex-shrink:0; cursor:grab; color:var(--text-dim); opacity:0.35; font-size:17px; user-select:none; padding:0 2px; transition:opacity 0.15s; }
@@ -4721,50 +4731,62 @@ body.chat-sidebar { padding-right:calc(40px + var(--chat-sidebar-width,420px)); 
 </div>
 
 <div id="tab-trends" class="tab-panel">
-  <div class="trends-layout">
-    <!-- Left: legend -->
-    <div class="trends-legend-col" id="trends-legend">
-      <div class="trends-legend-group">
-        <div class="trends-group-hdr"><span style="color:#ff6060">♥</span>&nbsp;HP</div>
-        <div class="trends-group-toggles" id="trends-toggles-hp"></div>
-        <div id="trends-legend-hp"></div>
-      </div>
-      <div class="trends-legend-group">
-        <div class="trends-group-hdr"><span style="color:#60a0ff">✦</span>&nbsp;Mana</div>
-        <div class="trends-group-toggles" id="trends-toggles-mana"></div>
-        <div id="trends-legend-mana"></div>
-      </div>
-      <div class="trends-legend-group" id="trends-quests-group" style="display:none;">
-        <div class="trends-group-hdr">◈&nbsp;Quests</div>
-        <div class="trends-group-toggles" id="trends-toggles-quests"></div>
-        <div id="trends-legend-quests"></div>
-      </div>
+  <div class="section-desc" style="margin-bottom:8px;">All metrics 0-100. Dot: current. Arrow: 7-day direction. ★ to overlay. × to hide.</div>
+  <div class="trends-controls">
+    <button class="trends-range-btn active" data-range="30" onclick="setTrendsRange(30,this)">30d</button>
+    <button class="trends-range-btn" data-range="90" onclick="setTrendsRange(90,this)">90d</button>
+    <button class="trends-range-btn" data-range="180" onclick="setTrendsRange(180,this)">180d</button>
+    <button class="trends-range-btn" data-range="9999" onclick="setTrendsRange(9999,this)">All</button>
+    <button class="trends-range-btn" id="trends-starred-filter-btn" onclick="toggleTrendsStarredFilter(this)" title="Show only starred series">★ Only</button>
+    <span class="trends-ctrl-sep"></span>
+    <button class="trends-ctrl-btn" onclick="_trendsSetAll(true)">All on</button>
+    <button class="trends-ctrl-btn" onclick="_trendsSetAll(false)">None</button>
+    <button class="trends-ctrl-btn" id="trends-show-hidden-btn" onclick="_trendsToggleShowHidden()" title="Show stats you have hidden">Hidden (0)</button>
+  </div>
+  <div style="position:relative;border:1px solid rgba(58,122,72,0.2);border-radius:6px;background:rgba(0,0,0,0.12);padding:8px 8px 2px;">
+    <canvas id="trends-canvas"></canvas>
+    <div id="trends-no-data" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--text-dim);">No data yet. Start daily check-ins to begin.</div>
+  </div>
+  <div class="trends-legend-grid">
+    <div>
+      <div class="trends-group-hdr" style="color:#9aa8b8;border-color:rgba(154,168,184,0.35);">Core Skills</div>
+      <div class="trends-group-toggles" id="trends-toggles-skills"></div>
+      <div id="trends-legend-skills"></div>
     </div>
-    <!-- Right: chart + correlations -->
-    <div class="trends-chart-col">
-      <div class="section-desc" style="margin-bottom:6px;">All metrics normalised 0-100. Dashed line: best fit. Dot: current level. Arrow: 7-day direction.</div>
-      <div style="position:relative;border:1px solid rgba(58,122,72,0.2);border-radius:6px;background:rgba(0,0,0,0.12);padding:8px 8px 2px;">
-        <canvas id="trends-canvas"></canvas>
-        <div id="trends-no-data" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--text-dim);">No data yet. Start daily check-ins to begin.</div>
-      </div>
-      <div class="trends-controls">
-        <button class="trends-range-btn active" data-range="30" onclick="setTrendsRange(30,this)">30d</button>
-        <button class="trends-range-btn" data-range="90" onclick="setTrendsRange(90,this)">90d</button>
-        <button class="trends-range-btn" data-range="180" onclick="setTrendsRange(180,this)">180d</button>
-        <button class="trends-range-btn" data-range="9999" onclick="setTrendsRange(9999,this)">All</button>
-        <button class="trends-range-btn" id="trends-starred-filter-btn" onclick="toggleTrendsStarredFilter(this)" title="Show only starred series">★ Only</button>
-      </div>
-      <div style="margin-top:16px;">
-        <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Correlations</div>
-        <div class="section-desc" style="margin-bottom:8px;">Pairs that consistently move together or in opposite directions. Only shown when pattern is clear.</div>
-        <div id="trends-correlations-list"></div>
-      </div>
-      <div style="margin-top:14px;">
-        <div class="qt-section-hdr no-prefix" style="color:#3a7a48;border-color:rgba(58,122,72,0.25);font-size:13px;">◈ Next-day patterns</div>
-        <div class="section-desc" style="margin-bottom:8px;">Does X today predict Y tomorrow?</div>
-        <div id="trends-lagged-list"></div>
-      </div>
+    <div>
+      <div class="trends-group-hdr" style="color:#78b8e0;border-color:rgba(120,184,224,0.35);">State</div>
+      <div class="trends-group-toggles" id="trends-toggles-state"></div>
+      <div id="trends-legend-state"></div>
     </div>
+    <div>
+      <div class="trends-group-hdr" style="color:#c8b050;border-color:rgba(200,176,80,0.35);">Todoist</div>
+      <div class="trends-group-toggles" id="trends-toggles-todoist"></div>
+      <div id="trends-legend-todoist"></div>
+    </div>
+    <div>
+      <div class="trends-group-hdr" style="color:#d06090;border-color:rgba(208,96,144,0.35);">GCal + Cowork</div>
+      <div class="trends-group-toggles" id="trends-toggles-activity"></div>
+      <div id="trends-legend-activity"></div>
+    </div>
+    <div id="trends-quests-group" style="display:none;">
+      <div class="trends-group-hdr" style="color:#70b870;border-color:rgba(112,184,112,0.35);">Quests</div>
+      <div class="trends-group-toggles" id="trends-toggles-quests"></div>
+      <div id="trends-legend-quests"></div>
+    </div>
+    <div id="trends-hidden-group" style="display:none;">
+      <div class="trends-group-hdr" style="color:#706868;border-color:rgba(112,104,104,0.35);">Hidden</div>
+      <div id="trends-legend-hidden"></div>
+    </div>
+  </div>
+  <div style="margin-top:16px;">
+    <div class="qt-section-hdr no-prefix" style="color:#7aaa88;border-color:rgba(122,170,136,0.3);font-size:13px;">Correlations</div>
+    <div class="section-desc" style="margin-bottom:8px;">Pairs that consistently move together or opposite. Only shown when pattern is clear.</div>
+    <div id="trends-correlations-list" class="trends-corr-grid"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="qt-section-hdr no-prefix" style="color:#7aaa88;border-color:rgba(122,170,136,0.3);font-size:13px;">Next-day patterns</div>
+    <div class="section-desc" style="margin-bottom:8px;">Does X today predict Y tomorrow?</div>
+    <div id="trends-lagged-list" class="trends-corr-grid"></div>
   </div>
 </div>
 
@@ -7661,6 +7683,31 @@ function updateNavCounts(s){
   const cEl=document.getElementById('nav-lore'); if(cEl){ const chs=s.insights||DEFAULT.insights||[]; cEl.textContent=s.sessionCount!=null?s.sessionCount:chs.reduce((n,c)=>n+(c.entries||[]).length,0); }
   const skEl=document.getElementById('nav-skills'); if(skEl) skEl.textContent=(s.skills||DEFAULT.skills||[]).length;
   const alEl=document.getElementById('nav-allies'); if(alEl) alEl.textContent=(s.allies||DEFAULT.allies||[]).length;
+  _computeTrendsNavBadge(); // async, fire-and-forget — uses cached cowork log after first load
+}
+
+// Compute and display the Trends nav badge without rendering the full chart.
+// Uses 30-day window for speed. Called on every updateNavCounts (which fires on load and after edits).
+async function _computeTrendsNavBadge() {
+  const navEl = document.getElementById('nav-trends');
+  if (!navEl) return;
+  try {
+    const slots   = await _buildTrendsSlots(30);
+    const hidden   = _getTrendsHidden();
+    const enabled  = _getTrendsEnabled();
+    const active   = [...TRENDS_SERIES, ..._buildDynamicQuestSeries()].filter(s =>
+      !hidden.has(s.key) && !s.archived && !(s.defaultHidden && enabled[s.key] === undefined)
+    );
+    const validMeta = active
+      .map(s => _computeTrendsMeta(slots, s.key))
+      .filter(m => m.avg7 != null);
+    if (!validMeta.length) { navEl.textContent = ''; return; }
+    const avgScore = Math.round(validMeta.reduce((a,m) => a + m.avg7, 0) / validMeta.length);
+    const avgTrend = validMeta.reduce((a,m) => a + m.trend, 0) / validMeta.length;
+    const arrow      = avgTrend > 3 ? '↑' : avgTrend < -3 ? '↓' : '→';
+    const arrowColor = avgTrend > 3 ? '#40a860' : avgTrend < -3 ? '#d84040' : 'rgba(255,255,255,0.3)';
+    navEl.innerHTML = `<span style="color:${arrowColor};font-size:11px;">${arrow}</span><span style="font-size:12px;">${avgScore}</span>&thinsp;`;
+  } catch(e) { /* silent fail — badge just stays blank */ }
 }
 
 function toggleChapter(bodyId,arrowId){
@@ -17462,24 +17509,35 @@ function renderStatusHistoryChart() {
 // ══════════════════════════════════════════════════════════════
 
 const TRENDS_SERIES = [
-  // HP: Physical (check-in sliders only — workouts come from dynamic quest series)
-  { key:'rest',         label:'Rest',          group:'hp',   color:'#8090a8', source:'stats'  },
-  { key:'movement',     label:'Movement',      group:'hp',   color:'#d07830', source:'stats'  },
-  { key:'nutrition',    label:'Nutrition',     group:'hp',   color:'#60a838', source:'stats'  },
-  { key:'connection',   label:'Connection',    group:'hp',   color:'#40b0e0', source:'stats'  },
-  // Mana: Mental
-  { key:'focus',        label:'Focus',         group:'mana', color:'#c0cad4', source:'status' },
-  { key:'energy',       label:'Energy',        group:'mana', color:'#e0a040', source:'status' },
-  { key:'purpose',      label:'Purpose',       group:'mana', color:'#58b858', source:'status' },
-  { key:'interest',     label:'Interest',      group:'mana', color:'#3a80c8', source:'status' },
-  { key:'coworkCount',  label:'Cowork',        group:'mana', color:'#2ab8b0', source:'cowork', norm:'rollingMax' },
-  { key:'wordsWritten', label:'Words written', group:'mana', color:'#a068e0', source:'cowork', norm:'rollingMax' },
-  { key:'socialEvents', label:'Social events', group:'mana', color:'#d06090', source:'cowork', norm:'rollingMax' },
-  { key:'csCheckin',    label:'CS check-in',   group:'mana', color:'#c8b858', source:'cowork', norm:'completion7' },
+  // Core Skills: daily check-in sliders
+  { key:'rest',        label:'Rest',        group:'skills',   color:'#8090a8', source:'stats'  },
+  { key:'movement',    label:'Movement',    group:'skills',   color:'#d07830', source:'stats'  },
+  { key:'nutrition',   label:'Nutrition',   group:'skills',   color:'#60a838', source:'stats'  },
+  { key:'connection',  label:'Connection',  group:'skills',   color:'#40b0e0', source:'stats'  },
+  // State: daily status sliders
+  { key:'focus',       label:'Focus',       group:'state',    color:'#c0cad4', source:'status' },
+  { key:'energy',      label:'Energy',      group:'state',    color:'#e0a040', source:'status' },
+  { key:'purpose',     label:'Purpose',     group:'state',    color:'#58b858', source:'status' },
+  { key:'interest',    label:'Interest',    group:'state',    color:'#3a80c8', source:'status' },
+  // Todoist: task completions tracked via nightly sync
+  { key:'csCheckin',   label:'Check-in',    group:'todoist',  color:'#c8b858', source:'cowork', norm:'completion7' },
+  { key:'footRehab',   label:'Foot rehab',  group:'todoist',  color:'#a86828', source:'cowork', norm:'completion7', defaultHidden:true },
+  { key:'mobility',    label:'Mobility',    group:'todoist',  color:'#c07840', source:'cowork', norm:'completion7', defaultHidden:true },
+  { key:'flexibility', label:'Flexibility', group:'todoist',  color:'#a88040', source:'cowork', norm:'completion7', defaultHidden:true },
+  { key:'pull',        label:'Pull',        group:'todoist',  color:'#7060a8', source:'cowork', norm:'completion7', defaultHidden:true },
+  { key:'push',        label:'Push',        group:'todoist',  color:'#8060c0', source:'cowork', norm:'completion7', defaultHidden:true },
+  // Todoist physical training (continued)
+  { key:'bjj',         label:'BJJ',         group:'todoist',  color:'#5888c8', source:'cowork', norm:'completion7', defaultHidden:true },
+  // GCal + Cowork: activity from cowork sessions and Google Calendar
+  { key:'coworkCount', label:'Cowork',      group:'activity', color:'#2ab8b0', source:'cowork', norm:'rollingMax' },
+  { key:'wordsWritten',label:'Book words',  group:'activity', color:'#a068e0', source:'cowork', norm:'rollingMax' },
+  { key:'socialEvents',label:'Social',      group:'activity', color:'#d06090', source:'cowork', norm:'rollingMax' },
 ];
 
 const TRENDS_TOGGLE_KEY = 'cs-trends-toggles-v1';
 const TRENDS_RANGE_KEY  = 'cs-trends-range-v1';
+const TRENDS_HIDDEN_KEY = 'cs-trends-hidden-v1';
+let _trendsShowHidden = false;
 let _coworkLog = null;
 let _trendsRange = (() => { try { return parseInt(localStorage.getItem(TRENDS_RANGE_KEY)||'30'); } catch(e){ return 30; } })();
 
@@ -17574,6 +17632,7 @@ async function _buildTrendsSlots(rangeD) {
       _flexibility:   cw.flexibility    || 0,
       _pull:          cw.pull           || 0,
       _push:          cw.push           || 0,
+      _bjj:           cw.bjj            || 0,
       // Infer check-in from CS stats/status history if cowork-log doesn't have it
       _csCheckin: cw.csCheckin || ((stById[ds] || ssById[ds]) ? 1 : 0),
     });
@@ -17585,7 +17644,7 @@ async function _buildTrendsSlots(rangeD) {
 
   // 7-day rolling completion rate for Todoist daily tasks.
   // Shows null (gap) before cowork-log started; 0-100 once logging began.
-  ['_footRehab','_mobility','_flexibility','_csCheckin'].forEach(raw => {
+  ['_footRehab','_mobility','_flexibility','_csCheckin','_bjj'].forEach(raw => {
     const out = raw.slice(1);
     slots.forEach((s, i) => {
       // If no cowork-log data exists yet, or this day is before logging started, leave null
@@ -17683,17 +17742,26 @@ async function _buildTrendsSlots(rangeD) {
 }
 
 function _computeTrendsMeta(slots, key) {
-  let current = null;
-  for (let i = slots.length-1; i >= 0; i--) {
-    if (slots[i][key] != null) { current = slots[i][key]; break; }
-  }
-  if (current === null) return { current:null, trend:0, levelClass:'none' };
+  const nonNull = slots.map(s=>s[key]).filter(v=>v!=null);
+  if (!nonNull.length) return { current:null, avg7:null, avgAll:null, trend:0, trendAll:0, levelClass:'none', level7Class:'none', levelAllClass:'none' };
   const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
-  const l7 = slots.slice(-7).map(s=>s[key]).filter(v=>v!=null);
-  const p7 = slots.slice(-14,-7).map(s=>s[key]).filter(v=>v!=null);
-  const trend = (l7.length && p7.length) ? avg(l7)-avg(p7) : 0;
-  const levelClass = current < 35 ? 'low' : current < 62 ? 'mid' : 'high';
-  return { current, trend, levelClass };
+  const l7vals = slots.slice(-7).map(s=>s[key]).filter(v=>v!=null);
+  const p7vals = slots.slice(-14,-7).map(s=>s[key]).filter(v=>v!=null);
+  const avg7   = l7vals.length ? avg(l7vals) : null;
+  const avgAll = avg(nonNull);
+  // current = 7d avg if available, else most recent value
+  const lastVal = nonNull[nonNull.length-1];
+  const current = avg7 ?? lastVal;
+  const trend = (l7vals.length && p7vals.length) ? avg(l7vals)-avg(p7vals) : 0;
+  // All-time trend: second half avg vs first half avg
+  const half = Math.floor(nonNull.length / 2);
+  const trendAll = (half >= 2) ? avg(nonNull.slice(half)) - avg(nonNull.slice(0, half)) : 0;
+  // Level class based on value (0-100 scale)
+  const lvl = v => v == null ? 'none' : v < 35 ? 'low' : v < 62 ? 'mid' : 'high';
+  const level7Class   = lvl(avg7);
+  const levelAllClass = lvl(avgAll);
+  const levelClass    = level7Class !== 'none' ? level7Class : levelAllClass;
+  return { current, avg7, avgAll, trend, trendAll, levelClass, level7Class, levelAllClass };
 }
 
 // Pearson correlation coefficient for two equal-length arrays
@@ -18010,7 +18078,7 @@ async function renderTrendsChart() {
     ctx.fillText((d.getUTCMonth()+1)+'/'+(d.getUTCDate()), xOf(i), padT+plotH+16);
   });
 
-  // Draw series lines + best-fit
+  // Draw series lines + 7d rolling avg + all-time best-fit
   const active = allSeries.filter(s => {
     if (starFilterOn && !starred.has(s.key)) return false;
     if (enabled[s.key] === false) return false;
@@ -18024,30 +18092,55 @@ async function renderTrendsChart() {
     hasAnyData = true;
 
     const isStarred = starred.has(series.key);
-    ctx.globalAlpha = isStarred ? 0.92 : 0.68;
-    ctx.strokeStyle=series.color;
-    ctx.lineWidth = isStarred ? 2.5 : 1.5;
+
+    // 1. Raw daily line — thinner, lower alpha (background context)
+    ctx.globalAlpha = isStarred ? 0.45 : 0.28;
+    ctx.strokeStyle = series.color;
+    ctx.lineWidth = isStarred ? 1.2 : 0.8;
     ctx.setLineDash([]);
     ctx.beginPath();
-    let started=false;
-    slots.forEach((s,i)=>{
-      const v=s[series.key];
-      if(v==null){started=false;return;}
-      if(!started){ctx.moveTo(xOf(i),yOf(v));started=true;}
-      else ctx.lineTo(xOf(i),yOf(v));
+    let started = false;
+    slots.forEach((s,i) => {
+      const v = s[series.key];
+      if (v == null) { started = false; return; }
+      if (!started) { ctx.moveTo(xOf(i), yOf(v)); started = true; }
+      else ctx.lineTo(xOf(i), yOf(v));
     });
     ctx.stroke();
 
-    const reg=_linReg(pts);
-    if(reg){
-      const x0=pts[0][0],x1=pts[pts.length-1][0];
-      ctx.globalAlpha=0.32; ctx.strokeStyle=series.color; ctx.lineWidth=1.1; ctx.setLineDash([5,4]);
+    // 2. All-time linear best-fit — dashed, dim
+    const reg = _linReg(pts);
+    if (reg) {
+      const x0 = pts[0][0], x1 = pts[pts.length-1][0];
+      ctx.globalAlpha = 0.38; ctx.strokeStyle = series.color; ctx.lineWidth = 1.2; ctx.setLineDash([4,4]);
       ctx.beginPath();
-      ctx.moveTo(xOf(x0),yOf(reg.slope*x0+reg.intercept));
-      ctx.lineTo(xOf(x1),yOf(reg.slope*x1+reg.intercept));
+      ctx.moveTo(xOf(x0), yOf(Math.min(100, Math.max(0, reg.slope*x0+reg.intercept))));
+      ctx.lineTo(xOf(x1), yOf(Math.min(100, Math.max(0, reg.slope*x1+reg.intercept))));
       ctx.stroke();
+      ctx.setLineDash([]);
     }
-    ctx.globalAlpha=1;
+
+    // 3. 7-day rolling average line — solid, prominent
+    const rollPts = [];
+    slots.forEach((s, i) => {
+      const w = slots.slice(Math.max(0, i-6), i+1).map(d => d[series.key]).filter(v => v != null);
+      if (w.length) rollPts.push([i, w.reduce((a,b) => a+b, 0) / w.length]);
+      else rollPts.push(null);
+    });
+    ctx.globalAlpha = isStarred ? 0.95 : 0.78;
+    ctx.strokeStyle = series.color;
+    ctx.lineWidth = isStarred ? 2.8 : 2.0;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    started = false;
+    rollPts.forEach((rp, i) => {
+      if (!rp) { started = false; return; }
+      if (!started) { ctx.moveTo(xOf(rp[0]), yOf(rp[1])); started = true; }
+      else ctx.lineTo(xOf(rp[0]), yOf(rp[1]));
+    });
+    ctx.stroke();
+
+    ctx.globalAlpha = 1;
   });
   ctx.setLineDash([]);
 
@@ -18077,17 +18170,8 @@ async function renderTrendsChart() {
 }
 
 // Sub-group definitions for batch toggles
-const TRENDS_SUBGROUPS = {
-  hp: [
-    { label:'Core Skills', keys:['rest','movement','nutrition','connection'] },
-    { label:'All HP',      keys: null },
-  ],
-  mana: [
-    { label:'Status',      keys:['focus','energy','purpose','interest'] },
-    { label:'Activity',    keys:['coworkCount','wordsWritten','socialEvents','csCheckin'] },
-    { label:'All Mana',    keys: null },
-  ],
-};
+// TRENDS_SUBGROUPS kept minimal — per-group all/none is now handled directly in _renderTrendsLegend
+const TRENDS_SUBGROUPS = {};
 
 function _trendsToggleSubgroup(groupKey, keys, enabled) {
   const groupKeys = keys || TRENDS_SERIES.filter(s=>s.group===groupKey).map(s=>s.key);
@@ -18098,179 +18182,216 @@ function _trendsToggleSubgroup(groupKey, keys, enabled) {
   try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(enabled)); } catch(e) {}
   renderTrendsChart();
 }
-
 function _renderTrendsLegend(slots, enabled, allSeries, starred) {
+  const hidden = _getTrendsHidden();
   allSeries = allSeries || _getAllTrendsSeries();
   starred = starred || _getTrendsStarred();
-  const hpEl     = document.getElementById('trends-legend-hp');
-  const manaEl   = document.getElementById('trends-legend-mana');
-  const questsEl = document.getElementById('trends-legend-quests');
-  if (!hpEl || !manaEl) return;
 
-  const withMeta = allSeries.map(s => ({
-    ...s,
-    ..._computeTrendsMeta(slots, s.key),
-    _isHidden: s.defaultHidden && enabled[s.key] === undefined,
-  }));
+  // Keys already shown in active columns — used to enforce column exclusivity in hidden panel
+  const activeKeys = new Set(allSeries.map(s => s.key));
+
+  const withMeta = allSeries.map(s => ({ ...s, ..._computeTrendsMeta(slots, s.key), _isHidden: s.defaultHidden && enabled[s.key] === undefined }));
   const sorted = [...withMeta].sort((a,b) => {
     if (a.current==null && b.current==null) return 0;
-    if (a.current==null) return 1;
-    if (b.current==null) return -1;
+    if (a.current==null) return 1; if (b.current==null) return -1;
     return a.current - b.current;
   });
 
   const levelColors = { low:'#d84040', mid:'#c8a030', high:'#40a860', none:'rgba(255,255,255,0.18)' };
 
-  function buildToggles(el, groupKey) {
+  const hiddenBtn = document.getElementById('trends-show-hidden-btn');
+  if (hiddenBtn) {
+    hiddenBtn.textContent = _trendsShowHidden ? 'Hide hidden' : `Hidden (${hidden.size})`;
+    hiddenBtn.style.color = (hidden.size > 0 || _trendsShowHidden) ? 'var(--text-mid)' : 'var(--text-dim)';
+  }
+
+  function buildGroupToggle(el, groupKey) {
     if (!el) return;
     el.innerHTML = '';
-    (TRENDS_SUBGROUPS[groupKey] || []).forEach(sg => {
-      const keys = sg.keys || TRENDS_SERIES.filter(s=>s.group===groupKey).map(s=>s.key);
-      const allOn = keys.every(k => enabled[k] !== false);
-      const btn = document.createElement('button');
-      btn.className = 'trends-group-btn';
-      btn.textContent = sg.label;
-      btn.style.borderColor = allOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
-      btn.style.color = allOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
-      btn.onclick = () => _trendsToggleSubgroup(groupKey, sg.keys, _getTrendsEnabled());
-      el.appendChild(btn);
-    });
+    const groupKeys = allSeries.filter(s => s.group === groupKey && !hidden.has(s.key)).map(s => s.key);
+    if (!groupKeys.length) return;
+    const allOn = groupKeys.every(k => enabled[k] !== false);
+    const btn = document.createElement('button');
+    btn.className = 'trends-group-btn';
+    btn.textContent = allOn ? 'All on' : 'All off';
+    btn.style.borderColor = allOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
+    btn.style.color = allOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
+    btn.onclick = () => {
+      const cur = _getTrendsEnabled();
+      groupKeys.forEach(k => { cur[k] = !allOn; });
+      try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e) {}
+      renderTrendsChart();
+    };
+    el.appendChild(btn);
   }
 
-  buildToggles(document.getElementById('trends-toggles-hp'),   'hp');
-  buildToggles(document.getElementById('trends-toggles-mana'), 'mana');
-
-  // Quests group: show only if there are quest series
-  const questGroup = document.getElementById('trends-quests-group');
-  const questSeries = allSeries.filter(s => s.group === 'quests');
-  if (questGroup) questGroup.style.display = questSeries.length ? '' : 'none';
-  if (questSeries.length) {
-    const togglesEl = document.getElementById('trends-toggles-quests');
-    if (togglesEl) {
-      togglesEl.innerHTML = '';
-      // "All active" toggle
-      const activeKeys = questSeries.filter(s => !s.archived).map(s => s.key);
-      const allActiveOn = activeKeys.every(k => enabled[k] !== false && !(allSeries.find(s=>s.key===k)?.defaultHidden && enabled[k]===undefined));
-      const btn = document.createElement('button');
-      btn.className = 'trends-group-btn';
-      btn.textContent = 'All active';
-      btn.style.borderColor = allActiveOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
-      btn.style.color = allActiveOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
-      btn.onclick = () => {
-        const cur = _getTrendsEnabled();
-        activeKeys.forEach(k => { cur[k] = !allActiveOn; });
-        try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e) {}
-        renderTrendsChart();
-      };
-      togglesEl.appendChild(btn);
-      // "Show archived" toggle
-      const archivedKeys = questSeries.filter(s => s.archived).map(s => s.key);
-      if (archivedKeys.length) {
-        const anyArchivedOn = archivedKeys.some(k => enabled[k] === true);
-        const archBtn = document.createElement('button');
-        archBtn.className = 'trends-group-btn';
-        archBtn.textContent = 'Archived';
-        archBtn.style.borderColor = anyArchivedOn ? 'rgba(58,122,72,0.6)' : 'rgba(255,255,255,0.1)';
-        archBtn.style.color = anyArchivedOn ? 'rgba(80,160,96,0.9)' : 'var(--text-dim)';
-        archBtn.onclick = () => {
-          const cur = _getTrendsEnabled();
-          archivedKeys.forEach(k => { cur[k] = !anyArchivedOn; });
-          try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e) {}
-          renderTrendsChart();
-        };
-        togglesEl.appendChild(archBtn);
-      }
-    }
+  function buildAvgHeaders(el) {
+    if (!el) return;
+    const hdr = document.createElement('div');
+    hdr.className = 'trends-col-avghdrs';
+    const h7 = document.createElement('span');
+    h7.className = 'trends-7d-hdr';
+    h7.textContent = '7d';
+    h7.title = '7-day rolling average: how you are doing this week';
+    const hAll = document.createElement('span');
+    hAll.className = 'trends-all-hdr';
+    hAll.textContent = 'all';
+    hAll.title = 'All-time average across all recorded data';
+    hdr.append(h7, hAll);
+    el.appendChild(hdr);
   }
 
-  function buildItem(s) {
-    const isOn = !s._isHidden && enabled[s.key] !== false;
+  function makeArrow(trendVal, isAllTime) {
+    const arrow = document.createElement('span');
+    arrow.className = isAllTime ? 'trends-arrow2' : 'trends-arrow';
+    let arrowChar='→', arrowCol='rgba(255,255,255,0.22)';
+    const threshold = isAllTime ? 4 : 6;
+    if (trendVal > threshold)       { arrowChar='↑'; arrowCol = isAllTime ? '#2ab8b0' : '#40a860'; }
+    else if (trendVal < -threshold) { arrowChar='↓'; arrowCol = isAllTime ? '#e07858' : '#d84040'; }
+    arrow.textContent = arrowChar;
+    arrow.style.color = arrowCol;
+    arrow.title = isAllTime ? 'All-time direction' : '7-day direction';
+    return arrow;
+  }
+
+  function buildItem(s, isHidden) {
+    const isOn = !isHidden && !s._isHidden && enabled[s.key] !== false;
     const item = document.createElement('div');
     item.className = 'trends-legend-item';
-    item.title = s.current!=null ? `${s.label}: ${Math.round(s.current)}/100` : `${s.label}: no data`;
+    const score7   = s.avg7   != null ? Math.round(s.avg7)   : null;
+    const scoreAll = s.avgAll != null ? Math.round(s.avgAll) : null;
+    item.title = `${s.label}: 7d avg ${score7 ?? '--'} / all-time ${scoreAll ?? '--'}`;
 
-    // Star button
+    // Star
     const isStarred = starred.has(s.key);
     const starBtn = document.createElement('button');
     starBtn.className = 'trends-star' + (isStarred ? ' starred' : '');
     starBtn.textContent = isStarred ? '★' : '☆';
     starBtn.title = isStarred ? 'Unstar' : 'Star to compare';
-    starBtn.onclick = e => {
-      e.stopPropagation();
-      _setTrendsStar(s.key, !isStarred);
-      renderTrendsChart();
-    };
+    starBtn.onclick = e => { e.stopPropagation(); _setTrendsStar(s.key, !isStarred); renderTrendsChart(); };
 
+    // Colour swatch (toggle on/off)
     const sw = document.createElement('div');
     sw.className = 'trends-swatch';
     sw.style.borderColor = s.color;
     sw.style.background  = isOn ? s.color : 'transparent';
     sw.style.opacity = isOn ? '1' : '0.4';
-    sw.onclick = e => {
+    if (!isHidden) sw.onclick = e => {
       e.stopPropagation();
-      const cur = _getTrendsEnabled();
-      cur[s.key] = !isOn;
+      const cur = _getTrendsEnabled(); cur[s.key] = !isOn;
       try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e2) {}
       renderTrendsChart();
     };
 
-    const dot = document.createElement('div');
-    dot.className = 'trends-dot';
-    dot.style.background = levelColors[s.levelClass];
+    // 7d direction arrow + all-time direction arrow
+    const arrow7  = makeArrow(s.trend    || 0, false);
+    const arrowAll = makeArrow(s.trendAll || 0, true);
 
-    const arrow = document.createElement('span');
-    arrow.className = 'trends-arrow';
-    let arrowChar='→', arrowCol='rgba(255,255,255,0.25)';
-    if (s.trend > 6)       { arrowChar='↑'; arrowCol='#40a860'; }
-    else if (s.trend < -6) { arrowChar='↓'; arrowCol='#d84040'; }
-    arrow.textContent = arrowChar; arrow.style.color = arrowCol;
-
+    // Label
     const lbl = document.createElement('span');
     lbl.className = 'trends-lbl';
     lbl.textContent = s.label;
     lbl.style.color   = isOn ? 'var(--text)' : 'var(--text-mid)';
     lbl.style.opacity = isOn ? '1' : '0.55';
-    if (s.archived) lbl.style.fontStyle = 'italic';
+    if (s.archived || isHidden) lbl.style.fontStyle = 'italic';
+    if (!isHidden) lbl.onclick = e => {
+      e.stopPropagation();
+      const cur = _getTrendsEnabled(); cur[s.key] = !isOn;
+      try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e2) {}
+      renderTrendsChart();
+    };
 
+    // 7d value — colored by 7d level (coral/amber/green)
     const val = document.createElement('span');
     val.className = 'trends-val';
-    val.textContent = s.current!=null ? Math.round(s.current) : '--';
-    val.style.color = levelColors[s.levelClass];
+    val.textContent = score7 != null ? score7 : '--';
+    val.style.color = levelColors[s.level7Class || s.levelClass || 'none'];
 
-    item.append(starBtn, sw, dot, arrow, lbl, val);
+    // All-time value — colored by all-time level (teal-tinted from levelAllClass)
+    const valAll = document.createElement('span');
+    valAll.className = 'trends-avgall';
+    valAll.textContent = scoreAll != null ? scoreAll : '';
+    valAll.title = 'All-time average';
+    // Override color to show all-time level using same scale but dim tint
+    const allLevelColors = { low:'#c84040', mid:'#a89030', high:'#2ab8b0', none:'var(--text-dim)' };
+    valAll.style.color = allLevelColors[s.levelAllClass || 'none'];
+
+    // Hide/restore button — far right, appears on hover
+    if (isHidden) {
+      const restoreBtn = document.createElement('button');
+      restoreBtn.className = 'trends-restore-btn';
+      restoreBtn.textContent = '↩';
+      restoreBtn.title = 'Restore to trends';
+      restoreBtn.onclick = e => { e.stopPropagation(); _setTrendsHidden(s.key, false); renderTrendsChart(); };
+      item.append(starBtn, sw, arrow7, arrowAll, lbl, val, valAll, restoreBtn);
+    } else {
+      const hideBtn = document.createElement('button');
+      hideBtn.className = 'trends-hide-btn';
+      hideBtn.textContent = '◉';
+      hideBtn.title = 'Hide from trends (moves to Hidden column)';
+      hideBtn.onclick = e => { e.stopPropagation(); _setTrendsHidden(s.key, true); renderTrendsChart(); };
+      item.append(starBtn, sw, arrow7, arrowAll, lbl, val, valAll, hideBtn);
+    }
     return item;
   }
 
-  function buildGroup(el, groupKey) {
+  function buildGroup(el, toggleEl, groupKey) {
     if (!el) return;
     el.innerHTML = '';
-    sorted.filter(s=>s.group===groupKey).forEach(s => el.appendChild(buildItem(s)));
+    const groupItems = sorted.filter(s => s.group === groupKey);
+    if (groupItems.length) buildAvgHeaders(el);
+    groupItems.forEach(s => el.appendChild(buildItem(s, false)));
+    if (toggleEl) buildGroupToggle(toggleEl, groupKey);
   }
 
-  buildGroup(hpEl,   'hp');
-  buildGroup(manaEl, 'mana');
+  buildGroup(document.getElementById('trends-legend-skills'),   document.getElementById('trends-toggles-skills'),   'skills');
+  buildGroup(document.getElementById('trends-legend-state'),    document.getElementById('trends-toggles-state'),    'state');
+  buildGroup(document.getElementById('trends-legend-todoist'),  document.getElementById('trends-toggles-todoist'),  'todoist');
+  buildGroup(document.getElementById('trends-legend-activity'), document.getElementById('trends-toggles-activity'), 'activity');
 
-  // Quests group: group by parent quest, show sub-activities indented
+  // Quests group (no indentation — each quest is its own flat stat)
+  const questGroup = document.getElementById('trends-quests-group');
+  const questSeries = allSeries.filter(s => s.group === 'quests');
+  if (questGroup) questGroup.style.display = questSeries.length ? '' : 'none';
+  buildGroupToggle(document.getElementById('trends-toggles-quests'), 'quests');
+
+  const questsEl = document.getElementById('trends-legend-quests');
   if (questsEl) {
     questsEl.innerHTML = '';
     const questSorted = sorted.filter(s => s.group === 'quests');
-    // Group sub-activities under their parent
-    const seen = new Set();
-    questSorted.forEach(s => {
-      if (s.parentLabel && !seen.has(s.parentLabel)) {
-        seen.add(s.parentLabel);
-        const groupLbl = document.createElement('div');
-        groupLbl.style.cssText = 'font-size:11px;font-family:var(--mono);color:var(--text-mid);letter-spacing:0.06em;padding:3px 0 1px;opacity:0.8;';
-        groupLbl.textContent = s.parentLabel + (s.archived ? ' (archived)' : '');
-        questsEl.appendChild(groupLbl);
-      }
-      const item = buildItem(s);
-      if (s.parentLabel) item.style.paddingLeft = '10px';
-      questsEl.appendChild(item);
-    });
+    if (questSorted.length) buildAvgHeaders(questsEl);
+    questSorted.forEach(s => questsEl.appendChild(buildItem(s, false)));
+  }
+
+  // Hidden column: user-hidden stats that are NOT already in an active column
+  // (ensures mutual exclusivity — a stat lives in exactly one column)
+  const hiddenEl = document.getElementById('trends-legend-hidden');
+  const hiddenGroup = document.getElementById('trends-hidden-group');
+  if (hiddenEl) {
+    hiddenEl.innerHTML = '';
+    const staticLabels = new Set(TRENDS_SERIES.map(s => s.label.toLowerCase()));
+    const allRaw = [
+      ...TRENDS_SERIES,
+      // dynamic quest series minus label-collisions with TRENDS_SERIES
+      ..._buildDynamicQuestSeries().filter(s => !staticLabels.has(s.label.toLowerCase()))
+    ];
+    // Only show in hidden: series not already shown in an active column
+    const hiddenItems = allRaw
+      .filter(s => (hidden.has(s.key) || s.archived) && !activeKeys.has(s.key))
+      .map(s => ({ ...s, ..._computeTrendsMeta(slots, s.key) }));
+    if (hiddenItems.length) buildAvgHeaders(hiddenEl);
+    hiddenItems.forEach(s => hiddenEl.appendChild(buildItem(s, true)));
+    if (hiddenGroup) hiddenGroup.style.display = hiddenItems.length ? '' : 'none';
+  }
+
+  // Stretch columns to fill full horizontal space
+  const grid = document.querySelector('.trends-legend-grid');
+  if (grid) {
+    const visibleCols = grid.querySelectorAll(':scope > div').length -
+      Array.from(grid.querySelectorAll(':scope > div')).filter(d => d.style.display === 'none').length;
+    grid.style.gridTemplateColumns = `repeat(${Math.max(visibleCols, 1)}, 1fr)`;
   }
 }
-
 // ── end TRENDS TAB ──────────────────────────────────────────
 
 function confirmResetHistory(type) {
@@ -24034,6 +24155,30 @@ function toggleTrendsStarredFilter(btn) {
 }
 // ── end starred ───────────────────────────────────────────────
 
+// ── Trends: hide/archive, all on/off ─────────────────────────
+function _getTrendsHidden() {
+  try { return new Set(JSON.parse(localStorage.getItem(TRENDS_HIDDEN_KEY) || '[]')); }
+  catch(e) { return new Set(); }
+}
+function _setTrendsHidden(key, hide) {
+  const h = _getTrendsHidden();
+  if (hide) h.add(key); else h.delete(key);
+  try { localStorage.setItem(TRENDS_HIDDEN_KEY, JSON.stringify([...h])); } catch(e) {}
+}
+function _trendsSetAll(on) {
+  const hidden = _getTrendsHidden();
+  const all = [...TRENDS_SERIES, ..._buildDynamicQuestSeries()].filter(s => !hidden.has(s.key));
+  const cur = _getTrendsEnabled();
+  all.forEach(s => { cur[s.key] = on; });
+  try { localStorage.setItem(TRENDS_TOGGLE_KEY, JSON.stringify(cur)); } catch(e) {}
+  renderTrendsChart();
+}
+function _trendsToggleShowHidden() {
+  _trendsShowHidden = !_trendsShowHidden;
+  renderTrendsChart();
+}
+// ── end trends hidden ────────────────────────────────────────
+
 // ── Dynamic regular quest series ─────────────────────────────
 // Maps sub-activity/quest names to cowork-log.json fields for data merging
 const _COWORK_KEY_MAP = {
@@ -24103,9 +24248,14 @@ function _buildDynamicQuestSeries() {
   });
 }
 
-// Returns all series: static core + dynamic quest series
+// Returns all series: static core + dynamic quest series (deduped vs static labels)
 function _getAllTrendsSeries() {
-  return [...TRENDS_SERIES, ..._buildDynamicQuestSeries()];
+  const hidden = _trendsShowHidden ? new Set() : _getTrendsHidden();
+  const staticLabels = new Set(TRENDS_SERIES.map(s => s.label.toLowerCase()));
+  // Filter out dynamic quest series whose labels collide with static TRENDS_SERIES entries
+  // (e.g. old rq_movement_bjj/push/pull/yoga sub-activities now superseded by TRENDS_SERIES)
+  const dyn = _buildDynamicQuestSeries().filter(s => !staticLabels.has(s.label.toLowerCase()));
+  return [...TRENDS_SERIES, ...dyn].filter(s => !hidden.has(s.key));
 }
 
 // Load RQ history trying all charName variants in localStorage
