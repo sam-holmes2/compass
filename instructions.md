@@ -1,4 +1,4 @@
-# character-sheet: LLM Instructions v1.7.1
+# character-sheet: LLM Instructions v1.7.5
 This file lives in project knowledge alongside `data.json` (source of truth).
 
 ---
@@ -179,7 +179,11 @@ Always include all four in every partial update once first set.
 
 # Elements (Balance tab)
 
-Score each element 0–100 each session based on what was discussed. Treat each session as a fresh read; do not anchor to prior scores. Write a `sliderLabel` (max 80 chars) naming both what is working and what is not. A high score should still name the shadow; a low score should still name what is holding.
+Canon ATLA elements (from Iroh's "Bitter Work" speech), not a homebrew mapping. **Deed-derived, never self-report:** an element read is justified by a dated action, decision, or deliberate inaction (including neutral jing: chosen waiting, a clean "no", deliberate silence) with evidence, same bar as `achievementDrafts`. Never move a score because the user "feels" a certain way. Treat each session as a fresh read; do not anchor to prior scores.
+
+**The target is range, not balance.** Do not imply 25/25/25/25 is ideal or that a low element is a failure. The question is always whether the user could invoke that element if the moment called for it, not whether it is topped up. Never use chosen-one framing; this is periodisation and range applied to one life, not specialness.
+
+Write a `sliderLabel` (max 80 chars) that cites the deed where one exists ("Gave Mum the deadline Tue" beats an adjective). A high score should still name the shadow; a low score should still name what is holding.
 
 Also output `airAvg`, `fireAvg`, `waterAvg`, `earthAvg`: all-time running averages nudged slightly toward the current session score. Formula: `newAvg = round((oldAvg + (current - oldAvg) / sessionCount) * 10) / 10`. If no prior avg exists, seed from current score.
 
@@ -188,14 +192,16 @@ Tiers: 0-24=1 · 25-49=2 · 50-74=3 · 75-99=4 · 100=5
 `"air": { "score": 76, "sliderLabel": "..." }`
 `"airAvg": 68.4`
 
-| Element | Theme | Enemy type | Ally type |
-|---|---|---|---|
-| **Air** | Awareness. High = real-time pattern recognition. Low = reactive, unexamined. | `blindspot` | `loot` |
-| **Fire** | Action. High = deliberate, values-aligned. Low = drifting, obligated, burned out. | `compulsion` | `spell` |
-| **Earth** | Beliefs. High = honest, useful. Low = limiting narratives. | `limitingBelief` | `liberatingBelief` |
-| **Water** | Desire. High = genuine aliveness, needs met. Low = numbing, avoidance, flat. | `temptation` | `sources` |
+| Element | Canon essence | High looks like | Shadow | Enemy type | Ally type |
+|---|---|---|---|---|---|
+| **Air** | Freedom. Detachment from worldly concerns; also humour and lightness. | Real peace, letting go that frees action, playfulness, awareness that lightens | Evasion: analysis-as-avoidance, detachment used as escape | `compulsion` | `loot` |
+| **Fire** | Power. Desire, will, drive to achieve. | Drive on clean fuel: purpose, aliveness, sustainable intensity | Toxic fuel: rage, urgency, or approval-chasing as the energy source | `temptation` | `spell` |
+| **Earth** | Substance. Diverse, strong, persistent, enduring. Neutral jing: wait, listen, strike at the right moment. | Rooted, direct, closed asks, immovable at the one moment that counts, deliberate waiting as a choice | Rigidity, stubbornness, drawing wisdom from only one place | `limitingBelief` | `liberatingBelief` |
+| **Water** | Change. Adaptation; a sense of community and love that holds through anything. | Adaptation, turning what hits you into movement, emotions processed in relationship, letting grief move | Frozen grief, numbing, controlling self or others in place of feeling | `blindspot` (loose fit, flagged 17 Jul 2026) | `sources` |
 
-Compulsion = avoidance-driven. Temptation = desire-driven.
+Compulsion = avoidance-driven, lands on Air. Temptation = desire-driven fuel, lands on Fire. Fire reads name the fuel source, not just the output: high output on toxic fuel is the shadow, not a high score, and expect a power dip when toxic fuel is dropped before the new source comes online, never framed as regression.
+
+**History note:** scores and averages recorded before 2026-07-17 used the old homebrew mapping (Air=Awareness, Fire=Action, Earth=Beliefs, Water=Desire). They are left as-is, no backfill; only the framing going forward changed.
 
 ---
 
@@ -205,14 +211,14 @@ Two sets of sliders that update automatically from session content. Never prompt
 
 **`statusSliders`**: how the user feels right now relative to what they should be doing:
 
-`"statusSliders": { "focus": 75, "energy": 50, "interest": 65, "purpose": 60 }`
+`"statusSliders": { "focus": 75, "energy": 50, "agency": 65, "aliveness": 60 }`
 
 | Key | What it measures |
 |---|---|
 | `focus` | Ability to direct and sustain attention on what matters |
 | `energy` | Physical and mental fuel: capacity to act and engage |
-| `interest` | Genuine curiosity and engagement, not going through the motions |
-| `purpose` | Sense that current actions connect to something the user cares about |
+| `agency` | Whether the user was acting from genuine will vs obligation or autopilot |
+| `aliveness` | Felt sense of being switched on and present, not going through the motions |
 
 **`coreSkills`**: key life domains tracked across sessions:
 
@@ -228,6 +234,22 @@ Always include all four keys in both blocks if including either block.
 
 Award for: quest completion, skill level-ups, elemental tier advances, named breakthroughs.
 Deduct for: significantly negative or unhealthy pattern relapse, mastery dropping, acting against users stated values. Report all changes in chat first.
+
+**Premium tier: Self-led / Tank-skill trailhead events (economy rebalance, 10 Jul 2026).** An audit flagged that the cheapest XP in the system was Controller-flavoured output (task completion, productivity, "did some work"), which inverts the point of the app for this user: it's meant to reward becoming Self-led, not performing usefulness. When a session surfaces one of these moments actually happening (not just being discussed), price it at the **top** of whatever range applies (skill level-up near 150 not 40, session award near the high end), regardless of how small or undramatic the moment looked from outside:
+
+- Ask For What I Need — actually asking, not deciding to ask later
+- Receiving Well — accepting help, a compliment, or care without deflecting, minimising, or immediately reciprocating
+- Sit With Discomfort — staying with an uncomfortable feeling instead of resolving, numbing, or fixing it
+- No Self-Judgment — a want, drift, or mistake landing without a second arrow of verdict added on top
+- Trusting Desire — wanting or choosing something without first justifying or earning it
+- Slowing Down — deliberately not rushing to the next task or the next fix
+- Acting Without Certainty — doing the thing before having full clarity or a guaranteed good outcome
+- Accepting the Unfixable — recognising something isn't a problem to be solved and stopping there
+- Letting a "no" land — someone else's no, or Sam's own, without immediately managing, softening, or overriding it
+
+These map directly to the 8-9 skills on the Skills tab and the "counter" field on each enemy card, this is the same list, just applied to XP pricing instead of the enemy catalogue.
+
+**Generic productivity/output stays low-to-mid range unless it embodies one of the above.** A side quest completed by grinding it out is still worth logging, but shouldn't out-earn a genuine trailhead moment purely by being a bigger, more visible task. If a quest completion *itself was* a trailhead moment (e.g. the quest was "ask for a raise" and asking is the Ask For What I Need moment), price it at the top of its range and say so in the reason field.
 
 **Always include `_xpLog` in every partial update that changes `xp`.** Include one entry per distinct source of XP awarded or deducted this session. The app prepends these to the existing log; do not include prior sessions.
 
@@ -307,10 +329,10 @@ Negative patterns, beliefs, habits, and reflexes working against the user. Four 
 
 | Type | Element | Root of the pattern |
 |---|---|---|
-| `blindspot` | Air | Perception-level misread before a conscious choice is made |
-| `compulsion` | Fire | Action-level pull driven by urgency or avoidance |
+| `blindspot` | Water (loose fit, flagged) | Perception-level misread before a conscious choice is made |
+| `compulsion` | Air | Avoidance-driven pull: analysis or busyness used to dodge the necessary thing |
 | `limitingBelief` | Earth | False or limiting story the user treats as true |
-| `temptation` | Water | Desire-level pull toward something that costs more than it gives |
+| `temptation` | Fire | Desire-level pull toward toxic fuel that costs more than it gives |
 
 **Do not go looking for enemies.** Only add one when a pattern has shown up in behaviour, not just conversation.
 
@@ -323,6 +345,12 @@ Negative patterns, beliefs, habits, and reflexes working against the user. Four 
 **`xpReward`**: set on creation, revise as difficulty becomes clearer. Every enemy must have one.
 
 **`limitingBelief` entries** include a `belief` field: the false belief in first person, quoted: `"\"I'll be found out eventually.\""`. Other types do not use this field.
+
+**`class`** (optional, `"tank"` or `"dps"`): Tank = a reality to accept and live with, effort backfires here (grief, autistic social load, existential questions). DPS = genuinely in the user's control, improvable with directed effort that is usually uncomfortable (vulnerability, expressing needs). Set on every enemy including minions — this is the Response Playbook classification, not cosmetic.
+
+**`counter`** (optional, short phrase): the move that answers this enemy. For a `tank` enemy this is acceptance-flavoured (e.g. "Drop the verdict, let it be true without needing to fix it"). For a `dps` enemy it is the specific uncomfortable action (e.g. "Say the actual want out loud before the moment passes"). This turns the bestiary from a problem catalogue into a pre-decided response — the whole point is that when the pattern shows up in daily life, Sam already has a move, not a re-analysis. Only set this when you can name something concrete and specific to that pattern, not a generic platitude that could apply to any enemy.
+
+**`counterSkill`** (optional, must exactly match a `skills[].name`): links the counter to the actual skill card that practises it. The enemy card renders a clickable chip that jumps to that skill; the skill card lists every enemy that names it as a counter. Every `counter` should have a matching `counterSkill` where one of the 8 skills genuinely fits — don't force a fit if none does.
 
 ## Structure
 
@@ -376,6 +404,8 @@ Each ally has one `type`:
 | `spell` | Fire | Action or leverage point that reliably overcomes friction |
 | `liberatingBelief` | Earth | True belief that frees from unnecessary suffering |
 | `sources` | Water | Activity or environment that reliably produces genuine aliveness |
+
+(Ally types are unchanged by the 17 Jul 2026 canon-element remap; only the enemy-type table above moved.)
 
 **Naming:** Nouns only. Name the thing, not the act. "Morning Run" not "Go Running".
 
@@ -504,6 +534,7 @@ All bullets must pass the stranger test: a reader with no prior context must und
 | `activity` / `skill` / `achievement` / `class` `.description` | 25 words |
 | `ally.desc` / `why` / `corruption` / `value` / `need` `.description` | 20 words |
 | `doneWhen` / `nextStep` / `howResolved` / `shortTermBenefit` / `origin` | 20 words |
+| enemy `counter` | 15 words |
 | `limitingBelief.belief` | 15 words |
 | `sliderLabel` | 80 chars |
 | `keyQuestions[].question` | 30 words |
